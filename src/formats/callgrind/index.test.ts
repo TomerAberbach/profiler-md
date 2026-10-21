@@ -13,7 +13,6 @@ import {
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
-  callersTables,
   categoryRankingTables,
   categorySubsectionTables,
   categoryTables,
@@ -24,6 +23,7 @@ import {
   rankingTable,
   rankingTables,
   summaryLines,
+  totalCallersTables,
 } from '../../testing.ts'
 import {
   convertBytesToMd,
@@ -580,7 +580,7 @@ describe(`convert`, () => {
 
     // The arcs are the file's exact call counts and inclusive costs.
     // Percentages are of the function's total.
-    expect(callersTables(md, `compress`)).toEqual([
+    expect(totalCallersTables(md, `compress`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -681,7 +681,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `shared`)).toEqual([
+    expect(totalCallersTables(md, `shared`)).toEqual([
       [
         {
           '%': `66.7%`,
@@ -794,7 +794,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `ping`)).toEqual([
+    expect(totalCallersTables(md, `ping`)).toEqual([
       [
         {
           '%': `300.0%`,
@@ -964,7 +964,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `helper`)).toEqual([
+    expect(totalCallersTables(md, `helper`)).toEqual([
       [
         {
           '%': `100.0%`,
@@ -1314,7 +1314,7 @@ test(`pairs each function's callers and callees in a diff`, () => {
     { baseURL: `/`, showEntry: () => true },
   )
 
-  expect(callersTables(md, `compress`)).toEqual([
+  expect(totalCallersTables(md, `compress`)).toEqual([
     [
       {
         Change: `+50.0%`,

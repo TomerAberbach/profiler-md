@@ -88,6 +88,145 @@ Categories accounting for at least 1.0% of self time.
 | 10.9% | 0.4ms |          26 | `invoke(Object, Object[])`                                                                    | `java.lang.reflect.Method`                           |
 | 10.9% | 0.4ms |          26 | `invoke(Object, Object[])`                                                                    | `org.codehaus.groovy.reflection.CachedMethod`        |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `enqueue(Reference)` (`java.lang.ref.NativeReferenceQueue`)
+
+|      % |  Time | Contentions | Caller                 | Location                  |
+| -----: | ----: | ----------: | ---------------------- | ------------------------- |
+| 100.0% | 2.9ms |          22 | `enqueueFromPending()` | `java.lang.ref.Reference` |
+
+##### `enqueueFromPending()` (`java.lang.ref.Reference`)
+
+|      % |  Time | Contentions | Caller                       | Location                  |
+| -----: | ----: | ----------: | ---------------------------- | ------------------------- |
+| 100.0% | 2.9ms |          22 | `processPendingReferences()` | `java.lang.ref.Reference` |
+
+##### `processPendingReferences()` (`java.lang.ref.Reference`)
+
+|      % |  Time | Contentions | Caller  | Location                                   |
+| -----: | ----: | ----------: | ------- | ------------------------------------------ |
+| 100.0% | 2.9ms |          22 | `run()` | `java.lang.ref.Reference$ReferenceHandler` |
+
+##### `poll()` (`java.lang.ref.NativeReferenceQueue`)
+
+|      % |  Time | Contentions | Caller                    | Location                             |
+| -----: | ----: | ----------: | ------------------------- | ------------------------------------ |
+| 100.0% | 0.4ms |          26 | `removeStaleReferences()` | `jdk.internal.util.ReferencedKeyMap` |
+
+##### `removeStaleReferences()` (`jdk.internal.util.ReferencedKeyMap`)
+
+|     % |   Time | Contentions | Caller                                  | Location                             |
+| ----: | -----: | ----------: | --------------------------------------- | ------------------------------------ |
+| 94.3% |  0.3ms |          23 | `get(Object)`                           | `jdk.internal.util.ReferencedKeyMap` |
+|  3.3% | 11.9µs |           2 | `internKey(ReferencedKeyMap, Object)`   | `jdk.internal.util.ReferencedKeyMap` |
+|  2.3% |  8.2µs |           1 | `existingKey(ReferencedKeyMap, Object)` | `jdk.internal.util.ReferencedKeyMap` |
+
+##### `makeImpl(Class, Class[], boolean)` (`java.lang.invoke.MethodType`)
+
+|     % |  Time | Contentions | Caller                                | Location                      |
+| ----: | ----: | ----------: | ------------------------------------- | ----------------------------- |
+| 66.5% | 0.2ms |          18 | `insertParameterTypes(int, Class[])`  | `java.lang.invoke.MethodType` |
+| 33.5% | 0.1ms |           8 | `methodType(Class, Class[], boolean)` | `java.lang.invoke.MethodType` |
+
+##### `fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % |  Time | Contentions | Caller                                                                                           | Location                                        |
+| ----: | ----: | ----------: | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| 73.3% | 0.3ms |          16 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+| 26.7% | 0.1ms |          10 | `access$000(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`   | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001088800`)
+
+|      % |  Time | Contentions | Caller                                           | Location                                            |
+| -----: | ----: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010a1800` |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object)`                         | `java.lang.invoke.LambdaForm$MH.0x000000700108e000` |
+|  69.4% | 0.2ms |          20 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010d8400` |
+|  69.4% | 0.2ms |          20 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001298400` |
+|  60.0% | 0.2ms |          15 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001378800` |
+
+##### `reinvoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010aa800`)
+
+|      % |  Time | Contentions | Caller                          | Location                                            |
+| -----: | ----: | ----------: | ------------------------------- | --------------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `guard(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070010aac00` |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c6c00` |
+|  93.3% | 0.3ms |          25 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400` |
+|  32.3% | 0.1ms |           6 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x00000070010c7c00` |
+|  29.6% | 0.1ms |           6 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x00000070010dc400` |
+
+##### `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % |  Time | Contentions | Caller                                                                                           | Location                                        |
+| -----: | ----: | ----------: | ------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+|  60.0% | 0.2ms |          15 | `selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|      % |  Time | Contentions | Caller                                                                                      | Location                                             |
+| -----: | ----: | ----------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010a1800`)
+
+|      % |  Time | Contentions | Caller                                   | Location                           |
+| -----: | ----: | ----------: | ---------------------------------------- | ---------------------------------- |
+| 100.0% | 0.4ms |          26 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % |  Time | Contentions | Caller                                     | Location                                                           |
+| -----: | ----: | ----------: | ------------------------------------------ | ------------------------------------------------------------------ |
+| 100.0% | 0.4ms |          26 | `main(String[])`                           | `org.codenarc.CodeNarc`                                            |
+|  69.6% | 0.2ms |          21 | `execute()`                                | `org.codenarc.CodeNarcRunner`                                      |
+|  69.4% | 0.2ms |          20 | `processDirectory(String, RuleSet)`        | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                   |
+|  25.0% | 0.1ms |           7 | `measureRuleProcessingTime(Rule, Closure)` | `org.codenarc.analyzer.AbstractSourceAnalyzer`                     |
+|  23.7% | 0.1ms |           4 | `doCall(Object)`                           | `org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2` |
+
+##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % |   Time | Contentions | Caller                           | Location                                            |
+| ----: | -----: | ----------: | -------------------------------- | --------------------------------------------------- |
+| 54.8% |  0.2ms |          16 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070015a3400` |
+| 38.3% |  0.1ms |           8 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070010c8000` |
+| 25.0% |  0.1ms |           7 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700136fc00` |
+| 23.7% |  0.1ms |           4 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070011e0c00` |
+|  6.9% | 24.7µs |           2 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700191fc00` |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % |  Time | Contentions | Caller                         | Location                                          |
+| -----: | ----: | ----------: | ------------------------------ | ------------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % |  Time | Contentions | Caller                     | Location                                          |
+| -----: | ----: | ----------: | -------------------------- | ------------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % |  Time | Contentions | Caller                     | Location                   |
+| -----: | ----: | ----------: | -------------------------- | -------------------------- |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+|      % |  Time | Contentions | Caller                     | Location                                      |
+| -----: | ----: | ----------: | -------------------------- | --------------------------------------------- |
+| 100.0% | 0.4ms |          26 | `invoke(Object, Object[])` | `org.codehaus.groovy.reflection.CachedMethod` |
+
+##### `invoke(Object, Object[])` (`org.codehaus.groovy.reflection.CachedMethod`)
+
+|      % |  Time | Contentions | Caller                             | Location                 |
+| -----: | ----: | ----------: | ---------------------------------- | ------------------------ |
+| 100.0% | 0.4ms |          26 | `doMethodInvoke(Object, Object[])` | `groovy.lang.MetaMethod` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

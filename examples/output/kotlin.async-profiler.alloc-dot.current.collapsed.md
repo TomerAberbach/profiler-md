@@ -458,6 +458,271 @@ Categories accounting for at least 1.0% of self samples.
 | 42.9% |     571 | `invokeToplevel`                           | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`        |
 | 42.8% |     570 | `phaseBody`                                | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`           |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `run` (`org.jetbrains.kotlin.preloading.Preloader`)
+
+|      % | Samples | Caller | Location                                    |
+| -----: | ------: | ------ | ------------------------------------------- |
+| 100.0% |   1,330 | `main` | `org.jetbrains.kotlin.preloading.Preloader` |
+
+##### `loadAllClassesFromJars` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+
+|      % | Samples | Caller           | Location                                               |
+| -----: | ------: | ---------------- | ------------------------------------------------------ |
+| 100.0% |     729 | `preloadClasses` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `preloadClasses` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+
+|      % | Samples | Caller           | Location                                               |
+| -----: | ------: | ---------------- | ------------------------------------------------------ |
+| 100.0% |     729 | `run`            | `org.jetbrains.kotlin.preloading.Preloader`            |
+|  10.2% |      74 | `preloadClasses` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `main` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`)
+
+|      % | Samples | Caller | Location                                     |
+| -----: | ------: | ------ | -------------------------------------------- |
+| 100.0% |     601 | `main` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `main` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+|      % | Samples | Caller         | Location                                             |
+| -----: | ------: | -------------- | ---------------------------------------------------- |
+| 100.0% |     601 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000007001008000`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |     601 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001009400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001009400`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |     601 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
+
+|      % | Samples | Caller       | Location                                          |
+| -----: | ------: | ------------ | ------------------------------------------------- |
+| 100.0% |     601 | `invokeImpl` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|   7.7% |      46 | `invoke`     | `java.lang.invoke.BootstrapMethodInvoker`         |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller   | Location                                          |
+| -----: | ------: | -------- | ------------------------------------------------- |
+| 100.0% |     601 | `invoke` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller   | Location                   |
+| -----: | ------: | -------- | -------------------------- |
+| 100.0% |     601 | `invoke` | `java.lang.reflect.Method` |
+
+##### `invoke` (`java.lang.reflect.Method`)
+
+|      % | Samples | Caller      | Location                                    |
+| -----: | ------: | ----------- | ------------------------------------------- |
+| 100.0% |     601 | `run`       | `org.jetbrains.kotlin.preloading.Preloader` |
+|   0.2% |       1 | `rtVersion` | `com.intellij.util.lang.JavaVersion`        |
+
+##### `exec` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller         | Location                                                |
+| -----: | ------: | -------------- | ------------------------------------------------------- |
+| 100.0% |     599 | `exec`         | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+| 100.0% |     599 | `doMainNoExit` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMainNoExit` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller                 | Location                                                |
+| -----: | ------: | ---------------------- | ------------------------------------------------------- |
+| 100.0% |     599 | `doMainNoExit$default` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMainNoExit$default` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller   | Location                                                |
+| -----: | ------: | -------- | ------------------------------------------------------- |
+| 100.0% |     599 | `doMain` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMain` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller | Location                                               |
+| -----: | ------: | ------ | ------------------------------------------------------ |
+| 100.0% |     599 | `main` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion` |
+
+##### `doExecutePhased` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+|      % | Samples | Caller            | Location                                      |
+| -----: | ------: | ----------------- | --------------------------------------------- |
+| 100.0% |     580 | `doExecutePhased` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`  |
+| 100.0% |     580 | `execImpl`        | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `execImpl` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller | Location                                      |
+| -----: | ------: | ------ | --------------------------------------------- |
+| 100.0% |     580 | `exec` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `runPhasedPipeline` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                             | Location                                                |
+| -----: | ------: | ---------------------------------- | ------------------------------------------------------- |
+| 100.0% |     578 | `executeAndReturnPipeLineArtifact` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `executeAndReturnPipeLineArtifact` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                                     | Location                                                |
+| -----: | ------: | ------------------------------------------ | ------------------------------------------------------- |
+| 100.0% |     578 | `executeAndReturnPipeLineArtifact$default` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `executeAndReturnPipeLineArtifact$default` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller    | Location                                                |
+| -----: | ------: | --------- | ------------------------------------------------------- |
+| 100.0% |     578 | `execute` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `execute` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller            | Location                                     |
+| -----: | ------: | ----------------- | -------------------------------------------- |
+| 100.0% |     578 | `doExecutePhased` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `invoke` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
+
+|      % | Samples | Caller     | Location                                                          |
+| -----: | ------: | ---------- | ----------------------------------------------------------------- |
+| 100.0% |     571 | `invoke`   | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase`       |
+|   3.5% |      20 | `invoke`   | `org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase` |
+|   0.5% |       3 | `runPhase` | `org.jetbrains.kotlin.backend.common.phaser.PhaseEngine`          |
+
+##### `invoke` (`org.jetbrains.kotlin.backend.common.phaser.CompositePhase`)
+
+|      % | Samples | Caller           | Location                                             |
+| -----: | ------: | ---------------- | ---------------------------------------------------- |
+| 100.0% |     571 | `invokeToplevel` | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt` |
+
+##### `invokeToplevel` (`org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`)
+
+|      % | Samples | Caller              | Location                                                |
+| -----: | ------: | ------------------- | ------------------------------------------------------- |
+| 100.0% |     571 | `runPhasedPipeline` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `phaseBody` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Caller      | Location                                                |
+| -----: | ------: | ----------- | ------------------------------------------------------- |
+| 100.0% |     570 | `phaseBody` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`       |
+| 100.0% |     570 | `invoke`    | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
+
+##### `copyOf` (`java.util.Arrays`)
+
+|     % | Samples | Caller                   | Location                          |
+| ----: | ------: | ------------------------ | --------------------------------- |
+| 93.3% |     377 | `toByteArray`            | `java.io.ByteArrayOutputStream`   |
+|  2.0% |       8 | `getBytes`               | `jdk.internal.loader.Resource`    |
+|  2.0% |       8 | `ensureCapacityInternal` | `java.lang.AbstractStringBuilder` |
+|  1.2% |       5 | `copyOf`                 | `java.util.Arrays`                |
+|  1.0% |       4 | `toArray`                | `java.util.ArrayList`             |
+
+##### `toByteArray` (`java.io.ByteArrayOutputStream`)
+
+|      % | Samples | Caller                   | Location                                               |
+| -----: | ------: | ------------------------ | ------------------------------------------------------ |
+| 100.0% |     377 | `loadAllClassesFromJars` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `<init>` (`java.io.ByteArrayOutputStream`)
+
+|      % | Samples | Caller                   | Location                                               |
+| -----: | ------: | ------------------------ | ------------------------------------------------------ |
+| 100.0% |     324 | `loadAllClassesFromJars` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `resumeWith` (`kotlin.coroutines.jvm.internal.BaseContinuationImpl`)
+
+|     % | Samples | Caller             | Location                                                              |
+| ----: | ------: | ------------------ | --------------------------------------------------------------------- |
+| 98.0% |      99 | `resumeTask`       | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`    |
+| 25.7% |      26 | `processCandidate` | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner` |
+
+##### `clone` (`java.lang.Object`)
+
+|     % | Samples | Caller        | Location           |
+| ----: | ------: | ------------- | ------------------ |
+| 98.8% |      82 | `copyOf`      | `java.util.Arrays` |
+|  1.2% |       1 | `copyOfRange` | `java.util.Arrays` |
+
+##### `getValue` (`kotlin.SafePublicationLazyImpl`)
+
+|     % | Samples | Caller                   | Location                                                                        |
+| ----: | ------: | ------------------------ | ------------------------------------------------------------------------------- |
+| 56.4% |      31 | `getAnnotationInfo`      | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer` |
+| 27.3% |      15 | `getJavaField`           | `kotlin.reflect.jvm.internal.DescriptorKProperty`                               |
+|  7.3% |       4 | `getCallablesIndex`      | `org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl`          |
+|  5.5% |       3 | `getDeclarations`        | `org.jetbrains.kotlin.fir.java.FirLazyJavaDeclarationList`                      |
+|  5.5% |       3 | `getCallableNamesCached` | `org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope`            |
+
+##### `linkCallSiteImpl` (`java.lang.invoke.MethodHandleNatives`)
+
+|      % | Samples | Caller         | Location                               |
+| -----: | ------: | -------------- | -------------------------------------- |
+| 100.0% |      47 | `linkCallSite` | `java.lang.invoke.MethodHandleNatives` |
+
+##### `linkCallSite` (`java.lang.invoke.MethodHandleNatives`)
+
+|    % | Samples | Caller                                   | Location                                                                                                   |
+| ---: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 8.5% |       4 | `<init>`                                 | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckers`                                 |
+| 6.4% |       3 | `<init>`                                 | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer`                                           |
+| 4.3% |       2 | `<clinit>`                               | `org.jetbrains.kotlin.load.java.typeEnhancement.PredefinedEnhancementInfoKt`                               |
+| 2.1% |       1 | `cleanUpLocalFunctionsForUnboundSymbols` | `org.jetbrains.kotlin.backend.common.lower.LocalDeclarationsLowering$LocalDeclarationsTransformer`         |
+| 2.1% |       1 | `<init>`                                 | `org.jetbrains.kotlin.fir.resolve.providers.impl.AbstractFirBuiltinSymbolProvider$BuiltInsPackageFragment` |
+
+##### `metafactory` (`java.lang.invoke.LambdaMetafactory`)
+
+|     % | Samples | Caller         | Location                                             |
+| ----: | ------: | -------------- | ---------------------------------------------------- |
+| 93.5% |      43 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007001230000` |
+|  6.5% |       3 | `invokeStatic` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `invoke` (`java.lang.invoke.BootstrapMethodInvoker`)
+
+|      % | Samples | Caller     | Location                    |
+| -----: | ------: | ---------- | --------------------------- |
+| 100.0% |      46 | `makeSite` | `java.lang.invoke.CallSite` |
+
+##### `makeSite` (`java.lang.invoke.CallSite`)
+
+|      % | Samples | Caller             | Location                               |
+| -----: | ------: | ------------------ | -------------------------------------- |
+| 100.0% |      46 | `linkCallSiteImpl` | `java.lang.invoke.MethodHandleNatives` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000007001230000`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |      43 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `getValue` (`kotlin.SynchronizedLazyImpl`)
+
+|     % | Samples | Caller                         | Location                                                                 |
+| ----: | ------: | ------------------------------ | ------------------------------------------------------------------------ |
+| 26.2% |      11 | `getMyChildren`                | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile`                |
+| 23.8% |      10 | `getInstance`                  | `org.jetbrains.kotlin.builtins.DefaultBuiltIns$Companion`                |
+| 21.4% |       9 | `getSuperTypeRefs`             | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass`                |
+| 14.3% |       6 | `getMAP`                       | `org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrorsDefaultMessages` |
+|  4.8% |       2 | `getDefaultPerformanceManager` | `org.jetbrains.kotlin.cli.common.CLICompiler`                            |
+
+##### `buildCallSite` (`java.lang.invoke.InnerClassLambdaMetafactory`)
+
+|      % | Samples | Caller        | Location                             |
+| -----: | ------: | ------------- | ------------------------------------ |
+| 100.0% |      35 | `metafactory` | `java.lang.invoke.LambdaMetafactory` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -12,6 +12,7 @@ import {
   rankingTable,
   rankingTables,
   summaryLines,
+  totalCallersTables,
 } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
 import type { Metric } from '../metric.ts'
@@ -27,6 +28,7 @@ import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
 import {
   callStackTables,
   makeAggregatedCallStackProfile,
+  makeFunction,
   selfTimeTables,
   totalTimeTables,
 } from './testing.ts'
@@ -693,6 +695,114 @@ describe(`formatCallStackProfile`, () => {
             Samples: `39`,
             Caller: `ourFunc`,
             Location: `./src/a.ts`,
+          },
+        ],
+      ])
+    })
+
+    test(`breaks down a function's total by its callers`, () => {
+      const format = (
+        options = resolveProfileToMdOptions({ baseURL: `/project` }),
+      ) =>
+        mdastToMarkdown(
+          formatCallStackProfile(
+            makeAggregatedCallStackProfile(
+              [MICROSECONDS_METRIC],
+              [
+                makeFunction(`leaf`, 3, { stack: [0, 1, 2] }),
+                makeFunction(`mid`, 2, { stack: [1, 2] }),
+                makeFunction(`a`, 0),
+                makeFunction(`leaf`, 1, { stack: [3, 1, 4] }),
+                makeFunction(`b`, 0),
+              ],
+            ),
+            options,
+          ),
+        )
+      const md = format()
+
+      // Only `a` called `mid` when it was the leaf.
+      expect(callersTables(md, `mid`)).toEqual([
+        [
+          {
+            '%': `100.0%`,
+            Time: `2.0µs`,
+            Samples: `2`,
+            Caller: `a`,
+            Location: `./src/a.ts:1`,
+          },
+        ],
+      ])
+      expect(totalCallersTables(md, `mid`)).toEqual([
+        [
+          {
+            '%': `83.3%`,
+            Time: `5.0µs`,
+            Samples: `5`,
+            Caller: `a`,
+            Location: `./src/a.ts:1`,
+          },
+          {
+            '%': `16.7%`,
+            Time: `1.0µs`,
+            Samples: `1`,
+            Caller: `b`,
+            Location: `./src/b.ts:1`,
+          },
+        ],
+      ])
+
+      const filteredMd = format(
+        resolveProfileToMdOptions({
+          baseURL: `/project`,
+          showEntry: entry => entry.name !== `b`,
+        }),
+      )
+      expect(totalCallersTables(filteredMd, `mid`)).toEqual([
+        [
+          {
+            '%': `83.3%`,
+            Time: `5.0µs`,
+            Samples: `5`,
+            Caller: `a`,
+            Location: `./src/a.ts:1`,
+          },
+        ],
+      ])
+    })
+
+    test(`counts a recursive call under each caller of a function's total`, () => {
+      const md = mdastToMarkdown(
+        formatCallStackProfile(
+          makeAggregatedCallStackProfile(
+            [MICROSECONDS_METRIC],
+            [
+              makeFunction(`rec`, 2, { stack: [0, 0, 1] }),
+              makeFunction(`main`, 0),
+              makeFunction(`rec`, 1, { stack: [2, 1] }),
+            ],
+          ),
+          resolveProfileToMdOptions({ baseURL: `/project` }),
+        ),
+      )
+
+      // Both of the call stacks with `rec` calling itself also have `main`
+      // calling it, so each counts under both callers.
+      expect(totalCallersTables(md, `rec`)).toEqual([
+        [
+          {
+            '%': `100.0%`,
+            Time: `3.0µs`,
+            Samples: `3`,
+            Caller: `main`,
+            Location: `./src/main.ts:1`,
+          },
+          {
+            '%': `66.7%`,
+            Time: `2.0µs`,
+            Samples: `2`,
+            Caller: `rec`,
+            Location: `./src/rec.ts:1`,
           },
         ],
       ])

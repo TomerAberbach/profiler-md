@@ -106,6 +106,169 @@ Categories accounting for at least 1.0% of self size.
 |  5.7% | 14.7 MiB |     444 | `Arena::Arealloc`                         | `libjvm.dylib`            |
 |  3.2% | 8.33 MiB |  22,423 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`           |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `malloc_hook` (`libasyncProfiler.dylib`)
+
+|     % |     Size | Samples | Caller                                    | Location        |
+| ----: | -------: | ------: | ----------------------------------------- | --------------- |
+| 97.2% |  249 MiB |  82,535 | `os::malloc`                              | `libjvm.dylib`  |
+|  2.2% | 5.61 MiB |     751 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib` |
+|  0.3% |  868 KiB |      63 | `readBytes`                               | `libjava.dylib` |
+|  0.1% |  384 KiB |      12 | `updatewindow`                            | `libzip.dylib`  |
+|  0.1% |  175 KiB |     229 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib` |
+
+##### `os::malloc` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                      | Location       |
+| ----: | -------: | ------: | --------------------------- | -------------- |
+| 50.9% |  127 MiB |   2,093 | `Chunk::operator new`       | `libjvm.dylib` |
+| 48.5% |  121 MiB |  68,988 | `AllocateHeap`              | `libjvm.dylib` |
+|  0.4% | 1.05 MiB |   5,389 | `AnyObj::operator new`      | `libjvm.dylib` |
+|  0.1% |  376 KiB |   1,982 | `os::malloc`                | `libjvm.dylib` |
+|  0.1% |  255 KiB |   1,915 | `JvmtiEnv::GetClassMethods` | `libjvm.dylib` |
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+|      % |    Size | Samples | Caller         | Location                  |
+| -----: | ------: | ------: | -------------- | ------------------------- |
+| 100.0% | 244 MiB |  36,896 | `thread_start` | `libsystem_pthread.dylib` |
+
+##### `Thread::call_run` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                | Location       |
+| -----: | ------: | ------: | --------------------- | -------------- |
+| 100.0% | 244 MiB |  36,743 | `thread_native_entry` | `libjvm.dylib` |
+
+##### `thread_native_entry` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller           | Location                  |
+| -----: | ------: | ------: | ---------------- | ------------------------- |
+| 100.0% | 244 MiB |  36,743 | `_pthread_start` | `libsystem_pthread.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 127 MiB |  10,676 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                          | Location       |
+| -----: | ------: | ------: | ------------------------------- | -------------- |
+| 100.0% | 127 MiB |  10,456 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+
+##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                                | Location       |
+| -----: | ------: | ------: | ------------------------------------- | -------------- |
+| 100.0% | 127 MiB |  10,354 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+
+##### `Chunk::operator new` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller         | Location       |
+| ----: | -------: | ------: | -------------- | -------------- |
+| 99.9% |  127 MiB |   2,021 | `Arena::grow`  | `libjvm.dylib` |
+|  0.1% | 76.3 KiB |      72 | `Arena::Arena` | `libjvm.dylib` |
+
+##### `Arena::grow` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                                                             | Location       |
+| ----: | -------: | ------: | ------------------------------------------------------------------ | -------------- |
+| 44.4% | 56.3 MiB |     526 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
+| 23.0% | 29.2 MiB |     346 | `PhaseIFG::init`                                                   | `libjvm.dylib` |
+| 11.6% | 14.7 MiB |     444 | `Arena::Arealloc`                                                  | `libjvm.dylib` |
+|  5.3% | 6.71 MiB |     156 | `PhaseLive::compute`                                               | `libjvm.dylib` |
+|  3.3% | 4.19 MiB |     128 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
+
+##### `Compile::Compile` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                       | Location       |
+| -----: | ------: | ------: | ---------------------------- | -------------- |
+| 100.0% | 125 MiB |   2,776 | `C2Compiler::compile_method` | `libjvm.dylib` |
+
+##### `C2Compiler::compile_method` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                                     | Location       |
+| -----: | ------: | ------: | ------------------------------------------ | -------------- |
+| 100.0% | 125 MiB |   2,776 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+
+##### `AllocateHeap` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                                                                                                                                                                                                                                                   | Location       |
+| ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| 89.3% |  108 MiB |      72 | `G1FullGCMarker::G1FullGCMarker`                                                                                                                                                                                                                         | `libjvm.dylib` |
+|  1.9% | 2.34 MiB |  14,793 | `bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::internal_insert_get<SymbolTableLookup, bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::insert<SymbolTableLookup>(Thread*, SymbolTableLookup&, Symbol const&, bool*, bool*)::NOP>` | `libjvm.dylib` |
+|  1.6% | 1.99 MiB |     255 | `HeapRegionClaimer::HeapRegionClaimer`                                                                                                                                                                                                                   | `libjvm.dylib` |
+|  1.2% | 1.51 MiB |     462 | `G1RemSetScanState::prepare`                                                                                                                                                                                                                             | `libjvm.dylib` |
+|  0.7% |  841 KiB |   2,010 | `G1ParScanThreadState::G1ParScanThreadState`                                                                                                                                                                                                             | `libjvm.dylib` |
+
+##### `VMThread::inner_execute` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller          | Location       |
+| -----: | ------: | ------: | --------------- | -------------- |
+| 100.0% | 114 MiB |  11,195 | `VMThread::run` | `libjvm.dylib` |
+
+##### `VMThread::run` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 114 MiB |  11,195 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `VM_Operation::evaluate` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                         | Location       |
+| -----: | ------: | ------: | ------------------------------ | -------------- |
+| 100.0% | 114 MiB |  11,026 | `VMThread::evaluate_operation` | `libjvm.dylib` |
+
+##### `VMThread::evaluate_operation` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                    | Location       |
+| -----: | ------: | ------: | ------------------------- | -------------- |
+| 100.0% | 114 MiB |  11,026 | `VMThread::inner_execute` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_full_collection` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                   | Location       |
+| -----: | ------: | ------: | ------------------------ | -------------- |
+| 100.0% | 109 MiB |   2,617 | `VM_G1CollectFull::doit` | `libjvm.dylib` |
+
+##### `VM_G1CollectFull::doit` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                   | Location       |
+| -----: | ------: | ------: | ------------------------ | -------------- |
+| 100.0% | 109 MiB |   2,617 | `VM_Operation::evaluate` | `libjvm.dylib` |
+
+##### `G1FullCollector::G1FullCollector` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                                | Location       |
+| -----: | ------: | ------: | ------------------------------------- | -------------- |
+| 100.0% | 109 MiB |     312 | `G1CollectedHeap::do_full_collection` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::G1FullGCMarker` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                             | Location       |
+| -----: | ------: | ------: | ---------------------------------- | -------------- |
+| 100.0% | 109 MiB |     108 | `G1FullCollector::G1FullCollector` | `libjvm.dylib` |
+
+##### `Arena::Arealloc` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                     | Location       |
+| ----: | -------: | ------: | -------------------------- | -------------- |
+| 62.5% | 9.16 MiB |     280 | `Node_Array::grow`         | `libjvm.dylib` |
+| 13.6% |    2 MiB |      61 | `PhaseIdealLoop::set_idom` | `libjvm.dylib` |
+|  5.8% |  864 KiB |      24 | `Type_Array::grow`         | `libjvm.dylib` |
+|  4.3% |  640 KiB |      18 | `Block_Array::grow`        | `libjvm.dylib` |
+|  3.6% |  544 KiB |      17 | `VectorSet::grow`          | `libjvm.dylib` |
+
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+
+|      % |     Size | Samples | Caller                                                                          | Location                |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------- | ----------------------- |
+| 100.0% | 8.33 MiB |  22,423 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

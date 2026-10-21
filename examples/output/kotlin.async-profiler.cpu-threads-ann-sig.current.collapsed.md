@@ -875,6 +875,559 @@ Categories accounting for at least 1.0% of self samples.
 | 0.1% |       1 | `I2C/C2I adapters(0xbbb)`   | `<unknown>` |
 | 0.1% |       1 | `I2C/C2I adapters(0xbbbbb)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_pthread_start` (`<unknown>`)
+
+|      % | Samples | Caller         | Location    |
+| -----: | ------: | -------------- | ----------- |
+| 100.0% |     900 | `thread_start` | `<unknown>` |
+
+##### `Thread::call_run()` (`<unknown>`)
+
+|      % | Samples | Caller                         | Location    |
+| -----: | ------: | ------------------------------ | ----------- |
+| 100.0% |     899 | `thread_native_entry(Thread*)` | `<unknown>` |
+
+##### `thread_native_entry(Thread*)` (`<unknown>`)
+
+|      % | Samples | Caller           | Location    |
+| -----: | ------: | ---------------- | ----------- |
+| 100.0% |     899 | `_pthread_start` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner()` (`<unknown>`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |     835 | `Thread::call_run()` | `<unknown>` |
+
+##### `CompileBroker::compiler_thread_loop()` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |     833 | `JavaThread::thread_main_inner()` | `<unknown>` |
+
+##### `CompileBroker::invoke_compiler_on_method(CompileTask*)` (`<unknown>`)
+
+|      % | Samples | Caller                                  | Location    |
+| -----: | ------: | --------------------------------------- | ----------- |
+| 100.0% |     813 | `CompileBroker::compiler_thread_loop()` | `<unknown>` |
+
+##### `Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                    | Location    |
+| -----: | ------: | ------------------------------------------------------------------------- | ----------- |
+| 100.0% |     568 | `C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)` | `<unknown>` |
+
+##### `C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                   | Location    |
+| -----: | ------: | -------------------------------------------------------- | ----------- |
+| 100.0% |     568 | `CompileBroker::invoke_compiler_on_method(CompileTask*)` | `<unknown>` |
+
+##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
+
+|      % | Samples | Caller           | Location                                    |
+| -----: | ------: | ---------------- | ------------------------------------------- |
+| 100.0% |     426 | `main(String[])` | `org.jetbrains.kotlin.preloading.Preloader` |
+
+##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`)
+
+|      % | Samples | Caller           | Location                                     |
+| -----: | ------: | ---------------- | -------------------------------------------- |
+| 100.0% |     351 | `main(String[])` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+|      % | Samples | Caller                         | Location                                             |
+| -----: | ------: | ------------------------------ | ---------------------------------------------------- |
+| 100.0% |     351 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008000` |
+
+##### `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001008000`)
+
+|      % | Samples | Caller                           | Location                                            |
+| -----: | ------: | -------------------------------- | --------------------------------------------------- |
+| 100.0% |     351 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001009400` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001009400`)
+
+|      % | Samples | Caller                                           | Location                           |
+| -----: | ------: | ------------------------------------------------ | ---------------------------------- |
+| 100.0% |     351 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % | Samples | Caller                         | Location                                          |
+| -----: | ------: | ------------------------------ | ------------------------------------------------- |
+| 100.0% |     351 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller                     | Location                                          |
+| -----: | ------: | -------------------------- | ------------------------------------------------- |
+| 100.0% |     351 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+|      % | Samples | Caller                     | Location                   |
+| -----: | ------: | -------------------------- | -------------------------- |
+| 100.0% |     351 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+|      % | Samples | Caller                                                                            | Location                                                                |
+| -----: | ------: | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 100.0% |     351 | `run(String[])`                                                                   | `org.jetbrains.kotlin.preloading.Preloader`                             |
+|   0.3% |       1 | `parsePreprocessedCommandLineArguments(List, CommonToolArguments, Lazy, boolean)` | `org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt` |
+
+##### `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller                          | Location                                                |
+| -----: | ------: | ------------------------------- | ------------------------------------------------------- |
+| 100.0% |     350 | `doMain(CLICompiler, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMain(CLICompiler, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller           | Location                                               |
+| -----: | ------: | ---------------- | ------------------------------------------------------ |
+| 100.0% |     350 | `main(String[])` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion` |
+
+##### `exec(PrintStream, Services, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller                                         | Location                                      |
+| -----: | ------: | ---------------------------------------------- | --------------------------------------------- |
+| 100.0% |     349 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller                                                 | Location                                                |
+| -----: | ------: | ------------------------------------------------------ | ------------------------------------------------------- |
+| 100.0% |     349 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMainNoExit(CLICompiler, String[], MessageRenderer)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+|      % | Samples | Caller                                                                                             | Location                                                |
+| -----: | ------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |     349 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `exec(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller                                                   | Location                                      |
+| -----: | ------: | -------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |     342 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+|      % | Samples | Caller                                                                 | Location                                     |
+| -----: | ------: | ---------------------------------------------------------------------- | -------------------------------------------- |
+| 100.0% |     334 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+|      % | Samples | Caller                                                          | Location                                      |
+| -----: | ------: | --------------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |     334 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller                                                      | Location                                      |
+| -----: | ------: | ----------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |     334 | `exec(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                                                                                                                                        | Location                                                |
+| -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |     333 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                                                         | Location                                                |
+| -----: | ------: | -------------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |     333 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `execute(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                                                                | Location                                     |
+| -----: | ------: | --------------------------------------------------------------------- | -------------------------------------------- |
+| 100.0% |     333 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `runPhasedPipeline(ArgumentsPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+|      % | Samples | Caller                                                                                              | Location                                                |
+| -----: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |     332 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Caller                              | Location                                          |
+| -----: | ------: | ----------------------------------- | ------------------------------------------------- |
+| 100.0% |     330 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase` |
+
+##### `phaseBody(LoggingContext, Object)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Caller                                                     | Location                                                |
+| -----: | ------: | ---------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |     330 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
+
+##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
+
+|      % | Samples | Caller                                                                | Location                                                          |
+| -----: | ------: | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 100.0% |     330 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`            | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase`       |
+|   5.8% |      19 | `invoke(PhaseConfig, PhaserState, LoweringContext, IrModuleFragment)` | `org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase` |
+|   1.2% |       4 | `runPhase(NamedCompilerPhase, Object, boolean)`                       | `org.jetbrains.kotlin.backend.common.phaser.PhaseEngine`          |
+
+##### `Compile::Code_Gen()` (`<unknown>`)
+
+|      % | Samples | Caller                                                             | Location    |
+| -----: | ------: | ------------------------------------------------------------------ | ----------- |
+| 100.0% |     291 | `Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)` | `<unknown>` |
+
+##### `Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                   | Location    |
+| -----: | ------: | -------------------------------------------------------- | ----------- |
+| 100.0% |     235 | `CompileBroker::invoke_compiler_on_method(CompileTask*)` | `<unknown>` |
+
+##### `Compilation::compile_method()` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                                  | Location    |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------- | ----------- |
+| 100.0% |     234 | `Compilation::Compilation(AbstractCompiler*, ciEnv*, ciMethod*, int, BufferBlob*, bool, DirectiveSet*)` | `<unknown>` |
+
+##### `Compilation::Compilation(AbstractCompiler*, ciEnv*, ciMethod*, int, BufferBlob*, bool, DirectiveSet*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                  | Location    |
+| -----: | ------: | ----------------------------------------------------------------------- | ----------- |
+| 100.0% |     234 | `Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)` | `<unknown>` |
+
+##### `Compilation::compile_java_method()` (`<unknown>`)
+
+|      % | Samples | Caller                          | Location    |
+| -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |     214 | `Compilation::compile_method()` | `<unknown>` |
+
+##### `Compile::Optimize()` (`<unknown>`)
+
+|      % | Samples | Caller                                                             | Location    |
+| -----: | ------: | ------------------------------------------------------------------ | ----------- |
+| 100.0% |     196 | `Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)` | `<unknown>` |
+
+##### `PhaseChaitin::Register_Allocate()` (`<unknown>`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |     162 | `Compile::Code_Gen()` | `<unknown>` |
+
+##### `PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)` (`<unknown>`)
+
+|     % | Samples | Caller                                                 | Location    |
+| ----: | ------: | ------------------------------------------------------ | ----------- |
+| 52.6% |      50 | `Compile::optimize_loops(PhaseIterGVN&, LoopOptsMode)` | `<unknown>` |
+| 47.4% |      45 | `Compile::Optimize()`                                  | `<unknown>` |
+
+##### `Compilation::emit_lir()` (`<unknown>`)
+
+|      % | Samples | Caller                               | Location    |
+| -----: | ------: | ------------------------------------ | ----------- |
+| 100.0% |      89 | `Compilation::compile_java_method()` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_and_optimize()` (`<unknown>`)
+
+|      % | Samples | Caller                                                        | Location    |
+| -----: | ------: | ------------------------------------------------------------- | ----------- |
+| 100.0% |      87 | `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)` | `<unknown>` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)` (`<unknown>`)
+
+|      % | Samples | Caller                                                  | Location    |
+| -----: | ------: | ------------------------------------------------------- | ----------- |
+| 100.0% |      87 | `PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)` | `<unknown>` |
+
+##### `Compilation::build_hir()` (`<unknown>`)
+
+|      % | Samples | Caller                               | Location    |
+| -----: | ------: | ------------------------------------ | ----------- |
+| 100.0% |      77 | `Compilation::compile_java_method()` | `<unknown>` |
+
+##### `LinearScan::do_linear_scan()` (`<unknown>`)
+
+|      % | Samples | Caller                    | Location    |
+| -----: | ------: | ------------------------- | ----------- |
+| 100.0% |      76 | `Compilation::emit_lir()` | `<unknown>` |
+
+##### `Parse::Parse(JVMState*, ciMethod*, float)` (`<unknown>`)
+
+|      % | Samples | Caller                                | Location    |
+| -----: | ------: | ------------------------------------- | ----------- |
+| 100.0% |      69 | `ParseGenerator::generate(JVMState*)` | `<unknown>` |
+
+##### `ParseGenerator::generate(JVMState*)` (`<unknown>`)
+
+|     % | Samples | Caller                                                             | Location    |
+| ----: | ------: | ------------------------------------------------------------------ | ----------- |
+| 98.6% |      68 | `Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)` | `<unknown>` |
+| 55.1% |      38 | `PredictedCallGenerator::generate(JVMState*)`                      | `<unknown>` |
+| 52.2% |      36 | `Parse::do_call()`                                                 | `<unknown>` |
+|  1.4% |       1 | `CallGenerator::do_late_inline_helper()`                           | `<unknown>` |
+
+##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
+
+|     % | Samples | Caller                       | Location                                                 |
+| ----: | ------: | ---------------------------- | -------------------------------------------------------- |
+| 98.6% |      68 | `loadClass(String, boolean)` | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
+|  1.4% |       1 | `loadClass(String)`          | `java.lang.ClassLoader`                                  |
+
+##### `read(byte[], int, int)` (`java.util.zip.ZipInputStream`)
+
+|     % | Samples | Caller         | Location                       |
+| ----: | ------: | -------------- | ------------------------------ |
+| 98.6% |      68 | `read(byte[])` | `java.io.FilterInputStream`    |
+|  1.4% |       1 | `closeEntry()` | `java.util.zip.ZipInputStream` |
+
+##### `Parse::do_all_blocks()` (`<unknown>`)
+
+|      % | Samples | Caller                                      | Location    |
+| -----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% |      68 | `Parse::Parse(JVMState*, ciMethod*, float)` | `<unknown>` |
+
+##### `read(byte[])` (`java.io.FilterInputStream`)
+
+|      % | Samples | Caller                                                  | Location                                               |
+| -----: | ------: | ------------------------------------------------------- | ------------------------------------------------------ |
+| 100.0% |      68 | `loadAllClassesFromJars(Collection, int, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `Parse::do_one_block()` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |      67 | `Parse::do_all_blocks()` | `<unknown>` |
+
+##### `read(byte[], int, int)` (`java.util.zip.InflaterInputStream`)
+
+|      % | Samples | Caller                   | Location                       |
+| -----: | ------: | ------------------------ | ------------------------------ |
+| 100.0% |      64 | `read(byte[], int, int)` | `java.util.zip.ZipInputStream` |
+
+##### `inflate(byte[], int, int)` (`java.util.zip.Inflater`)
+
+|     % | Samples | Caller                   | Location                            |
+| ----: | ------: | ------------------------ | ----------------------------------- |
+| 98.4% |      63 | `read(byte[], int, int)` | `java.util.zip.InflaterInputStream` |
+|  1.6% |       1 | `inflate(byte[])`        | `java.util.zip.Inflater`            |
+
+##### `Java_java_util_zip_Inflater_inflateBytesBytes` (`<unknown>`)
+
+|      % | Samples | Caller                                                        | Location                 |
+| -----: | ------: | ------------------------------------------------------------- | ------------------------ |
+| 100.0% |      63 | `inflateBytesBytes(long, byte[], int, int, byte[], int, int)` | `java.util.zip.Inflater` |
+
+##### `inflateBytesBytes(long, byte[], int, int, byte[], int, int)` (`java.util.zip.Inflater`)
+
+|      % | Samples | Caller                      | Location                 |
+| -----: | ------: | --------------------------- | ------------------------ |
+| 100.0% |      63 | `inflate(byte[], int, int)` | `java.util.zip.Inflater` |
+
+##### `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)` (`<unknown>`)
+
+|     % | Samples | Caller                                                                                                                     | Location    |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 88.7% |      55 | `SystemDictionary::resolve_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)`        | `<unknown>` |
+|  8.1% |       5 | `ClassLoader::load_class(Symbol*, bool, JavaThread*)`                                                                      | `<unknown>` |
+|  3.2% |       2 | `SystemDictionary::resolve_hidden_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `defineClass(String, byte[], int, int, ProtectionDomain)` (`java.lang.ClassLoader`)
+
+|     % | Samples | Caller                                              | Location                          |
+| ----: | ------: | --------------------------------------------------- | --------------------------------- |
+| 98.4% |      61 | `defineClass(String, byte[], int, int)`             | `java.lang.ClassLoader`           |
+|  1.6% |       1 | `defineClass(String, byte[], int, int, CodeSource)` | `java.security.SecureClassLoader` |
+
+##### `Parse::do_call()` (`<unknown>`)
+
+|      % | Samples | Caller                  | Location    |
+| -----: | ------: | ----------------------- | ----------- |
+| 100.0% |      61 | `Parse::do_one_block()` | `<unknown>` |
+
+##### `defineClass(String, byte[], int, int)` (`java.lang.ClassLoader`)
+
+|      % | Samples | Caller              | Location                                                 |
+| -----: | ------: | ------------------- | -------------------------------------------------------- |
+| 100.0% |      61 | `findClass(String)` | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
+
+##### `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` (`java.lang.ClassLoader`)
+
+|      % | Samples | Caller                                                    | Location                |
+| -----: | ------: | --------------------------------------------------------- | ----------------------- |
+| 100.0% |      59 | `defineClass(String, byte[], int, int, ProtectionDomain)` | `java.lang.ClassLoader` |
+
+##### `ClassFileParser::ClassFileParser(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const*, ClassFileParser::Publicity, JavaThread*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                                             | Location    |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| 100.0% |      58 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `WorkerThread::run()` (`<unknown>`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |      58 | `Thread::call_run()` | `<unknown>` |
+
+##### `GraphBuilder::GraphBuilder(Compilation*, IRScope*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                | Location    |
+| -----: | ------: | --------------------------------------------------------------------- | ----------- |
+| 100.0% |      57 | `IRScope::IRScope(Compilation*, IRScope*, int, ciMethod*, int, bool)` | `<unknown>` |
+
+##### `IRScope::IRScope(Compilation*, IRScope*, int, ciMethod*, int, bool)` (`<unknown>`)
+
+|      % | Samples | Caller                                             | Location    |
+| -----: | ------: | -------------------------------------------------- | ----------- |
+| 100.0% |      57 | `IR::IR(Compilation*, ciMethod*, int)`             | `<unknown>` |
+|   1.8% |       1 | `GraphBuilder::push_scope(ciMethod*, BlockBegin*)` | `<unknown>` |
+
+##### `IR::IR(Compilation*, ciMethod*, int)` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |      57 | `Compilation::build_hir()` | `<unknown>` |
+
+##### `SystemDictionary::resolve_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                                          | Location    |
+| -----: | ------: | --------------------------------------------------------------------------------------------------------------- | ----------- |
+| 100.0% |      57 | `jvm_define_class_common(char const*, _jobject*, signed char const*, int, _jobject*, char const*, JavaThread*)` | `<unknown>` |
+
+##### `jvm_define_class_common(char const*, _jobject*, signed char const*, int, _jobject*, char const*, JavaThread*)` (`<unknown>`)
+
+|      % | Samples | Caller                      | Location    |
+| -----: | ------: | --------------------------- | ----------- |
+| 100.0% |      57 | `JVM_DefineClassWithSource` | `<unknown>` |
+
+##### `JVM_DefineClassWithSource` (`<unknown>`)
+
+|     % | Samples | Caller                                    | Location    |
+| ----: | ------: | ----------------------------------------- | ----------- |
+| 98.2% |      56 | `Java_java_lang_ClassLoader_defineClass1` | `<unknown>` |
+|  1.8% |       1 | `Java_java_lang_ClassLoader_defineClass2` | `<unknown>` |
+
+##### `PhaseIterGVN::optimize()` (`<unknown>`)
+
+|     % | Samples | Caller                                                    | Location    |
+| ----: | ------: | --------------------------------------------------------- | ----------- |
+| 53.6% |      30 | `Compile::Optimize()`                                     | `<unknown>` |
+| 23.2% |      13 | `PhaseMacroExpand::expand_macro_nodes()`                  | `<unknown>` |
+| 14.3% |       8 | `PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)`   | `<unknown>` |
+|  5.4% |       3 | `Compile::remove_speculative_types(PhaseIterGVN&)`        | `<unknown>` |
+|  3.6% |       2 | `Compile::process_for_post_loop_opts_igvn(PhaseIterGVN&)` | `<unknown>` |
+
+##### `Matcher::match()` (`<unknown>`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |      53 | `Compile::Code_Gen()` | `<unknown>` |
+
+##### `GraphBuilder::iterate_all_blocks(bool)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                | Location    |
+| -----: | ------: | ------------------------------------------------------------------------------------- | ----------- |
+| 100.0% |      52 | `GraphBuilder::GraphBuilder(Compilation*, IRScope*)`                                  | `<unknown>` |
+|  59.6% |      31 | `GraphBuilder::try_inline_full(ciMethod*, bool, bool, Bytecodes::Code, Instruction*)` | `<unknown>` |
+
+##### `resumeWith(Object)` (`kotlin.coroutines.jvm.internal.BaseContinuationImpl`)
+
+|     % | Samples | Caller                                                             | Location                                                              |
+| ----: | ------: | ------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| 91.5% |      43 | `resumeTask(TowerResolveManager$SuspendedResolverTask)`            | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`    |
+| 48.9% |      23 | `processCandidate(Candidate, ResolutionContext, boolean, boolean)` | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner` |
+|  2.1% |       1 | `resumeCancellableWith(Continuation, Object, Function1)`           | `kotlinx.coroutines.internal.DispatchedContinuationKt`                |
+|  2.1% |       1 | `run()`                                                            | `kotlinx.coroutines.DispatchedTask`                                   |
+
+##### `getValue()` (`kotlin.UnsafeLazyImpl`)
+
+|     % | Samples | Caller                                                       | Location                                                                                                                        |
+| ----: | ------: | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| 68.8% |      11 | `resolveVariableAccessAndSelectCandidateImpl$lambda$1(Lazy)` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                        |
+| 12.5% |       2 | `getClassifierResolverResult()`                              | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.PlainJavaClassifierType`                                              |
+|  6.3% |       1 | `doApproximateCapturedType$lambda$4(Lazy)`                   | `org.jetbrains.kotlin.types.AbstractTypeApproximator`                                                                           |
+|  6.3% |       1 | `approximateParametrizedType$lambda$1(Lazy)`                 | `org.jetbrains.kotlin.types.AbstractTypeApproximator`                                                                           |
+|  6.3% |       1 | `getSamResolver()`                                           | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents` |
+
+##### `getValue()` (`kotlin.SafePublicationLazyImpl`)
+
+|     % | Samples | Caller                     | Location                                                               |
+| ----: | ------: | -------------------------- | ---------------------------------------------------------------------- |
+| 50.0% |       8 | `getJavaField()`           | `kotlin.reflect.jvm.internal.DescriptorKProperty`                      |
+| 25.0% |       4 | `getCallablesIndex()`      | `org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl` |
+| 18.8% |       3 | `getDeclarations()`        | `org.jetbrains.kotlin.fir.java.FirLazyJavaDeclarationList`             |
+| 12.5% |       2 | `getCallableNamesCached()` | `org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope`   |
+| 12.5% |       2 | `getImplicitScope()`       | `org.jetbrains.kotlin.fir.resolve.calls.ImplicitReceiverValue`         |
+
+##### `getValue()` (`kotlin.SynchronizedLazyImpl`)
+
+|     % | Samples | Caller                                                                                     | Location                                                  |
+| ----: | ------: | ------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| 23.1% |       3 | `getInstance()`                                                                            | `org.jetbrains.kotlin.builtins.DefaultBuiltIns$Companion` |
+| 15.4% |       2 | `getMyChildren()`                                                                          | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile` |
+| 15.4% |       2 | `getMyCallableNames()`                                                                     | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope`      |
+|  7.7% |       1 | `toIrType(ConeKotlinType, ConversionTypeOrigin, List, boolean, boolean, boolean, boolean)` | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`    |
+|  7.7% |       1 | `getSuperTypeRefs()`                                                                       | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass` |
+
+##### `metafactory(MethodHandles$Lookup, String, MethodType, MethodType, MethodHandle, MethodType)` (`java.lang.invoke.LambdaMetafactory`)
+
+|     % | Samples | Caller                                                                 | Location                                             |
+| ----: | ------: | ---------------------------------------------------------------------- | ---------------------------------------------------- |
+| 88.9% |       8 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001230000` |
+| 11.1% |       1 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+
+##### `I2C/C2I adapters(0xb)` (`<unknown>`)
+
+|     % | Samples | Caller                                                                                                                        | Location                                                                                       |
+| ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| 16.7% |       1 | `joinFlow(Collection, Collection, boolean)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.dfa.LogicSystem`                                             |
+| 16.7% |       1 | `findFirstVariableForFixation(ConstraintSystemCompletionContext, List, List, ConstraintSystemCompletionMode, ConeKotlinType)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                         |
+| 16.7% |       1 | `<init>(FirSession, PendingDiagnosticReporter)`                                                                               | `org.jetbrains.kotlin.fir.analysis.collectors.components.AbstractDiagnosticCollectorComponent` |
+| 16.7% |       1 | `getAsFirStatement(LighterASTNode, String)`                                                                                   | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirExpressionBuilder`                |
+| 16.7% |       1 | `reversePositionIndex$CollectionsKt__ReversedViewsKt(List, int)`                                                              | `kotlin.collections.CollectionsKt__ReversedViewsKt`                                            |
+
+##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
+
+|     % | Samples | Caller                                                                                                                                                                                                                                                               | Location                                                                                                           |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 25.0% |       1 | `addPossibleNewConstraint(TypeVariableMarker, Constraint)`                                                                                                                                                                                                           | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+| 25.0% |       1 | `closeTransaction()`                                                                                                                                                                                                                                                 | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl$TransactionState`                      |
+| 25.0% |       1 | `<init>(FirSession, ScopeSession, ConeSubstitutor, ReturnTypeCalculator, ConeTypeApproximator, FirDataFlowAnalyzer, IntegerLiteralAndOperatorApproximationTransformer, FirSamResolver, BodyResolveContext, FirCallCompletionResultsWriterTransformer$Mode, boolean)` | `org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer`                          |
+| 25.0% |       1 | `preprocessNodeBeforeInline(MethodNode, Map)`                                                                                                                                                                                                                        | `org.jetbrains.kotlin.codegen.inline.MethodInliner`                                                                |
+
+##### `itable stub` (`<unknown>`)
+
+|     % | Samples | Caller                                                                                      | Location                                                         |
+| ----: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 33.3% |       1 | `lowerBoundIfFlexible(TypeSystemContext, KotlinTypeMarker)`                                 | `org.jetbrains.kotlin.types.model.TypeSystemContextContextualKt` |
+| 33.3% |       1 | `unwrapStubTypeVariableConstructor(TypeSystemContext, TypeConstructorMarker)`               | `org.jetbrains.kotlin.types.model.TypeSystemContextContextualKt` |
+| 33.3% |       1 | `hasNotNullSupertype(TypeCheckerState, RigidTypeMarker, TypeCheckerState$SupertypesPolicy)` | `org.jetbrains.kotlin.types.AbstractNullabilityChecker`          |
+
+##### `zero_blocks` (`<unknown>`)
+
+|      % | Samples | Caller        | Location                        |
+| -----: | ------: | ------------- | ------------------------------- |
+| 100.0% |       1 | `<init>(int)` | `java.io.ByteArrayOutputStream` |
+
+##### `I2C/C2I adapters(0xbbbb)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                  | Location                                  |
+| -----: | ------: | --------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 100.0% |       1 | `setContainingClassForStaticMemberAttr(FirCallableDeclaration, ConeClassLikeLookupTag)` | `org.jetbrains.kotlin.fir.ClassMembersKt` |
+
+##### `I2C/C2I adapters(0xbbbbb)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                                                             | Location                                                                     |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| 100.0% |       1 | `addInitialEqualityConstraint(ConstraintInjector$Context, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

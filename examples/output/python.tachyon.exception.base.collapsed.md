@@ -501,6 +501,227 @@ Categories accounting for at least 1.0% of self samples.
 |   0.1% |       1 | `_get_module_details`       | `<frozen runpy>`                         |
 |   0.1% |       1 | `getline`                   | `<frozen linecache>`                     |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |   1,434 | `_run_module_as_main` | `<frozen runpy>` |
+|  99.9% |   1,433 | `_run_module_code`    | `<frozen runpy>` |
+
+##### `run_module` (`<frozen runpy>`)
+
+|      % | Samples | Caller      | Location         |
+| -----: | ------: | ----------- | ---------------- |
+| 100.0% |   1,434 | `_run_code` | `<frozen runpy>` |
+
+##### `given.<locals>.run_test_as_given.<locals>.wrapped_test` (`core.py`)
+
+|     % | Samples | Caller                                            | Location                 |
+| ----: | ------: | ------------------------------------------------- | ------------------------ |
+| 99.9% |   1,431 | `accept.<locals>.inner`                           | `debug.py`               |
+|  5.0% |      71 | `accept.<locals>.test_lowering_together_mixed`    | `test_shrink_quality.py` |
+|  4.5% |      65 | `accept.<locals>.test_lowering_together_with_gap` | `test_shrink_quality.py` |
+|  4.2% |      60 | `accept.<locals>.test_lowering_together_positive` | `test_shrink_quality.py` |
+|  3.8% |      55 | `accept.<locals>.test_lowering_together_negative` | `test_shrink_quality.py` |
+
+##### `pytest_pyfunc_call` (`python.py`)
+
+|      % | Samples | Caller       | Location      |
+| -----: | ------: | ------------ | ------------- |
+| 100.0% |   1,433 | `_multicall` | `_callers.py` |
+
+##### `_multicall` (`_callers.py`)
+
+|      % | Samples | Caller                    | Location      |
+| -----: | ------: | ------------------------- | ------------- |
+| 100.0% |   1,433 | `PluginManager._hookexec` | `_manager.py` |
+
+##### `PluginManager._hookexec` (`_manager.py`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |   1,433 | `HookCaller.__call__` | `_hooks.py` |
+
+##### `HookCaller.__call__` (`_hooks.py`)
+
+|      % | Samples | Caller                              | Location      |
+| -----: | ------: | ----------------------------------- | ------------- |
+| 100.0% |   1,433 | `Function.runtest`                  | `python.py`   |
+| 100.0% |   1,433 | `call_and_report.<locals>.<lambda>` | `runner.py`   |
+| 100.0% |   1,433 | `pytest_runtestloop`                | `main.py`     |
+| 100.0% |   1,433 | `_main`                             | `main.py`     |
+| 100.0% |   1,433 | `_main`                             | `__init__.py` |
+
+##### `Function.runtest` (`python.py`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |   1,433 | `pytest_runtest_call` | `runner.py` |
+
+##### `pytest_runtest_call` (`runner.py`)
+
+|      % | Samples | Caller       | Location      |
+| -----: | ------: | ------------ | ------------- |
+| 100.0% |   1,433 | `_multicall` | `_callers.py` |
+
+##### `call_and_report.<locals>.<lambda>` (`runner.py`)
+
+|      % | Samples | Caller               | Location    |
+| -----: | ------: | -------------------- | ----------- |
+| 100.0% |   1,433 | `CallInfo.from_call` | `runner.py` |
+
+##### `CallInfo.from_call` (`runner.py`)
+
+|      % | Samples | Caller            | Location    |
+| -----: | ------: | ----------------- | ----------- |
+| 100.0% |   1,433 | `call_and_report` | `runner.py` |
+
+##### `call_and_report` (`runner.py`)
+
+|      % | Samples | Caller            | Location    |
+| -----: | ------: | ----------------- | ----------- |
+| 100.0% |   1,433 | `runtestprotocol` | `runner.py` |
+
+##### `runtestprotocol` (`runner.py`)
+
+|      % | Samples | Caller                    | Location    |
+| -----: | ------: | ------------------------- | ----------- |
+| 100.0% |   1,433 | `pytest_runtest_protocol` | `runner.py` |
+
+##### `pytest_runtest_protocol` (`runner.py`)
+
+|      % | Samples | Caller       | Location      |
+| -----: | ------: | ------------ | ------------- |
+| 100.0% |   1,433 | `_multicall` | `_callers.py` |
+
+##### `pytest_runtestloop` (`main.py`)
+
+|      % | Samples | Caller       | Location      |
+| -----: | ------: | ------------ | ------------- |
+| 100.0% |   1,433 | `_multicall` | `_callers.py` |
+
+##### `_main` (`main.py`)
+
+|      % | Samples | Caller         | Location  |
+| -----: | ------: | -------------- | --------- |
+| 100.0% |   1,433 | `wrap_session` | `main.py` |
+
+##### `wrap_session` (`main.py`)
+
+|      % | Samples | Caller                | Location  |
+| -----: | ------: | --------------------- | --------- |
+| 100.0% |   1,433 | `pytest_cmdline_main` | `main.py` |
+
+##### `pytest_cmdline_main` (`main.py`)
+
+|      % | Samples | Caller       | Location      |
+| -----: | ------: | ------------ | ------------- |
+| 100.0% |   1,433 | `_multicall` | `_callers.py` |
+
+##### `_main` (`__init__.py`)
+
+|      % | Samples | Caller          | Location      |
+| -----: | ------: | --------------- | ------------- |
+| 100.0% |   1,433 | `_console_main` | `__init__.py` |
+
+##### `_console_main` (`__init__.py`)
+
+|      % | Samples | Caller     | Location      |
+| -----: | ------: | ---------- | ------------- |
+| 100.0% |   1,433 | `<module>` | `__main__.py` |
+
+##### `<module>` (`__main__.py`)
+
+|      % | Samples | Caller      | Location         |
+| -----: | ------: | ----------- | ---------------- |
+| 100.0% |   1,433 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_module_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller       | Location         |
+| -----: | ------: | ------------ | ---------------- |
+| 100.0% |   1,433 | `run_module` | `<frozen runpy>` |
+
+##### `accept.<locals>.inner` (`debug.py`)
+
+|      % | Samples | Caller                                                   | Location   |
+| -----: | ------: | -------------------------------------------------------- | ---------- |
+| 100.0% |   1,431 | `minimal`                                                | `debug.py` |
+|   0.1% |       2 | `StateForActualGivenExecution.execute_once.<locals>.run` | `core.py`  |
+
+##### `(garbage collector)` (`<unknown>`)
+
+|     % | Samples | Caller                                               | Location        |
+| ----: | ------: | ---------------------------------------------------- | --------------- |
+| 80.8% |     126 | `recursive_property.<locals>.forced_or_cached_value` | `strategies.py` |
+|  9.6% |      15 | `SpanRecord.start_span`                              | `data.py`       |
+|  3.2% |       5 | `StackSummary.format_frame_summary`                  | `traceback.py`  |
+|  1.9% |       3 | `getsource`                                          | `inspect.py`    |
+|  1.3% |       2 | `dedent`                                             | `textwrap.py`   |
+
+##### `checkcache` (`<frozen linecache>`)
+
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |      34 | `StackSummary._extract_from_extended_frame_gen` | `traceback.py` |
+
+##### `lazycache` (`<frozen linecache>`)
+
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |       7 | `StackSummary._extract_from_extended_frame_gen` | `traceback.py` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                      | Location                                 |
+| -----: | ------: | --------------------------- | ---------------------------------------- |
+| 100.0% |       1 | `_LoaderBasics.exec_module` | `<frozen importlib._bootstrap_external>` |
+
+##### `_LoaderBasics.exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       1 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |       1 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       1 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |       1 | `<module>`            | `decimal.py`     |
+| 100.0% |       1 | `<module>`            | `python_api.py`  |
+| 100.0% |       1 | `<module>`            | `doctest.py`     |
+| 100.0% |       1 | `<module>`            | `__init__.py`    |
+| 100.0% |       1 | `_get_module_details` | `<frozen runpy>` |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |       1 | `_get_module_details` | `<frozen runpy>` |
+| 100.0% |       1 | `run_module`          | `<frozen runpy>` |
+
+##### `getline` (`<frozen linecache>`)
+
+|      % | Samples | Caller                    | Location       |
+| -----: | ------: | ------------------------- | -------------- |
+| 100.0% |       1 | `FrameSummary._set_lines` | `traceback.py` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -799,6 +799,508 @@ Functions with the largest decrease in time spent within the function and its ca
 |   -7.9% |   -5.00ms |          1.5% |   63.0ms → 58.0ms |       63 → 58 | `Composer\Util\Filesystem::normalizePath`                     | `./composer/src/Composer/Util/Filesystem.php`                  |
 | removed |   -4.00ms |   0.1% → 0.0% |       4.0ms → 0ms |         4 → 0 | `Composer\Util\ErrorHandler::handle`                          | `./composer/src/Composer/Util/ErrorHandler.php`                |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Composer\Pcre\Preg::match` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |     % |              Time |   Samples | Caller                                  | Location                                       |
+| -----: | -------: | ----: | ----------------: | --------: | --------------------------------------- | ---------------------------------------------- |
+|  +7.0% | +34.00ms | 96.6% | 485.0ms → 519.0ms | 485 → 519 | `Composer\Pcre\Preg::matchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+|  +5.9% |  +1.00ms |  3.4% |   17.0ms → 18.0ms |   17 → 18 | `Composer\Pcre\Preg::isMatch`           | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::match` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+| Change |    Delta |              % |            Time |     Samples | Caller                                                   | Location                                                                |
+| -----: | -------: | -------------: | --------------: | ----------: | -------------------------------------------------------- | ----------------------------------------------------------------------- |
+|  +2.9% | +29.00ms | 100.0% → 99.8% | 989.0ms → 1.01s | 989 → 1,018 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`       | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+|    new |  +2.00ms |    0.0% → 0.2% |     0ms → 2.0ms |       0 → 2 | `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc` | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+
+##### `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct` (`./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`)
+
+| Change |    Delta |             % |            Time | Samples | Caller                                                                      | Location                                                                   |
+| -----: | -------: | ------------: | --------------: | ------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| +51.0% | +26.00ms | 94.4% → 93.9% | 51.0ms → 77.0ms | 51 → 77 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::getChildren` | `./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php` |
+| +66.7% |  +2.00ms |   5.6% → 6.1% |   3.0ms → 5.0ms |   3 → 5 | `Symfony\Component\Finder\Finder::searchInDirectory`                        | `./composer/vendor/symfony/finder/Finder.php`                              |
+
+##### `Composer\Pcre\Preg::matchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                    | Location                                       |
+| -----: | -------: | -----: | ----------------: | --------: | ----------------------------------------- | ---------------------------------------------- |
+|  +3.5% | +27.00ms | 100.0% | 769.0ms → 796.0ms | 769 → 796 | `Composer\Pcre\Preg::isMatchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::getChildren` (`./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                                                          | Location                                                                       |
+| -----: | -------: | -----: | --------------: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| +49.1% | +26.00ms | 100.0% | 53.0ms → 79.0ms | 53 → 79 | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::getChildren` | `./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php` |
+
+##### `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::getChildren` (`./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                                    | Location                                                                   |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| +43.6% | +24.00ms | 100.0% | 55.0ms → 79.0ms | 55 → 79 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Composer\Pcre\Preg::checkOffsetCapture` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|  Change |    Delta |              % |             Time |  Samples | Caller                         | Location                                       |
+| ------: | -------: | -------------: | ---------------: | -------: | ------------------------------ | ---------------------------------------------- |
+|  +33.8% | +26.00ms | 91.7% → 100.0% | 77.0ms → 103.0ms | 77 → 103 | `Composer\Pcre\Preg::match`    | `./composer/vendor/composer/pcre/src/Preg.php` |
+| removed |  -7.00ms |    8.3% → 0.0% |      7.0ms → 0ms |    3 → 0 | `Composer\Pcre\Preg::matchAll` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\Pcre\Preg::isMatchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                                        | Location                                                                   |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------------------------------------- | -------------------------------------------------------------------------- |
+|  +2.5% | +22.00ms | 96.8% → 97.4% | 882.0ms → 904.0ms | 882 → 904 | `Composer\ClassMapGenerator\PhpFileCleaner::match`            | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`    |
+| -66.7% |  -8.00ms |   1.3% → 0.4% |    12.0ms → 4.0ms |    12 → 4 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+| +17.6% |  +3.00ms |   1.9% → 2.2% |   17.0ms → 20.0ms |   17 → 20 | `Composer\Util\Filesystem::normalizePath`                     | `./composer/src/Composer/Util/Filesystem.php`                              |
+
+##### `(anonymous)` (`./composer/src/Composer/Console/Application.php:349`)
+
+| Change |    Delta |             % |         Time | Samples | Caller                         | Location                                    |
+| -----: | -------: | ------------: | -----------: | ------: | ------------------------------ | ------------------------------------------- |
+|    new | +15.00ms | 0.0% → 100.0% | 0ms → 15.0ms |  0 → 15 | `Composer\Util\Silencer::call` | `./composer/src/Composer/Util/Silencer.php` |
+
+##### `Composer\Autoload\AutoloadGenerator::getPathCode` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
+
+| Change |   Delta |      % |              Time |   Samples | Caller                                      | Location                                                 |
+| -----: | ------: | -----: | ----------------: | --------: | ------------------------------------------- | -------------------------------------------------------- |
+|  +7.1% | +8.00ms | 100.0% | 112.0ms → 120.0ms | 112 → 120 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `Composer\Util\Filesystem::findShortestPath` (`./composer/src/Composer/Util/Filesystem.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                             | Location                                                 |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------- | -------------------------------------------------------- |
+| +12.1% | +8.00ms | 100.0% | 66.0ms → 74.0ms | 66 → 74 | `Composer\Autoload\AutoloadGenerator::getPathCode` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `JsonSchema\Uri\UriRetriever::loadSchema` (`./composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php`)
+
+|  Change |   Delta |      % |           Time | Samples | Caller                                  | Location                                                                          |
+| ------: | ------: | -----: | -------------: | ------: | --------------------------------------- | --------------------------------------------------------------------------------- |
+| +150.0% | +6.00ms | 100.0% | 4.0ms → 10.0ms |  4 → 10 | `JsonSchema\Uri\UriRetriever::retrieve` | `./composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php` |
+
+##### `Symfony\Component\Console\Application::init` (`./composer/vendor/symfony/console/Application.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                        | Location                                            |
+| -----: | ------: | -----: | --------------: | ------: | --------------------------------------------- | --------------------------------------------------- |
+| +45.5% | +5.00ms | 100.0% | 11.0ms → 16.0ms | 11 → 16 | `Symfony\Component\Console\Application::find` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Composer\Console\Application::getDefaultCommands` (`./composer/src/Composer/Console/Application.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                        | Location                                            |
+| -----: | ------: | -----: | --------------: | ------: | --------------------------------------------- | --------------------------------------------------- |
+| +36.4% | +4.00ms | 100.0% | 11.0ms → 15.0ms | 11 → 15 | `Symfony\Component\Console\Application::init` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::current` (`./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                                    | Location                                                                   |
+| -----: | ------: | -----: | -------------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| +57.1% | +4.00ms | 100.0% | 7.0ms → 11.0ms |  7 → 11 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Symfony\Component\Console\Command\Command::__construct` (`./composer/vendor/symfony/console/Command/Command.php`)
+
+| Change |   Delta |             % |          Time | Samples | Caller                                             | Location                                          |
+| -----: | ------: | ------------: | ------------: | ------: | -------------------------------------------------- | ------------------------------------------------- |
+| +75.0% | +3.00ms | 80.0% → 87.5% | 4.0ms → 7.0ms |   4 → 7 | `Composer\Console\Application::getDefaultCommands` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Symfony\Component\Console\Application::find` (`./composer/vendor/symfony/console/Application.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                | Location                                          |
+| -----: | ------: | -----: | --------------: | ------: | ------------------------------------- | ------------------------------------------------- |
+| +23.1% | +3.00ms | 100.0% | 13.0ms → 16.0ms | 13 → 16 | `Composer\Console\Application::doRun` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Symfony\Component\Process\Process::start` (`./composer/vendor/symfony/process/Process.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                   | Location                                        |
+| -----: | ------: | -----: | --------------: | ------: | ---------------------------------------- | ----------------------------------------------- |
+|  +6.7% | +3.00ms | 100.0% | 45.0ms → 48.0ms | 45 → 48 | `Symfony\Component\Process\Process::run` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `(anonymous)` (`./vendor/composer/autoload_classmap.php`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                               | Location                                                 |
+| -----: | ------: | -----: | -------------: | ------: | ---------------------------------------------------- | -------------------------------------------------------- |
+| +37.5% | +3.00ms | 100.0% | 8.0ms → 11.0ms |  8 → 11 | `Composer\Autoload\AutoloadGenerator::getStaticFile` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `JsonSchema\Uri\UriRetriever::retrieve` (`./composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php`)
+
+| Change |   Delta |      % |           Time | Samples | Caller                                | Location                                                                       |
+| -----: | ------: | -----: | -------------: | ------: | ------------------------------------- | ------------------------------------------------------------------------------ |
+| +42.9% | +3.00ms | 100.0% | 7.0ms → 10.0ms |  7 → 10 | `JsonSchema\SchemaStorage::addSchema` | `./composer/vendor/justinrainbow/json-schema/src/JsonSchema/SchemaStorage.php` |
+
+##### `Seld\Signal\SignalHandler::create` (`./composer/vendor/seld/signal-handler/src/SignalHandler.php`)
+
+| Change |   Delta |            % |        Time | Samples | Caller                                      | Location                                           |
+| -----: | ------: | -----------: | ----------: | ------: | ------------------------------------------- | -------------------------------------------------- |
+|    new | +2.00ms | 0.0% → 66.7% | 0ms → 2.0ms |   0 → 2 | `Composer\Util\ProcessExecutor::runProcess` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+|    new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `Composer\Console\Application::__construct` | `./composer/src/Composer/Console/Application.php`  |
+
+##### `Symfony\Component\Console\Input\InputOption::__construct` (`./composer/vendor/symfony/console/Input/InputOption.php`)
+
+|  Change |   Delta |             % |          Time | Samples | Caller                                                             | Location                                                    |
+| ------: | ------: | ------------: | ------------: | ------: | ------------------------------------------------------------------ | ----------------------------------------------------------- |
+| +200.0% | +2.00ms | 33.3% → 60.0% | 1.0ms → 3.0ms |   1 → 3 | `Composer\Console\Input\InputOption::__construct`                  | `./composer/src/Composer/Console/Input/InputOption.php`     |
+|  -50.0% | -1.00ms | 66.7% → 20.0% | 2.0ms → 1.0ms |   2 → 1 | `Symfony\Component\Console\Application::getDefaultInputDefinition` | `./composer/vendor/symfony/console/Application.php`         |
+|     new | +1.00ms |  0.0% → 20.0% |   0ms → 1.0ms |   0 → 1 | `Symfony\Component\Console\Command\HelpCommand::configure`         | `./composer/vendor/symfony/console/Command/HelpCommand.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::skipToNewline` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                                   | Location                                                                |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| +14.3% | +2.00ms | 100.0% | 14.0ms → 16.0ms | 14 → 16 | `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc` | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+| Change |   Delta |      % |            Time | Samples | Caller                                             | Location                                                                |
+| -----: | ------: | -----: | --------------: | ------: | -------------------------------------------------- | ----------------------------------------------------------------------- |
+| +10.5% | +2.00ms | 100.0% | 19.0ms → 21.0ms | 19 → 21 | `Composer\ClassMapGenerator\PhpFileCleaner::clean` | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+
+##### `Composer\Util\Filesystem::isAbsolutePath` (`./composer/src/Composer/Util/Filesystem.php`)
+
+|  Change |   Delta |              % |          Time | Samples | Caller                                             | Location                                                 |
+| ------: | ------: | -------------: | ------------: | ------: | -------------------------------------------------- | -------------------------------------------------------- |
+|     new | +2.00ms |   0.0% → 50.0% |   0ms → 2.0ms |   0 → 2 | `Composer\Util\Filesystem::findShortestPath`       | `./composer/src/Composer/Util/Filesystem.php`            |
+| +100.0% | +1.00ms | 100.0% → 50.0% | 1.0ms → 2.0ms |   1 → 2 | `Composer\Autoload\AutoloadGenerator::getPathCode` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `Composer\Util\StreamContextFactory::getTlsDefaults` (`./composer/src/Composer/Util/StreamContextFactory.php`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                                      | Location                                          |
+| ------: | ------: | -----: | ------------: | ------: | ------------------------------------------- | ------------------------------------------------- |
+| +200.0% | +2.00ms | 100.0% | 1.0ms → 3.0ms |   1 → 3 | `Composer\Util\HttpDownloader::__construct` | `./composer/src/Composer/Util/HttpDownloader.php` |
+
+##### `Composer\Console\Input\InputOption::__construct` (`./composer/src/Composer/Console/Input/InputOption.php`)
+
+| Change |   Delta |            % |        Time | Samples | Caller                                       | Location                                             |
+| -----: | ------: | -----------: | ----------: | ------: | -------------------------------------------- | ---------------------------------------------------- |
+|    new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `Composer\Command\InitCommand::configure`    | `./composer/src/Composer/Command/InitCommand.php`    |
+|    new | +1.00ms | 0.0% → 33.3% | 0ms → 1.0ms |   0 → 1 | `Composer\Command\RequireCommand::configure` | `./composer/src/Composer/Command/RequireCommand.php` |
+
+##### `Composer\Util\Git::getVersion` (`./composer/src/Composer/Util/Git.php`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                      | Location                               |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------- | -------------------------------------- |
+| +16.7% | +1.00ms | 100.0% | 6.0ms → 7.0ms |       1 | `Composer\Util\Git::getNoShowSignatureFlag` | `./composer/src/Composer/Util/Git.php` |
+
+##### `Composer\Util\Git::getNoShowSignatureFlag` (`./composer/src/Composer/Util/Git.php`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                     | Location                                                     |
+| -----: | ------: | -----: | ------------: | ------: | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| +16.7% | +1.00ms | 100.0% | 6.0ms → 7.0ms |       1 | `Composer\Package\Version\VersionGuesser::guessGitVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `(anonymous)` (`./composer/src/Composer/Repository/ComposerRepository.php`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller        | Location                                         |
+| ------: | ------: | -----: | ------------: | ------: | ------------- | ------------------------------------------------ |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
+
+##### `Composer\Repository\RepositoryManager::createRepository` (`./composer/src/Composer/Repository/RepositoryManager.php`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                               | Location                                                   |
+| -----: | ------: | -----: | ------------: | ------: | ---------------------------------------------------- | ---------------------------------------------------------- |
+| +50.0% | +1.00ms | 100.0% | 2.0ms → 3.0ms |   2 → 3 | `Composer\Repository\RepositoryFactory::createRepos` | `./composer/src/Composer/Repository/RepositoryFactory.php` |
+
+##### `Composer\Repository\RepositoryFactory::createRepos` (`./composer/src/Composer/Repository/RepositoryFactory.php`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                                | Location                                                   |
+| -----: | ------: | -----: | ------------: | ------: | ----------------------------------------------------- | ---------------------------------------------------------- |
+| +50.0% | +1.00ms | 100.0% | 2.0ms → 3.0ms |   2 → 3 | `Composer\Repository\RepositoryFactory::defaultRepos` | `./composer/src/Composer/Repository/RepositoryFactory.php` |
+
+##### `Composer\Repository\RepositoryFactory::defaultRepos` (`./composer/src/Composer/Repository/RepositoryFactory.php`)
+
+| Change |   Delta |      % |          Time | Samples | Caller                                            | Location                                                       |
+| -----: | ------: | -----: | ------------: | ------: | ------------------------------------------------- | -------------------------------------------------------------- |
+| +50.0% | +1.00ms | 100.0% | 2.0ms → 3.0ms |   2 → 3 | `Composer\Package\Loader\RootPackageLoader::load` | `./composer/src/Composer/Package/Loader/RootPackageLoader.php` |
+
+##### `Composer\Plugin\PluginManager::loadRepository` (`./composer/src/Composer/Plugin/PluginManager.php`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                                                | Location                                           |
+| ------: | ------: | -----: | ------------: | ------: | ----------------------------------------------------- | -------------------------------------------------- |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `Composer\Plugin\PluginManager::loadInstalledPlugins` | `./composer/src/Composer/Plugin/PluginManager.php` |
+
+##### `Composer\Plugin\PluginManager::loadInstalledPlugins` (`./composer/src/Composer/Plugin/PluginManager.php`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller                             | Location                              |
+| ------: | ------: | -----: | ------------: | ------: | ---------------------------------- | ------------------------------------- |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `Composer\Factory::createComposer` | `./composer/src/Composer/Factory.php` |
+
+##### `(anonymous)` (`./composer/src/Composer/Command/AboutCommand.php`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
+
+##### `(anonymous)` (`./composer/src/Composer/Command/DependsCommand.php`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
+
+##### `(anonymous)` (`./composer/src/Composer/Command/InstallCommand.php`)
+
+| Change |   Delta |             % |        Time | Samples | Caller        | Location                                         |
+| -----: | ------: | ------------: | ----------: | ------: | ------------- | ------------------------------------------------ |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
+
+##### `Composer\IO\BaseIO::loadConfiguration` (`./composer/src/Composer/IO/BaseIO.php`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                             | Location                              |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------------------- | ------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `Composer\Factory::createComposer` | `./composer/src/Composer/Factory.php` |
+
+##### `Composer\Factory::createInstallationManager` (`./composer/src/Composer/Factory.php`)
+
+| Change |   Delta |             % |        Time | Samples | Caller                             | Location                              |
+| -----: | ------: | ------------: | ----------: | ------: | ---------------------------------- | ------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `Composer\Factory::createComposer` | `./composer/src/Composer/Factory.php` |
+
+##### `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller                              | Location                                          |
+| -----: | --------: | -----: | ------------: | ------------: | ----------------------------------- | ------------------------------------------------- |
+|  -5.2% | -217.00ms | 100.0% | 4.15s → 3.94s | 3,254 → 3,246 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller        | Location        |
+| -----: | --------: | -----: | ------------: | ------------: | ------------- | --------------- |
+|  -5.2% | -217.00ms | 100.0% | 4.15s → 3.94s | 3,254 → 3,246 | `(anonymous)` | `./profile.php` |
+
+##### `Symfony\Component\Console\Terminal::getHeight` (`./composer/vendor/symfony/console/Terminal.php`)
+
+| Change |     Delta |      % |            Time | Samples | Caller                                       | Location                                            |
+| -----: | --------: | -----: | --------------: | ------: | -------------------------------------------- | --------------------------------------------------- |
+| -94.4% | -152.00ms | 100.0% | 161.0ms → 9.0ms |   1 → 2 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Symfony\Component\Console\Terminal::readFromProcess` (`./composer/vendor/symfony/console/Terminal.php`)
+
+| Change |     Delta |      % |             Time | Samples | Caller                                               | Location                                         |
+| -----: | --------: | -----: | ---------------: | ------: | ---------------------------------------------------- | ------------------------------------------------ |
+| -90.4% | -151.00ms | 100.0% | 167.0ms → 16.0ms |   2 → 3 | `Symfony\Component\Console\Terminal::getSttyColumns` | `./composer/vendor/symfony/console/Terminal.php` |
+
+##### `Symfony\Component\Console\Terminal::getSttyColumns` (`./composer/vendor/symfony/console/Terminal.php`)
+
+| Change |     Delta |      % |             Time | Samples | Caller                                                        | Location                                         |
+| -----: | --------: | -----: | ---------------: | ------: | ------------------------------------------------------------- | ------------------------------------------------ |
+| -90.4% | -151.00ms | 100.0% | 167.0ms → 16.0ms |   2 → 3 | `Symfony\Component\Console\Terminal::initDimensionsUsingStty` | `./composer/vendor/symfony/console/Terminal.php` |
+
+##### `Symfony\Component\Console\Terminal::initDimensionsUsingStty` (`./composer/vendor/symfony/console/Terminal.php`)
+
+| Change |     Delta |      % |             Time | Samples | Caller                                               | Location                                         |
+| -----: | --------: | -----: | ---------------: | ------: | ---------------------------------------------------- | ------------------------------------------------ |
+| -90.4% | -151.00ms | 100.0% | 167.0ms → 16.0ms |   2 → 3 | `Symfony\Component\Console\Terminal::initDimensions` | `./composer/vendor/symfony/console/Terminal.php` |
+
+##### `Symfony\Component\Console\Terminal::initDimensions` (`./composer/vendor/symfony/console/Terminal.php`)
+
+| Change |     Delta |             % |            Time | Samples | Caller                                          | Location                                         |
+| -----: | --------: | ------------: | --------------: | ------: | ----------------------------------------------- | ------------------------------------------------ |
+| -94.4% | -152.00ms | 96.4% → 56.3% | 161.0ms → 9.0ms |   1 → 2 | `Symfony\Component\Console\Terminal::getHeight` | `./composer/vendor/symfony/console/Terminal.php` |
+| +16.7% |   +1.00ms |  3.6% → 43.8% |   6.0ms → 7.0ms |       1 | `Symfony\Component\Console\Terminal::getWidth`  | `./composer/vendor/symfony/console/Terminal.php` |
+
+##### `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                       | Location                                            |
+| -----: | -------: | -----: | ------------: | ------------: | -------------------------------------------- | --------------------------------------------------- |
+|  -1.7% | -67.00ms | 100.0% | 3.99s → 3.92s | 3,252 → 3,242 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Composer\Util\Silencer::call` (`./composer/src/Composer/Util/Silencer.php`)
+
+|  Change |    Delta |             % |              Time | Samples | Caller                                                | Location                                          |
+| ------: | -------: | ------------: | ----------------: | ------: | ----------------------------------------------------- | ------------------------------------------------- |
+|  -11.8% | -33.00ms | 97.2% → 98.8% | 279.0ms → 246.0ms | 35 → 36 | `Composer\Console\Application::doRun`                 | `./composer/src/Composer/Console/Application.php` |
+| removed |  -2.00ms |   0.7% → 0.0% |       2.0ms → 0ms |   2 → 0 | `Composer\Console\Application::__construct`           | `./composer/src/Composer/Console/Application.php` |
+|  -50.0% |  -2.00ms |   1.4% → 0.8% |     4.0ms → 2.0ms |   4 → 2 | `Composer\Util\Filesystem::filePutContentsIfModified` | `./composer/src/Composer/Util/Filesystem.php`     |
+|  -50.0% |  -1.00ms |   0.7% → 0.4% |     2.0ms → 1.0ms |   2 → 1 | `Composer\Factory::getHomeDir`                        | `./composer/src/Composer/Factory.php`             |
+
+##### `Symfony\Component\Console\Application::doRun` (`./composer/vendor/symfony/console/Application.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                | Location                                          |
+| -----: | -------: | -----: | ------------: | ------------: | ------------------------------------- | ------------------------------------------------- |
+|  -1.0% | -38.00ms | 100.0% | 3.69s → 3.65s | 3,200 → 3,185 | `Composer\Console\Application::doRun` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Symfony\Component\Console\Command\Command::run` (`./composer/vendor/symfony/console/Command/Command.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                                | Location                                            |
+| -----: | -------: | -----: | ------------: | ------------: | ----------------------------------------------------- | --------------------------------------------------- |
+|  -1.0% | -38.00ms | 100.0% | 3.69s → 3.65s | 3,198 → 3,183 | `Symfony\Component\Console\Application::doRunCommand` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Symfony\Component\Console\Application::doRunCommand` (`./composer/vendor/symfony/console/Application.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                         | Location                                            |
+| -----: | -------: | -----: | ------------: | ------------: | ---------------------------------------------- | --------------------------------------------------- |
+|  -1.0% | -38.00ms | 100.0% | 3.69s → 3.65s | 3,198 → 3,183 | `Symfony\Component\Console\Application::doRun` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Composer\Autoload\AutoloadGenerator::dump` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                          | Location                                                  |
+| -----: | -------: | -----: | ------------: | ------------: | ----------------------------------------------- | --------------------------------------------------------- |
+|  -0.8% | -24.00ms | 100.0% | 2.94s → 2.92s | 2,929 → 2,920 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
+
+##### `Composer\Command\DumpAutoloadCommand::execute` (`./composer/src/Composer/Command/DumpAutoloadCommand.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                           | Location                                                |
+| -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------------ | ------------------------------------------------------- |
+|  -0.7% | -22.00ms | 100.0% | 2.94s → 2.92s | 2,929 → 2,922 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileParser::findClasses` (`./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                                    | Location                                                                   |
+| -----: | -------: | -----: | ------------: | ------------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+|  -0.8% | -19.00ms | 100.0% | 2.52s → 2.50s | 2,505 → 2,501 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` (`./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                      | Location                                                 |
+| -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------- | -------------------------------------------------------- |
+|  -0.6% | -18.00ms | 100.0% | 2.78s → 2.76s | 2,769 → 2,766 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `Composer\Pcre\Preg::matchAll` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |             % |              Time |   Samples | Caller                                                  | Location                                                               |
+| -----: | -------: | ------------: | ----------------: | --------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  -9.0% | -14.00ms | 78.7% → 78.8% | 155.0ms → 141.0ms | 148 → 141 | `Composer\Pcre\Preg::matchAllStrictGroups`              | `./composer/vendor/composer/pcre/src/Preg.php`                         |
+|  -9.5% |  -4.00ms | 21.3% → 21.2% |   42.0ms → 38.0ms |        38 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\Factory::createComposer` (`./composer/src/Composer/Factory.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                     | Location                              |
+| -----: | -------: | -----: | ----------------: | --------: | -------------------------- | ------------------------------------- |
+|  -2.1% | -16.00ms | 100.0% | 748.0ms → 732.0ms | 269 → 261 | `Composer\Factory::create` | `./composer/src/Composer/Factory.php` |
+
+##### `Composer\Factory::create` (`./composer/src/Composer/Factory.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                      | Location                                          |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------- | ------------------------------------------------- |
+|  -2.1% | -16.00ms | 100.0% | 748.0ms → 732.0ms | 269 → 261 | `Composer\Console\Application::getComposer` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Symfony\Component\Process\Pipes\UnixPipes::readAndWrite` (`./composer/vendor/symfony/process/Pipes/UnixPipes.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                         | Location                                        |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------------------- | ----------------------------------------------- |
+|  -2.2% | -14.00ms | 100.0% | 645.0ms → 631.0ms | 166 → 160 | `Symfony\Component\Process\Process::readPipes` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Symfony\Component\Process\Process::readPipes` (`./composer/vendor/symfony/process/Process.php`)
+
+|  Change |    Delta |             % |              Time |   Samples | Caller                                            | Location                                        |
+| ------: | -------: | ------------: | ----------------: | --------: | ------------------------------------------------- | ----------------------------------------------- |
+|   -2.3% | -15.00ms | 99.8% → 99.7% | 645.0ms → 630.0ms | 166 → 159 | `Symfony\Component\Process\Process::wait`         | `./composer/vendor/symfony/process/Process.php` |
+| +100.0% |  +1.00ms |   0.2% → 0.3% |     1.0ms → 2.0ms |     1 → 2 | `Symfony\Component\Process\Process::updateStatus` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Composer\Pcre\Preg::matchAllStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                                  | Location                                                               |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  -8.9% | -14.00ms | 100.0% | 158.0ms → 144.0ms | 151 → 144 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::clean` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+| Change |    Delta |      % |          Time |       Samples | Caller                                                  | Location                                                               |
+| -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  -0.7% | -12.00ms | 100.0% | 1.66s → 1.64s | 1,660 → 1,648 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\Pcre\Preg::pregMatch` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                      | Location                                       |
+| -----: | -------: | -----: | ----------------: | --------: | --------------------------- | ---------------------------------------------- |
+|  -4.3% | -12.00ms | 100.0% | 276.0ms → 264.0ms | 276 → 264 | `Composer\Pcre\Preg::match` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Symfony\Component\Process\Process::wait` (`./composer/vendor/symfony/process/Process.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                   | Location                                        |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------------- | ----------------------------------------------- |
+|  -1.7% | -11.00ms | 100.0% | 650.0ms → 639.0ms | 171 → 168 | `Symfony\Component\Process\Process::run` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Composer\Pcre\Preg::enforceNonNullMatches` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                  | Location                                       |
+| -----: | -------: | -----: | ----------------: | --------: | --------------------------------------- | ---------------------------------------------- |
+|  -7.8% | -11.00ms | 100.0% | 141.0ms → 130.0ms | 141 → 130 | `Composer\Pcre\Preg::matchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath` (`./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`)
+
+| Change |    Delta |      % |            Time | Samples | Caller                                                    | Location                                                                   |
+| -----: | -------: | -----: | --------------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| -30.6% | -11.00ms | 100.0% | 36.0ms → 25.0ms | 36 → 25 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Composer\Console\Application::getComposer` (`./composer/src/Composer/Console/Application.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                      | Location                                          |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------- | ------------------------------------------------- |
+|  -2.1% | -16.00ms | 100.0% | 748.0ms → 732.0ms | 269 → 261 | `Composer\Command\BaseCommand::tryComposer` | `./composer/src/Composer/Command/BaseCommand.php` |
+
+##### `Composer\Command\BaseCommand::tryComposer` (`./composer/src/Composer/Command/BaseCommand.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                     | Location                                          |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------ | ------------------------------------------------- |
+|  -2.1% | -16.00ms | 100.0% | 748.0ms → 732.0ms | 269 → 261 | `Composer\Command\BaseCommand::initialize` | `./composer/src/Composer/Command/BaseCommand.php` |
+
+##### `Composer\Command\BaseCommand::initialize` (`./composer/src/Composer/Command/BaseCommand.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                           | Location                                                |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------------ | ------------------------------------------------------- |
+|  -2.1% | -16.00ms | 100.0% | 748.0ms → 732.0ms | 269 → 261 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
+
+##### `(anonymous)` (`./composer/src/Composer/Console/Application.php:353`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller                         | Location                                    |
+| ------: | -------: | ------------: | -----------: | ------: | ------------------------------ | ------------------------------------------- |
+| removed | -14.00ms | 100.0% → 0.0% | 14.0ms → 0ms |  13 → 0 | `Composer\Util\Silencer::call` | `./composer/src/Composer/Util/Silencer.php` |
+
+##### `Composer\Package\Loader\RootPackageLoader::load` (`./composer/src/Composer/Package/Loader/RootPackageLoader.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                             | Location                              |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------- | ------------------------------------- |
+|  -1.8% | -13.00ms | 100.0% | 710.0ms → 697.0ms | 231 → 226 | `Composer\Factory::createComposer` | `./composer/src/Composer/Factory.php` |
+
+##### `Composer\Package\Version\VersionGuesser::guessVersion` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                            | Location                                                       |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------------- | -------------------------------------------------------------- |
+|  -1.8% | -13.00ms | 100.0% | 705.0ms → 692.0ms | 226 → 221 | `Composer\Package\Loader\RootPackageLoader::load` | `./composer/src/Composer/Package/Loader/RootPackageLoader.php` |
+
+##### `Composer\Util\ProcessExecutor::runProcess` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                     | Location                                           |
+| -----: | -------: | -----: | ----------------: | --------: | ------------------------------------------ | -------------------------------------------------- |
+|  -1.6% | -11.00ms | 100.0% | 701.0ms → 690.0ms | 222 → 219 | `Composer\Util\ProcessExecutor::doExecute` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+
+##### `Composer\Util\ProcessExecutor::doExecute` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+| Change |    Delta |      % |              Time |   Samples | Caller                                   | Location                                           |
+| -----: | -------: | -----: | ----------------: | --------: | ---------------------------------------- | -------------------------------------------------- |
+|  -1.6% | -11.00ms | 100.0% | 703.0ms → 692.0ms | 224 → 221 | `Composer\Util\ProcessExecutor::execute` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+
+##### `Composer\Util\ProcessExecutor::execute` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+| Change |   Delta |             % |              Time | Samples | Caller                                                        | Location                                                     |
+| -----: | ------: | ------------: | ----------------: | ------: | ------------------------------------------------------------- | ------------------------------------------------------------ |
+|  -5.6% | -7.00ms | 17.8% → 17.1% | 125.0ms → 118.0ms |      63 | `Composer\Package\Version\VersionGuesser::guessFossilVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  -4.8% | -3.00ms |   9.0% → 8.7% |   63.0ms → 60.0ms | 29 → 28 | `Composer\Package\Version\VersionGuesser::guessHgVersion`     | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  +0.7% | +2.00ms | 43.2% → 44.2% | 304.0ms → 306.0ms | 75 → 73 | `Composer\Package\Version\VersionGuesser::guessGitVersion`    | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  -1.4% | -2.00ms | 20.9% → 21.0% | 147.0ms → 145.0ms | 33 → 32 | `Composer\Package\Version\VersionGuesser::versionFromGitTags` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  -3.4% | -2.00ms |   8.3% → 8.1% |   58.0ms → 56.0ms | 23 → 24 | `Composer\Package\Version\VersionGuesser::guessSvnVersion`    | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `Composer\Package\Version\VersionGuesser::guessFossilVersion` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+| Change |   Delta |      % |              Time | Samples | Caller                                                  | Location                                                     |
+| -----: | ------: | -----: | ----------------: | ------: | ------------------------------------------------------- | ------------------------------------------------------------ |
+|  -5.6% | -7.00ms | 100.0% | 125.0ms → 118.0ms |      63 | `Composer\Package\Version\VersionGuesser::guessVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `Composer\Util\Filesystem::normalizePath` (`./composer/src/Composer/Util/Filesystem.php`)
+
+|  Change |   Delta |             % |            Time | Samples | Caller                                             | Location                                                 |
+| ------: | ------: | ------------: | --------------: | ------: | -------------------------------------------------- | -------------------------------------------------------- |
+|   -8.6% | -3.00ms | 55.6% → 55.2% | 35.0ms → 32.0ms | 35 → 32 | `Composer\Autoload\AutoloadGenerator::getPathCode` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+|   -3.7% | -1.00ms | 42.9% → 44.8% | 27.0ms → 26.0ms | 27 → 26 | `Composer\Util\Filesystem::findShortestPath`       | `./composer/src/Composer/Util/Filesystem.php`            |
+| removed | -1.00ms |   1.6% → 0.0% |     1.0ms → 0ms |   1 → 0 | `Composer\Util\Filesystem::findShortestPathCode`   | `./composer/src/Composer/Util/Filesystem.php`            |
+
+##### `Composer\Util\ErrorHandler::handle` (`./composer/src/Composer/Util/ErrorHandler.php`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller                             | Location                                         |
+| ------: | ------: | -----------: | ----------: | ------: | ---------------------------------- | ------------------------------------------------ |
+| removed | -3.00ms | 75.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `Composer\Util\Silencer::suppress` | `./composer/src/Composer/Util/Silencer.php`      |
+| removed | -1.00ms | 25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `(anonymous)`                      | `./composer/vendor/composer/ClassLoader.php:575` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

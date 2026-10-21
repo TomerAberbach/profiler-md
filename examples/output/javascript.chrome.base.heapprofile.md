@@ -403,6 +403,240 @@ Categories accounting for at least 1.0% of self size.
 | ---: | ------: | ------: | ---------- | ----------- |
 | 1.3% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`)
+
+|      % |     Size | Samples | Caller        | Location    |
+| -----: | -------: | ------: | ------------- | ----------- |
+| 100.0% | 57.1 MiB |   3,628 | `(anonymous)` | `<unknown>` |
+
+##### `chartLayouts` (`./workload.mjs:116:24`)
+
+|      % |     Size | Samples | Caller                         | Location              |
+| -----: | -------: | ------: | ------------------------------ | --------------------- |
+| 100.0% | 48.4 MiB |   3,073 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+
+##### `map` (`<unknown>`)
+
+|     % |     Size | Samples | Caller                         | Location                                   |
+| ----: | -------: | ------: | ------------------------------ | ------------------------------------------ |
+| 97.8% | 37.7 MiB |   2,392 | `i`                            | `./node_modules/d3/dist/d3.min.js:2:76807` |
+|  2.1% |  817 KiB |      51 | `chartLayouts`                 | `./workload.mjs:116:24`                    |
+|  0.1% | 32.2 KiB |       2 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                      |
+
+##### `d` (`./node_modules/d3/dist/d3.min.js:2:223501`)
+
+|      % |     Size | Samples | Caller         | Location                |
+| -----: | -------: | ------: | -------------- | ----------------------- |
+| 100.0% | 37.7 MiB |   2,395 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:76982`)
+
+|      % |     Size | Samples | Caller | Location    |
+| -----: | -------: | ------: | ------ | ----------- |
+| 100.0% | 37.7 MiB |   2,392 | `map`  | `<unknown>` |
+
+##### `i` (`./node_modules/d3/dist/d3.min.js:2:76807`)
+
+|      % |     Size | Samples | Caller | Location                                    |
+| -----: | -------: | ------: | ------ | ------------------------------------------- |
+| 100.0% | 37.7 MiB |   2,392 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223501` |
+
+##### `o` (`./node_modules/d3/dist/d3.min.js:2:77004`)
+
+|      % |     Size | Samples | Caller        | Location                                   |
+| -----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 37.6 MiB |   2,390 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
+
+##### `p` (`./node_modules/d3/dist/d3.min.js:2:77577`)
+
+|     % |     Size | Samples | Caller        | Location                                   |
+| ----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 99.7% | 37.1 MiB |   2,357 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
+|  0.3% |   96 KiB |       6 | `forEach`     | `<unknown>`                                |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
+
+|      % |     Size | Samples | Caller | Location                                   |
+| -----: | -------: | ------: | ------ | ------------------------------------------ |
+| 100.0% | 37.2 MiB |   2,363 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
+
+##### `select` (`./node_modules/d3/dist/d3.min.js:2:22328`)
+
+|     % |     Size | Samples | Caller   | Location                                   |
+| ----: | -------: | ------: | -------- | ------------------------------------------ |
+| 88.1% | 7.49 MiB |     479 | `append` | `./node_modules/d3/dist/d3.min.js:2:26726` |
+| 11.9% | 1.02 MiB |      65 | `h`      | `./node_modules/d3/dist/d3.min.js:2:12208` |
+
+##### `append` (`./node_modules/d3/dist/d3.min.js:2:26726`)
+
+|     % |     Size | Samples | Caller                         | Location                                   |
+| ----: | -------: | ------: | ------------------------------ | ------------------------------------------ |
+| 45.1% | 3.69 MiB |     236 | `join`                         | `./node_modules/d3/dist/d3.min.js:2:24162` |
+| 43.6% | 3.57 MiB |     228 | `(anonymous)`                  | `./workload.mjs:185:13`                    |
+|  9.9% |  833 KiB |      52 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:12208` |
+|  0.8% | 64.6 KiB |       4 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                      |
+|  0.6% |   48 KiB |       3 | `chartBreakdowns`              | `./workload.mjs:39:27`                     |
+
+##### `join` (`./node_modules/d3/dist/d3.min.js:2:24162`)
+
+|     % |     Size | Samples | Caller                         | Location                |
+| ----: | -------: | ------: | ------------------------------ | ----------------------- |
+| 50.5% | 3.68 MiB |     235 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`   |
+| 43.7% | 3.18 MiB |     203 | `chartLayouts`                 | `./workload.mjs:116:24` |
+|  5.8% |  432 KiB |      27 | `chartBreakdowns`              | `./workload.mjs:39:27`  |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:26793`)
+
+|     % |     Size | Samples | Caller   | Location                                   |
+| ----: | -------: | ------: | -------- | ------------------------------------------ |
+| 92.7% | 3.97 MiB |     254 | `select` | `./node_modules/d3/dist/d3.min.js:2:22328` |
+|  7.3% |  320 KiB |      20 | `append` | `./node_modules/d3/dist/d3.min.js:2:26726` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:16259`)
+
+|     % |     Size | Samples | Caller        | Location                                   |
+| ----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 99.6% | 4.24 MiB |     271 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26793` |
+|  0.4% |   16 KiB |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:26975` |
+
+##### `Bp` (`./node_modules/d3/dist/d3.min.js:2:147464`)
+
+|      % |     Size | Samples | Caller | Location                                    |
+| -----: | -------: | ------: | ------ | ------------------------------------------- |
+| 100.0% | 3.69 MiB |     236 | `e`    | `./node_modules/d3/dist/d3.min.js:2:147925` |
+
+##### `e` (`./node_modules/d3/dist/d3.min.js:2:147925`)
+
+|      % |     Size | Samples | Caller | Location                                    |
+| -----: | -------: | ------: | ------ | ------------------------------------------- |
+| 100.0% | 3.69 MiB |     236 | `l`    | `./node_modules/d3/dist/d3.min.js:2:269815` |
+
+##### `l` (`./node_modules/d3/dist/d3.min.js:2:269815`)
+
+|      % |     Size | Samples | Caller       | Location                                    |
+| -----: | -------: | ------: | ------------ | ------------------------------------------- |
+| 100.0% | 3.69 MiB |     236 | `eachBefore` | `./node_modules/d3/dist/d3.min.js:2:141773` |
+
+##### `eachBefore` (`./node_modules/d3/dist/d3.min.js:2:141773`)
+
+|      % |     Size | Samples | Caller | Location                                    |
+| -----: | -------: | ------: | ------ | ------------------------------------------- |
+| 100.0% | 3.69 MiB |     236 | `s`    | `./node_modules/d3/dist/d3.min.js:2:269724` |
+
+##### `s` (`./node_modules/d3/dist/d3.min.js:2:269724`)
+
+|      % |     Size | Samples | Caller         | Location                |
+| -----: | -------: | ------: | -------------- | ----------------------- |
+| 100.0% | 3.69 MiB |     236 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `(anonymous)` (`./workload.mjs:185:13`)
+
+|      % |     Size | Samples | Caller | Location                                   |
+| -----: | -------: | ------: | ------ | ------------------------------------------ |
+| 100.0% | 3.57 MiB |     228 | `join` | `./node_modules/d3/dist/d3.min.js:2:24162` |
+
+##### `h` (`./node_modules/d3/dist/d3.min.js:2:12208`)
+
+|      % |     Size | Samples | Caller | Location                                   |
+| -----: | -------: | ------: | ------ | ------------------------------------------ |
+| 100.0% | 3.52 MiB |     225 | `call` | `./node_modules/d3/dist/d3.min.js:2:25192` |
+
+##### `call` (`./node_modules/d3/dist/d3.min.js:2:25192`)
+
+|     % |     Size | Samples | Caller                         | Location               |
+| ----: | -------: | ------: | ------------------------------ | ---------------------- |
+| 72.4% | 2.55 MiB |     163 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`  |
+| 27.6% |  994 KiB |      62 | `chartBreakdowns`              | `./workload.mjs:39:27` |
+
+##### `chartBreakdowns` (`./workload.mjs:39:27`)
+
+|      % |     Size | Samples | Caller                         | Location              |
+| -----: | -------: | ------: | ------------------------------ | --------------------- |
+| 100.0% | 2.33 MiB |     146 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+
+##### `Gd` (`./node_modules/d3/dist/d3.min.js:2:140014`)
+
+|      % |    Size | Samples | Caller         | Location                |
+| -----: | ------: | ------: | -------------- | ----------------------- |
+| 100.0% | 1.3 MiB |      83 | `chartLayouts` | `./workload.mjs:116:24` |
+
+##### `push` (`<unknown>`)
+
+|     % |    Size | Samples | Caller        | Location                                   |
+| ----: | ------: | ------: | ------------- | ------------------------------------------ |
+| 54.9% | 689 KiB |      43 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:78141` |
+| 25.6% | 321 KiB |      20 | `r`           | `./node_modules/d3/dist/d3.min.js:2:7022`  |
+| 10.3% | 129 KiB |       8 | `t`           | `./node_modules/d3/dist/d3.min.js:2:4909`  |
+|  9.2% | 116 KiB |       7 | `p`           | `./node_modules/d3/dist/d3.min.js:2:77577` |
+
+##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:78141`)
+
+|      % |     Size | Samples | Caller | Location                                   |
+| -----: | -------: | ------: | ------ | ------------------------------------------ |
+| 100.0% | 1.06 MiB |      68 | `p`    | `./node_modules/d3/dist/d3.min.js:2:77577` |
+
+##### `(anonymous)` (`./workload.mjs:136:28`)
+
+|      % |    Size | Samples | Caller | Location    |
+| -----: | ------: | ------: | ------ | ----------- |
+| 100.0% | 737 KiB |      46 | `map`  | `<unknown>` |
+
+##### `from` (`<unknown>`)
+
+|     % |     Size | Samples | Caller        | Location                                    |
+| ----: | -------: | ------: | ------------- | ------------------------------------------- |
+| 40.2% |  194 KiB |      12 | `Gd`          | `./node_modules/d3/dist/d3.min.js:2:140014` |
+| 33.2% |  160 KiB |      10 | `t`           | `./node_modules/d3/dist/d3.min.js:2:4909`   |
+| 16.6% | 80.1 KiB |       5 | `Ag.l.domain` | `./node_modules/d3/dist/d3.min.js:2:155200` |
+| 10.0% |   48 KiB |       3 | `Ag.l.range`  | `./node_modules/d3/dist/d3.min.js:2:155280` |
+
+##### `forEach` (`<unknown>`)
+
+|     % |    Size | Samples | Caller        | Location                                    |
+| ----: | ------: | ------: | ------------- | ------------------------------------------- |
+| 70.6% | 231 KiB |      12 | `h`           | `./node_modules/d3/dist/d3.min.js:2:235607` |
+| 29.4% |  96 KiB |       6 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  |
+
+##### `next` (`<unknown>`)
+
+|      % |    Size | Samples | Caller | Location    |
+| -----: | ------: | ------: | ------ | ----------- |
+| 100.0% | 160 KiB |      10 | `from` | `<unknown>` |
+
+##### `(anonymous)` (`./workload.mjs:121:16`)
+
+|      % |     Size | Samples | Caller | Location    |
+| -----: | -------: | ------: | ------ | ----------- |
+| 100.0% | 64.1 KiB |       4 | `map`  | `<unknown>` |
+
+##### `(anonymous)` (`./workload.mjs:193:9`)
+
+|      % |   Size | Samples | Caller        | Location                                   |
+| -----: | -----: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 48 KiB |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`./workload.mjs:11:29`)
+
+|      % |     Size | Samples | Caller | Location    |
+| -----: | -------: | ------: | ------ | ----------- |
+| 100.0% | 32.2 KiB |       2 | `map`  | `<unknown>` |
+
+##### `(anonymous)` (`./workload.mjs:77:21`)
+
+|      % |   Size | Samples | Caller        | Location                                   |
+| -----: | -----: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 16 KiB |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
+##### `(anonymous)` (`./workload.mjs:134:23`)
+
+|      % |   Size | Samples | Caller        | Location                                   |
+| -----: | -----: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 16 KiB |       1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18176` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

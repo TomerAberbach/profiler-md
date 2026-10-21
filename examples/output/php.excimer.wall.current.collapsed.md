@@ -212,6 +212,127 @@ Categories accounting for at least 1.0% of self samples.
 |  18.6% |     732 | `tryComposer`         | `Composer\Command\BaseCommand`                 |
 |  18.6% |     732 | `initialize`          | `Composer\Command\BaseCommand`                 |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `run` (`Symfony\Component\Console\Application`)
+
+|      % | Samples | Caller | Location                       |
+| -----: | ------: | ------ | ------------------------------ |
+| 100.0% |   3,940 | `run`  | `Composer\Console\Application` |
+
+##### `run` (`Composer\Console\Application`)
+
+|      % | Samples | Caller        | Location        |
+| -----: | ------: | ------------- | --------------- |
+| 100.0% |   3,940 | `(anonymous)` | `./profile.php` |
+
+##### `doRun` (`Composer\Console\Application`)
+
+|      % | Samples | Caller | Location                                |
+| -----: | ------: | ------ | --------------------------------------- |
+| 100.0% |   3,923 | `run`  | `Symfony\Component\Console\Application` |
+
+##### `doRun` (`Symfony\Component\Console\Application`)
+
+|      % | Samples | Caller  | Location                       |
+| -----: | ------: | ------- | ------------------------------ |
+| 100.0% |   3,656 | `doRun` | `Composer\Console\Application` |
+
+##### `run` (`Symfony\Component\Console\Command\Command`)
+
+|      % | Samples | Caller         | Location                                |
+| -----: | ------: | -------------- | --------------------------------------- |
+| 100.0% |   3,654 | `doRunCommand` | `Symfony\Component\Console\Application` |
+
+##### `doRunCommand` (`Symfony\Component\Console\Application`)
+
+|      % | Samples | Caller  | Location                                |
+| -----: | ------: | ------- | --------------------------------------- |
+| 100.0% |   3,654 | `doRun` | `Symfony\Component\Console\Application` |
+
+##### `execute` (`Composer\Command\DumpAutoloadCommand`)
+
+|      % | Samples | Caller | Location                                    |
+| -----: | ------: | ------ | ------------------------------------------- |
+| 100.0% |   2,922 | `run`  | `Symfony\Component\Console\Command\Command` |
+
+##### `dump` (`Composer\Autoload\AutoloadGenerator`)
+
+|      % | Samples | Caller    | Location                               |
+| -----: | ------: | --------- | -------------------------------------- |
+| 100.0% |   2,920 | `execute` | `Composer\Command\DumpAutoloadCommand` |
+
+##### `scanPaths` (`Composer\ClassMapGenerator\ClassMapGenerator`)
+
+|      % | Samples | Caller | Location                              |
+| -----: | ------: | ------ | ------------------------------------- |
+| 100.0% |   2,766 | `dump` | `Composer\Autoload\AutoloadGenerator` |
+
+##### `findClasses` (`Composer\ClassMapGenerator\PhpFileParser`)
+
+|      % | Samples | Caller      | Location                                       |
+| -----: | ------: | ----------- | ---------------------------------------------- |
+| 100.0% |   2,501 | `scanPaths` | `Composer\ClassMapGenerator\ClassMapGenerator` |
+
+##### `clean` (`Composer\ClassMapGenerator\PhpFileCleaner`)
+
+|      % | Samples | Caller        | Location                                   |
+| -----: | ------: | ------------- | ------------------------------------------ |
+| 100.0% |   1,648 | `findClasses` | `Composer\ClassMapGenerator\PhpFileParser` |
+
+##### `match` (`Composer\ClassMapGenerator\PhpFileCleaner`)
+
+|     % | Samples | Caller        | Location                                    |
+| ----: | ------: | ------------- | ------------------------------------------- |
+| 99.8% |   1,018 | `clean`       | `Composer\ClassMapGenerator\PhpFileCleaner` |
+|  0.2% |       2 | `skipHeredoc` | `Composer\ClassMapGenerator\PhpFileCleaner` |
+
+##### `isMatchStrictGroups` (`Composer\Pcre\Preg`)
+
+|     % | Samples | Caller          | Location                                       |
+| ----: | ------: | --------------- | ---------------------------------------------- |
+| 97.4% |     904 | `match`         | `Composer\ClassMapGenerator\PhpFileCleaner`    |
+|  2.2% |      20 | `normalizePath` | `Composer\Util\Filesystem`                     |
+|  0.4% |       4 | `normalizePath` | `Composer\ClassMapGenerator\ClassMapGenerator` |
+
+##### `matchStrictGroups` (`Composer\Pcre\Preg`)
+
+|      % | Samples | Caller                | Location             |
+| -----: | ------: | --------------------- | -------------------- |
+| 100.0% |     796 | `isMatchStrictGroups` | `Composer\Pcre\Preg` |
+
+##### `createComposer` (`Composer\Factory`)
+
+|      % | Samples | Caller   | Location           |
+| -----: | ------: | -------- | ------------------ |
+| 100.0% |     732 | `create` | `Composer\Factory` |
+
+##### `create` (`Composer\Factory`)
+
+|      % | Samples | Caller        | Location                       |
+| -----: | ------: | ------------- | ------------------------------ |
+| 100.0% |     732 | `getComposer` | `Composer\Console\Application` |
+
+##### `getComposer` (`Composer\Console\Application`)
+
+|      % | Samples | Caller        | Location                       |
+| -----: | ------: | ------------- | ------------------------------ |
+| 100.0% |     732 | `tryComposer` | `Composer\Command\BaseCommand` |
+
+##### `tryComposer` (`Composer\Command\BaseCommand`)
+
+|      % | Samples | Caller       | Location                       |
+| -----: | ------: | ------------ | ------------------------------ |
+| 100.0% |     732 | `initialize` | `Composer\Command\BaseCommand` |
+
+##### `initialize` (`Composer\Command\BaseCommand`)
+
+|      % | Samples | Caller | Location                                    |
+| -----: | ------: | ------ | ------------------------------------------- |
+| 100.0% |     732 | `run`  | `Symfony\Component\Console\Command\Command` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

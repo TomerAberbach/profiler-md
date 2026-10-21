@@ -275,6 +275,167 @@ Categories accounting for at least 1.0% of self time.
 | 2.4% | 115.2ms | `compile`        | `<built-in>` |
 | 1.9% |  88.4ms | `object.__new__` | `<built-in>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py:1484`)
+
+|      % |  Time | Caller     | Location                                                |
+| -----: | ----: | ---------- | ------------------------------------------------------- |
+| 100.0% | 4.64s | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py:1629` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py:1629`)
+
+|      % |  Time | Caller         | Location                   |
+| -----: | ----: | -------------- | -------------------------- |
+| 100.0% | 4.64s | `patched_main` | `./black/__init__.py:1594` |
+
+##### `patched_main` (`./black/__init__.py:1594`)
+
+|      % |  Time | Caller     | Location            |
+| -----: | ----: | ---------- | ------------------- |
+| 100.0% | 4.64s | `<module>` | `/venv/bin/black:1` |
+
+##### `format_file_in_place` (`./black/__init__.py:917`)
+
+|      % |  Time | Caller         | Location                  |
+| -----: | ----: | -------------- | ------------------------- |
+| 100.0% | 4.64s | `reformat_one` | `./black/__init__.py:860` |
+
+##### `reformat_one` (`./black/__init__.py:860`)
+
+|      % |  Time | Caller | Location                  |
+| -----: | ----: | ------ | ------------------------- |
+| 100.0% | 4.64s | `main` | `./black/__init__.py:244` |
+
+##### `main` (`./black/__init__.py:244`)
+
+|      % |  Time | Caller     | Location                                                    |
+| -----: | ----: | ---------- | ----------------------------------------------------------- |
+| 100.0% | 4.64s | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py:33` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`)
+
+|      % |  Time | Caller   | Location                                               |
+| -----: | ----: | -------- | ------------------------------------------------------ |
+| 100.0% | 4.64s | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:857` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`)
+
+|      % |  Time | Caller   | Location                                                |
+| -----: | ----: | -------- | ------------------------------------------------------- |
+| 100.0% | 4.64s | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py:1401` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:1401`)
+
+|      % |  Time | Caller | Location                                                |
+| -----: | ----: | ------ | ------------------------------------------------------- |
+| 100.0% | 4.64s | `main` | `/venv/lib/python3.11/site-packages/click/core.py:1484` |
+
+##### `format_file_contents` (`./black/__init__.py:1054`)
+
+|      % |  Time | Caller                 | Location                  |
+| -----: | ----: | ---------------------- | ------------------------- |
+| 100.0% | 4.64s | `format_file_in_place` | `./black/__init__.py:917` |
+
+##### `_format_str_once` (`./black/__init__.py:1236`)
+
+|     % |  Time | Caller          | Location                   |
+| ----: | ----: | --------------- | -------------------------- |
+| 66.9% | 2.74s | `format_str`    | `./black/__init__.py:1189` |
+| 33.1% | 1.36s | `assert_stable` | `./black/__init__.py:1557` |
+
+##### `format_str` (`./black/__init__.py:1189`)
+
+|      % |  Time | Caller                 | Location                   |
+| -----: | ----: | ---------------------- | -------------------------- |
+| 100.0% | 2.75s | `format_file_contents` | `./black/__init__.py:1054` |
+
+##### `check_stability_and_equivalence` (`./black/__init__.py:1037`)
+
+|      % |  Time | Caller                 | Location                   |
+| -----: | ----: | ---------------------- | -------------------------- |
+| 100.0% | 1.88s | `format_file_contents` | `./black/__init__.py:1054` |
+
+##### `parse_string` (`./blib2to3/pgen2/driver.py:198`)
+
+|      % |  Time | Caller          | Location                |
+| -----: | ----: | --------------- | ----------------------- |
+| 100.0% | 1.66s | `lib2to3_parse` | `./black/parsing.py:55` |
+
+##### `lib2to3_parse` (`./black/parsing.py:55`)
+
+|      % |  Time | Caller             | Location                   |
+| -----: | ----: | ------------------ | -------------------------- |
+| 100.0% | 1.66s | `_format_str_once` | `./black/__init__.py:1236` |
+
+##### `parse_tokens` (`./blib2to3/pgen2/driver.py:114`)
+
+|      % |  Time | Caller         | Location                         |
+| -----: | ----: | -------------- | -------------------------------- |
+| 100.0% | 1.66s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+
+##### `assert_stable` (`./black/__init__.py:1557`)
+
+|      % |  Time | Caller                            | Location                   |
+| -----: | ----: | --------------------------------- | -------------------------- |
+| 100.0% | 1.36s | `check_stability_and_equivalence` | `./black/__init__.py:1037` |
+
+##### `assert_equivalent` (`./black/__init__.py:1524`)
+
+|      % |    Time | Caller                            | Location                   |
+| -----: | ------: | --------------------------------- | -------------------------- |
+| 100.0% | 521.4ms | `check_stability_and_equivalence` | `./black/__init__.py:1037` |
+
+##### `get_features_used` (`./black/__init__.py:1307`)
+
+|      % |    Time | Caller                   | Location                   |
+| -----: | ------: | ------------------------ | -------------------------- |
+| 100.0% | 288.0ms | `detect_target_versions` | `./black/__init__.py:1464` |
+
+##### `detect_target_versions` (`./black/__init__.py:1464`)
+
+|      % |    Time | Caller             | Location                   |
+| -----: | ------: | ------------------ | -------------------------- |
+| 100.0% | 288.0ms | `_format_str_once` | `./black/__init__.py:1236` |
+
+##### `_stringify_ast` (`./black/parsing.py:174`)
+
+|      % |    Time | Caller              | Location                   |
+| -----: | ------: | ------------------- | -------------------------- |
+| 100.0% | 125.0ms | `assert_equivalent` | `./black/__init__.py:1524` |
+
+##### `_parse_single_version` (`./black/parsing.py:117`)
+
+|      % |    Time | Caller      | Location                 |
+| -----: | ------: | ----------- | ------------------------ |
+| 100.0% | 115.2ms | `parse_ast` | `./black/parsing.py:129` |
+
+##### `parse_ast` (`./black/parsing.py:129`)
+
+|      % |    Time | Caller              | Location                   |
+| -----: | ------: | ------------------- | -------------------------- |
+| 100.0% | 115.2ms | `assert_equivalent` | `./black/__init__.py:1524` |
+
+##### `compile` (`<built-in>`)
+
+|      % |    Time | Caller  | Location                        |
+| -----: | ------: | ------- | ------------------------------- |
+| 100.0% | 115.2ms | `parse` | `/usr/lib/python3.11/ast.py:33` |
+
+##### `<module>` (`./black/__init__.py:1`)
+
+|      % |    Time | Caller     | Location            |
+| -----: | ------: | ---------- | ------------------- |
+| 100.0% | 114.5ms | `<module>` | `/venv/bin/black:1` |
+
+##### `object.__new__` (`<built-in>`)
+
+|      % |   Time | Caller    | Location                  |
+| -----: | -----: | --------- | ------------------------- |
+| 100.0% | 88.4ms | `__new__` | `./blib2to3/pytree.py:81` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

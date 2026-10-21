@@ -391,6 +391,272 @@ Functions with the largest decrease in time spent within the function and its ca
 | -----: | --------: | ----: | --------------: | --------------------- | ----------- |
 |  -1.4% | -151.19ms | 99.1% | 11.06s → 10.91s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `isExceptionRepr(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |      % |          Time | Caller                                  | Location                           |
+| -----: | -------: | -----: | ------------: | --------------------------------------- | ---------------------------------- |
+|  +1.9% | +74.56ms | 100.0% | 3.90s → 3.97s | `getTypeOfReprType(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
+
+##### `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)
+
+| Change |    Delta |      % |              Time | Caller           | Location  |
+| -----: | -------: | -----: | ----------------: | ---------------- | --------- |
+|  +9.4% | +35.40ms | 100.0% | 376.8ms → 412.2ms | `main(String[])` | `Profile` |
+
+##### `tryFindSourceConstructFlagsOfType(Type)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |             % |              Time | Caller                                | Location                           |
+| -----: | -------: | ------------: | ----------------: | ------------------------------------- | ---------------------------------- |
+| +10.3% | +16.02ms | 81.6% → 78.9% | 156.2ms → 172.3ms | `isExceptionRepr(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
+| +31.0% | +10.88ms | 18.4% → 21.1% |   35.1ms → 46.0ms | `isUnionType(Type, BindingFlags)`     | `Microsoft.FSharp.Reflection.Impl` |
+
+##### `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+| Change |    Delta |             % |              Time | Caller                                                               | Location                                 |
+| -----: | -------: | ------------: | ----------------: | -------------------------------------------------------------------- | ---------------------------------------- |
+|  +9.0% | +34.00ms | 84.6% → 87.3% | 376.8ms → 410.8ms | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.FSharpExpr` |
+| -12.7% |  -8.69ms | 15.4% → 12.7% |   68.5ms → 59.8ms | `main(String[])`                                                     | `Profile`                                |
+
+##### `get@481-2(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |      % |              Time | Caller                                                | Location                                 |
+| -----: | -------: | -----: | ----------------: | ----------------------------------------------------- | ---------------------------------------- |
+|  +3.2% | +21.68ms | 100.0% | 673.1ms → 694.8ms | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType` |
+
+##### ``ResolveMethodHandleInternal(RuntimeModule, int32, ReadOnlySpan`1<int>, ReadOnlySpan`1<int>)`` (`System.ModuleHandle`)
+
+| Change |    Delta |      % |              Time | Caller                                                                 | Location              |
+| -----: | -------: | -----: | ----------------: | ---------------------------------------------------------------------- | --------------------- |
+|  +8.7% | +20.68ms | 100.0% | 238.0ms → 258.7ms | `ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` | `System.ModuleHandle` |
+
+##### `ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`)
+
+| Change |    Delta |      % |              Time | Caller                                                                                                                                                                             | Location                            |
+| -----: | -------: | -----: | ----------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+|  +8.7% | +20.68ms | 100.0% | 238.0ms → 258.7ms | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute` |
+
+##### `tryFindCompilationMappingAttributeFromType(Type)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |      % |              Time | Caller                                    | Location                           |
+| -----: | -------: | -----: | ----------------: | ----------------------------------------- | ---------------------------------- |
+| +11.5% | +19.95ms | 100.0% | 173.7ms → 193.7ms | `tryFindSourceConstructFlagsOfType(Type)` | `Microsoft.FSharp.Reflection.Impl` |
+
+##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1983-2`)
+
+| Change |    Delta |      % |              Time | Caller               | Location                                                   |
+| -----: | -------: | -----: | ----------------: | -------------------- | ---------------------------------------------------------- |
+|  +8.1% | +19.23ms | 100.0% | 238.5ms → 257.7ms | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5` |
+
+##### `getTypeOfReprType(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |              % |          Time | Caller                                                | Location                                 |
+| -----: | -------: | -------------: | ------------: | ----------------------------------------------------- | ---------------------------------------- |
+|  +0.4% | +17.76ms | 100.0% → 99.9% | 4.74s → 4.76s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType` |
+| +95.6% |  +1.29ms |   <0.1% → 0.1% | 1.4ms → 2.6ms | ``IsUnion(Type, FSharpOption`1<BindingFlags>)``       | `Microsoft.FSharp.Reflection.FSharpType` |
+
+##### ``Invoke(FSharpList`1<Type>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_UnionCaseInfo@2017`)
+
+| Change |    Delta |      % |              Time | Caller                                                     | Location                                                         |
+| -----: | -------: | -----: | ----------------: | ---------------------------------------------------------- | ---------------------------------------------------------------- |
+|  +8.5% | +17.30ms | 100.0% | 203.6ms → 220.9ms | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10` |
+
+##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5`)
+
+| Change |    Delta |      % |              Time | Caller                                                             | Location                                     |
+| -----: | -------: | -----: | ----------------: | ------------------------------------------------------------------ | -------------------------------------------- |
+|  +4.0% | +16.97ms | 100.0% | 428.0ms → 444.9ms | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.PatternsModule` |
+
+##### `GetInstantiationInternal()` (`System.RuntimeTypeHandle`)
+
+| Change |    Delta |      % |              Time | Caller                          | Location             |
+| -----: | -------: | -----: | ----------------: | ------------------------------- | -------------------- |
+| +11.8% | +16.31ms | 100.0% | 138.2ms → 154.5ms | `GetGenericArgumentsInternal()` | `System.RuntimeType` |
+
+##### `GetGenericArgumentsInternal()` (`System.RuntimeType`)
+
+| Change |    Delta |      % |              Time | Caller                    | Location             |
+| -----: | -------: | -----: | ----------------: | ------------------------- | -------------------- |
+| +11.8% | +16.31ms | 100.0% | 138.2ms → 154.5ms | `MakeGenericType(Type[])` | `System.RuntimeType` |
+
+##### ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` (`Microsoft.FSharp.Primitives.Basics.List`)
+
+| Change |    Delta |             % |              Time | Caller                                              | Location                                                   |
+| -----: | -------: | ------------: | ----------------: | --------------------------------------------------- | ---------------------------------------------------------- |
+|  +9.9% | +11.96ms | 77.4% → 80.7% | 120.6ms → 132.6ms | `Invoke(BindingEnv)`                                | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`   |
+|  +5.4% |  +8.39ms |        100.0% | 155.9ms → 164.3ms | `Invoke(BindingEnv)`                                | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5` |
+|  +4.9% |  +6.52ms | 86.1% → 85.7% | 134.2ms → 140.7ms | ``appL(FSharpList`1<FSharpFunc`2<!!0, !!1>>, !!0)`` | `Microsoft.FSharp.Quotations.PatternsModule`               |
+
+##### ``Invoke(FSharpFunc`2<int32, Type>)`` (`Microsoft.FSharp.Quotations.PatternsModule+b@1962-1`)
+
+| Change |   Delta |      % |              Time | Caller               | Location                                                 |
+| -----: | ------: | -----: | ----------------: | -------------------- | -------------------------------------------------------- |
+|  +5.8% | +7.85ms | 100.0% | 134.2ms → 142.0ms | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+
+##### `unpickleExpr(Type, Type[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+| Change |   Delta |      % |            Time | Caller                                                             | Location                                     |
+| -----: | ------: | -----: | --------------: | ------------------------------------------------------------------ | -------------------------------------------- |
+| +40.5% | +7.02ms | 100.0% | 17.4ms → 24.4ms | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.PatternsModule` |
+
+##### `u_tyconstSpec(InputState)` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+|  Change |   Delta |      % |          Time | Caller                | Location                                     |
+| ------: | ------: | -----: | ------------: | --------------------- | -------------------------------------------- |
+| +252.9% | +6.81ms | 100.0% | 2.7ms → 9.5ms | `u_dtype(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule` |
+
+##### ``appL(FSharpList`1<FSharpFunc`2<!!0, !!1>>, !!0)`` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+| Change |   Delta |      % |              Time | Caller                                | Location                                              |
+| -----: | ------: | -----: | ----------------: | ------------------------------------- | ----------------------------------------------------- |
+|  +4.9% | +6.52ms | 100.0% | 134.2ms → 140.7ms | ``Invoke(FSharpFunc`2<int32, Type>)`` | `Microsoft.FSharp.Quotations.PatternsModule+b@1962-1` |
+
+##### `UNMANAGED_CODE_TIME` (`<unknown>`)
+
+|  Change |    Delta |             % |              Time | Caller                           | Location                                                               |
+| ------: | -------: | ------------: | ----------------: | -------------------------------- | ---------------------------------------------------------------------- |
+|   -2.1% | -83.99ms | 36.8% → 36.6% |     4.07s → 3.99s | `MakeGenericType(Type[])`        | `System.RuntimeType`                                                   |
+|   -0.7% | -47.26ms | 59.2% → 59.6% |     6.55s → 6.50s | `?!?`                            | `<unknown>`                                                            |
+|  -58.8% |  -9.64ms |          0.1% |    16.4ms → 6.8ms | `Instantiate(Type[])`            | `System.RuntimeTypeHandle`                                             |
+|   +5.5% |  +7.11ms |   1.2% → 1.3% | 130.1ms → 137.2ms | `GetInstantiationInternal()`     | `System.RuntimeTypeHandle`                                             |
+| removed |  -6.70ms |   0.1% → 0.0% |       6.7ms → 0ms | ``IntroSort(Span`1<!0>, int32)`` | ``System.Collections.Generic.GenericArraySortHelper`1[System.UInt64]`` |
+
+##### `MakeGenericType(Type[])` (`System.RuntimeType`)
+
+| Change |    Delta |             % |              Time | Caller                                             | Location                                                    |
+| -----: | -------: | ------------: | ----------------: | -------------------------------------------------- | ----------------------------------------------------------- |
+|  -1.8% | -67.43ms | 79.8% → 80.7% |     3.84s → 3.77s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`    |
+|  -9.3% | -41.48ms |   9.2% → 8.6% | 445.1ms → 403.6ms | ``Invoke(FSharpFunc`2<int32, Type>)``              | `Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3` |
+|  -9.6% | -37.34ms |   8.0% → 7.5% | 387.4ms → 350.1ms | `main(String[])`                                   | `Profile`                                                   |
+|  +8.6% | +10.65ms |   2.6% → 2.9% | 123.3ms → 133.9ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` | `Microsoft.FSharp.Primitives.Basics.List`                   |
+| -19.8% |  -2.68ms |   0.3% → 0.2% |   13.5ms → 10.9ms | `cast(FSharpExpr)`                                 | `Microsoft.FSharp.Quotations.PatternsModule`                |
+
+##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)
+
+| Change |     Delta |             % |              Time | Caller                                                                               | Location                                                   |
+| -----: | --------: | ------------: | ----------------: | ------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+|  -1.2% | -121.01ms | 96.0% → 95.8% |   10.15s → 10.02s | `main(String[])`                                                                     | `Profile`                                                  |
+|  -0.8% |  -29.22ms | 35.4% → 35.5% |     3.74s → 3.71s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List`                  |
+|  +8.1% |  +19.23ms |   2.2% → 2.4% | 237.2ms → 256.4ms | `Invoke(BindingEnv)`                                                                 | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1983-2` |
+| -31.7% |  -10.65ms |   0.3% → 0.2% |   33.6ms → 22.9ms | `Invoke(BindingEnv)`                                                                 | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5` |
+|  +5.4% |   +8.39ms |   1.5% → 1.6% | 155.9ms → 164.3ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)``                                   | `Microsoft.FSharp.Primitives.Basics.List`                  |
+
+##### `?!?` (`<unknown>`)
+
+| Change |    Delta |             % |              Time | Caller                                                                                                          | Location                              |
+| -----: | -------: | ------------: | ----------------: | --------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| -10.6% | -59.85ms |   8.6% → 7.7% | 565.5ms → 505.6ms | `MakeGenericType(Type[])`                                                                                       | `System.RuntimeType`                  |
+|  +8.7% | +20.68ms |   3.6% → 4.0% | 238.0ms → 258.7ms | ``ResolveMethodHandleInternal(RuntimeModule, int32, ReadOnlySpan`1<int>, ReadOnlySpan`1<int>)``                 | `System.ModuleHandle`                 |
+|  -0.3% | -18.73ms | 87.8% → 88.3% |     5.79s → 5.77s | `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])`                                            | `System.ModuleHandle`                 |
+|    new |  +1.37ms |  0.0% → <0.1% |       0ms → 1.4ms | ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)`` | `System.Reflection.CustomAttribute`   |
+|  -0.2% |  -2.42µs |         <0.1% |             1.3ms | `InvokeWithNoArgs(Object, BindingFlags)`                                                                        | `System.Reflection.MethodBaseInvoker` |
+
+##### `get@472-1(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |      % |              Time | Caller                                  | Location                           |
+| -----: | -------: | -----: | ----------------: | --------------------------------------- | ---------------------------------- |
+|  -6.5% | -55.48ms | 100.0% | 847.5ms → 792.0ms | `getTypeOfReprType(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
+
+##### `checkUnionType(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |      % |              Time | Caller                                                | Location                                 |
+| -----: | -------: | -----: | ----------------: | ----------------------------------------------------- | ---------------------------------------- |
+|  -5.5% | -39.65ms | 100.0% | 724.5ms → 684.9ms | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType` |
+
+##### `isUnionType(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |           % |              Time | Caller                               | Location                           |
+| -----: | -------: | ----------: | ----------------: | ------------------------------------ | ---------------------------------- |
+|  -5.3% | -38.31ms |       95.7% | 723.2ms → 684.9ms | `checkUnionType(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
+| -17.6% |  -2.87ms | 2.2% → 1.9% |   16.3ms → 13.5ms | `get@481-2(BindingFlags, Type)`      | `Microsoft.FSharp.Reflection.Impl` |
+|  +9.8% |  +1.57ms | 2.1% → 2.5% |   16.0ms → 17.6ms | `get@472-1(BindingFlags, Type)`      | `Microsoft.FSharp.Reflection.Impl` |
+
+##### ``Invoke(FSharpFunc`2<int32, Type>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3`)
+
+| Change |    Delta |             % |              Time | Caller                                             | Location                                                    |
+| -----: | -------: | ------------: | ----------------: | -------------------------------------------------- | ----------------------------------------------------------- |
+|  -8.0% | -34.69ms | 97.6% → 98.3% | 435.5ms → 400.9ms | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`    |
+| -37.9% |  -4.13ms |   2.4% → 1.7% |    10.9ms → 6.8ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` | `Microsoft.FSharp.Primitives.Basics.List`                   |
+|    new |  +2.67ms |   0.0% → 0.7% |       0ms → 2.7ms | ``Invoke(FSharpFunc`2<int32, Type>)``              | `Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3` |
+
+##### `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`)
+
+| Change |    Delta |      % |          Time | Caller                                                                                                                                                                             | Location                            |
+| -----: | -------: | -----: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+|  -0.6% | -31.40ms | 100.0% | 5.61s → 5.58s | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute` |
+
+##### ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` (`Microsoft.FSharp.Primitives.Basics.List`)
+
+| Change |    Delta |             % |              Time | Caller                                             | Location                                                 |
+| -----: | -------: | ------------: | ----------------: | -------------------------------------------------- | -------------------------------------------------------- |
+|  -1.1% | -41.18ms | 96.8% → 96.4% |     3.62s → 3.58s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+|  +9.9% | +11.96ms |   3.2% → 3.6% | 120.6ms → 132.6ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` | `Microsoft.FSharp.Primitives.Basics.List`                |
+
+##### `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`)
+
+| Change |    Delta |             % |              Time | Caller                                                                                                                                                                             | Location                            |
+| -----: | -------: | ------------: | ----------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+|  -0.6% | -31.40ms | 96.8% → 96.6% |     5.61s → 5.58s | `ResolveType(int32, Type[], Type[])`                                                                                                                                               | `System.Reflection.RuntimeModule`   |
+|  +6.9% | +12.67ms |   3.2% → 3.4% | 183.0ms → 195.7ms | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute` |
+
+##### `ExecutionAndPublication(LazyHelper, bool)` (``System.Lazy`1[System.__Canon]``)
+
+| Change |    Delta |      % |            Time | Caller          | Location                          |
+| -----: | -------: | -----: | --------------: | --------------- | --------------------------------- |
+| -18.1% | -14.25ms | 100.0% | 78.9ms → 64.6ms | `CreateValue()` | ``System.Lazy`1[System.__Canon]`` |
+
+##### `CreateValue()` (``System.Lazy`1[System.__Canon]``)
+
+| Change |    Delta |             % |            Time | Caller                                                                                                                          | Location                                                         |
+| -----: | -------: | ------------: | --------------: | ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| -14.8% | -10.28ms | 88.2% → 91.7% | 69.6ms → 59.3ms | ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                        |
+| -17.3% |  -5.92ms | 43.4% → 43.9% | 34.3ms → 28.3ms | `postProcess@648(UnionArgInfo)`                                                                                                 | `Argu.PreCompute`                                                |
+| -18.0% |  -2.93ms |         20.7% | 16.3ms → 13.4ms | `Invoke(Unit)`                                                                                                                  | `<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]` |
+|    new |  +1.37ms |   0.0% → 2.1% |     0ms → 1.4ms | `tryExtractUnionParameterLabel(PropertyInfo)`                                                                                   | `Argu.PreCompute`                                                |
+|    new |  +1.36ms |   0.0% → 2.1% |     0ms → 1.4ms | `Invoke(UnionCaseArgInfo)`                                                                                                      | `Argu.PreCompute+postProcess@667-21`                             |
+
+##### `ViaFactory(LazyThreadSafetyMode)` (``System.Lazy`1[System.__Canon]``)
+
+| Change |    Delta |      % |            Time | Caller                                      | Location                          |
+| -----: | -------: | -----: | --------------: | ------------------------------------------- | --------------------------------- |
+| -16.6% | -12.90ms | 100.0% | 77.5ms → 64.6ms | `ExecutionAndPublication(LazyHelper, bool)` | ``System.Lazy`1[System.__Canon]`` |
+
+##### `getUnionCaseInfo(Type, String)` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+| Change |    Delta |             % |              Time | Caller                                                     | Location                                                          |
+| -----: | -------: | ------------: | ----------------: | ---------------------------------------------------------- | ----------------------------------------------------------------- |
+|  -0.5% | -28.46ms | 96.7% → 96.4% |     5.95s → 5.92s | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`  |
+|  +8.5% | +17.30ms |   3.3% → 3.6% | 203.6ms → 220.9ms | ``Invoke(FSharpList`1<Type>)``                             | `Microsoft.FSharp.Quotations.PatternsModule+u_UnionCaseInfo@2017` |
+
+##### ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`)
+
+| Change |    Delta |      % |          Time | Caller               | Location                                                 |
+| -----: | -------: | -----: | ------------: | -------------------- | -------------------------------------------------------- |
+|  -0.2% | -11.15ms | 100.0% | 6.16s → 6.14s | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+
+##### `getUnionTagConverter(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
+
+| Change |    Delta |             % |           Time | Caller                                                     | Location                                    |
+| -----: | -------: | ------------: | -------------: | ---------------------------------------------------------- | ------------------------------------------- |
+| -89.1% | -10.93ms | 90.0% → 50.5% | 12.3ms → 1.3ms | `get_Name()`                                               | `Microsoft.FSharp.Reflection.UnionCaseInfo` |
+|  -3.2% |  -0.04ms | 10.0% → 49.5% |  1.4ms → 1.3ms | `getUnionCaseConstructorMethod(Type, int32, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl`          |
+
+##### `get_Name()` (`Microsoft.FSharp.Reflection.UnionCaseInfo`)
+
+|  Change |   Delta |              % |          Time | Caller                           | Location                                                          |
+| ------: | ------: | -------------: | ------------: | -------------------------------- | ----------------------------------------------------------------- |
+| removed | -6.81ms |   55.5% → 0.0% |   6.8ms → 0ms | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule`                      |
+|  -75.4% | -4.12ms | 44.5% → 100.0% | 5.5ms → 1.3ms | `Invoke(UnionCaseInfo)`          | `Microsoft.FSharp.Quotations.PatternsModule+getUnionCaseInfo@857` |
+
+##### ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)
+
+| Change |    Delta |      % |            Time | Caller           | Location  |
+| -----: | -------: | -----: | --------------: | ---------------- | --------- |
+| -18.5% | -10.65ms | 100.0% | 57.5ms → 46.9ms | `main(String[])` | `Profile` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

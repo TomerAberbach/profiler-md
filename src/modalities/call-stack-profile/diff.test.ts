@@ -9,6 +9,7 @@ import {
   categoryRankingTables,
   linesTables,
   rankingTables,
+  totalCallersTables,
 } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
 import {
@@ -19,7 +20,7 @@ import {
 } from '../metrics.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { formatCallStackProfileDiff } from './format.ts'
-import { makeAggregatedCallStackProfile } from './testing.ts'
+import { makeAggregatedCallStackProfile, makeFunction } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -1509,19 +1510,6 @@ describe(`formatCallStackProfileDiff lines`, () => {
   })
 })
 
-const func = (
-  name: string,
-  count: number,
-  { stack, line = 1 }: { stack?: number[]; line?: number } = {},
-) => ({
-  name,
-  url: `file:///project/src/${name}.ts`,
-  line,
-  selfValues: [count],
-  selfCount: count,
-  callStack: stack,
-})
-
 describe(`formatCallStackProfileDiff callers and callees`, () => {
   const formatDiff = (options = defaultOptions) =>
     mdastToMarkdown(
@@ -1530,19 +1518,19 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
-              func(`leaf`, 4, { stack: [0, 1] }),
-              func(`parent`, 0),
-              func(`leaf`, 1, { stack: [2, 3] }),
-              func(`gone`, 0),
+              makeFunction(`leaf`, 4, { stack: [0, 1] }),
+              makeFunction(`parent`, 0),
+              makeFunction(`leaf`, 1, { stack: [2, 3] }),
+              makeFunction(`gone`, 0),
             ],
           ),
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
-              func(`leaf`, 6, { stack: [0, 1] }),
-              func(`parent`, 0),
-              func(`leaf`, 2, { stack: [2, 3] }),
-              func(`other`, 0),
+              makeFunction(`leaf`, 6, { stack: [0, 1] }),
+              makeFunction(`parent`, 0),
+              makeFunction(`leaf`, 2, { stack: [2, 3] }),
+              makeFunction(`other`, 0),
             ],
           ),
           options,
@@ -1696,10 +1684,93 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
   })
 })
 
+describe(`formatCallStackProfileDiff callers of a total`, () => {
+  const formatDiff = (options = defaultOptions) =>
+    mdastToMarkdown(
+      formatCallStackProfileDiff(
+        diffAggregatedCallStackProfiles(
+          makeAggregatedCallStackProfile(
+            [MICROSECONDS_METRIC],
+            [
+              makeFunction(`leaf`, 4, { stack: [0, 1, 2] }),
+              makeFunction(`mid`, 0),
+              makeFunction(`a`, 0),
+              makeFunction(`leaf`, 1, { stack: [3, 1, 4] }),
+              makeFunction(`gone`, 0),
+            ],
+          ),
+          makeAggregatedCallStackProfile(
+            [MICROSECONDS_METRIC],
+            [
+              makeFunction(`leaf`, 6, { stack: [0, 1, 2] }),
+              makeFunction(`mid`, 0),
+              makeFunction(`a`, 0),
+              makeFunction(`leaf`, 2, { stack: [3, 1, 4] }),
+              makeFunction(`b`, 0),
+            ],
+          ),
+          options,
+        ),
+        options,
+      ),
+    )
+  const changed = {
+    Change: `+50.0%`,
+    Delta: `+2.00µs`,
+    '%': `80.0% → 75.0%`,
+    Time: `4.0µs → 6.0µs`,
+    Samples: `4 → 6`,
+    Caller: `a`,
+    Location: `./src/a.ts:1`,
+  }
+  const removed = {
+    Change: `removed`,
+    Delta: `-1.00µs`,
+    '%': `20.0% → 0.0%`,
+    Time: `1.0µs → 0ms`,
+    Samples: `1 → 0`,
+    Caller: `gone`,
+    Location: `./src/gone.ts:1`,
+  }
+
+  test(`pairs each function's callers across the sides`, () => {
+    const md = formatDiff()
+
+    // `mid` is never the leaf, so no caller has any of its self time.
+    expect(callersTables(md, `mid`)).toEqual([])
+    expect(totalCallersTables(md, `mid`)).toEqual([
+      [
+        changed,
+        {
+          Change: `new`,
+          Delta: `+2.00µs`,
+          '%': `0.0% → 25.0%`,
+          Time: `0ms → 2.0µs`,
+          Samples: `0 → 2`,
+          Caller: `b`,
+          Location: `./src/b.ts:1`,
+        },
+        removed,
+      ],
+    ])
+  })
+
+  test(`omits the callers the entry filter hides on both sides`, () => {
+    const md = formatDiff(
+      resolveProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry => entry.name !== `b`,
+      }),
+    )
+
+    expect(totalCallersTables(md, `mid`)).toEqual([[changed, removed]])
+  })
+})
+
 describe(`formatCallStackProfileDiff call stacks`, () => {
   const formatDiff = (
-    base: ReturnType<typeof func>[],
-    current: ReturnType<typeof func>[],
+    base: ReturnType<typeof makeFunction>[],
+    current: ReturnType<typeof makeFunction>[],
     options = defaultOptions,
   ) =>
     mdastToMarkdown(
@@ -1719,7 +1790,10 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
     )
 
   test(`states that no call stack differed when every call stack is unchanged`, () => {
-    const profile = [func(`leaf`, 4, { stack: [0, 1] }), func(`parent`, 0)]
+    const profile = [
+      makeFunction(`leaf`, 4, { stack: [0, 1] }),
+      makeFunction(`parent`, 0),
+    ]
 
     expect(callStacksSection(formatDiff(profile, profile))).toBe(
       `No call stack differed in time spent in its leaf frame.\n`,
@@ -1734,14 +1808,14 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
 
     const md = formatDiff(
       [
-        func(`leaf`, 4, { stack: [0, 1, 2] }),
-        func(`middle`, 0),
-        func(`parent`, 0),
+        makeFunction(`leaf`, 4, { stack: [0, 1, 2] }),
+        makeFunction(`middle`, 0),
+        makeFunction(`parent`, 0),
       ],
       [
-        func(`leaf`, 6, { stack: [0, 1, 2] }),
-        func(`middle`, 0),
-        func(`parent`, 0),
+        makeFunction(`leaf`, 6, { stack: [0, 1, 2] }),
+        makeFunction(`middle`, 0),
+        makeFunction(`parent`, 0),
       ],
       options,
     )
@@ -1763,11 +1837,14 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
   test(`takes the common call stack's locations from the current side`, () => {
     const md = formatDiff(
       [
-        func(`gone`, 5, { stack: [0, 1] }),
-        func(`parent`, 0),
-        func(`leaf`, 3, { stack: [2, 1] }),
+        makeFunction(`gone`, 5, { stack: [0, 1] }),
+        makeFunction(`parent`, 0),
+        makeFunction(`leaf`, 3, { stack: [2, 1] }),
       ],
-      [func(`leaf`, 1, { stack: [0, 1] }), func(`parent`, 0, { line: 5 })],
+      [
+        makeFunction(`leaf`, 1, { stack: [0, 1] }),
+        makeFunction(`parent`, 0, { line: 5 }),
+      ],
     )
 
     expect(callStacksSection(md)).toBe(

@@ -804,6 +804,449 @@ Categories accounting for at least 1.0% of self time.
 |  0.1% |  19.7ms |       1 | `Bundler::Settings.key_to_s`          | `/usr/local/lib/ruby/3.4.0/bundler/settings.rb`                            |
 |  0.1% |  19.7ms |       1 | `Bundler::Settings.key_for`           | `/usr/local/lib/ruby/3.4.0/bundler/settings.rb`                            |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`)
+
+|      % |   Time | Samples | Caller   | Location     |
+| -----: | -----: | ------: | -------- | ------------ |
+| 100.0% | 14.97s |   1,477 | `<main>` | `profile.rb` |
+
+##### `ActionDispatch::SSL#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb`)
+
+|      % |   Time | Samples | Caller                           | Location                                                                               |
+| -----: | -----: | ------: | -------------------------------- | -------------------------------------------------------------------------------------- |
+| 100.0% | 14.95s |   1,474 | `ActionDispatch::AssumeSSL#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/assume_ssl.rb` |
+
+##### `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/assume_ssl.rb`)
+
+|      % |   Time | Samples | Caller               | Location                                                    |
+| -----: | -----: | ------: | -------------------- | ----------------------------------------------------------- |
+| 100.0% | 14.95s |   1,474 | `Rails::Engine#call` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb` |
+
+##### `ActionDispatch::Static#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb`)
+
+|      % |   Time | Samples | Caller                | Location                                                 |
+| -----: | -----: | ------: | --------------------- | -------------------------------------------------------- |
+| 100.0% | 14.91s |   1,471 | `Rack::Sendfile#call` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb` |
+
+##### `Rack::Sendfile#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`)
+
+|      % |   Time | Samples | Caller                     | Location                                                                        |
+| -----: | -----: | ------: | -------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 14.91s |   1,471 | `ActionDispatch::SSL#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb` |
+
+##### `Rack::Runtime#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/runtime.rb`)
+
+|      % |   Time | Samples | Caller                          | Location                                                                             |
+| -----: | -----: | ------: | ------------------------------- | ------------------------------------------------------------------------------------ |
+| 100.0% | 14.82s |   1,460 | `ActionDispatch::Executor#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/executor.rb` |
+
+##### `ActionDispatch::Executor#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/executor.rb`)
+
+|      % |   Time | Samples | Caller                        | Location                                                                           |
+| -----: | -----: | ------: | ----------------------------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 14.82s |   1,460 | `ActionDispatch::Static#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb` |
+
+##### `Rails::Rack::Logger#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb`)
+
+|      % |   Time | Samples | Caller                             | Location                                                                  |
+| -----: | -----: | ------: | ---------------------------------- | ------------------------------------------------------------------------- |
+| 100.0% | 14.81s |   1,459 | `Rails::Rack::SilenceRequest#call` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/silence_request.rb` |
+
+##### `Rails::Rack::SilenceRequest#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/silence_request.rb`)
+
+|      % |   Time | Samples | Caller                          | Location                                                                              |
+| -----: | -----: | ------: | ------------------------------- | ------------------------------------------------------------------------------------- |
+| 100.0% | 14.81s |   1,459 | `ActionDispatch::RemoteIp#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/remote_ip.rb` |
+
+##### `ActionDispatch::RemoteIp#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/remote_ip.rb`)
+
+|      % |   Time | Samples | Caller                           | Location                                                                               |
+| -----: | -----: | ------: | -------------------------------- | -------------------------------------------------------------------------------------- |
+| 100.0% | 14.81s |   1,459 | `ActionDispatch::RequestId#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/request_id.rb` |
+
+##### `ActionDispatch::RequestId#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/request_id.rb`)
+
+|      % |   Time | Samples | Caller                      | Location                                                        |
+| -----: | -----: | ------: | --------------------------- | --------------------------------------------------------------- |
+| 100.0% | 14.81s |   1,459 | `Rack::MethodOverride#call` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb` |
+
+##### `Rack::MethodOverride#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb`)
+
+|      % |   Time | Samples | Caller               | Location                                                |
+| -----: | -----: | ------: | -------------------- | ------------------------------------------------------- |
+| 100.0% | 14.81s |   1,459 | `Rack::Runtime#call` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/runtime.rb` |
+
+##### `Rails::Rack::Logger#call_app` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb`)
+
+|      % |   Time | Samples | Caller                     | Location                                                         |
+| -----: | -----: | ------: | -------------------------- | ---------------------------------------------------------------- |
+| 100.0% | 14.80s |   1,458 | `Rails::Rack::Logger#call` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb` |
+
+##### `ActiveSupport::Callbacks#run_callbacks` (`/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb`)
+
+|      % |   Time | Samples | Caller                                         | Location                                                                              |
+| -----: | -----: | ------: | ---------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 100.0% | 14.78s |   1,456 | `ActionDispatch::Callbacks#call`               | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb` |
+|  93.2% | 13.77s |   1,347 | `AbstractController::Callbacks#process_action` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/abstract_controller/callbacks.rb`        |
+
+##### `ActionDispatch::Callbacks#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb`)
+
+|      % |   Time | Samples | Caller                                 | Location                                                                                     |
+| -----: | -----: | ------: | -------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% | 14.78s |   1,456 | `ActionDispatch::DebugExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/debug_exceptions.rb` |
+
+##### `ActionDispatch::DebugExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/debug_exceptions.rb`)
+
+|      % |   Time | Samples | Caller                                | Location                                                                                    |
+| -----: | -----: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------- |
+| 100.0% | 14.78s |   1,456 | `ActionDispatch::ShowExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/show_exceptions.rb` |
+
+##### `ActionDispatch::ShowExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/show_exceptions.rb`)
+
+|      % |   Time | Samples | Caller                         | Location                                                         |
+| -----: | -----: | ------: | ------------------------------ | ---------------------------------------------------------------- |
+| 100.0% | 14.78s |   1,456 | `Rails::Rack::Logger#call_app` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/rack/logger.rb` |
+
+##### `ActionDispatch::Cookies#call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`)
+
+|      % |   Time | Samples | Caller          | Location                                                                              |
+| -----: | -----: | ------: | --------------- | ------------------------------------------------------------------------------------- |
+| 100.0% | 14.77s |   1,455 | `block in call` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb` |
+
+##### `block in call` (`/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/callbacks.rb`)
+
+|      % |   Time | Samples | Caller                                   | Location                                                                     |
+| -----: | -----: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------- |
+| 100.0% | 14.77s |   1,455 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb` |
+
+##### `Rack::Session::Abstract::Persisted#context` (`/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb`)
+
+|      % |   Time | Samples | Caller                                    | Location                                                                    |
+| -----: | -----: | ------: | ----------------------------------------- | --------------------------------------------------------------------------- |
+| 100.0% | 14.74s |   1,452 | `Rack::Session::Abstract::Persisted#call` | `/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb` |
+
+##### `Array#each` (`<internal:array>`)
+
+|     % |    Time | Samples | Caller                                                                                | Location                                                                                |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 95.5% |  13.98s |   1,368 | `ActionDispatch::Journey::Router#recognize`                                           | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/router.rb`         |
+| 89.1% |  13.04s |   1,275 | `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` | `./app/views/statuses/index.html.erb`                                                   |
+|  9.5% |   1.38s |     134 | `block in decorate`                                                                   | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
+|  8.3% |   1.21s |     119 | `Rails::HTML::PermitScrubber#scrub_attributes`                                        | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`         |
+|  4.1% | 604.7ms |      67 | `Rack::ETag#digest_body`                                                              | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                    |
+
+##### `Kernel#public_send [c function]` (`<unknown>`)
+
+|      % |   Time | Samples | Caller                                   | Location                                                                           |
+| -----: | -----: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------- |
+| 100.0% | 13.48s |   1,316 | `ActionView::Base#_run`                  | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/base.rb`                  |
+|  19.0% |  2.56s |     246 | `block in delegate_number_helper_method` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/number_helper.rb` |
+
+##### `#<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
+
+|      % |   Time | Samples | Caller                            | Location    |
+| -----: | -----: | ------: | --------------------------------- | ----------- |
+| 100.0% | 13.06s |   1,277 | `Kernel#public_send [c function]` | `<unknown>` |
+
+##### `block in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
+
+|      % |   Time | Samples | Caller       | Location           |
+| -----: | -----: | ------: | ------------ | ------------------ |
+| 100.0% | 13.04s |   1,275 | `Array#each` | `<internal:array>` |
+
+##### `Integer#upto [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                         | Location                                                                                |
+| ----: | ------: | ------: | ------------------------------ | --------------------------------------------------------------------------------------- |
+| 97.7% |   4.78s |     466 | `Nokogiri::XML::NodeSet#each`  | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb` |
+|  2.3% | 111.0ms |      11 | `Enumerator#each [c function]` | `<unknown>`                                                                             |
+
+##### `(unknown) [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                        | Location                                                                                |
+| ----: | ------: | ------: | ----------------------------- | --------------------------------------------------------------------------------------- |
+| 70.0% |   1.54s |     150 | `block in each`               | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb` |
+|  7.8% | 171.8ms |      16 | `Array#each`                  | `<internal:array>`                                                                      |
+|  7.7% | 168.6ms |      17 | `Kernel.require [c function]` | `<unknown>`                                                                             |
+|  5.0% | 111.0ms |      11 | `Integer#upto [c function]`   | `<unknown>`                                                                             |
+|  4.1% |  91.0ms |       9 | `Integer#times`               | `<internal:numeric>`                                                                    |
+
+##### `Hash#each [c function]` (`<unknown>`)
+
+|     % |   Time | Samples | Caller                                     | Location                                                                                |
+| ----: | -----: | ------: | ------------------------------------------ | --------------------------------------------------------------------------------------- |
+| 95.3% |  1.74s |     169 | `Nokogiri::XML::Document#decorate`         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
+|  1.7% | 31.0ms |       3 | `block in eager_load`                      | `/usr/local/bundle/gems/zeitwerk-2.8.3/lib/zeitwerk/loader/eager_load.rb`               |
+|  1.5% | 27.5ms |       3 | `ActionDispatch::Cookies::CookieJar#write` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`     |
+|  1.0% | 18.3ms |       2 | `Enumerable#map [c function]`              | `<unknown>`                                                                             |
+|  0.5% |  9.6ms |       1 | `ActionView::Base#assign`                  | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/base.rb`                       |
+
+##### `Enumerable#map [c function]` (`<unknown>`)
+
+|     % |   Time | Samples | Caller                                              | Location                                                                                |
+| ----: | -----: | ------: | --------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 94.0% |  1.70s |     166 | `Nokogiri::XML::NodeSet#to_html`                    | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb` |
+|  5.0% | 91.0ms |       9 | `TZInfo::DataSources::ZoneinfoReader#parse`         | `/usr/local/bundle/gems/tzinfo-2.0.6/lib/tzinfo/data_sources/zoneinfo_reader.rb`        |
+|  0.5% |  9.9ms |       1 | `Kernel#require_relative [c function]`              | `<unknown>`                                                                             |
+|  0.5% |  8.4ms |       1 | `ActiveSupport::Notifications::Fanout#build_handle` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/fanout.rb` |
+
+##### `Kernel#extend [c function]` (`<unknown>`)
+
+|     % |   Time | Samples | Caller                         | Location                                                                                |
+| ----: | -----: | ------: | ------------------------------ | --------------------------------------------------------------------------------------- |
+| 98.4% |  1.33s |     129 | `block (2 levels) in decorate` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
+|  1.6% | 21.3ms |       2 | `Kernel.require [c function]`  | `<unknown>`                                                                             |
+
+##### `Module#extend_object [c function]` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                       | Location    |
+| -----: | ----: | ------: | ---------------------------- | ----------- |
+| 100.0% | 1.29s |     126 | `Kernel#extend [c function]` | `<unknown>` |
+
+##### `Nokogiri::XML::Node#children [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                              | Location                                                                                         |
+| ----: | ------: | ------: | --------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 50.1% | 593.8ms |      56 | `Loofah::Scrubber#traverse_conditionally_bottom_up` | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/scrubber.rb`                                    |
+| 36.2% | 428.8ms |      43 | `Loofah::ScrubBehavior::Node#scrub!`                | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb`                                    |
+| 13.8% | 163.5ms |      17 | `Nokogiri::XML::DocumentFragment#to_html`           | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb` |
+
+##### `Nokogiri::Gumbo.fragment [c function]` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                                         | Location                                                                                           |
+| -----: | ----: | ------: | ---------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 100.0% | 1.03s |     100 | `Nokogiri::HTML5::DocumentFragment#initialize` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb` |
+
+##### `Kernel#catch [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                                   | Location                                                           |
+| -----: | ------: | ------: | ---------------------------------------- | ------------------------------------------------------------------ |
+| 100.0% | 975.7ms |      92 | `I18n::Base#translate_key`               | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb`                   |
+|  44.2% | 431.7ms |      40 | `block in translate`                     | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb` |
+|   3.1% |  30.4ms |       3 | `I18n::Backend::Fallbacks#resolve_entry` | `/usr/local/bundle/gems/i18n-1.15.2/lib/i18n/backend/fallbacks.rb` |
+
+##### `Kernel#require_relative [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                    | Location                                               |
+| ----: | ------: | ------: | ----------------------------------------- | ------------------------------------------------------ |
+| 98.5% | 758.4ms |      73 | `<main>`                                  | `profile.rb`                                           |
+| 52.7% | 405.7ms |      38 | `Kernel#require_relative [c function]`    | `<unknown>`                                            |
+| 26.5% | 203.7ms |      19 | `Kernel.require [c function]`             | `<unknown>`                                            |
+|  5.6% |  42.8ms |       4 | `Kernel#require [c function]`             | `<unknown>`                                            |
+|  1.4% |  10.7ms |       1 | `Bundler::Source::Rubygems#normalize_uri` | `/usr/local/lib/ruby/3.4.0/bundler/source/rubygems.rb` |
+
+##### `Digest::Base#<< [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                 | Location                                             |
+| -----: | ------: | ------: | ---------------------- | ---------------------------------------------------- |
+| 100.0% | 604.7ms |      67 | `block in digest_body` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb` |
+
+##### `Nokogiri::HTML4::Document.new [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                                             | Location                                                      |
+| -----: | ------: | ------: | -------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% | 593.6ms |      58 | `Loofah::HtmlFragmentBehavior::ClassMethods#parse` | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb` |
+
+##### `Class#new [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                                       | Location                                                                                            |
+| ----: | ------: | ------: | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 28.2% | 144.0ms |      14 | `ActiveSupport::NumberHelper::NumberConverter.convert`       | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb`   |
+| 10.3% |  52.8ms |       5 | `ActionDispatch::Cookies::ChainedCookieJars#encrypted`       | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb`                 |
+|  9.1% |  46.3ms |       5 | `ActionDispatch::Response.create`                            | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/http/response.rb`                      |
+|  5.9% |  30.1ms |       3 | `OpenSSL::HMAC.digest`                                       | `/usr/local/lib/ruby/3.4.0/openssl/hmac.rb`                                                         |
+|  4.6% |  23.4ms |       2 | `ActionController::RequestForgeryProtection#csrf_token_hmac` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
+
+##### `Kernel.require [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                                | Location                                    |
+| -----: | ------: | ------: | ------------------------------------- | ------------------------------------------- |
+| 100.0% | 452.6ms |      44 | `block (2 levels) in replace_require` | `/usr/local/lib/ruby/3.4.0/bundled_gems.rb` |
+
+##### `block (2 levels) in replace_require` (`/usr/local/lib/ruby/3.4.0/bundled_gems.rb`)
+
+|     % |    Time | Samples | Caller                                 | Location                                                                |
+| ----: | ------: | ------: | -------------------------------------- | ----------------------------------------------------------------------- |
+| 53.6% | 242.6ms |      23 | `Kernel.require [c function]`          | `<unknown>`                                                             |
+| 53.6% | 242.6ms |      23 | `Kernel#require_relative [c function]` | `<unknown>`                                                             |
+| 46.4% | 209.9ms |      21 | `Kernel#require`                       | `/usr/local/bundle/gems/zeitwerk-2.8.3/lib/zeitwerk/core_ext/kernel.rb` |
+|  9.4% |  42.6ms |       3 | `ActionView.render_tracker=`           | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view.rb`            |
+
+##### `Nokogiri::XML::Node#html_standard_serialize [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                           | Location                                                                              |
+| -----: | ------: | ------: | -------------------------------- | ------------------------------------------------------------------------------------- |
+| 100.0% | 427.4ms |      41 | `Nokogiri::HTML5::Node#write_to` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/node.rb` |
+
+##### `#<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160` (`./app/views/layouts/application.html.erb`)
+
+|      % |    Time | Samples | Caller                            | Location    |
+| -----: | ------: | ------: | --------------------------------- | ----------- |
+| 100.0% | 411.7ms |      39 | `Kernel#public_send [c function]` | `<unknown>` |
+
+##### `BasicObject#instance_exec [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                  | Location                                                                     |
+| ----: | ------: | ------: | --------------------------------------- | ---------------------------------------------------------------------------- |
+| 90.3% | 364.1ms |      36 | `Rails::Initializable::Initializer#run` | `/usr/local/bundle/gems/railties-8.1.4/lib/rails/initializable.rb`           |
+|  9.7% |  39.0ms |       4 | `block in make_lambda`                  | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb` |
+
+##### `Nokogiri::XML::DocumentFragment.native_new [c function]` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                                | Location                                                                                         |
+| -----: | ------: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 397.1ms |      39 | `Nokogiri::XML::DocumentFragment.new` | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb` |
+
+##### `Kernel#dup [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                                                | Location                                                                                          |
+| ----: | ------: | ------: | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 29.1% | 114.2ms |      11 | `ActionController::UrlFor#url_options`                                | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/url_for.rb`                  |
+| 27.2% | 106.9ms |      10 | `ActiveSupport::NumberHelper::NumberConverter#default_format_options` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| 23.6% |  92.7ms |       9 | `ActiveSupport::NumberHelper::NumberConverter#i18n_format_options`    | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb` |
+| 12.3% |  48.4ms |       5 | `ActionDispatch::Journey::Format#evaluate`                            | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/journey/visitors.rb`                 |
+|  7.8% |  30.6ms |       3 | `Rails::HTML::PermitScrubber#tags=`                                   | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`                   |
+
+##### `Nokogiri::XML::Node#attribute_nodes [c function]` (`<unknown>`)
+
+|     % |    Time | Samples | Caller                                                   | Location                                                                            |
+| ----: | ------: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 80.8% | 311.9ms |      30 | `Rails::HTML::PermitScrubber#scrub_attributes`           | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`     |
+| 10.7% |  41.2ms |       4 | `Loofah::HTML5::Scrub.force_correct_attribute_escaping!` | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                    |
+|  8.6% |  33.0ms |       3 | `Nokogiri::XML::Node#attributes`                         | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node.rb` |
+
+##### `Integer#times` (`<internal:numeric>`)
+
+|     % |   Time | Samples | Caller                                                                                                     | Location                                                                           |
+| ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 90.3% | 91.0ms |       9 | `Enumerator#each [c function]`                                                                             | `<unknown>`                                                                        |
+|  9.7% |  9.7ms |       1 | `ActionDispatch::Routing::RouteSet::NamedRouteCollection::UrlHelper::OptimizedUrlHelper#parameterize_args` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb` |
+
+##### `block (2 levels) in _app_views_statuses_index_html_erb__328993190567029661_3128` (`./app/views/statuses/index.html.erb`)
+
+|      % |   Time | Samples | Caller       | Location           |
+| -----: | -----: | ------: | ------------ | ------------------ |
+| 100.0% | 99.6ms |      10 | `Array#each` | `<internal:array>` |
+
+##### `Array#map` (`<internal:array>`)
+
+|     % |   Time | Samples | Caller                                                    | Location                                                                              |
+| ----: | -----: | ------: | --------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| 49.5% | 45.3ms |       4 | `ActionView::Helpers::AssetTagHelper#stylesheet_link_tag` | `/usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/asset_tag_helper.rb` |
+| 21.6% | 19.7ms |       1 | `ActionDispatch::SSL#flag_cookies_as_secure!`             | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb`       |
+| 19.4% | 17.7ms |       2 | `Rack::Response::Helpers#set_cookie`                      | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/response.rb`                              |
+|  9.5% |  8.7ms |       1 | `ActiveSupport::BroadcastLogger#dispatch`                 | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/broadcast_logger.rb`   |
+
+##### `Kernel#require` (`<internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>`)
+
+|     % |   Time | Samples | Caller                                 | Location                                          |
+| ----: | -----: | ------: | -------------------------------------- | ------------------------------------------------- |
+| 86.3% | 71.8ms |       7 | `Kernel#require_relative [c function]` | `<unknown>`                                       |
+| 13.1% | 10.9ms |       1 | `Bundler::Definition.build`            | `/usr/local/lib/ruby/3.4.0/bundler/definition.rb` |
+| 10.4% |  8.6ms |       1 | `Bundler.ui`                           | `/usr/local/lib/ruby/3.4.0/bundler.rb`            |
+
+##### `Kernel#tap` (`<internal:kernel>`)
+
+|     % |   Time | Samples | Caller                                                       | Location                                                                            |
+| ----: | -----: | ------: | ------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| 80.9% | 38.4ms |       3 | `ActionDispatch::SSL#call`                                   | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/ssl.rb`     |
+| 19.1% |  9.0ms |       1 | `ActionDispatch::Cookies::AbstractCookieJar#cookie_metadata` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/cookies.rb` |
+
+##### `Bundler.setup` (`/usr/local/lib/ruby/3.4.0/bundler.rb`)
+
+|      % |   Time | Samples | Caller                      | Location                                     |
+| -----: | -----: | ------: | --------------------------- | -------------------------------------------- |
+| 100.0% | 42.5ms |       4 | `block in <top (required)>` | `/usr/local/lib/ruby/3.4.0/bundler/setup.rb` |
+
+##### `block in <top (required)>` (`/usr/local/lib/ruby/3.4.0/bundler/setup.rb`)
+
+|      % |   Time | Samples | Caller                          | Location                                        |
+| -----: | -----: | ------: | ------------------------------- | ----------------------------------------------- |
+| 100.0% | 42.5ms |       4 | `Bundler::UI::Shell#with_level` | `/usr/local/lib/ruby/3.4.0/bundler/ui/shell.rb` |
+
+##### `Bundler::UI::Shell#with_level` (`/usr/local/lib/ruby/3.4.0/bundler/ui/shell.rb`)
+
+|      % |   Time | Samples | Caller                       | Location                                        |
+| -----: | -----: | ------: | ---------------------------- | ----------------------------------------------- |
+| 100.0% | 42.5ms |       4 | `Bundler::UI::Shell#silence` | `/usr/local/lib/ruby/3.4.0/bundler/ui/shell.rb` |
+
+##### `Bundler::UI::Shell#silence` (`/usr/local/lib/ruby/3.4.0/bundler/ui/shell.rb`)
+
+|      % |   Time | Samples | Caller                        | Location    |
+| -----: | -----: | ------: | ----------------------------- | ----------- |
+| 100.0% | 42.5ms |       4 | `Kernel#require [c function]` | `<unknown>` |
+
+##### `OpenSSL::HMAC.digest` (`/usr/local/lib/ruby/3.4.0/openssl/hmac.rb`)
+
+|      % |   Time | Samples | Caller                                                       | Location                                                                                            |
+| -----: | -----: | ------: | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 100.0% | 30.1ms |       3 | `ActionController::RequestForgeryProtection#csrf_token_hmac` | `/usr/local/bundle/gems/actionpack-8.1.4/lib/action_controller/metal/request_forgery_protection.rb` |
+
+##### `OpenSSL::Cipher#random_iv` (`/usr/local/lib/ruby/3.4.0/openssl/cipher.rb`)
+
+|      % |   Time | Samples | Caller                                    | Location                                                                             |
+| -----: | -----: | ------: | ----------------------------------------- | ------------------------------------------------------------------------------------ |
+| 100.0% | 26.2ms |       3 | `ActiveSupport::MessageEncryptor#encrypt` | `/usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/message_encryptor.rb` |
+
+##### `block (3 levels) in <class:Digest>` (`/usr/local/lib/ruby/3.4.0/openssl/digest.rb`)
+
+|      % |   Time | Samples | Caller                   | Location    |
+| -----: | -----: | ------: | ------------------------ | ----------- |
+| 100.0% | 23.4ms |       2 | `Class#new [c function]` | `<unknown>` |
+
+##### `Bundler::Definition.build` (`/usr/local/lib/ruby/3.4.0/bundler/definition.rb`)
+
+|      % |   Time | Samples | Caller               | Location                               |
+| -----: | -----: | ------: | -------------------- | -------------------------------------- |
+| 100.0% | 21.6ms |       2 | `Bundler.definition` | `/usr/local/lib/ruby/3.4.0/bundler.rb` |
+
+##### `Bundler.definition` (`/usr/local/lib/ruby/3.4.0/bundler.rb`)
+
+|      % |   Time | Samples | Caller          | Location                               |
+| -----: | -----: | ------: | --------------- | -------------------------------------- |
+| 100.0% | 21.6ms |       2 | `Bundler.setup` | `/usr/local/lib/ruby/3.4.0/bundler.rb` |
+
+##### `Bundler::Runtime#setup` (`/usr/local/lib/ruby/3.4.0/bundler/runtime.rb`)
+
+|      % |   Time | Samples | Caller          | Location                               |
+| -----: | -----: | ------: | --------------- | -------------------------------------- |
+| 100.0% | 20.9ms |       2 | `Bundler.setup` | `/usr/local/lib/ruby/3.4.0/bundler.rb` |
+
+##### `Set#include?` (`/usr/local/lib/ruby/3.4.0/set.rb`)
+
+|     % |   Time | Samples | Caller                                        | Location                                                                        |
+| ----: | -----: | ------: | --------------------------------------------- | ------------------------------------------------------------------------------- |
+| 50.1% | 10.3ms |       1 | `Rails::HTML::PermitScrubber#scrub_attribute` | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb` |
+| 49.9% | 10.2ms |       1 | `Loofah::HTML5::Scrub.scrub_uri_attribute`    | `/usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb`                |
+
+##### `Time#initialize` (`<internal:timev>`)
+
+|      % |   Time | Samples | Caller                   | Location    |
+| -----: | -----: | ------: | ------------------------ | ----------- |
+| 100.0% | 20.4ms |       2 | `Class#new [c function]` | `<unknown>` |
+
+##### `Bundler::Settings.key_to_s` (`/usr/local/lib/ruby/3.4.0/bundler/settings.rb`)
+
+|      % |   Time | Samples | Caller                      | Location                                        |
+| -----: | -----: | ------: | --------------------------- | ----------------------------------------------- |
+| 100.0% | 19.7ms |       1 | `Bundler::Settings.key_for` | `/usr/local/lib/ruby/3.4.0/bundler/settings.rb` |
+
+##### `Bundler::Settings.key_for` (`/usr/local/lib/ruby/3.4.0/bundler/settings.rb`)
+
+|      % |   Time | Samples | Caller                      | Location                                        |
+| -----: | -----: | ------: | --------------------------- | ----------------------------------------------- |
+| 100.0% | 19.7ms |       1 | `Bundler::Settings#key_for` | `/usr/local/lib/ruby/3.4.0/bundler/settings.rb` |
+
+##### `<compiled>` (`./Gemfile`)
+
+|      % |   Time | Samples | Caller                                   | Location    |
+| -----: | -----: | ------: | ---------------------------------------- | ----------- |
+| 100.0% | 10.7ms |       1 | `BasicObject#instance_eval [c function]` | `<unknown>` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

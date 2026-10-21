@@ -905,6 +905,547 @@ Functions with the largest decrease in samples collected within the function and
 | -----: | ----: | ------------: | ----------: | ------------- | ----------- |
 | -23.0% |  -254 | 87.3% → 87.4% | 1,105 → 851 | `(anonymous)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `primop derivationStrict:gnome-shell-50.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |  +113 | 0.0% → 100.0% | 0 → 113 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop concatStringsSep` (`./lib/strings.nix:612:5`)
+
+| Change | Delta |            % | Samples | Caller        | Location                                                                         |
+| -----: | ----: | -----------: | ------: | ------------- | -------------------------------------------------------------------------------- |
+|    new |   +30 | 0.0% → 29.7% |  0 → 30 | `(anonymous)` | `./pkgs/os-specific/linux/minimal-bootstrap/bash/default.nix:79:18`              |
+|    new |   +28 | 0.0% → 27.7% |  0 → 28 | `(anonymous)` | `./nixos/modules/config/nsswitch.nix:24:16`                                      |
+|    new |   +27 | 0.0% → 26.7% |  0 → 27 | `(anonymous)` | `./pkgs/os-specific/linux/minimal-bootstrap/bash/2.nix:109:18`                   |
+|    new |   +26 | 0.0% → 25.7% |  0 → 26 | `(anonymous)` | `./pkgs/os-specific/linux/minimal-bootstrap/stage0-posix/kaem/default.nix:45:16` |
+|    new |   +12 | 0.0% → 11.9% |  0 → 12 | `(anonymous)` | `./nixos/modules/system/boot/systemd/initrd.nix:706:15`                          |
+
+##### `primop derivationStrict:evolution-data-server-3.60.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +88 | 0.0% → 100.0% |  0 → 88 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:firefox-152.0.3` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +66 | 0.0% → 100.0% |  0 → 66 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `(anonymous)` (`./pkgs/top-level/default.nix:217:16`)
+
+| Change | Delta |             % | Samples | Caller        | Location                             |
+| -----: | ----: | ------------: | ------: | ------------- | ------------------------------------ |
+|    new |   +57 | 0.0% → 100.0% |  0 → 57 | `(anonymous)` | `./pkgs/top-level/default.nix:242:1` |
+
+##### `(anonymous)` (`./pkgs/top-level/default.nix:242:1`)
+
+| Change | Delta |            % | Samples | Caller          | Location                              |
+| -----: | ----: | -----------: | ------: | --------------- | ------------------------------------- |
+|    new |   +31 | 0.0% → 54.4% |  0 → 31 | `primop import` | `./pkgs/top-level/impure.nix:55:1`    |
+|    new |   +26 | 0.0% → 45.6% |  0 → 26 | `primop import` | `./pkgs/top-level/default.nix:191:25` |
+
+##### `primop length` (`./lib/lists.nix:1129:19`)
+
+| Change | Delta |             % | Samples | Caller       | Location                  |
+| -----: | ----: | ------------: | ------: | ------------ | ------------------------- |
+|    new |   +51 | 0.0% → 100.0% |  0 → 51 | `primop sub` | `./lib/lists.nix:1129:29` |
+
+##### `primop sub` (`./lib/lists.nix:1129:29`)
+
+| Change | Delta |             % | Samples | Caller           | Location                 |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------------ |
+|    new |   +51 | 0.0% → 100.0% |  0 → 51 | `primop genList` | `./lib/lists.nix:1131:5` |
+
+##### `primop genList` (`./lib/lists.nix:1131:5`)
+
+| Change | Delta |             % | Samples | Caller        | Location                   |
+| -----: | ----: | ------------: | ------: | ------------- | -------------------------- |
+|    new |   +51 | 0.0% → 100.0% |  0 → 51 | `reverseList` | `./lib/modules.nix:275:37` |
+
+##### `primop derivationStrict:firefox-unwrapped-152.0.3` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +48 | 0.0% → 100.0% |  0 → 48 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:nginx-1.30.3` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +47 | 0.0% → 100.0% |  0 → 47 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:mesa-26.1.3` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +41 | 0.0% → 100.0% |  0 → 41 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:qt5compat-6.11.1` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +33 | 0.0% → 100.0% |  0 → 33 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `(anonymous)` (`./pkgs/os-specific/linux/minimal-bootstrap/bash/default.nix:79:18`)
+
+| Change | Delta |             % | Samples | Caller                                  | Location                                       |
+| -----: | ----: | ------------: | ------: | --------------------------------------- | ---------------------------------------------- |
+|    new |   +30 | 0.0% → 100.0% |  0 → 30 | `primop derivationStrict:glibc-2.42`    | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |   +29 |  0.0% → 96.7% |  0 → 29 | `primop derivationStrict:gcc-4.6.4`     | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |   +29 |  0.0% → 96.7% |  0 → 29 | `primop derivationStrict:gcc-cxx-4.6.4` | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |   +29 |  0.0% → 96.7% |  0 → 29 | `primop derivationStrict:gcc-10.4.0`    | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |   +29 |  0.0% → 96.7% |  0 → 29 | `primop derivationStrict:gcc-15.2.0`    | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `primop derivationStrict:qtbase-6.11.1` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +29 | 0.0% → 100.0% |  0 → 29 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:systemd-260.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +28 | 0.0% → 100.0% |  0 → 28 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `(anonymous)` (`./lib/strings.nix:613:27`)
+
+| Change | Delta |             % | Samples | Caller        | Location                   |
+| -----: | ----: | ------------: | ------: | ------------- | -------------------------- |
+|    new |   +28 | 0.0% → 100.0% |  0 → 28 | `(anonymous)` | `./lib/strings.nix:613:18` |
+
+##### `(anonymous)` (`./lib/strings.nix:613:18`)
+
+| Change | Delta |             % | Samples | Caller             | Location                  |
+| -----: | ----: | ------------: | ------: | ------------------ | ------------------------- |
+|    new |   +28 | 0.0% → 100.0% |  0 → 28 | `primop concatMap` | `./lib/strings.nix:613:7` |
+
+##### `primop concatMap` (`./lib/strings.nix:613:7`)
+
+| Change | Delta |             % | Samples | Caller                    | Location                  |
+| -----: | ----: | ------------: | ------: | ------------------------- | ------------------------- |
+|    new |   +28 | 0.0% → 100.0% |  0 → 28 | `primop concatStringsSep` | `./lib/strings.nix:612:5` |
+
+##### `(anonymous)` (`./nixos/modules/config/nsswitch.nix:24:16`)
+
+| Change | Delta |             % | Samples | Caller        | Location                   |
+| -----: | ----: | ------------: | ------: | ------------- | -------------------------- |
+|    new |   +28 | 0.0% → 100.0% |  0 → 28 | `(anonymous)` | `./lib/asserts.nix:195:54` |
+
+##### `(anonymous)` (`./pkgs/os-specific/linux/minimal-bootstrap/bash/2.nix:109:18`)
+
+| Change | Delta |             % | Samples | Caller                                                             | Location                                       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------ | ---------------------------------------------- |
+|    new |   +27 | 0.0% → 100.0% |  0 → 27 | `primop derivationStrict:tinycc-musl-unstable-2025-12-03-compiler` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `(anonymous)` (`./pkgs/os-specific/linux/minimal-bootstrap/stage0-posix/kaem/default.nix:45:16`)
+
+| Change | Delta |             % | Samples | Caller                                                   | Location                                       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------- | ---------------------------------------------- |
+|    new |   +26 | 0.0% → 100.0% |  0 → 26 | `primop derivationStrict:bash-2.05b`                     | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +3 |  0.0% → 11.5% |   0 → 3 | `primop derivationStrict:tinycc-mes-unstable-2025-12-03` | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 |   0.0% → 3.8% |   0 → 1 | `primop derivationStrict:gnumake-4.4.1`                  | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `(anonymous)` (`./lib/trivial.nix:378:5`)
+
+| Change | Delta |            % | Samples | Caller        | Location                                                   |
+| -----: | ----: | -----------: | ------: | ------------- | ---------------------------------------------------------- |
+|    new |    +5 | 0.0% → 41.7% |   0 → 5 | `(anonymous)` | `./pkgs/stdenv/generic/make-derivation.nix:136:31`         |
+|    new |    +3 | 0.0% → 25.0% |   0 → 3 | `(anonymous)` | `<unknown>`                                                |
+|    new |    +1 |  0.0% → 8.3% |   0 → 1 | `(anonymous)` | `./pkgs/by-name/ib/ibus-with-plugins/package.nix:115:12`   |
+|    new |    +1 |  0.0% → 8.3% |   0 → 1 | `(anonymous)` | `./nixos/modules/i18n/input-method/ibus.nix:10:17`         |
+|    new |    +1 |  0.0% → 8.3% |   0 → 1 | `(anonymous)` | `./nixos/modules/services/misc/graphical-desktop.nix:38:9` |
+
+##### `(anonymous)` (`./nixos/modules/system/boot/systemd/initrd.nix:706:15`)
+
+| Change | Delta |             % | Samples | Caller                | Location                    |
+| -----: | ----: | ------------: | ------: | --------------------- | --------------------------- |
+|    new |   +12 | 0.0% → 100.0% |  0 → 12 | `dischargeProperties` | `./lib/modules.nix:1200:80` |
+
+##### `(anonymous)` (`./pkgs/applications/networking/browsers/firefox/wrapper.nix:351:12`)
+
+| Change | Delta |             % | Samples | Caller                                    | Location                                       |
+| -----: | ----: | ------------: | ------: | ----------------------------------------- | ---------------------------------------------- |
+|    new |   +12 | 0.0% → 100.0% |  0 → 12 | `primop derivationStrict:firefox-152.0.3` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `(anonymous)` (`./lib/modules.nix:849:21`)
+
+|  Change | Delta |              % | Samples | Caller                | Location                    |
+| ------: | ----: | -------------: | ------: | --------------------- | --------------------------- |
+| +166.7% |    +5 | 100.0% → 88.9% |   3 → 8 | `primop isAttrs`      | `./lib/modules.nix:1228:15` |
+|     new |    +1 |   0.0% → 11.1% |   0 → 1 | `dischargeProperties` | `./lib/modules.nix:1200:80` |
+
+##### `(anonymous)` (`./pkgs/stdenv/generic/make-derivation.nix:983:18`)
+
+|  Change | Delta |            % | Samples | Caller                                                        | Location                                       |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------- | ---------------------------------------------- |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `primop derivationStrict:bootstrap-stage3-stdenv-linux`       | `«nix-internal»/derivation-internal.nix:37:12` |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `primop derivationStrict:stdenv-linux`                        | `«nix-internal»/derivation-internal.nix:37:12` |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `primop derivationStrict:xonsh-0.23.7`                        | `«nix-internal»/derivation-internal.nix:37:12` |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `primop derivationStrict:python3.13-sphinxcontrib-jquery-4.1` | `«nix-internal»/derivation-internal.nix:37:12` |
+| removed |    -1 | 11.1% → 0.0% |   1 → 0 | `primop derivationStrict:yodl-4.05.00`                        | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `extendDerivation` (`./pkgs/stdenv/generic/make-derivation.nix:1015:5`)
+
+| Change | Delta |      % | Samples | Caller               | Location                                           |
+| -----: | ----: | -----: | ------: | -------------------- | -------------------------------------------------- |
+| +22.7% |    +5 | 100.0% | 22 → 27 | `mkDerivationSimple` | `./pkgs/stdenv/generic/make-derivation.nix:308:22` |
+
+##### `makeOutputChecks` (`./pkgs/stdenv/generic/make-derivation.nix:867:35`)
+
+| Change | Delta |            % | Samples | Caller                                              | Location                                       |
+| -----: | ----: | -----------: | ------: | --------------------------------------------------- | ---------------------------------------------- |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `primop derivationStrict:patch-ev.c`                | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `primop derivationStrict:nginx.conf`                | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `primop derivationStrict:docbook-xml-4.4.zip`       | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `primop derivationStrict:lazy-options.json`         | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `primop derivationStrict:crate-cfg-if-1.0.4.tar.gz` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `optionalString` (`./nixos/modules/system/boot/kernel.nix:411:13`)
+
+|  Change | Delta |      % | Samples | Caller                | Location                    |
+| ------: | ----: | -----: | ------: | --------------------- | --------------------------- |
+| +100.0% |    +5 | 100.0% |  5 → 10 | `dischargeProperties` | `./lib/modules.nix:1381:31` |
+
+##### `(anonymous)` (`./lib/modules.nix:813:11`)
+
+| Change | Delta |             % | Samples | Caller       | Location                   |
+| -----: | ----: | ------------: | ------: | ------------ | -------------------------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `primop all` | `./lib/modules.nix:812:16` |
+
+##### `(anonymous)` (`./pkgs/development/compilers/rust/cargo-auditable-cargo-wrapper.nix:35:11`)
+
+| Change | Delta |             % | Samples | Caller                                                     | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------- | ---------------------------------------------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `primop derivationStrict:auditable-cargo-bootstrap-1.95.0` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `hasSuffix` (`./pkgs/development/interpreters/python/mk-python-derivation.nix:320:21`)
+
+| Change | Delta |             % | Samples | Caller      | Location                                                                 |
+| -----: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------------------------ |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `optionals` | `./pkgs/development/interpreters/python/mk-python-derivation.nix:320:10` |
+
+##### `optionals` (`./pkgs/development/interpreters/python/mk-python-derivation.nix:320:10`)
+
+| Change | Delta |            % | Samples | Caller                                                              | Location                                       |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------------------------- | ---------------------------------------------- |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `primop derivationStrict:python3.13-build-1.4.4`                    | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `primop derivationStrict:python3.13-python-dbusmock-0.37.2`         | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `primop derivationStrict:python3.13-sphinxcontrib-websupport-2.0.0` | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `primop derivationStrict:python3.13-pycparser-3.00`                 | `«nix-internal»/derivation-internal.nix:37:12` |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `primop derivationStrict:python3.13-autocommand-2.2.2`              | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `primop derivationStrict:libxml2-2.15.3` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +22 | 0.0% → 100.0% |  0 → 22 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:fish-4.8.0` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +20 | 0.0% → 100.0% |  0 → 20 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:mutter-50.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +16 | 0.0% → 100.0% |  0 → 16 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:systemd-minimal-libs-260.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +13 | 0.0% → 100.0% |  0 → 13 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:gdm-50.1` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +13 | 0.0% → 100.0% |  0 → 13 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:glibc-2.42-67` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                       |
+| -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+|    new |   +11 | 0.0% → 100.0% |  0 → 11 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `(anonymous)` (`<unknown>`)
+
+|  Change | Delta |             % |   Samples | Caller                                 | Location                                       |
+| ------: | ----: | ------------: | --------: | -------------------------------------- | ---------------------------------------------- |
+|  -23.6% |  -235 | 90.0% → 89.2% | 994 → 759 | `primop head`                          | `./lib/attrsets.nix:1714:13 → 1719:13`         |
+| removed |  -101 |   9.1% → 0.0% |   101 → 0 | `primop derivationStrict:nginx-1.30.2` | `«nix-internal»/derivation-internal.nix:37:12` |
+|     new |   +21 |   0.0% → 2.5% |    0 → 21 | `primop derivationStrict:nginx-1.30.3` | `«nix-internal»/derivation-internal.nix:37:12` |
+|  -31.0% |   -18 |   5.2% → 4.7% |   58 → 40 | `primop map`                           | `./lib/modules.nix:947:15`                     |
+|  -31.0% |   -18 |   5.2% → 4.7% |   58 → 40 | `primop concatLists`                   | `./lib/modules.nix:944:11`                     |
+
+##### `primop addErrorContext` (`./lib/modules.nix:1147:15`)
+
+| Change | Delta |      % |     Samples | Caller        | Location                               |
+| -----: | ----: | -----: | ----------: | ------------- | -------------------------------------- |
+| -21.8% |  -251 | 100.0% | 1,150 → 899 | `(anonymous)` | `./lib/attrsets.nix:1188:85 → 1193:85` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:1193:85`)
+
+| Change | Delta |             % |   Samples | Caller        | Location                                                              |
+| -----: | ----: | ------------: | --------: | ------------- | --------------------------------------------------------------------- |
+| -23.2% |  -232 | 86.8% → 85.2% | 998 → 766 | `(anonymous)` | `<unknown>`                                                           |
+| -64.5% |  -111 |  15.0% → 6.8% |  172 → 61 | `(anonymous)` | `./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:11:18` |
+| -65.2% |  -107 |  14.3% → 6.3% |  164 → 57 | `(anonymous)` | `./nixos/lib/systemd-unit-options.nix:489:16`                         |
+| -15.0% |   -68 | 39.5% → 42.9% | 454 → 386 | `(anonymous)` | `./nixos/modules/services/x11/xserver.nix:968:13`                     |
+| -14.9% |   -68 | 39.6% → 43.0% | 455 → 387 | `(anonymous)` | `./nixos/modules/system/activation/top-level.nix:71:8`                |
+
+##### `primop getAttr` (`«nix-internal»/derivation-internal.nix:50:17`)
+
+|  Change | Delta |             % |   Samples | Caller                                                 | Location                                       |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------------ | ---------------------------------------------- |
+| removed |  -124 |  11.0% → 0.0% |   124 → 0 | `primop derivationStrict:gnome-shell-50.1`             | `«nix-internal»/derivation-internal.nix:37:12` |
+|  -51.4% |  -114 | 19.7% → 12.2% | 222 → 108 | `dischargeProperties`                                  | `./lib/modules.nix:1200:80`                    |
+|     new |  +110 |  0.0% → 12.4% |   0 → 110 | `primop derivationStrict:gnome-shell-50.2`             | `«nix-internal»/derivation-internal.nix:37:12` |
+| removed |   -97 |   8.6% → 0.0% |    97 → 0 | `primop derivationStrict:evolution-data-server-3.60.1` | `«nix-internal»/derivation-internal.nix:37:12` |
+|     new |   +86 |   0.0% → 9.7% |    0 → 86 | `primop derivationStrict:evolution-data-server-3.60.2` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `primop addErrorContext` (`./lib/modules.nix:1227:11`)
+
+| Change | Delta |             % |     Samples | Caller                   | Location                                         |
+| -----: | ----: | ------------: | ----------: | ------------------------ | ------------------------------------------------ |
+| -23.2% |  -235 |         99.4% | 1,012 → 777 | `primop addErrorContext` | `./lib/modules.nix:1147:15`                      |
+| -13.8% |   -71 | 50.7% → 56.9% |   516 → 445 | `(anonymous)`            | `./lib/attrsets.nix:662:60 → 667:60`             |
+| -16.1% |   -19 | 11.6% → 12.7% |    118 → 99 | `(anonymous)`            | `./lib/types.nix:724:29`                         |
+|    new |    +1 |   0.0% → 0.1% |       0 → 1 | `primop stringLength`    | `./nixos/modules/config/users-groups.nix:149:15` |
+|    new |    +1 |   0.0% → 0.1% |       0 → 1 | `(anonymous)`            | `<unknown>`                                      |
+
+##### `checkAssertWarn` (`./nixos/modules/system/activation/top-level.nix:78:26`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                    |
+| -----: | ----: | -----: | --------: | ---------------- | --------------------------- |
+| -23.7% |  -236 | 100.0% | 994 → 758 | `primop isAttrs` | `./lib/modules.nix:1228:15` |
+
+##### `primop isAttrs` (`./lib/modules.nix:1228:15`)
+
+| Change | Delta |      % |     Samples | Caller                   | Location                    |
+| -----: | ----: | -----: | ----------: | ------------------------ | --------------------------- |
+| -23.2% |  -236 | 100.0% | 1,018 → 782 | `primop addErrorContext` | `./lib/modules.nix:1227:11` |
+
+##### `primop head` (`./lib/attrsets.nix:1719:13`)
+
+| Change | Delta |              % |   Samples | Caller        | Location                                        |
+| -----: | ----: | -------------: | --------: | ------------- | ----------------------------------------------- |
+| -23.7% |  -236 | 100.0% → 99.9% | 994 → 758 | `(anonymous)` | `./nixos/default.nix:21:12`                     |
+|    new |    +1 |    0.0% → 0.1% |     0 → 1 | `(anonymous)` | `./nixos/modules/programs/bash/bash.nix:135:17` |
+
+##### `primop filter` (`./lib/asserts.nix:195:46`)
+
+| Change | Delta |      % |   Samples | Caller       | Location                   |
+| -----: | ----: | -----: | --------: | ------------ | -------------------------- |
+| -48.6% |  -162 | 100.0% | 333 → 171 | `primop map` | `./lib/asserts.nix:195:26` |
+
+##### `primop map` (`./lib/asserts.nix:195:26`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                |
+| -----: | ----: | -----: | --------: | ----------------- | ------------------------------------------------------- |
+| -48.6% |  -162 | 100.0% | 333 → 171 | `checkAssertWarn` | `./nixos/modules/system/activation/top-level.nix:78:26` |
+
+##### `(anonymous)` (`./lib/asserts.nix:195:54`)
+
+| Change | Delta |      % |   Samples | Caller          | Location                   |
+| -----: | ----: | -----: | --------: | --------------- | -------------------------- |
+| -49.8% |  -161 | 100.0% | 323 → 162 | `primop filter` | `./lib/asserts.nix:195:46` |
+
+##### `primop any` (`./lib/modules.nix:1209:14`)
+
+|  Change | Delta |             % |   Samples | Caller                   | Location                                         |
+| ------: | ----: | ------------: | --------: | ------------------------ | ------------------------------------------------ |
+|  -28.3% |  -145 | 91.6% → 91.5% | 513 → 368 | `primop addErrorContext` | `./lib/modules.nix:1147:15`                      |
+|  -30.4% |   -14 |   8.2% → 8.0% |   46 → 32 | `(anonymous)`            | `./lib/modules.nix:729:13`                       |
+| removed |    -1 |   0.2% → 0.0% |     1 → 0 | `primop stringLength`    | `./nixos/modules/config/users-groups.nix:149:15` |
+|  +33.3% |    +1 |   0.5% → 1.0% |     3 → 4 | `(anonymous)`            | `./lib/attrsets.nix:662:60 → 667:60`             |
+|     new |    +1 |   0.0% → 0.2% |     0 → 1 | `(anonymous)`            | `./lib/asserts.nix:195:54`                       |
+
+##### `primop derivationStrict:nginx-1.30.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                       |
+| ------: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+| removed |  -153 | 100.0% → 0.0% | 153 → 0 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `(anonymous)` (`./lib/modules.nix:1190:11`)
+
+| Change | Delta |      % |   Samples | Caller             | Location                    |
+| -----: | ----: | -----: | --------: | ------------------ | --------------------------- |
+| -27.8% |  -131 | 100.0% | 471 → 340 | `primop concatMap` | `./lib/modules.nix:1189:26` |
+
+##### `(anonymous)` (`./lib/modules.nix:1204:24`)
+
+| Change | Delta |      % |   Samples | Caller       | Location                    |
+| -----: | ----: | -----: | --------: | ------------ | --------------------------- |
+| -27.8% |  -131 | 100.0% | 471 → 340 | `primop any` | `./lib/modules.nix:1209:14` |
+
+##### `primop concatMap` (`./lib/modules.nix:1189:26`)
+
+| Change | Delta |      % |   Samples | Caller          | Location                   |
+| -----: | ----: | -----: | --------: | --------------- | -------------------------- |
+| -27.8% |  -131 | 100.0% | 471 → 340 | `primop length` | `./lib/modules.nix:1424:8` |
+
+##### `primop length` (`./lib/modules.nix:1424:8`)
+
+| Change | Delta |      % |   Samples | Caller        | Location                    |
+| -----: | ----: | -----: | --------: | ------------- | --------------------------- |
+| -27.8% |  -131 | 100.0% | 471 → 340 | `(anonymous)` | `./lib/modules.nix:1204:24` |
+
+##### `primop map` (`./lib/modules.nix:1191:11`)
+
+| Change | Delta |      % |   Samples | Caller        | Location                    |
+| -----: | ----: | -----: | --------: | ------------- | --------------------------- |
+| -27.7% |  -130 | 100.0% | 470 → 340 | `(anonymous)` | `./lib/modules.nix:1190:11` |
+
+##### `primop addErrorContext` (`./lib/modules.nix:1200:14`)
+
+| Change | Delta |      % |   Samples | Caller       | Location                    |
+| -----: | ----: | -----: | --------: | ------------ | --------------------------- |
+| -27.5% |  -129 | 100.0% | 469 → 340 | `primop map` | `./lib/modules.nix:1191:11` |
+
+##### `dischargeProperties` (`./lib/modules.nix:1200:80`)
+
+| Change | Delta |      % |   Samples | Caller                   | Location                    |
+| -----: | ----: | -----: | --------: | ------------------------ | --------------------------- |
+| -27.4% |  -128 | 100.0% | 468 → 340 | `primop addErrorContext` | `./lib/modules.nix:1200:14` |
+
+##### `makeSearchPath` (`./lib/strings.nix:606:5`)
+
+|  Change | Delta |            % | Samples | Caller                 | Location                                                                         |
+| ------: | ----: | -----------: | ------: | ---------------------- | -------------------------------------------------------------------------------- |
+| removed |   -36 | 31.6% → 0.0% |  36 → 0 | `makeSearchPathOutput` | `./nixos/modules/config/nsswitch.nix:24:16`                                      |
+| removed |   -31 | 27.2% → 0.0% |  31 → 0 | `makeSearchPathOutput` | `./pkgs/os-specific/linux/minimal-bootstrap/bash/default.nix:79:18`              |
+| removed |   -29 | 25.4% → 0.0% |  29 → 0 | `makeSearchPathOutput` | `./pkgs/os-specific/linux/minimal-bootstrap/bash/2.nix:109:18`                   |
+| removed |   -26 | 22.8% → 0.0% |  26 → 0 | `makeSearchPathOutput` | `./pkgs/os-specific/linux/minimal-bootstrap/stage0-posix/kaem/default.nix:45:16` |
+| removed |   -14 | 12.3% → 0.0% |  14 → 0 | `makeSearchPathOutput` | `./pkgs/applications/networking/browsers/firefox/wrapper.nix:351:12`             |
+
+##### `(anonymous)` (`./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:11:18`)
+
+| Change | Delta |      % |  Samples | Caller    | Location                                                             |
+| -----: | ----: | -----: | -------: | --------- | -------------------------------------------------------------------- |
+| -64.5% |  -111 | 100.0% | 172 → 61 | `svcUser` | `./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:20:5` |
+
+##### `(anonymous)` (`./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:19:5`)
+
+| Change | Delta |      % |  Samples | Caller       | Location                                                              |
+| -----: | ----: | -----: | -------: | ------------ | --------------------------------------------------------------------- |
+| -64.2% |  -111 | 100.0% | 173 → 62 | `primop all` | `./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:18:15` |
+
+##### `svcUser` (`./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:20:5`)
+
+| Change | Delta |      % |  Samples | Caller        | Location                                                             |
+| -----: | ----: | -----: | -------: | ------------- | -------------------------------------------------------------------- |
+| -64.5% |  -111 | 100.0% | 172 → 61 | `(anonymous)` | `./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:19:5` |
+
+##### `(anonymous)` (`./nixos/lib/systemd-unit-options.nix:489:16`)
+
+| Change | Delta |      % |  Samples | Caller          | Location                    |
+| -----: | ----: | -----: | -------: | --------------- | --------------------------- |
+| -65.2% |  -107 | 100.0% | 164 → 57 | `primop isBool` | `./lib/modules.nix:1380:10` |
+
+##### `(anonymous)` (`./lib/strings.nix:567:47`)
+
+|  Change | Delta |             % | Samples | Caller                    | Location                   |
+| ------: | ----: | ------------: | ------: | ------------------------- | -------------------------- |
+| removed |   -78 | 100.0% → 0.0% |  78 → 0 | `primop concatStringsSep` | `./lib/strings.nix:567:20` |
+
+##### `fold'` (`./lib/lists.nix:143:5`)
+
+|  Change | Delta |           % |   Samples | Caller  | Location                                                       |
+| ------: | ----: | ----------: | --------: | ------- | -------------------------------------------------------------- |
+|  -11.2% |   -74 |       99.8% | 661 → 587 | `foldr` | `./lib/trivial.nix:1051:33`                                    |
+| removed |    -1 | 0.2% → 0.0% |     1 → 0 | `foldr` | `./pkgs/development/interpreters/python/passthrufun.nix:83:26` |
+
+##### `foldr` (`./lib/trivial.nix:1051:33`)
+
+| Change | Delta |      % |   Samples | Caller         | Location                  |
+| -----: | ----: | -----: | --------: | -------------- | ------------------------- |
+| -11.2% |   -74 | 100.0% | 661 → 587 | `showWarnings` | `./lib/asserts.nix:200:7` |
+
+##### `showWarnings` (`./lib/asserts.nix:200:7`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                |
+| -----: | ----: | -----: | --------: | ----------------- | ------------------------------------------------------- |
+| -11.2% |   -74 | 100.0% | 661 → 587 | `checkAssertWarn` | `./nixos/modules/system/activation/top-level.nix:78:26` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:667:60`)
+
+| Change | Delta |      % |   Samples | Caller        | Location                             |
+| -----: | ----: | -----: | --------: | ------------- | ------------------------------------ |
+| -13.7% |   -72 | 100.0% | 526 → 454 | `(anonymous)` | `./lib/attrsets.nix:662:53 → 667:53` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:667:53`)
+
+| Change | Delta |      % |   Samples | Caller          | Location                             |
+| -----: | ----: | -----: | --------: | --------------- | ------------------------------------ |
+| -13.6% |   -72 | 100.0% | 531 → 459 | `primop filter` | `./lib/attrsets.nix:662:45 → 667:45` |
+
+##### `filterAttrs` (`./lib/types.nix:1019:17`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                  |
+| -----: | ----: | -----: | --------: | ----------------- | ------------------------- |
+| -13.4% |   -70 | 100.0% | 524 → 454 | `primop mapAttrs` | `./lib/types.nix:1025:21` |
+
+##### `(anonymous)` (`./pkgs/top-level/default.nix:217:10`)
+
+|  Change | Delta |             % | Samples | Caller        | Location                             |
+| ------: | ----: | ------------: | ------: | ------------- | ------------------------------------ |
+| removed |   -69 | 100.0% → 0.0% |  69 → 0 | `(anonymous)` | `./pkgs/top-level/default.nix:220:1` |
+
+##### `primop derivationStrict:gnome-shell-50.1` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                       |
+| ------: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+| removed |  -127 | 100.0% → 0.0% | 127 → 0 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop concatStringsSep` (`./lib/strings.nix:567:20`)
+
+|  Change | Delta |            % | Samples | Caller           | Location                                                                 |
+| ------: | ----: | -----------: | ------: | ---------------- | ------------------------------------------------------------------------ |
+| removed |  -114 | 99.1% → 0.0% | 114 → 0 | `makeSearchPath` | `./lib/strings.nix:606:5`                                                |
+| removed |    -1 |  0.9% → 0.0% |   1 → 0 | `makeSearchPath` | `./pkgs/development/interpreters/python/python-packages-base.nix:146:26` |
+| removed |    -1 |  0.9% → 0.0% |   1 → 0 | `makeSearchPath` | `./nixos/modules/services/desktops/pipewire/wireplumber.nix:301:25`      |
+
+##### `primop isBool` (`./lib/modules.nix:1380:10`)
+
+| Change | Delta |              % |   Samples | Caller                | Location                    |
+| -----: | ----: | -------------: | --------: | --------------------- | --------------------------- |
+| -40.6% |  -114 | 100.0% → 98.8% | 281 → 167 | `dischargeProperties` | `./lib/modules.nix:1200:80` |
+|    new |    +2 |    0.0% → 1.2% |     0 → 2 | `dischargeProperties` | `./lib/modules.nix:1381:31` |
+
+##### `primop all` (`./nixos/modules/security/acme/mk-cert-ownership-assertion.nix:18:15`)
+
+| Change | Delta |      % |  Samples | Caller        | Location                   |
+| -----: | ----: | -----: | -------: | ------------- | -------------------------- |
+| -64.2% |  -111 | 100.0% | 173 → 62 | `(anonymous)` | `./lib/asserts.nix:195:54` |
+
+##### `primop derivationStrict:libxml2-2.15.2` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                       |
+| ------: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+| removed |  -102 | 100.0% → 0.0% | 102 → 0 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:evolution-data-server-3.60.1` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                       |
+| ------: | ----: | ------------: | ------: | ---------------- | ---------------------------------------------- |
+| removed |   -98 | 100.0% → 0.0% |  98 → 0 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop length` (`./lib/lists.nix:1125:11`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                 |
+| ------: | ----: | ------------: | ------: | ---------------- | ------------------------ |
+| removed |   -84 | 100.0% → 0.0% |  84 → 0 | `primop genList` | `./lib/lists.nix:1127:5` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

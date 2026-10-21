@@ -492,6 +492,206 @@ Categories accounting for at least 1.0% of self time.
 | ---: | -----: | ------: | ------------- | ----------- |
 | 2.7% | 50.0ms |       5 | `(anonymous)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `format_file_contents` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller                 | Location                                               |
+| -----: | ----: | ------: | ---------------------- | ------------------------------------------------------ |
+| 100.0% | 1.78s |     178 | `format_file_in_place` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `format_file_in_place` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller         | Location                                               |
+| -----: | ----: | ------: | -------------- | ------------------------------------------------------ |
+| 100.0% | 1.78s |     178 | `reformat_one` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `reformat_one` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller | Location                                               |
+| -----: | ----: | ------: | ------ | ------------------------------------------------------ |
+| 100.0% | 1.78s |     178 | `main` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller     | Location                                                 |
+| -----: | ----: | ------: | ---------- | -------------------------------------------------------- |
+| 100.0% | 1.78s |     178 | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py`)
+
+|      % |  Time | Samples | Caller   | Location                                           |
+| -----: | ----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 1.78s |     178 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |  Time | Samples | Caller   | Location                                           |
+| -----: | ----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 1.78s |     178 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| 100.0% | 1.78s |     178 | `main`   | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |  Time | Samples | Caller     | Location                                           |
+| -----: | ----: | ------: | ---------- | -------------------------------------------------- |
+| 100.0% | 1.78s |     178 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |  Time | Samples | Caller         | Location                                               |
+| -----: | ----: | ------: | -------------- | ------------------------------------------------------ |
+| 100.0% | 1.78s |     178 | `patched_main` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `patched_main` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller     | Location                                               |
+| -----: | ----: | ------: | ---------- | ------------------------------------------------------ |
+| 100.0% | 1.78s |     178 | `<module>` | `/venv/lib/python3.11/site-packages/black/__main__.py` |
+
+##### `<module>` (`/venv/lib/python3.11/site-packages/black/__main__.py`)
+
+|      % |  Time | Samples | Caller      | Location         |
+| -----: | ----: | ------: | ----------- | ---------------- |
+| 100.0% | 1.78s |     178 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % |  Time | Samples | Caller                | Location         |
+| -----: | ----: | ------: | --------------------- | ---------------- |
+| 100.0% | 1.78s |     178 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `_format_str_once` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|     % |    Time | Samples | Caller          | Location                                               |
+| ----: | ------: | ------: | --------------- | ------------------------------------------------------ |
+| 68.6% |   1.09s |     109 | `format_str`    | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+| 31.4% | 500.0ms |      50 | `assert_stable` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `format_str` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |  Time | Samples | Caller                 | Location                                               |
+| -----: | ----: | ------: | ---------------------- | ------------------------------------------------------ |
+| 100.0% | 1.09s |     109 | `format_file_contents` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `check_stability_and_equivalence` (`/venv/lib/python3.11/site-packages/black/__init__.py`)
+
+|      % |    Time | Samples | Caller                 | Location                                               |
+| -----: | ------: | ------: | ---------------------- | ------------------------------------------------------ |
+| 100.0% | 690.0ms |      69 | `format_file_contents` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `parse_tokens` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py`)
+
+|      % |    Time | Samples | Caller         | Location                                                      |
+| -----: | ------: | ------: | -------------- | ------------------------------------------------------------- |
+| 100.0% | 630.0ms |      63 | `parse_string` | `/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py` |
+
+##### `parse_string` (`/venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py`)
+
+|      % |    Time | Samples | Caller          | Location                                              |
+| -----: | ------: | ------: | --------------- | ----------------------------------------------------- |
+| 100.0% | 630.0ms |      63 | `lib2to3_parse` | `/venv/lib/python3.11/site-packages/black/parsing.py` |
+
+##### `lib2to3_parse` (`/venv/lib/python3.11/site-packages/black/parsing.py`)
+
+|      % |    Time | Samples | Caller             | Location                                               |
+| -----: | ------: | ------: | ------------------ | ------------------------------------------------------ |
+| 100.0% | 630.0ms |      63 | `_format_str_once` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+
+##### `visit_default` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+|      % |    Time | Samples | Caller              | Location                                              |
+| -----: | ------: | ------: | ------------------- | ----------------------------------------------------- |
+| 100.0% | 560.0ms |      56 | `visit`             | `/venv/lib/python3.11/site-packages/black/nodes.py`   |
+|  91.1% | 510.0ms |      51 | `visit_suite`       | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+|  64.3% | 360.0ms |      36 | `visit_simple_stmt` | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+|  28.6% | 160.0ms |      16 | `visit_power`       | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+|   7.1% |  40.0ms |       4 | `visit_NUMBER`      | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+
+##### `visit` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|      % |    Time | Samples | Caller             | Location                                               |
+| -----: | ------: | ------: | ------------------ | ------------------------------------------------------ |
+| 100.0% | 560.0ms |      56 | `visit_default`    | `/venv/lib/python3.11/site-packages/black/nodes.py`    |
+| 100.0% | 560.0ms |      56 | `_format_str_once` | `/venv/lib/python3.11/site-packages/black/__init__.py` |
+|  96.4% | 540.0ms |      54 | `visit_stmt`       | `/venv/lib/python3.11/site-packages/black/linegen.py`  |
+|  92.9% | 520.0ms |      52 | `visit_funcdef`    | `/venv/lib/python3.11/site-packages/black/linegen.py`  |
+
+##### `visit_default` (`/venv/lib/python3.11/site-packages/black/nodes.py`)
+
+|      % |    Time | Samples | Caller          | Location                                              |
+| -----: | ------: | ------: | --------------- | ----------------------------------------------------- |
+| 100.0% | 560.0ms |      56 | `visit_default` | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+
+##### `visit_stmt` (`/venv/lib/python3.11/site-packages/black/linegen.py`)
+
+|      % |    Time | Samples | Caller  | Location                                            |
+| -----: | ------: | ------: | ------- | --------------------------------------------------- |
+| 100.0% | 540.0ms |      54 | `visit` | `/venv/lib/python3.11/site-packages/black/nodes.py` |
+
+##### `parse` (`/usr/lib/python3.11/ast.py`)
+
+|      % |   Time | Samples | Caller                  | Location                                              |
+| -----: | -----: | ------: | ----------------------- | ----------------------------------------------------- |
+| 100.0% | 80.0ms |       8 | `_parse_single_version` | `/venv/lib/python3.11/site-packages/black/parsing.py` |
+
+##### `__init__` (`<string>`)
+
+|     % |   Time | Samples | Caller              | Location                                              |
+| ----: | -----: | ------: | ------------------- | ----------------------------------------------------- |
+| 60.0% | 30.0ms |       3 | `__init__`          | `<string>`                                            |
+| 40.0% | 20.0ms |       2 | `line`              | `/venv/lib/python3.11/site-packages/black/linegen.py` |
+| 40.0% | 20.0ms |       2 | `all_lines`         | `/venv/lib/python3.11/site-packages/black/lines.py`   |
+| 20.0% | 10.0ms |       1 | `maybe_empty_lines` | `/venv/lib/python3.11/site-packages/black/lines.py`   |
+
+##### `__enter__` (`<frozen importlib._bootstrap>`)
+
+|      % |   Time | Samples | Caller           | Location                        |
+| -----: | -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 10.0ms |       1 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % |   Time | Samples | Caller                | Location                                                      |
+| -----: | -----: | ------: | --------------------- | ------------------------------------------------------------- |
+| 100.0% | 10.0ms |       1 | `<module>`            | `/venv/lib/python3.11/site-packages/platformdirs/__init__.py` |
+| 100.0% | 10.0ms |       1 | `<module>`            | `/venv/lib/python3.11/site-packages/black/cache.py`           |
+| 100.0% | 10.0ms |       1 | `<module>`            | `/venv/lib/python3.11/site-packages/black/__init__.py`        |
+| 100.0% | 10.0ms |       1 | `_get_module_details` | `<frozen runpy>`                                              |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % |   Time | Samples | Caller        | Location                                 |
+| -----: | -----: | ------: | ------------- | ---------------------------------------- |
+| 100.0% | 10.0ms |       1 | `exec_module` | `<frozen importlib._bootstrap_external>` |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % |   Time | Samples | Caller           | Location                        |
+| -----: | -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 10.0ms |       1 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % |   Time | Samples | Caller                    | Location                        |
+| -----: | -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% | 10.0ms |       1 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % |   Time | Samples | Caller           | Location                        |
+| -----: | -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 10.0ms |       1 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % |   Time | Samples | Caller                | Location         |
+| -----: | -----: | ------: | --------------------- | ---------------- |
+| 100.0% | 10.0ms |       1 | `_get_module_details` | `<frozen runpy>` |
+| 100.0% | 10.0ms |       1 | `_run_module_as_main` | `<frozen runpy>` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

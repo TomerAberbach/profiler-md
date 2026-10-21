@@ -113,6 +113,179 @@ Categories accounting for at least 1.0% of self size.
 | 23.3% | 70.1 MiB |  15,855 | `Io.Writer.Allocating.ensureTotalCapacityPrecise`                                     | `/opt/zig/lib/std/Io/Writer.zig`                  |
 | 23.3% | 70.1 MiB |  39,158 | `zig.Ast.Render.renderTree`                                                           | `/opt/zig/lib/std/zig/Ast/Render.zig`             |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `profile.main` (`./profile.zig`)
+
+|     % |    Size | Objects | Caller           | Location                     |
+| ----: | ------: | ------: | ---------------- | ---------------------------- |
+| 99.9% | 299 MiB |  50,531 | `start.callMain` | `/opt/zig/lib/std/start.zig` |
+
+##### `start.callMain` (`/opt/zig/lib/std/start.zig`)
+
+|      % |    Size | Objects | Caller                   | Location                     |
+| -----: | ------: | ------: | ------------------------ | ---------------------------- |
+| 100.0% | 299 MiB |  50,531 | `start.callMainWithArgs` | `/opt/zig/lib/std/start.zig` |
+
+##### `start.callMainWithArgs` (`/opt/zig/lib/std/start.zig`)
+
+|      % |    Size | Objects | Caller       | Location                     |
+| -----: | ------: | ------: | ------------ | ---------------------------- |
+| 100.0% | 299 MiB |  50,531 | `start.main` | `/opt/zig/lib/std/start.zig` |
+
+##### `start.main` (`/opt/zig/lib/std/start.zig`)
+
+|      % |    Size | Objects | Caller    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 299 MiB |  50,321 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Caller    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 299 MiB |  50,051 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Caller   | Location                                          |
+| -----: | ------: | ------: | -------- | ------------------------------------------------- |
+| 100.0% | 299 MiB |  49,736 | `_start` | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
+
+##### `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
+
+|     % |     Size | Objects | Caller               | Location    |
+| ----: | -------: | ------: | -------------------- | ----------- |
+| 74.1% |  222 MiB |   7,961 | `0xaaaaaaaaaaaaaaa9` | `<unknown>` |
+|  2.0% | 5.86 MiB |   1,189 | `0xff09ffffffffffff` | `<unknown>` |
+|  1.2% | 3.68 MiB |       4 | `0xffffe8b9aa5f`     | `<unknown>` |
+|  1.1% | 3.28 MiB |      30 | `0xffffe8ba3a3f`     | `<unknown>` |
+|  0.9% | 2.81 MiB |     213 | `0xaaaaaaaaaaaaa9ff` | `<unknown>` |
+
+##### `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig`)
+
+|      % |    Size | Objects | Caller         | Location        |
+| -----: | ------: | ------: | -------------- | --------------- |
+| 100.0% | 229 MiB |  11,492 | `profile.main` | `./profile.zig` |
+
+##### `heap.c_allocator_impl.alloc` (`/opt/zig/lib/std/heap.zig`)
+
+|      % |     Size | Objects | Caller                   | Location                                           |
+| -----: | -------: | ------: | ------------------------ | -------------------------------------------------- |
+| 100.0% |  224 MiB |  42,014 | `mem.Allocator.rawAlloc` | `/opt/zig/lib/std/mem/Allocator.zig`               |
+|  <0.1% | 1.97 KiB |      14 | `0x39804`                | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+
+##### `mem.Allocator.rawAlloc` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|     % |     Size | Objects | Caller                                              | Location                             |
+| ----: | -------: | ------: | --------------------------------------------------- | ------------------------------------ |
+| 98.8% |  222 MiB |   8,355 | `mem.Allocator.allocBytesWithAlignment__anon_10001` | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.6% | 1.29 MiB |   9,755 | `Io.Writer.Allocating.ensureTotalCapacityPrecise`   | `/opt/zig/lib/std/Io/Writer.zig`     |
+|  0.4% |  995 KiB |   7,837 | `mem.Allocator.allocBytesWithAlignment__anon_8636`  | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.2% |  495 KiB |  16,067 | `mem.Allocator.allocBytesWithAlignment__anon_7893`  | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `mem.Allocator.allocAdvancedWithRetAddr` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|     % |     Size | Objects | Caller                                   | Location                             |
+| ----: | -------: | ------: | ---------------------------------------- | ------------------------------------ |
+| 99.3% |  221 MiB |   7,894 | `mem.Allocator.alignedAlloc__anon_9848`  | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.4% |  995 KiB |   7,837 | `mem.Allocator.alignedAlloc__anon_31630` | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.1% |  208 KiB |   3,158 | `mem.Allocator.alloc__anon_31120`        | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.1% |  206 KiB |  12,369 | `mem.Allocator.alloc__anon_31145`        | `/opt/zig/lib/std/mem/Allocator.zig` |
+| <0.1% | 75.8 KiB |     539 | `mem.Allocator.alignedAlloc__anon_31457` | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `0xaaaaaaaaaaaaaaa9` (`<unknown>`)
+
+|     % |     Size | Objects | Caller               | Location    |
+| ----: | -------: | ------: | -------------------- | ----------- |
+| 99.7% |  221 MiB |   7,905 | `0xaaaaaaaaaaaaaaa9` | `<unknown>` |
+| <0.1% |  102 KiB |       1 | `0x12fa5fff`         | `<unknown>` |
+| <0.1% |  102 KiB |       1 | `0x12e09fff`         | `<unknown>` |
+| <0.1% | 46.7 KiB |       3 | `0x12f45fff`         | `<unknown>` |
+| <0.1% |   44 KiB |       1 | `0x12c6dfff`         | `<unknown>` |
+
+##### `mem.Allocator.allocBytesWithAlignment__anon_10001` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|      % |     Size | Objects | Caller                                                | Location                             |
+| -----: | -------: | ------: | ----------------------------------------------------- | ------------------------------------ |
+| 100.0% |  221 MiB |   7,894 | `mem.Allocator.allocWithSizeAndAlignment__anon_9851`  | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  <0.1% | 72.9 KiB |     461 | `mem.Allocator.allocWithSizeAndAlignment__anon_32916` | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `mem.Allocator.allocWithSizeAndAlignment__anon_9851` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|      % |    Size | Objects | Caller                                   | Location                             |
+| -----: | ------: | ------: | ---------------------------------------- | ------------------------------------ |
+| 100.0% | 221 MiB |   7,894 | `mem.Allocator.allocAdvancedWithRetAddr` | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `mem.Allocator.alignedAlloc__anon_9848` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|      % |    Size | Objects | Caller                                                                        | Location                                |
+| -----: | ------: | ------: | ----------------------------------------------------------------------------- | --------------------------------------- |
+| 100.0% | 221 MiB |   7,875 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).setCapacity` | `/opt/zig/lib/std/multi_array_list.zig` |
+|  <0.1% | 112 KiB |      19 | `multi_array_list.MultiArrayList(zig.Ast.Node).setCapacity`                   | `/opt/zig/lib/std/multi_array_list.zig` |
+
+##### `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).setCapacity` (`/opt/zig/lib/std/multi_array_list.zig`)
+
+|      % |    Size | Objects | Caller                                                                                | Location                                |
+| -----: | ------: | ------: | ------------------------------------------------------------------------------------- | --------------------------------------- |
+| 100.0% | 221 MiB |   7,875 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).ensureTotalCapacity` | `/opt/zig/lib/std/multi_array_list.zig` |
+
+##### `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).ensureTotalCapacity` (`/opt/zig/lib/std/multi_array_list.zig`)
+
+|      % |    Size | Objects | Caller          | Location                       |
+| -----: | ------: | ------: | --------------- | ------------------------------ |
+| 100.0% | 221 MiB |   7,875 | `zig.Ast.parse` | `/opt/zig/lib/std/zig/Ast.zig` |
+
+##### `heap.c_allocator_impl.remap` (`/opt/zig/lib/std/heap.zig`)
+
+|      % |     Size | Objects | Caller                   | Location                             |
+| -----: | -------: | ------: | ------------------------ | ------------------------------------ |
+| 100.0% | 76.9 MiB |   9,282 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `mem.Allocator.rawRemap` (`/opt/zig/lib/std/mem/Allocator.zig`)
+
+|     % |     Size | Objects | Caller                                            | Location                             |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 89.5% | 68.8 MiB |   6,100 | `Io.Writer.Allocating.ensureTotalCapacityPrecise` | `/opt/zig/lib/std/Io/Writer.zig`     |
+| 10.0% | 7.72 MiB |   2,539 | `mem.Allocator.remap__anon_32898`                 | `/opt/zig/lib/std/mem/Allocator.zig` |
+|  0.4% |  333 KiB |     628 | `mem.Allocator.remap__anon_35520`                 | `/opt/zig/lib/std/mem/Allocator.zig` |
+| <0.1% | 5.39 KiB |      15 | `mem.Allocator.remap__anon_31450`                 | `/opt/zig/lib/std/mem/Allocator.zig` |
+
+##### `Io.Writer.Allocating.ensureTotalCapacity` (`/opt/zig/lib/std/Io/Writer.zig`)
+
+|      % |     Size | Objects | Caller                                      | Location                         |
+| -----: | -------: | ------: | ------------------------------------------- | -------------------------------- |
+| 100.0% | 70.1 MiB |  15,888 | `Io.Writer.Allocating.ensureUnusedCapacity` | `/opt/zig/lib/std/Io/Writer.zig` |
+
+##### `Io.Writer.Allocating.ensureUnusedCapacity` (`/opt/zig/lib/std/Io/Writer.zig`)
+
+|      % |     Size | Objects | Caller                       | Location                         |
+| -----: | -------: | ------: | ---------------------------- | -------------------------------- |
+| 100.0% | 70.1 MiB |  15,888 | `Io.Writer.Allocating.drain` | `/opt/zig/lib/std/Io/Writer.zig` |
+
+##### `Io.Writer.Allocating.drain` (`/opt/zig/lib/std/Io/Writer.zig`)
+
+|     % |     Size | Objects | Caller                 | Location                         |
+| ----: | -------: | ------: | ---------------------- | -------------------------------- |
+| 74.7% | 52.4 MiB |  14,592 | `Io.Writer.write`      | `/opt/zig/lib/std/Io/Writer.zig` |
+| 19.2% | 13.4 MiB |     749 | `Io.Writer.writeSplat` | `/opt/zig/lib/std/Io/Writer.zig` |
+|  6.1% |  4.3 MiB |     529 | `Io.Writer.writeByte`  | `/opt/zig/lib/std/Io/Writer.zig` |
+| <0.1% | 1.66 KiB |       1 | `0x12c65fff`           | `<unknown>`                      |
+| <0.1% |    260 B |       2 | `0x131427ef`           | `<unknown>`                      |
+
+##### `Io.Writer.Allocating.ensureTotalCapacityPrecise` (`/opt/zig/lib/std/Io/Writer.zig`)
+
+|      % |     Size | Objects | Caller                                     | Location                         |
+| -----: | -------: | ------: | ------------------------------------------ | -------------------------------- |
+| 100.0% | 70.1 MiB |  15,855 | `Io.Writer.Allocating.ensureTotalCapacity` | `/opt/zig/lib/std/Io/Writer.zig` |
+
+##### `zig.Ast.Render.renderTree` (`/opt/zig/lib/std/zig/Ast/Render.zig`)
+
+|      % |     Size | Objects | Caller           | Location                       |
+| -----: | -------: | ------: | ---------------- | ------------------------------ |
+| 100.0% | 70.1 MiB |  39,158 | `zig.Ast.render` | `/opt/zig/lib/std/zig/Ast.zig` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

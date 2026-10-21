@@ -459,6 +459,388 @@ Categories accounting for at least 1.0% of self time.
 | ---: | ------: | ------: | ---------- | ---------- |
 | 1.2% | 300.0ms |       3 | `__init__` | `<string>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_run_module_as_main` (`<frozen runpy>`)
+
+|      % |   Time | Samples | Caller           | Location                              |
+| -----: | -----: | ------: | ---------------- | ------------------------------------- |
+| 100.0% | 24.10s |     241 | `0x7ff2a7b2e24a` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `CPyDef_black___format_file_contents` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                                | Location                                                                                         |
+| -----: | -----: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyDef_black___format_file_in_place` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___format_file_in_place` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                        | Location                                                                                         |
+| -----: | -----: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyDef_black___reformat_one` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___reformat_one` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                       | Location                                                                                         |
+| -----: | -----: | ------: | ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyPy_black___reformat_one` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___reformat_one` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                | Location                                                                                         |
+| -----: | -----: | ------: | --------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyDef_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller               | Location                                                                                         |
+| -----: | -----: | ------: | -------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyPy_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller     | Location                                                 |
+| -----: | -----: | ------: | ---------- | -------------------------------------------------------- |
+| 100.0% | 23.30s |     233 | `new_func` | `/venv/lib/python3.11/site-packages/click/decorators.py` |
+
+##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py`)
+
+|      % |   Time | Samples | Caller   | Location                                           |
+| -----: | -----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 23.30s |     233 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |   Time | Samples | Caller   | Location                                           |
+| -----: | -----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 23.30s |     233 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| 100.0% | 23.30s |     233 | `main`   | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `main` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |   Time | Samples | Caller     | Location                                           |
+| -----: | -----: | ------: | ---------- | -------------------------------------------------- |
+| 100.0% | 23.30s |     233 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py` |
+
+##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py`)
+
+|      % |   Time | Samples | Caller                        | Location                                                                                         |
+| -----: | -----: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyDef_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                       | Location                                                                                         |
+| -----: | -----: | ------: | ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `CPyPy_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller     | Location                                               |
+| -----: | -----: | ------: | ---------- | ------------------------------------------------------ |
+| 100.0% | 23.30s |     233 | `<module>` | `/venv/lib/python3.11/site-packages/black/__main__.py` |
+
+##### `<module>` (`/venv/lib/python3.11/site-packages/black/__main__.py`)
+
+|      % |   Time | Samples | Caller      | Location         |
+| -----: | -----: | ------: | ----------- | ---------------- |
+| 100.0% | 23.30s |     233 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % |   Time | Samples | Caller                | Location         |
+| -----: | -----: | ------: | --------------------- | ---------------- |
+| 100.0% | 23.30s |     233 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `CPyDef_black____format_str_once` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|     % |   Time | Samples | Caller                         | Location                                                                                         |
+| ----: | -----: | ------: | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 64.3% | 13.70s |     137 | `CPyDef_black___format_str`    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 35.7% |  7.60s |      76 | `CPyDef_black___assert_stable` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___format_str` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |   Time | Samples | Caller                                | Location                                                                                         |
+| -----: | -----: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 13.70s |     137 | `CPyDef_black___format_file_contents` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___check_stability_and_equivalence` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |  Time | Samples | Caller                                | Location                                                                                         |
+| -----: | ----: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 9.60s |      96 | `CPyDef_black___format_file_contents` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_driver___Driver___parse_tokens` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |  Time | Samples | Caller                                  | Location                                                                                         |
+| -----: | ----: | ------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 8.50s |      85 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_driver___Driver___parse_string` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |  Time | Samples | Caller                           | Location                                                                                         |
+| -----: | ----: | ------: | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 8.50s |      85 | `CPyDef_parsing___lib2to3_parse` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_parsing___lib2to3_parse` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |  Time | Samples | Caller                            | Location                                                                                         |
+| -----: | ----: | ------: | --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 8.50s |      85 | `CPyDef_black____format_str_once` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % |  Time | Samples | Caller                                                                          | Location                                                                                         |
+| -----: | ----: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 8.10s |      81 | `CPyDef_black____format_str_once`                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  98.8% |    8s |      80 | `CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__`         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  98.8% |    8s |      80 | `CPyDef_linegen___visit_stmt_LineGenerator_gen_____mypyc_generator_helper__`    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  93.8% | 7.60s |      76 | `CPyDef_linegen___visit_funcdef_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % |    Time | Samples | Caller          | Location                                 |
+| -----: | ------: | ------: | --------------- | ---------------------------------------- |
+| 100.0% | 800.0ms |       8 | `create_module` | `<frozen importlib._bootstrap_external>` |
+|  50.0% | 400.0ms |       4 | `exec_module`   | `<frozen importlib._bootstrap_external>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % |    Time | Samples | Caller                    | Location                        |
+| -----: | ------: | ------: | ------------------------- | ------------------------------- |
+| 100.0% | 800.0ms |       8 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % |    Time | Samples | Caller           | Location                        |
+| -----: | ------: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 800.0ms |       8 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % |    Time | Samples | Caller                     | Location                                                                                         |
+| -----: | ------: | ------: | -------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 800.0ms |       8 | `CPyImport_ImportFromMany` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 100.0% | 800.0ms |       8 | `_get_module_details`      | `<frozen runpy>`                                                                                 |
+|  25.0% | 200.0ms |       2 | `<module>`                 | `/venv/lib/python3.11/site-packages/packaging/_ranges.py`                                        |
+|  25.0% | 200.0ms |       2 | `<module>`                 | `/venv/lib/python3.11/site-packages/packaging/specifiers.py`                                     |
+|  25.0% | 200.0ms |       2 | `<module>`                 | `/venv/lib/python3.11/site-packages/black/files.py`                                              |
+
+##### `create_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % |    Time | Samples | Caller             | Location                        |
+| -----: | ------: | ------: | ------------------ | ------------------------------- |
+| 100.0% | 800.0ms |       8 | `module_from_spec` | `<frozen importlib._bootstrap>` |
+
+##### `module_from_spec` (`<frozen importlib._bootstrap>`)
+
+|      % |    Time | Samples | Caller           | Location                        |
+| -----: | ------: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 800.0ms |       8 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % |    Time | Samples | Caller                | Location         |
+| -----: | ------: | ------: | --------------------- | ---------------- |
+| 100.0% | 800.0ms |       8 | `_get_module_details` | `<frozen runpy>` |
+| 100.0% | 800.0ms |       8 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `parse` (`/usr/lib/python3.11/ast.py`)
+
+|      % |    Time | Samples | Caller                                   | Location                                                                                         |
+| -----: | ------: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 500.0ms |       5 | `CPyDef_parsing____parse_single_version` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % |    Time | Samples | Caller           | Location                        |
+| -----: | ------: | ------: | ---------------- | ------------------------------- |
+| 100.0% | 400.0ms |       4 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `compile` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|      % |    Time | Samples | Caller     | Location                             |
+| -----: | ------: | ------: | ---------- | ------------------------------------ |
+| 100.0% | 300.0ms |       3 | `_compile` | `/usr/lib/python3.11/re/__init__.py` |
+
+##### `_compile` (`/usr/lib/python3.11/re/__init__.py`)
+
+|     % |    Time | Samples | Caller    | Location                             |
+| ----: | ------: | ------: | --------- | ------------------------------------ |
+| 66.7% | 200.0ms |       2 | `compile` | `/usr/lib/python3.11/re/__init__.py` |
+| 33.3% | 100.0ms |       1 | `findall` | `/usr/lib/python3.11/re/__init__.py` |
+
+##### `__init__` (`<string>`)
+
+|     % |    Time | Samples | Caller                                                                 | Location                                                                                         |
+| ----: | ------: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 66.7% | 200.0ms |       2 | `CPyDef_lines___LinesBlock___all_lines`                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 33.3% | 100.0ms |       1 | `CPyDef_linegen___line_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 33.3% | 100.0ms |       1 | `__init__`                                                             | `<string>`                                                                                       |
+
+##### `_code` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|      % |    Time | Samples | Caller    | Location                              |
+| -----: | ------: | ------: | --------- | ------------------------------------- |
+| 100.0% | 200.0ms |       2 | `compile` | `/usr/lib/python3.11/re/_compiler.py` |
+
+##### `compile` (`/usr/lib/python3.11/re/__init__.py`)
+
+|      % |    Time | Samples | Caller    | Location                                                  |
+| -----: | ------: | ------: | --------- | --------------------------------------------------------- |
+| 100.0% | 200.0ms |       2 | `Version` | `/venv/lib/python3.11/site-packages/packaging/version.py` |
+
+##### `getwidth` (`/usr/lib/python3.11/re/_parser.py`)
+
+|      % |    Time | Samples | Caller          | Location                              |
+| -----: | ------: | ------: | --------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `getwidth`      | `/usr/lib/python3.11/re/_parser.py`   |
+| 100.0% | 100.0ms |       1 | `_compile_info` | `/usr/lib/python3.11/re/_compiler.py` |
+
+##### `_compile_info` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|      % |    Time | Samples | Caller  | Location                              |
+| -----: | ------: | ------: | ------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_code` | `/usr/lib/python3.11/re/_compiler.py` |
+
+##### `_optimize_charset` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|      % |    Time | Samples | Caller     | Location                              |
+| -----: | ------: | ------: | ---------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_compile` | `/usr/lib/python3.11/re/_compiler.py` |
+
+##### `_compile` (`/usr/lib/python3.11/re/_compiler.py`)
+
+|      % |    Time | Samples | Caller     | Location                              |
+| -----: | ------: | ------: | ---------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_compile` | `/usr/lib/python3.11/re/_compiler.py` |
+| 100.0% | 100.0ms |       1 | `_code`    | `/usr/lib/python3.11/re/_compiler.py` |
+
+##### `isEnabledFor` (`/usr/lib/python3.11/logging/__init__.py`)
+
+|      % |    Time | Samples | Caller  | Location                                  |
+| -----: | ------: | ------: | ------- | ----------------------------------------- |
+| 100.0% | 100.0ms |       1 | `debug` | `/usr/lib/python3.11/logging/__init__.py` |
+
+##### `0x7ff2a7b9f109` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller   | Location                              |
+| -----: | ------: | ------: | -------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `calloc` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `calloc` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller           | Location                                         |
+| -----: | ------: | ------: | ---------------- | ------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e22cba` | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+
+##### `0x7ff2a7e22cba` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller           | Location                                         |
+| -----: | ------: | ------: | ---------------- | ------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e1e67f` | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+
+##### `0x7ff2a7e1e67f` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller           | Location                                         |
+| -----: | ------: | ------: | ---------------- | ------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e200c5` | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+
+##### `0x7ff2a7e200c5` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller           | Location                                         |
+| -----: | ------: | ------: | ---------------- | ------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e23a55` | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+
+##### `0x7ff2a7e23a55` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller                | Location                              |
+| -----: | ------: | ------: | --------------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_dl_catch_exception` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `_dl_catch_exception` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller            | Location                                         |
+| -----: | ------: | ------: | ----------------- | ------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e23216`  | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7e23608`  | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
+| 100.0% | 100.0ms |       1 | `_dl_catch_error` | `/usr/lib/x86_64-linux-gnu/libc.so.6`            |
+
+##### `0x7ff2a7e23216` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller                | Location                              |
+| -----: | ------: | ------: | --------------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_dl_catch_exception` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `0x7ff2a7e23608` (`/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2`)
+
+|      % |    Time | Samples | Caller           | Location                              |
+| -----: | ------: | ------: | ---------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7b8c4b8` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `0x7ff2a7b8c4b8` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller                | Location                              |
+| -----: | ------: | ------: | --------------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `_dl_catch_exception` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `_dl_catch_error` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller           | Location                              |
+| -----: | ------: | ------: | ---------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7b8bfa7` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `0x7ff2a7b8bfa7` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller   | Location                              |
+| -----: | ------: | ------: | -------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `dlopen` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `dlopen` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller                      | Location                        |
+| -----: | ------: | ------: | --------------------------- | ------------------------------- |
+| 100.0% | 100.0ms |       1 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `0x7ff2a7c59aba` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller         | Location                                                                                         |
+| -----: | ------: | ------: | -------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `CPyStr_Build` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `0x7ff2a7c59d8c` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller           | Location                              |
+| -----: | ------: | ------: | ---------------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `0x7ff2a7b9f462` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `0x7ff2a7b9f462` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller    | Location                              |
+| -----: | ------: | ------: | --------- | ------------------------------------- |
+| 100.0% | 100.0ms |       1 | `realloc` | `/usr/lib/x86_64-linux-gnu/libc.so.6` |
+
+##### `realloc` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller                                                               | Location                                                                                         |
+| -----: | ------: | ------: | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `0x7ff2a7c5962e` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller                                                          | Location                                                                                         |
+| -----: | ------: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `__libc_malloc` (`/usr/lib/x86_64-linux-gnu/libc.so.6`)
+
+|      % |    Time | Samples | Caller                                                             | Location                                                                                         |
+| -----: | ------: | ------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 100.0ms |       1 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

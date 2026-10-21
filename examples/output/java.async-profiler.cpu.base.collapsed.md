@@ -803,6 +803,528 @@ Categories accounting for at least 1.0% of self samples.
 | 0.1% |       5 | `PhaseIdealLoop::build_loop_late_post_work` | `<unknown>` |
 | 0.1% |       5 | `PhaseIdealLoop::build_loop_late`           | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `runWorker` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller | Location                                    |
+| -----: | ------: | ------ | ------------------------------------------- |
+| 100.0% |   4,424 | `run`  | `java.util.concurrent.ForkJoinWorkerThread` |
+
+##### `scan` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller      | Location                            |
+| -----: | ------: | ----------- | ----------------------------------- |
+| 100.0% |   4,165 | `runWorker` | `java.util.concurrent.ForkJoinPool` |
+
+##### `topLevelExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % | Samples | Caller | Location                            |
+| -----: | ------: | ------ | ----------------------------------- |
+| 100.0% |   4,155 | `scan` | `java.util.concurrent.ForkJoinPool` |
+
+##### `doExec` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller             | Location                                      |
+| -----: | ------: | ------------------ | --------------------------------------------- |
+| 100.0% |   4,154 | `topLevelExec`     | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  89.8% |   3,729 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  24.7% |   1,024 | `helpJoin`         | `java.util.concurrent.ForkJoinPool`           |
+|  22.5% |     935 | `invoke`           | `java.util.concurrent.ForkJoinTask`           |
+
+##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % | Samples | Caller | Location                             |
+| -----: | ------: | ------ | ------------------------------------ |
+| 100.0% |   4,130 | `exec` | `java.util.concurrent.RecursiveTask` |
+
+##### `exec` (`java.util.concurrent.RecursiveTask`)
+
+|      % | Samples | Caller   | Location                            |
+| -----: | ------: | -------- | ----------------------------------- |
+| 100.0% |   4,130 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `awaitDone` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller | Location                            |
+| -----: | ------: | ------ | ----------------------------------- |
+| 100.0% |   3,935 | `join` | `java.util.concurrent.ForkJoinTask` |
+
+##### `join` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller    | Location                                               |
+| -----: | ------: | --------- | ------------------------------------------------------ |
+| 100.0% |   3,935 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `tryRemoveAndExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % | Samples | Caller      | Location                            |
+| -----: | ------: | ----------- | ----------------------------------- |
+| 100.0% |   3,731 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller            | Location                                                   |
+| -----: | ------: | ----------------- | ---------------------------------------------------------- |
+| 100.0% |   1,773 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 100.0% |   1,773 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller            | Location                                                  |
+| -----: | ------: | ----------------- | --------------------------------------------------------- |
+| 100.0% |   1,499 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`    |
+|  99.9% |   1,498 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `vectorSum` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller            | Location                                                  |
+| -----: | ------: | ----------------- | --------------------------------------------------------- |
+| 100.0% |   1,498 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `findNearestCentroid` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller            | Location                                                   |
+| -----: | ------: | ----------------- | ---------------------------------------------------------- |
+| 100.0% |   1,321 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `helpJoin` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller      | Location                            |
+| -----: | ------: | ----------- | ----------------------------------- |
+| 100.0% |   1,052 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `accumulate` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller      | Location                                                  |
+| -----: | ------: | ----------- | --------------------------------------------------------- |
+| 100.0% |     966 | `vectorSum` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `invoke` (`java.util.concurrent.ForkJoinTask`)
+
+|     % | Samples | Caller         | Location                                               |
+| ----: | ------: | -------------- | ------------------------------------------------------ |
+| 68.4% |     640 | `average`      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 47.8% |     447 | `lambda$run$0` | `org.renaissance.jdk.concurrent.JavaKMeans`            |
+
+##### `distance` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller                | Location                                                   |
+| -----: | ------: | --------------------- | ---------------------------------------------------------- |
+| 100.0% |     902 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `__psynch_cvwait` (`<unknown>`)
+
+|     % | Samples | Caller                  | Location    |
+| ----: | ------: | ----------------------- | ----------- |
+| 97.2% |     630 | `Parker::park`          | `<unknown>` |
+|  2.8% |      18 | `PlatformMonitor::wait` | `<unknown>` |
+
+##### `computeClusterAverages` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller            | Location                                               |
+| -----: | ------: | ----------------- | ------------------------------------------------------ |
+| 100.0% |     647 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller            | Location                                               |
+| -----: | ------: | ----------------- | ------------------------------------------------------ |
+| 100.0% |     647 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% |     647 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `park` (`jdk.internal.misc.Unsafe`)
+
+|     % | Samples | Caller      | Location                                 |
+| ----: | ------: | ----------- | ---------------------------------------- |
+| 98.8% |     636 | `park`      | `java.util.concurrent.locks.LockSupport` |
+|  1.2% |       8 | `parkUntil` | `java.util.concurrent.locks.LockSupport` |
+
+##### `Unsafe_Park` (`<unknown>`)
+
+|      % | Samples | Caller | Location                   |
+| -----: | ------: | ------ | -------------------------- |
+| 100.0% |     643 | `park` | `jdk.internal.misc.Unsafe` |
+
+##### `average` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % | Samples | Caller                   | Location                                               |
+| -----: | ------: | ------------------------ | ------------------------------------------------------ |
+| 100.0% |     641 | `computeClusterAverages` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `park` (`java.util.concurrent.locks.LockSupport`)
+
+|     % | Samples | Caller      | Location                            |
+| ----: | ------: | ----------- | ----------------------------------- |
+| 60.8% |     387 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+| 39.2% |     249 | `awaitWork` | `java.util.concurrent.ForkJoinPool` |
+
+##### `Parker::park` (`<unknown>`)
+
+|      % | Samples | Caller        | Location    |
+| -----: | ------: | ------------- | ----------- |
+| 100.0% |     635 | `Unsafe_Park` | `<unknown>` |
+
+##### `collectClusters` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller            | Location                                                   |
+| -----: | ------: | ----------------- | ---------------------------------------------------------- |
+| 100.0% |     452 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `lambda$run$0` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Caller | Location                                                               |
+| -----: | ------: | ------ | ---------------------------------------------------------------------- |
+| 100.0% |     450 | `call` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68` |
+
+##### `call` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68`)
+
+|      % | Samples | Caller | Location                                            |
+| -----: | ------: | ------ | --------------------------------------------------- |
+| 100.0% |     450 | `exec` | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+
+##### `exec` (`java.util.concurrent.ForkJoinTask$AdaptedCallable`)
+
+|      % | Samples | Caller   | Location                            |
+| -----: | ------: | -------- | ----------------------------------- |
+| 100.0% |     450 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `merge` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|     % | Samples | Caller           | Location                                                   |
+| ----: | ------: | ---------------- | ---------------------------------------------------------- |
+| 98.4% |     363 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  1.6% |       6 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+
+##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller           | Location                                                   |
+| -----: | ------: | ---------------- | ---------------------------------------------------------- |
+| 100.0% |     365 | `compute`        | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+|  99.5% |     363 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `forEach` (`java.util.HashMap`)
+
+|      % | Samples | Caller  | Location                                    |
+| -----: | ------: | ------- | ------------------------------------------- |
+| 100.0% |     359 | `merge` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `accept` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801186d88`)
+
+|      % | Samples | Caller    | Location            |
+| -----: | ------: | --------- | ------------------- |
+| 100.0% |     355 | `forEach` | `java.util.HashMap` |
+
+##### `lambda$merge$7` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Caller   | Location                                                               |
+| -----: | ------: | -------- | ---------------------------------------------------------------------- |
+| 100.0% |     352 | `accept` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801186d88` |
+
+##### `merge` (`java.util.HashMap`)
+
+|      % | Samples | Caller           | Location                                    |
+| -----: | ------: | ---------------- | ------------------------------------------- |
+| 100.0% |     352 | `lambda$merge$7` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `awaitWork` (`java.util.concurrent.ForkJoinPool`)
+
+|      % | Samples | Caller      | Location                            |
+| -----: | ------: | ----------- | ----------------------------------- |
+| 100.0% |     257 | `runWorker` | `java.util.concurrent.ForkJoinPool` |
+
+##### `lambda$merge$6` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Caller  | Location                                                               |
+| -----: | ------: | ------- | ---------------------------------------------------------------------- |
+| 100.0% |     238 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801187218` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801187218`)
+
+|      % | Samples | Caller  | Location            |
+| -----: | ------: | ------- | ------------------- |
+| 100.0% |     238 | `merge` | `java.util.HashMap` |
+
+##### `forward_copy_longs` (`<unknown>`)
+
+|     % | Samples | Caller                            | Location    |
+| ----: | ------: | --------------------------------- | ----------- |
+| 82.2% |     194 | `arrayof_jint_disjoint_arraycopy` | `<unknown>` |
+| 17.8% |      42 | `arrayof_oop_disjoint_arraycopy`  | `<unknown>` |
+
+##### `_pthread_start` (`<unknown>`)
+
+|      % | Samples | Caller         | Location    |
+| -----: | ------: | -------------- | ----------- |
+| 100.0% |     212 | `thread_start` | `<unknown>` |
+
+##### `Thread::call_run` (`<unknown>`)
+
+|      % | Samples | Caller                | Location    |
+| -----: | ------: | --------------------- | ----------- |
+| 100.0% |     211 | `thread_native_entry` | `<unknown>` |
+
+##### `thread_native_entry` (`<unknown>`)
+
+|      % | Samples | Caller           | Location    |
+| -----: | ------: | ---------------- | ----------- |
+| 100.0% |     211 | `_pthread_start` | `<unknown>` |
+
+##### `arrayof_jint_disjoint_arraycopy` (`<unknown>`)
+
+|     % | Samples | Caller   | Location              |
+| ----: | ------: | -------- | --------------------- |
+| 64.1% |     134 | `copyOf` | `java.util.Arrays`    |
+| 31.6% |      66 | `merge`  | `java.util.HashMap`   |
+|  4.3% |       9 | `grow`   | `java.util.ArrayList` |
+
+##### `copyOf` (`java.util.Arrays`)
+
+|     % | Samples | Caller     | Location                       |
+| ----: | ------: | ---------- | ------------------------------ |
+| 85.6% |     160 | `toArray`  | `java.util.ArrayList`          |
+| 13.9% |      26 | `grow`     | `java.util.ArrayList`          |
+|  0.5% |       1 | `getBytes` | `jdk.internal.loader.Resource` |
+
+##### `get` (`java.util.ArrayList`)
+
+|     % | Samples | Caller                | Location                                                   |
+| ----: | ------: | --------------------- | ---------------------------------------------------------- |
+| 38.7% |      72 | `vectorSum`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| 32.8% |      61 | `collectClusters`     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 28.5% |      53 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `toArray` (`java.util.ArrayList`)
+
+|     % | Samples | Caller   | Location              |
+| ----: | ------: | -------- | --------------------- |
+| 50.6% |      81 | `<init>` | `java.util.ArrayList` |
+| 49.4% |      79 | `addAll` | `java.util.ArrayList` |
+
+##### `WorkerThread::run` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |     134 | `Thread::call_run` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |      73 | `Thread::call_run` | `<unknown>` |
+
+##### `CompileBroker::compiler_thread_loop` (`<unknown>`)
+
+|      % | Samples | Caller                          | Location    |
+| -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |      73 | `JavaThread::thread_main_inner` | `<unknown>` |
+
+##### `G1FullGCMarker::complete_marking` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |      60 | `G1FullGCMarkTask::work` | `<unknown>` |
+
+##### `G1FullGCMarkTask::work` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |      60 | `WorkerThread::run` | `<unknown>` |
+
+##### `zero_blocks` (`<unknown>`)
+
+|     % | Samples | Caller                | Location                                                   |
+| ----: | ------: | --------------------- | ---------------------------------------------------------- |
+| 60.0% |      36 | `merge`               | `java.util.HashMap`                                        |
+| 30.0% |      18 | `grow`                | `java.util.ArrayList`                                      |
+|  8.3% |       5 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  1.7% |       1 | `copyOf`              | `java.util.Arrays`                                         |
+
+##### `CompileBroker::invoke_compiler_on_method` (`<unknown>`)
+
+|      % | Samples | Caller                                | Location    |
+| -----: | ------: | ------------------------------------- | ----------- |
+| 100.0% |      59 | `CompileBroker::compiler_thread_loop` | `<unknown>` |
+
+##### `arrayof_oop_disjoint_arraycopy` (`<unknown>`)
+
+|      % | Samples | Caller   | Location              |
+| -----: | ------: | -------- | --------------------- |
+| 100.0% |      51 | `addAll` | `java.util.ArrayList` |
+
+##### `Unsafe_Unpark` (`<unknown>`)
+
+|      % | Samples | Caller   | Location                   |
+| -----: | ------: | -------- | -------------------------- |
+| 100.0% |      51 | `unpark` | `jdk.internal.misc.Unsafe` |
+
+##### `__psynch_cvsignal` (`<unknown>`)
+
+|      % | Samples | Caller          | Location    |
+| -----: | ------: | --------------- | ----------- |
+| 100.0% |      48 | `Unsafe_Unpark` | `<unknown>` |
+
+##### `Compile::Compile` (`<unknown>`)
+
+|      % | Samples | Caller                       | Location    |
+| -----: | ------: | ---------------------------- | ----------- |
+| 100.0% |      47 | `C2Compiler::compile_method` | `<unknown>` |
+
+##### `C2Compiler::compile_method` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |      47 | `CompileBroker::invoke_compiler_on_method` | `<unknown>` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |      45 | `WorkerThread::run` | `<unknown>` |
+
+##### `_new_array_Java` (`<unknown>`)
+
+|     % | Samples | Caller                | Location                                                   |
+| ----: | ------: | --------------------- | ---------------------------------------------------------- |
+| 97.8% |      44 | `copyOf`              | `java.util.Arrays`                                         |
+|  2.2% |       1 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `OptoRuntime::new_array_C` (`<unknown>`)
+
+|      % | Samples | Caller            | Location    |
+| -----: | ------: | ----------------- | ----------- |
+| 100.0% |      44 | `_new_array_Java` | `<unknown>` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |      42 | `G1FullGCMarker::complete_marking` | `<unknown>` |
+
+##### `launchHarnessClass` (`org.renaissance.core.Launcher`)
+
+|      % | Samples | Caller | Location                        |
+| -----: | ------: | ------ | ------------------------------- |
+| 100.0% |      37 | `main` | `org.renaissance.core.Launcher` |
+
+##### `Compile::Code_Gen` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |      26 | `Compile::Compile` | `<unknown>` |
+
+##### `Compile::Optimize` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |      17 | `Compile::Compile` | `<unknown>` |
+
+##### `PhaseChaitin::Register_Allocate` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |      14 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `PhaseIdealLoop::optimize` (`<unknown>`)
+
+|     % | Samples | Caller                    | Location    |
+| ----: | ------: | ------------------------- | ----------- |
+| 69.2% |       9 | `Compile::optimize_loops` | `<unknown>` |
+| 30.8% |       4 | `Compile::Optimize`       | `<unknown>` |
+
+##### `CompileQueue::get` (`<unknown>`)
+
+|      % | Samples | Caller                                | Location    |
+| -----: | ------: | ------------------------------------- | ----------- |
+| 100.0% |      13 | `CompileBroker::compiler_thread_loop` | `<unknown>` |
+
+##### `Compilation::compile_method` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |      12 | `Compilation::Compilation` | `<unknown>` |
+
+##### `Compilation::Compilation` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |      12 | `Compiler::compile_method` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_and_optimize` (`<unknown>`)
+
+|      % | Samples | Caller                           | Location    |
+| -----: | ------: | -------------------------------- | ----------- |
+| 100.0% |      12 | `PhaseIdealLoop::PhaseIdealLoop` | `<unknown>` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`<unknown>`)
+
+|      % | Samples | Caller                     | Location    |
+| -----: | ------: | -------------------------- | ----------- |
+| 100.0% |      12 | `PhaseIdealLoop::optimize` | `<unknown>` |
+
+##### `Compilation::compile_java_method` (`<unknown>`)
+
+|      % | Samples | Caller                        | Location    |
+| -----: | ------: | ----------------------------- | ----------- |
+| 100.0% |       9 | `Compilation::compile_method` | `<unknown>` |
+
+##### `Compile::optimize_loops` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |       9 | `Compile::Optimize` | `<unknown>` |
+
+##### `Compilation::build_hir` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |       7 | `Compilation::compile_java_method` | `<unknown>` |
+
+##### `GraphBuilder::GraphBuilder` (`<unknown>`)
+
+|      % | Samples | Caller             | Location    |
+| -----: | ------: | ------------------ | ----------- |
+| 100.0% |       5 | `IRScope::IRScope` | `<unknown>` |
+
+##### `Matcher::match` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |       5 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_loop_late_post_work` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       5 | `PhaseIdealLoop::build_loop_late` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_loop_late` (`<unknown>`)
+
+|      % | Samples | Caller                               | Location    |
+| -----: | ------: | ------------------------------------ | ----------- |
+| 100.0% |       5 | `PhaseIdealLoop::build_and_optimize` | `<unknown>` |
+
+##### `vtable stub` (`<unknown>`)
+
+|     % | Samples | Caller   | Location                            |
+| ----: | ------: | -------- | ----------------------------------- |
+| 50.0% |       1 | `join`   | `java.util.concurrent.ForkJoinTask` |
+| 50.0% |       1 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `itable stub` (`<unknown>`)
+
+|      % | Samples | Caller                | Location                |
+| -----: | ------: | --------------------- | ----------------------- |
+| 100.0% |       1 | `getExactSizeIfKnown` | `java.util.Spliterator` |
+
+##### `I2C/C2I adapters(0xb)` (`<unknown>`)
+
+|      % | Samples | Caller             | Location                           |
+| -----: | ------: | ------------------ | ---------------------------------- |
+| 100.0% |       1 | `parseContextSpec` | `sun.net.www.protocol.jar.Handler` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

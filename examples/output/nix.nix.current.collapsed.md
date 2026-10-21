@@ -503,6 +503,285 @@ Categories accounting for at least 1.0% of self samples.
 | ----: | ------: | ------------- | ----------- |
 | 87.4% |     851 | `(anonymous)` | `<unknown>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `primop addErrorContext` (`./lib/modules.nix:1147:15`)
+
+|      % | Samples | Caller        | Location                     |
+| -----: | ------: | ------------- | ---------------------------- |
+| 100.0% |     899 | `(anonymous)` | `./lib/attrsets.nix:1193:85` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:1193:85`)
+
+|     % | Samples | Caller        | Location                                                |
+| ----: | ------: | ------------- | ------------------------------------------------------- |
+| 85.2% |     766 | `(anonymous)` | `<unknown>`                                             |
+| 43.0% |     387 | `(anonymous)` | `./nixos/modules/system/activation/top-level.nix:71:8`  |
+| 42.9% |     386 | `(anonymous)` | `./nixos/modules/services/x11/xserver.nix:968:13`       |
+| 22.2% |     200 | `(anonymous)` | `./nixos/modules/system/activation/top-level.nix:78:72` |
+| 15.7% |     141 | `(anonymous)` | `./nixos/modules/system/boot/systemd.nix:551:20`        |
+
+##### `primop getAttr` (`«nix-internal»/derivation-internal.nix:50:17`)
+
+|     % | Samples | Caller                                                       | Location                                                 |
+| ----: | ------: | ------------------------------------------------------------ | -------------------------------------------------------- |
+| 45.3% |     402 | `primop isAttrs`                                             | `./lib/modules.nix:1228:15`                              |
+| 43.5% |     386 | `primop concatStringsSep`                                    | `./nixos/modules/system/activation/top-level.nix:376:22` |
+| 30.9% |     274 | `primop derivationStrict:system-path`                        | `«nix-internal»/derivation-internal.nix:37:12`           |
+| 22.2% |     197 | `primop toString`                                            | `./lib/types.nix:695:41`                                 |
+| 13.2% |     117 | `primop derivationStrict:nixos-system-profiler-26.11pre-git` | `«nix-internal»/derivation-internal.nix:37:12`           |
+
+##### `(anonymous)` (`<unknown>`)
+
+|     % | Samples | Caller               | Location                                        |
+| ----: | ------: | -------------------- | ----------------------------------------------- |
+| 89.2% |     759 | `primop head`        | `./lib/attrsets.nix:1719:13`                    |
+| 16.6% |     141 | `primop concatLists` | `./nixos/modules/system/boot/systemd.nix:547:7` |
+|  4.9% |      42 | `primop isList`      | `./lib/lists.nix:448:19`                        |
+|  4.7% |      40 | `primop map`         | `./lib/modules.nix:947:15`                      |
+|  4.7% |      40 | `primop concatLists` | `./lib/modules.nix:944:11`                      |
+
+##### `primop isAttrs` (`./lib/modules.nix:1228:15`)
+
+|      % | Samples | Caller                   | Location                    |
+| -----: | ------: | ------------------------ | --------------------------- |
+| 100.0% |     782 | `primop addErrorContext` | `./lib/modules.nix:1227:11` |
+
+##### `primop addErrorContext` (`./lib/modules.nix:1227:11`)
+
+|     % | Samples | Caller                   | Location                                         |
+| ----: | ------: | ------------------------ | ------------------------------------------------ |
+| 99.4% |     777 | `primop addErrorContext` | `./lib/modules.nix:1147:15`                      |
+| 56.9% |     445 | `(anonymous)`            | `./lib/attrsets.nix:667:60`                      |
+| 12.7% |      99 | `(anonymous)`            | `./lib/types.nix:724:29`                         |
+|  0.1% |       1 | `primop stringLength`    | `./nixos/modules/config/users-groups.nix:149:15` |
+|  0.1% |       1 | `(anonymous)`            | `<unknown>`                                      |
+
+##### `primop head` (`./lib/attrsets.nix:1719:13`)
+
+|     % | Samples | Caller        | Location                                        |
+| ----: | ------: | ------------- | ----------------------------------------------- |
+| 99.9% |     758 | `(anonymous)` | `./nixos/default.nix:21:12`                     |
+|  0.1% |       1 | `(anonymous)` | `./nixos/modules/programs/bash/bash.nix:135:17` |
+
+##### `checkAssertWarn` (`./nixos/modules/system/activation/top-level.nix:78:26`)
+
+|      % | Samples | Caller           | Location                    |
+| -----: | ------: | ---------------- | --------------------------- |
+| 100.0% |     758 | `primop isAttrs` | `./lib/modules.nix:1228:15` |
+
+##### `fold'` (`./lib/lists.nix:143:5`)
+
+|     % | Samples | Caller  | Location                                        |
+| ----: | ------: | ------- | ----------------------------------------------- |
+| 99.8% |     587 | `foldr` | `./lib/trivial.nix:1051:33`                     |
+|  0.2% |       1 | `foldr` | `./nixos/modules/config/users-groups.nix:583:7` |
+
+##### `foldr` (`./lib/trivial.nix:1051:33`)
+
+|      % | Samples | Caller         | Location                  |
+| -----: | ------: | -------------- | ------------------------- |
+| 100.0% |     587 | `showWarnings` | `./lib/asserts.nix:200:7` |
+
+##### `showWarnings` (`./lib/asserts.nix:200:7`)
+
+|      % | Samples | Caller            | Location                                                |
+| -----: | ------: | ----------------- | ------------------------------------------------------- |
+| 100.0% |     587 | `checkAssertWarn` | `./nixos/modules/system/activation/top-level.nix:78:26` |
+
+##### `primop removeAttrs` (`./lib/attrsets.nix:667:28`)
+
+|     % | Samples | Caller        | Location                                                         |
+| ----: | ------: | ------------- | ---------------------------------------------------------------- |
+| 98.3% |     454 | `filterAttrs` | `./lib/types.nix:1019:17`                                        |
+| 83.8% |     387 | `filterAttrs` | `./nixos/modules/config/shells-environment.nix:94:11`            |
+|  0.9% |       4 | `filterAttrs` | `./nixos/lib/systemd-lib.nix:465:15`                             |
+|  0.4% |       2 | `filterAttrs` | `./nixos/modules/services/desktops/pipewire/pipewire.nix:378:15` |
+|  0.2% |       1 | `filterAttrs` | `./nixos/modules/config/users-groups.nix:624:41`                 |
+
+##### `primop filter` (`./lib/attrsets.nix:667:45`)
+
+|      % | Samples | Caller               | Location                    |
+| -----: | ------: | -------------------- | --------------------------- |
+| 100.0% |     460 | `primop removeAttrs` | `./lib/attrsets.nix:667:28` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:667:53`)
+
+|      % | Samples | Caller          | Location                    |
+| -----: | ------: | --------------- | --------------------------- |
+| 100.0% |     459 | `primop filter` | `./lib/attrsets.nix:667:45` |
+
+##### `(anonymous)` (`./lib/attrsets.nix:667:60`)
+
+|      % | Samples | Caller        | Location                    |
+| -----: | ------: | ------------- | --------------------------- |
+| 100.0% |     454 | `(anonymous)` | `./lib/attrsets.nix:667:53` |
+
+##### `filterAttrs` (`./lib/types.nix:1019:17`)
+
+|      % | Samples | Caller            | Location                  |
+| -----: | ------: | ----------------- | ------------------------- |
+| 100.0% |     454 | `primop mapAttrs` | `./lib/types.nix:1025:21` |
+
+##### `primop mapAttrs` (`./lib/types.nix:1025:21`)
+
+|     % | Samples | Caller                   | Location                    |
+| ----: | ------: | ------------------------ | --------------------------- |
+| 99.6% |     452 | `primop addErrorContext` | `./lib/modules.nix:1147:15` |
+| 85.2% |     387 | `primop removeAttrs`     | `./lib/attrsets.nix:667:28` |
+|  0.2% |       1 | `functor`                | `./lib/modules.nix:293:42`  |
+
+##### `mkDerivationSimple` (`./pkgs/stdenv/generic/make-derivation.nix:308:22`)
+
+|      % | Samples | Caller                     | Location                                           |
+| -----: | ------: | -------------------------- | -------------------------------------------------- |
+| 100.0% |     406 | `makeDerivationExtensible` | `./pkgs/stdenv/generic/make-derivation.nix:225:29` |
+|   0.2% |       1 | `makeDerivationExtensible` | `./pkgs/stdenv/generic/make-derivation.nix:245:9`  |
+
+##### `makeDerivationExtensible` (`./pkgs/stdenv/generic/make-derivation.nix:225:29`)
+
+|     % | Samples | Caller         | Location                                                 |
+| ----: | ------: | -------------- | -------------------------------------------------------- |
+| 95.3% |     387 | `mkDerivation` | `./nixos/modules/system/activation/top-level.nix:58:16`  |
+|  3.9% |      16 | `mkDerivation` | `./lib/customisation.nix:867:11`                         |
+|  1.0% |       4 | `mkDerivation` | `./pkgs/build-support/trivial-builders/default.nix:78:5` |
+|  0.7% |       3 | `mkDerivation` | `./pkgs/development/tools/shellcheck/default.nix:28:16`  |
+|  0.5% |       2 | `mkDerivation` | `./pkgs/stdenv/adapters.nix:40:8`                        |
+
+##### `primop any` (`./lib/modules.nix:1209:14`)
+
+|     % | Samples | Caller                   | Location                    |
+| ----: | ------: | ------------------------ | --------------------------- |
+| 91.5% |     368 | `primop addErrorContext` | `./lib/modules.nix:1147:15` |
+|  8.0% |      32 | `(anonymous)`            | `./lib/modules.nix:729:13`  |
+|  1.0% |       4 | `(anonymous)`            | `./lib/attrsets.nix:667:60` |
+|  0.2% |       1 | `(anonymous)`            | `./lib/asserts.nix:195:54`  |
+
+##### `(anonymous)` (`./lib/trivial.nix:1211:22`)
+
+|      % | Samples | Caller       | Location                                           |
+| -----: | ------: | ------------ | -------------------------------------------------- |
+| 100.0% |     388 | `toFunction` | `./pkgs/stdenv/generic/make-derivation.nix:225:55` |
+
+##### `toFunction` (`./pkgs/stdenv/generic/make-derivation.nix:225:55`)
+
+|      % | Samples | Caller               | Location                                           |
+| -----: | ------: | -------------------- | -------------------------------------------------- |
+| 100.0% |     388 | `mkDerivationSimple` | `./pkgs/stdenv/generic/make-derivation.nix:308:22` |
+
+##### `primop isFunction` (`./lib/trivial.nix:1131:8`)
+
+|      % | Samples | Caller        | Location                    |
+| -----: | ------: | ------------- | --------------------------- |
+| 100.0% |     388 | `(anonymous)` | `./lib/trivial.nix:1211:22` |
+
+##### `filterAttrs` (`./nixos/modules/config/shells-environment.nix:94:11`)
+
+|      % | Samples | Caller            | Location                                             |
+| -----: | ------: | ----------------- | ---------------------------------------------------- |
+| 100.0% |     387 | `primop mapAttrs` | `./nixos/modules/config/shells-environment.nix:93:9` |
+
+##### `(anonymous)` (`./lib/modules.nix:1136:35`)
+
+|      % | Samples | Caller                   | Location                    |
+| -----: | ------: | ------------------------ | --------------------------- |
+| 100.0% |     387 | `primop addErrorContext` | `./lib/modules.nix:1147:15` |
+
+##### `(anonymous)` (`./nixos/modules/system/activation/top-level.nix:71:8`)
+
+|      % | Samples | Caller              | Location                   |
+| -----: | ------: | ------------------- | -------------------------- |
+| 100.0% |     387 | `primop isFunction` | `./lib/trivial.nix:1131:8` |
+
+##### `mkDerivation` (`./nixos/modules/system/activation/top-level.nix:58:16`)
+
+|      % | Samples | Caller  | Location                |
+| -----: | ------: | ------- | ----------------------- |
+| 100.0% |     387 | `fold'` | `./lib/lists.nix:143:5` |
+
+##### `primop mapAttrs` (`./nixos/modules/config/shells-environment.nix:93:9`)
+
+|      % | Samples | Caller        | Location                    |
+| -----: | ------: | ------------- | --------------------------- |
+| 100.0% |     387 | `(anonymous)` | `./lib/modules.nix:1136:35` |
+
+##### `primop concatStringsSep` (`./nixos/modules/system/activation/top-level.nix:376:22`)
+
+|      % | Samples | Caller           | Location                    |
+| -----: | ------: | ---------------- | --------------------------- |
+| 100.0% |     387 | `primop isAttrs` | `./lib/modules.nix:1228:15` |
+
+##### `(anonymous)` (`./nixos/modules/services/x11/xserver.nix:968:13`)
+
+|      % | Samples | Caller           | Location                                          |
+| -----: | ------: | ---------------- | ------------------------------------------------- |
+| 100.0% |     386 | `optionalString` | `./nixos/modules/services/x11/xserver.nix:967:13` |
+
+##### `optionalString` (`./nixos/modules/services/x11/xserver.nix:967:13`)
+
+|      % | Samples | Caller                                  | Location                                       |
+| -----: | ------: | --------------------------------------- | ---------------------------------------------- |
+| 100.0% |     386 | `primop derivationStrict:xkb-validated` | `«nix-internal»/derivation-internal.nix:37:12` |
+
+##### `primop derivationStrict:xkb-validated` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|      % | Samples | Caller           | Location                                       |
+| -----: | ------: | ---------------- | ---------------------------------------------- |
+| 100.0% |     386 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `primop derivationStrict:system-path` (`«nix-internal»/derivation-internal.nix:37:12`)
+
+|      % | Samples | Caller           | Location                                       |
+| -----: | ------: | ---------------- | ---------------------------------------------- |
+| 100.0% |     385 | `primop getAttr` | `«nix-internal»/derivation-internal.nix:50:17` |
+
+##### `dischargeProperties` (`./lib/modules.nix:1200:80`)
+
+|      % | Samples | Caller                   | Location                    |
+| -----: | ------: | ------------------------ | --------------------------- |
+| 100.0% |     340 | `primop addErrorContext` | `./lib/modules.nix:1200:14` |
+
+##### `primop addErrorContext` (`./lib/modules.nix:1200:14`)
+
+|      % | Samples | Caller       | Location                    |
+| -----: | ------: | ------------ | --------------------------- |
+| 100.0% |     340 | `primop map` | `./lib/modules.nix:1191:11` |
+
+##### `primop map` (`./lib/modules.nix:1191:11`)
+
+|      % | Samples | Caller        | Location                    |
+| -----: | ------: | ------------- | --------------------------- |
+| 100.0% |     340 | `(anonymous)` | `./lib/modules.nix:1190:11` |
+
+##### `primop concatMap` (`./lib/modules.nix:1189:26`)
+
+|      % | Samples | Caller          | Location                   |
+| -----: | ------: | --------------- | -------------------------- |
+| 100.0% |     340 | `primop length` | `./lib/modules.nix:1424:8` |
+
+##### `primop length` (`./lib/modules.nix:1424:8`)
+
+|      % | Samples | Caller        | Location                    |
+| -----: | ------: | ------------- | --------------------------- |
+| 100.0% |     340 | `(anonymous)` | `./lib/modules.nix:1204:24` |
+
+##### `primop all` (`./lib/modules.nix:1253:17`)
+
+|     % | Samples | Caller                   | Location                                            |
+| ----: | ------: | ------------------------ | --------------------------------------------------- |
+| 79.7% |     177 | `primop addErrorContext` | `./lib/modules.nix:1147:15`                         |
+| 12.6% |      28 | `(anonymous)`            | `./lib/strings.nix:613:27`                          |
+|  7.7% |      17 | `(anonymous)`            | `./pkgs/build-support/buildenv/default.nix:121:19`  |
+|  7.2% |      16 | `(anonymous)`            | `./nixos/modules/config/fonts/fontconfig.nix:60:57` |
+
+##### `primop length` (`./lib/lists.nix:140:13`)
+
+|      % | Samples | Caller  | Location                |
+| -----: | ------: | ------- | ----------------------- |
+| 100.0% |     201 | `fold'` | `./lib/lists.nix:143:5` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -232,6 +232,174 @@ Categories accounting for at least 1.0% of self samples.
 | 87.0% |     667 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000080102b000`  |
 | 87.0% |     667 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000080109a000`  |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `fromCache` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % | Samples | Caller             | Location                                             |
+| ----: | ------: | ------------------ | ---------------------------------------------------- |
+| 99.5% |     736 | `invokeStatic`     | `java.lang.invoke.LambdaForm$DMH.0x0000000801088800` |
+|  0.7% |       5 | `invokeStaticInit` | `java.lang.invoke.LambdaForm$DMH.0x0000000801088c00` |
+
+##### `linkToCallSite` (`java.lang.invoke.Invokers$Holder`)
+
+|      % | Samples | Caller             | Location                                         |
+| -----: | ------: | ------------------ | ------------------------------------------------ |
+| 100.0% |     740 | `main`             | `org.codenarc.CodeNarc`                          |
+|  91.4% |     676 | `execute`          | `org.codenarc.CodeNarc`                          |
+|  90.1% |     667 | `execute`          | `org.codenarc.CodeNarcRunner`                    |
+|  81.6% |     604 | `analyze`          | `org.codenarc.analyzer.FilesystemSourceAnalyzer` |
+|  81.2% |     601 | `processDirectory` | `org.codenarc.analyzer.FilesystemSourceAnalyzer` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000000801088800`)
+
+|     % | Samples | Caller   | Location                                            |
+| ----: | ------: | -------- | --------------------------------------------------- |
+| 99.9% |     735 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010a9400` |
+| 91.3% |     672 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000000801092000` |
+| 83.6% |     615 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010d8c00` |
+| 81.1% |     597 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000000801200800` |
+| 44.7% |     329 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008012de000` |
+
+##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
+
+|     % | Samples | Caller         | Location                                               |
+| ----: | ------: | -------------- | ------------------------------------------------------ |
+| 99.7% |     733 | `fromCache`    | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+| 89.4% |     657 | `invokeImpl`   | `jdk.internal.reflect.DirectMethodHandleAccessor`      |
+| 69.1% |     508 | `selectMethod` | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
+|  2.9% |      21 | `invokeImpl`   | `jdk.internal.reflect.DirectConstructorHandleAccessor` |
+|  0.8% |       6 | `invoke`       | `java.lang.invoke.BootstrapMethodInvoker`              |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000008010a9400`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     735 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+|  17.4% |     128 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x00000008010ac400` |
+
+##### `guardWithCatch` (`java.lang.invoke.LambdaForm$MH.0x00000008010abc00`)
+
+|      % | Samples | Caller     | Location                                            |
+| -----: | ------: | ---------- | --------------------------------------------------- |
+| 100.0% |     731 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010ac400` |
+|  82.5% |     603 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `reinvoke` (`java.lang.invoke.LambdaForm$MH.0x00000008010ac400`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |     731 | `guard`  | `java.lang.invoke.LambdaForm$MH.0x00000008010ac800` |
+|  92.5% |     676 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010c7400` |
+|  89.6% |     655 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010d3c00` |
+|  62.7% |     458 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010dcc00` |
+|  25.2% |     184 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010ad800` |
+
+##### `guard` (`java.lang.invoke.LambdaForm$MH.0x00000008010ac800`)
+
+|      % | Samples | Caller     | Location                                            |
+| -----: | ------: | ---------- | --------------------------------------------------- |
+| 100.0% |     731 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x00000008010ac400` |
+|  82.5% |     603 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invokeVirtual` (`java.lang.invoke.LambdaForm$DMH.0x0000000801092800`)
+
+|     % | Samples | Caller           | Location                                            |
+| ----: | ------: | ---------------- | --------------------------------------------------- |
+| 99.9% |     711 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008010ab400` |
+| 79.2% |     564 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000008010d3000` |
+|  0.4% |       3 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008012b0000` |
+|  0.3% |       2 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000000801209c00` |
+|  0.3% |       2 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008010c9c00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000008010ab400`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     711 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000008010abc00` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000008010c7400`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |     676 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invokeVirtual` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     676 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008010c6800` |
+|  98.7% |     667 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000080102b000` |
+|   4.9% |      33 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x0000000801096800` |
+|   1.2% |       8 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008010c7800` |
+|   1.0% |       7 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000000801121000` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000000801092000`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     676 | `linkToCallSite` | `java.lang.invoke.Invokers$Holder`                  |
+|   0.3% |       2 | `reinvoke`       | `java.lang.invoke.LambdaForm$MH.0x0000000801098000` |
+
+##### `execute` (`org.codenarc.CodeNarc`)
+
+|      % | Samples | Caller          | Location                                     |
+| -----: | ------: | --------------- | -------------------------------------------- |
+| 100.0% |     676 | `invokeVirtual` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x00000008010c6800`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     676 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000008010abc00` |
+
+##### `guardWithCatch` (`java.lang.invoke.LambdaForm$MH.0x0000000801096800`)
+
+|      % | Samples | Caller     | Location                                            |
+| -----: | ------: | ---------- | --------------------------------------------------- |
+| 100.0% |     672 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x0000000801098000` |
+|  58.6% |     394 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `reinvoke` (`java.lang.invoke.LambdaForm$MH.0x0000000801098000`)
+
+|      % | Samples | Caller   | Location                                            |
+| -----: | ------: | -------- | --------------------------------------------------- |
+| 100.0% |     672 | `guard`  | `java.lang.invoke.LambdaForm$MH.0x0000000801098400` |
+|  99.3% |     667 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000080109a000` |
+|  18.2% |     122 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000000801099000` |
+
+##### `guard` (`java.lang.invoke.LambdaForm$MH.0x0000000801098400`)
+
+|      % | Samples | Caller     | Location                                            |
+| -----: | ------: | ---------- | --------------------------------------------------- |
+| 100.0% |     672 | `reinvoke` | `java.lang.invoke.LambdaForm$MH.0x0000000801098000` |
+|  58.6% |     394 | `delegate` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `invokeSpecial` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % | Samples | Caller           | Location                                            |
+| ----: | ------: | ---------------- | --------------------------------------------------- |
+| 96.0% |     642 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x00000008010c8400` |
+| 89.8% |     601 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x00000008010d3000` |
+| 88.9% |     595 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x000000080120f000` |
+| 87.4% |     585 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000000801129800` |
+| 71.2% |     476 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000000801105400` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000080102b000`)
+
+|      % | Samples | Caller           | Location                                            |
+| -----: | ------: | ---------------- | --------------------------------------------------- |
+| 100.0% |     667 | `guardWithCatch` | `java.lang.invoke.LambdaForm$MH.0x0000000801096800` |
+|   0.3% |       2 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000080109a000`)
+
+|      % | Samples | Caller           | Location                           |
+| -----: | ------: | ---------------- | ---------------------------------- |
+| 100.0% |     667 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

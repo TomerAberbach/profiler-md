@@ -86,6 +86,130 @@ Functions with the largest decrease in bytes allocated within the function and i
 |    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
 |    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h`   |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `fmt::v12::to_string` (`./format.h`)
+
+| Change |        Delta |             % |          Size |       Objects | Caller                         | Location         |
+| -----: | -----------: | ------------: | ------------: | ------------: | ------------------------------ | ---------------- |
+|    new | +119.814 MiB | 0.0% → 100.0% | 0 B → 120 MiB | 0 → 1,998,000 | `fmt::v12::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `fmt::v12::vformat[abi:cxx11]` (`./format-inl.h`)
+
+| Change |        Delta |             % |          Size |       Objects | Caller             | Location     |
+| -----: | -----------: | ------------: | ------------: | ------------: | ------------------ | ------------ |
+|    new | +119.814 MiB | 0.0% → 100.0% | 0 B → 120 MiB | 0 → 1,998,000 | `fmt::v12::format` | `./format.h` |
+
+##### `fmt::v12::format` (`./format.h`)
+
+| Change |        Delta |             % |          Size |       Objects | Caller | Location           |
+| -----: | -----------: | ------------: | ------------: | ------------: | ------ | ------------------ |
+|    new | +119.814 MiB | 0.0% → 100.0% | 0 B → 120 MiB | 0 → 1,998,000 | `main` | `/out/profile.cpp` |
+
+##### `0x13cfb` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.6FxtDr/cpp-current/binary`)
+
+| Change |        Delta |             % |          Size |       Objects | Caller           | Location    |
+| -----: | -----------: | ------------: | ------------: | ------------: | ---------------- | ----------- |
+|    new | +119.813 MiB | 0.0% → 100.0% | 0 B → 120 MiB | 0 → 1,997,957 | `0xfffffc2314bf` | `<unknown>` |
+
+##### `0xaaaa00000000` (`<unknown>`)
+
+| Change | Delta |             % |       Size | Objects | Caller               | Location    |
+| -----: | ----: | ------------: | ---------: | ------: | -------------------- | ----------- |
+|    new | +74 B | 0.0% → 100.0% | 0 B → 74 B |   0 → 1 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0xfffffc2312e7` (`<unknown>`)
+
+| Change | Delta |             % |       Size | Objects | Caller               | Location    |
+| -----: | ----: | ------------: | ---------: | ------: | -------------------- | ----------- |
+|    new | +68 B | 0.0% → 100.0% | 0 B → 68 B |   0 → 1 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `fmt::v11::to_string` (`./format.h`)
+
+|  Change |        Delta |             % |          Size |       Objects | Caller                         | Location         |
+| ------: | -----------: | ------------: | ------------: | ------------: | ------------------------------ | ---------------- |
+| removed | -119.814 MiB | 100.0% → 0.0% | 120 MiB → 0 B | 1,998,000 → 0 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+
+##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`)
+
+|  Change |        Delta |             % |          Size |       Objects | Caller             | Location     |
+| ------: | -----------: | ------------: | ------------: | ------------: | ------------------ | ------------ |
+| removed | -119.814 MiB | 100.0% → 0.0% | 120 MiB → 0 B | 1,998,000 → 0 | `fmt::v11::format` | `./format.h` |
+
+##### `fmt::v11::format` (`./format.h`)
+
+|  Change |        Delta |             % |          Size |       Objects | Caller | Location           |
+| ------: | -----------: | ------------: | ------------: | ------------: | ------ | ------------------ |
+| removed | -119.814 MiB | 100.0% → 0.0% | 120 MiB → 0 B | 1,998,000 → 0 | `main` | `/out/profile.cpp` |
+
+##### `0x6400000009` (`<unknown>`)
+
+|  Change |        Delta |      % |            Size |        Objects | Caller               | Location    |
+| ------: | -----------: | -----: | --------------: | -------------: | -------------------- | ----------- |
+| -100.0% | -117.796 MiB | 100.0% | 118 MiB → 727 B | 1,966,776 → 41 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0x6400000000` (`<unknown>`)
+
+|  Change |        Delta |             % |          Size |   Objects | Caller               | Location    |
+| ------: | -----------: | ------------: | ------------: | --------: | -------------------- | ----------- |
+| removed | -652.937 KiB | 100.0% → 0.0% | 653 KiB → 0 B | 9,881 → 0 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `0xffffa3610027` (`<unknown>`)
+
+|  Change |        Delta |            % |           Size |   Objects | Caller               | Location    |
+| ------: | -----------: | -----------: | -------------: | --------: | -------------------- | ----------- |
+| removed | -323.175 KiB | 81.3% → 0.0% |  323 KiB → 0 B | 5,936 → 0 | `0xffffffffffffffff` | `<unknown>` |
+| removed |  -74.358 KiB | 18.7% → 0.0% | 74.4 KiB → 0 B | 1,125 → 0 | `0xffffa3610027`     | `<unknown>` |
+
+##### `0xffffc92ac017` (`<unknown>`)
+
+|  Change |  Delta |             % |        Size | Objects | Caller               | Location    |
+| ------: | -----: | ------------: | ----------: | ------: | -------------------- | ----------- |
+| removed | -137 B | 100.0% → 0.0% | 137 B → 0 B |   2 → 0 | `0xffffffffffffffff` | `<unknown>` |
+
+##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+
+| Change | Delta |      % |    Size |   Objects | Caller                                     | Location                                  |
+| -----: | ----: | -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------- |
+|    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+
+##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`)
+
+|  Change |        Delta |             % |          Size |       Objects | Caller                | Location     |
+| ------: | -----------: | ------------: | ------------: | ------------: | --------------------- | ------------ |
+| removed | -119.814 MiB | 100.0% → 0.0% | 120 MiB → 0 B | 1,998,000 → 0 | `fmt::v11::to_string` | `./format.h` |
+|     new | +119.814 MiB | 0.0% → 100.0% | 0 B → 120 MiB | 0 → 1,998,000 | `fmt::v12::to_string` | `./format.h` |
+
+##### `main` (`/out/profile.cpp`)
+
+| Change | Delta |      % |    Size |   Objects | Caller    | Location                               |
+| -----: | ----: | -----: | ------: | --------: | --------- | -------------------------------------- |
+|    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,001 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change | Delta |      % |    Size |   Objects | Caller    | Location                               |
+| -----: | ----: | -----: | ------: | --------: | --------- | -------------------------------------- |
+|    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,001 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change | Delta |      % |    Size |   Objects | Caller   | Location    |
+| -----: | ----: | -----: | ------: | --------: | -------- | ----------- |
+|    ~0% |  -0 B | 100.0% | 120 MiB | 1,998,001 | `_start` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|  Change |          Delta |             % |            Size |        Objects | Caller                                     | Location                                                                       |
+| ------: | -------------: | ------------: | --------------: | -------------: | ------------------------------------------ | ------------------------------------------------------------------------------ |
+|     new |   +119.813 MiB | 0.0% → 100.0% |   0 B → 120 MiB |  0 → 1,997,957 | `0x13cfb`                                  | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.6FxtDr/cpp-current/binary` |
+| -100.0% |   -117.796 MiB | 98.3% → <0.1% | 118 MiB → 727 B | 1,966,776 → 41 | `0x6400000009`                             | `<unknown>`                                                                    |
+| removed | -1,015.879 KiB |   0.8% → 0.0% | 1,016 KiB → 0 B |     14,280 → 0 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc`                                    |
+| removed |   -652.937 KiB |   0.5% → 0.0% |   653 KiB → 0 B |      9,881 → 0 | `0x6400000000`                             | `<unknown>`                                                                    |
+| removed |   -397.534 KiB |   0.3% → 0.0% |   398 KiB → 0 B |      7,061 → 0 | `0xffffa3610027`                           | `<unknown>`                                                                    |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -866,6 +866,362 @@ Functions with the largest decrease in samples collected within the function and
 |  -42.9% |    -3 | 0.5% → 0.3% |   7 → 4 | `lazycache` | `<frozen linecache>` |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `getline`   | `<frozen linecache>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `accept.<locals>.inner` (`debug.py`)
+
+|  Change | Delta |           % |       Samples | Caller                                                   | Location   |
+| ------: | ----: | ----------: | ------------: | -------------------------------------------------------- | ---------- |
+|  +11.3% |  +162 |      100.0% | 1,431 → 1,593 | `minimal`                                                | `debug.py` |
+| +100.0% |    +2 | 0.1% → 0.3% |         2 → 4 | `StateForActualGivenExecution.execute_once.<locals>.run` | `core.py`  |
+
+##### `minimal` (`debug.py`)
+
+|  Change | Delta |             % |   Samples | Caller                                      | Location                 |
+| ------: | ----: | ------------: | --------: | ------------------------------------------- | ------------------------ |
+| +132.7% |   +73 |   3.8% → 8.0% |  55 → 128 | `test_lowering_together_negative`           | `test_shrink_quality.py` |
+|  +39.6% |   +42 |   7.4% → 9.3% | 106 → 148 | `test_minimize_one_of`                      | `test_shrink_quality.py` |
+|  -32.8% |   -38 |   8.1% → 4.9% |  116 → 78 | `test_dictionary`                           | `test_shrink_quality.py` |
+|  +12.1% |   +22 | 12.7% → 12.8% | 182 → 204 | `test_find_large_union_list`                | `test_shrink_quality.py` |
+|  +41.7% |   +15 |   2.5% → 3.2% |   36 → 51 | `test_can_ignore_left_hand_side_of_flatmap` | `test_shrink_quality.py` |
+
+##### `_multicall` (`_callers.py`)
+
+| Change | Delta |      % |       Samples | Caller                    | Location      |
+| -----: | ----: | -----: | ------------: | ------------------------- | ------------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `PluginManager._hookexec` | `_manager.py` |
+
+##### `PluginManager._hookexec` (`_manager.py`)
+
+| Change | Delta |      % |       Samples | Caller                | Location    |
+| -----: | ----: | -----: | ------------: | --------------------- | ----------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `HookCaller.__call__` | `_hooks.py` |
+
+##### `HookCaller.__call__` (`_hooks.py`)
+
+| Change | Delta |              % |       Samples | Caller                              | Location      |
+| -----: | ----: | -------------: | ------------: | ----------------------------------- | ------------- |
+| +11.2% |  +161 | 100.0% → 99.9% | 1,433 → 1,594 | `Function.runtest`                  | `python.py`   |
+| +11.2% |  +161 | 100.0% → 99.9% | 1,433 → 1,594 | `call_and_report.<locals>.<lambda>` | `runner.py`   |
+| +11.2% |  +161 | 100.0% → 99.9% | 1,433 → 1,594 | `pytest_runtestloop`                | `main.py`     |
+| +11.2% |  +161 | 100.0% → 99.9% | 1,433 → 1,594 | `_main`                             | `main.py`     |
+| +11.2% |  +161 | 100.0% → 99.9% | 1,433 → 1,594 | `_main`                             | `__init__.py` |
+
+##### `_main` (`__init__.py`)
+
+| Change | Delta |      % |       Samples | Caller          | Location      |
+| -----: | ----: | -----: | ------------: | --------------- | ------------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `_console_main` | `__init__.py` |
+
+##### `_console_main` (`__init__.py`)
+
+| Change | Delta |      % |       Samples | Caller     | Location      |
+| -----: | ----: | -----: | ------------: | ---------- | ------------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `<module>` | `__main__.py` |
+
+##### `<module>` (`__main__.py`)
+
+| Change | Delta |      % |       Samples | Caller      | Location         |
+| -----: | ----: | -----: | ------------: | ----------- | ---------------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+| Change | Delta |      % |       Samples | Caller                | Location         |
+| -----: | ----: | -----: | ------------: | --------------------- | ---------------- |
+| +11.3% |  +162 |  99.9% | 1,433 → 1,595 | `_run_module_code`    | `<frozen runpy>` |
+| +11.3% |  +162 | 100.0% | 1,434 → 1,596 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `_run_module_code` (`<frozen runpy>`)
+
+| Change | Delta |      % |       Samples | Caller       | Location         |
+| -----: | ----: | -----: | ------------: | ------------ | ---------------- |
+| +11.3% |  +162 | 100.0% | 1,433 → 1,595 | `run_module` | `<frozen runpy>` |
+
+##### `run_module` (`<frozen runpy>`)
+
+| Change | Delta |      % |       Samples | Caller      | Location         |
+| -----: | ----: | -----: | ------------: | ----------- | ---------------- |
+| +11.3% |  +162 | 100.0% | 1,434 → 1,596 | `_run_code` | `<frozen runpy>` |
+
+##### `given.<locals>.run_test_as_given.<locals>.wrapped_test` (`core.py`)
+
+|  Change | Delta |           % |       Samples | Caller                                            | Location                 |
+| ------: | ----: | ----------: | ------------: | ------------------------------------------------- | ------------------------ |
+|  +11.3% |  +162 |       99.9% | 1,431 → 1,593 | `accept.<locals>.inner`                           | `debug.py`               |
+| +132.7% |   +73 | 3.8% → 8.0% |      55 → 128 | `accept.<locals>.test_lowering_together_negative` | `test_shrink_quality.py` |
+|  +18.3% |   +11 | 4.2% → 4.5% |       60 → 71 | `accept.<locals>.test_lowering_together_positive` | `test_shrink_quality.py` |
+|  +26.1% |    +6 | 1.6% → 1.8% |       23 → 29 | `accept.<locals>.test_perfectly_shrinks_integers` | `test_shrink_quality.py` |
+|   +3.1% |    +2 | 4.5% → 4.2% |       65 → 67 | `accept.<locals>.test_lowering_together_with_gap` | `test_shrink_quality.py` |
+
+##### `pytest_pyfunc_call` (`python.py`)
+
+| Change | Delta |      % |       Samples | Caller       | Location      |
+| -----: | ----: | -----: | ------------: | ------------ | ------------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `_multicall` | `_callers.py` |
+
+##### `Function.runtest` (`python.py`)
+
+| Change | Delta |      % |       Samples | Caller                | Location    |
+| -----: | ----: | -----: | ------------: | --------------------- | ----------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `pytest_runtest_call` | `runner.py` |
+
+##### `pytest_runtest_call` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller       | Location      |
+| -----: | ----: | -----: | ------------: | ------------ | ------------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `_multicall` | `_callers.py` |
+
+##### `call_and_report.<locals>.<lambda>` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------------: | -------------------- | ----------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `CallInfo.from_call` | `runner.py` |
+
+##### `CallInfo.from_call` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller            | Location    |
+| -----: | ----: | -----: | ------------: | ----------------- | ----------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `call_and_report` | `runner.py` |
+
+##### `call_and_report` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller            | Location    |
+| -----: | ----: | -----: | ------------: | ----------------- | ----------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `runtestprotocol` | `runner.py` |
+
+##### `runtestprotocol` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller                    | Location    |
+| -----: | ----: | -----: | ------------: | ------------------------- | ----------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `pytest_runtest_protocol` | `runner.py` |
+
+##### `pytest_runtest_protocol` (`runner.py`)
+
+| Change | Delta |      % |       Samples | Caller       | Location      |
+| -----: | ----: | -----: | ------------: | ------------ | ------------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `_multicall` | `_callers.py` |
+
+##### `pytest_runtestloop` (`main.py`)
+
+| Change | Delta |      % |       Samples | Caller       | Location      |
+| -----: | ----: | -----: | ------------: | ------------ | ------------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `_multicall` | `_callers.py` |
+
+##### `_main` (`main.py`)
+
+| Change | Delta |      % |       Samples | Caller         | Location  |
+| -----: | ----: | -----: | ------------: | -------------- | --------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `wrap_session` | `main.py` |
+
+##### `wrap_session` (`main.py`)
+
+| Change | Delta |      % |       Samples | Caller                | Location  |
+| -----: | ----: | -----: | ------------: | --------------------- | --------- |
+| +11.2% |  +161 | 100.0% | 1,433 → 1,594 | `pytest_cmdline_main` | `main.py` |
+
+##### `(garbage collector)` (`<unknown>`)
+
+|   Change | Delta |             % |   Samples | Caller                                               | Location        |
+| -------: | ----: | ------------: | --------: | ---------------------------------------------------- | --------------- |
+| +6000.0% |   +60 |  0.6% → 26.4% |    1 → 61 | `namedtuple.<locals>._make`                          | `__init__.py`   |
+|    +5.6% |    +7 | 80.8% → 57.6% | 126 → 133 | `recursive_property.<locals>.forced_or_cached_value` | `strategies.py` |
+|  removed |    -3 |   1.9% → 0.0% |     3 → 0 | `getsource`                                          | `inspect.py`    |
+|      new |    +3 |   0.0% → 1.3% |     0 → 3 | `suppress.__exit__`                                  | `contextlib.py` |
+|  removed |    -2 |   1.3% → 0.0% |     2 → 0 | `dedent`                                             | `textwrap.py`   |
+
+##### `checkcache` (`<frozen linecache>`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | -------------- |
+| +32.4% |   +11 | 100.0% | 34 → 45 | `StackSummary._extract_from_extended_frame_gen` | `traceback.py` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |            % | Samples | Caller             | Location                        |
+| -----: | ----: | -----------: | ------: | ------------------ | ------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `_handle_fromlist` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |      % | Samples | Caller                    | Location                        |
+| ------: | ----: | -----: | ------: | ------------------------- | ------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |      % | Samples | Caller           | Location                        |
+| ------: | ----: | -----: | ------: | ---------------- | ------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |            % | Samples | Caller                      | Location                        |
+| ------: | ----: | -----------: | ------: | --------------------------- | ------------------------------- |
+| +100.0% |    +1 |       100.0% |   1 → 2 | `<module>`                  | `__init__.py`                   |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `<module>`                  | `core.py`                       |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `<module>`                  | `conftest.py`                   |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `_gcd_import`               | `<frozen importlib._bootstrap>` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Caller     | Location  |
+| -----: | ----: | ------------: | ------: | ---------- | --------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<module>` | `core.py` |
+
+##### `_gcd_import` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Caller          | Location      |
+| -----: | ----: | ------------: | ------: | --------------- | ------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `import_module` | `__init__.py` |
+
+##### `Mapping.get` (`<frozen _collections_abc>`)
+
+| Change | Delta |             % | Samples | Caller                  | Location        |
+| -----: | ----: | ------------: | ------: | ----------------------- | --------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `get_trimmed_traceback` | `escalation.py` |
+
+##### `test_dictionary` (`test_shrink_quality.py`)
+
+| Change | Delta |      % |  Samples | Caller                                 | Location   |
+| -----: | ----: | -----: | -------: | -------------------------------------- | ---------- |
+| -32.8% |   -38 | 100.0% | 116 → 78 | `flaky.<locals>.accept.<locals>.inner` | `utils.py` |
+
+##### `accept.<locals>.test_dictionary` (`test_shrink_quality.py`)
+
+| Change | Delta |      % |  Samples | Caller               | Location    |
+| -----: | ----: | -----: | -------: | -------------------- | ----------- |
+| -32.8% |   -38 | 100.0% | 116 → 78 | `pytest_pyfunc_call` | `python.py` |
+
+##### `flaky.<locals>.accept.<locals>.inner` (`utils.py`)
+
+| Change | Delta |             % |  Samples | Caller                                                      | Location                 |
+| -----: | ----: | ------------: | -------: | ----------------------------------------------------------- | ------------------------ |
+| -32.8% |   -38 | 76.3% → 60.5% | 116 → 78 | `accept.<locals>.test_dictionary`                           | `test_shrink_quality.py` |
+| +41.7% |   +15 | 23.7% → 39.5% |  36 → 51 | `accept.<locals>.test_can_ignore_left_hand_side_of_flatmap` | `test_shrink_quality.py` |
+
+##### `Integer.short_circuit` (`integer.py`)
+
+| Change | Delta |      % |   Samples | Caller         | Location    |
+| -----: | ----: | -----: | --------: | -------------- | ----------- |
+|  -5.1% |   -14 | 100.0% | 273 → 259 | `Shrinker.run` | `common.py` |
+
+##### `format_exception` (`traceback.py`)
+
+| Change | Delta |             % | Samples | Caller                  | Location        |
+| -----: | ----: | ------------: | ------: | ----------------------- | --------------- |
+| -16.4% |   -12 | 81.1% → 80.3% | 73 → 61 | `format_exception`      | `escalation.py` |
+| -17.6% |    -3 | 18.9% → 18.4% | 17 → 14 | `ExceptionInfo.getrepr` | `code.py`       |
+|    new |    +1 |   0.0% → 1.3% |   0 → 1 | `get_trimmed_traceback` | `escalation.py` |
+
+##### `test_lists_forced_near_top` (`test_shrink_quality.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -20.5% |    -9 | 100.0% | 44 → 35 | `pytest_pyfunc_call` | `python.py` |
+
+##### `format_exception` (`escalation.py`)
+
+| Change | Delta |             % | Samples | Caller                                                  | Location  |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------- | --------- |
+|  -5.3% |    -5 | 95.0% → 97.8% | 95 → 90 | `StateForActualGivenExecution._execute_once_for_engine` | `core.py` |
+| -60.0% |    -3 |   5.0% → 2.2% |   5 → 2 | `StateForActualGivenExecution.run_engine`               | `core.py` |
+
+##### `get_seeder_and_restorer.<locals>.restore_all` (`entropy.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location     |
+| -----: | ----: | -----: | ------: | -------------------- | ------------ |
+| -53.3% |    -8 | 100.0% |  15 → 7 | `deterministic_PRNG` | `entropy.py` |
+
+##### `_GeneratorContextManager.__exit__` (`contextlib.py`)
+
+| Change | Delta |             % | Samples | Caller                                                  | Location     |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------- | ------------ |
+| -40.9% |    -9 | 91.7% → 81.3% | 22 → 13 | `StateForActualGivenExecution.execute_once`             | `core.py`    |
+|    new |    +2 |  0.0% → 12.5% |   0 → 2 | `BuildContext.prep_args_kwargs_from_strategies`         | `control.py` |
+| -50.0% |    -1 |   8.3% → 6.3% |   2 → 1 | `StateForActualGivenExecution._execute_once_for_engine` | `core.py`    |
+
+##### `Shrinker.redistribute_numeric_pairs.<locals>.boost` (`shrinker.py`)
+
+| Change | Delta |      % | Samples | Caller         | Location        |
+| -----: | ----: | -----: | ------: | -------------- | --------------- |
+| -14.9% |    -7 | 100.0% | 47 → 40 | `find_integer` | `junkdrawer.py` |
+
+##### `Shrinker.redistribute_numeric_pairs` (`shrinker.py`)
+
+| Change | Delta |      % | Samples | Caller                            | Location      |
+| -----: | ----: | -----: | ------: | --------------------------------- | ------------- |
+| -14.9% |    -7 | 100.0% | 47 → 40 | `Shrinker.step.<locals>.<lambda>` | `shrinker.py` |
+
+##### `deterministic_PRNG` (`entropy.py`)
+
+| Change | Delta |      % | Samples | Caller                              | Location        |
+| -----: | ----: | -----: | ------: | ----------------------------------- | --------------- |
+| -40.0% |    -6 | 100.0% |  15 → 9 | `_GeneratorContextManager.__exit__` | `contextlib.py` |
+
+##### `test_shrink_text_differs_from_upper_to_ascii` (`test_shrink_quality.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -57.1% |    -4 | 100.0% |   7 → 3 | `pytest_pyfunc_call` | `python.py` |
+
+##### `TracebackException.format` (`traceback.py`)
+
+| Change | Delta |      % | Samples | Caller             | Location       |
+| -----: | ----: | -----: | ------: | ------------------ | -------------- |
+|  -6.1% |    -4 | 100.0% | 66 → 62 | `format_exception` | `traceback.py` |
+
+##### `test_minimize_duplicated_characters_within_a_choice` (`test_shrink_quality.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -36.4% |    -4 | 100.0% |  11 → 7 | `pytest_pyfunc_call` | `python.py` |
+
+##### `FrameSummary.line` (`traceback.py`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | -------------- |
+| -11.8% |    -4 | 100.0% | 34 → 30 | `StackSummary._extract_from_extended_frame_gen` | `traceback.py` |
+
+##### `FrameSummary._set_lines` (`traceback.py`)
+
+| Change | Delta |      % | Samples | Caller              | Location       |
+| -----: | ----: | -----: | ------: | ------------------- | -------------- |
+| -50.0% |    -4 | 100.0% |   8 → 4 | `FrameSummary.line` | `traceback.py` |
+
+##### `test_minimize_list_of_fairly_non_unique_ints` (`test_shrink_quality.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| -80.0% |    -4 | 100.0% |   5 → 1 | `pytest_pyfunc_call` | `python.py` |
+
+##### `test_containment` (`test_shrink_quality.py`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+|  -4.4% |    -3 | 100.0% | 68 → 65 | `pytest_pyfunc_call` | `python.py` |
+
+##### `SpanProperty.__pop` (`data.py`)
+
+| Change | Delta |      % | Samples | Caller             | Location  |
+| -----: | ----: | -----: | ------: | ------------------ | --------- |
+| -60.0% |    -3 | 100.0% |   5 → 2 | `SpanProperty.run` | `data.py` |
+
+##### `lazycache` (`<frozen linecache>`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | -------------- |
+| -42.9% |    -3 | 100.0% |   7 → 4 | `StackSummary._extract_from_extended_frame_gen` | `traceback.py` |
+
+##### `getline` (`<frozen linecache>`)
+
+|  Change | Delta |             % | Samples | Caller                    | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `FrameSummary._set_lines` | `traceback.py` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

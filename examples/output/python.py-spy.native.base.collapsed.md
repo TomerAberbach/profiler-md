@@ -510,6 +510,380 @@ Categories accounting for at least 1.0% of self samples.
 |  0.3% |       1 | `<listcomp>`                | `<frozen importlib._bootstrap_external>` |
 |  0.3% |       1 | `_path_join`                | `<frozen importlib._bootstrap_external>` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `_run_module_as_main` (`<frozen runpy>`)
+
+|      % | Samples | Caller           | Location    |
+| -----: | ------: | ---------------- | ----------- |
+| 100.0% |     300 | `0x7f3b306b724a` | `libc.so.6` |
+
+##### `CPyDef_black___reformat_one` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                       | Location                                                      |
+| -----: | ------: | ---------------------------- | ------------------------------------------------------------- |
+| 100.0% |     291 | `CPyPy_black___reformat_one` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___reformat_one` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                | Location                                                      |
+| -----: | ------: | --------------------- | ------------------------------------------------------------- |
+| 100.0% |     291 | `CPyDef_black___main` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___main` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller               | Location                                                      |
+| -----: | ------: | -------------------- | ------------------------------------------------------------- |
+| 100.0% |     291 | `CPyPy_black___main` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___main` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|     % | Samples | Caller     | Location              |
+| ----: | ------: | ---------- | --------------------- |
+| 99.7% |     290 | `new_func` | `click/decorators.py` |
+|  0.3% |       1 | `invoke`   | `click/core.py`       |
+
+##### `new_func` (`click/decorators.py`)
+
+|     % | Samples | Caller                              | Location                                                      |
+| ----: | ------: | ----------------------------------- | ------------------------------------------------------------- |
+| 99.7% |     290 | `invoke`                            | `click/core.py`                                               |
+|  0.3% |       1 | `CPyDef_mode___Mode_____contains__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `invoke` (`click/core.py`)
+
+|      % | Samples | Caller   | Location        |
+| -----: | ------: | -------- | --------------- |
+| 100.0% |     291 | `invoke` | `click/core.py` |
+| 100.0% |     291 | `main`   | `click/core.py` |
+
+##### `main` (`click/core.py`)
+
+|      % | Samples | Caller     | Location        |
+| -----: | ------: | ---------- | --------------- |
+| 100.0% |     291 | `__call__` | `click/core.py` |
+
+##### `__call__` (`click/core.py`)
+
+|     % | Samples | Caller                        | Location                                                      |
+| ----: | ------: | ----------------------------- | ------------------------------------------------------------- |
+| 99.7% |     290 | `CPyDef_black___patched_main` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  0.3% |       1 | `<module>`                    | `black/__main__.py`                                           |
+
+##### `CPyDef_black___patched_main` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                       | Location                                                      |
+| -----: | ------: | ---------------------------- | ------------------------------------------------------------- |
+| 100.0% |     291 | `CPyPy_black___patched_main` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyPy_black___patched_main` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|     % | Samples | Caller      | Location            |
+| ----: | ------: | ----------- | ------------------- |
+| 99.7% |     290 | `<module>`  | `black/__main__.py` |
+|  0.3% |       1 | `_run_code` | `<frozen runpy>`    |
+
+##### `<module>` (`black/__main__.py`)
+
+|     % | Samples | Caller                        | Location                                                      |
+| ----: | ------: | ----------------------------- | ------------------------------------------------------------- |
+| 99.7% |     290 | `_run_code`                   | `<frozen runpy>`                                              |
+|  0.3% |       1 | `CPyDef_black___patched_main` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |     291 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `CPyDef_black___format_file_contents` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                | Location                                                      |
+| -----: | ------: | ------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     290 | `CPyDef_black___format_file_in_place` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___format_file_in_place` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                        | Location                                                      |
+| -----: | ------: | ----------------------------- | ------------------------------------------------------------- |
+| 100.0% |     290 | `CPyDef_black___reformat_one` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black____format_str_once` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|     % | Samples | Caller                         | Location                                                      |
+| ----: | ------: | ------------------------------ | ------------------------------------------------------------- |
+| 72.7% |     189 | `CPyDef_black___format_str`    | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 27.3% |      71 | `CPyDef_black___assert_stable` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___format_str` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                | Location                                                      |
+| -----: | ------: | ------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     189 | `CPyDef_black___format_file_contents` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_driver___Driver___parse_tokens` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                  | Location                                                      |
+| -----: | ------: | --------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     101 | `CPyDef_driver___Driver___parse_string` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_driver___Driver___parse_string` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                           | Location                                                      |
+| -----: | ------: | -------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     101 | `CPyDef_parsing___lib2to3_parse` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_parsing___lib2to3_parse` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                            | Location                                                      |
+| -----: | ------: | --------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     101 | `CPyDef_black____format_str_once` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_black___check_stability_and_equivalence` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                | Location                                                      |
+| -----: | ------: | ------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |     101 | `CPyDef_black___format_file_contents` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                                                             | Location                                                      |
+| -----: | ------: | ---------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      95 | `CPyDef_black____format_str_once`                                                  | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  98.9% |      94 | `CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__`            | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  95.8% |      91 | `CPyDef_linegen___visit_stmt_LineGenerator_gen_____mypyc_generator_helper__`       | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  90.5% |      86 | `CPyDef_linegen___visit_funcdef_LineGenerator_gen_____mypyc_generator_helper__`    | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|   1.1% |       1 | `CPyDef_linegen___visit_decorators_LineGenerator_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                                                          | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      94 | `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                                                              | Location                                                      |
+| -----: | ------: | ----------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      94 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`                     | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  92.6% |      87 | `CPyDef_linegen___visit_suite_LineGenerator_gen_____mypyc_generator_helper__`       | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  60.6% |      57 | `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  25.5% |      24 | `CPyDef_linegen___visit_power_LineGenerator_gen_____mypyc_generator_helper__`       | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|   3.2% |       3 | `CPyDef_linegen___visit_DEDENT_LineGenerator_gen_____mypyc_generator_helper__`      | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_linegen___visit_stmt_LineGenerator_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                                          | Location                                                      |
+| -----: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      92 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `CPyDef_linegen___visit_suite_LineGenerator_gen_____mypyc_generator_helper__` (`30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
+
+|      % | Samples | Caller                                                          | Location                                                      |
+| -----: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      87 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `parse` (`ast.py`)
+
+|      % | Samples | Caller                                   | Location                                                      |
+| -----: | ------: | ---------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |      10 | `CPyDef_parsing____parse_single_version` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller             | Location                                 |
+| -----: | ------: | ------------------ | ---------------------------------------- |
+| 100.0% |       9 | `create_module`    | `<frozen importlib._bootstrap_external>` |
+|  77.8% |       7 | `exec_module`      | `<frozen importlib._bootstrap_external>` |
+|  33.3% |       3 | `_handle_fromlist` | `<frozen importlib._bootstrap>`          |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |       9 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       9 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                      | Location                                                      |
+| -----: | ------: | --------------------------- | ------------------------------------------------------------- |
+| 100.0% |       9 | `_get_module_details`       | `<frozen runpy>`                                              |
+|  55.6% |       5 | `CPyImport_ImportMany`      | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  44.4% |       4 | `CPyImport_ImportFromMany`  | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  33.3% |       3 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`                               |
+|  22.2% |       2 | `<module>`                  | `click/__init__.py`                                           |
+
+##### `create_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller             | Location                        |
+| -----: | ------: | ------------------ | ------------------------------- |
+| 100.0% |       9 | `module_from_spec` | `<frozen importlib._bootstrap>` |
+
+##### `module_from_spec` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       9 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % | Samples | Caller                | Location         |
+| -----: | ------: | --------------------- | ---------------- |
+| 100.0% |       9 | `_get_module_details` | `<frozen runpy>` |
+| 100.0% |       9 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller           | Location                        |
+| -----: | ------: | ---------------- | ------------------------------- |
+| 100.0% |       7 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `__init__` (`<string>`)
+
+|     % | Samples | Caller                                                                 | Location                                                      |
+| ----: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 40.0% |       2 | `CPyDef_linegen___line_LineGenerator_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 20.0% |       1 | `CPyDef_lines___EmptyLineTracker___maybe_empty_lines`                  | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 20.0% |       1 | `__init__`                                                             | `<string>`                                                    |
+| 20.0% |       1 | `CPyDef_lines___LinesBlock___all_lines`                                | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| 20.0% |       1 | `CPyDef_linegen___bracket_split_build_line`                            | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `<module>` (`tokenize.py`)
+
+|      % | Samples | Caller                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       3 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>`)
+
+|     % | Samples | Caller                     | Location                                                      |
+| ----: | ------: | -------------------------- | ------------------------------------------------------------- |
+| 66.7% |       2 | `<module>`                 | `click/core.py`                                               |
+| 33.3% |       1 | `CPyImport_ImportFromMany` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `<module>` (`click/types.py`)
+
+|      % | Samples | Caller                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `<module>` (`click/core.py`)
+
+|      % | Samples | Caller                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `<module>` (`click/__init__.py`)
+
+|      % | Samples | Caller                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `debug` (`logging/__init__.py`)
+
+|      % | Samples | Caller                                  | Location                                                      |
+| -----: | ------: | --------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |       2 | `CPyDef_driver___Driver___parse_tokens` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `<module>` (`black/files.py`)
+
+|      % | Samples | Caller                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `__new__` (`<frozen abc>`)
+
+|      % | Samples | Caller     | Location         |
+| -----: | ------: | ---------- | ---------------- |
+| 100.0% |       2 | `<module>` | `click/types.py` |
+
+##### `_init_module_attrs` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller             | Location                        |
+| -----: | ------: | ------------------ | ------------------------------- |
+| 100.0% |       2 | `module_from_spec` | `<frozen importlib._bootstrap>` |
+
+##### `find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller       | Location                                 |
+| -----: | ------: | ------------ | ---------------------------------------- |
+| 100.0% |       2 | `_get_spec`  | `<frozen importlib._bootstrap_external>` |
+| 100.0% |       2 | `_find_spec` | `<frozen importlib._bootstrap>`          |
+
+##### `_get_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller      | Location                                 |
+| -----: | ------: | ----------- | ---------------------------------------- |
+| 100.0% |       2 | `find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `_find_spec` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |       2 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `replace` (`dataclasses.py`)
+
+|      % | Samples | Caller                                                                                    | Location                                                      |
+| -----: | ------: | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| 100.0% |       1 | `CPyDef_linegen____maybe_split_omitting_optional_parens_gen_____mypyc_generator_helper__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `_subx` (`re/__init__.py`)
+
+|      % | Samples | Caller                       | Location                                                      |
+| -----: | ------: | ---------------------------- | ------------------------------------------------------------- |
+| 100.0% |       1 | `CPyDef_strings___sub_twice` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `isEnabledFor` (`logging/__init__.py`)
+
+|      % | Samples | Caller  | Location              |
+| -----: | ------: | ------- | --------------------- |
+| 100.0% |       1 | `debug` | `logging/__init__.py` |
+
+##### `__getitem__` (`typing.py`)
+
+|      % | Samples | Caller  | Location    |
+| -----: | ------: | ------- | ----------- |
+| 100.0% |       1 | `inner` | `typing.py` |
+
+##### `inner` (`typing.py`)
+
+|      % | Samples | Caller                          | Location                                                      |
+| -----: | ------: | ------------------------------- | ------------------------------------------------------------- |
+| 100.0% |       1 | `CPyDef_pytree_____top_level__` | `30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+
+##### `__init__` (`re/_parser.py`)
+
+|      % | Samples | Caller   | Location        |
+| -----: | ------: | -------- | --------------- |
+| 100.0% |       1 | `_parse` | `re/_parser.py` |
+
+##### `_parse` (`re/_parser.py`)
+
+|      % | Samples | Caller       | Location        |
+| -----: | ------: | ------------ | --------------- |
+| 100.0% |       1 | `_parse_sub` | `re/_parser.py` |
+
+##### `<listcomp>` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller       | Location                                 |
+| -----: | ------: | ------------ | ---------------------------------------- |
+| 100.0% |       1 | `_path_join` | `<frozen importlib._bootstrap_external>` |
+
+##### `_path_join` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller      | Location                                 |
+| -----: | ------: | ----------- | ---------------------------------------- |
+| 100.0% |       1 | `find_spec` | `<frozen importlib._bootstrap_external>` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

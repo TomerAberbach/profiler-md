@@ -1168,6 +1168,820 @@ Functions with the largest decrease in time spent within the function and its ca
 |  -38.5% |  -5.01ms |  0.2% → 0.1% |    13.0ms → 8.0ms |    13 → 8 | `0x31b744`  | `[kernel.kallsyms]` |
 | removed |  -4.00ms |  0.1% → 0.0% |       4.0ms → 0ms |     4 → 0 | `0x3a4ee0`  | `[kernel.kallsyms]` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `0x16900` (`./binary`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
+|    new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x15964` (`./binary`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+|    new | +4.174s | 0.0% → 100.0% | 0ms → 4.17s | 0 → 4,170 | `0x16900` | `./binary` |
+
+##### `0x5eff4` (`./binary`)
+
+| Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+|    new |   +2.119s | 0.0% → 75.4% |   0ms → 2.11s | 0 → 2,117 | `0x6639c` | `./binary` |
+|    new | +658.66ms | 0.0% → 23.4% | 0ms → 658.7ms |   0 → 658 | `0x6944c` | `./binary` |
+|    new | +555.56ms | 0.0% → 19.8% | 0ms → 555.6ms |   0 → 555 | `0x15964` | `./binary` |
+|    new | +335.34ms | 0.0% → 11.9% | 0ms → 335.3ms |   0 → 335 | `0x5e5a4` | `./binary` |
+|    new | +172.17ms |  0.0% → 6.1% | 0ms → 172.2ms |   0 → 172 | `0x78ff4` | `./binary` |
+
+##### `0x78ff4` (`./binary`)
+
+| Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+|    new |   +1.733s | 0.0% → 74.2% |   0ms → 1.73s | 0 → 1,732 | `0x6503c` | `./binary` |
+|    new | +721.72ms | 0.0% → 30.9% | 0ms → 721.7ms |   0 → 721 | `0x672d4` | `./binary` |
+
+##### `0x672f0` (`./binary`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+|    new | +2.189s | 0.0% → 100.0% | 0ms → 2.18s | 0 → 2,187 | `0x5eff4` | `./binary` |
+
+##### `0x6639c` (`./binary`)
+
+| Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+|    new |   +1.639s | 0.0% → 76.7% |   0ms → 1.63s | 0 → 1,638 | `0x15964` | `./binary` |
+|    new | +674.67ms | 0.0% → 31.6% | 0ms → 674.7ms |   0 → 674 | `0x71d44` | `./binary` |
+|    new |   +9.01ms |  0.0% → 0.4% |   0ms → 9.0ms |     0 → 9 | `0x71c40` | `./binary` |
+
+##### `0x6503c` (`./binary`)
+
+| Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+|    new |   +1.703s | 0.0% → 95.0% |   0ms → 1.70s | 0 → 1,702 | `0x15964` | `./binary` |
+|    new | +517.52ms | 0.0% → 28.9% | 0ms → 517.5ms |   0 → 517 | `0x71d44` | `./binary` |
+|    new |  +63.06ms |  0.0% → 3.5% |  0ms → 63.1ms |    0 → 63 | `0x158e8` | `./binary` |
+|    new |  +23.02ms |  0.0% → 1.3% |  0ms → 23.0ms |    0 → 23 | `0x71c40` | `./binary` |
+
+##### `0x61a90` (`./binary`)
+
+| Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+|    new |   +1.341s | 0.0% → 79.1% |   0ms → 1.34s | 0 → 1,340 | `0x78ff4` | `./binary` |
+|    new | +242.24ms | 0.0% → 14.3% | 0ms → 242.2ms |   0 → 242 | `0x672f0` | `./binary` |
+|    new | +106.11ms |  0.0% → 6.3% | 0ms → 106.1ms |   0 → 106 | `0x5e5a4` | `./binary` |
+|    new |  +12.01ms |  0.0% → 0.7% |  0ms → 12.0ms |    0 → 12 | `0x65a04` | `./binary` |
+|    new |  +10.01ms |  0.0% → 0.6% |  0ms → 10.0ms |    0 → 10 | `0x695b4` | `./binary` |
+
+##### `0x71d44` (`./binary`)
+
+| Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+|    new | +1.227s | 0.0% → 100.0% | 0ms → 1.22s | 0 → 1,226 | `0x61a90` | `./binary` |
+
+##### `0x61f50` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +546.55ms | 0.0% → 45.5% | 0ms → 546.5ms | 0 → 546 | `0x672f0` | `./binary` |
+|    new | +189.19ms | 0.0% → 15.8% | 0ms → 189.2ms | 0 → 189 | `0x78ff4` | `./binary` |
+|    new | +160.16ms | 0.0% → 13.3% | 0ms → 160.2ms | 0 → 160 | `0x7327c` | `./binary` |
+|    new | +100.10ms |  0.0% → 8.3% | 0ms → 100.1ms | 0 → 100 | `0x6a0c8` | `./binary` |
+|    new |  +52.05ms |  0.0% → 4.3% |  0ms → 52.1ms |  0 → 52 | `0x5e490` | `./binary` |
+
+##### `0x674d4` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +503.50ms | 0.0% → 43.9% | 0ms → 503.5ms | 0 → 503 | `0x7cd84` | `./binary` |
+|    new | +289.29ms | 0.0% → 25.2% | 0ms → 289.3ms | 0 → 289 | `0x7d0a8` | `./binary` |
+|    new |  +95.10ms |  0.0% → 8.3% |  0ms → 95.1ms |  0 → 95 | `0x5f158` | `./binary` |
+|    new |  +48.05ms |  0.0% → 4.2% |  0ms → 48.0ms |  0 → 48 | `0x651bc` | `./binary` |
+|    new |  +34.03ms |  0.0% → 3.0% |  0ms → 34.0ms |  0 → 34 | `0x77768` | `./binary` |
+
+##### `0x6f75c` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +800.80ms | 0.0% → 82.7% | 0ms → 800.8ms | 0 → 800 | `0x674d4` | `./binary` |
+|    new | +155.16ms | 0.0% → 16.0% | 0ms → 155.2ms | 0 → 155 | `0x79dc4` | `./binary` |
+|    new |  +12.01ms |  0.0% → 1.2% |  0ms → 12.0ms |  0 → 12 | `0x60f78` | `./binary` |
+
+##### `0x6a0c8` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +900.90ms | 0.0% → 97.7% | 0ms → 900.9ms | 0 → 900 | `0x61f50` | `./binary` |
+|    new |  +21.02ms |  0.0% → 2.3% |  0ms → 21.0ms |  0 → 21 | `0x68d74` | `./binary` |
+
+##### `0x672d4` (`./binary`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | ---------- |
+|    new | +912.91ms | 0.0% → 100.0% | 0ms → 912.9ms | 0 → 912 | `0x5eff4` | `./binary` |
+
+##### `0x6aea0` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +540.54ms | 0.0% → 71.5% | 0ms → 540.5ms | 0 → 540 | `0x68820` | `./binary` |
+|    new | +323.32ms | 0.0% → 42.8% | 0ms → 323.3ms | 0 → 323 | `0x5e828` | `./binary` |
+
+##### `0x5ebe0` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +472.47ms | 0.0% → 64.8% | 0ms → 472.5ms | 0 → 472 | `0x672f0` | `./binary` |
+|    new | +174.17ms | 0.0% → 23.9% | 0ms → 174.2ms | 0 → 174 | `0x78ff4` | `./binary` |
+|    new |  +54.05ms |  0.0% → 7.4% |  0ms → 54.1ms |  0 → 54 | `0x5e5a4` | `./binary` |
+|    new |  +28.03ms |  0.0% → 3.8% |  0ms → 28.0ms |  0 → 28 | `0x6944c` | `./binary` |
+|    new |  +26.03ms |  0.0% → 3.6% |  0ms → 26.0ms |  0 → 26 | `0x607d0` | `./binary` |
+
+##### `0x6944c` (`./binary`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | ---------- |
+|     new | +558.56ms |  0.0% → 76.9% | 0ms → 558.6ms | 0 → 558 | `0x6aea0` | `./binary` |
+|     new | +244.24ms |  0.0% → 33.6% | 0ms → 244.2ms | 0 → 244 | `0x69074` | `./binary` |
+| removed |   -1.00ms | 100.0% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x57ac4` | `./binary` |
+
+##### `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |     Delta |      % |          Time |       Samples | Caller    | Location                               |
+| -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
+| +13.6% | +715.72ms | 100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+|     new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x13e30` | `./binary` |
+| removed | -5.244s | 100.0% → 0.0% | 5.24s → 0ms | 5,239 → 0 | `0xdf70`  | `./binary` |
+
+##### `0x5e5a4` (`./binary`)
+
+| Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+|    new | +566.57ms | 0.0% → 81.0% | 0ms → 566.6ms | 0 → 566 | `0x6c3fc` | `./binary` |
+|    new | +189.19ms | 0.0% → 27.0% | 0ms → 189.2ms | 0 → 189 | `0x6c384` | `./binary` |
+
+##### `0x68820` (`./binary`)
+
+| Change |     Delta |             % |          Time | Samples | Caller    | Location   |
+| -----: | --------: | ------------: | ------------: | ------: | --------- | ---------- |
+|    new | +650.65ms | 0.0% → 100.0% | 0ms → 650.7ms | 0 → 650 | `0x5e9c0` | `./binary` |
+
+##### `0xe3e00` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+|    new | +39.04ms | 0.0% → 100.0% | 0ms → 39.0ms |  0 → 39 | `0x5112c` | `./binary` |
+
+##### `0x92f68` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+|    new | +24.02ms | 0.0% → 100.0% | 0ms → 24.0ms |  0 → 24 | `0x959d4` | `./binary` |
+
+##### `0xdd2b4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+|    new | +4.00ms | 0.0% → 100.0% | 0ms → 4.0ms |   0 → 4 | `0x95694` | `./binary` |
+
+##### `0x91d0c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +4.00ms | 0.0% → 100.0% | 0ms → 4.0ms |   0 → 4 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91bfc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +3.00ms | 0.0% → 100.0% | 0ms → 3.0ms |   0 → 3 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x90818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +200.0% | +2.00ms | 100.0% | 1.0ms → 3.0ms |   1 → 3 | `0x9189c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9189c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |              % |          Time | Samples | Caller    | Location                               |
+| -----: | ------: | -------------: | ------------: | ------: | --------- | -------------------------------------- |
+| +50.0% | +1.00ms | 100.0% → 75.0% | 2.0ms → 3.0ms |   2 → 3 | `0x9245c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new | +1.00ms |   0.0% → 25.0% |   0ms → 1.0ms |   0 → 1 | `0x91b94` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8faf4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91b94` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8e9cc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller    | Location                               |
+| ------: | ------: | -----: | ------------: | ------: | --------- | -------------------------------------- |
+| +100.0% | +1.00ms | 100.0% | 1.0ms → 2.0ms |   1 → 2 | `0x900c0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x900c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|     new | +2.00ms | 0.0% → 100.0% | 0ms → 2.0ms |   0 → 2 | `0x91bfc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -1.00ms | 100.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x92284` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x95898` | `./binary` |
+
+##### `0x91b64` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8faa0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8fc14` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x901c8` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x91bfc` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d20c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x92240` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| -----: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `0x74778` | `./binary` |
+
+##### `0x3b21fc` (`[kernel.kallsyms]`)
+
+| Change |    Delta |             % |         Time | Samples | Caller     | Location            |
+| -----: | -------: | ------------: | -----------: | ------: | ---------- | ------------------- |
+|    new | +36.04ms | 0.0% → 100.0% | 0ms → 36.0ms |  0 → 36 | `0x3b253c` | `[kernel.kallsyms]` |
+
+##### `0x3b253c` (`[kernel.kallsyms]`)
+
+| Change |    Delta |             % |         Time | Samples | Caller     | Location            |
+| -----: | -------: | ------------: | -----------: | ------: | ---------- | ------------------- |
+|    new | +36.04ms | 0.0% → 100.0% | 0ms → 36.0ms |  0 → 36 | `0x3b25d4` | `[kernel.kallsyms]` |
+
+##### `0x3b25d4` (`[kernel.kallsyms]`)
+
+| Change |    Delta |             % |         Time | Samples | Caller    | Location            |
+| -----: | -------: | ------------: | -----------: | ------: | --------- | ------------------- |
+|    new | +36.04ms | 0.0% → 100.0% | 0ms → 36.0ms |  0 → 36 | `0x2ecb8` | `[kernel.kallsyms]` |
+
+##### `0x3b15e4` (`[kernel.kallsyms]`)
+
+| Change |    Delta |              % |            Time | Samples | Caller     | Location            |
+| -----: | -------: | -------------: | --------------: | ------: | ---------- | ------------------- |
+|    new | +36.04ms |  0.0% → 100.0% |    0ms → 36.0ms |  0 → 36 | `0x3b21fc` | `[kernel.kallsyms]` |
+| +41.7% | +10.01ms | 100.0% → 94.4% | 24.0ms → 34.0ms | 24 → 34 | `0x3b1aa0` | `[kernel.kallsyms]` |
+
+##### `0x2ab954` (`[kernel.kallsyms]`)
+
+| Change |    Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | -------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +47.8% | +11.01ms | 100.0% | 23.0ms → 34.0ms | 23 → 34 | `0x4cb8b8` | `[kernel.kallsyms]` |
+
+##### `0x7768d0` (`[kernel.kallsyms]`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller     | Location            |
+| ------: | -------: | ------------: | -----------: | ------: | ---------- | ------------------- |
+|     new | +36.04ms | 0.0% → 100.0% | 0ms → 36.0ms |  0 → 36 | `0x3b15e4` | `[kernel.kallsyms]` |
+| removed | -25.03ms | 100.0% → 0.0% | 25.0ms → 0ms |  25 → 0 | `0x3b3c5c` | `[kernel.kallsyms]` |
+
+##### `0x4cb8b8` (`[kernel.kallsyms]`)
+
+| Change |    Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | -------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +41.7% | +10.01ms | 100.0% | 24.0ms → 34.0ms | 24 → 34 | `0x3b15e4` | `[kernel.kallsyms]` |
+
+##### `0x3b1aa0` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +36.0% | +9.01ms | 100.0% | 25.0ms → 34.0ms | 25 → 34 | `0x44a7e0` | `[kernel.kallsyms]` |
+
+##### `0x44a7e0` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +36.0% | +9.01ms | 100.0% | 25.0ms → 34.0ms | 25 → 34 | `0x7768d0` | `[kernel.kallsyms]` |
+
+##### `0xb54524` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +30.0% | +6.01ms | 100.0% | 20.0ms → 26.0ms | 20 → 26 | `0x2ab6f8` | `[kernel.kallsyms]` |
+
+##### `0x2ab6f8` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ---------- | ------------------- |
+| +30.0% | +6.01ms | 100.0% | 20.0ms → 26.0ms | 20 → 26 | `0x2ab954` | `[kernel.kallsyms]` |
+
+##### `0x2aad18` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| +500.0% | +5.01ms | 100.0% | 1.0ms → 6.0ms |   1 → 6 | `0x2ab618` | `[kernel.kallsyms]` |
+
+##### `0x2ab618` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| +500.0% | +5.01ms | 100.0% | 1.0ms → 6.0ms |   1 → 6 | `0x2ab954` | `[kernel.kallsyms]` |
+
+##### `0x2ecb8` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller    | Location            |
+| -----: | ------: | -----: | --------------: | ------: | --------- | ------------------- |
+|  +6.2% | +4.00ms | 100.0% | 65.1ms → 69.1ms | 65 → 69 | `0x2ed74` | `[kernel.kallsyms]` |
+
+##### `0x2ed74` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+|  +6.1% | +4.00ms | 100.0% | 66.1ms → 70.1ms | 66 → 70 | `0x14b23c0` | `[kernel.kallsyms]` |
+
+##### `0x14b23c0` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+|  +6.1% | +4.00ms | 100.0% | 66.1ms → 70.1ms | 66 → 70 | `0x14b33a0` | `[kernel.kallsyms]` |
+
+##### `0x39db08` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| +133.3% | +4.00ms | 100.0% | 3.0ms → 7.0ms |   3 → 7 | `0x3a4af0` | `[kernel.kallsyms]` |
+
+##### `0x3d17e4` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |              % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -------------: | ------------: | ------: | ---------- | ------------------- |
+| +200.0% | +4.00ms |         100.0% | 2.0ms → 6.0ms |   2 → 6 | `0x3d1ba4` | `[kernel.kallsyms]` |
+| +150.0% | +3.00ms | 100.0% → 83.3% | 2.0ms → 5.0ms |   2 → 5 | `0x77b550` | `[kernel.kallsyms]` |
+
+##### `0x3d171c` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| +200.0% | +4.00ms | 100.0% | 2.0ms → 6.0ms |   2 → 6 | `0x779ba8` | `[kernel.kallsyms]` |
+
+##### `0x779ba8` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| ------: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| +200.0% | +4.00ms | 100.0% | 2.0ms → 6.0ms |   2 → 6 | `0x3d17e4` | `[kernel.kallsyms]` |
+
+##### `0x1130c` (`./binary`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
+| removed | -5.244s | 100.0% → 0.0% | 5.24s → 0ms | 5,239 → 0 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x10144` (`./binary`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+| removed | -3.903s | 100.0% → 0.0% | 3.90s → 0ms | 3,900 → 0 | `0x1130c` | `./binary` |
+
+##### `0x368f8` (`./binary`)
+
+|  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+| removed |   -2.010s | 75.6% → 0.0% |   2.01s → 0ms | 2,008 → 0 | `0x45be0` | `./binary` |
+| removed | -580.58ms | 21.8% → 0.0% | 580.6ms → 0ms |   580 → 0 | `0x66a6c` | `./binary` |
+| removed | -546.55ms | 20.5% → 0.0% | 546.5ms → 0ms |   546 → 0 | `0x10144` | `./binary` |
+| removed | -282.28ms | 10.6% → 0.0% | 282.3ms → 0ms |   282 → 0 | `0x3695c` | `./binary` |
+| removed | -139.14ms |  5.2% → 0.0% | 139.1ms → 0ms |   139 → 0 | `0x6449c` | `./binary` |
+
+##### `0x4aa18` (`./binary`)
+
+|  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+| removed |   -1.638s | 76.8% → 0.0% |   1.63s → 0ms | 1,637 → 0 | `0x44b48` | `./binary` |
+| removed | -478.48ms | 22.4% → 0.0% | 478.5ms → 0ms |   478 → 0 | `0x64480` | `./binary` |
+| removed | -146.15ms |  6.9% → 0.0% | 146.1ms → 0ms |   146 → 0 | `0x642bc` | `./binary` |
+
+##### `0x45be0` (`./binary`)
+
+|  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+| removed |   -1.516s | 75.4% → 0.0% |   1.51s → 0ms | 1,515 → 0 | `0x10144` | `./binary` |
+| removed | -668.67ms | 33.2% → 0.0% | 668.7ms → 0ms |   668 → 0 | `0x537bc` | `./binary` |
+| removed |  -13.01ms |  0.6% → 0.0% |  13.0ms → 0ms |    13 → 0 | `0x53624` | `./binary` |
+
+##### `0x44b48` (`./binary`)
+
+|  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+| removed |   -1.606s | 94.2% → 0.0% |   1.60s → 0ms | 1,605 → 0 | `0x10144` | `./binary` |
+| removed | -460.46ms | 27.0% → 0.0% | 460.5ms → 0ms |   460 → 0 | `0x537bc` | `./binary` |
+| removed |  -72.07ms |  4.2% → 0.0% |  72.1ms → 0ms |    72 → 0 | `0x100f0` | `./binary` |
+| removed |  -20.02ms |  1.2% → 0.0% |  20.0ms → 0ms |    20 → 0 | `0x53624` | `./binary` |
+
+##### `0x6449c` (`./binary`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+| removed | -1.662s | 100.0% → 0.0% | 1.66s → 0ms | 1,661 → 0 | `0x368f8` | `./binary` |
+
+##### `0x383d0` (`./binary`)
+
+|  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
+| removed |   -1.249s | 77.0% → 0.0% |   1.24s → 0ms | 1,248 → 0 | `0x4aa18` | `./binary` |
+| removed | -166.17ms | 10.2% → 0.0% | 166.2ms → 0ms |   166 → 0 | `0x642d8` | `./binary` |
+| removed | -121.12ms |  7.5% → 0.0% | 121.1ms → 0ms |   121 → 0 | `0x3695c` | `./binary` |
+| removed |  -90.09ms |  5.6% → 0.0% |  90.1ms → 0ms |    90 → 0 | `0x6449c` | `./binary` |
+| removed |  -12.01ms |  0.7% → 0.0% |  12.0ms → 0ms |    12 → 0 | `0x45868` | `./binary` |
+
+##### `0x62fd4` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -569.57ms | 43.7% → 0.0% | 569.6ms → 0ms | 569 → 0 | `0x466a0` | `./binary` |
+| removed | -391.39ms | 30.0% → 0.0% | 391.4ms → 0ms | 391 → 0 | `0x469d8` | `./binary` |
+| removed | -108.11ms |  8.3% → 0.0% | 108.1ms → 0ms | 108 → 0 | `0x44044` | `./binary` |
+| removed |  -54.05ms |  4.1% → 0.0% |  54.1ms → 0ms |  54 → 0 | `0x441b0` | `./binary` |
+| removed |  -46.05ms |  3.5% → 0.0% |  46.0ms → 0ms |  46 → 0 | `0x44c90` | `./binary` |
+
+##### `0x36b64` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -508.51ms | 42.2% → 0.0% | 508.5ms → 0ms | 508 → 0 | `0x6449c` | `./binary` |
+| removed | -161.16ms | 13.4% → 0.0% | 161.2ms → 0ms | 161 → 0 | `0x642d8` | `./binary` |
+| removed | -153.15ms | 12.7% → 0.0% | 153.2ms → 0ms | 153 → 0 | `0x51aec` | `./binary` |
+| removed | -145.15ms | 12.0% → 0.0% | 145.1ms → 0ms | 145 → 0 | `0x4aa18` | `./binary` |
+| removed |  -78.08ms |  6.5% → 0.0% |  78.1ms → 0ms |  78 → 0 | `0x66174` | `./binary` |
+
+##### `0x537bc` (`./binary`)
+
+|  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
+| removed | -1.159s | 100.0% → 0.0% | 1.15s → 0ms | 1,158 → 0 | `0x383d0` | `./binary` |
+
+##### `0x53c28` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -941.94ms | 86.8% → 0.0% | 941.9ms → 0ms | 941 → 0 | `0x62fd4` | `./binary` |
+| removed | -142.14ms | 13.1% → 0.0% | 142.1ms → 0ms | 142 → 0 | `0x491a0` | `./binary` |
+| removed |   -1.00ms |  0.1% → 0.0% |   1.0ms → 0ms |   1 → 0 | `0x369d4` | `./binary` |
+
+##### `0x642d8` (`./binary`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | ---------- |
+| removed | -775.78ms | 100.0% → 0.0% | 775.8ms → 0ms | 775 → 0 | `0x368f8` | `./binary` |
+
+##### `0x66174` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -683.68ms | 97.2% → 0.0% | 683.7ms → 0ms | 683 → 0 | `0x36b64` | `./binary` |
+| removed |  -20.02ms |  2.8% → 0.0% |  20.0ms → 0ms |  20 → 0 | `0x593c4` | `./binary` |
+
+##### `0x36d98` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -310.31ms | 45.7% → 0.0% | 310.3ms → 0ms | 310 → 0 | `0x6449c` | `./binary` |
+| removed | -168.17ms | 24.8% → 0.0% | 168.2ms → 0ms | 168 → 0 | `0x4aa18` | `./binary` |
+| removed | -153.15ms | 22.6% → 0.0% | 153.2ms → 0ms | 153 → 0 | `0x642d8` | `./binary` |
+| removed |  -48.05ms |  7.1% → 0.0% |  48.0ms → 0ms |  48 → 0 | `0x3695c` | `./binary` |
+| removed |  -28.03ms |  4.1% → 0.0% |  28.0ms → 0ms |  28 → 0 | `0x37b74` | `./binary` |
+
+##### `0x58e54` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -483.48ms | 74.0% → 0.0% | 483.5ms → 0ms | 483 → 0 | `0x59c68` | `./binary` |
+| removed | -262.26ms | 40.1% → 0.0% | 262.3ms → 0ms | 262 → 0 | `0x36b90` | `./binary` |
+
+##### `0x3695c` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -533.53ms | 82.0% → 0.0% | 533.5ms → 0ms | 533 → 0 | `0x577ec` | `./binary` |
+| removed | -167.17ms | 25.7% → 0.0% | 167.2ms → 0ms | 167 → 0 | `0x577a4` | `./binary` |
+
+##### `0x64480` (`./binary`)
+
+|  Change |     Delta |             % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | ------------: | ------------: | ------: | --------- | ---------- |
+| removed | -637.64ms | 100.0% → 0.0% | 637.6ms → 0ms | 637 → 0 | `0x368f8` | `./binary` |
+
+##### `0x66a6c` (`./binary`)
+
+|  Change |     Delta |            % |          Time | Samples | Caller    | Location   |
+| ------: | --------: | -----------: | ------------: | ------: | --------- | ---------- |
+| removed | -481.48ms | 77.1% → 0.0% | 481.5ms → 0ms | 481 → 0 | `0x58e54` | `./binary` |
+| removed | -196.20ms | 31.4% → 0.0% | 196.2ms → 0ms | 196 → 0 | `0x36c2c` | `./binary` |
+
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location                               |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | -------------------------------------- |
+| removed | -76.08ms |  64.4% → 0.0% | 76.1ms → 0ms |  76 → 0 | `0x6aa34` | `./binary`                             |
+| removed | -27.03ms |  22.9% → 0.0% | 27.0ms → 0ms |  27 → 0 | `0xf68c`  | `./binary`                             |
+|     new |  +9.01ms | 0.0% → 100.0% |  0ms → 9.0ms |   0 → 9 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed |  -7.01ms |   5.9% → 0.0% |  7.0ms → 0ms |   7 → 0 | `0x122fc` | `./binary`                             |
+| removed |  -4.00ms |   3.4% → 0.0% |  4.0ms → 0ms |   4 → 0 | `0x1130c` | `./binary`                             |
+
+##### `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | -----------: | -----------: | ------: | --------- | ---------- |
+| removed | -46.05ms | 53.5% → 0.0% | 46.0ms → 0ms |  46 → 0 | `0x6aa34` | `./binary` |
+| removed | -16.02ms | 18.6% → 0.0% | 16.0ms → 0ms |  16 → 0 | `0xf75c`  | `./binary` |
+| removed |  -6.01ms |  7.0% → 0.0% |  6.0ms → 0ms |   6 → 0 | `0xf140`  | `./binary` |
+| removed |  -6.01ms |  7.0% → 0.0% |  6.0ms → 0ms |   6 → 0 | `0xf68c`  | `./binary` |
+| removed |  -4.00ms |  4.7% → 0.0% |  4.0ms → 0ms |   4 → 0 | `0x122fc` | `./binary` |
+
+##### `0xddb88` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+| removed | -29.03ms | 100.0% → 0.0% | 29.0ms → 0ms |  29 → 0 | `0x11b0c` | `./binary` |
+
+##### `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | -----------: | -----------: | ------: | --------- | ---------- |
+| removed | -11.01ms | 84.6% → 0.0% | 11.0ms → 0ms |  11 → 0 | `0x43eb8` | `./binary` |
+| removed |  -1.00ms |  7.7% → 0.0% |  1.0ms → 0ms |   1 → 0 | `0x3dbbc` | `./binary` |
+| removed |  -1.00ms |  7.7% → 0.0% |  1.0ms → 0ms |   1 → 0 | `0x6aa34` | `./binary` |
+
+##### `0x9e674` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | -----------: | ----------: | ------: | --------- | ---------- |
+| removed | -7.01ms | 58.3% → 0.0% | 7.0ms → 0ms |   7 → 0 | `0x6aa34` | `./binary` |
+| removed | -4.00ms | 33.3% → 0.0% | 4.0ms → 0ms |   4 → 0 | `0xf75c`  | `./binary` |
+| removed | -1.00ms |  8.3% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0xf68c`  | `./binary` |
+
+##### `0x9d184` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+| removed | -12.01ms | 100.0% → 0.0% | 12.0ms → 0ms |  12 → 0 | `0x43eb8` | `./binary` |
+
+##### `0x9d11c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+| removed | -10.01ms | 100.0% → 0.0% | 10.0ms → 0ms |  10 → 0 | `0x43eb8` | `./binary` |
+
+##### `0x92a9c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | -----------: | ----------: | ------: | --------- | ---------- |
+| removed | -7.01ms | 41.2% → 0.0% | 7.0ms → 0ms |   7 → 0 | `0x10fc4` | `./binary` |
+| removed | -5.01ms | 29.4% → 0.0% | 5.0ms → 0ms |   5 → 0 | `0x10338` | `./binary` |
+| removed | -3.00ms | 17.6% → 0.0% | 3.0ms → 0ms |   3 → 0 | `0x11510` | `./binary` |
+|     new | +3.00ms | 0.0% → 37.5% | 0ms → 3.0ms |   0 → 3 | `0x15ae0` | `./binary` |
+|     new | +2.00ms | 0.0% → 25.0% | 0ms → 2.0ms |   0 → 2 | `0x5ccd4` | `./binary` |
+
+##### `0x9405c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | -----------: | ----------: | ------: | --------- | ---------- |
+| removed | -8.01ms | 88.9% → 0.0% | 8.0ms → 0ms |   8 → 0 | `0x6a874` | `./binary` |
+| removed | -1.00ms | 11.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x11fd4` | `./binary` |
+
+##### `0x8fa48` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | -------------: | ------: | --------- | -------------------------------------- |
+| -58.3% | -7.01ms | 100.0% | 12.0ms → 5.0ms |  12 → 5 | `0x90240` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x90240` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | -------------: | ------: | --------- | -------------------------------------- |
+| -58.3% | -7.01ms | 100.0% | 12.0ms → 5.0ms |  12 → 5 | `0x92a9c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d138` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | -----------: | ----------: | ------: | --------- | ---------- |
+| removed | -5.01ms | 83.3% → 0.0% | 5.0ms → 0ms |   5 → 0 | `0x43eb8` | `./binary` |
+| removed | -1.00ms | 16.7% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x34f44` | `./binary` |
+
+##### `0xe3acc` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location                               |
+| -----: | ------: | -----: | -------------: | ------: | --------- | -------------------------------------- |
+| -38.5% | -5.01ms | 100.0% | 13.0ms → 8.0ms |  13 → 8 | `0x8f988` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8f988` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |           Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | -------------: | ------: | --------- | -------------------------------------- |
+|  -58.3% | -7.01ms | 92.3% → 62.5% | 12.0ms → 5.0ms |  12 → 5 | `0x8fa48` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +200.0% | +2.00ms |  7.7% → 37.5% |  1.0ms → 3.0ms |   1 → 3 | `0x90818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9d150` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+| removed | -5.01ms | 100.0% → 0.0% | 5.0ms → 0ms |   5 → 0 | `0x43eb8` | `./binary` |
+
+##### `0x9245c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location                               |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | -------------------------------------- |
+| removed | -8.01ms | 100.0% → 0.0% | 8.0ms → 0ms |   8 → 0 | `0x9405c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +3.00ms | 0.0% → 100.0% | 0ms → 3.0ms |   0 → 3 | `0x95898` | `./binary`                             |
+
+##### `0xdda44` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location   |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | ---------- |
+| removed | -21.02ms | 100.0% → 0.0% | 21.0ms → 0ms |  21 → 0 | `0x23608` | `./binary` |
+|     new | +13.01ms |  0.0% → 76.5% | 0ms → 13.0ms |  0 → 13 | `0x54dec` | `./binary` |
+|     new |  +4.00ms |  0.0% → 23.5% |  0ms → 4.0ms |   0 → 4 | `0x54b3c` | `./binary` |
+
+##### `0x9d168` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `0x43eb8` | `./binary` |
+
+##### `0x9e580` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | -----------: | ----------: | ------: | --------- | ---------- |
+| removed | -2.00ms | 50.0% → 0.0% | 2.0ms → 0ms |   2 → 0 | `0x6aa34` | `./binary` |
+| removed | -1.00ms | 25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x122fc` | `./binary` |
+| removed | -1.00ms | 25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x43e78` | `./binary` |
+
+##### `0x9d114` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller    | Location   |
+| ------: | ------: | ------------: | ----------: | ------: | --------- | ---------- |
+| removed | -4.00ms | 100.0% → 0.0% | 4.0ms → 0ms |   4 → 0 | `0x43eb8` | `./binary` |
+
+##### `0x3b47b4` (`[kernel.kallsyms]`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller     | Location            |
+| ------: | -------: | ------------: | -----------: | ------: | ---------- | ------------------- |
+| removed | -26.03ms | 100.0% → 0.0% | 26.0ms → 0ms |  26 → 0 | `0x3b4878` | `[kernel.kallsyms]` |
+
+##### `0x3b4878` (`[kernel.kallsyms]`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller    | Location            |
+| ------: | -------: | ------------: | -----------: | ------: | --------- | ------------------- |
+| removed | -26.03ms | 100.0% → 0.0% | 26.0ms → 0ms |  26 → 0 | `0x2ecb8` | `[kernel.kallsyms]` |
+
+##### `0x3b3c5c` (`[kernel.kallsyms]`)
+
+|  Change |    Delta |             % |         Time | Samples | Caller     | Location            |
+| ------: | -------: | ------------: | -----------: | ------: | ---------- | ------------------- |
+| removed | -25.03ms | 100.0% → 0.0% | 25.0ms → 0ms |  25 → 0 | `0x3b47b4` | `[kernel.kallsyms]` |
+
+##### `0x14b33d0` (`[kernel.kallsyms]`)
+
+| Change |    Delta |      % |            Time | Samples | Caller   | Location            |
+| -----: | -------: | -----: | --------------: | ------: | -------- | ------------------- |
+| -24.4% | -10.01ms | 100.0% | 41.0ms → 31.0ms | 41 → 31 | `0x15a0` | `[kernel.kallsyms]` |
+
+##### `0x15a0` (`[kernel.kallsyms]`)
+
+|  Change |    Delta |            % |         Time | Samples | Caller    | Location                               |
+| ------: | -------: | -----------: | -----------: | ------: | --------- | -------------------------------------- |
+|     new | +37.04ms | 0.0% → 34.9% | 0ms → 37.0ms |  0 → 37 | `0xe3e00` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -30.03ms | 26.1% → 0.0% | 30.0ms → 0ms |  30 → 0 | `0x9e670` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -28.03ms | 24.3% → 0.0% | 28.0ms → 0ms |  28 → 0 | `0xddb88` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|     new | +13.01ms | 0.0% → 12.3% | 0ms → 13.0ms |  0 → 13 | `0x9a700` | `./binary`                             |
+| removed | -10.01ms |  8.7% → 0.0% | 10.0ms → 0ms |  10 → 0 | `0x9e674` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x315eb8` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+| -27.3% | -9.01ms | 100.0% | 33.0ms → 24.0ms | 33 → 24 | `0x14c6048` | `[kernel.kallsyms]` |
+
+##### `0x14c6048` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+| -25.7% | -9.01ms | 100.0% | 35.0ms → 26.0ms | 35 → 26 | `0x14c6678` | `[kernel.kallsyms]` |
+
+##### `0x14c6678` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller    | Location            |
+| -----: | ------: | -----: | --------------: | ------: | --------- | ------------------- |
+| -22.9% | -8.01ms | 100.0% | 35.0ms → 27.0ms | 35 → 27 | `0x36870` | `[kernel.kallsyms]` |
+
+##### `0x14b2ab4` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+| -22.2% | -8.01ms | 100.0% | 36.0ms → 28.0ms | 36 → 28 | `0x14b33d0` | `[kernel.kallsyms]` |
+
+##### `0x31daf4` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location            |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | ------------------- |
+| removed | -7.01ms | 100.0% → 0.0% | 7.0ms → 0ms |   7 → 0 | `0x31e728` | `[kernel.kallsyms]` |
+
+##### `0x31e728` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location            |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | ------------------- |
+| removed | -7.01ms | 100.0% → 0.0% | 7.0ms → 0ms |   7 → 0 | `0x3383e8` | `[kernel.kallsyms]` |
+
+##### `0x3383e8` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |          Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | ------------: | ------: | ---------- | ------------------- |
+| -87.5% | -7.01ms | 100.0% | 8.0ms → 1.0ms |   8 → 1 | `0x33851c` | `[kernel.kallsyms]` |
+
+##### `0x33851c` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |           Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | -------------: | ------: | ---------- | ------------------- |
+| -58.3% | -7.01ms | 100.0% | 12.0ms → 5.0ms |  12 → 5 | `0x3398ac` | `[kernel.kallsyms]` |
+
+##### `0x3398ac` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |              % |           Time | Samples | Caller     | Location            |
+| ------: | ------: | -------------: | -------------: | ------: | ---------- | ------------------- |
+|  -54.5% | -6.01ms | 91.7% → 100.0% | 11.0ms → 5.0ms |  11 → 5 | `0x31b6c0` | `[kernel.kallsyms]` |
+| removed | -1.00ms |    8.3% → 0.0% |    1.0ms → 0ms |   1 → 0 | `0x339978` | `[kernel.kallsyms]` |
+
+##### `0x36870` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |            Time | Samples | Caller      | Location            |
+| -----: | ------: | -----: | --------------: | ------: | ----------- | ------------------- |
+| -20.0% | -7.01ms | 100.0% | 35.0ms → 28.0ms | 35 → 28 | `0x14b2ab4` | `[kernel.kallsyms]` |
+
+##### `0x31b6c0` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |           Time | Samples | Caller     | Location            |
+| -----: | ------: | -----: | -------------: | ------: | ---------- | ------------------- |
+| -58.3% | -7.01ms | 100.0% | 12.0ms → 5.0ms |  12 → 5 | `0x31b744` | `[kernel.kallsyms]` |
+
+##### `0x3a4b04` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location            |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | ------------------- |
+| removed | -6.01ms | 100.0% → 0.0% | 6.0ms → 0ms |   6 → 0 | `0x315724` | `[kernel.kallsyms]` |
+
+##### `0x361c28` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |             % |        Time | Samples | Caller     | Location            |
+| ------: | ------: | ------------: | ----------: | ------: | ---------- | ------------------- |
+| removed | -5.01ms | 100.0% → 0.0% | 5.0ms → 0ms |   5 → 0 | `0x31daf4` | `[kernel.kallsyms]` |
+
+##### `0x31b744` (`[kernel.kallsyms]`)
+
+| Change |   Delta |      % |           Time | Samples | Caller    | Location            |
+| -----: | ------: | -----: | -------------: | ------: | --------- | ------------------- |
+| -38.5% | -5.01ms | 100.0% | 13.0ms → 8.0ms |  13 → 8 | `0x2ecb8` | `[kernel.kallsyms]` |
+
+##### `0x3a4ee0` (`[kernel.kallsyms]`)
+
+|  Change |   Delta |            % |        Time | Samples | Caller     | Location            |
+| ------: | ------: | -----------: | ----------: | ------: | ---------- | ------------------- |
+| removed | -3.00ms | 75.0% → 0.0% | 3.0ms → 0ms |   3 → 0 | `0x361c28` | `[kernel.kallsyms]` |
+| removed | -1.00ms | 25.0% → 0.0% | 1.0ms → 0ms |   1 → 0 | `0x361c90` | `[kernel.kallsyms]` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

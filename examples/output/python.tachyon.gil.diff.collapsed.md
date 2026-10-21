@@ -946,6 +946,416 @@ Functions with the largest decrease in samples collected within the function and
 |  -11.1% |    -1 | 1.0% → 0.7% |   9 → 8 | `SourceLoader.get_code`     | `<frozen importlib._bootstrap_external>` |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `FileFinder._get_spec`      | `<frozen importlib._bootstrap_external>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `format_file_contents` (`__init__.py`)
+
+| Change | Delta |      % |     Samples | Caller                 | Location      |
+| -----: | ----: | -----: | ----------: | ---------------------- | ------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `format_file_in_place` | `__init__.py` |
+
+##### `format_file_in_place` (`__init__.py`)
+
+| Change | Delta |      % |     Samples | Caller         | Location      |
+| -----: | ----: | -----: | ----------: | -------------- | ------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `reformat_one` | `__init__.py` |
+
+##### `reformat_one` (`__init__.py`)
+
+| Change | Delta |      % |     Samples | Caller | Location      |
+| -----: | ----: | -----: | ----------: | ------ | ------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `main` | `__init__.py` |
+
+##### `main` (`__init__.py`)
+
+| Change | Delta |      % |     Samples | Caller                           | Location        |
+| -----: | ----: | -----: | ----------: | -------------------------------- | --------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `pass_context.<locals>.new_func` | `decorators.py` |
+
+##### `pass_context.<locals>.new_func` (`decorators.py`)
+
+| Change | Delta |      % |     Samples | Caller           | Location  |
+| -----: | ----: | -----: | ----------: | ---------------- | --------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `Context.invoke` | `core.py` |
+
+##### `Context.invoke` (`core.py`)
+
+| Change | Delta |      % |     Samples | Caller           | Location  |
+| -----: | ----: | -----: | ----------: | ---------------- | --------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `Command.invoke` | `core.py` |
+
+##### `Command.invoke` (`core.py`)
+
+| Change | Delta |      % |     Samples | Caller         | Location  |
+| -----: | ----: | -----: | ----------: | -------------- | --------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `Command.main` | `core.py` |
+
+##### `Command.main` (`core.py`)
+
+| Change | Delta |      % |     Samples | Caller             | Location  |
+| -----: | ----: | -----: | ----------: | ------------------ | --------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `Command.__call__` | `core.py` |
+
+##### `Command.__call__` (`core.py`)
+
+| Change | Delta |      % |     Samples | Caller         | Location      |
+| -----: | ----: | -----: | ----------: | -------------- | ------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `patched_main` | `__init__.py` |
+
+##### `patched_main` (`__init__.py`)
+
+| Change | Delta |      % |     Samples | Caller     | Location      |
+| -----: | ----: | -----: | ----------: | ---------- | ------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `<module>` | `__main__.py` |
+
+##### `<module>` (`__main__.py`)
+
+| Change | Delta |      % |     Samples | Caller      | Location         |
+| -----: | ----: | -----: | ----------: | ----------- | ---------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `_run_code` | `<frozen runpy>` |
+
+##### `_run_module_code` (`<frozen runpy>`)
+
+| Change | Delta |      % |     Samples | Caller       | Location         |
+| -----: | ----: | -----: | ----------: | ------------ | ---------------- |
+| +24.6% |  +224 | 100.0% | 909 → 1,133 | `run_module` | `<frozen runpy>` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+| Change | Delta |             % |     Samples | Caller                | Location         |
+| -----: | ----: | ------------: | ----------: | --------------------- | ---------------- |
+| +24.6% |  +224 | 97.2% → 98.0% | 909 → 1,133 | `_run_module_code`    | `<frozen runpy>` |
+| +23.6% |  +221 |        100.0% | 935 → 1,156 | `_run_module_as_main` | `<frozen runpy>` |
+
+##### `run_module` (`<frozen runpy>`)
+
+| Change | Delta |      % |     Samples | Caller      | Location         |
+| -----: | ----: | -----: | ----------: | ----------- | ---------------- |
+| +23.6% |  +221 | 100.0% | 935 → 1,156 | `_run_code` | `<frozen runpy>` |
+
+##### `_format_str_once` (`__init__.py`)
+
+| Change | Delta |             % |   Samples | Caller          | Location      |
+| -----: | ----: | ------------: | --------: | --------------- | ------------- |
+| +27.9% |  +121 | 52.1% → 53.4% | 433 → 554 | `format_str`    | `__init__.py` |
+| +21.6% |   +86 | 47.9% → 46.6% | 398 → 484 | `assert_stable` | `__init__.py` |
+
+##### `Driver.parse_tokens` (`driver.py`)
+
+| Change | Delta |      % |   Samples | Caller                | Location    |
+| -----: | ----: | -----: | --------: | --------------------- | ----------- |
+| +33.0% |  +163 | 100.0% | 494 → 657 | `Driver.parse_string` | `driver.py` |
+
+##### `Driver.parse_string` (`driver.py`)
+
+| Change | Delta |      % |   Samples | Caller          | Location     |
+| -----: | ----: | -----: | --------: | --------------- | ------------ |
+| +33.0% |  +163 | 100.0% | 494 → 657 | `lib2to3_parse` | `parsing.py` |
+
+##### `lib2to3_parse` (`parsing.py`)
+
+| Change | Delta |      % |   Samples | Caller             | Location      |
+| -----: | ----: | -----: | --------: | ------------------ | ------------- |
+| +32.7% |  +162 | 100.0% | 495 → 657 | `_format_str_once` | `__init__.py` |
+
+##### `(garbage collector)` (`<unknown>`)
+
+|  Change | Delta |             % |   Samples | Caller                       | Location    |
+| ------: | ----: | ------------: | --------: | ---------------------------- | ----------- |
+|  +57.8% |  +107 | 64.2% → 67.0% | 185 → 292 | `Parser._addtoken`           | `parse.py`  |
+|  +72.2% |   +26 | 12.5% → 14.2% |   36 → 62 | `Line.clone`                 | `lines.py`  |
+| +250.0% |    +5 |   0.7% → 1.6% |     2 → 7 | `Driver.parse_tokens`        | `driver.py` |
+| +100.0% |    +4 |   1.4% → 1.8% |     4 → 8 | `Node.__init__`              | `pytree.py` |
+| +133.3% |    +4 |   1.0% → 1.6% |     3 → 7 | `StringTransformer.__init__` | `trans.py`  |
+
+##### `Parser._addtoken` (`parse.py`)
+
+|  Change | Delta |             % |   Samples | Caller                             | Location    |
+| ------: | ----: | ------------: | --------: | ---------------------------------- | ----------- |
+|  +37.5% |  +141 | 98.7% → 98.3% | 376 → 517 | `Parser.addtoken`                  | `parse.py`  |
+| +200.0% |    +4 |   0.5% → 1.1% |     2 → 6 | `TokenProxy.__next__`              | `driver.py` |
+|  -50.0% |    -1 |   0.5% → 0.2% |     2 → 1 | `Driver.parse_tokens`              | `driver.py` |
+| removed |    -1 |   0.3% → 0.0% |     1 → 0 | `cast`                             | `typing.py` |
+|     new |    +1 |   0.0% → 0.2% |     0 → 1 | `Driver._partially_consume_prefix` | `driver.py` |
+
+##### `Parser.addtoken` (`parse.py`)
+
+| Change | Delta |      % |   Samples | Caller                | Location    |
+| -----: | ----: | -----: | --------: | --------------------- | ----------- |
+| +34.6% |  +138 | 100.0% | 399 → 537 | `Driver.parse_tokens` | `driver.py` |
+
+##### `format_str` (`__init__.py`)
+
+| Change | Delta |      % |   Samples | Caller                 | Location      |
+| -----: | ----: | -----: | --------: | ---------------------- | ------------- |
+| +27.9% |  +122 | 100.0% | 438 → 560 | `format_file_contents` | `__init__.py` |
+
+##### `check_stability_and_equivalence` (`__init__.py`)
+
+| Change | Delta |      % |   Samples | Caller                 | Location      |
+| -----: | ----: | -----: | --------: | ---------------------- | ------------- |
+| +21.7% |  +102 | 100.0% | 471 → 573 | `format_file_contents` | `__init__.py` |
+
+##### `assert_stable` (`__init__.py`)
+
+| Change | Delta |      % |   Samples | Caller                            | Location      |
+| -----: | ----: | -----: | --------: | --------------------------------- | ------------- |
+| +22.3% |   +89 | 100.0% | 400 → 489 | `check_stability_and_equivalence` | `__init__.py` |
+
+##### `ExtensionFileLoader.create_module` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |             % | Samples | Caller             | Location                        |
+| -----: | ----: | ------------: | ------: | ------------------ | ------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `module_from_spec` | `<frozen importlib._bootstrap>` |
+
+##### `module_from_spec` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Caller           | Location                        |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `FileFinder.find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |      % | Samples | Caller                 | Location                                 |
+| ------: | ----: | -----: | ------: | ---------------------- | ---------------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `PathFinder._get_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `PathFinder._get_spec` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |      % | Samples | Caller                 | Location                                 |
+| ------: | ----: | -----: | ------: | ---------------------- | ---------------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `PathFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `PathFinder.find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |      % | Samples | Caller       | Location                        |
+| ------: | ----: | -----: | ------: | ------------ | ------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `_find_spec` | `<frozen importlib._bootstrap>` |
+
+##### `_find_spec` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |      % | Samples | Caller                    | Location                        |
+| ------: | ----: | -----: | ------: | ------------------------- | ------------------------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `ABCMeta.__new__` (`<frozen abc>`)
+
+| Change | Delta |             % | Samples | Caller     | Location   |
+| -----: | ----: | ------------: | ------: | ---------- | ---------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<module>` | `types.py` |
+
+##### `FileLoader.get_data` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |             % | Samples | Caller                  | Location                                 |
+| -----: | ----: | ------------: | ------: | ----------------------- | ---------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `SourceLoader.get_code` | `<frozen importlib._bootstrap_external>` |
+
+##### `LineGenerator.visit_stmt` (`linegen.py`)
+
+| Change | Delta |      % |   Samples | Caller          | Location   |
+| -----: | ----: | -----: | --------: | --------------- | ---------- |
+| -12.0% |   -15 | 100.0% | 125 → 110 | `Visitor.visit` | `nodes.py` |
+
+##### `LineGenerator.visit_funcdef` (`linegen.py`)
+
+| Change | Delta |      % |   Samples | Caller          | Location   |
+| -----: | ----: | -----: | --------: | --------------- | ---------- |
+| -10.7% |   -13 | 100.0% | 122 → 109 | `Visitor.visit` | `nodes.py` |
+
+##### `LineGenerator.visit_suite` (`linegen.py`)
+
+| Change | Delta |      % |   Samples | Caller          | Location   |
+| -----: | ----: | -----: | --------: | --------------- | ---------- |
+|  -8.9% |   -11 | 100.0% | 123 → 112 | `Visitor.visit` | `nodes.py` |
+
+##### `Visitor.visit` (`nodes.py`)
+
+| Change | Delta |              % |   Samples | Caller                           | Location      |
+| -----: | ----: | -------------: | --------: | -------------------------------- | ------------- |
+|  -9.9% |   -12 |  96.0% → 93.2% | 121 → 109 | `LineGenerator.visit_funcdef`    | `linegen.py`  |
+| -10.1% |   -12 |  94.4% → 91.5% | 119 → 107 | `LineGenerator.visit_stmt`       | `linegen.py`  |
+|  -7.9% |   -10 | 100.0% → 99.1% | 126 → 116 | `Visitor.visit_default`          | `nodes.py`    |
+|  -7.1% |    -9 |         100.0% | 126 → 117 | `_format_str_once`               | `__init__.py` |
+| +50.0% |    +1 |    1.6% → 2.6% |     2 → 3 | `LineGenerator.visit_decorators` | `linegen.py`  |
+
+##### `Visitor.visit_default` (`nodes.py`)
+
+| Change | Delta |      % |   Samples | Caller                        | Location     |
+| -----: | ----: | -----: | --------: | ----------------------------- | ------------ |
+|  -7.1% |    -9 | 100.0% | 126 → 117 | `LineGenerator.visit_default` | `linegen.py` |
+
+##### `LineGenerator.visit_default` (`linegen.py`)
+
+|  Change | Delta |             % |   Samples | Caller                             | Location     |
+| ------: | ----: | ------------: | --------: | ---------------------------------- | ------------ |
+|   -8.9% |   -11 | 97.6% → 95.7% | 123 → 112 | `LineGenerator.visit_suite`        | `linegen.py` |
+|   -7.1% |    -9 |        100.0% | 126 → 117 | `Visitor.visit`                    | `nodes.py`   |
+|   +2.6% |    +2 | 61.9% → 68.4% |   78 → 80 | `LineGenerator.visit_simple_stmt`  | `linegen.py` |
+|   -6.1% |    -2 | 26.2% → 26.5% |   33 → 31 | `LineGenerator.visit_power`        | `linegen.py` |
+| removed |    -1 |   0.8% → 0.0% |     1 → 0 | `LineGenerator.visit_dictsetmaker` | `linegen.py` |
+
+##### `wrap_in_parentheses` (`nodes.py`)
+
+| Change | Delta |      % | Samples | Caller                       | Location     |
+| -----: | ----: | -----: | ------: | ---------------------------- | ------------ |
+| -77.8% |    -7 | 100.0% |   9 → 2 | `normalize_invisible_parens` | `linegen.py` |
+
+##### `EmptyLineTracker.maybe_empty_lines` (`lines.py`)
+
+| Change | Delta |      % | Samples | Caller             | Location      |
+| -----: | ----: | -----: | ------: | ------------------ | ------------- |
+| -30.0% |    -6 | 100.0% | 20 → 14 | `_format_str_once` | `__init__.py` |
+
+##### `normalize_invisible_parens` (`linegen.py`)
+
+| Change | Delta |      % | Samples | Caller                     | Location     |
+| -----: | ----: | -----: | ------: | -------------------------- | ------------ |
+| -33.3% |    -6 | 100.0% | 18 → 12 | `LineGenerator.visit_stmt` | `linegen.py` |
+
+##### `Parser.pop` (`parse.py`)
+
+| Change | Delta |      % | Samples | Caller             | Location   |
+| -----: | ----: | -----: | ------: | ------------------ | ---------- |
+| -17.2% |    -5 | 100.0% | 29 → 24 | `Parser._addtoken` | `parse.py` |
+
+##### `<module>` (`nodes.py`)
+
+| Change | Delta |      % | Samples | Caller                      | Location                        |
+| -----: | ----: | -----: | ------: | --------------------------- | ------------------------------- |
+| -71.4% |    -5 | 100.0% |   7 → 2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `<module>` (`comments.py`)
+
+| Change | Delta |      % | Samples | Caller                      | Location                        |
+| -----: | ----: | -----: | ------: | --------------------------- | ------------------------------- |
+| -71.4% |    -5 | 100.0% |   7 → 2 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `_FuncBuilder.add_fns_to_class` (`dataclasses.py`)
+
+| Change | Delta |      % | Samples | Caller           | Location         |
+| -----: | ----: | -----: | ------: | ---------------- | ---------------- |
+| -66.7% |    -4 | 100.0% |   6 → 2 | `_process_class` | `dataclasses.py` |
+
+##### `_process_class` (`dataclasses.py`)
+
+| Change | Delta |      % | Samples | Caller                    | Location         |
+| -----: | ----: | -----: | ------: | ------------------------- | ---------------- |
+| -66.7% |    -4 | 100.0% |   6 → 2 | `dataclass.<locals>.wrap` | `dataclasses.py` |
+
+##### `dataclass.<locals>.wrap` (`dataclasses.py`)
+
+|  Change | Delta |            % | Samples | Caller      | Location         |
+| ------: | ----: | -----------: | ------: | ----------- | ---------------- |
+| removed |    -2 | 33.3% → 0.0% |   2 → 0 | `<module>`  | `_base.py`       |
+|  -66.7% |    -2 |        50.0% |   3 → 1 | `dataclass` | `dataclasses.py` |
+| removed |    -1 | 16.7% → 0.0% |   1 → 0 | `<module>`  | `util.py`        |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `<module>`  | `pattern.py`     |
+
+##### `Base.remove` (`pytree.py`)
+
+|  Change | Delta |             % | Samples | Caller                | Location   |
+| ------: | ----: | ------------: | ------: | --------------------- | ---------- |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `wrap_in_parentheses` | `nodes.py` |
+
+##### `convert_one_fmt_off_pair` (`comments.py`)
+
+| Change | Delta |      % | Samples | Caller              | Location      |
+| -----: | ----: | -----: | ------: | ------------------- | ------------- |
+| -18.8% |    -3 | 100.0% | 16 → 13 | `normalize_fmt_off` | `comments.py` |
+
+##### `normalize_fmt_off` (`comments.py`)
+
+| Change | Delta |      % | Samples | Caller             | Location      |
+| -----: | ----: | -----: | ------: | ------------------ | ------------- |
+| -18.8% |    -3 | 100.0% | 16 → 13 | `_format_str_once` | `__init__.py` |
+
+##### `_LoaderBasics.exec_module` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |      % | Samples | Caller           | Location                        |
+| -----: | ----: | -----: | ------: | ---------------- | ------------------------------- |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |      % | Samples | Caller                    | Location                        |
+| -----: | ----: | -----: | ------: | ------------------------- | ------------------------------- |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+
+##### `<module>` (`__init__.py`)
+
+| Change | Delta |      % | Samples | Caller                      | Location                        |
+| -----: | ----: | -----: | ------: | --------------------------- | ------------------------------- |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `_stringify_ast` (`parsing.py`)
+
+| Change | Delta |             % | Samples | Caller                           | Location      |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ------------- |
+| -18.8% |    -3 | 88.9% → 81.3% | 16 → 13 | `_stringify_ast_with_new_parent` | `parsing.py`  |
+| -11.1% |    -2 |        100.0% | 18 → 16 | `assert_equivalent`              | `__init__.py` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |      % | Samples | Caller           | Location                        |
+| -----: | ----: | -----: | ------: | ---------------- | ------------------------------- |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+| Change | Delta |             % | Samples | Caller                      | Location                        |
+| -----: | ----: | ------------: | ------: | --------------------------- | ------------------------------- |
+| -71.4% |    -5 |  26.9% → 8.7% |   7 → 2 | `<module>`                  | `comments.py`                   |
+| -11.5% |    -3 |        100.0% | 26 → 23 | `<module>`                  | `__init__.py`                   |
+| -11.5% |    -3 |        100.0% | 26 → 23 | `_get_module_details`       | `<frozen runpy>`                |
+| -28.6% |    -2 | 26.9% → 21.7% |   7 → 5 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+| -66.7% |    -2 |  11.5% → 4.3% |   3 → 1 | `<module>`                  | `agg.py`                        |
+
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |             % | Samples | Caller                              | Location                                 |
+| ------: | ----: | ------------: | ------: | ----------------------------------- | ---------------------------------------- |
+|  -11.5% |    -3 |        100.0% | 26 → 23 | `_LoaderBasics.exec_module`         | `<frozen importlib._bootstrap_external>` |
+|  -28.6% |    -2 | 26.9% → 21.7% |   7 → 5 | `_handle_fromlist`                  | `<frozen importlib._bootstrap>`          |
+|     new |    +2 |   0.0% → 8.7% |   0 → 2 | `ExtensionFileLoader.create_module` | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 |   3.8% → 0.0% |   1 → 0 | `_find_and_load_unlocked`           | `<frozen importlib._bootstrap>`          |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+| Change | Delta |      % | Samples | Caller                | Location         |
+| -----: | ----: | -----: | ------: | --------------------- | ---------------- |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `_get_module_details` | `<frozen runpy>` |
+| -11.5% |    -3 | 100.0% | 26 → 23 | `run_module`          | `<frozen runpy>` |
+
+##### `_compile_bytecode` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |      % | Samples | Caller                  | Location                                 |
+| -----: | ----: | -----: | ------: | ----------------------- | ---------------------------------------- |
+| -22.2% |    -2 | 100.0% |   9 → 7 | `SourceLoader.get_code` | `<frozen importlib._bootstrap_external>` |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>`)
+
+|  Change | Delta |             % | Samples | Caller     | Location      |
+| ------: | ----: | ------------: | ------: | ---------- | ------------- |
+|  -50.0% |    -2 | 57.1% → 40.0% |   4 → 2 | `<module>` | `pygram.py`   |
+|  -50.0% |    -2 | 57.1% → 40.0% |   4 → 2 | `<module>` | `nodes.py`    |
+| +100.0% |    +1 | 14.3% → 40.0% |   1 → 2 | `<module>` | `core.py`     |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `<module>` | `basic.py`    |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `<module>` | `__init__.py` |
+
+##### `SourceLoader.get_code` (`<frozen importlib._bootstrap_external>`)
+
+| Change | Delta |      % | Samples | Caller                      | Location                                 |
+| -----: | ----: | -----: | ------: | --------------------------- | ---------------------------------------- |
+| -11.1% |    -1 | 100.0% |   9 → 8 | `_LoaderBasics.exec_module` | `<frozen importlib._bootstrap_external>` |
+
+##### `FileFinder._get_spec` (`<frozen importlib._bootstrap_external>`)
+
+|  Change | Delta |             % | Samples | Caller                 | Location                                 |
+| ------: | ----: | ------------: | ------: | ---------------------- | ---------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `FileFinder.find_spec` | `<frozen importlib._bootstrap_external>` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

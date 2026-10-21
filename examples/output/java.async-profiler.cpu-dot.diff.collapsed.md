@@ -1421,6 +1421,1050 @@ Functions with the largest decrease in samples collected within the function and
 | removed |    -2 | <0.1% → 0.0% |   2 → 0 | `PhaseCFG::PhaseCFG`                        | `<unknown>` |
 | removed |    -2 | <0.1% → 0.0% |   2 → 0 | `Node_Backward_Iterator::next`              | `<unknown>` |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Unsafe_Park` (`<unknown>`)
+
+| Change | Delta |      % |   Samples | Caller | Location                   |
+| -----: | ----: | -----: | --------: | ------ | -------------------------- |
+| +17.3% |  +117 | 100.0% | 676 → 793 | `park` | `jdk.internal.misc.Unsafe` |
+
+##### `park` (`jdk.internal.misc.Unsafe`)
+
+| Change | Delta |             % |   Samples | Caller      | Location                                 |
+| -----: | ----: | ------------: | --------: | ----------- | ---------------------------------------- |
+| +16.9% |  +113 | 98.5% → 98.4% | 669 → 782 | `park`      | `java.util.concurrent.locks.LockSupport` |
+| +30.0% |    +3 |   1.5% → 1.6% |   10 → 13 | `parkUntil` | `java.util.concurrent.locks.LockSupport` |
+
+##### `Parker::park` (`<unknown>`)
+
+|  Change | Delta |              % |   Samples | Caller        | Location                   |
+| ------: | ----: | -------------: | --------: | ------------- | -------------------------- |
+|  +17.0% |  +114 | 99.9% → 100.0% | 669 → 783 | `Unsafe_Park` | `<unknown>`                |
+| removed |    -1 |    0.1% → 0.0% |     1 → 0 | `park`        | `jdk.internal.misc.Unsafe` |
+
+##### `park` (`java.util.concurrent.locks.LockSupport`)
+
+| Change | Delta |             % |   Samples | Caller      | Location                            |
+| -----: | ----: | ------------: | --------: | ----------- | ----------------------------------- |
+| +31.7% |   +82 | 38.7% → 43.6% | 259 → 341 | `awaitWork` | `java.util.concurrent.ForkJoinPool` |
+|  +7.6% |   +31 | 61.3% → 56.4% | 410 → 441 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `__psynch_cvwait` (`<unknown>`)
+
+| Change | Delta |             % |   Samples | Caller                  | Location    |
+| -----: | ----: | ------------: | --------: | ----------------------- | ----------- |
+| +16.6% |  +110 | 97.4% → 98.3% | 663 → 773 | `Parker::park`          | `<unknown>` |
+| -27.8% |    -5 |   2.6% → 1.7% |   18 → 13 | `PlatformMonitor::wait` | `<unknown>` |
+
+##### `awaitWork` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |   Samples | Caller      | Location                            |
+| -----: | ----: | -----: | --------: | ----------- | ----------------------------------- |
+| +31.7% |   +86 | 100.0% | 271 → 357 | `runWorker` | `java.util.concurrent.ForkJoinPool` |
+
+##### `toArray` (`java.util.ArrayList`)
+
+| Change | Delta |             % | Samples | Caller   | Location              |
+| -----: | ----: | ------------: | ------: | -------- | --------------------- |
+| +54.4% |   +31 | 44.5% → 50.3% | 57 → 88 | `<init>` | `java.util.ArrayList` |
+| +22.5% |   +16 | 55.5% → 49.7% | 71 → 87 | `addAll` | `java.util.ArrayList` |
+
+##### `lambda$merge$6` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |      % |   Samples | Caller  | Location                                                               |
+| -----: | ----: | -----: | --------: | ------- | ---------------------------------------------------------------------- |
+| +22.2% |   +46 | 100.0% | 207 → 253 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a7000` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a7000`)
+
+| Change | Delta |      % |   Samples | Caller  | Location            |
+| -----: | ----: | -----: | --------: | ------- | ------------------- |
+| +22.2% |   +46 | 100.0% | 207 → 253 | `merge` | `java.util.HashMap` |
+
+##### `copyOf` (`java.util.Arrays`)
+
+|  Change | Delta |             % |   Samples | Caller     | Location                                    |
+| ------: | ----: | ------------: | --------: | ---------- | ------------------------------------------- |
+|  +37.8% |   +48 | 77.4% → 85.4% | 127 → 175 | `toArray`  | `java.util.ArrayList`                       |
+|  -14.3% |    -5 | 21.3% → 14.6% |   35 → 30 | `grow`     | `java.util.ArrayList`                       |
+|  -75.0% |    -3 |   2.4% → 0.5% |     4 → 1 | `copyOf`   | `java.util.Arrays`                          |
+| removed |    -1 |   0.6% → 0.0% |     1 → 0 | `<init>`   | `java.util.concurrent.CopyOnWriteArrayList` |
+| removed |    -1 |   0.6% → 0.0% |     1 → 0 | `getBytes` | `jdk.internal.loader.Resource`              |
+
+##### `forEach` (`java.util.HashMap`)
+
+| Change | Delta |      % |   Samples | Caller  | Location                                    |
+| -----: | ----: | -----: | --------: | ------- | ------------------------------------------- |
+| +11.1% |   +35 | 100.0% | 315 → 350 | `merge` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `accept` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a3b90`)
+
+| Change | Delta |      % |   Samples | Caller    | Location            |
+| -----: | ----: | -----: | --------: | --------- | ------------------- |
+| +11.0% |   +34 | 100.0% | 308 → 342 | `forEach` | `java.util.HashMap` |
+
+##### `merge` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |     % |   Samples | Caller           | Location                                                   |
+| -----: | ----: | ----: | --------: | ---------------- | ---------------------------------------------------------- |
+| +10.6% |   +34 | 99.4% | 322 → 356 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                                                   |
+| -----: | ----: | -----: | --------: | ---------------- | ---------------------------------------------------------- |
+| +10.6% |   +34 |  99.7% | 322 → 356 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| +10.5% |   +34 | 100.0% | 323 → 357 | `compute`        | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+
+##### `forward_copy_longs` (`<unknown>`)
+
+| Change | Delta |             % |   Samples | Caller                            | Location    |
+| -----: | ----: | ------------: | --------: | --------------------------------- | ----------- |
+| +16.8% |   +26 | 81.6% → 81.2% | 155 → 181 | `arrayof_jint_disjoint_arraycopy` | `<unknown>` |
+| +20.0% |    +7 | 18.4% → 18.8% |   35 → 42 | `arrayof_oop_disjoint_arraycopy`  | `<unknown>` |
+
+##### `merge` (`java.util.HashMap`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                                    |
+| -----: | ----: | -----: | --------: | ---------------- | ------------------------------------------- |
+| +10.4% |   +32 | 100.0% | 307 → 339 | `lambda$merge$7` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `lambda$merge$7` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |      % |   Samples | Caller   | Location                                                               |
+| -----: | ----: | -----: | --------: | -------- | ---------------------------------------------------------------------- |
+| +10.4% |   +32 | 100.0% | 308 → 340 | `accept` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a3b90` |
+
+##### `<init>` (`java.util.ArrayList`)
+
+| Change | Delta |             % | Samples | Caller           | Location                                               |
+| -----: | ----: | ------------: | ------: | ---------------- | ------------------------------------------------------ |
+| +54.4% |   +31 | 98.3% → 97.8% | 57 → 88 | `lambda$merge$6` | `org.renaissance.jdk.concurrent.JavaKMeans`            |
+|    new |    +1 |   0.0% → 1.1% |   0 → 1 | `<init>`         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `arrayof_jint_disjoint_arraycopy` (`<unknown>`)
+
+| Change | Delta |             % |  Samples | Caller   | Location              |
+| -----: | ----: | ------------: | -------: | -------- | --------------------- |
+| +38.9% |   +37 | 55.2% → 65.3% | 95 → 132 | `copyOf` | `java.util.Arrays`    |
+| -25.0% |    -5 |  11.6% → 7.4% |  20 → 15 | `grow`   | `java.util.ArrayList` |
+|  -3.5% |    -2 | 33.1% → 27.2% |  57 → 55 | `merge`  | `java.util.HashMap`   |
+
+##### `grow` (`java.util.ArrayList`)
+
+| Change | Delta |             % | Samples | Caller   | Location              |
+| -----: | ----: | ------------: | ------: | -------- | --------------------- |
+| +61.4% |   +35 | 58.2% → 76.7% | 57 → 92 | `grow`   | `java.util.ArrayList` |
+| +49.2% |   +31 | 64.3% → 78.3% | 63 → 94 | `add`    | `java.util.ArrayList` |
+| -25.7% |    -9 | 35.7% → 21.7% | 35 → 26 | `addAll` | `java.util.ArrayList` |
+
+##### `collectClusters` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                   |
+| -----: | ----: | -----: | --------: | ----------------- | ---------------------------------------------------------- |
+|  +2.3% |   +11 | 100.0% | 475 → 486 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `setUpBeforeAll` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |      % | Samples | Caller             | Location                                  |
+| -----: | ----: | -----: | ------: | ------------------ | ----------------------------------------- |
+| +66.7% |    +6 | 100.0% |  9 → 15 | `executeBenchmark` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `runBenchmarks$$anonfun$1` (`org.renaissance.harness.RenaissanceSuite$`)
+
+| Change | Delta |      % | Samples | Caller      | Location                                                               |
+| -----: | ----: | -----: | ------: | ----------- | ---------------------------------------------------------------------- |
+| +35.3% |    +6 | 100.0% | 17 → 23 | `applyVoid` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a80111ede0` |
+
+##### `applyVoid` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a80111ede0`)
+
+| Change | Delta |      % | Samples | Caller  | Location                             |
+| -----: | ----: | -----: | ------: | ------- | ------------------------------------ |
+| +35.3% |    +6 | 100.0% | 17 → 23 | `apply` | `scala.runtime.function.JProcedure1` |
+
+##### `runBenchmarks` (`org.renaissance.harness.RenaissanceSuite$`)
+
+| Change | Delta |      % | Samples | Caller | Location                                    |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------- |
+| +31.6% |    +6 | 100.0% | 19 → 25 | `main` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `main` (`org.renaissance.harness.RenaissanceSuite$`)
+
+| Change | Delta |      % | Samples | Caller | Location                                   |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------------------ |
+| +18.8% |    +6 | 100.0% | 32 → 38 | `main` | `org.renaissance.harness.RenaissanceSuite` |
+
+##### `main` (`org.renaissance.harness.RenaissanceSuite`)
+
+| Change | Delta |      % | Samples | Caller         | Location                                             |
+| -----: | ----: | -----: | ------: | -------------- | ---------------------------------------------------- |
+| +17.6% |    +6 | 100.0% | 34 → 40 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x000000a801004800` |
+
+##### `loadAndInvokeHarnessClass` (`org.renaissance.core.Launcher`)
+
+| Change | Delta |      % | Samples | Caller               | Location                        |
+| -----: | ----: | -----: | ------: | -------------------- | ------------------------------- |
+| +15.4% |    +6 | 100.0% | 39 → 45 | `launchHarnessClass` | `org.renaissance.core.Launcher` |
+
+##### `launchHarnessClass` (`org.renaissance.core.Launcher`)
+
+| Change | Delta |      % | Samples | Caller | Location                        |
+| -----: | ----: | -----: | ------: | ------ | ------------------------------- |
+| +15.0% |    +6 | 100.0% | 40 → 46 | `main` | `org.renaissance.core.Launcher` |
+
+##### `rowToArray$1` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |             % | Samples | Caller                      | Location                                  |
+| -----: | ----: | ------------: | ------: | --------------------------- | ----------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `setUpBeforeAll$$anonfun$1` | `org.renaissance.jdk.concurrent.FjKmeans` |
+
+##### `setUpBeforeAll$$anonfun$1` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+| Change | Delta |             % | Samples | Caller  | Location                                                             |
+| -----: | ----: | ------------: | ------: | ------- | -------------------------------------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `apply` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000a801126908` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000a801126908`)
+
+| Change | Delta |             % | Samples | Caller               | Location                                                           |
+| -----: | ----: | ------------: | ------: | -------------------- | ------------------------------------------------------------------ |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `lambda$toCsvRows$2` | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter` |
+
+##### `lambda$toCsvRows$2` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`)
+
+| Change | Delta |             % | Samples | Caller  | Location                                                                                      |
+| -----: | ----: | ------------: | ------: | ------- | --------------------------------------------------------------------------------------------- |
+|    new |    +6 | 0.0% → 100.0% |   0 → 6 | `apply` | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter$$Lambda.0x000000a801123bf8` |
+
+##### `_platform_memset` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                           | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+| +114.3% |    +8 | 87.5% → 53.6% |  7 → 15 | `MemAllocator::allocate`         | `<unknown>` |
+|     new |    +8 |  0.0% → 28.6% |   0 → 8 | `MarkBitMap::do_clear`           | `<unknown>` |
+|     new |    +3 |  0.0% → 10.7% |   0 → 3 | `HeapRegionManager::par_iterate` | `<unknown>` |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `Compile::Compile`               | `<unknown>` |
+|     new |    +1 |   0.0% → 3.6% |   0 → 1 | `G1BatchedTask::work`            | `<unknown>` |
+
+##### `MemAllocator::allocate` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                             | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------- | ----------- |
+|  +28.3% |   +13 | 97.9% → 93.7% | 46 → 59 | `CollectedHeap::array_allocate`    | `<unknown>` |
+| +300.0% |    +3 |   2.1% → 6.3% |   1 → 4 | `InstanceKlass::allocate_instance` | `<unknown>` |
+
+##### `OptoRuntime::new_array_C` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller            | Location    |
+| -----: | ----: | -----: | ------: | ----------------- | ----------- |
+| +33.3% |   +16 | 100.0% | 48 → 64 | `_new_array_Java` | `<unknown>` |
+
+##### `__psynch_mutexwait` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                              | Location    |
+| ------: | ----: | -----: | ------: | ----------------------------------- | ----------- |
+| +127.3% |   +14 | 100.0% | 11 → 25 | `_pthread_mutex_firstfit_lock_slow` | `<unknown>` |
+
+##### `_pthread_mutex_firstfit_lock_slow` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------- | ----------- |
+| +140.0% |    +7 | 45.5% → 48.0% |  5 → 12 | `Mutex::lock`                         | `<unknown>` |
+|     new |    +4 |  0.0% → 16.0% |   0 → 4 | `ThreadCritical::ThreadCritical`      | `<unknown>` |
+| +100.0% |    +1 |   9.1% → 8.0% |   1 → 2 | `_pthread_cond_wait`                  | `<unknown>` |
+|  +20.0% |    +1 | 45.5% → 24.0% |   5 → 6 | `Mutex::lock_without_safepoint_check` | `<unknown>` |
+|     new |    +1 |   0.0% → 4.0% |   0 → 1 | `Parker::unpark`                      | `<unknown>` |
+
+##### `CollectedHeap::array_allocate` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                             | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------- | ----------- |
+|  +26.1% |   +12 | 97.9% → 98.3% | 46 → 58 | `InstanceKlass::allocate_objArray` | `<unknown>` |
+| removed |    -1 |   2.1% → 0.0% |   1 → 0 | `OptoRuntime::new_array_C`         | `<unknown>` |
+|     new |    +1 |   0.0% → 1.7% |   0 → 1 | `InterpreterRuntime::newarray`     | `<unknown>` |
+
+##### `InstanceKlass::allocate_objArray` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                     | Location    |
+| ------: | ----: | -------------: | ------: | -------------------------- | ----------- |
+|  +28.3% |   +13 | 97.9% → 100.0% | 46 → 59 | `OptoRuntime::new_array_C` | `<unknown>` |
+| removed |    -1 |    2.1% → 0.0% |   1 → 0 | `_new_array_Java`          | `<unknown>` |
+
+##### `_new_array_Java` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                | Location                                                   |
+| ------: | ----: | ------------: | ------: | --------------------- | ---------------------------------------------------------- |
+|  +16.7% |    +9 | 96.4% → 96.9% | 54 → 63 | `copyOf`              | `java.util.Arrays`                                         |
+|     new |    +2 |   0.0% → 3.1% |   0 → 2 | `resize`              | `java.util.HashMap`                                        |
+| removed |    -1 |   1.8% → 0.0% |   1 → 0 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `semaphore_wait_trap` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                           | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+| +250.0% |    +5 | 50.0% → 53.8% |   2 → 7 | `WorkerThread::run`              | `<unknown>` |
+| +400.0% |    +4 | 25.0% → 38.5% |   1 → 5 | `GenericWaitBarrier::Cell::wait` | `<unknown>` |
+
+##### `arrayof_oop_disjoint_arraycopy` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller   | Location              |
+| ------: | ----: | -------------: | ------: | -------- | --------------------- |
+|  +22.0% |    +9 | 97.6% → 100.0% | 41 → 50 | `addAll` | `java.util.ArrayList` |
+| removed |    -1 |    2.4% → 0.0% |   1 → 0 | `copyOf` | `java.util.Arrays`    |
+
+##### `__psynch_cvsignal` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller          | Location    |
+| -----: | ----: | -----: | ------: | --------------- | ----------- |
+| +18.6% |    +8 | 100.0% | 43 → 51 | `Unsafe_Unpark` | `<unknown>` |
+
+##### `HeapRegionManager::par_iterate` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                            | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------- | ----------- |
+|     new |    +8 |  0.0% → 47.1% |   0 → 8 | `WorkerThread::run`               | `<unknown>` |
+|  -87.5% |    -7 |  88.9% → 5.9% |   8 → 1 | `G1FullGCAdjustTask::work`        | `<unknown>` |
+| +700.0% |    +7 | 11.1% → 47.1% |   1 → 8 | `G1FullGCResetMetadataTask::work` | `<unknown>` |
+
+##### `Parse::do_one_block` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                 | Location    |
+| ------: | ----: | -----: | ------: | ---------------------- | ----------- |
+| +200.0% |    +8 | 100.0% |  4 → 12 | `Parse::do_all_blocks` | `<unknown>` |
+
+##### `Parse::do_all_blocks` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller         | Location    |
+| ------: | ----: | -----: | ------: | -------------- | ----------- |
+| +200.0% |    +8 | 100.0% |  4 → 12 | `Parse::Parse` | `<unknown>` |
+
+##### `Parse::Parse` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                     | Location    |
+| ------: | ----: | -----: | ------: | -------------------------- | ----------- |
+| +200.0% |    +8 | 100.0% |  4 → 12 | `ParseGenerator::generate` | `<unknown>` |
+
+##### `add` (`java.util.ArrayList`)
+
+| Change | Delta |              % |   Samples | Caller            | Location                                                   |
+| -----: | ----: | -------------: | --------: | ----------------- | ---------------------------------------------------------- |
+| +13.6% |   +18 |  98.5% → 99.3% | 132 → 150 | `add`             | `java.util.ArrayList`                                      |
+| +11.9% |   +16 | 100.0% → 99.3% | 134 → 150 | `collectClusters` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|    new |    +1 |    0.0% → 0.7% |     0 → 1 | `accept`          | `java.util.stream.Collectors$$Lambda.0x000000a80106fdf8`   |
+
+##### `addAll` (`java.util.ArrayList`)
+
+| Change | Delta |      % |   Samples | Caller           | Location                                    |
+| -----: | ----: | -----: | --------: | ---------------- | ------------------------------------------- |
+| +10.7% |   +16 | 100.0% | 149 → 165 | `lambda$merge$6` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `unpark` (`jdk.internal.misc.Unsafe`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                 |
+| -----: | ----: | -----: | ------: | -------- | ---------------------------------------- |
+| +15.1% |    +8 | 100.0% | 53 → 61 | `unpark` | `java.util.concurrent.locks.LockSupport` |
+
+##### `unpark` (`java.util.concurrent.locks.LockSupport`)
+
+| Change | Delta |             % | Samples | Caller          | Location                            |
+| -----: | ----: | ------------: | ------: | --------------- | ----------------------------------- |
+| +55.6% |    +5 | 17.0% → 23.0% |  9 → 14 | `tryCompensate` | `java.util.concurrent.ForkJoinPool` |
+|  +7.3% |    +3 | 77.4% → 72.1% | 41 → 44 | `signalWaiters` | `java.util.concurrent.ForkJoinTask` |
+
+##### `invoke` (`java.lang.reflect.Method`)
+
+| Change | Delta |      % | Samples | Caller                      | Location                        |
+| -----: | ----: | -----: | ------: | --------------------------- | ------------------------------- |
+| +20.6% |    +7 | 100.0% | 34 → 41 | `loadAndInvokeHarnessClass` | `org.renaissance.core.Launcher` |
+
+##### `apply` (`scala.runtime.function.JProcedure1`)
+
+| Change | Delta |           % | Samples | Caller    | Location                             |
+| -----: | ----: | ----------: | ------: | --------- | ------------------------------------ |
+| +35.3% |    +6 |      100.0% | 17 → 23 | `apply`   | `scala.runtime.function.JProcedure1` |
+| +35.3% |    +6 |      100.0% | 17 → 23 | `foreach` | `scala.collection.immutable.List`    |
+|    new |    +1 | 0.0% → 4.3% |   0 → 1 | `foreach` | `scala.collection.IterableOnceOps`   |
+
+##### `foreach` (`scala.collection.immutable.List`)
+
+| Change | Delta |      % | Samples | Caller          | Location                                    |
+| -----: | ----: | -----: | ------: | --------------- | ------------------------------------------- |
+| +35.3% |    +6 | 100.0% | 17 → 23 | `runBenchmarks` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x000000a801004800`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                            |
+| -----: | ----: | -----: | ------: | -------- | --------------------------------------------------- |
+| +17.6% |    +6 | 100.0% | 34 → 40 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x000000a801009800` |
+
+##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x000000a801009800`)
+
+| Change | Delta |      % | Samples | Caller           | Location                           |
+| -----: | ----: | -----: | ------: | ---------------- | ---------------------------------- |
+| +17.6% |    +6 | 100.0% | 34 → 40 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
+
+| Change | Delta |             % | Samples | Caller       | Location                                          |
+| -----: | ----: | ------------: | ------: | ------------ | ------------------------------------------------- |
+| +17.6% |    +6 | 97.1% → 97.6% | 34 → 40 | `invokeImpl` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+| -50.0% |    -1 |   5.7% → 2.4% |   2 → 1 | `invoke`     | `java.lang.invoke.BootstrapMethodInvoker`         |
+
+##### `invokeImpl` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change | Delta |      % | Samples | Caller   | Location                                          |
+| -----: | ----: | -----: | ------: | -------- | ------------------------------------------------- |
+| +17.6% |    +6 | 100.0% | 34 → 40 | `invoke` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `vtable stub` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller    | Location                                               |
+| -----: | ----: | ------------: | ------: | --------- | ------------------------------------------------------ |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `Compilation::emit_lir` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                             | Location    |
+| ------: | ----: | -----: | ------: | ---------------------------------- | ----------- |
+| +250.0% |    +5 | 100.0% |   2 → 7 | `Compilation::compile_java_method` | `<unknown>` |
+
+##### `CompileBroker::compile_method_base` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                          | Location    |
+| ------: | ----: | -----: | ------: | ------------------------------- | ----------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `CompileBroker::compile_method` | `<unknown>` |
+
+##### `CompileBroker::compile_method` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                                        | Location    |
+| ------: | ----: | -------------: | ------: | --------------------------------------------- | ----------- |
+| +400.0% |    +4 |         100.0% |   1 → 5 | `CompileBroker::compile_method`               | `<unknown>` |
+| +200.0% |    +2 | 100.0% → 60.0% |   1 → 3 | `CompilationPolicy::event`                    | `<unknown>` |
+|     new |    +2 |   0.0% → 40.0% |   0 → 2 | `CompilationPolicy::method_back_branch_event` | `<unknown>` |
+
+##### `CompilationPolicy::event` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                                                 | Location    |
+| ------: | ----: | -------------: | ------: | ------------------------------------------------------ | ----------- |
+| +500.0% |    +5 | 50.0% → 100.0% |   1 → 6 | `Runtime1::counter_overflow`                           | `<unknown>` |
+| removed |    -1 |   50.0% → 0.0% |   1 → 0 | `InterpreterRuntime::frequency_counter_overflow_inner` | `<unknown>` |
+
+##### `PhaseChaitin::build_ifg_physical` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                            | Location    |
+| ------: | ----: | -----: | ------: | --------------------------------- | ----------- |
+| +133.3% |    +4 | 100.0% |   3 → 7 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `LinearScan::do_linear_scan` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                  | Location    |
+| ------: | ----: | -----: | ------: | ----------------------- | ----------- |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `Compilation::emit_lir` | `<unknown>` |
+
+##### `GraphBuilder::try_inline_full` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                     | Location    |
+| ------: | ----: | -----: | ------: | -------------------------- | ----------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `GraphBuilder::try_inline` | `<unknown>` |
+
+##### `GraphBuilder::try_inline` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                 | Location    |
+| ------: | ----: | -----: | ------: | ---------------------- | ----------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `GraphBuilder::invoke` | `<unknown>` |
+
+##### `LinearScan::build_intervals` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                       | Location    |
+| -----: | ----: | ------------: | ------: | ---------------------------- | ----------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `LinearScan::do_linear_scan` | `<unknown>` |
+
+##### `Compilation::compile_java_method` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                        | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------- | ----------- |
+| +16.7% |    +2 | 100.0% | 12 → 14 | `Compilation::compile_method` | `<unknown>` |
+
+##### `Compilation::compile_method` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                     | Location    |
+| -----: | ----: | -----: | ------: | -------------------------- | ----------- |
+| +15.4% |    +2 | 100.0% | 13 → 15 | `Compilation::Compilation` | `<unknown>` |
+
+##### `Compilation::Compilation` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                     | Location    |
+| -----: | ----: | -----: | ------: | -------------------------- | ----------- |
+| +15.4% |    +2 | 100.0% | 13 → 15 | `Compiler::compile_method` | `<unknown>` |
+
+##### `CompileBroker::invoke_compiler_on_method` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------- | ----------- |
+|  +2.9% |    +2 | 100.0% | 69 → 71 | `CompileBroker::compiler_thread_loop` | `<unknown>` |
+
+##### `GraphBuilder::iterate_bytecodes_for_block` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                             | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------- | ----------- |
+| +66.7% |    +2 | 100.0% |   3 → 5 | `GraphBuilder::iterate_all_blocks` | `<unknown>` |
+
+##### `GraphBuilder::iterate_all_blocks` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Caller                          | Location    |
+| -----: | ----: | -----------: | ------: | ------------------------------- | ----------- |
+| +66.7% |    +2 |       100.0% |   3 → 5 | `GraphBuilder::GraphBuilder`    | `<unknown>` |
+|    new |    +1 | 0.0% → 20.0% |   0 → 1 | `GraphBuilder::try_inline_full` | `<unknown>` |
+
+##### `PhaseCCP::analyze` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller               | Location    |
+| ------: | ----: | -----: | ------: | -------------------- | ----------- |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `PhaseCCP::PhaseCCP` | `<unknown>` |
+
+##### `PhaseOutput::Output` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller              | Location    |
+| ------: | ----: | -----: | ------: | ------------------- | ----------- |
+| +100.0% |    +2 | 100.0% |   2 → 4 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `ciEnv::lookup_method` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                            | Location    |
+| -----: | ----: | ------------: | ------: | --------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `ciEnv::get_method_by_index_impl` | `<unknown>` |
+
+##### `ciEnv::get_method_by_index_impl` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                         | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------ | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `ciBytecodeStream::get_method` | `<unknown>` |
+
+##### `PhaseCCP::transform` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                   | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------ | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `PhaseCCP::do_transform` | `<unknown>` |
+
+##### `tryRemoveAndExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+| Change | Delta |      % |       Samples | Caller      | Location                            |
+| -----: | ----: | -----: | ------------: | ----------- | ----------------------------------- |
+|  -7.1% |  -283 | 100.0% | 3,997 → 3,714 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `awaitDone` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |      % |       Samples | Caller | Location                            |
+| -----: | ----: | -----: | ------------: | ------ | ----------------------------------- |
+|  -6.3% |  -266 | 100.0% | 4,196 → 3,930 | `join` | `java.util.concurrent.ForkJoinTask` |
+
+##### `join` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |      % |       Samples | Caller    | Location                                               |
+| -----: | ----: | -----: | ------------: | --------- | ------------------------------------------------------ |
+|  -6.3% |  -266 | 100.0% | 4,196 → 3,930 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `distance` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |      % |   Samples | Caller                | Location                                                   |
+| -----: | ----: | -----: | --------: | --------------------- | ---------------------------------------------------------- |
+| -28.2% |  -257 | 100.0% | 912 → 655 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `topLevelExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+| Change | Delta |      % |       Samples | Caller | Location                            |
+| -----: | ----: | -----: | ------------: | ------ | ----------------------------------- |
+|  -5.6% |  -244 | 100.0% | 4,349 → 4,105 | `scan` | `java.util.concurrent.ForkJoinPool` |
+
+##### `doExec` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |             % |       Samples | Caller             | Location                                      |
+| -----: | ----: | ------------: | ------------: | ------------------ | --------------------------------------------- |
+|  -7.1% |  -282 | 91.9% → 90.5% | 3,996 → 3,714 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  -5.6% |  -243 |        100.0% | 4,348 → 4,105 | `topLevelExec`     | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  -8.1% |   -86 | 24.4% → 23.7% |   1,059 → 973 | `invoke`           | `java.util.concurrent.ForkJoinTask`           |
+|  -5.3% |   -58 | 25.3% → 25.4% | 1,101 → 1,043 | `helpJoin`         | `java.util.concurrent.ForkJoinPool`           |
+
+##### `scan` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |       Samples | Caller      | Location                            |
+| -----: | ----: | -----: | ------------: | ----------- | ----------------------------------- |
+|  -5.6% |  -242 | 100.0% | 4,354 → 4,112 | `runWorker` | `java.util.concurrent.ForkJoinPool` |
+
+##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+| Change | Delta |      % |       Samples | Caller | Location                             |
+| -----: | ----: | -----: | ------------: | ------ | ------------------------------------ |
+|  -5.6% |  -241 | 100.0% | 4,322 → 4,081 | `exec` | `java.util.concurrent.RecursiveTask` |
+
+##### `exec` (`java.util.concurrent.RecursiveTask`)
+
+| Change | Delta |      % |       Samples | Caller   | Location                            |
+| -----: | ----: | -----: | ------------: | -------- | ----------------------------------- |
+|  -5.6% |  -241 | 100.0% | 4,322 → 4,081 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `vectorSum` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |       Samples | Caller            | Location                                                  |
+| -----: | ----: | -----: | ------------: | ----------------- | --------------------------------------------------------- |
+| -10.5% |  -171 | 100.0% | 1,632 → 1,461 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |       Samples | Caller            | Location                                                  |
+| -----: | ----: | -----: | ------------: | ----------------- | --------------------------------------------------------- |
+| -10.5% |  -171 | 100.0% | 1,632 → 1,461 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+| -10.5% |  -171 | 100.0% | 1,632 → 1,461 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`    |
+
+##### `runWorker` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |       Samples | Caller | Location                                    |
+| -----: | ----: | -----: | ------------: | ------ | ------------------------------------------- |
+|  -3.3% |  -151 | 100.0% | 4,626 → 4,475 | `run`  | `java.util.concurrent.ForkJoinWorkerThread` |
+
+##### `findNearestCentroid` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |              % |       Samples | Caller            | Location                                                   |
+| -----: | ----: | -------------: | ------------: | ----------------- | ---------------------------------------------------------- |
+| -10.3% |  -142 | 100.0% → 99.9% | 1,381 → 1,239 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|    new |    +1 |    0.0% → 0.1% |         0 → 1 | `[break_deopt]`   | `<unknown>`                                                |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+| Change | Delta |              % |       Samples | Caller            | Location                                                   |
+| -----: | ----: | -------------: | ------------: | ----------------- | ---------------------------------------------------------- |
+|  -7.1% |  -131 | 100.0% → 99.9% | 1,856 → 1,725 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -7.0% |  -130 |         100.0% | 1,856 → 1,726 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+
+##### `accumulate` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+| Change | Delta |      % |     Samples | Caller      | Location                                                  |
+| -----: | ----: | -----: | ----------: | ----------- | --------------------------------------------------------- |
+| -11.0% |  -118 | 100.0% | 1,068 → 950 | `vectorSum` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `invoke` (`java.util.concurrent.ForkJoinTask`)
+
+| Change | Delta |             % |   Samples | Caller         | Location                                               |
+| -----: | ----: | ------------: | --------: | -------------- | ------------------------------------------------------ |
+|  -9.5% |   -73 | 72.2% → 71.1% | 765 → 692 | `average`      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  -3.6% |   -17 | 44.0% → 46.1% | 466 → 449 | `lambda$run$0` | `org.renaissance.jdk.concurrent.JavaKMeans`            |
+
+##### `average` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % |   Samples | Caller                   | Location                                               |
+| -----: | ----: | -----: | --------: | ------------------------ | ------------------------------------------------------ |
+|  -9.5% |   -73 | 100.0% | 765 → 692 | `computeClusterAverages` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeClusterAverages` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                               |
+| -----: | ----: | -----: | --------: | ----------------- | ------------------------------------------------------ |
+|  -9.1% |   -70 | 100.0% | 769 → 699 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                               |
+| -----: | ----: | -----: | --------: | ----------------- | ------------------------------------------------------ |
+|  -9.1% |   -70 | 100.0% | 769 → 699 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  -9.1% |   -70 | 100.0% | 769 → 699 | `compute`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `lambda$run$0` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+| Change | Delta |      % |   Samples | Caller | Location                                                               |
+| -----: | ----: | -----: | --------: | ------ | ---------------------------------------------------------------------- |
+|  -3.4% |   -16 | 100.0% | 467 → 451 | `call` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a2bd0` |
+
+##### `call` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a2bd0`)
+
+| Change | Delta |      % |   Samples | Caller | Location                                            |
+| -----: | ----: | -----: | --------: | ------ | --------------------------------------------------- |
+|  -3.4% |   -16 | 100.0% | 467 → 451 | `exec` | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+
+##### `run` (`org.renaissance.jdk.concurrent.FjKmeans`)
+
+|  Change | Delta |             % | Samples | Caller             | Location                                  |
+| ------: | ----: | ------------: | ------: | ------------------ | ----------------------------------------- |
+| removed |    -5 | 100.0% → 0.0% |   5 → 0 | `executeOperation` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `apply` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a2388`)
+
+| Change | Delta |      % | Samples | Caller   | Location                           |
+| -----: | ----: | -----: | ------: | -------- | ---------------------------------- |
+| -57.1% |    -4 | 100.0% |   7 → 3 | `accept` | `java.util.stream.IntPipeline$1$1` |
+
+##### `add` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|  Change | Delta |             % | Samples | Caller           | Location                                                  |
+| ------: | ----: | ------------: | ------: | ---------------- | --------------------------------------------------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+
+##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|  Change | Delta |            % | Samples | Caller           | Location                                                  |
+| ------: | ----: | -----------: | ------: | ---------------- | --------------------------------------------------------- |
+| removed |    -3 | 75.0% → 0.0% |   3 → 0 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
+|  -75.0% |    -3 |       100.0% |   4 → 1 | `compute`        | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`    |
+
+##### `executeOperation` (`org.renaissance.harness.ExecutionDriver`)
+
+| Change | Delta |      % | Samples | Caller             | Location                                  |
+| -----: | ----: | -----: | ------: | ------------------ | ----------------------------------------- |
+| -40.0% |    -2 | 100.0% |   5 → 3 | `executeBenchmark` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `deleteRecursively` (`org.renaissance.core.DirUtils`)
+
+|  Change | Delta |             % | Samples | Caller                            | Location                        |
+| ------: | ----: | ------------: | ------: | --------------------------------- | ------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `deleteRecursively`               | `org.renaissance.core.DirUtils` |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `lambda$createScratchDirectory$1` | `org.renaissance.core.DirUtils` |
+
+##### `lambda$createScratchDirectory$1` (`org.renaissance.core.DirUtils`)
+
+|  Change | Delta |             % | Samples | Caller | Location                                                   |
+| ------: | ----: | ------------: | ------: | ------ | ---------------------------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `run`  | `org.renaissance.core.DirUtils$$Lambda.0x000000e001003a68` |
+
+##### `run` (`org.renaissance.core.DirUtils$$Lambda.0x000000e001003a68`)
+
+|  Change | Delta |             % | Samples | Caller    | Location           |
+| ------: | ----: | ------------: | ------: | --------- | ------------------ |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `runWith` | `java.lang.Thread` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                             | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------- | ----------- |
+| -33.3% |   -18 | 100.0% | 54 → 36 | `G1FullGCMarker::complete_marking` | `<unknown>` |
+
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                  | Location    |
+| -----: | ----: | -----: | ------: | --------------------------------------- | ----------- |
+| -60.0% |   -15 | 100.0% | 25 → 10 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
+
+##### `G1FullGCMarker::complete_marking` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                   | Location    |
+| -----: | ----: | -----: | ------: | ------------------------ | ----------- |
+| -17.1% |   -12 | 100.0% | 70 → 58 | `G1FullGCMarkTask::work` | `<unknown>` |
+
+##### `G1FullGCMarkTask::work` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller              | Location    |
+| -----: | ----: | -----: | ------: | ------------------- | ----------- |
+| -17.1% |   -12 | 100.0% | 70 → 58 | `WorkerThread::run` | `<unknown>` |
+
+##### `G1FullGCMarker::mark_object` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                               | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+|  -15.6% |    -5 | 78.0% → 90.0% | 32 → 27 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                      | `<unknown>` |
+| removed |    -5 |  12.2% → 0.0% |   5 → 0 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>` |
+| removed |    -1 |   2.4% → 0.0% |   1 → 0 | `G1MarkAndPushClosure::do_oop`                                                                       | `<unknown>` |
+|  -33.3% |    -1 |   7.3% → 6.7% |   3 → 2 | `G1FullGCMarker::follow_marking_stacks`                                                              | `<unknown>` |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `G1FullGCMarker::complete_marking`                                                                   | `<unknown>` |
+
+##### `G1AdjustRegionClosure::do_heap_region` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                           | Location    |
+| -----: | ----: | -----: | ------: | -------------------------------- | ----------- |
+| -87.5% |    -7 | 100.0% |   8 → 1 | `HeapRegionManager::par_iterate` | `<unknown>` |
+
+##### `G1FullGCAdjustTask::work` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller              | Location    |
+| -----: | ----: | -----: | ------: | ------------------- | ----------- |
+| -87.5% |    -7 | 100.0% |   8 → 1 | `WorkerThread::run` | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                            | Location    |
+| -----: | ----: | -----: | ------: | --------------------------------- | ----------- |
+| -43.8% |    -7 | 100.0% |  16 → 9 | `G1EvacuateRegionsBaseTask::work` | `<unknown>` |
+
+##### `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                        | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------- | ----------- |
+|  -90.9% |   -10 | 91.7% → 20.0% |  11 → 1 | `G1FullGCMarker::publish_and_drain_oop_tasks` | `<unknown>` |
+| +300.0% |    +3 |  8.3% → 80.0% |   1 → 4 | `G1FullGCMarker::follow_marking_stacks`       | `<unknown>` |
+
+##### `G1ParScanThreadState::steal_and_trim_queue` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                   | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | ----------- |
+| -75.0% |    -6 | 100.0% |   8 → 2 | `G1ParEvacuateFollowersClosure::do_void` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                         | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------------------- | ----------- |
+| -40.0% |    -6 | 100.0% |  15 → 9 | `G1EvacuateRegionsTask::evacuate_live_objects` | `<unknown>` |
+
+##### `void HeapRegion::apply_to_marked_objects<G1AdjustLiveClosure>` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                  | Location    |
+| -----: | ----: | -----: | ------: | --------------------------------------- | ----------- |
+| -83.3% |    -5 | 100.0% |   6 → 1 | `G1AdjustRegionClosure::do_heap_region` | `<unknown>` |
+
+##### `ClassFileParser::fill_instance_klass` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                   | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | ----------- |
+| -62.5% |    -5 | 100.0% |   8 → 3 | `ClassFileParser::create_instance_klass` | `<unknown>` |
+
+##### `ClassFileParser::create_instance_klass` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                             | Location    |
+| -----: | ----: | -----: | ------: | ---------------------------------- | ----------- |
+| -62.5% |    -5 | 100.0% |   8 → 3 | `KlassFactory::create_from_stream` | `<unknown>` |
+
+##### `KlassFactory::create_from_stream` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                               | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | ----------- |
+|  -33.3% |    -3 | 75.0% → 85.7% |   9 → 6 | `SystemDictionary::resolve_class_from_stream`        | `<unknown>` |
+|  -50.0% |    -1 | 16.7% → 14.3% |   2 → 1 | `SystemDictionary::resolve_hidden_class_from_stream` | `<unknown>` |
+| removed |    -1 |   8.3% → 0.0% |   1 → 0 | `ClassLoader::load_class`                            | `<unknown>` |
+
+##### `Monitor::wait` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                          | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------- | ----------- |
+|  -71.4% |    -5 | 87.5% → 50.0% |   7 → 2 | `CompileQueue::get`             | `<unknown>` |
+| +100.0% |    +1 | 12.5% → 50.0% |   1 → 2 | `VMThread::wait_until_executed` | `<unknown>` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | ----------- |
+| -80.0% |    -4 | 100.0% |   5 → 1 | `G1ParScanThreadState::trim_queue_to_threshold` | `<unknown>` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                       | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------- | ----------- |
+| -75.0% |    -6 | 80.0% → 33.3% |   8 → 2 | `G1ParScanThreadState::steal_and_trim_queue` | `<unknown>` |
+| +50.0% |    +1 | 20.0% → 50.0% |   2 → 3 | `G1ParEvacuateFollowersClosure::do_void`     | `<unknown>` |
+|    new |    +1 |  0.0% → 16.7% |   0 → 1 | `G1ScanHRForRegionClosure::scan_memregion`   | `<unknown>` |
+
+##### `DefaultMethods::generate_default_methods` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                 | Location    |
+| -----: | ----: | -----: | ------: | -------------------------------------- | ----------- |
+| -57.1% |    -4 | 100.0% |   7 → 3 | `ClassFileParser::fill_instance_klass` | `<unknown>` |
+
+##### `pthread_mutex_lock` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                                | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------- | ----------- |
+| removed |    -2 | 50.0% → 0.0% |   2 → 0 | `_pthread_cond_wait`                  | `<unknown>` |
+| removed |    -2 | 50.0% → 0.0% |   2 → 0 | `Mutex::lock_without_safepoint_check` | `<unknown>` |
+
+##### `helpJoin` (`java.util.concurrent.ForkJoinPool`)
+
+| Change | Delta |      % |       Samples | Caller      | Location                            |
+| -----: | ----: | -----: | ------------: | ----------- | ----------------------------------- |
+|  -5.8% |   -65 | 100.0% | 1,129 → 1,064 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
+
+##### `get` (`java.util.ArrayList`)
+
+| Change | Delta |             % | Samples | Caller                | Location                                                   |
+| -----: | ----: | ------------: | ------: | --------------------- | ---------------------------------------------------------- |
+| -33.3% |   -29 | 44.8% → 36.3% | 87 → 58 | `vectorSum`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| -31.8% |   -21 | 34.0% → 28.1% | 66 → 45 | `collectClusters`     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| +39.0% |   +16 | 21.1% → 35.6% | 41 → 57 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `doubleValue` (`java.lang.Double`)
+
+|  Change | Delta |             % |  Samples | Caller       | Location                                                   |
+| ------: | ----: | ------------: | -------: | ------------ | ---------------------------------------------------------- |
+|  -33.0% |   -38 | 92.0% → 77.8% | 115 → 77 | `accumulate` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| +120.0% |   +12 |  8.0% → 22.2% |  10 → 22 | `distance`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `elementData` (`java.util.ArrayList`)
+
+| Change | Delta |      % |   Samples | Caller | Location              |
+| -----: | ----: | -----: | --------: | ------ | --------------------- |
+| -13.8% |   -22 | 100.0% | 160 → 138 | `get`  | `java.util.ArrayList` |
+
+##### `exec` (`java.util.concurrent.ForkJoinTask$AdaptedCallable`)
+
+| Change | Delta |      % |   Samples | Caller   | Location                            |
+| -----: | ----: | -----: | --------: | -------- | ----------------------------------- |
+|  -3.4% |   -16 | 100.0% | 467 → 451 | `doExec` | `java.util.concurrent.ForkJoinTask` |
+
+##### `checkIndex` (`java.util.Objects`)
+
+| Change | Delta |      % | Samples | Caller | Location              |
+| -----: | ----: | -----: | ------: | ------ | --------------------- |
+| -40.6% |   -13 | 100.0% | 32 → 19 | `get`  | `java.util.ArrayList` |
+
+##### `computeIfAbsent` (`java.util.HashMap`)
+
+| Change | Delta |      % |   Samples | Caller            | Location                                                   |
+| -----: | ----: | -----: | --------: | ----------------- | ---------------------------------------------------------- |
+|  -6.9% |   -12 | 100.0% | 173 → 161 | `collectClusters` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `getAndClearSlot` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|  Change | Delta |             % | Samples | Caller             | Location                                      |
+| ------: | ----: | ------------: | ------: | ------------------ | --------------------------------------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `tryRemoveAndExec` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+
+##### `read` (`java.io.FilterInputStream`)
+
+| Change | Delta |      % | Samples | Caller       | Location              |
+| -----: | ----: | -----: | ------: | ------------ | --------------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `transferTo` | `java.io.InputStream` |
+
+##### `allocateInstance` (`jdk.internal.misc.Unsafe`)
+
+|  Change | Delta |             % | Samples | Caller             | Location                              |
+| ------: | ----: | ------------: | ------: | ------------------ | ------------------------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `allocateInstance` | `java.lang.invoke.DirectMethodHandle` |
+
+##### `zero_blocks` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                | Location                                                   |
+| -----: | ----: | ------------: | ------: | --------------------- | ---------------------------------------------------------- |
+| -34.3% |   -12 | 57.4% → 52.3% | 35 → 23 | `merge`               | `java.util.HashMap`                                        |
+| -66.7% |    -4 |   9.8% → 4.5% |   6 → 2 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| -66.7% |    -2 |   4.9% → 2.3% |   3 → 1 | `copyOf`              | `java.util.Arrays`                                         |
+|  +5.9% |    +1 | 27.9% → 40.9% | 17 → 18 | `grow`                | `java.util.ArrayList`                                      |
+
+##### `itable stub` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                | Location                |
+| ------: | ----: | ------------: | ------: | --------------------- | ----------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `getExactSizeIfKnown` | `java.util.Spliterator` |
+
+##### `Compile::Code_Gen` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller             | Location    |
+| -----: | ----: | -----: | ------: | ------------------ | ----------- |
+| -24.1% |    -7 | 100.0% | 29 → 22 | `Compile::Compile` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_and_optimize` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                           | Location    |
+| -----: | ----: | -----: | ------: | -------------------------------- | ----------- |
+| -30.8% |    -4 | 100.0% |  13 → 9 | `PhaseIdealLoop::PhaseIdealLoop` | `<unknown>` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                     | Location    |
+| -----: | ----: | -----: | ------: | -------------------------- | ----------- |
+| -30.8% |    -4 | 100.0% |  13 → 9 | `PhaseIdealLoop::optimize` | `<unknown>` |
+
+##### `PhaseIdealLoop::optimize` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                    | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------- | ----------- |
+| -25.0% |    -2 | 61.5% → 66.7% |   8 → 6 | `Compile::Optimize`       | `<unknown>` |
+| -40.0% |    -2 | 38.5% → 33.3% |   5 → 3 | `Compile::optimize_loops` | `<unknown>` |
+
+##### `PhaseChaitin::Register_Allocate` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller              | Location    |
+| -----: | ----: | -----: | ------: | ------------------- | ----------- |
+| -23.5% |    -4 | 100.0% | 17 → 13 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `PhaseCFG::global_code_motion` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                            | Location    |
+| ------: | ----: | -------------: | ------: | --------------------------------- | ----------- |
+|  -60.0% |    -3 | 83.3% → 100.0% |   5 → 2 | `PhaseCFG::do_global_code_motion` | `<unknown>` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `Compile::Code_Gen`               | `<unknown>` |
+
+##### `PhaseIdealLoop::build_loop_late_post_work` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                               | Location    |
+| ------: | ----: | -------------: | ------: | ------------------------------------ | ----------- |
+|  -60.0% |    -3 | 83.3% → 100.0% |   5 → 2 | `PhaseIdealLoop::build_loop_late`    | `<unknown>` |
+| removed |    -1 |   16.7% → 0.0% |   1 → 0 | `PhaseIdealLoop::build_and_optimize` | `<unknown>` |
+
+##### `CompileQueue::get` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------- | ----------- |
+| -42.9% |    -3 | 100.0% |   7 → 4 | `CompileBroker::compiler_thread_loop` | `<unknown>` |
+
+##### `PhaseCFG::do_global_code_motion` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller              | Location    |
+| -----: | ----: | -----: | ------: | ------------------- | ----------- |
+| -60.0% |    -3 | 100.0% |   5 → 2 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `PhaseIdealLoop::build_loop_late` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                               | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------ | ----------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `PhaseIdealLoop::build_and_optimize` | `<unknown>` |
+
+##### `Compile::Optimize` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller             | Location    |
+| -----: | ----: | -----: | ------: | ------------------ | ----------- |
+|  -9.5% |    -2 | 100.0% | 21 → 19 | `Compile::Compile` | `<unknown>` |
+
+##### `PhaseChaitin::gather_lrg_masks` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                            | Location    |
+| -----: | ----: | -----: | ------: | --------------------------------- | ----------- |
+| -50.0% |    -2 | 100.0% |   4 → 2 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `ciObjectFactory::create_new_metadata` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                          | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `ciObjectFactory::get_metadata` | `<unknown>` |
+
+##### `ciObjectFactory::get_metadata` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                         | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------ | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `ciBytecodeStream::get_method` | `<unknown>` |
+
+##### `PhaseLive::compute` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                            | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `PhaseIdealLoop::split_if_with_blocks_pre` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                 | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `PhaseIdealLoop::split_if_with_blocks` | `<unknown>` |
+
+##### `Compile::optimize_loops` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller              | Location    |
+| -----: | ----: | -----: | ------: | ------------------- | ----------- |
+| -40.0% |    -2 | 100.0% |   5 → 3 | `Compile::Optimize` | `<unknown>` |
+
+##### `PhaseCFG::build_cfg` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller               | Location    |
+| ------: | ----: | ------------: | ------: | -------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `PhaseCFG::PhaseCFG` | `<unknown>` |
+
+##### `PhaseCFG::PhaseCFG` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller              | Location    |
+| ------: | ----: | ------------: | ------: | ------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `Compile::Code_Gen` | `<unknown>` |
+
+##### `Node_Backward_Iterator::next` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                    | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------- | ----------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `PhaseCFG::schedule_late` | `<unknown>` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -168,6 +168,289 @@ Functions with the largest decrease in time blocked within the function and its 
 | -55.2% | -0.30ms | 18.2% → 7.6% | 0.5ms → 0.2ms |     21 → 20 | `eachFile(File, Closure)`                                        | `org.codehaus.groovy.runtime.ResourceGroovyMethods`  |
 | -55.2% | -0.30ms | 18.2% → 7.6% | 0.5ms → 0.2ms |     21 → 20 | `doMethodInvoke(Object, Object[])`                               | `org.codehaus.groovy.runtime.dgm$1076`               |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `enqueue(Reference)` (`java.lang.ref.NativeReferenceQueue`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                 | Location                  |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------- | ------------------------- |
+| +18.0% | +0.44ms | 100.0% | 2.5ms → 2.9ms |          22 | `enqueueFromPending()` | `java.lang.ref.Reference` |
+
+##### `enqueueFromPending()` (`java.lang.ref.Reference`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                       | Location                  |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------------- | ------------------------- |
+| +18.0% | +0.44ms | 100.0% | 2.5ms → 2.9ms |          22 | `processPendingReferences()` | `java.lang.ref.Reference` |
+
+##### `processPendingReferences()` (`java.lang.ref.Reference`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller  | Location                                   |
+| -----: | ------: | -----: | ------------: | ----------: | ------- | ------------------------------------------ |
+| +18.0% | +0.44ms | 100.0% | 2.5ms → 2.9ms |          22 | `run()` | `java.lang.ref.Reference$ReferenceHandler` |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001292400`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                                   | Location                           |
+| ------: | ------: | -----: | -------------: | ----------: | ---------------------------------------- | ---------------------------------- |
+| +863.0% | +0.22ms | 100.0% | 25.6µs → 0.2ms |      1 → 20 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010c6400`)
+
+|  Change |   Delta |      % |          Time | Contentions | Caller                                   | Location                                            |
+| ------: | ------: | -----: | ------------: | ----------: | ---------------------------------------- | --------------------------------------------------- |
+| +144.4% | +0.21ms | 100.0% | 0.1ms → 0.4ms |      7 → 26 | `guardWithCatch(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `setHandleForMetaMethod()` (`org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`)
+
+|   Change |   Delta |              % |           Time | Contentions | Caller                     | Location                                                    |
+| -------: | ------: | -------------: | -------------: | ----------: | -------------------------- | ----------------------------------------------------------- |
+| +1314.6% | +0.17ms | 100.0% → 95.3% | 13.2µs → 0.2ms |      1 → 10 | `setCallSiteTarget()`      | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`   |
+|      new | +0.01ms |    0.0% → 4.7% |    0ms → 9.1µs |       0 → 1 | `setHandleForMetaMethod()` | `org.codehaus.groovy.vmplugin.v8.Selector$PropertySelector` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070015a3400`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                                           | Location                           |
+| ------: | ------: | -----: | -------------: | ----------: | ------------------------------------------------ | ---------------------------------- |
+| +753.5% | +0.17ms | 100.0% | 22.8µs → 0.2ms |      1 → 16 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001641000`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                                                   | Location                                            |
+| -----: | ------: | ------------: | ----------: | ----------: | -------------------------------------------------------- | --------------------------------------------------- |
+|    new | +0.16ms | 0.0% → 100.0% | 0ms → 0.2ms |      0 → 15 | `invokeExact_MT(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001120c00` |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070017c8800`)
+
+|  Change |   Delta |             % |         Time | Contentions | Caller                                   | Location                                            |
+| ------: | ------: | ------------: | -----------: | ----------: | ---------------------------------------- | --------------------------------------------------- |
+|     new | +0.15ms | 0.0% → 100.0% |  0ms → 0.2ms |      0 → 14 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+| removed | -0.02ms | 100.0% → 0.0% | 22.8µs → 0ms |       1 → 0 | `reinvoke(Object, Object)`               | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010c8000`)
+
+|  Change |   Delta |             % |         Time | Contentions | Caller                                           | Location                                            |
+| ------: | ------: | ------------: | -----------: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+|     new | +0.14ms | 0.0% → 100.0% |  0ms → 0.1ms |       0 → 8 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+| removed | -0.03ms | 100.0% → 0.0% | 25.6µs → 0ms |       1 → 0 | `guardWithCatch(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+
+##### `make(byte, Class, MemberName, Class)` (`java.lang.invoke.DirectMethodHandle`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                                                                                   | Location                                |
+| ------: | ------: | -----: | -------------: | ----------: | ---------------------------------------------------------------------------------------- | --------------------------------------- |
+| +747.3% | +0.10ms | 100.0% | 13.2µs → 0.1ms |       1 → 7 | `getDirectMethodCommon(byte, Class, MemberName, boolean, boolean, MethodHandles$Lookup)` | `java.lang.invoke.MethodHandles$Lookup` |
+
+##### `getDirectMethodCommon(byte, Class, MemberName, boolean, boolean, MethodHandles$Lookup)` (`java.lang.invoke.MethodHandles$Lookup`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                                                                            | Location                                |
+| ------: | ------: | -----: | -------------: | ----------: | --------------------------------------------------------------------------------- | --------------------------------------- |
+| +747.3% | +0.10ms | 100.0% | 13.2µs → 0.1ms |       1 → 7 | `getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)` | `java.lang.invoke.MethodHandles$Lookup` |
+
+##### `getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)` (`java.lang.invoke.MethodHandles$Lookup`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller              | Location                                |
+| ------: | ------: | -----: | -------------: | ----------: | ------------------- | --------------------------------------- |
+| +747.3% | +0.10ms | 100.0% | 13.2µs → 0.1ms |       1 → 7 | `unreflect(Method)` | `java.lang.invoke.MethodHandles$Lookup` |
+
+##### `unreflect(Method)` (`java.lang.invoke.MethodHandles$Lookup`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                                             | Location                                                  |
+| ------: | ------: | -----: | -------------: | ----------: | -------------------------------------------------- | --------------------------------------------------------- |
+| +747.3% | +0.10ms | 100.0% | 13.2µs → 0.1ms |       1 → 7 | `correctClassForNameAndUnReflectOtherwise(Method)` | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
+
+##### `correctClassForNameAndUnReflectOtherwise(Method)` (`org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector`)
+
+|  Change |   Delta |      % |           Time | Contentions | Caller                     | Location                                                  |
+| ------: | ------: | -----: | -------------: | ----------: | -------------------------- | --------------------------------------------------------- |
+| +747.3% | +0.10ms | 100.0% | 13.2µs → 0.1ms |       1 → 7 | `setHandleForMetaMethod()` | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
+
+##### `asCollectorType(Class, int, int)` (`java.lang.invoke.MethodType`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                         | Location                        |
+| -----: | ------: | ------------: | ----------: | ----------: | ------------------------------ | ------------------------------- |
+|    new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `asCollector(int, Class, int)` | `java.lang.invoke.MethodHandle` |
+
+##### `asCollector(int, Class, int)` (`java.lang.invoke.MethodHandle`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                    | Location                        |
+| -----: | ------: | ------------: | ----------: | ----------: | ------------------------- | ------------------------------- |
+|    new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `asCollector(Class, int)` | `java.lang.invoke.MethodHandle` |
+
+##### `asCollector(Class, int)` (`java.lang.invoke.MethodHandle`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                     | Location                                                  |
+| -----: | ------: | ------------: | ----------: | ----------: | -------------------------- | --------------------------------------------------------- |
+|    new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `setHandleForMetaMethod()` | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
+
+##### `doCall(Object)` (`org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                                  | Location                                     |
+| -----: | ------: | ------------: | ----------: | ----------: | --------------------------------------- | -------------------------------------------- |
+|    new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `each(Iterator, Closure)` (`org.codehaus.groovy.runtime.DefaultGroovyMethods`)
+
+| Change |   Delta |             % |        Time | Contentions | Caller                    | Location                                           |
+| -----: | ------: | ------------: | ----------: | ----------: | ------------------------- | -------------------------------------------------- |
+|    new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `each(Iterable, Closure)` | `org.codehaus.groovy.runtime.DefaultGroovyMethods` |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700109ac00`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                   | Location                           |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------------------------- | ---------------------------------- |
+| -85.2% | -0.49ms | 100.0% | 0.6ms → 0.1ms |      22 → 4 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070011e0c00`)
+
+|  Change |   Delta |             % |        Time | Contentions | Caller                                           | Location                                            |
+| ------: | ------: | ------------: | ----------: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+| removed | -0.57ms | 100.0% → 0.0% | 0.6ms → 0ms |      22 → 0 | `guardWithCatch(Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000070010aa000` |
+|     new | +0.08ms | 0.0% → 100.0% | 0ms → 0.1ms |       0 → 4 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700129dc00`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                   | Location                           |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------------------------- | ---------------------------------- |
+| -83.9% | -0.48ms | 100.0% | 0.6ms → 0.1ms |      22 → 6 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001378800`)
+
+|  Change |   Delta |             % |        Time | Contentions | Caller                                           | Location                                            |
+| ------: | ------: | ------------: | ----------: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+| removed | -0.55ms | 100.0% → 0.0% | 0.5ms → 0ms |      21 → 0 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|     new | +0.21ms | 0.0% → 100.0% | 0ms → 0.2ms |      0 → 15 | `reinvoke(Object, Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x0000007001189000` |
+
+##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070011e1800`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                   | Location                           |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------------------------- | ---------------------------------- |
+| -61.2% | -0.34ms | 100.0% | 0.5ms → 0.2ms |     21 → 15 | `invokeExact_MT(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `guardWithCatch(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010d2800`)
+
+| Change |   Delta |             % |          Time | Contentions | Caller                                     | Location                                            |
+| -----: | ------: | ------------: | ------------: | ----------: | ------------------------------------------ | --------------------------------------------------- |
+| -55.2% | -0.30ms |        100.0% | 0.5ms → 0.2ms |     21 → 20 | `reinvoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001189000` |
+| -42.6% | -0.15ms | 65.8% → 84.4% | 0.4ms → 0.2ms |     15 → 17 | `delegate(Object, Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `reinvoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001189000`)
+
+|  Change |   Delta |              % |          Time | Contentions | Caller                                  | Location                                            |
+| ------: | ------: | -------------: | ------------: | ----------: | --------------------------------------- | --------------------------------------------------- |
+| removed | -0.46ms |   83.8% → 0.0% |   0.5ms → 0ms |      18 → 0 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x00000070012ae000` |
+|  -61.2% | -0.34ms | 100.0% → 86.5% | 0.5ms → 0.2ms |     21 → 15 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x00000070011e1800` |
+|  -55.2% | -0.30ms |         100.0% | 0.5ms → 0.2ms |     21 → 20 | `guard(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001189400` |
+|     new | +0.25ms |  0.0% → 100.0% |   0ms → 0.2ms |      0 → 20 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x0000007001292400` |
+| removed | -0.19ms |   34.2% → 0.0% |   0.2ms → 0ms |       6 → 0 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x00000070012bcc00` |
+
+##### `guard(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001189400`)
+
+| Change |   Delta |             % |          Time | Contentions | Caller                                     | Location                                            |
+| -----: | ------: | ------------: | ------------: | ----------: | ------------------------------------------ | --------------------------------------------------- |
+| -55.2% | -0.30ms |        100.0% | 0.5ms → 0.2ms |     21 → 20 | `reinvoke(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001189000` |
+| -42.6% | -0.15ms | 65.8% → 84.4% | 0.4ms → 0.2ms |     15 → 17 | `delegate(Object, Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+
+##### `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+| Change |   Delta |             % |          Time | Contentions | Caller                                           | Location                                                                    |
+| -----: | ------: | ------------: | ------------: | ----------: | ------------------------------------------------ | --------------------------------------------------------------------------- |
+| -55.2% | -0.30ms |        100.0% | 0.5ms → 0.2ms |     21 → 20 | `processFile(String, DirectoryResults, RuleSet)` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+| -55.2% | -0.30ms |        100.0% | 0.5ms → 0.2ms |     21 → 20 | `doCall(Object)`                                 | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+| -55.2% | -0.30ms |        100.0% | 0.5ms → 0.2ms |     21 → 20 | `analyze(RuleSet)`                               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+| -53.8% | -0.25ms | 83.8% → 86.5% | 0.5ms → 0.2ms |     18 → 15 | `collectViolations(SourceCode, RuleSet)`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|    new | +0.05ms |  0.0% → 20.6% |   0ms → 0.1ms |       0 → 3 | `measureRuleProcessingTime(Rule, Closure)`       | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+
+##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                          | Location                                             |
+| -----: | ------: | -----: | ------------: | ----------: | ----------------------------------------------- | ---------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001094400` |
+
+##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                                  | Location                                             |
+| -----: | ------: | -----: | ------------: | ----------: | ------------------------------------------------------- | ---------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `invokeSpecial(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000700118a800` |
+
+##### `invokeSpecial(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000700118a800`)
+
+| Change |   Delta |             % |          Time | Contentions | Caller                                           | Location                                            |
+| -----: | ------: | ------------: | ------------: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+| -46.3% | -0.17ms | 65.8% → 79.0% | 0.4ms → 0.2ms |     15 → 16 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070015a6400` |
+| -72.4% | -0.14ms | 34.2% → 21.0% | 0.2ms → 0.1ms |       6 → 4 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000700129cc00` |
+
+##### `invokeExact_MT(Object, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700103c000`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                         | Location                                          |
+| -----: | ------: | -----: | ------------: | ----------: | ------------------------------ | ------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000070010d8400`)
+
+|  Change |   Delta |             % |        Time | Contentions | Caller                                           | Location                                            |
+| ------: | ------: | ------------: | ----------: | ----------: | ------------------------------------------------ | --------------------------------------------------- |
+| removed | -0.55ms | 100.0% → 0.0% | 0.5ms → 0ms |      21 → 0 | `invoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000070012b3c00` |
+| removed | -0.55ms | 100.0% → 0.0% | 0.5ms → 0ms |      21 → 0 | `invoke(Object, Object, Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001188000` |
+|     new | +0.25ms | 0.0% → 100.0% | 0ms → 0.2ms |      0 → 20 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+| removed | -0.15ms |  26.4% → 0.0% | 0.1ms → 0ms |       7 → 0 | `invoke(Object, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000070010d3400` |
+
+##### `invoke(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001298800`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                                   | Location                                            |
+| -----: | ------: | -----: | ------------: | ----------: | -------------------------------------------------------- | --------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `guardWithCatch(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001299000` |
+
+##### `guardWithCatch(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001299000`)
+
+| Change |   Delta |             % |           Time | Contentions | Caller                                             | Location                                            |
+| -----: | ------: | ------------: | -------------: | ----------: | -------------------------------------------------- | --------------------------------------------------- |
+| -42.6% | -0.15ms | 65.8% → 84.4% |  0.4ms → 0.2ms |     15 → 17 | `delegate(Object, Object, Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+| -79.5% | -0.15ms | 34.2% → 15.6% | 0.2ms → 38.5µs |       6 → 3 | `reinvoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001299c00` |
+
+##### `guard(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700129a000`)
+
+| Change |   Delta |             % |           Time | Contentions | Caller                                             | Location                                            |
+| -----: | ------: | ------------: | -------------: | ----------: | -------------------------------------------------- | --------------------------------------------------- |
+| -42.6% | -0.15ms | 65.8% → 84.4% |  0.4ms → 0.2ms |     15 → 17 | `delegate(Object, Object, Object, Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+| -79.5% | -0.15ms | 34.2% → 15.6% | 0.2ms → 38.5µs |       6 → 3 | `reinvoke(Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001299c00` |
+
+##### `invoke(Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001298400`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                                   | Location                           |
+| -----: | ------: | -----: | ------------: | ----------: | -------------------------------------------------------- | ---------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller           | Location                                                                    |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------- | --------------------------------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `doCall(Object)` | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                  | Location                                     |
+| -----: | ------: | -----: | ------------: | ----------: | --------------------------------------- | -------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `eachFile(File, FileType, Closure)` (`org.codehaus.groovy.runtime.ResourceGroovyMethods`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                    | Location                                            |
+| -----: | ------: | -----: | ------------: | ----------: | ------------------------- | --------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `eachFile(File, Closure)` | `org.codehaus.groovy.runtime.ResourceGroovyMethods` |
+
+##### `eachFile(File, Closure)` (`org.codehaus.groovy.runtime.ResourceGroovyMethods`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                             | Location                               |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------------------------- | -------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `doMethodInvoke(Object, Object[])` | `org.codehaus.groovy.runtime.dgm$1076` |
+
+##### `doMethodInvoke(Object, Object[])` (`org.codehaus.groovy.runtime.dgm$1076`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller                                          | Location                                             |
+| -----: | ------: | -----: | ------------: | ----------: | ----------------------------------------------- | ---------------------------------------------------- |
+| -55.2% | -0.30ms | 100.0% | 0.5ms → 0.2ms |     21 → 20 | `invokeVirtual(Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001094400` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

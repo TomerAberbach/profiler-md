@@ -429,6 +429,256 @@ Categories accounting for at least 1.0% of self time.
 |   3.0% | 120.0ms |     120 | `Composer\Autoload\AutoloadGenerator::getPathCode`            | `./composer/src/Composer/Autoload/AutoloadGenerator.php`       |
 |   3.0% | 118.0ms |      63 | `Composer\Package\Version\VersionGuesser::guessFossilVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php`   |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`)
+
+|      % |  Time | Samples | Caller                              | Location                                          |
+| -----: | ----: | ------: | ----------------------------------- | ------------------------------------------------- |
+| 100.0% | 3.94s |   3,246 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
+
+|      % |  Time | Samples | Caller        | Location        |
+| -----: | ----: | ------: | ------------- | --------------- |
+| 100.0% | 3.94s |   3,246 | `(anonymous)` | `./profile.php` |
+
+##### `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`)
+
+|      % |  Time | Samples | Caller                                       | Location                                            |
+| -----: | ----: | ------: | -------------------------------------------- | --------------------------------------------------- |
+| 100.0% | 3.92s |   3,242 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Symfony\Component\Console\Application::doRun` (`./composer/vendor/symfony/console/Application.php`)
+
+|      % |  Time | Samples | Caller                                | Location                                          |
+| -----: | ----: | ------: | ------------------------------------- | ------------------------------------------------- |
+| 100.0% | 3.65s |   3,185 | `Composer\Console\Application::doRun` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Symfony\Component\Console\Command\Command::run` (`./composer/vendor/symfony/console/Command/Command.php`)
+
+|      % |  Time | Samples | Caller                                                | Location                                            |
+| -----: | ----: | ------: | ----------------------------------------------------- | --------------------------------------------------- |
+| 100.0% | 3.65s |   3,183 | `Symfony\Component\Console\Application::doRunCommand` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Symfony\Component\Console\Application::doRunCommand` (`./composer/vendor/symfony/console/Application.php`)
+
+|      % |  Time | Samples | Caller                                         | Location                                            |
+| -----: | ----: | ------: | ---------------------------------------------- | --------------------------------------------------- |
+| 100.0% | 3.65s |   3,183 | `Symfony\Component\Console\Application::doRun` | `./composer/vendor/symfony/console/Application.php` |
+
+##### `Composer\Command\DumpAutoloadCommand::execute` (`./composer/src/Composer/Command/DumpAutoloadCommand.php`)
+
+|      % |  Time | Samples | Caller                                           | Location                                                |
+| -----: | ----: | ------: | ------------------------------------------------ | ------------------------------------------------------- |
+| 100.0% | 2.92s |   2,922 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
+
+##### `Composer\Autoload\AutoloadGenerator::dump` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
+
+|      % |  Time | Samples | Caller                                          | Location                                                  |
+| -----: | ----: | ------: | ----------------------------------------------- | --------------------------------------------------------- |
+| 100.0% | 2.92s |   2,920 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
+
+##### `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` (`./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`)
+
+|      % |  Time | Samples | Caller                                      | Location                                                 |
+| -----: | ----: | ------: | ------------------------------------------- | -------------------------------------------------------- |
+| 100.0% | 2.76s |   2,766 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileParser::findClasses` (`./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`)
+
+|      % |  Time | Samples | Caller                                                    | Location                                                                   |
+| -----: | ----: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 100.0% | 2.50s |   2,501 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::clean` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+|      % |  Time | Samples | Caller                                                  | Location                                                               |
+| -----: | ----: | ------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 100.0% | 1.64s |   1,648 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::match` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+|     % |  Time | Samples | Caller                                                   | Location                                                                |
+| ----: | ----: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 99.8% | 1.01s |   1,018 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`       | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+|  0.2% | 2.0ms |       2 | `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc` | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+
+##### `Composer\Pcre\Preg::isMatchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|     % |    Time | Samples | Caller                                                        | Location                                                                   |
+| ----: | ------: | ------: | ------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 97.4% | 904.0ms |     904 | `Composer\ClassMapGenerator\PhpFileCleaner::match`            | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`    |
+|  2.2% |  20.0ms |      20 | `Composer\Util\Filesystem::normalizePath`                     | `./composer/src/Composer/Util/Filesystem.php`                              |
+|  0.4% |   4.0ms |       4 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+
+##### `Composer\Pcre\Preg::matchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|      % |    Time | Samples | Caller                                    | Location                                       |
+| -----: | ------: | ------: | ----------------------------------------- | ---------------------------------------------- |
+| 100.0% | 796.0ms |     796 | `Composer\Pcre\Preg::isMatchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\Factory::createComposer` (`./composer/src/Composer/Factory.php`)
+
+|      % |    Time | Samples | Caller                     | Location                              |
+| -----: | ------: | ------: | -------------------------- | ------------------------------------- |
+| 100.0% | 732.0ms |     261 | `Composer\Factory::create` | `./composer/src/Composer/Factory.php` |
+
+##### `Composer\Factory::create` (`./composer/src/Composer/Factory.php`)
+
+|      % |    Time | Samples | Caller                                      | Location                                          |
+| -----: | ------: | ------: | ------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 732.0ms |     261 | `Composer\Console\Application::getComposer` | `./composer/src/Composer/Console/Application.php` |
+
+##### `Composer\Console\Application::getComposer` (`./composer/src/Composer/Console/Application.php`)
+
+|      % |    Time | Samples | Caller                                      | Location                                          |
+| -----: | ------: | ------: | ------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 732.0ms |     261 | `Composer\Command\BaseCommand::tryComposer` | `./composer/src/Composer/Command/BaseCommand.php` |
+
+##### `Composer\Command\BaseCommand::tryComposer` (`./composer/src/Composer/Command/BaseCommand.php`)
+
+|      % |    Time | Samples | Caller                                     | Location                                          |
+| -----: | ------: | ------: | ------------------------------------------ | ------------------------------------------------- |
+| 100.0% | 732.0ms |     261 | `Composer\Command\BaseCommand::initialize` | `./composer/src/Composer/Command/BaseCommand.php` |
+
+##### `Composer\Command\BaseCommand::initialize` (`./composer/src/Composer/Command/BaseCommand.php`)
+
+|      % |    Time | Samples | Caller                                           | Location                                                |
+| -----: | ------: | ------: | ------------------------------------------------ | ------------------------------------------------------- |
+| 100.0% | 732.0ms |     261 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
+
+##### `Composer\Package\Loader\RootPackageLoader::load` (`./composer/src/Composer/Package/Loader/RootPackageLoader.php`)
+
+|      % |    Time | Samples | Caller                             | Location                              |
+| -----: | ------: | ------: | ---------------------------------- | ------------------------------------- |
+| 100.0% | 697.0ms |     226 | `Composer\Factory::createComposer` | `./composer/src/Composer/Factory.php` |
+
+##### `Composer\Util\ProcessExecutor::doExecute` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+|      % |    Time | Samples | Caller                                   | Location                                           |
+| -----: | ------: | ------: | ---------------------------------------- | -------------------------------------------------- |
+| 100.0% | 692.0ms |     221 | `Composer\Util\ProcessExecutor::execute` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+
+##### `Composer\Util\ProcessExecutor::execute` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+|     % |    Time | Samples | Caller                                                        | Location                                                     |
+| ----: | ------: | ------: | ------------------------------------------------------------- | ------------------------------------------------------------ |
+| 44.2% | 306.0ms |      73 | `Composer\Package\Version\VersionGuesser::guessGitVersion`    | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+| 21.0% | 145.0ms |      32 | `Composer\Package\Version\VersionGuesser::versionFromGitTags` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+| 17.1% | 118.0ms |      63 | `Composer\Package\Version\VersionGuesser::guessFossilVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  8.7% |  60.0ms |      28 | `Composer\Package\Version\VersionGuesser::guessHgVersion`     | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+|  8.1% |  56.0ms |      24 | `Composer\Package\Version\VersionGuesser::guessSvnVersion`    | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `Composer\Package\Version\VersionGuesser::guessVersion` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+|      % |    Time | Samples | Caller                                            | Location                                                       |
+| -----: | ------: | ------: | ------------------------------------------------- | -------------------------------------------------------------- |
+| 100.0% | 692.0ms |     221 | `Composer\Package\Loader\RootPackageLoader::load` | `./composer/src/Composer/Package/Loader/RootPackageLoader.php` |
+
+##### `Composer\Util\ProcessExecutor::runProcess` (`./composer/src/Composer/Util/ProcessExecutor.php`)
+
+|      % |    Time | Samples | Caller                                     | Location                                           |
+| -----: | ------: | ------: | ------------------------------------------ | -------------------------------------------------- |
+| 100.0% | 690.0ms |     219 | `Composer\Util\ProcessExecutor::doExecute` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+
+##### `Symfony\Component\Process\Process::run` (`./composer/vendor/symfony/process/Process.php`)
+
+|      % |    Time | Samples | Caller                                      | Location                                           |
+| -----: | ------: | ------: | ------------------------------------------- | -------------------------------------------------- |
+| 100.0% | 687.0ms |     216 | `Composer\Util\ProcessExecutor::runProcess` | `./composer/src/Composer/Util/ProcessExecutor.php` |
+
+##### `Symfony\Component\Process\Process::wait` (`./composer/vendor/symfony/process/Process.php`)
+
+|      % |    Time | Samples | Caller                                   | Location                                        |
+| -----: | ------: | ------: | ---------------------------------------- | ----------------------------------------------- |
+| 100.0% | 639.0ms |     168 | `Symfony\Component\Process\Process::run` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Symfony\Component\Process\Process::readPipes` (`./composer/vendor/symfony/process/Process.php`)
+
+|     % |    Time | Samples | Caller                                            | Location                                        |
+| ----: | ------: | ------: | ------------------------------------------------- | ----------------------------------------------- |
+| 99.7% | 630.0ms |     159 | `Symfony\Component\Process\Process::wait`         | `./composer/vendor/symfony/process/Process.php` |
+|  0.3% |   2.0ms |       2 | `Symfony\Component\Process\Process::updateStatus` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Symfony\Component\Process\Pipes\UnixPipes::readAndWrite` (`./composer/vendor/symfony/process/Pipes/UnixPipes.php`)
+
+|      % |    Time | Samples | Caller                                         | Location                                        |
+| -----: | ------: | ------: | ---------------------------------------------- | ----------------------------------------------- |
+| 100.0% | 631.0ms |     160 | `Symfony\Component\Process\Process::readPipes` | `./composer/vendor/symfony/process/Process.php` |
+
+##### `Composer\Pcre\Preg::match` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|     % |    Time | Samples | Caller                                  | Location                                       |
+| ----: | ------: | ------: | --------------------------------------- | ---------------------------------------------- |
+| 96.6% | 519.0ms |     519 | `Composer\Pcre\Preg::matchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+|  3.4% |  18.0ms |      18 | `Composer\Pcre\Preg::isMatch`           | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\Package\Version\VersionGuesser::guessGitVersion` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+|      % |    Time | Samples | Caller                                                  | Location                                                     |
+| -----: | ------: | ------: | ------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 458.0ms |     106 | `Composer\Package\Version\VersionGuesser::guessVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `Composer\Pcre\Preg::pregMatch` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|      % |    Time | Samples | Caller                      | Location                                       |
+| -----: | ------: | ------: | --------------------------- | ---------------------------------------------- |
+| 100.0% | 264.0ms |     264 | `Composer\Pcre\Preg::match` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\Util\Silencer::call` (`./composer/src/Composer/Util/Silencer.php`)
+
+|     % |    Time | Samples | Caller                                                | Location                                          |
+| ----: | ------: | ------: | ----------------------------------------------------- | ------------------------------------------------- |
+| 98.8% | 246.0ms |      36 | `Composer\Console\Application::doRun`                 | `./composer/src/Composer/Console/Application.php` |
+|  0.8% |   2.0ms |       2 | `Composer\Util\Filesystem::filePutContentsIfModified` | `./composer/src/Composer/Util/Filesystem.php`     |
+|  0.4% |   1.0ms |       1 | `Composer\Factory::getHomeDir`                        | `./composer/src/Composer/Factory.php`             |
+
+##### `Composer\ClassMapGenerator\PhpFileCleaner::skipString` (`./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`)
+
+|      % |    Time | Samples | Caller                                             | Location                                                                |
+| -----: | ------: | ------: | -------------------------------------------------- | ----------------------------------------------------------------------- |
+| 100.0% | 195.0ms |     195 | `Composer\ClassMapGenerator\PhpFileCleaner::clean` | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+
+##### `Composer\Pcre\Preg::matchAll` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|     % |    Time | Samples | Caller                                                  | Location                                                               |
+| ----: | ------: | ------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 78.8% | 141.0ms |     141 | `Composer\Pcre\Preg::matchAllStrictGroups`              | `./composer/vendor/composer/pcre/src/Preg.php`                         |
+| 21.2% |  38.0ms |      38 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\Package\Version\VersionGuesser::versionFromGitTags` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+|      % |    Time | Samples | Caller                                                     | Location                                                     |
+| -----: | ------: | ------: | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 145.0ms |      32 | `Composer\Package\Version\VersionGuesser::guessGitVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
+##### `Composer\Pcre\Preg::matchAllStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|      % |    Time | Samples | Caller                                                  | Location                                                               |
+| -----: | ------: | ------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 100.0% | 144.0ms |     144 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+
+##### `Composer\Pcre\Preg::enforceNonNullMatches` (`./composer/vendor/composer/pcre/src/Preg.php`)
+
+|      % |    Time | Samples | Caller                                  | Location                                       |
+| -----: | ------: | ------: | --------------------------------------- | ---------------------------------------------- |
+| 100.0% | 130.0ms |     130 | `Composer\Pcre\Preg::matchStrictGroups` | `./composer/vendor/composer/pcre/src/Preg.php` |
+
+##### `Composer\Autoload\AutoloadGenerator::getPathCode` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
+
+|      % |    Time | Samples | Caller                                      | Location                                                 |
+| -----: | ------: | ------: | ------------------------------------------- | -------------------------------------------------------- |
+| 100.0% | 120.0ms |     120 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+
+##### `Composer\Package\Version\VersionGuesser::guessFossilVersion` (`./composer/src/Composer/Package/Version/VersionGuesser.php`)
+
+|      % |    Time | Samples | Caller                                                  | Location                                                     |
+| -----: | ------: | ------: | ------------------------------------------------------- | ------------------------------------------------------------ |
+| 100.0% | 118.0ms |      63 | `Composer\Package\Version\VersionGuesser::guessVersion` | `./composer/src/Composer/Package/Version/VersionGuesser.php` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

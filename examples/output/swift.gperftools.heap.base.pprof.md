@@ -236,6 +236,257 @@ Categories accounting for at least 1.0% of self size.
 |  6.0% | 5.79 MiB |     295 | `0x34c85b`                                                                                                                                                                                                                                                                                                                                                                                                          | `/usr/lib/swift/linux/libFoundationEssentials.so` |
 |  6.0% | 5.79 MiB |     295 | `0x352f43`                                                                                                                                                                                                                                                                                                                                                                                                          | `/usr/lib/swift/linux/libFoundationEssentials.so` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|     % |     Size | Objects | Caller                                                                                              | Location                                                             |
+| ----: | -------: | ------: | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 99.9% | 87.6 MiB | 148,874 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                | Location                                                             |
+| ----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 83.9% | 73.5 MiB | 134,408 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm` | `Attributes.swift.o`                                                 |
+| 72.7% | 63.7 MiB | 122,610 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF`                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+|  7.6% | 6.64 MiB |  13,776 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_`                                                             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftSyntax16BumpPtrAllocatorC12startNewSlab33_61CB623A74FD1871D887FFA45954E6F5LLyyF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift`)
+
+|      % |     Size | Objects | Caller                                                                     | Location                                                                     |
+| -----: | -------: | ------: | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 100.0% | 81.8 MiB |  12,702 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+
+##### `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Location                                                                     |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 36.8% | 30.1 MiB |   5,160 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate_5countSryxGxm_SitlFAA03RawB4DataV_Ttg5`                                                                                                                                                                                                                                                                                                                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+| 16.1% | 13.2 MiB |   1,944 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm`                                       | `AbsolutePosition.swift.o`                                                   |
+| 11.4% | 9.31 MiB |   1,110 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex8VG_AA0B5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm`                                                                                                                                                                               | `AbsolutePosition.swift.o`                                                   |
+| 11.1% | 9.05 MiB |   1,092 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate_5countSryxGxm_SitlFAA03RawB0VSg_Ttg5`                                                                                                                                                                                                                                                                                                                                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+| 10.0% | 8.15 MiB |   1,068 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw7VAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` | `AbsolutePosition.swift.o`                                                   |
+
+##### `0x3e564b` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller                                        | Location                               |
+| -----: | -------: | ------: | --------------------------------------------- | -------------------------------------- |
+| 100.0% | 81.5 MiB |  12,108 | `$sSw8allocate9byteCount9alignmentSwSi_SitFZ` | `<unknown>`                            |
+|  <0.1% |     80 B |       1 | `0x3f1d1f`                                    | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |     32 B |       1 | `0x4289e7`                                    | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `$sSw8allocate9byteCount9alignmentSwSi_SitFZ` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                                                                                     | Location                                                                     |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| 100.0% | 81.5 MiB |  12,108 | `$s11SwiftSyntax16BumpPtrAllocatorC12startNewSlab33_61CB623A74FD1871D887FFA45954E6F5LLyyF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift` |
+
+##### `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                                                   | Location                                                                 |
+| ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 93.0% | 74.9 MiB | 135,792 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`     |
+| 84.3% | 67.9 MiB | 111,954 | `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF`                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+|  2.3% | 1.84 MiB |   1,908 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tFAF0jf9BlockItemI0VSgACz_SbtXEfU0_`                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `profile_main` (`./Sources/profile/main.swift`)
+
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 93.0% | 70.4 MiB | 121,124 | `0x284c3` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm` (`Attributes.swift.o`)
+
+|     % |   Size | Objects | Caller                                                                           | Location                                                             |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 98.0% | 72 MiB | 133,694 | `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|      % |   Size | Objects | Caller                                                      | Location                                                             |
+| -----: | -----: | ------: | ----------------------------------------------------------- | -------------------------------------------------------------------- |
+| 100.0% | 72 MiB | 133,694 | `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift` |
+
+##### `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|     % |     Size | Objects | Caller                                                             | Location                                                                                   |
+| ----: | -------: | ------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| 94.2% | 67.9 MiB | 128,480 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift` |
+
+##### `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift`)
+
+|     % |     Size | Objects | Caller         | Location                       |
+| ----: | -------: | ------: | -------------- | ------------------------------ |
+| 97.8% | 69.3 MiB | 128,498 | `profile_main` | `./Sources/profile/main.swift` |
+
+##### `0x284c3` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 87.4% | 61.5 MiB | 109,040 | `0x28597` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|     % |     Size | Objects | Caller                                                                    | Location                                                                 |
+| ----: | -------: | ------: | ------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 98.8% | 68.1 MiB | 112,890 | `$s11SwiftParser0B0V19parseMemberDeclList0A6Syntax03Rawd9BlockItemfG0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftParser0B0V19parseMemberDeclList0A6Syntax03Rawd9BlockItemfG0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|     % |     Size | Objects | Caller                                                                                   | Location                                                                 |
+| ----: | -------: | ------: | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 97.9% | 66.7 MiB | 112,530 | `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift`)
+
+|      % |     Size | Objects | Caller                                                            | Location                                                                    |
+| -----: | -------: | ------: | ----------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 100.0% | 67.9 MiB | 128,480 | `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift` |
+
+##### `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                          | Location                                                                 |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 71.5% | 47.7 MiB |  92,130 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` | `Attributes.swift.o`                                                     |
+| 30.5% | 20.3 MiB |  22,584 | `$s11SwiftParser0B0V25parseExtensionDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF`                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+
+##### `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                  | Location                                                                 |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 86.9% | 55.5 MiB | 114,918 | `$s11SwiftParser0B0V14parseCodeBlock10introducer13allowInitDecl0A6Syntax03RawdeJ0VAG0k5TokenJ0VSg_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`     |
+| 21.9% |   14 MiB |  22,158 | `$s11SwiftParser0B0V19parseSwitchCaseBody0A6Syntax020RawCodeBlockItemListG0VyF`                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`  |
+|  9.2% |  5.9 MiB |  11,148 | `$s11SwiftParser0B0V18parseAccessorBlock0A6Syntax03RawdeF0VyF`                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
+|  8.8% |  5.6 MiB |  16,524 | `$s11SwiftParser0B0V22parseClosureExpression0A6Syntax03Rawd4ExprF0VyF`                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`  |
+
+##### `0x28597` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |     Size | Objects | Caller   | Location    |
+| ----: | -------: | ------: | -------- | ----------- |
+| 89.6% | 55.1 MiB | 106,418 | `_start` | `<unknown>` |
+
+##### `$s11SwiftParser0B0V14parseCodeBlock10introducer13allowInitDecl0A6Syntax03RawdeJ0VAG0k5TokenJ0VSg_SbtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`)
+
+|     % |     Size | Objects | Caller                                                                                                       | Location                                                                |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| 98.3% | 55.1 MiB | 113,856 | `$s11SwiftParser0B0V22parseOptionalCodeBlock13allowInitDecl0A6Syntax03RawefJ0VSgSb_tF`                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`    |
+|  8.5% | 4.76 MiB |   8,022 | `$s11SwiftParser0B0V17parseIfExpression8ifHandle0A6Syntax03Rawd4ExprH0VAA019RecoveryConsumptionG0V_tF`       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift` |
+|  2.1% | 1.17 MiB |   1,740 | `$s11SwiftParser0B0V19parseWhileStatement11whileHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift`  |
+|  1.7% |  950 KiB |   1,332 | `$s11SwiftParser0B0V17parseForStatement9forHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF`      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift`  |
+|  1.3% |  753 KiB |     870 | `$s11SwiftParser0B0V16parseDoStatement8doHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF`        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift`  |
+
+##### `0x3e562f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 15.8 MiB | 143,924 | `0x3e5a1f` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |     56 B |       1 | `0x3f9e5b` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |     16 B |       1 | `0x3f1d03` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x3e5a1f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|     % |     Size | Objects | Caller                                                                                                                                             | Location                               |
+| ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 36.8% | 5.79 MiB |     294 | `0x1fa42f`                                                                                                                                         | `/usr/lib/swift/linux/libswiftCore.so` |
+| 35.3% | 5.56 MiB | 124,266 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm` | `Attributes.swift.o`                   |
+| 20.5% | 3.23 MiB |   4,506 | `0x182623`                                                                                                                                         | `/usr/lib/swift/linux/libswiftCore.so` |
+|  1.9% |  303 KiB |     594 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSw_Tg5`                           | `<unknown>`                            |
+|  1.8% |  293 KiB |   3,276 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax03RawQ0V_Tg5`        | `<unknown>`                            |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                | Location                                                                                      |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 47.4% | 6.94 MiB |     606 | `$s11SwiftSyntax019RawFunctionCallExprB0V_16calledExpression_9leftParen_9arguments_05rightJ0_15trailingClosure_26additionalTrailingClosures_5arenaAcA0c15UnexpectedNodesB0VSg_xAmA0c5TokenB0VSgAmA0c7Labeledf4ListB0VAmpmA0cnfB0VSgAmA0c8Multiplepn7ElementwB0VAmA0B5ArenaChtcAA0cfB12NodeProtocolRzlufC`                             | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+| 25.0% | 3.65 MiB |     528 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0B5ArenaChtcAA0ceB12NodeProtocolRzlufC`                                                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+| 11.1% | 1.62 MiB |     312 | `$s11SwiftSyntax020RawFunctionParameterB0V_10attributes_9modifiers_9firstName_06secondI0_5colon_4type_8ellipsis_12defaultValue_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VApA0c12DeclModifiervB0VApA0c5TokenB0VApVSgApvPxApwpA0c17InitializerClauseB0VSgApwpA0B5ArenaChtcAA0c4TypeB12NodeProtocolRzlufC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift`    |
+|  4.6% |  696 KiB |     108 | `$s11SwiftSyntax017RawPatternBindingB0V_7pattern_14typeAnnotation_11initializer_13accessorBlock_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_xAlA0c4TypehB0VSgAlA0c17InitializerClauseB0VSgAlA0c8AccessorkB0VSgAlA0c5TokenB0VSgAlA0B5ArenaChtcAA0cdB12NodeProtocolRzlufC`                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesOP.swift`    |
+|  3.5% |  528 KiB |     102 | `$s11SwiftSyntax017RawSwitchCaseItemB0V_7pattern_11whereClause_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_xAjA0c5WhereiB0VSgAjA0c5TokenB0VSgAjA0B5ArenaChtcAA0c7PatternB12NodeProtocolRzlufC`                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift`   |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                                                                                                                                                       | Location                                                                                  |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| 100.0% | 10.1 MiB |   1,368 | `$s11SwiftSyntax020RawDeclReferenceExprB0V_8baseName_13argumentNames_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAiA0cdh9ArgumentsB0VSgAiA0B5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesD.swift` |
+
+##### `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                       | Location             |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- |
+| 87.3% | 5.79 MiB |  13,728 | `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm` | `Attributes.swift.o` |
+
+##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
+
+|     % |     Size | Objects | Caller                                                              | Location                                                              |
+| ----: | -------: | ------: | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 52.5% | 3.39 MiB |     558 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_TG5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift` |
+| 47.5% | 3.07 MiB |     600 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c44LabeledExprListB0V8elements5arenaACSayAA0cdex8VG_AA0B5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                                                                                   | Location                                                                                      |
+| -----: | -------: | ------: | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 100.0% | 6.19 MiB |     594 | `$s11SwiftSyntax018RawLabeledExprListB0V8elements5arenaACSayAA0cdeB0VG_AA0B5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
+
+##### `0x25d287` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.79 MiB |     298 | `0x25f88b` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x25f88b` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x2d3a2f` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |    128 B |       2 | `0x25fb57` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |     64 B |       1 | `0x25d39f` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x2d3a2f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x350487` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x350487` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x206cf7` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x206cf7` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x20fb6b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x20fb6b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x20b30b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x20b30b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x34c85b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x34c85b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x352f43` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x352f43` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller         | Location                       |
+| -----: | -------: | ------: | -------------- | ------------------------------ |
+| 100.0% | 5.79 MiB |     295 | `profile_main` | `./Sources/profile/main.swift` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -717,6 +968,160 @@ Categories accounting for at least 1.0% of self size.
 |   0.1% | 4.25 KiB |       1 | `0xdd2c3`  | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 |   0.1% | 4.25 KiB |       1 | `0xddf67`  | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 |   0.1% |    4 KiB |       1 | `0x6ef3f`  | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
+
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `profile_main` (`./Sources/profile/main.swift`)
+
+|      % |     Size | Objects | Caller    | Location                               |
+| -----: | -------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.81 MiB |     312 | `0x284c3` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x284c3` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |     Size | Objects | Caller    | Location                               |
+| -----: | -------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.81 MiB |     312 | `0x28597` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x28597` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |     Size | Objects | Caller   | Location    |
+| -----: | -------: | ------: | -------- | ----------- |
+| 100.0% | 5.81 MiB |     312 | `_start` | `<unknown>` |
+
+##### `0x3e562f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |    Size | Objects | Caller     | Location                               |
+| -----: | ------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.8 MiB |     306 | `0x3e5a1f` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |    16 B |       1 | `0x3f1d03` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x3e5a1f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|     % |     Size | Objects | Caller                                                                                                                   | Location                                          |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------- |
+| 99.8% | 5.79 MiB |     294 | `0x1fa42f`                                                                                                               | `/usr/lib/swift/linux/libswiftCore.so`            |
+|  0.2% | 8.97 KiB |       1 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSS_Tg5` | `<unknown>`                                       |
+| <0.1% |    416 B |       5 | `0x1fa3e3`                                                                                                               | `/usr/lib/swift/linux/libswiftCore.so`            |
+| <0.1% |    220 B |       1 | `0x38af5b`                                                                                                               | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+| <0.1% |     81 B |       1 | `0x22cee7`                                                                                                               | `/usr/lib/swift/linux/libFoundation.so`           |
+
+##### `0x25d287` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.79 MiB |     297 | `0x25f88b` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x25f88b` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x2d3a2f` | `/usr/lib/swift/linux/libswiftCore.so` |
+|  <0.1% |    128 B |       2 | `0x25fb57` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `0x2d3a2f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x350487` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x350487` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x206cf7` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x206cf7` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x20fb6b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x20fb6b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x20b30b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x20b30b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x34c85b` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x34c85b` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller     | Location                                          |
+| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
+| 100.0% | 5.79 MiB |     295 | `0x352f43` | `/usr/lib/swift/linux/libFoundationEssentials.so` |
+
+##### `0x352f43` (`/usr/lib/swift/linux/libFoundationEssentials.so`)
+
+|      % |     Size | Objects | Caller         | Location                       |
+| -----: | -------: | ------: | -------------- | ------------------------------ |
+| 100.0% | 5.79 MiB |     295 | `profile_main` | `./Sources/profile/main.swift` |
+
+##### `0x1fa42f` (`/usr/lib/swift/linux/libswiftCore.so`)
+
+|      % |     Size | Objects | Caller     | Location                               |
+| -----: | -------: | ------: | ---------- | -------------------------------------- |
+| 100.0% | 5.79 MiB |     294 | `0x25d287` | `/usr/lib/swift/linux/libswiftCore.so` |
+
+##### `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSS_Tg5` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                                                                                   | Location    |
+| -----: | -------: | ------: | ---------------------------------------------------------------------------------------- | ----------- |
+| 100.0% | 8.97 KiB |       1 | `$sSa16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSS_Tg5` | `<unknown>` |
+
+##### `$sSa16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSS_Tg5` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                                                            | Location    |
+| -----: | -------: | ------: | ----------------------------------------------------------------- | ----------- |
+| 100.0% | 8.97 KiB |       1 | `$sSa36_reserveCapacityAssumingUniqueBuffer8oldCountySi_tFSS_Tg5` | `<unknown>` |
+
+##### `$sSa36_reserveCapacityAssumingUniqueBuffer8oldCountySi_tFSS_Tg5` (`<unknown>`)
+
+|      % |     Size | Objects | Caller                   | Location    |
+| -----: | -------: | ------: | ------------------------ | ----------- |
+| 100.0% | 8.97 KiB |       1 | `$sSa6appendyyxnFSS_Tg5` | `<unknown>` |
+
+##### `$sSa6appendyyxnFSS_Tg5` (`<unknown>`)
+
+|      % |     Size | Objects | Caller         | Location                       |
+| -----: | -------: | ------: | -------------- | ------------------------------ |
+| 100.0% | 8.97 KiB |       1 | `profile_main` | `./Sources/profile/main.swift` |
+
+##### `0x22cf03` (`/usr/lib/swift/linux/libFoundation.so`)
+
+|      % |     Size | Objects | Caller         | Location                       |
+| -----: | -------: | ------: | -------------- | ------------------------------ |
+| 100.0% | 4.79 KiB |       3 | `profile_main` | `./Sources/profile/main.swift` |
+
+##### `0x22e487` (`/usr/lib/swift/linux/libFoundation.so`)
+
+|      % |     Size | Objects | Caller     | Location                                |
+| -----: | -------: | ------: | ---------- | --------------------------------------- |
+| 100.0% | 4.32 KiB |       2 | `0x22cf03` | `/usr/lib/swift/linux/libFoundation.so` |
+
+##### `0xdd2c3` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |     Size | Objects | Caller    | Location                               |
+| -----: | -------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4.25 KiB |       1 | `0xddf67` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0xddf67` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |     Size | Objects | Caller     | Location                                |
+| -----: | -------: | ------: | ---------- | --------------------------------------- |
+| 100.0% | 4.25 KiB |       1 | `0x22e487` | `/usr/lib/swift/linux/libFoundation.so` |
+
+##### `0x6ef3f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4 KiB |       1 | `0x7eb73` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Callees
 

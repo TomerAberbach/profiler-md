@@ -503,46 +503,43 @@ const formatHottestNeighbors = ({
   direction: FunctionDirection
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] => {
-  const { entity, contributionOf, caveat } = direction.neighbors
-  return formatSectionGroup(
-    [
-      heading(headingLevel, `${entity}s`),
-      paragraph(
-        `${entity}s with the largest ${contributionOf(measure.metric)}. ${caveat}`,
+}): RootContent[] =>
+  formatNeighborSections({
+    direction,
+    metric: measure.metric,
+    ranking: `the largest`,
+    headingLevel,
+    formatNeighbors: neighbors =>
+      funcs.flatMap(func =>
+        formatFunctionHottestNeighbors({
+          measure,
+          func,
+          context,
+          neighbors,
+          options,
+          headingLevel: headingLevel + 1,
+        }),
       ),
-    ],
-    funcs.flatMap(func =>
-      formatFunctionHottestNeighbors({
-        measure,
-        func,
-        context,
-        direction,
-        options,
-        headingLevel: headingLevel + 1,
-      }),
-    ),
-  )
-}
+  })
 
 const formatFunctionHottestNeighbors = ({
   measure,
   func,
   context,
-  direction,
+  neighbors,
   options,
   headingLevel,
 }: {
   measure: Measure
   func: AggregatedCallStackProfileFunction
   context: ProfileToMdContext
-  direction: FunctionDirection
+  neighbors: Neighbors
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
   const hottestRows = selectTopN(
     Array.from(
-      neighborRowsOf(measure, func, direction),
+      neighborRowsOf(measure, func, neighbors),
       ([, row]) => row,
     ).filter(row => options.showEntry(row.func, context) && row.value > 0),
     Math.ceil(options.topN / 4),
@@ -555,11 +552,47 @@ const formatFunctionHottestNeighbors = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionColumns(measure, direction.neighbors.entity, options),
+      functionColumns(measure, neighbors.entity, options),
       hottestRows,
     ),
   ]
 }
+
+/**
+ * A section per kind of neighbor a direction has, each opened by a sentence
+ * stating the {@link ranking} of the neighbors' contributions.
+ */
+const formatNeighborSections = ({
+  direction,
+  metric,
+  ranking,
+  headingLevel,
+  formatNeighbors,
+}: {
+  direction: FunctionDirection
+  metric: Metric
+  ranking: `the largest` | `the largest change in`
+  headingLevel: number
+  formatNeighbors: (neighbors: Neighbors) => RootContent[]
+}): RootContent[] =>
+  direction.neighbors.flatMap(neighbors => {
+    const { entity, share } = neighbors
+    return formatSectionGroup(
+      [
+        heading(headingLevel, `${entity}s`),
+        paragraph(
+          `${entity}s with ${ranking} contribution to each function's ${share} ${metric.phrases.columnNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise${
+            // One observation counts toward each frame pair its call stack
+            // repeats the function in.
+            share === `total`
+              ? `, and percentages can sum to more than 100% for recursive calls`
+              : ``
+          }.`,
+        ),
+      ],
+      formatNeighbors(neighbors),
+    )
+  })
 
 /**
  * The value accessors, phrasing, and neighbors of one function ranking
@@ -572,7 +605,7 @@ type FunctionDirection = {
   descriptionOf: (metric: Metric) => string
 
   /** The neighbors each function's value is attributed to. */
-  neighbors: Neighbors
+  neighbors: readonly Neighbors[]
 
   /** The sections breaking down the functions a diff's rankings show. */
   formatDiffDetailSections: (args: DiffDetailArgs) => RootContent[]
@@ -584,10 +617,9 @@ type FunctionDirection = {
  */
 type Neighbors = {
   entity: `Caller` | `Callee`
-  contributionOf: (metric: Metric) => string
 
-  /** What can make the attribution to neighbors imprecise. */
-  caveat: string
+  /** Which of the function's values the neighbors' values are shares of. */
+  share: `self` | `total`
   metricsOf: (
     func: AggregatedCallStackProfileFunction,
   ) => Iterable<readonly [id: number, metrics: NeighborMetrics]>
@@ -603,11 +635,9 @@ type NeighborMetrics = {
   count: number
 }
 
-const CALLERS: Neighbors = {
+const SELF_CALLERS: Neighbors = {
   entity: `Caller`,
-  contributionOf: metric =>
-    `contribution to each function's self ${metric.phrases.columnNoun}`,
-  caveat: `Inlining can make caller attribution imprecise.`,
+  share: `self`,
   metricsOf: func =>
     func.callerIdToMetrics
       .entries()
@@ -617,11 +647,20 @@ const CALLERS: Neighbors = {
       ]),
 }
 
+const TOTAL_CALLERS: Neighbors = {
+  entity: `Caller`,
+  share: `total`,
+  metricsOf: func =>
+    func.callerIdToMetrics.entries().map(([id, { caller }]) => {
+      // The caller's callee metrics aggregate the same frame pairs.
+      const { totalValues, totalCount } = caller.calleeIdToMetrics.get(func.id)!
+      return [id, { func: caller, values: totalValues, count: totalCount }]
+    }),
+}
+
 const CALLEES: Neighbors = {
   entity: `Callee`,
-  contributionOf: metric =>
-    `contribution to each function's total ${metric.phrases.columnNoun}`,
-  caveat: `Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.`,
+  share: `total`,
   metricsOf: func =>
     func.calleeIdToMetrics
       .entries()
@@ -637,7 +676,7 @@ const SELF_DIRECTION: FunctionDirection = {
   titleOf: metric => `Self ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
     `${metric.phrases.pastParticipleVerbPhrase} within the function body, excluding callees`,
-  neighbors: CALLERS,
+  neighbors: [SELF_CALLERS],
   formatDiffDetailSections: args => [
     ...formatDiffLines(args),
     ...formatDiffNeighbors(args, SELF_DIRECTION),
@@ -650,7 +689,7 @@ const TOTAL_DIRECTION: FunctionDirection = {
   titleOf: metric => `Total ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
     `${metric.phrases.pastParticipleVerbPhrase} within the function and its callees`,
-  neighbors: CALLEES,
+  neighbors: [TOTAL_CALLERS, CALLEES],
   formatDiffDetailSections: args => formatDiffNeighbors(args, TOTAL_DIRECTION),
 }
 
@@ -661,15 +700,15 @@ type NeighborRow = FunctionMeasureRow & {
 
 /**
  * The function's caller or callee rows keyed by each neighbor's ID, each a
- * share of the function's value in the direction.
+ * share of the function's self or total value.
  */
 const neighborRowsOf = (
   measure: Measure,
   func: AggregatedCallStackProfileFunction,
-  { valueOf, neighbors }: FunctionDirection,
+  { share, metricsOf }: Neighbors,
 ): Iterable<readonly [id: number, row: NeighborRow]> => {
-  const total = valueOf(measure, func)
-  return Iterator.from(neighbors.metricsOf(func)).map(
+  const total = (share === `self` ? selfValueOf : totalValueOf)(measure, func)
+  return Iterator.from(metricsOf(func)).map(
     ([id, { func, values, count }]) =>
       [
         id,
@@ -1139,23 +1178,21 @@ const formatDiffNeighbors = (
   direction: FunctionDirection,
 ): RootContent[] => {
   const { measure, funcs, headingLevel } = args
-  const { entity, contributionOf, caveat } = direction.neighbors
-  return formatSectionGroup(
-    [
-      heading(headingLevel, `${entity}s`),
-      paragraph(
-        `${entity}s with the largest change in ${contributionOf(measure.metric)}. ${caveat}`,
+  return formatNeighborSections({
+    direction,
+    metric: measure.metric,
+    ranking: `the largest change in`,
+    headingLevel,
+    formatNeighbors: neighbors =>
+      funcs.flatMap(func =>
+        formatDiffFunctionNeighbors({
+          ...args,
+          func,
+          neighbors,
+          headingLevel: headingLevel + 1,
+        }),
       ),
-    ],
-    funcs.flatMap(func =>
-      formatDiffFunctionNeighbors({
-        ...args,
-        func,
-        direction,
-        headingLevel: headingLevel + 1,
-      }),
-    ),
-  )
+  })
 }
 
 const formatDiffFunctionNeighbors = ({
@@ -1163,19 +1200,19 @@ const formatDiffFunctionNeighbors = ({
   matchFunctionIds,
   measure,
   func,
-  direction,
+  neighbors,
   options,
   headingLevel,
 }: DiffDetailArgs & {
   func: AggregatedCallStackProfileFunctionDiff
-  direction: FunctionDirection
+  neighbors: Neighbors
 }): RootContent[] => {
   const changedRows = selectChangedNeighborRows({
     diff,
     matchFunctionIds,
     measure,
     func,
-    direction,
+    neighbors,
     options,
   })
   if (changedRows.length === 0) {
@@ -1185,7 +1222,7 @@ const formatDiffFunctionNeighbors = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatDiffTable(
-      functionColumns(measure, direction.neighbors.entity, options),
+      functionColumns(measure, neighbors.entity, options),
       changedRows,
     ),
   ]
@@ -1200,20 +1237,20 @@ const selectChangedNeighborRows = ({
   matchFunctionIds,
   measure,
   func,
-  direction,
+  neighbors,
   options,
 }: {
   diff: AggregatedCallStackProfileDiff
   matchFunctionIds: FunctionIdMatcher
   measure: DiffMeasure
   func: AggregatedCallStackProfileFunctionDiff
-  direction: FunctionDirection
+  neighbors: Neighbors
   options: FormattingProfileToMdOptions
 }): Diff<NeighborRow>[] =>
   selectLargestChanges(
     matchFunctionIds(
-      func.base && neighborRowsOf(measure.base, func.base, direction),
-      func.current && neighborRowsOf(measure.current, func.current, direction),
+      func.base && neighborRowsOf(measure.base, func.base, neighbors),
+      func.current && neighborRowsOf(measure.current, func.current, neighbors),
     ).filter(({ base, current }) =>
       showDiffEntity(
         { base: base?.func, current: current?.func },

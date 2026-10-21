@@ -193,6 +193,182 @@ Categories accounting for at least 1.0% of self time.
 |  3.8% | 0.3ms |           4 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils`                                        |
 |  3.8% | 0.3ms |           4 | `run()`                                 | `org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68`             |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `loadClass(String)` (`java.lang.ClassLoader`)
+
+|     % |  Time | Contentions | Caller                             | Location                                               |
+| ----: | ----: | ----------: | ---------------------------------- | ------------------------------------------------------ |
+| 97.2% | 7.6ms |           4 | `average(List)`                    | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  2.8% | 0.2ms |           1 | `deleteRecursively(Path, boolean)` | `org.renaissance.core.DirUtils`                        |
+
+##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % |  Time | Contentions | Caller                     | Location                                               |
+| -----: | ----: | ----------: | -------------------------- | ------------------------------------------------------ |
+| 100.0% | 7.7ms |           5 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeClusterAverages()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % |  Time | Contentions | Caller              | Location                                               |
+| -----: | ----: | ----------: | ------------------- | ------------------------------------------------------ |
+| 100.0% | 7.7ms |           5 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
+
+|      % |  Time | Contentions | Caller              | Location                                               |
+| -----: | ----: | ----------: | ------------------- | ------------------------------------------------------ |
+| 100.0% | 7.7ms |           5 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% | 7.7ms |           5 | `compute()`         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % |  Time | Contentions | Caller   | Location                             |
+| -----: | ----: | ----------: | -------- | ------------------------------------ |
+| 100.0% | 7.7ms |           5 | `exec()` | `java.util.concurrent.RecursiveTask` |
+
+##### `exec()` (`java.util.concurrent.RecursiveTask`)
+
+|      % |  Time | Contentions | Caller     | Location                            |
+| -----: | ----: | ----------: | ---------- | ----------------------------------- |
+| 100.0% | 7.7ms |           5 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % |  Time | Contentions | Caller                                               | Location                                      |
+| -----: | ----: | ----------: | ---------------------------------------------------- | --------------------------------------------- |
+| 100.0% | 7.7ms |           5 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  86.1% | 6.6ms |           2 | `tryRemoveAndExec(ForkJoinTask, boolean)`            | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  70.0% | 5.4ms |           1 | `invoke()`                                           | `java.util.concurrent.ForkJoinTask`           |
+
+##### `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % |  Time | Contentions | Caller                                   | Location                            |
+| -----: | ----: | ----------: | ---------------------------------------- | ----------------------------------- |
+| 100.0% | 7.7ms |           5 | `scan(ForkJoinPool$WorkQueue, int, int)` | `java.util.concurrent.ForkJoinPool` |
+
+##### `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % |  Time | Contentions | Caller                              | Location                            |
+| -----: | ----: | ----------: | ----------------------------------- | ----------------------------------- |
+| 100.0% | 7.7ms |           5 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
+
+##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
+
+|      % |  Time | Contentions | Caller  | Location                                    |
+| -----: | ----: | ----------: | ------- | ------------------------------------------- |
+| 100.0% | 7.7ms |           5 | `run()` | `java.util.concurrent.ForkJoinWorkerThread` |
+
+##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
+
+|      % |  Time | Contentions | Caller              | Location                |
+| -----: | ----: | ----------: | ------------------- | ----------------------- |
+| 100.0% | 7.6ms |           4 | `loadClass(String)` | `java.lang.ClassLoader` |
+
+##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
+
+|      % |  Time | Contentions | Caller                 | Location                            |
+| -----: | ----: | ----------: | ---------------------- | ----------------------------------- |
+| 100.0% | 6.6ms |           2 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+
+##### `awaitDone(int, long)` (`java.util.concurrent.ForkJoinTask`)
+
+|      % |  Time | Contentions | Caller   | Location                            |
+| -----: | ----: | ----------: | -------- | ----------------------------------- |
+| 100.0% | 6.6ms |           2 | `join()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % |  Time | Contentions | Caller      | Location                                               |
+| -----: | ----: | ----------: | ----------- | ------------------------------------------------------ |
+| 100.0% | 6.6ms |           2 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % |  Time | Contentions | Caller                         | Location                                    |
+| -----: | ----: | ----------: | ------------------------------ | ------------------------------------------- |
+| 100.0% | 5.4ms |           1 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % |  Time | Contentions | Caller   | Location                                                               |
+| -----: | ----: | ----------: | -------- | ---------------------------------------------------------------------- |
+| 100.0% | 5.4ms |           1 | `call()` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2bd0` |
+
+##### `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a2bd0`)
+
+|      % |  Time | Contentions | Caller   | Location                                            |
+| -----: | ----: | ----------: | -------- | --------------------------------------------------- |
+| 100.0% | 5.4ms |           1 | `exec()` | `java.util.concurrent.ForkJoinTask$AdaptedCallable` |
+
+##### `exec()` (`java.util.concurrent.ForkJoinTask$AdaptedCallable`)
+
+|      % |  Time | Contentions | Caller     | Location                            |
+| -----: | ----: | ----------: | ---------- | ----------------------------------- |
+| 100.0% | 5.4ms |           1 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`)
+
+|      % |  Time | Contentions | Caller                    | Location                        |
+| -----: | ----: | ----------: | ------------------------- | ------------------------------- |
+| 100.0% | 0.3ms |           4 | `deleteRecursively(Path)` | `org.renaissance.core.DirUtils` |
+
+##### `runWith(Object, Runnable)` (`java.lang.Thread`)
+
+|      % |  Time | Contentions | Caller  | Location           |
+| -----: | ----: | ----------: | ------- | ------------------ |
+| 100.0% | 0.3ms |           4 | `run()` | `java.lang.Thread` |
+
+##### `deleteRecursively(Path)` (`org.renaissance.core.DirUtils`)
+
+|      % |  Time | Contentions | Caller                                  | Location                        |
+| -----: | ----: | ----------: | --------------------------------------- | ------------------------------- |
+| 100.0% | 0.3ms |           4 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils` |
+
+##### `lambda$createScratchDirectory$1(Path)` (`org.renaissance.core.DirUtils`)
+
+|      % |  Time | Contentions | Caller  | Location                                                   |
+| -----: | ----: | ----------: | ------- | ---------------------------------------------------------- |
+| 100.0% | 0.3ms |           4 | `run()` | `org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68` |
+
+##### `run()` (`org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68`)
+
+|      % |  Time | Contentions | Caller                      | Location           |
+| -----: | ----: | ----------: | --------------------------- | ------------------ |
+| 100.0% | 0.3ms |           4 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+
+##### `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+|      % |  Time | Contentions | Caller                       | Location                                 |
+| -----: | ----: | ----------: | ---------------------------- | ---------------------------------------- |
+| 100.0% | 0.2ms |           1 | `loadClass(String, boolean)` | `jdk.internal.loader.BuiltinClassLoader` |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+|      % |  Time | Contentions | Caller                       | Location                                          |
+| -----: | ----: | ----------: | ---------------------------- | ------------------------------------------------- |
+| 100.0% | 0.2ms |           1 | `loadClass(String, boolean)` | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.ClassLoaders$AppClassLoader`)
+
+|      % |  Time | Contentions | Caller              | Location                |
+| -----: | ----: | ----------: | ------------------- | ----------------------- |
+| 100.0% | 0.2ms |           1 | `loadClass(String)` | `java.lang.ClassLoader` |
+
+##### `walkFileTree(Path, Set, int, FileVisitor)` (`java.nio.file.Files`)
+
+|      % |  Time | Contentions | Caller                            | Location              |
+| -----: | ----: | ----------: | --------------------------------- | --------------------- |
+| 100.0% | 0.1ms |           3 | `walkFileTree(Path, FileVisitor)` | `java.nio.file.Files` |
+
+##### `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`)
+
+|      % |  Time | Contentions | Caller                             | Location                        |
+| -----: | ----: | ----------: | ---------------------------------- | ------------------------------- |
+| 100.0% | 0.1ms |           3 | `deleteRecursively(Path, boolean)` | `org.renaissance.core.DirUtils` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

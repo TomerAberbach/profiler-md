@@ -229,6 +229,149 @@ Categories accounting for at least 1.0% of self time.
 |   2.3% |  0.5ms | `object_push/8`                 | `json`    |
 |   2.0% |  0.4ms | `value/6`                       | `json`    |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `apply/2` (`eflambe`)
+
+|      % |   Time | Caller     | Location    |
+| -----: | -----: | ---------- | ----------- |
+| 100.0% | 19.8ms | `<0.10.0>` | `<unknown>` |
+
+##### `foldl_1/3` (`lists`)
+
+|      % |   Time | Caller    | Location  |
+| -----: | -----: | --------- | --------- |
+| 100.0% | 15.8ms | `apply/2` | `eflambe` |
+
+##### `decode/1` (`json`)
+
+|     % |  Time | Caller      | Location |
+| ----: | ----: | ----------- | -------- |
+| 79.9% | 8.0ms | `foldl_1/3` | `lists`  |
+| 20.1% | 2.0ms | `foldl/3`   | `lists`  |
+
+##### `-run/1-fun-0-/2` (`profile`)
+
+|     % |  Time | Caller      | Location |
+| ----: | ----: | ----------- | -------- |
+| 80.0% | 7.8ms | `foldl_1/3` | `lists`  |
+| 20.0% | 2.0ms | `foldl/3`   | `lists`  |
+
+##### `encode/1` (`profile`)
+
+|      % |  Time | Caller            | Location  |
+| -----: | ----: | ----------------- | --------- |
+| 100.0% | 9.8ms | `-run/1-fun-0-/2` | `profile` |
+
+##### `do_encode_map/2` (`json`)
+
+|      % |  Time | Caller                          | Location  |
+| -----: | ----: | ------------------------------- | --------- |
+| 100.0% | 9.7ms | `encode/1`                      | `profile` |
+|  55.9% | 5.4ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`    |
+|   6.2% | 0.6ms | `do_encode_list/2`              | `json`    |
+
+##### `-do_encode_map/2-lc$^0/1-0-/2` (`json`)
+
+|      % |  Time | Caller            | Location |
+| -----: | ----: | ----------------- | -------- |
+| 100.0% | 9.6ms | `do_encode_map/2` | `json`   |
+
+##### `foldl/3` (`lists`)
+
+|      % |  Time | Caller    | Location  |
+| -----: | ----: | --------- | --------- |
+| 100.0% | 4.0ms | `apply/2` | `eflambe` |
+
+##### `escape_binary/5` (`json`)
+
+|      % |  Time | Caller                          | Location |
+| -----: | ----: | ------------------------------- | -------- |
+| 100.0% | 3.1ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`   |
+
+##### `string/7` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 2.4ms | `decode/1` | `json`   |
+
+##### `escape_binary_ascii/5` (`json`)
+
+|      % |  Time | Caller                          | Location |
+| -----: | ----: | ------------------------------- | -------- |
+| 100.0% | 2.0ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`   |
+
+##### `escape_binary_utf8/6` (`json`)
+
+|      % |  Time | Caller                          | Location |
+| -----: | ----: | ------------------------------- | -------- |
+| 100.0% | 1.4ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`   |
+
+##### `string_ascii/7` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 1.4ms | `decode/1` | `json`   |
+
+##### `string_utf8/10` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 1.1ms | `decode/1` | `json`   |
+
+##### `do_encode/2` (`json`)
+
+|     % |   Time | Caller                          | Location  |
+| ----: | -----: | ------------------------------- | --------- |
+| 95.4% |  0.9ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`    |
+|  2.4% | 22.0µs | `do_encode_list/2`              | `json`    |
+|  1.6% | 15.0µs | `list_loop/2`                   | `json`    |
+|  0.5% |  5.0µs | `encode/1`                      | `profile` |
+
+##### `continue/7` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.8ms | `decode/1` | `json`   |
+
+##### `string/9` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.7ms | `decode/1` | `json`   |
+
+##### `do_encode_list/2` (`json`)
+
+|      % |  Time | Caller                          | Location |
+| -----: | ----: | ------------------------------- | -------- |
+| 100.0% | 0.7ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`   |
+
+##### `string_ascii/9` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.6ms | `decode/1` | `json`   |
+
+##### `number/7` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.6ms | `decode/1` | `json`   |
+
+##### `object_push/8` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.5ms | `decode/1` | `json`   |
+
+##### `value/6` (`json`)
+
+|      % |  Time | Caller     | Location |
+| -----: | ----: | ---------- | -------- |
+| 100.0% | 0.4ms | `decode/1` | `json`   |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

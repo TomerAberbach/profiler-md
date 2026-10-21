@@ -362,6 +362,139 @@ Categories accounting for at least 1.0% of self size.
 | 10.6% | 182 MiB |  5,641,644 | `encoding/json.unquote`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187` |
 |  9.5% | 163 MiB | 10,689,894 | `reflect.unsafe_New`                           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177`       |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `encoding/json.Marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`)
+
+|      % |    Size |    Objects | Caller                | Location          |
+| -----: | ------: | ---------: | --------------------- | ----------------- |
+| 100.0% | 917 MiB | 11,200,763 | `main.workload.func1` | `./profile.go:25` |
+
+##### `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`)
+
+|      % |    Size |    Objects | Caller                | Location          |
+| -----: | ------: | ---------: | --------------------- | ----------------- |
+| 100.0% | 795 MiB | 10,621,980 | `main.workload.func1` | `./profile.go:25` |
+
+##### `encoding/json.(*decodeState).objectInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078`)
+
+|      % |    Size |    Objects | Caller                                        | Location                                                                                          |
+| -----: | ------: | ---------: | --------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 100.0% | 794 MiB | 10,619,361 | `encoding/json.(*decodeState).object`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:604`  |
+|  99.8% | 793 MiB | 10,614,133 | `encoding/json.(*decodeState).valueInterface` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035` |
+
+##### `encoding/json.(*decodeState).object` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:604`)
+
+|      % |    Size |    Objects | Caller                               | Location                                                                                         |
+| -----: | ------: | ---------: | ------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 794 MiB | 10,619,361 | `encoding/json.(*decodeState).value` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:363` |
+
+##### `encoding/json.(*decodeState).value` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:363`)
+
+|      % |    Size |    Objects | Caller                                   | Location                                                                                         |
+| -----: | ------: | ---------: | ---------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 794 MiB | 10,619,361 | `encoding/json.(*decodeState).unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:173` |
+
+##### `encoding/json.(*decodeState).unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:173`)
+
+|      % |    Size |    Objects | Caller                    | Location                                                                                         |
+| -----: | ------: | ---------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 794 MiB | 10,619,361 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+
+##### `encoding/json.(*decodeState).valueInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035`)
+
+|      % |    Size |    Objects | Caller                                         | Location                                                                                          |
+| -----: | ------: | ---------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 100.0% | 794 MiB | 10,618,105 | `encoding/json.(*decodeState).objectInterface` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078` |
+|  99.7% | 792 MiB | 10,604,369 | `encoding/json.(*decodeState).arrayInterface`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1052` |
+
+##### `encoding/json.(*decodeState).arrayInterface` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1052`)
+
+|      % |    Size |    Objects | Caller                                        | Location                                                                                          |
+| -----: | ------: | ---------: | --------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 100.0% | 794 MiB | 10,607,828 | `encoding/json.(*decodeState).valueInterface` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035` |
+
+##### `encoding/json.mapEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`)
+
+|      % |    Size |    Objects | Caller                                      | Location                                                                                         |
+| -----: | ------: | ---------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 735 MiB | 11,199,505 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+|   0.3% | 1.9 MiB |     27,579 | `encoding/json.typeEncoder.func2`           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:402` |
+
+##### `encoding/json.(*encodeState).reflectValue` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366`)
+
+|      % |    Size |    Objects | Caller                                 | Location                                                                                         |
+| -----: | ------: | ---------: | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 735 MiB | 11,199,505 | `encoding/json.(*encodeState).marshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333` |
+| 100.0% | 735 MiB | 11,197,413 | `encoding/json.interfaceEncoder`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:695` |
+
+##### `encoding/json.(*encodeState).marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333`)
+
+|      % |    Size |    Objects | Caller                  | Location                                                                                         |
+| -----: | ------: | ---------: | ----------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 735 MiB | 11,199,505 | `encoding/json.Marshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+
+##### `encoding/json.interfaceEncoder` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:695`)
+
+|      % |    Size |    Objects | Caller                              | Location                                                                                         |
+| -----: | ------: | ---------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 735 MiB | 11,197,413 | `encoding/json.mapEncoder.encode`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765` |
+|  99.9% | 734 MiB | 11,188,238 | `encoding/json.arrayEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883` |
+
+##### `encoding/json.arrayEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883`)
+
+|      % |    Size |    Objects | Caller                              | Location                                                                                         |
+| -----: | ------: | ---------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 734 MiB | 11,188,238 | `encoding/json.sliceEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:843` |
+
+##### `encoding/json.sliceEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:843`)
+
+|      % |    Size |    Objects | Caller                                      | Location                                                                                         |
+| -----: | ------: | ---------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 734 MiB | 11,188,238 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+
+##### `bytes.(*Buffer).grow` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144`)
+
+|      % |     Size | Objects | Caller                      | Location                                                                                 |
+| -----: | -------: | ------: | --------------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% |  349 MiB |   4,660 | `bytes.(*Buffer).Write`     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193` |
+|  <0.1% | 12.1 KiB |     193 | `bytes.(*Buffer).WriteByte` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:303` |
+
+##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
+
+|      % |    Size | Objects | Caller                 | Location                                                                                 |
+| -----: | ------: | ------: | ---------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% | 349 MiB |   4,660 | `bytes.(*Buffer).grow` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144` |
+
+##### `bytes.(*Buffer).Write` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193`)
+
+|     % |     Size | Objects | Caller                              | Location                                                                                         |
+| ----: | -------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 56.3% |  196 MiB |     987 | `encoding/json.stringEncoder`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610` |
+| 43.7% |  152 MiB |   3,218 | `encoding/json.mapEncoder.encode`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765` |
+| <0.1% | 56.9 KiB |     455 | `encoding/json.floatEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:571` |
+
+##### `encoding/json.stringEncoder` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610`)
+
+|      % |    Size | Objects | Caller                                      | Location                                                                                         |
+| -----: | ------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 197 MiB |   2,463 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+
+##### `encoding/json.unquote` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187`)
+
+|     % |     Size |   Objects | Caller                                          | Location                                                                                          |
+| ----: | -------: | --------: | ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 57.0% |  104 MiB | 1,567,290 | `encoding/json.(*decodeState).literalInterface` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1129` |
+| 43.0% | 78.1 MiB | 4,074,354 | `encoding/json.(*decodeState).objectInterface`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078` |
+
+##### `reflect.unsafe_New` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177`)
+
+|      % |    Size |    Objects | Caller            | Location                                                                                   |
+| -----: | ------: | ---------: | ----------------- | ------------------------------------------------------------------------------------------ |
+| 100.0% | 163 MiB | 10,689,894 | `reflect.copyVal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/value.go:1881` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -655,6 +788,138 @@ Categories accounting for at least 1.0% of self size.
 |  1.6% | 34.6 KiB |      20 | `runtime.resetspinning`                     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4021`        |
 |  1.6% | 34.6 KiB |      20 | `runtime.schedule`                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`        |
 |  0.9% | 20.3 KiB |     185 | `runtime.acquireSudog`                      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:488`         |
+
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `bytes.growSlice` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247`)
+
+|      % |  Size | Objects | Caller                 | Location                                                                                 |
+| -----: | ----: | ------: | ---------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% | 2 MiB |       4 | `bytes.(*Buffer).grow` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144` |
+
+##### `bytes.(*Buffer).grow` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144`)
+
+|      % |  Size | Objects | Caller                  | Location                                                                                 |
+| -----: | ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% | 2 MiB |       4 | `bytes.(*Buffer).Write` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193` |
+
+##### `bytes.(*Buffer).Write` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193`)
+
+|      % |  Size | Objects | Caller                        | Location                                                                                         |
+| -----: | ----: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.stringEncoder` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610` |
+
+##### `encoding/json.stringEncoder` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610`)
+
+|      % |  Size | Objects | Caller                                      | Location                                                                                         |
+| -----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+
+##### `encoding/json.(*encodeState).reflectValue` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366`)
+
+|      % |  Size | Objects | Caller                                 | Location                                                                                         |
+| -----: | ----: | ------: | -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.interfaceEncoder`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:695` |
+| 100.0% | 2 MiB |       4 | `encoding/json.(*encodeState).marshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333` |
+
+##### `encoding/json.interfaceEncoder` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:695`)
+
+|      % |  Size | Objects | Caller                              | Location                                                                                         |
+| -----: | ----: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.mapEncoder.encode`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765` |
+| 100.0% | 2 MiB |       4 | `encoding/json.arrayEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883` |
+
+##### `encoding/json.mapEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765`)
+
+|      % |  Size | Objects | Caller                                      | Location                                                                                         |
+| -----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+
+##### `encoding/json.arrayEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:883`)
+
+|      % |  Size | Objects | Caller                              | Location                                                                                         |
+| -----: | ----: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.sliceEncoder.encode` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:843` |
+
+##### `encoding/json.sliceEncoder.encode` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:843`)
+
+|      % |  Size | Objects | Caller                                      | Location                                                                                         |
+| -----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.(*encodeState).reflectValue` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366` |
+
+##### `encoding/json.(*encodeState).marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:333`)
+
+|      % |  Size | Objects | Caller                  | Location                                                                                         |
+| -----: | ----: | ------: | ----------------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 2 MiB |       4 | `encoding/json.Marshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+
+##### `encoding/json.Marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`)
+
+|      % |  Size | Objects | Caller                | Location          |
+| -----: | ----: | ------: | --------------------- | ----------------- |
+| 100.0% | 2 MiB |       4 | `main.workload.func1` | `./profile.go:25` |
+
+##### `runtime.mallocgc` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`)
+
+|     % |     Size | Objects | Caller              | Location                                                                                    |
+| ----: | -------: | ------: | ------------------- | ------------------------------------------------------------------------------------------- |
+| 89.9% | 81.3 KiB |     242 | `runtime.newobject` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156` |
+| 10.1% | 9.18 KiB |       8 | `runtime.makeslice` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/slice.go:102`   |
+
+##### `runtime.newobject` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156`)
+
+|     % |     Size | Objects | Caller                   | Location                                                                                  |
+| ----: | -------: | ------: | ------------------------ | ----------------------------------------------------------------------------------------- |
+| 31.2% | 25.4 KiB |      12 | `runtime.allocm`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2269` |
+| 24.9% | 20.3 KiB |     185 | `runtime.acquireSudog`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:488`  |
+| 17.7% | 14.4 KiB |       1 | `runtime.procresize`     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6030` |
+| 15.6% | 12.7 KiB |      27 | `runtime.malg`           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5273` |
+| 10.5% | 8.51 KiB |      17 | `runtime.gcBgMarkWorker` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`  |
+
+##### `runtime.allocm` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2269`)
+
+|      % |     Size | Objects | Caller         | Location                                                                                  |
+| -----: | -------: | ------: | -------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 34.6 KiB |      20 | `runtime.newm` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2857` |
+
+##### `runtime.newm` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2857`)
+
+|      % |     Size | Objects | Caller           | Location                                                                                  |
+| -----: | -------: | ------: | ---------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 34.6 KiB |      20 | `runtime.startm` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3035` |
+
+##### `runtime.startm` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3035`)
+
+|      % |     Size | Objects | Caller          | Location                                                                                  |
+| -----: | -------: | ------: | --------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 34.6 KiB |      20 | `runtime.wakep` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3212` |
+
+##### `runtime.wakep` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3212`)
+
+|      % |     Size | Objects | Caller                  | Location                                                                                  |
+| -----: | -------: | ------: | ----------------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 34.6 KiB |      20 | `runtime.resetspinning` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4021` |
+
+##### `runtime.resetspinning` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4021`)
+
+|      % |     Size | Objects | Caller             | Location                                                                                  |
+| -----: | -------: | ------: | ------------------ | ----------------------------------------------------------------------------------------- |
+| 100.0% | 34.6 KiB |      20 | `runtime.schedule` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135` |
+
+##### `runtime.schedule` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`)
+
+|     % |     Size | Objects | Caller            | Location                                                                                  |
+| ----: | -------: | ------: | ----------------- | ----------------------------------------------------------------------------------------- |
+| 57.3% | 19.8 KiB |      11 | `runtime.mstart1` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1904` |
+| 42.7% | 14.8 KiB |       9 | `runtime.park_m`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4253` |
+
+##### `runtime.acquireSudog` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:488`)
+
+|      % |     Size | Objects | Caller                | Location                                                                                 |
+| -----: | -------: | ------: | --------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% | 20.3 KiB |     185 | `runtime.semacquire1` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sema.go:146` |
 
 #### Callees
 

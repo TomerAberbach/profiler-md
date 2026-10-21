@@ -504,6 +504,315 @@ Categories accounting for at least 1.0% of self size.
 |  0.2% | 9.27 MiB |       3 | `readFileSync`    | `node:fs:433:22`                           |
 |  0.2% | 8.27 MiB |       1 | `defaultLoadImpl` | `node:internal/modules/cjs/loader:1112:25` |
 
+#### Callers
+
+Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `typeCheckProject` (`./tsc-workload.mjs:3:33`)
+
+|     % |     Size | Samples | Caller        | Location                    |
+| ----: | -------: | ------: | ------------- | --------------------------- |
+| 99.9% | 4.65 GiB |   9,455 | `(anonymous)` | `./heapprofile-run.mjs:1:1` |
+
+##### `(anonymous)` (`./heapprofile-run.mjs:1:1`)
+
+|     % |     Size | Samples | Caller        | Location    |
+| ----: | -------: | ------: | ------------- | ----------- |
+| 99.8% | 4.64 GiB |   9,437 | `(anonymous)` | `<unknown>` |
+
+##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:123385:37`)
+
+|      % |     Size | Samples | Caller                     | Location                                                |
+| -----: | -------: | ------: | -------------------------- | ------------------------------------------------------- |
+| 100.0% | 4.16 GiB |   8,482 | `runWithCancellationToken` | `./node_modules/typescript/lib/typescript.js:123365:36` |
+
+##### `runWithCancellationToken` (`./node_modules/typescript/lib/typescript.js:123365:36`)
+
+|      % |     Size | Samples | Caller                                     | Location                                                |
+| -----: | -------: | ------: | ------------------------------------------ | ------------------------------------------------------- |
+| 100.0% | 4.16 GiB |   8,480 | `getBindAndCheckDiagnosticsForFileNoCache` | `./node_modules/typescript/lib/typescript.js:123384:52` |
+
+##### `getBindAndCheckDiagnosticsForFileNoCache` (`./node_modules/typescript/lib/typescript.js:123384:52`)
+
+|      % |     Size | Samples | Caller                   | Location                                                |
+| -----: | -------: | ------: | ------------------------ | ------------------------------------------------------- |
+| 100.0% | 4.16 GiB |   8,478 | `getAndCacheDiagnostics` | `./node_modules/typescript/lib/typescript.js:123670:34` |
+
+##### `getAndCacheDiagnostics` (`./node_modules/typescript/lib/typescript.js:123670:34`)
+
+|      % |     Size | Samples | Caller                              | Location                                                |
+| -----: | -------: | ------: | ----------------------------------- | ------------------------------------------------------- |
+| 100.0% | 4.16 GiB |   8,474 | `getBindAndCheckDiagnosticsForFile` | `./node_modules/typescript/lib/typescript.js:123381:45` |
+
+##### `getBindAndCheckDiagnosticsForFile` (`./node_modules/typescript/lib/typescript.js:123381:45`)
+
+|      % |     Size | Samples | Caller                          | Location                                                |
+| -----: | -------: | ------: | ------------------------------- | ------------------------------------------------------- |
+| 100.0% | 4.16 GiB |   8,472 | `getSemanticDiagnosticsForFile` | `./node_modules/typescript/lib/typescript.js:123375:41` |
+
+##### `getSemanticDiagnosticsForFile` (`./node_modules/typescript/lib/typescript.js:123375:41`)
+
+|      % |     Size | Samples | Caller        | Location                                                |
+| -----: | -------: | ------: | ------------- | ------------------------------------------------------- |
+| 100.0% | 4.15 GiB |   8,470 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123317:76` |
+
+##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:123317:76`)
+
+|     % |     Size | Samples | Caller    | Location                                              |
+| ----: | -------: | ------: | --------- | ----------------------------------------------------- |
+| 99.9% | 4.15 GiB |   8,465 | `flatMap` | `./node_modules/typescript/lib/typescript.js:2612:17` |
+
+##### `flatMap` (`./node_modules/typescript/lib/typescript.js:2612:17`)
+
+|      % |     Size | Samples | Caller                 | Location                                                |
+| -----: | -------: | ------: | ---------------------- | ------------------------------------------------------- |
+| 100.0% | 4.15 GiB |   8,464 | `getDiagnosticsHelper` | `./node_modules/typescript/lib/typescript.js:123313:32` |
+
+##### `getDiagnosticsHelper` (`./node_modules/typescript/lib/typescript.js:123313:32`)
+
+|      % |     Size | Samples | Caller                   | Location                                                |
+| -----: | -------: | ------: | ------------------------ | ------------------------------------------------------- |
+| 100.0% | 4.15 GiB |   8,461 | `getSemanticDiagnostics` | `./node_modules/typescript/lib/typescript.js:123327:34` |
+
+##### `getSemanticDiagnostics` (`./node_modules/typescript/lib/typescript.js:123327:34`)
+
+|     % |     Size | Samples | Caller             | Location                  |
+| ----: | -------: | ------: | ------------------ | ------------------------- |
+| 99.9% | 4.14 GiB |   8,450 | `typeCheckProject` | `./tsc-workload.mjs:3:33` |
+
+##### `checkSourceFileWorker` (`./node_modules/typescript/lib/typescript.js:87270:33`)
+
+|     % |     Size | Samples | Caller            | Location                                               |
+| ----: | -------: | ------: | ----------------- | ------------------------------------------------------ |
+| 99.9% | 4.02 GiB |   8,192 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:87239:27` |
+
+##### `checkSourceFile` (`./node_modules/typescript/lib/typescript.js:87239:27`)
+
+|      % |     Size | Samples | Caller                                | Location                                               |
+| -----: | -------: | ------: | ------------------------------------- | ------------------------------------------------------ |
+| 100.0% | 4.02 GiB |   8,190 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:87336:47` |
+
+##### `checkSourceFileWithEagerDiagnostics` (`./node_modules/typescript/lib/typescript.js:87336:47`)
+
+|      % |     Size | Samples | Caller                 | Location                                               |
+| -----: | -------: | ------: | ---------------------- | ------------------------------------------------------ |
+| 100.0% | 4.02 GiB |   8,187 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:87343:32` |
+
+##### `getDiagnosticsWorker` (`./node_modules/typescript/lib/typescript.js:87343:32`)
+
+|      % |     Size | Samples | Caller            | Location                                               |
+| -----: | -------: | ------: | ----------------- | ------------------------------------------------------ |
+| 100.0% | 4.02 GiB |   8,186 | `getDiagnostics2` | `./node_modules/typescript/lib/typescript.js:87322:27` |
+
+##### `getDiagnostics2` (`./node_modules/typescript/lib/typescript.js:87322:27`)
+
+|      % |     Size | Samples | Caller        | Location                                                |
+| -----: | -------: | ------: | ------------- | ------------------------------------------------------- |
+| 100.0% | 4.01 GiB |   8,182 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123385:37` |
+
+##### `checkSourceElementWorker` (`./node_modules/typescript/lib/typescript.js:86895:36`)
+
+|      % |     Size | Samples | Caller                         | Location                                               |
+| -----: | -------: | ------: | ------------------------------ | ------------------------------------------------------ |
+| 100.0% |    4 GiB |   8,165 | `checkSourceElement`           | `./node_modules/typescript/lib/typescript.js:86886:30` |
+|  23.9% |  981 MiB |   1,950 | `checkDeferredNode`            | `./node_modules/typescript/lib/typescript.js:87186:29` |
+|   0.2% | 6.51 MiB |      13 | `checkSignatureDeclaration`    | `./node_modules/typescript/lib/typescript.js:81792:37` |
+|  <0.1% |    1 MiB |       2 | `checkVariableLikeDeclaration` | `./node_modules/typescript/lib/typescript.js:83907:40` |
+|  <0.1% |  512 KiB |       1 | `checkSourceElementWorker`     | `./node_modules/typescript/lib/typescript.js:86895:36` |
+
+##### `checkSourceElement` (`./node_modules/typescript/lib/typescript.js:86886:30`)
+
+|     % |      Size | Samples | Caller                                                 | Location                                               |
+| ----: | --------: | ------: | ------------------------------------------------------ | ------------------------------------------------------ |
+| 80.0% |   3.2 GiB |   6,528 | `forEach`                                              | `./node_modules/typescript/lib/typescript.js:2365:17`  |
+| 40.2% |  1.61 GiB |   3,281 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `./node_modules/typescript/lib/typescript.js:79840:64` |
+| 25.0% | 1,023 MiB |   2,036 | `checkBlock`                                           | `./node_modules/typescript/lib/typescript.js:83716:22` |
+| 19.0% |   779 MiB |   1,552 | `checkVariableStatement`                               | `./node_modules/typescript/lib/typescript.js:84119:34` |
+|  7.9% |   323 MiB |     645 | `checkTypeAliasDeclaration`                            | `./node_modules/typescript/lib/typescript.js:85990:37` |
+
+##### `forEach` (`./node_modules/typescript/lib/typescript.js:2365:17`)
+
+|     % |     Size | Samples | Caller                         | Location                                                |
+| ----: | -------: | ------: | ------------------------------ | ------------------------------------------------------- |
+| 54.7% | 1.97 GiB |   4,019 | `checkBlock`                   | `./node_modules/typescript/lib/typescript.js:83716:22`  |
+| 47.7% | 1.72 GiB |   3,512 | `checkVariableDeclarationList` | `./node_modules/typescript/lib/typescript.js:84112:40`  |
+| 39.6% | 1.43 GiB |   2,915 | `checkSourceFileWorker`        | `./node_modules/typescript/lib/typescript.js:87270:33`  |
+| 10.8% |  400 MiB |     786 | `createProgram`                | `./node_modules/typescript/lib/typescript.js:122262:23` |
+|  6.2% |  229 MiB |     454 | `checkClassDeclaration`        | `./node_modules/typescript/lib/typescript.js:85417:33`  |
+
+##### `checkExpressionWorker` (`./node_modules/typescript/lib/typescript.js:81516:33`)
+
+|     % |      Size | Samples | Caller                              | Location                                               |
+| ----: | --------: | ------: | ----------------------------------- | ------------------------------------------------------ |
+| 75.5% |  2.65 GiB |   5,398 | `checkExpression`                   | `./node_modules/typescript/lib/typescript.js:81476:27` |
+| 64.8% |  2.27 GiB |   4,636 | `checkExpressionWithContextualType` | `./node_modules/typescript/lib/typescript.js:81122:45` |
+| 28.3% | 1,016 MiB |   2,024 | `checkExpressionCached`             | `./node_modules/typescript/lib/typescript.js:81145:33` |
+| 16.4% |   590 MiB |   1,176 | `checkObjectLiteral`                | `./node_modules/typescript/lib/typescript.js:74814:30` |
+| 16.1% |   576 MiB |   1,148 | `checkExpressionWorker`             | `./node_modules/typescript/lib/typescript.js:81516:33` |
+
+##### `checkCallExpression` (`./node_modules/typescript/lib/typescript.js:78289:31`)
+
+|      % |     Size | Samples | Caller                  | Location                                               |
+| -----: | -------: | ------: | ----------------------- | ------------------------------------------------------ |
+| 100.0% | 3.37 GiB |   6,873 | `checkExpressionWorker` | `./node_modules/typescript/lib/typescript.js:81516:33` |
+
+##### `forEach` (`<unknown>`)
+
+|     % |     Size | Samples | Caller                     | Location                                               |
+| ----: | -------: | ------: | -------------------------- | ------------------------------------------------------ |
+| 99.4% | 2.59 GiB |   5,275 | `checkDeferredNodes`       | `./node_modules/typescript/lib/typescript.js:87179:30` |
+|  0.4% | 11.5 MiB |      23 | `resolveObjectTypeMembers` | `./node_modules/typescript/lib/typescript.js:59210:36` |
+|  0.4% |   10 MiB |      20 | `extendExportSymbols`      | `./node_modules/typescript/lib/typescript.js:52179:31` |
+|  0.3% |    7 MiB |      14 | `setStructuredTypeMembers` | `./node_modules/typescript/lib/typescript.js:52502:36` |
+|  0.2% |  5.5 MiB |      11 | `getNamedMembers`          | `./node_modules/typescript/lib/typescript.js:52485:27` |
+
+##### `set` (`<unknown>`)
+
+|     % |     Size | Samples | Caller                                   | Location                                               |
+| ----: | -------: | ------: | ---------------------------------------- | ------------------------------------------------------ |
+| 22.9% | 30.1 MiB |      60 | `resolveObjectTypeMembers`               | `./node_modules/typescript/lib/typescript.js:59210:36` |
+| 14.9% | 19.5 MiB |      39 | `addInheritedMembers`                    | `./node_modules/typescript/lib/typescript.js:59027:31` |
+| 11.8% | 15.5 MiB |      31 | `getPropertiesOfUnionOrIntersectionType` | `./node_modules/typescript/lib/typescript.js:60131:50` |
+|  7.5% | 9.82 MiB |       9 | `resetMaybeStack`                        | `./node_modules/typescript/lib/typescript.js:67196:31` |
+|  6.1% | 8.02 MiB |      16 | `(anonymous)`                            | `./node_modules/typescript/lib/typescript.js:52182:20` |
+
+##### `next` (`<unknown>`)
+
+|     % |     Size | Samples | Caller                     | Location                                               |
+| ----: | -------: | ------: | -------------------------- | ------------------------------------------------------ |
+| 32.9% | 27.5 MiB |      55 | `getUnmatchedProperty`     | `./node_modules/typescript/lib/typescript.js:69731:32` |
+| 11.4% |  9.5 MiB |      19 | `getUnmatchedProperties`   | `./node_modules/typescript/lib/typescript.js:69709:35` |
+|  7.8% |  6.5 MiB |      13 | `firstOrUndefinedIterator` | `./node_modules/typescript/lib/typescript.js:3046:34`  |
+|  7.2% |    6 MiB |      12 | `getIntersectionType`      | `./node_modules/typescript/lib/typescript.js:63112:31` |
+|  5.4% |  4.5 MiB |       9 | `Map`                      | `<unknown>`                                            |
+
+##### `Map` (`<unknown>`)
+
+|     % |     Size | Samples | Caller                          | Location                                               |
+| ----: | -------: | ------: | ------------------------------- | ------------------------------------------------------ |
+| 44.8% |   35 MiB |      70 | `createSymbolTable`             | `./node_modules/typescript/lib/typescript.js:15264:27` |
+| 15.4% |   12 MiB |      24 | `getIntersectionType`           | `./node_modules/typescript/lib/typescript.js:63112:31` |
+|  7.7% | 6.05 MiB |      12 | `visit`                         | `./node_modules/typescript/lib/typescript.js:52216:19` |
+|  7.7% |    6 MiB |      12 | `bindContainer`                 | `./node_modules/typescript/lib/typescript.js:45136:25` |
+|  5.8% |  4.5 MiB |       9 | `createInstantiatedSymbolTable` | `./node_modules/typescript/lib/typescript.js:59020:41` |
+
+##### `push` (`<unknown>`)
+
+|     % |    Size | Samples | Caller                   | Location                                               |
+| ----: | ------: | ------: | ------------------------ | ------------------------------------------------------ |
+| 31.5% | 8.5 MiB |      17 | `getIntersectionType`    | `./node_modules/typescript/lib/typescript.js:63112:31` |
+| 14.8% |   4 MiB |       8 | `arrayFrom`              | `./node_modules/typescript/lib/typescript.js:3174:19`  |
+| 13.0% | 3.5 MiB |       7 | `parseUnionTypeOrHigher` | `./node_modules/typescript/lib/typescript.js:34017:34` |
+|  5.6% | 1.5 MiB |       3 | `getSignaturesOfSymbol`  | `./node_modules/typescript/lib/typescript.js:61114:33` |
+|  3.7% |   1 MiB |       2 | `pushTypeResolution`     | `./node_modules/typescript/lib/typescript.js:57184:30` |
+
+##### `slice` (`node:buffer:640:12`)
+
+|      % |     Size | Samples | Caller     | Location             |
+| -----: | -------: | ------: | ---------- | -------------------- |
+| 100.0% | 21.3 MiB |      28 | `toString` | `node:buffer:839:46` |
+
+##### `toString` (`node:buffer:839:46`)
+
+|      % |     Size | Samples | Caller           | Location                                              |
+| -----: | -------: | ------: | ---------------- | ----------------------------------------------------- |
+| 100.0% | 21.3 MiB |      28 | `readFileWorker` | `./node_modules/typescript/lib/typescript.js:8722:28` |
+
+##### `splice` (`<unknown>`)
+
+|     % |    Size | Samples | Caller               | Location                                               |
+| ----: | ------: | ------: | -------------------- | ------------------------------------------------------ |
+| 40.5% | 8.5 MiB |      17 | `getUnionTypeWorker` | `./node_modules/typescript/lib/typescript.js:62867:30` |
+| 33.3% |   7 MiB |      14 | `addTypesToUnion`    | `./node_modules/typescript/lib/typescript.js:62693:27` |
+| 21.4% | 4.5 MiB |       9 | `reorderCandidates`  | `./node_modules/typescript/lib/typescript.js:76487:29` |
+|  2.4% | 512 KiB |       1 | `resolveCall`        | `./node_modules/typescript/lib/typescript.js:77299:23` |
+|  2.4% | 512 KiB |       1 | `addTypeToUnion`     | `./node_modules/typescript/lib/typescript.js:62670:26` |
+
+##### `(anonymous)` (`node:internal/modules/cjs/loader:1878:37`)
+
+|      % |     Size | Samples | Caller        | Location                                   |
+| -----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 18.1 MiB |      20 | `(anonymous)` | `node:internal/modules/cjs/loader:1490:33` |
+
+##### `(anonymous)` (`node:internal/modules/cjs/loader:1490:33`)
+
+|      % |     Size | Samples | Caller        | Location                                   |
+| -----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 18.1 MiB |      20 | `(anonymous)` | `node:internal/modules/cjs/loader:1193:24` |
+
+##### `(anonymous)` (`node:internal/modules/cjs/loader:1193:24`)
+
+|      % |     Size | Samples | Caller           | Location                                  |
+| -----: | -------: | ------: | ---------------- | ----------------------------------------- |
+| 100.0% | 18.1 MiB |      20 | `wrapModuleLoad` | `node:internal/modules/cjs/loader:237:24` |
+
+##### `wrapModuleLoad` (`node:internal/modules/cjs/loader:237:24`)
+
+|      % |     Size | Samples | Caller        | Location                                   |
+| -----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 18.1 MiB |      20 | `(anonymous)` | `node:internal/modules/cjs/loader:1519:36` |
+
+##### `(anonymous)` (`node:internal/modules/cjs/loader:1519:36`)
+
+|      % |     Size | Samples | Caller    | Location                               |
+| -----: | -------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 18.1 MiB |      20 | `require` | `node:internal/modules/helpers:146:19` |
+
+##### `require` (`node:internal/modules/helpers:146:19`)
+
+|      % |     Size | Samples | Caller             | Location                                              |
+| -----: | -------: | ------: | ------------------ | ----------------------------------------------------- |
+| 100.0% | 18.1 MiB |      20 | `typeCheckProject` | `./tsc-workload.mjs:3:33`                             |
+|   5.5% |    1 MiB |       2 | `getNodeSystem`    | `./node_modules/typescript/lib/typescript.js:8460:25` |
+
+##### `values` (`<unknown>`)
+
+|     % |    Size | Samples | Caller                              | Location                                               |
+| ----: | ------: | ------: | ----------------------------------- | ------------------------------------------------------ |
+| 17.1% |   3 MiB |       6 | `inferFromIndexTypes`               | `./node_modules/typescript/lib/typescript.js:70466:33` |
+|  8.6% | 1.5 MiB |       3 | `hasMatchingArgument`               | `./node_modules/typescript/lib/typescript.js:70885:31` |
+|  8.6% | 1.5 MiB |       3 | `inferFromTypes`                    | `./node_modules/typescript/lib/typescript.js:69901:28` |
+|  5.7% |   1 MiB |       2 | `createUnionOrIntersectionProperty` | `./node_modules/typescript/lib/typescript.js:60498:45` |
+|  5.7% |   1 MiB |       2 | `indexSignaturesRelatedTo`          | `./node_modules/typescript/lib/typescript.js:68475:38` |
+
+##### `replace` (`<unknown>`)
+
+|     % |    Size | Samples | Caller                                  | Location                                                |
+| ----: | ------: | ------: | --------------------------------------- | ------------------------------------------------------- |
+| 66.7% |  10 MiB |      20 | `getCanonicalFileName`                  | `./node_modules/typescript/lib/typescript.js:124375:32` |
+| 16.7% | 2.5 MiB |       5 | `toFileNameLowerCase`                   | `./node_modules/typescript/lib/typescript.js:3496:29`   |
+| 10.0% | 1.5 MiB |       3 | `getResolvedProjectReferenceToRedirect` | `./node_modules/typescript/lib/typescript.js:124152:49` |
+|  6.7% |   1 MiB |       2 | `toPath3`                               | `./node_modules/typescript/lib/typescript.js:122790:19` |
+
+##### `slice` (`<unknown>`)
+
+|     % |    Size | Samples | Caller                     | Location                                               |
+| ----: | ------: | ------: | -------------------------- | ------------------------------------------------------ |
+| 30.4% | 3.5 MiB |       7 | `filterType`               | `./node_modules/typescript/lib/typescript.js:71231:22` |
+| 17.4% |   2 MiB |       4 | `filter`                   | `./node_modules/typescript/lib/typescript.js:2533:16`  |
+| 17.4% |   2 MiB |       4 | `instantiateTypes`         | `./node_modules/typescript/lib/typescript.js:64640:28` |
+|  4.3% | 512 KiB |       1 | `getAdjustedTypeWithFacts` | `./node_modules/typescript/lib/typescript.js:71022:36` |
+|  4.3% | 512 KiB |       1 | `removeSuffix`             | `./node_modules/typescript/lib/typescript.js:3728:22`  |
+
+##### `(anonymous)` (`node:internal/modules/cjs/loader:1731:37`)
+
+|      % |     Size | Samples | Caller        | Location                                   |
+| -----: | -------: | ------: | ------------- | ------------------------------------------ |
+| 100.0% | 9.87 MiB |      19 | `(anonymous)` | `node:internal/modules/cjs/loader:1878:37` |
+
+##### `readFileSync` (`node:fs:433:22`)
+
+|     % |     Size | Samples | Caller            | Location                                              |
+| ----: | -------: | ------: | ----------------- | ----------------------------------------------------- |
+| 89.2% | 8.27 MiB |       1 | `defaultLoadImpl` | `node:internal/modules/cjs/loader:1112:25`            |
+| 10.8% |    1 MiB |       2 | `readFileWorker`  | `./node_modules/typescript/lib/typescript.js:8722:28` |
+
+##### `defaultLoadImpl` (`node:internal/modules/cjs/loader:1112:25`)
+
+|      % |     Size | Samples | Caller       | Location                                   |
+| -----: | -------: | ------: | ------------ | ------------------------------------------ |
+| 100.0% | 8.27 MiB |       1 | `loadSource` | `node:internal/modules/cjs/loader:1797:20` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

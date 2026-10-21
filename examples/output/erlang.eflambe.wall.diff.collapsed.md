@@ -26,6 +26,16 @@ Functions with the largest decrease in wall time spent within the function and i
 | -----: | ------: | ----: | ----: | ----------------------- | -------- |
 |  -0.1% | -2.00µs | 10.3% | 2.0ms | `escape_binary_ascii/5` | `json`   |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `escape_binary_ascii/5` (`json`)
+
+| Change |   Delta |      % |  Time | Caller                          | Location |
+| -----: | ------: | -----: | ----: | ------------------------------- | -------- |
+|  -0.1% | -2.00µs | 100.0% | 2.0ms | `-do_encode_map/2-lc$^0/1-0-/2` | `json`   |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -229,6 +229,156 @@ Categories accounting for at least 1.0% of self time.
 |  0.1% |   1.0ms |       1 | `ZSTD_recordFingerprint_1`                           | `zstd_preSplit.c`   |
 |  0.1% |   1.0ms |       1 | `AIO_ReadPool_executeReadJob`                        | `fileio_asyncio.c`  |
 
+#### Callers
+
+Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `POOL_thread` (`pool.c`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.17s |   1,176 | `0x8202f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.17s |   1,176 | `0xebf5b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
+
+|      % |  Time | Samples | Caller        | Location |
+| -----: | ----: | ------: | ------------- | -------- |
+| 100.0% | 1.17s |   1,175 | `POOL_thread` | `pool.c` |
+
+##### `ZSTD_compress_frameChunk` (`zstd_compress.c`)
+
+|     % |    Time | Samples | Caller                         | Location    |
+| ----: | ------: | ------: | ------------------------------ | ----------- |
+| 80.8% | 948.0ms |     948 | `ZSTD_compressContinue_public` | `<unknown>` |
+| 19.2% | 225.0ms |     225 | `ZSTD_compressEnd_public`      | `<unknown>` |
+
+##### `ZSTD_buildSeqStore` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                     | Location          |
+| -----: | ----: | ------: | -------------------------- | ----------------- |
+| 100.0% | 1.16s |   1,162 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+
+##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
+
+|     % |   Time | Samples | Caller                        | Location          |
+| ----: | -----: | ------: | ----------------------------- | ----------------- |
+| 98.6% |  1.12s |   1,129 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|  1.4% | 16.0ms |      16 | `ZSTD_compressBlock_btultra2` | `<unknown>`       |
+
+##### `ZSTD_compressContinue_public` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                  | Location            |
+| -----: | ------: | ------: | ----------------------- | ------------------- |
+| 100.0% | 948.0ms |     948 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+
+##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
+
+|      % |    Time | Samples | Caller                    | Location     |
+| -----: | ------: | ------: | ------------------------- | ------------ |
+| 100.0% | 858.0ms |     858 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
+
+##### `ZSTD_compressEnd_public` (`<unknown>`)
+
+|      % |    Time | Samples | Caller                  | Location            |
+| -----: | ------: | ------: | ----------------------- | ------------------- |
+| 100.0% | 225.0ms |     225 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+
+##### `ZSTD_compressBlock_btultra2` (`<unknown>`)
+
+|      % |   Time | Samples | Caller               | Location          |
+| -----: | -----: | ------: | -------------------- | ----------------- |
+| 100.0% | 16.0ms |      16 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
+
+##### `ZSTD_litLengthPrice.constprop.1.isra.0` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Caller               | Location          |
+| -----: | ----: | ------: | -------------------- | ----------------- |
+| 100.0% | 7.0ms |       7 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
+
+##### `ZSTD_litLengthPrice.constprop.0.isra.0` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Caller               | Location          |
+| -----: | ----: | ------: | -------------------- | ----------------- |
+| 100.0% | 6.0ms |       6 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
+
+##### `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                         | Location          |
+| -----: | ----: | ------: | ------------------------------ | ----------------- |
+| 100.0% | 4.0ms |       4 | `ZSTD_deriveBlockSplitsHelper` | `zstd_compress.c` |
+
+##### `ZSTD_deriveBlockSplitsHelper` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                     | Location          |
+| -----: | ----: | ------: | -------------------------- | ----------------- |
+| 100.0% | 4.0ms |       4 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+
+##### `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                     | Location          |
+| -----: | ----: | ------: | -------------------------- | ----------------- |
+| 100.0% | 4.0ms |       4 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+
+##### `ZSTD_updateStats` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Caller               | Location          |
+| -----: | ----: | ------: | -------------------- | ----------------- |
+| 100.0% | 4.0ms |       4 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
+
+##### `ZSTD_insertBt1.constprop.3` (`zstd_opt.c`)
+
+|      % |  Time | Samples | Caller                          | Location     |
+| -----: | ----: | ------: | ------------------------------- | ------------ |
+| 100.0% | 4.0ms |       4 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
+
+##### `HIST_count_parallel_wksp` (`hist.c`)
+
+|      % |  Time | Samples | Caller                                               | Location          |
+| -----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
+| 100.0% | 3.0ms |       3 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+
+##### `ZSTD_compressBegin_internal` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                                 | Location    |
+| -----: | ----: | ------: | -------------------------------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
+
+##### `FIO_compressFilename_srcFile` (`fileio.c`)
+
+|      % |  Time | Samples | Caller                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `FIO_compressFilename` | `<unknown>` |
+
+##### `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                     | Location          |
+| -----: | ----: | ------: | -------------------------- | ----------------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+
+##### `HUF_compress_internal` (`huf_compress.c`)
+
+|      % |  Time | Samples | Caller                  | Location    |
+| -----: | ----: | ------: | ----------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `HUF_compress4X_repeat` | `<unknown>` |
+
+##### `ZSTD_recordFingerprint_1` (`zstd_preSplit.c`)
+
+|      % |  Time | Samples | Caller            | Location    |
+| -----: | ----: | ------: | ----------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_splitBlock` | `<unknown>` |
+
+##### `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`)
+
+|      % |  Time | Samples | Caller        | Location |
+| -----: | ----: | ------: | ------------- | -------- |
+| 100.0% | 1.0ms |       1 | `POOL_thread` | `pool.c` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.

@@ -1336,6 +1336,548 @@ Functions with the largest decrease in bytes allocated within the function and i
 |  -2.8% |  -8.499 MiB | 44.6% → 45.8% | 303 MiB → 295 MiB |     606 → 589 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)`                                                                         | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                                              |
 |  -2.8% |  -8.499 MiB | 44.6% → 45.8% | 303 MiB → 295 MiB |     606 → 589 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                                                                        | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                                              |
 
+#### Callers
+
+Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
+
+##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000090016b4c80`)
+
+|  Change |        Delta |             % |          Size | Samples | Caller                                                                                                     | Location                                                                        |
+| ------: | -----------: | ------------: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+|     new |  +70.999 MiB | 0.0% → 100.0% |  0 B → 71 MiB | 0 → 142 | `withParameters(FirCallableDeclaration, SessionAndScopeSessionHolder, Function0)`                          | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+| removed | -511.999 KiB | 100.0% → 0.0% | 512 KiB → 0 B |   1 → 0 | `withPropertyAccessor(FirProperty, FirPropertyAccessor, SessionAndScopeSessionHolder, boolean, Function0)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+
+##### `copyOf(byte[], int)` (`java.util.Arrays`)
+
+| Change |          Delta |             % |              Size |   Samples | Caller                        | Location                          |
+| -----: | -------------: | ------------: | ----------------: | --------: | ----------------------------- | --------------------------------- |
+| +10.1% |    +15.999 MiB | 95.5% → 94.3% | 159 MiB → 175 MiB | 317 → 349 | `toByteArray()`               | `java.io.ByteArrayOutputStream`   |
+| +40.0% |     +1.999 MiB |   3.0% → 3.8% |     5 MiB → 7 MiB |   10 → 14 | `ensureCapacityInternal(int)` | `java.lang.AbstractStringBuilder` |
+| +40.0% | +1,023.998 KiB |   1.5% → 1.9% | 2.5 MiB → 3.5 MiB |     5 → 7 | `getBytes()`                  | `jdk.internal.loader.Resource`    |
+
+##### `toByteArray()` (`java.io.ByteArrayOutputStream`)
+
+| Change |       Delta |      % |              Size |   Samples | Caller                                                  | Location                                               |
+| -----: | ----------: | -----: | ----------------: | --------: | ------------------------------------------------------- | ------------------------------------------------------ |
+| +10.1% | +15.999 MiB | 100.0% | 159 MiB → 175 MiB | 317 → 349 | `loadAllClassesFromJars(Collection, int, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `invoke(Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x0000009001671850`)
+
+|  Change |        Delta |             % |          Size | Samples | Caller                                                                        | Location                                                            |
+| ------: | -----------: | ------------: | ------------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+|     new |   +7.499 MiB |  0.0% → 62.5% | 0 B → 7.5 MiB |  0 → 15 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)` | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope` |
+|     new |   +2.499 MiB |  0.0% → 20.8% | 0 B → 2.5 MiB |   0 → 5 | `processFunctionsByName(Name, Function1)`                                     | `org.jetbrains.kotlin.fir.scopes.impl.FirPackageMemberScope`        |
+|     new |   +1.499 MiB |  0.0% → 12.5% | 0 B → 1.5 MiB |   0 → 3 | `processFunctionsByName(Name, List, Function1)`                               | `org.jetbrains.kotlin.fir.scopes.impl.FirAbstractImportingScope`    |
+| removed | -511.999 KiB | 100.0% → 0.0% | 512 KiB → 0 B |   1 → 0 | `processPropertiesByName$lambda$0(Function1, FirVariableSymbol)`              | `org.jetbrains.kotlin.fir.scopes.impl.FirStaticScope`               |
+|     new | +511.999 KiB |   0.0% → 4.2% | 0 B → 512 KiB |   0 → 1 | `processConstructors$lambda$0$0(Function1, FirConstructorSymbol)`             | `org.jetbrains.kotlin.fir.resolve.calls.ConstructorProcessingKt`    |
+
+##### `parseFrom(InputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Package`)
+
+| Change |      Delta |      % |              Size | Samples | Caller                                  | Location                                                            |
+| -----: | ---------: | -----: | ----------------: | ------: | --------------------------------------- | ------------------------------------------------------------------- |
+| +41.3% | +9.499 MiB | 100.0% | 23 MiB → 32.5 MiB | 46 → 65 | `readPackageDataFrom(byte[], String[])` | `org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil` |
+
+##### `mapType(TypeSystemCommonBackendContextForTypeMapping, TypeMappingContext, KotlinTypeMarker, TypeMappingMode, JvmDescriptorTypeWriter, boolean)` (`org.jetbrains.kotlin.types.AbstractTypeMapper`)
+
+|  Change |          Delta |            % |             Size | Samples | Caller                                                                                                                                                                      | Location                                        |
+| ------: | -------------: | -----------: | ---------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| +566.7% |     +8.499 MiB |       100.0% | 1.5 MiB → 10 MiB |  3 → 20 | `mapType(TypeMappingContext, KotlinTypeMarker, TypeMappingMode, JvmDescriptorTypeWriter, boolean)`                                                                          | `org.jetbrains.kotlin.types.AbstractTypeMapper` |
+|     new |     +1.999 MiB | 0.0% → 20.0% |      0 B → 2 MiB |   0 → 4 | `mapClassType(TypeSystemCommonBackendContextForTypeMapping, TypeConstructorMarker, TypeMappingMode, RigidTypeMarker, TypeMappingContext, JvmDescriptorTypeWriter, boolean)` | `org.jetbrains.kotlin.types.AbstractTypeMapper` |
+|     new | +1,023.998 KiB | 0.0% → 10.0% |      0 B → 1 MiB |   0 → 2 | `mapType(TypeSystemCommonBackendContextForTypeMapping, TypeMappingContext, KotlinTypeMarker, TypeMappingMode, JvmDescriptorTypeWriter, boolean)`                            | `org.jetbrains.kotlin.types.AbstractTypeMapper` |
+
+##### `mapType(TypeMappingContext, KotlinTypeMarker, TypeMappingMode, JvmDescriptorTypeWriter, boolean)` (`org.jetbrains.kotlin.types.AbstractTypeMapper`)
+
+|  Change |        Delta |              % |              Size | Samples | Caller                                                                                                                                      | Location                                                |
+| ------: | -----------: | -------------: | ----------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| +533.3% |   +7.999 MiB | 100.0% → 95.0% | 1.5 MiB → 9.5 MiB |  3 → 19 | `mapType(IrType, TypeMappingMode, JvmSignatureWriter, boolean)`                                                                             | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper` |
+|     new | +511.999 KiB |    0.0% → 5.0% |     0 B → 512 KiB |   0 → 1 | `mapType$default(AbstractTypeMapper, TypeMappingContext, KotlinTypeMarker, TypeMappingMode, JvmDescriptorTypeWriter, boolean, int, Object)` | `org.jetbrains.kotlin.types.AbstractTypeMapper`         |
+
+##### `<init>(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Package`)
+
+| Change |      Delta |      % |            Size | Samples | Caller                                                        | Location                                         |
+| -----: | ---------: | -----: | --------------: | ------: | ------------------------------------------------------------- | ------------------------------------------------ |
+| +33.3% | +7.999 MiB | 100.0% | 24 MiB → 32 MiB | 48 → 64 | `<init>(CodedInputStream, ExtensionRegistryLite, ProtoBuf$1)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Package` |
+
+##### `<init>(CodedInputStream, ExtensionRegistryLite, ProtoBuf$1)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Package`)
+
+| Change |      Delta |      % |            Size | Samples | Caller                                                      | Location                                           |
+| -----: | ---------: | -----: | --------------: | ------: | ----------------------------------------------------------- | -------------------------------------------------- |
+| +33.3% | +7.999 MiB | 100.0% | 24 MiB → 32 MiB | 48 → 64 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Package$1` |
+
+##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Package$1`)
+
+| Change |        Delta |             % |              Size | Samples | Caller                                                      | Location                                           |
+| -----: | -----------: | ------------: | ----------------: | ------: | ----------------------------------------------------------- | -------------------------------------------------- |
+| +37.0% |   +8.499 MiB | 95.8% → 98.4% | 23 MiB → 31.5 MiB | 46 → 63 | `parsePartialFrom(InputStream, ExtensionRegistryLite)`      | `org.jetbrains.kotlin.protobuf.AbstractParser`     |
+| +33.3% |   +7.999 MiB |        100.0% |   24 MiB → 32 MiB | 48 → 64 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Package$1` |
+| -50.0% | -511.999 KiB |   4.2% → 1.6% |   1 MiB → 512 KiB |   2 → 1 | `readMessage(Parser, ExtensionRegistryLite)`                | `org.jetbrains.kotlin.protobuf.CodedInputStream`   |
+
+##### `readPackageDataFrom(byte[], String[])` (`org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                                    | Location                                                            |
+| -----: | ---------: | -----: | ------------------: | ------: | ----------------------------------------- | ------------------------------------------------------------------- |
+| +30.2% | +7.999 MiB | 100.0% | 26.5 MiB → 34.5 MiB | 53 → 69 | `readPackageDataFrom(String[], String[])` | `org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil` |
+
+##### `mapType(IrType, TypeMappingMode, JvmSignatureWriter, boolean)` (`org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper`)
+
+|  Change |      Delta |              % |            Size | Samples | Caller                                                                                             | Location                                                             |
+| ------: | ---------: | -------------: | --------------: | ------: | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| +433.3% | +6.499 MiB | 100.0% → 84.2% | 1.5 MiB → 8 MiB |  3 → 16 | `mapType(IrType, TypeMappingMode, JvmSignatureWriter, boolean)`                                    | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$typeMapper$1` |
+|     new | +1.499 MiB |   0.0% → 15.8% |   0 B → 1.5 MiB |   0 → 3 | `mapType$default(IrTypeMapper, IrType, TypeMappingMode, JvmSignatureWriter, boolean, int, Object)` | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper`              |
+
+##### `parseFrom(InputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.protobuf.AbstractParser`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                                          | Location                                                     |
+| ------: | -----------: | ------------: | ----------------: | ------: | ----------------------------------------------- | ------------------------------------------------------------ |
+|  +41.3% |   +9.499 MiB | 60.5% → 73.0% | 23 MiB → 32.5 MiB | 46 → 65 | `parseFrom(InputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Package`             |
+|  +17.1% |   +6.499 MiB |        100.0% | 38 MiB → 44.5 MiB | 76 → 89 | `parseFrom(InputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.protobuf.AbstractParser`               |
+|  -22.7% |   -2.499 MiB | 28.9% → 19.1% |  11 MiB → 8.5 MiB | 22 → 17 | `parseFrom(InputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$PackageFragment`     |
+| removed | -511.999 KiB |   1.3% → 0.0% |     512 KiB → 0 B |   1 → 0 | `parseFrom(InputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.jvm.JvmModuleProtoBuf$Module` |
+
+##### `readPackageDataFrom(String[], String[])` (`org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil`)
+
+| Change |      Delta |      % |              Size | Samples | Caller                                   | Location                                                                        |
+| -----: | ---------: | -----: | ----------------: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------- |
+| +22.8% | +6.499 MiB | 100.0% | 28.5 MiB → 35 MiB | 57 → 70 | `computePackagePartInfo(FqName, String)` | `org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider` |
+
+##### `transformSingle(FirElement, FirTransformer, Object)` (`org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt`)
+
+|  Change |      Delta |             % |                Size | Samples | Caller                                                                      | Location                                                                                                                            |
+| ------: | ---------: | ------------: | ------------------: | ------: | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+|  +11.9% | +4.499 MiB | 63.7% → 64.2% | 37.7 MiB → 42.2 MiB | 75 → 84 | `process(Collection)`                                                       | `org.jetbrains.kotlin.fir.resolve.transformers.plugin.FirCompilerRequiredAnnotationsResolveProcessor`                               |
+| +133.3% | +1.999 MiB |   2.5% → 5.3% |   1.5 MiB → 3.5 MiB |   3 → 7 | `completeCall(FirExpression, ResolutionMode, boolean)`                      | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                                       |
+|  -37.5% | -1.499 MiB |   6.8% → 3.8% |     4 MiB → 2.5 MiB |   8 → 5 | `transformDeclarationContent(FirDeclaration, FirResolvedDeclarationStatus)` | `org.jetbrains.kotlin.fir.resolve.transformers.AbstractFirStatusResolveTransformer`                                                 |
+| +300.0% | +1.499 MiB |   0.8% → 3.0% |     512 KiB → 2 MiB |   1 → 4 | `transformElement(FirElement, Void)`                                        | `org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer$transformArgumentList$ArgumentTransformer` |
+| +300.0% | +1.499 MiB |   0.8% → 3.0% |     512 KiB → 2 MiB |   1 → 4 | `transformArguments(FirTransformer, Object)`                                | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentListImpl`                                                             |
+
+##### `invoke(Object, Void)` (`org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider$topLevelCallableNamesByPackage_delegate$lambda$0$$inlined$createCache$1`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                   | Location                                                                                                                                          |
+| -----: | ---------: | -----: | ------------------: | ------: | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `invoke(Object, Object)` | `org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider$topLevelCallableNamesByPackage_delegate$lambda$0$$inlined$createCache$1` |
+
+##### `invoke(Object, Object)` (`org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider$topLevelCallableNamesByPackage_delegate$lambda$0$$inlined$createCache$1`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                     | Location                                               |
+| -----: | ---------: | -----: | ------------------: | ------: | -------------------------- | ------------------------------------------------------ |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `getValue(Object, Object)` | `org.jetbrains.kotlin.fir.caches.FirThreadUnsafeCache` |
+
+##### `getTopLevelCallableNamesInPackage(FqName)` (`org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider`)
+
+| Change |      Delta |              % |                Size | Samples | Caller                                  | Location                                                                           |
+| -----: | ---------: | -------------: | ------------------: | ------: | --------------------------------------- | ---------------------------------------------------------------------------------- |
+| +18.7% | +6.499 MiB |         100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `mayHaveTopLevelCallable(FqName, Name)` | `org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider`                |
+| +17.3% | +5.999 MiB | 100.0% → 98.8% | 34.7 MiB → 40.7 MiB | 69 → 81 | `computeTopLevelCallableNames(FqName)`  | `org.jetbrains.kotlin.fir.resolve.providers.FirCompositeCachedSymbolNamesProvider` |
+
+##### `computeTopLevelCallableNames(FqName)` (`org.jetbrains.kotlin.fir.resolve.providers.FirCompositeCachedSymbolNamesProvider`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                                 | Location                                                                                                  |
+| -----: | ---------: | -----: | ------------------: | ------: | -------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `computeTopLevelCallableNames(FqName)` | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider$symbolNamesProvider$1` |
+
+##### `computeTopLevelCallableNames(FqName)` (`org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider$symbolNamesProvider$1`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                 | Location                                                                                                                                          |
+| -----: | ---------: | -----: | ------------------: | ------: | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `invoke(Object, Void)` | `org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider$topLevelCallableNamesByPackage_delegate$lambda$0$$inlined$createCache$1` |
+
+##### `clone()` (`java.lang.Object`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                          | Location                          |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------- | --------------------------------- |
+|  +16.5% |   +6.499 MiB | 97.5% → 98.9% | 39.5 MiB → 46 MiB | 79 → 92 | `copyOf(byte[], int)`           | `java.util.Arrays`                |
+| removed | -511.999 KiB |   1.2% → 0.0% |     512 KiB → 0 B |   1 → 0 | `copyOfRange(byte[], int, int)` | `java.util.Arrays`                |
+| removed | -511.999 KiB |   1.2% → 0.0% |     512 KiB → 0 B |   1 → 0 | `canonicalizeAll(Class[], int)` | `java.lang.invoke.MethodTypeForm` |
+|     new | +511.999 KiB |   0.0% → 1.1% |     0 B → 512 KiB |   0 → 1 | `clone()`                       | `java.lang.invoke.MemberName`     |
+
+##### `<init>()` (`kotlin.collections.builders.SetBuilder`)
+
+|  Change |      Delta |      % |            Size | Samples | Caller               | Location                               |
+| ------: | ---------: | -----: | --------------: | ------: | -------------------- | -------------------------------------- |
+| +116.7% | +3.499 MiB | 100.0% | 3 MiB → 6.5 MiB |  6 → 13 | `createSetBuilder()` | `kotlin.collections.SetsKt__SetsJVMKt` |
+
+##### `createSetBuilder()` (`kotlin.collections.SetsKt__SetsJVMKt`)
+
+| Change |        Delta |             % |            Size | Samples | Caller                                                                                         | Location                                                                           |
+| -----: | -----------: | ------------: | --------------: | ------: | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| +71.4% |   +2.499 MiB | 77.8% → 80.0% | 3.5 MiB → 6 MiB |  7 → 12 | `extractProjectionsForAllCapturedTypes(TypeSystemInferenceExtensionContext, KotlinTypeMarker)` | `org.jetbrains.kotlin.resolve.calls.inference.components.VariableFixationFinderKt` |
+| +50.0% | +511.999 KiB | 22.2% → 20.0% | 1 MiB → 1.5 MiB |   2 → 3 | `extractAllContainingTypeVariables(TypeSystemInferenceExtensionContext, KotlinTypeMarker)`     | `org.jetbrains.kotlin.resolve.calls.inference.InferenceUtilsKt`                    |
+
+##### `<init>(int)` (`kotlin.collections.builders.MapBuilder`)
+
+|  Change |      Delta |      % |          Size | Samples | Caller     | Location                                 |
+| ------: | ---------: | -----: | ------------: | ------: | ---------- | ---------------------------------------- |
+| +100.0% | +2.999 MiB | 100.0% | 3 MiB → 6 MiB |  6 → 12 | `<init>()` | `kotlin.collections.builders.MapBuilder` |
+
+##### `<init>()` (`kotlin.collections.builders.MapBuilder`)
+
+|  Change |      Delta |             % |              Size | Samples | Caller     | Location                                 |
+| ------: | ---------: | ------------: | ----------------: | ------: | ---------- | ---------------------------------------- |
+| +120.0% | +2.999 MiB | 83.3% → 91.7% | 2.5 MiB → 5.5 MiB |  5 → 11 | `<init>()` | `kotlin.collections.builders.SetBuilder` |
+
+##### `putVal(int, Object, Object, boolean, boolean)` (`java.util.HashMap`)
+
+| Change |        Delta |              % |                Size | Samples | Caller                        | Location            |
+| -----: | -----------: | -------------: | ------------------: | ------: | ----------------------------- | ------------------- |
+| +17.4% |   +1.999 MiB | 100.0% → 96.4% | 11.5 MiB → 13.5 MiB | 23 → 27 | `put(Object, Object)`         | `java.util.HashMap` |
+|    new | +511.999 KiB |    0.0% → 3.6% |       0 B → 512 KiB |   0 → 1 | `putMapEntries(Map, boolean)` | `java.util.HashMap` |
+
+##### `getValue()` (`kotlin.SafePublicationLazyImpl`)
+
+|  Change |          Delta |             % |              Size | Samples | Caller                     | Location                                                                        |
+| ------: | -------------: | ------------: | ----------------: | ------: | -------------------------- | ------------------------------------------------------------------------------- |
+|  +11.1% |     +1.499 MiB | 71.1% → 69.8% | 13.5 MiB → 15 MiB | 27 → 30 | `getAnnotationInfo()`      | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer` |
+|     new |     +1.499 MiB |   0.0% → 7.0% |     0 B → 1.5 MiB |   0 → 3 | `getDeclarations()`        | `org.jetbrains.kotlin.fir.java.FirLazyJavaDeclarationList`                      |
+| +200.0% | +1,023.998 KiB |   2.6% → 7.0% | 512 KiB → 1.5 MiB |   1 → 3 | `getCallablesIndex()`      | `org.jetbrains.kotlin.fir.scopes.impl.FirClassDeclaredMemberScopeImpl`          |
+| removed | -1,023.998 KiB |   5.3% → 0.0% |       1 MiB → 0 B |   2 → 0 | `getImplicitScope()`       | `org.jetbrains.kotlin.fir.resolve.calls.ImplicitReceiverValue`                  |
+| +200.0% | +1,023.998 KiB |   2.6% → 7.0% | 512 KiB → 1.5 MiB |   1 → 3 | `getCallableNamesCached()` | `org.jetbrains.kotlin.fir.scopes.impl.AbstractFirUseSiteMemberScope`            |
+
+##### `generate(MethodType)` (`java.lang.invoke.InnerClassLambdaMetafactory$ForwardingMethodGenerator`)
+
+|  Change |      Delta |      % |            Size | Samples | Caller                 | Location                                       |
+| ------: | ---------: | -----: | --------------: | ------: | ---------------------- | ---------------------------------------------- |
+| +500.0% | +2.499 MiB | 100.0% | 512 KiB → 3 MiB |   1 → 6 | `generateInnerClass()` | `java.lang.invoke.InnerClassLambdaMetafactory` |
+
+##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.LinkedHashMap`)
+
+| Change |      Delta |      % |            Size | Samples | Caller                                          | Location            |
+| -----: | ---------: | -----: | --------------: | ------: | ----------------------------------------------- | ------------------- |
+| +83.3% | +2.499 MiB | 100.0% | 3 MiB → 5.5 MiB |  6 → 11 | `putVal(int, Object, Object, boolean, boolean)` | `java.util.HashMap` |
+
+##### `add(Object)` (`java.util.HashSet`)
+
+|  Change |          Delta |            % |              Size | Samples | Caller                                                                       | Location                                                                    |
+| ------: | -------------: | -----------: | ----------------: | ------: | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+|     new |     +2.499 MiB | 0.0% → 29.4% |     0 B → 2.5 MiB |   0 → 5 | `addAll(Collection)`                                                         | `java.util.AbstractCollection`                                              |
+| removed |     -1.499 MiB | 25.0% → 0.0% |     1.5 MiB → 0 B |   3 → 0 | `processCandidate(FirBasedSymbol, ConeSubstitutor, FirResolvedSymbolOrigin)` | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeCandidateCollector` |
+|     new |     +1.499 MiB | 0.0% → 17.6% |     0 B → 1.5 MiB |   0 → 3 | `checkDuplicateNode(IrElement)`                                              | `org.jetbrains.kotlin.ir.validation.checkers.CheckTreeConsistencyVisitor`   |
+|  -66.7% | -1,023.998 KiB | 25.0% → 5.9% | 1.5 MiB → 512 KiB |   3 → 1 | `processCandidatesAndPostponedAtoms(Context, ConeResolutionAtom)`            | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateTraversalKt`     |
+|     new | +1,023.998 KiB | 0.0% → 11.8% |       0 B → 1 MiB |   0 → 2 | `canBeNull(ConeKotlinType, FirSession, boolean, Set)`                        | `org.jetbrains.kotlin.fir.types.TypeUtilsKt`                                |
+
+##### `put(Object, Object)` (`java.util.HashMap`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                                                  | Location                                                                                                                             |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+|  +41.7% |   +2.499 MiB | 52.2% → 63.0% |   6 MiB → 8.5 MiB | 12 → 17 | `add(Object)`                                           | `java.util.HashSet`                                                                                                                  |
+| +400.0% |   +1.999 MiB |  4.3% → 18.5% | 512 KiB → 2.5 MiB |   1 → 5 | `loadAllClassesFromJars(Collection, int, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils`                                                                               |
+| removed | -511.999 KiB |   4.3% → 0.0% |     512 KiB → 0 B |   1 → 0 | `getValue(Object, Object)`                              | `org.jetbrains.kotlin.fir.caches.FirThreadUnsafeCache`                                                                               |
+| removed | -511.999 KiB |   4.3% → 0.0% |     512 KiB → 0 B |   1 → 0 | `visitParameterAnnotation(int, ClassId, SourceElement)` | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializerKt$loadMemberAnnotations$1$AnnotationVisitorForMethod` |
+| removed | -511.999 KiB |   4.3% → 0.0% |     512 KiB → 0 B |   1 → 0 | `putAll(Map, Pair[])`                                   | `kotlin.collections.MapsKt__MapsKt`                                                                                                  |
+
+##### `linkCallSiteImpl(Class, MethodHandle, String, MethodType, Object, Object[])` (`java.lang.invoke.MethodHandleNatives`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                                                           | Location                               |
+| -----: | ---------: | -----: | ------------------: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
+| +19.0% | +1.999 MiB | 100.0% | 10.5 MiB → 12.5 MiB | 21 → 25 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
+
+##### `linkCallSite(Object, Object, Object, Object, Object, Object[])` (`java.lang.invoke.MethodHandleNatives`)
+
+|  Change |          Delta |           % |          Size | Samples | Caller                                                                                                                                                                                                           | Location                                                                        |
+| ------: | -------------: | ----------: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| removed | -1,023.998 KiB | 9.5% → 0.0% |   1 MiB → 0 B |   2 → 0 | `prepareSessions(List, CompilerConfiguration, Name, TargetPlatform, boolean, DependencyListForCliModule, List, Function1, Function1, Function2, Function0, Function0, Function1, FirSessionProducer, Function4)` | `org.jetbrains.kotlin.cli.common.SessionConstructionUtils`                      |
+| removed |   -511.999 KiB | 4.8% → 0.0% | 512 KiB → 0 B |   1 → 0 | `syncPublisher(Topic)`                                                                                                                                                                                           | `com.intellij.util.messages.impl.MessageBusImpl`                                |
+| removed |   -511.999 KiB | 4.8% → 0.0% | 512 KiB → 0 B |   1 → 0 | `<init>(Object, PluginDescriptor, LoadingOrder)`                                                                                                                                                                 | `com.intellij.openapi.extensions.impl.ObjectComponentAdapter`                   |
+| removed |   -511.999 KiB | 4.8% → 0.0% | 512 KiB → 0 B |   1 → 0 | `<clinit>()`                                                                                                                                                                                                     | `com.intellij.psi.impl.PsiJavaParserFacadeImpl`                                 |
+| removed |   -511.999 KiB | 4.8% → 0.0% | 512 KiB → 0 B |   1 → 0 | `<init>(String, ClassifierResolutionContext, Collection, boolean)`                                                                                                                                               | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaAnnotation` |
+
+##### `invokeStatic(Object, Object, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000009001234000`)
+
+| Change |      Delta |      % |           Size | Samples | Caller                                                                           | Location                           |
+| -----: | ---------: | -----: | -------------: | ------: | -------------------------------------------------------------------------------- | ---------------------------------- |
+| +22.2% | +1.999 MiB | 100.0% | 9 MiB → 11 MiB | 18 → 22 | `invokeExact_MT(Object, Object, Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `ensureCapacityInternal(int)` (`java.lang.AbstractStringBuilder`)
+
+| Change |      Delta |             % |          Size | Samples | Caller           | Location                          |
+| -----: | ---------: | ------------: | ------------: | ------: | ---------------- | --------------------------------- |
+| +50.0% | +1.999 MiB | 80.0% → 85.7% | 4 MiB → 6 MiB |  8 → 12 | `append(String)` | `java.lang.AbstractStringBuilder` |
+
+##### `append(String)` (`java.lang.AbstractStringBuilder`)
+
+| Change |      Delta |      % |          Size | Samples | Caller           | Location                  |
+| -----: | ---------: | -----: | ------------: | ------: | ---------------- | ------------------------- |
+| +50.0% | +1.999 MiB | 100.0% | 4 MiB → 6 MiB |  8 → 12 | `append(String)` | `java.lang.StringBuilder` |
+
+##### `append(String)` (`java.lang.StringBuilder`)
+
+|  Change |          Delta |            % |              Size | Samples | Caller                              | Location                                                            |
+| ------: | -------------: | -----------: | ----------------: | ------: | ----------------------------------- | ------------------------------------------------------------------- |
+|  -66.7% | -1,023.998 KiB | 37.5% → 8.3% | 1.5 MiB → 512 KiB |   3 → 1 | `getFullName(boolean)`              | `jdk.internal.jimage.ImageLocation`                                 |
+|     new | +1,023.998 KiB | 0.0% → 16.7% |       0 B → 1 MiB |   0 → 2 | `append(String)`                    | `java.lang.StringBuilder`                                           |
+|     new | +1,023.998 KiB | 0.0% → 16.7% |       0 B → 1 MiB |   0 → 2 | `append(CharSequence)`              | `java.lang.AbstractStringBuilder`                                   |
+| removed |   -511.999 KiB | 12.5% → 0.0% |     512 KiB → 0 B |   1 → 0 | `clinit(ClassWriter, String, List)` | `java.lang.invoke.InvokerBytecodeGenerator`                         |
+| removed |   -511.999 KiB | 12.5% → 0.0% |     512 KiB → 0 B |   1 → 0 | `mapClass(String)`                  | `org.jetbrains.kotlin.metadata.jvm.deserialization.ClassMapperLite` |
+
+##### `addAll(Collection)` (`java.util.AbstractCollection`)
+
+|  Change |          Delta |            % |              Size | Samples | Caller                         | Location                                                 |
+| ------: | -------------: | -----------: | ----------------: | ------: | ------------------------------ | -------------------------------------------------------- |
+|     new |     +1.499 MiB | 0.0% → 50.0% |     0 B → 1.5 MiB |   0 → 3 | `addAll(Collection, Iterable)` | `kotlin.collections.CollectionsKt__MutableCollectionsKt` |
+| +200.0% | +1,023.998 KiB |        50.0% | 512 KiB → 1.5 MiB |   1 → 3 | `plus(Set, Iterable)`          | `kotlin.collections.SetsKt___SetsKt`                     |
+| removed |   -511.999 KiB | 50.0% → 0.0% |     512 KiB → 0 B |   1 → 0 | `addAll(Collection)`           | `kotlin.collections.builders.SetBuilder`                 |
+
+##### `mayHaveTopLevelCallable(FqName, Name)` (`org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                                             | Location                                                                            |
+| -----: | ---------: | -----: | ------------------: | ------: | -------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `getTopLevelPropertySymbolsTo(List, FqName, Name)` | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider` |
+
+##### `getTopLevelPropertySymbolsTo(List, FqName, Name)` (`org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider`)
+
+| Change |      Delta |      % |                Size | Samples | Caller                                     | Location                                                       |
+| -----: | ---------: | -----: | ------------------: | ------: | ------------------------------------------ | -------------------------------------------------------------- |
+| +18.7% | +6.499 MiB | 100.0% | 34.7 MiB → 41.2 MiB | 69 → 82 | `getTopLevelPropertySymbols(FqName, Name)` | `org.jetbrains.kotlin.fir.resolve.providers.FirSymbolProvider` |
+
+##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000090016adaa8`)
+
+|  Change |          Delta |             % |           Size | Samples | Caller                                                                            | Location                                                                        |
+| ------: | -------------: | ------------: | -------------: | ------: | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| removed |    -72.499 MiB | 100.0% → 0.0% | 72.5 MiB → 0 B | 145 → 0 | `withParameters(FirCallableDeclaration, SessionAndScopeSessionHolder, Function0)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+|     new | +1,023.998 KiB | 0.0% → 100.0% |    0 B → 1 MiB |   0 → 2 | `forRegularClassBody$lambda$0$0(BodyResolveContext, FirRegularClass, Function0)`  | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+
+##### `<init>(int)` (`java.io.ByteArrayOutputStream`)
+
+| Change |       Delta |      % |              Size |   Samples | Caller                                                  | Location                                               |
+| -----: | ----------: | -----: | ----------------: | --------: | ------------------------------------------------------- | ------------------------------------------------------ |
+| -22.7% | -44.313 MiB | 100.0% | 195 MiB → 151 MiB | 391 → 302 | `loadAllClassesFromJars(Collection, int, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
+
+| Change |       Delta |      % |              Size |       Samples | Caller           | Location                                    |
+| -----: | ----------: | -----: | ----------------: | ------------: | ---------------- | ------------------------------------------- |
+|  -5.6% | -38.313 MiB | 100.0% | 680 MiB → 641 MiB | 1,353 → 1,276 | `main(String[])` | `org.jetbrains.kotlin.preloading.Preloader` |
+
+##### `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+
+| Change |       Delta |      % |              Size |   Samples | Caller                                                                       | Location                                               |
+| -----: | ----------: | -----: | ----------------: | --------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+|  -7.9% | -28.813 MiB | 100.0% | 365 MiB → 336 MiB | 730 → 672 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+
+| Change |       Delta |            % |                Size |   Samples | Caller                                                                       | Location                                               |
+| -----: | ----------: | -----------: | ------------------: | --------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
+|  -7.8% | -28.313 MiB |       100.0% |   365 MiB → 337 MiB | 730 → 673 | `run(String[])`                                                              | `org.jetbrains.kotlin.preloading.Preloader`            |
+|  +9.1% |  +3.186 MiB | 9.6% → 11.4% | 35.2 MiB → 38.4 MiB |   70 → 76 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+
+##### `invoke(Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x0000009001671a88`)
+
+|  Change |          Delta |            % |          Size | Samples | Caller                                                                        | Location                                                            |
+| ------: | -------------: | -----------: | ------------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| removed |     -9.499 MiB | 73.1% → 0.0% | 9.5 MiB → 0 B |  19 → 0 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)` | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope` |
+| removed |     -2.499 MiB | 19.2% → 0.0% | 2.5 MiB → 0 B |   5 → 0 | `processFunctionsByName(Name, Function1)`                                     | `org.jetbrains.kotlin.fir.scopes.impl.FirPackageMemberScope`        |
+|     new |     +1.499 MiB | 0.0% → 75.0% | 0 B → 1.5 MiB |   0 → 3 | `processPropertiesByName(Name, Function1)`                                    | `org.jetbrains.kotlin.fir.scopes.impl.FirLocalScope`                |
+| removed | -1,023.998 KiB |  7.7% → 0.0% |   1 MiB → 0 B |   2 → 0 | `processConstructors$lambda$0$0(Function1, FirConstructorSymbol)`             | `org.jetbrains.kotlin.fir.resolve.calls.ConstructorProcessingKt`    |
+|     new |   +511.999 KiB | 0.0% → 25.0% | 0 B → 512 KiB |   0 → 1 | `processPropertiesByName$lambda$0(Function1, FirVariableSymbol)`              | `org.jetbrains.kotlin.fir.scopes.impl.FirStaticScope`               |
+
+##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller           | Location                                     |
+| -----: | ---------: | -----: | ----------------: | --------: | ---------------- | -------------------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `main(String[])` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                         | Location                                             |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------------------------ | ---------------------------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000009001008400` |
+
+##### `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000009001008400`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                           | Location                                            |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------------- | --------------------------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000009001009800` |
+
+##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000009001009800`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                           | Location                           |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------------------------------------------ | ---------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                         | Location                                          |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------------------------ | ------------------------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                     | Location                                          |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------- | ------------------------------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+
+##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                     | Location                   |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------- | -------------------------- |
+|  -3.2% | -9.999 MiB | 100.0% | 314 MiB → 304 MiB | 623 → 603 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
+
+| Change |        Delta |           % |              Size |   Samples | Caller                           | Location                                                                                  |
+| -----: | -----------: | ----------: | ----------------: | --------: | -------------------------------- | ----------------------------------------------------------------------------------------- |
+|  -3.2% |   -9.999 MiB |      100.0% | 314 MiB → 304 MiB | 623 → 603 | `run(String[])`                  | `org.jetbrains.kotlin.preloading.Preloader`                                               |
+|    new | +511.999 KiB | 0.0% → 0.2% |     0 B → 512 KiB |     0 → 1 | `loadGetRecordComponents(Class)` | `kotlin.reflect.jvm.internal.impl.descriptors.runtime.structure.Java16SealedRecordLoader` |
+
+##### `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                          | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------------------------- | ------------------------------------------------------- |
+|  -3.1% | -9.499 MiB | 100.0% | 310 MiB → 301 MiB | 620 → 601 | `doMain(CLICompiler, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMain(CLICompiler, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller           | Location                                               |
+| -----: | ---------: | -----: | ----------------: | --------: | ---------------- | ------------------------------------------------------ |
+|  -3.1% | -9.499 MiB | 100.0% | 310 MiB → 301 MiB | 620 → 601 | `main(String[])` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion` |
+
+##### `exec(PrintStream, Services, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                         | Location                                      |
+| -----: | ---------: | -----: | ----------------: | --------: | ---------------------------------------------- | --------------------------------------------- |
+|  -2.9% | -8.999 MiB | 100.0% | 310 MiB → 301 MiB | 619 → 601 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                 | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------------------------------------------------ | ------------------------------------------------------- |
+|  -2.9% | -8.999 MiB | 100.0% | 310 MiB → 301 MiB | 619 → 601 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `doMainNoExit(CLICompiler, String[], MessageRenderer)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                                                             | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|  -2.9% | -8.999 MiB | 100.0% | 310 MiB → 301 MiB | 619 → 601 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+
+##### `iterator()` (`java.util.ArrayList`)
+
+|  Change |          Delta |            % |              Size | Samples | Caller                                         | Location                                                  |
+| ------: | -------------: | -----------: | ----------------: | ------: | ---------------------------------------------- | --------------------------------------------------------- |
+| +400.0% |     +1.999 MiB | 2.9% → 20.0% | 512 KiB → 2.5 MiB |   1 → 5 | `iterator-impl(List)`                          | `org.jetbrains.kotlin.fir.MutableOrEmptyList`             |
+| removed |     -1.499 MiB |  8.6% → 0.0% |     1.5 MiB → 0 B |   3 → 0 | `zip(Iterable, Iterable)`                      | `kotlin.collections.CollectionsKt___CollectionsKt`        |
+| removed | -1,023.998 KiB |  5.7% → 0.0% |       1 MiB → 0 B |   2 → 0 | `getAnnotation(IrAnnotationContainer, FqName)` | `org.jetbrains.kotlin.ir.util.IrUtilsKt`                  |
+|     new | +1,023.998 KiB |  0.0% → 8.0% |       0 B → 1 MiB |   0 → 2 | `getTypeParameterSymbols()`                    | `org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol` |
+| removed |   -511.999 KiB |  2.9% → 0.0% |     512 KiB → 0 B |   1 → 0 | `visitClassTypeSignature(ClassTypeSignature)`  | `sun.reflect.generics.visitor.Reifier`                    |
+
+##### `copyOfRange(byte[], int, int)` (`java.util.Arrays`)
+
+| Change |        Delta |             % |            Size | Samples | Caller                                           | Location                 |
+| -----: | -----------: | ------------: | --------------: | ------: | ------------------------------------------------ | ------------------------ |
+| -38.5% |   -2.499 MiB | 35.1% → 28.6% | 6.5 MiB → 4 MiB |  13 → 8 | `<init>(Charset, byte[], int, int)`              | `java.lang.String`       |
+| -45.5% |   -2.499 MiB | 29.7% → 21.4% | 5.5 MiB → 3 MiB |  11 → 6 | `newString(byte[], int, int)`                    | `java.lang.StringLatin1` |
+| +20.0% | +511.999 KiB | 13.5% → 21.4% | 2.5 MiB → 3 MiB |   5 → 6 | `newStringUTF8NoRepl(byte[], int, int, boolean)` | `java.lang.String`       |
+
+##### `newString(byte[], int, int)` (`java.lang.StringLatin1`)
+
+|  Change |          Delta |              % |            Size | Samples | Caller                | Location                          |
+| ------: | -------------: | -------------: | --------------: | ------: | --------------------- | --------------------------------- |
+|  -36.8% |     -3.499 MiB | 90.5% → 100.0% | 9.5 MiB → 6 MiB | 19 → 12 | `substring(int, int)` | `java.lang.String`                |
+| removed | -1,023.998 KiB |    9.5% → 0.0% |     1 MiB → 0 B |   2 → 0 | `substring(int, int)` | `java.lang.AbstractStringBuilder` |
+
+##### `visitLocation(ImageLocation, ImageReader$SharedImageReader$LocationVisitor)` (`jdk.internal.jimage.ImageReader$SharedImageReader`)
+
+| Change |      Delta |      % |              Size | Samples | Caller                                        | Location                                            |
+| -----: | ---------: | -----: | ----------------: | ------: | --------------------------------------------- | --------------------------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `handleModulesSubTree(String, ImageLocation)` | `jdk.internal.jimage.ImageReader$SharedImageReader` |
+
+##### `handleModulesSubTree(String, ImageLocation)` (`jdk.internal.jimage.ImageReader$SharedImageReader`)
+
+| Change |      Delta |      % |              Size | Samples | Caller              | Location                                            |
+| -----: | ---------: | -----: | ----------------: | ------: | ------------------- | --------------------------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `buildNode(String)` | `jdk.internal.jimage.ImageReader$SharedImageReader` |
+
+##### `buildNode(String)` (`jdk.internal.jimage.ImageReader$SharedImageReader`)
+
+| Change |      Delta |      % |              Size | Samples | Caller             | Location                                            |
+| -----: | ---------: | -----: | ----------------: | ------: | ------------------ | --------------------------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `findNode(String)` | `jdk.internal.jimage.ImageReader$SharedImageReader` |
+
+##### `findNode(String)` (`jdk.internal.jimage.ImageReader$SharedImageReader`)
+
+| Change |      Delta |      % |              Size | Samples | Caller             | Location                          |
+| -----: | ---------: | -----: | ----------------: | ------: | ------------------ | --------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `findNode(String)` | `jdk.internal.jimage.ImageReader` |
+
+##### `findNode(String)` (`jdk.internal.jimage.ImageReader`)
+
+| Change |      Delta |      % |              Size | Samples | Caller             | Location                           |
+| -----: | ---------: | -----: | ----------------: | ------: | ------------------ | ---------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `findNode(String)` | `jdk.internal.jrtfs.SystemImage$1` |
+
+##### `findNode(String)` (`jdk.internal.jrtfs.SystemImage$1`)
+
+| Change |      Delta |      % |              Size | Samples | Caller           | Location                           |
+| -----: | ---------: | -----: | ----------------: | ------: | ---------------- | ---------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `lookup(String)` | `jdk.internal.jrtfs.JrtFileSystem` |
+
+##### `lookup(String)` (`jdk.internal.jrtfs.JrtFileSystem`)
+
+| Change |      Delta |      % |              Size | Samples | Caller               | Location                           |
+| -----: | ---------: | -----: | ----------------: | ------: | -------------------- | ---------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `checkNode(JrtPath)` | `jdk.internal.jrtfs.JrtFileSystem` |
+
+##### `checkNode(JrtPath)` (`jdk.internal.jrtfs.JrtFileSystem`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                                     | Location                           |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------------------ | ---------------------------------- |
+|  -72.7% |   -3.999 MiB | 91.7% → 75.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `isDirectory(JrtPath, boolean)`            | `jdk.internal.jrtfs.JrtFileSystem` |
+| removed | -511.999 KiB |   8.3% → 0.0% |     512 KiB → 0 B |   1 → 0 | `getFileContent(JrtPath)`                  | `jdk.internal.jrtfs.JrtFileSystem` |
+|     new | +511.999 KiB |  0.0% → 25.0% |     0 B → 512 KiB |   0 → 1 | `getFileAttributes(JrtPath, LinkOption[])` | `jdk.internal.jrtfs.JrtFileSystem` |
+
+##### `isDirectory(JrtPath, boolean)` (`jdk.internal.jrtfs.JrtFileSystem`)
+
+| Change |      Delta |      % |              Size | Samples | Caller                                    | Location                                |
+| -----: | ---------: | -----: | ----------------: | ------: | ----------------------------------------- | --------------------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `<init>(JrtPath, DirectoryStream$Filter)` | `jdk.internal.jrtfs.JrtDirectoryStream` |
+
+##### `<init>(JrtPath, DirectoryStream$Filter)` (`jdk.internal.jrtfs.JrtDirectoryStream`)
+
+| Change |      Delta |      % |              Size | Samples | Caller                                       | Location                     |
+| -----: | ---------: | -----: | ----------------: | ------: | -------------------------------------------- | ---------------------------- |
+| -72.7% | -3.999 MiB | 100.0% | 5.5 MiB → 1.5 MiB |  11 → 3 | `newDirectoryStream(DirectoryStream$Filter)` | `jdk.internal.jrtfs.JrtPath` |
+
+##### `exec(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                   | Location                                      |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------------------------------------- | --------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 307 MiB → 298 MiB | 613 → 596 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `runPhasedPipeline(ArgumentsPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                                                              | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                                                                                                        | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                         | Location                                                |
+| -----: | ---------: | -----: | ----------------: | --------: | -------------------------------------------------------------- | ------------------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+
+##### `execute(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                                | Location                                     |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------------------------------------------------------------- | -------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                                 | Location                                     |
+| -----: | ---------: | -----: | ----------------: | --------: | ---------------------------------------------------------------------- | -------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
+
+| Change |      Delta |      % |              Size |   Samples | Caller                                                          | Location                                      |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------------------------------------------------------- | --------------------------------------------- |
+|  -2.8% | -8.499 MiB | 100.0% | 303 MiB → 295 MiB | 606 → 589 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
