@@ -76,6 +76,14 @@ export type Observation = {
   executingLine?: number
 
   /**
+   * Whether the profiler dropped the call stack's outermost frames, so its
+   * last frame is not where the program's execution started. Set only where
+   * the format records it, defaulting to `false`. A root frame the
+   * origin recognizes as a truncation marker also sets it.
+   */
+  truncated?: boolean
+
+  /**
    * How many identical occurrences this observation stands for, defaulting to
    * `1`.
    *

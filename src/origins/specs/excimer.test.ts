@@ -1,4 +1,18 @@
 import { describe, expect, test } from 'vitest'
+import { collapsedFormatSpec } from '../../formats/collapsed/index.ts'
+import { makeCollapsed } from '../../formats/collapsed/testing.ts'
+import { convertBytesToMd } from '../../formats/testing.ts'
+import { diffProfiles } from '../../index.ts'
+import {
+  callStackTables,
+  selfSamplesTables,
+} from '../../modalities/call-stack-profile/testing.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
+import {
+  openingParagraphs,
+  paragraphsUnderTitle,
+  summaryLines,
+} from '../../testing.ts'
 import { determineOrigin, logicalEntry, relativeEntry } from '../testing.ts'
 import { excimerOriginSpec } from './excimer.ts'
 
@@ -144,6 +158,165 @@ describe(`normalizeStackFrame`, () => {
       definition: { type: `file`, urlOrPath: `/var/www/includes/Setup.php` },
     } as const
     expect(normalizeStackFrame(frame)).toEqual(frame)
+  })
+})
+
+describe(`truncation`, () => {
+  const convertLines = (lines: string[]): string =>
+    convertBytesToMd(
+      collapsedFormatSpec,
+      makeCollapsed(lines),
+      normalizeProfileToMdOptions({ baseURL: `/var/www` }),
+    )
+
+  test(`states the share of the stacks Excimer truncated and marks them`, () => {
+    const md = convertLines([
+      `/var/www/index.php;App\\Report::render;pad_rows 3`,
+      `excimer_truncated;App\\Report::render;pad_rows 1`,
+    ])
+
+    expect(paragraphsUnderTitle(md)).toEqual([
+      `Collected 4 samples.`,
+      `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
+      `Call stacks missing their outermost callers account for 25.0% of the samples collected.`,
+    ])
+    expect(openingParagraphs(md, `Hottest call stacks`)).toEqual([
+      `Call stacks with the most samples collected in their leaf frame. \`[[truncated]]\` stands for missing outermost callers.`,
+    ])
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `75.0%`,
+          Samples: `3`,
+          'Call stack': `pad_rows ← render (App\\Report) ← (anonymous) (./index.php)`,
+        },
+        {
+          '%': `25.0%`,
+          Samples: `1`,
+          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+        },
+      ],
+    ])
+  })
+  test(`keeps a truncated call stack's callers out of the common call stack`, () => {
+    const md = convertLines([
+      `/var/www/index.php;App\\Report::render;pad_rows 3`,
+      `/var/www/index.php;App\\Report::render;format_cell 2`,
+      `excimer_truncated;App\\Report::render;pad_rows 1`,
+    ])
+
+    expect(md).toContain(
+      `Common call stack: \`render\` (\`App\\Report\`) ← \`(anonymous)\` (\`./index.php\`)`,
+    )
+    expect(callStackTables(md)).toEqual([
+      [
+        { '%': `50.0%`, Samples: `3`, 'Call stack': `pad_rows` },
+        { '%': `33.3%`, Samples: `2`, 'Call stack': `format_cell` },
+        {
+          '%': `16.7%`,
+          Samples: `1`,
+          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+        },
+      ],
+    ])
+  })
+
+  test(`finds no common call stack among truncated call stacks`, () => {
+    const md = convertLines([
+      `excimer_truncated;App\\Report::render;pad_rows 3`,
+      `excimer_truncated;App\\Report::render;format_cell 1`,
+    ])
+
+    expect(md).not.toContain(`Common call stack`)
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `75.0%`,
+          Samples: `3`,
+          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+        },
+        {
+          '%': `25.0%`,
+          Samples: `1`,
+          'Call stack': `format_cell ← render (App\\Report) ← [[truncated]]`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows a truncated call stack of one frame`, () => {
+    const md = convertLines([`excimer_truncated;pad_rows 1`])
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          'Call stack': `pad_rows ← [[truncated]]`,
+        },
+      ],
+    ])
+  })
+
+  test(`keeps a marker with no frame below it as a frame`, () => {
+    const md = convertLines([`excimer_truncated 2`, `/var/www/index.php;run 1`])
+
+    expect(summaryLines(md)).toEqual([`Collected 3 samples.`])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Samples: `2`,
+          Function: `excimer_truncated`,
+          Location: `<unknown>`,
+        },
+        { '%': `33.3%`, Samples: `1`, Function: `run`, Location: `<unknown>` },
+      ],
+    ])
+  })
+
+  test(`states both sides' shares in a diff where either side truncated`, () => {
+    const md = diffProfiles(
+      {
+        data: makeCollapsed([
+          `/var/www/index.php;App\\Report::render;pad_rows 4`,
+        ]),
+        format: `collapsed`,
+        origin: `excimer`,
+      },
+      {
+        data: makeCollapsed([
+          `/var/www/index.php;App\\Report::render;pad_rows 3`,
+          `excimer_truncated;App\\Report::render;pad_rows 1`,
+        ]),
+        format: `collapsed`,
+        origin: `excimer`,
+      },
+      { baseURL: `/var/www` },
+    )
+
+    expect(paragraphsUnderTitle(md)).toEqual([
+      `Collected 4 samples.`,
+      `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
+      `Call stacks missing their outermost callers account for 0.0% → 25.0% of the samples collected.`,
+    ])
+  })
+
+  test(`states no share in a diff where neither side truncated`, () => {
+    const data = makeCollapsed([
+      `/var/www/index.php;App\\Report::render;pad_rows 4`,
+    ])
+
+    const md = diffProfiles(
+      { data, format: `collapsed`, origin: `excimer` },
+      { data, format: `collapsed`, origin: `excimer` },
+      { baseURL: `/var/www` },
+    )
+
+    expect(paragraphsUnderTitle(md)).toEqual([
+      `Collected 4 samples.`,
+      `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
+    ])
   })
 })
 

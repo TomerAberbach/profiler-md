@@ -237,13 +237,14 @@ function* kindObservations(
   stackTraces: JfrStackTrace[],
 ): Iterable<Observation> {
   for (const event of events) {
-    const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
+    const { methodIds, leafLine, truncated } = stackTraces[event.stackTraceId]!
     yield {
       id: event.stackTraceId,
       values: metric ? [event.value] : [],
       frameIndices: methodIds,
       executingLine: leafLine,
       count: event.count,
+      truncated,
     }
   }
 }
@@ -341,12 +342,17 @@ type JfrStackTrace = {
 
   /** The 1-based line number executing in the leaf frame, if known. */
   leafLine: number | undefined
+
+  /** Whether the recorder dropped the trace's outermost frames. */
+  truncated: boolean
 }
 
 /** Where a recognized `jdk.types.StackTrace` layout stores what a frame reads. */
 type StackTraceLayout = {
   /** The stack trace's `frames` array field. */
   framesField: Field
+  /** The stack trace's `truncated` flag, if the recorder declares one. */
+  truncatedField: Field | undefined
   /** Every field of a frame, each a scalar. */
   frameFields: Field[]
   methodIndex: number
@@ -496,6 +502,7 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
 type FlatStackTrace = {
   methods: number[]
   leafLine: number
+  truncated: boolean
 }
 
 /**
@@ -537,15 +544,16 @@ class JfrParser {
   readonly #methods: JfrMethod[] = []
   readonly #methodIndexByIdentity = new Map<string, number>()
   readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
-    ({ methodIds, leafLine }) => {
+    ({ methodIds, leafLine, truncated }) => {
       let hash = HASH_SEED
       for (const methodId of methodIds) {
         hash = mixHash(hash, methodId)
       }
-      return mixHash(hash, leafLine ?? -1)
+      return mixHash(mixHash(hash, leafLine ?? -1), truncated ? 1 : 0)
     },
     (stack, key) =>
       stack.leafLine === key.leafLine &&
+      stack.truncated === key.truncated &&
       sameMethodIds(stack.methodIds, key.methodIds),
   )
 
@@ -795,6 +803,7 @@ class JfrParser {
 
     this.#stackTraceLayout = {
       framesField,
+      truncatedField: type?.fields.find(field => field.name === `truncated`),
       frameFields: frameType.fields,
       methodIndex,
       lineIndex,
@@ -958,23 +967,26 @@ class JfrParser {
   /**
    * Reads a stack trace without the wrapper object and per-frame objects that
    * generic parsing would allocate for the most common pool type. Other fields
-   * (the trace's `truncated` flag, each frame's `bytecodeIndex` and `type`, and
-   * every non-leaf line, which no observation reports) are read only to advance
-   * the cursor.
+   * (each frame's `bytecodeIndex` and `type`, and every non-leaf line, which no
+   * observation reports) are read only to advance the cursor.
    */
   #readStackTrace(type: TypeDef): FlatStackTrace {
     const layout = this.#stackTraceLayout
     if (layout === undefined) {
       return flattenStackTrace(this.#readFields(type))
     }
-    let frames: FlatStackTrace = { methods: [], leafLine: 0 }
+    let frames: FlatStackTrace = { methods: [], leafLine: 0, truncated: false }
+    let truncated = false
     for (const field of type.fields) {
       if (field === layout.framesField) {
         frames = this.#readFrames(layout)
+      } else if (field === layout.truncatedField) {
+        truncated = this.#readValue(field) !== 0
       } else {
         this.#readValue(field)
       }
     }
+    frames.truncated = truncated
     return frames
   }
 
@@ -1028,7 +1040,7 @@ class JfrParser {
       }
     }
     this.#position = position
-    return { methods, leafLine }
+    return { methods, leafLine, truncated: false }
   }
 
   /**
@@ -1059,7 +1071,7 @@ class JfrParser {
         leafLine = lineNumber
       }
     }
-    return { methods, leafLine }
+    return { methods, leafLine, truncated: false }
   }
 
   #parseEvent(
@@ -1389,7 +1401,11 @@ class ChunkResolver {
     // The recorded leaf line belongs to the first frame, so it's dropped with
     // that frame.
     const leafLine = hasLeafFrame ? validLineNumber(raw.leafLine) : undefined
-    const index = this.#internStack({ methodIds, leafLine })
+    const index = this.#internStack({
+      methodIds,
+      leafLine,
+      truncated: raw.truncated,
+    })
     this.#stackPool.set(key, index)
     return index
   }
@@ -1403,6 +1419,7 @@ class ChunkResolver {
     this.#emptyStackIndex ??= this.#internStack({
       methodIds: [],
       leafLine: undefined,
+      truncated: false,
     })
     return this.#emptyStackIndex
   }
@@ -1565,7 +1582,11 @@ const flattenStackTrace = (object: Record<string, unknown>): FlatStackTrace => {
     methods[i] = frames[i]!.method as number
   }
   const leafLine = frames[0]?.lineNumber
-  return { methods, leafLine: typeof leafLine === `number` ? leafLine : 0 }
+  return {
+    methods,
+    leafLine: typeof leafLine === `number` ? leafLine : 0,
+    truncated: Boolean(object.truncated),
+  }
 }
 
 /** The 4-byte magic that begins every JFR chunk: `FLR\0`. */

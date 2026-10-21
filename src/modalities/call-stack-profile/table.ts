@@ -69,10 +69,12 @@ export type CallStackRow = MeasureRow & {
 
 /**
  * A frame of a call stack once the frames `showEntry` hides are removed: a
- * shown function, or {@link HIDDEN_FRAMES}.
+ * shown function, {@link HIDDEN_FRAMES}, or {@link TRUNCATED_FRAMES}.
  */
 export type ShownFrame =
-  AggregatedCallStackProfileFunction | typeof HIDDEN_FRAMES
+  | AggregatedCallStackProfileFunction
+  | typeof HIDDEN_FRAMES
+  | typeof TRUNCATED_FRAMES
 
 /**
  * Stands in for the frames `showEntry` hides between two shown frames of a
@@ -81,8 +83,18 @@ export type ShownFrame =
 export const HIDDEN_FRAMES = { type: `hidden` } as const
 
 /**
+ * Stands in for the outermost frames the profiler dropped from a truncated
+ * call stack, after its root frame.
+ */
+export const TRUNCATED_FRAMES = { type: `truncated` } as const
+
+/** How a call stack shows {@link TRUNCATED_FRAMES}. */
+export const TRUNCATED_FRAMES_NAME = `[[truncated]]`
+
+/**
  * The {@link measureColumns} followed by a `Call stack` column, with
- * {@link commonCallStack} trimmed off each row's frames.
+ * {@link commonCallStack} trimmed off the frames of each row that is not
+ * truncated.
  */
 export const callStackColumns = (
   measure: MeasureColumns,
@@ -95,7 +107,7 @@ export const callStackColumns = (
     cellOf: ({ frames }) =>
       textCell(
         formatCallStack(
-          commonCallStack.length > 0
+          commonCallStack.length > 0 && frames.at(-1) !== TRUNCATED_FRAMES
             ? frames.slice(0, -commonCallStack.length)
             : frames,
           options,
@@ -106,7 +118,8 @@ export const callStackColumns = (
 
 /**
  * Formats a call stack as a chain of functions, leaf to root, with an ellipsis
- * for each run of hidden frames between two shown ones.
+ * for each run of hidden frames between two shown ones, and
+ * {@link TRUNCATED_FRAMES_NAME} after the root frame of a truncated one.
  */
 export const formatCallStack = (
   frames: ShownFrame[],
@@ -117,6 +130,10 @@ export const formatCallStack = (
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]
     if (frame.type === `hidden`) {
       parts.push(text(`…`))
+      return parts
+    }
+    if (frame.type === `truncated`) {
+      parts.push(inlineCode(TRUNCATED_FRAMES_NAME))
       return parts
     }
 

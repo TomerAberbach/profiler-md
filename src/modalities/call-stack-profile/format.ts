@@ -7,6 +7,7 @@ import {
   formatConjunction,
   formatCount,
   formatMicroseconds,
+  formatPercent,
 } from '../../helpers/format.ts'
 import { selectTopN } from '../../helpers/heap.ts'
 import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
@@ -84,6 +85,8 @@ import {
   functionColumns,
   HIDDEN_FRAMES,
   lineColumns,
+  TRUNCATED_FRAMES,
+  TRUNCATED_FRAMES_NAME,
 } from './table.ts'
 import type { FunctionMeasureRow, ShownFrame } from './table.ts'
 
@@ -118,6 +121,7 @@ export const formatCallStackProfile = (
     heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
     ...formatOverallSummary(profile, measures),
     ...formatBaseURLNote(options),
+    ...formatTruncatedNote(profile, measures),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -179,6 +183,78 @@ const formatOverallSummary = (
   paragraph(formatSummaryLine(profile, measures)),
   ...formatCategoryTable(profile, measures),
 ]
+
+/**
+ * The note stating the share of the first measure with a value that the
+ * truncated call stacks account for, where the share is enough to state.
+ */
+const formatTruncatedNote = (
+  profile: AggregatedCallStackProfile,
+  measures: Measure[],
+): RootContent[] => {
+  const measure = measures.find(({ total }) => total > 0)
+  if (measure === undefined) {
+    return []
+  }
+  const share = truncatedShareOf(profile, measure)
+  return share < NEGLIGIBLE_SHARE
+    ? []
+    : [truncatedNote(formatPercent(share), measure.metric)]
+}
+
+/**
+ * The diffing counterpart to {@link formatTruncatedNote}, stating both sides'
+ * shares where either side's is enough to state.
+ */
+const formatDiffTruncatedNote = (
+  { base, current }: AggregatedCallStackProfileDiff,
+  measures: DiffMeasure[],
+): RootContent[] => {
+  const measure = measures.find(
+    ({ base, current }) => base.total > 0 || current.total > 0,
+  )
+  if (measure === undefined) {
+    return []
+  }
+  const baseShare = truncatedShareOf(base, measure.base)
+  const currentShare = truncatedShareOf(current, measure.current)
+  return baseShare < NEGLIGIBLE_SHARE && currentShare < NEGLIGIBLE_SHARE
+    ? []
+    : [
+        truncatedNote(
+          formatArrow(formatPercent(baseShare), formatPercent(currentShare)),
+          measure.metric,
+        ),
+      ]
+}
+
+/**
+ * The share of {@link measure} that {@link profile}'s truncated call stacks
+ * account for.
+ */
+const truncatedShareOf = (
+  { callStacks }: AggregatedCallStackProfile,
+  measure: Measure,
+): number => {
+  if (measure.total === 0) {
+    return 0
+  }
+  let truncatedValue = 0
+  for (const callStack of callStacks) {
+    if (callStack.truncated) {
+      truncatedValue += selfValueOf(measure, callStack)
+    }
+  }
+  return truncatedValue / measure.total
+}
+
+const truncatedNote = (share: string, metric: Metric): RootContent =>
+  paragraph(
+    `Call stacks missing their outermost callers account for ${share} of the ${metric.phrases.pastParticipleVerbPhrase}.`,
+  )
+
+/** The share of the profile below which a value goes unstated. */
+const NEGLIGIBLE_SHARE = 0.005
 
 const formatSummaryLine = (
   {
@@ -741,6 +817,7 @@ export const formatCallStackProfileDiff = (
     ),
     ...formatDiffSummary(diff, measures),
     ...formatBaseURLNote(options),
+    ...formatDiffTruncatedNote(diff, measures),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -1295,7 +1372,7 @@ const formatHottestCallStacks = ({
           `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
         ),
       ),
-      ...formatHiddenFramesNote(hottestCallStacks),
+      ...formatCallStackNotes(hottestCallStacks),
     ]),
     ...formatCommonCallStack(commonCallStack, options),
     formatTable(
@@ -1421,7 +1498,7 @@ const formatDiffCallStackRanking = ({
     }
   return [
     heading(headingLevel, title),
-    paragraph([text(sentence), ...formatHiddenFramesNote(diffedCallStacks)]),
+    paragraph([text(sentence), ...formatCallStackNotes(diffedCallStacks)]),
     ...formatCommonCallStack(commonCallStack, options),
     formatDiffTable(
       callStackColumns(measure, commonCallStack, options),
@@ -1450,11 +1527,16 @@ type ShownCallStack = {
 
 /**
  * Identifies a call stack by a number per shown frame, its function's, or
- * {@link HIDDEN_FRAME_KEY} for a run of hidden frames.
+ * {@link HIDDEN_FRAME_KEY} for a run of hidden frames, followed by
+ * {@link TRUNCATED_FRAME_KEY} for a truncated call stack.
  */
 type CallStackKey = readonly number[]
 
 const HIDDEN_FRAME_KEY = -1
+const TRUNCATED_FRAME_KEY = -2
+
+const isTruncatedKey = (key: CallStackKey): boolean =>
+  key.at(-1) === TRUNCATED_FRAME_KEY
 
 /**
  * Replaces each call stack with the key of its shown frames and merges the
@@ -1466,7 +1548,8 @@ const HIDDEN_FRAME_KEY = -1
  * duplicate rows, and each row would show only its own part of the value.
  * The merged row attributes the values of hidden frames, mostly hidden
  * leaves, to the nearest shown frame. Call stacks with fewer than two shown
- * frames are dropped: a single-frame "call stack" has no call structure.
+ * frames, counting {@link TRUNCATED_FRAME_KEY} as one, are dropped: a
+ * single-frame "call stack" has no call structure.
  */
 const mergeShownCallStacks = (
   { callStacks, context }: AggregatedCallStackProfile,
@@ -1476,12 +1559,7 @@ const mergeShownCallStacks = (
 ): ShownCallStack[] => {
   const merged: ShownCallStack[] = []
   for (const callStack of callStacks) {
-    const key = shownCallStackKeyOf(
-      callStack.frames,
-      context,
-      showEntry,
-      frameKeyOf,
-    )
+    const key = shownCallStackKeyOf(callStack, context, showEntry, frameKeyOf)
     if (key === null) {
       continue
     }
@@ -1504,14 +1582,16 @@ const mergeShownCallStacks = (
 /**
  * Returns the key of {@link frames} with the hidden frames between two shown
  * ones replaced by {@link HIDDEN_FRAME_KEY}, or `null` when fewer than two
- * frames are shown.
+ * frames are shown. A truncated call stack's key ends in
+ * {@link TRUNCATED_FRAME_KEY}, which counts as a shown frame, so it never
+ * merges with a complete one.
  *
  * Hidden frames below the leaf and above the root are dropped, because they
  * are between a shown frame and an end of the call stack instead of between
  * two shown frames.
  */
 const shownCallStackKeyOf = (
-  frames: AggregatedCallStackProfileFunction[],
+  { frames, truncated }: AggregatedCallStackProfileCallStack,
   context: ProfileToMdContext,
   showEntry: FormattingProfileToMdOptions[`showEntry`],
   frameKeyOf: (func: AggregatedCallStackProfileFunction) => number,
@@ -1532,7 +1612,11 @@ const shownCallStackKeyOf = (
     shownCount++
     hidAnyFrame = false
   }
-  return shownCount > 1 ? key : null
+  if (truncated && shownCount > 0) {
+    key.push(TRUNCATED_FRAME_KEY)
+    shownCount++
+  }
+  return shownCount < 2 ? null : key
 }
 
 const addSelfMetrics = (
@@ -1569,17 +1653,20 @@ const newCallStackKeyInterner = (): HashInterner<CallStackKey, CallStackKey> =>
 type FunctionOf = (frameKey: number) => AggregatedCallStackProfileFunction
 
 /**
- * Returns the list of callers of {@link callStacks} that is the longest common
- * suffix of their keys, except it never returns a call stack as long as one of
- * the input call stacks.
+ * Returns the list of callers of the complete {@link callStacks} that is the
+ * longest common suffix of their keys, except it never returns a call stack as
+ * long as one of them.
  *
- * That cap makes it safe to remove the suffix from any call stack and still
- * have a non-empty call stack to format.
+ * That cap makes it safe to remove the suffix from any complete call stack and
+ * still have a non-empty call stack to format. A truncated call stack's root
+ * is not where the program's execution started, so its callers are compared
+ * with no other call stack's, and it keeps them.
  */
 const findCommonCallStack = (
-  callStacks: { key: CallStackKey }[],
+  shownCallStacks: { key: CallStackKey }[],
   functionOf: FunctionOf,
 ): ShownFrame[] => {
+  const callStacks = shownCallStacks.filter(({ key }) => !isTruncatedKey(key))
   if (callStacks.length <= 1) {
     return []
   }
@@ -1609,16 +1696,27 @@ const shownFramesOf = (
   functionOf: FunctionOf,
 ): ShownFrame[] =>
   key.map(frameKey =>
-    frameKey === HIDDEN_FRAME_KEY ? HIDDEN_FRAMES : functionOf(frameKey),
+    frameKey === HIDDEN_FRAME_KEY
+      ? HIDDEN_FRAMES
+      : frameKey === TRUNCATED_FRAME_KEY
+        ? TRUNCATED_FRAMES
+        : functionOf(frameKey),
   )
 
-/** The note ending a ranking's opening sentence when it hides any frame. */
-const formatHiddenFramesNote = (
+/**
+ * The notes ending a ranking's opening sentence when it hides any frame or
+ * shows a truncated call stack.
+ */
+const formatCallStackNotes = (
   callStacks: { key: CallStackKey }[],
-): PhrasingContent[] =>
-  callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
+): PhrasingContent[] => [
+  ...(callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
     ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
-    : []
+    : []),
+  ...(callStacks.some(({ key }) => isTruncatedKey(key))
+    ? phrasing` ${inlineCode(TRUNCATED_FRAMES_NAME)} stands for missing outermost callers.`
+    : []),
+]
 
 const formatCommonCallStack = (
   commonCallStack: ShownFrame[],

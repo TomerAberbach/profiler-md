@@ -277,6 +277,9 @@ export type AggregatedCallStackProfileCallStack = {
   /** The functions on the call stack in callee to caller order. */
   frames: AggregatedCallStackProfileFunction[]
 
+  /** @see {@link Observation.truncated} */
+  truncated: boolean
+
   /** The number of observations recorded with this exact call stack. */
   selfCount: number
 
@@ -306,18 +309,26 @@ class ObservationsAggregator {
   // IDs rather than a joined string key, whose building and hashing dominated
   // call stack creation. The interner owns the canonical call stack list.
   readonly #callStackInterner = new HashInterner<
-    AggregatedCallStackProfileFunction[],
+    Pick<AggregatedCallStackProfileCallStack, `frames` | `truncated`>,
     AggregatedCallStackProfileCallStack
   >(
-    frames => {
+    ({ frames, truncated }) => {
       let hash = HASH_SEED
       for (const frame of frames) {
         hash = mixHash(hash, frame.id)
       }
-      return hash
+      return truncated ? mixHash(hash, -1) : hash
     },
-    (callStack, frames) => sameStackFrameIds(callStack.frames, frames),
+    (callStack, { frames, truncated }) =>
+      callStack.truncated === truncated &&
+      sameStackFrameIds(callStack.frames, frames),
   )
+
+  /** Reused for every lookup, because the interner keeps no key. */
+  readonly #callStackKey: Pick<
+    AggregatedCallStackProfileCallStack,
+    `frames` | `truncated`
+  > = { frames: [], truncated: false }
 
   readonly #idToCallStack: AggregatedCallStackProfileCallStack[]
   readonly #keyToFunction: Map<
@@ -364,12 +375,13 @@ class ObservationsAggregator {
     frameIndices,
     executingLine,
     count = 1,
+    truncated = false,
   }: Observation): void {
     if (count <= 0) {
       return
     }
 
-    const callStack = this.#getOrCreateCallStack(frameIndices, id)
+    const callStack = this.#getOrCreateCallStack(frameIndices, truncated, id)
     const callee = callStack.frames[0]!
 
     // Line metrics aggregate per observation rather than per call stack in
@@ -435,6 +447,7 @@ class ObservationsAggregator {
 
   #getOrCreateCallStack(
     frameIndices: number[],
+    truncated: boolean,
     id: number | undefined,
   ): AggregatedCallStackProfileCallStack {
     // A stable call stack ID lets repeat call stacks (the common case, since a
@@ -448,17 +461,34 @@ class ObservationsAggregator {
       }
     }
 
+    const hasMarker =
+      frameIndices.length > 0 &&
+      this.#functions.isTruncationMarker(frameIndices.at(-1)!)
+    const rootEnd = frameIndices.length - (hasMarker ? 1 : 0)
     const frames: AggregatedCallStackProfileFunction[] = []
-    for (const index of frameIndices) {
-      const func = this.#getOrCreateFunction(index)
+    for (let i = 0; i < rootEnd; i++) {
+      const func = this.#getOrCreateFunction(frameIndices[i]!)
       if (func) {
         frames.push(func)
+      }
+    }
+    if (hasMarker) {
+      if (frames.length > 0) {
+        truncated = true
+      } else {
+        // A marker with no frame below it is the only record of the call
+        // stack, so it stays a frame rather than joining the stackless
+        // observations.
+        const marker = this.#getOrCreateFunction(frameIndices[rootEnd]!)
+        if (marker) {
+          frames.push(marker)
+        }
       }
     }
     if (frames.length === 0) {
       frames.push(this.#getOrCreateAnonymousFunction())
     }
-    const callStack = this.#internCallStack(frames)
+    const callStack = this.#internCallStack(frames, truncated)
 
     // Distinct IDs can resolve to the same call stack, so memoize against
     // the canonical call stack the hash deduplicated to, not a fresh one.
@@ -480,9 +510,14 @@ class ObservationsAggregator {
 
   #internCallStack(
     frames: AggregatedCallStackProfileFunction[],
+    truncated: boolean,
   ): AggregatedCallStackProfileCallStack {
-    const index = this.#callStackInterner.intern(frames, () => ({
+    const key = this.#callStackKey
+    key.frames = frames
+    key.truncated = truncated
+    const index = this.#callStackInterner.intern(key, () => ({
       frames,
+      truncated,
       selfCount: 0,
       selfValues: new Float64Array(this.#metrics.length),
     }))
