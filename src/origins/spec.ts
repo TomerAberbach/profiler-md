@@ -169,6 +169,18 @@ export type OriginSpec = {
   normalizeStackFrame?: (input: StackFrame, format: Format) => StackFrame | null
 
   /**
+   * Whether a call stack's root frame is the marker the profiler writes in
+   * place of the outermost frames it dropped (e.g. Excimer's
+   * `excimer_truncated`). The aggregator removes the marker and marks the call
+   * stack as truncated.
+   *
+   * Receives the raw frame, before {@link normalizeStackFrame}.
+   *
+   * Defaults to no frame being a marker when omitted.
+   */
+  isTruncationMarker?: (input: StackFrame, format: Format) => boolean
+
+  /**
    * Which recorded position identifies and locates this origin's functions.
    *
    * `call-site` keys and locates each function by {@link StackFrame.callSite}

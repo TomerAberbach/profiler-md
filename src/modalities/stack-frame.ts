@@ -11,6 +11,7 @@ import type { ProfileToMdContext } from '../options.ts'
 import {
   functionIdentityForContext,
   normalizeStackFrameForContext,
+  truncationMarkerForContext,
 } from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
@@ -159,9 +160,11 @@ export class StackFrameTable {
   }
 
   #normalize(context: ProfileToMdContext): StackFrameFunctionTable {
+    const isTruncationMarker = truncationMarkerForContext(context)
     return new StackFrameFunctionTable(
       this.#frames.map(frame => normalizeStackFrameForContext(frame, context)),
       functionIdentityForContext(context),
+      index => isTruncationMarker(this.#frames[index]!),
     )
   }
 }
@@ -181,12 +184,17 @@ export class StackFrameFunctionTable {
 
   readonly #identity: FunctionIdentity
 
+  /** Whether the raw frame at an index is the origin's truncation marker. */
+  readonly #isTruncationMarker: (index: number) => boolean
+
   public constructor(
     frames: (StackFrame | null)[],
     identity: FunctionIdentity = `definition`,
+    isTruncationMarker: (index: number) => boolean = () => false,
   ) {
     this.#frames = frames
     this.#identity = identity
+    this.#isTruncationMarker = isTruncationMarker
   }
 
   /** Returns the frame's function, or `undefined` for a dropped frame. */
@@ -205,6 +213,14 @@ export class StackFrameFunctionTable {
 
   public executingLine(index: number): number | undefined {
     return this.#frames[index]?.executing?.line
+  }
+
+  /**
+   * Whether the frame is the origin's truncation marker
+   * (`OriginSpec.isTruncationMarker`).
+   */
+  public isTruncationMarker(index: number): boolean {
+    return this.#isTruncationMarker(index)
   }
 }
 

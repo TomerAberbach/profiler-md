@@ -109,6 +109,17 @@ export const functionIdentityForContext = ({
   return spec.functionIdentity ?? `definition`
 }
 
+/** @see {@link OriginSpec.isTruncationMarker} */
+export const truncationMarkerForContext = ({
+  format,
+  origin,
+}: ProfileToMdContext): ((frame: StackFrame) => boolean) => {
+  const { isTruncationMarker }: OriginSpec = originToSpec.get(origin)!
+  return isTruncationMarker
+    ? frame => isTruncationMarker(frame, format)
+    : () => false
+}
+
 export const normalizeStackFrameForContext = (
   frame: StackFrame,
   { format, origin }: ProfileToMdContext,

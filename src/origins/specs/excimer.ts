@@ -27,6 +27,7 @@ export const excimerOriginSpec = {
   // compiled code, so it is `unknown` rather than `native`.
   categorizeEntry: entry =>
     vendorCategory(entry) ?? (entry.location ? `ours` : `unknown`),
+  isTruncationMarker: ({ name }) => name === TRUNCATION_FRAME,
   normalizeStackFrame: input => {
     const { name, definition } = input
     if (name === undefined) {

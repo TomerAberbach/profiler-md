@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
+  callStackTables,
   selfObjectsTables,
   selfSamplesTables,
   selfSizeTables,
@@ -13,6 +14,7 @@ import {
   callersTables,
   expectLogs,
   linesTables,
+  paragraphsUnderTitle,
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
@@ -562,6 +564,72 @@ describe(`convert`, () => {
       ],
     ])
   })
+
+  const STACK_TRACE_LAYOUTS = [
+    { layout: `the flat frame reader`, unrecognizedFrameLayout: false },
+    { layout: `the generic field reader`, unrecognizedFrameLayout: true },
+  ]
+
+  test.each(STACK_TRACE_LAYOUTS)(
+    `states the share of the stack traces the recorder truncated, read by $layout`,
+    ({ unrecognizedFrameLayout }) => {
+      const bytes = makeJfr({
+        methods: [
+          { name: `leaf`, className: `com.example.A` },
+          { name: `main`, className: `com.example.A` },
+        ],
+        stackTraces: [
+          { frames: [{ method: 0 }, { method: 1 }] },
+          { frames: [{ method: 0 }], truncated: true },
+        ],
+        events: [
+          { type: `cpu`, stack: 0 },
+          { type: `cpu`, stack: 0 },
+          { type: `cpu`, stack: 1 },
+        ],
+        unrecognizedFrameLayout,
+      })
+
+      const md = convertBytesToMd(jfrFormatSpec, bytes, options)
+
+      expect(paragraphsUnderTitle(md)).toEqual([
+        `Collected 3 samples.`,
+        `Paths starting with \`./\` or \`../\` are relative to \`/project/\`.`,
+        `Call stacks missing their outermost callers account for 33.3% of the samples collected.`,
+      ])
+      expectLogs(ORIGIN_LOGS)
+    },
+  )
+
+  test.each(STACK_TRACE_LAYOUTS)(
+    `reads stack traces without a truncated field as complete, read by $layout`,
+    ({ unrecognizedFrameLayout }) => {
+      const bytes = makeJfr({
+        methods: [
+          { name: `leaf`, className: `com.example.A` },
+          { name: `main`, className: `com.example.A` },
+        ],
+        stackTraces: [{ frames: [{ method: 0 }, { method: 1 }] }],
+        events: [{ type: `cpu`, stack: 0 }],
+        unrecognizedFrameLayout,
+        untruncatableStackTraces: true,
+      })
+
+      const md = convertBytesToMd(jfrFormatSpec, bytes, options)
+
+      expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+      expect(callStackTables(md)).toEqual([
+        [
+          {
+            '%': `100.0%`,
+            Samples: `1`,
+            'Call stack': `leaf (com.example.A) ← main`,
+          },
+        ],
+      ])
+      expectLogs(ORIGIN_LOGS)
+    },
+  )
 
   test(`a leaf frame without a line does not borrow a caller's line`, () => {
     // `funcB` has no line, like a native frame.

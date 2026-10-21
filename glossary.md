@@ -110,7 +110,7 @@ of any modality.
 | **Stack frame**       | A function's position within a specific call stack                                                                       | call frame                   |
 | **Pseudo-frame**      | A profiler-inserted stack entry that is not a function, dropped during normalization                                     | scaffolding, wrapper         |
 | **Hidden frame**      | A stack frame whose function the entry filter hides, shown as `…` between shown frames                                   | elided frame                 |
-| **Common call stack** | The longest run of root-side callers shared by every call stack a ranking shows, printed once above its table            | shared suffix, common prefix |
+| **Common call stack** | The longest run of root-side callers shared by every complete call stack a ranking shows, printed once above its table   | shared suffix, common prefix |
 | **Leaf frame**        | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded                    | top frame, bottom frame      |
 | **Root frame**        | The last frame in a call stack (callee-to-caller order); the outermost caller                                            | top frame, bottom frame      |
 | **Frame pair**        | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution                             | edge, call edge              |

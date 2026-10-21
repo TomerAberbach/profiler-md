@@ -16,6 +16,12 @@ export type JfrTestInput = {
    * instead of the flat frame reader.
    */
   unrecognizedFrameLayout?: boolean
+
+  /**
+   * Declares `jdk.types.StackTrace` without its `truncated` field, as a
+   * recorder that never truncates may.
+   */
+  untruncatableStackTraces?: boolean
 }
 
 type JfrTestMethod = {
@@ -26,7 +32,12 @@ type JfrTestMethod = {
   descriptor?: string
 }
 
-type JfrTestStack = { frames: JfrTestStackFrame[] }
+type JfrTestStack = {
+  frames: JfrTestStackFrame[]
+
+  /** Whether the recorder dropped the stack's outermost frames. */
+  truncated?: boolean
+}
 
 /** A frame referencing a {@link JfrTestMethod} by index. */
 type JfrTestStackFrame = { method: number; line?: number }
@@ -121,6 +132,7 @@ export const makeJfr = ({
   } = {},
   eventTypesWithoutValueField = [],
   unrecognizedFrameLayout = false,
+  untruncatableStackTraces = false,
 }: JfrTestInput): Uint8Array => {
   // Intern symbols and classes into 1-based constant pool keys.
   const symbolKeys = new Map<string, number>()
@@ -198,8 +210,11 @@ export const makeJfr = ({
 
   pool.varint(STACK_TRACE)
   pool.varint(stackTraces.length)
-  for (const [index, { frames }] of stackTraces.entries()) {
+  for (const [index, { frames, truncated }] of stackTraces.entries()) {
     pool.varint(index + 1)
+    if (!untruncatableStackTraces) {
+      pool.byte(truncated ? 1 : 0)
+    }
     pool.varint(frames.length + (overlongStackTraces.includes(index) ? 1 : 0))
     for (const { method, line } of frames) {
       pool.varint(method + 1) // Method key
@@ -273,6 +288,7 @@ export const makeJfr = ({
     unreadableEventTypes,
     eventTypesWithoutValueField,
     unrecognizedFrameLayout,
+    untruncatableStackTraces,
   )
   const constantPool = sizedEvent(CONSTANT_POOL_EVENT, pool)
 
@@ -336,6 +352,7 @@ const makeMetadata = (
   unreadableEventTypes: string[],
   eventTypesWithoutValueField: JfrEventTypeWithoutValueField[],
   unrecognizedFrameLayout: boolean,
+  untruncatableStackTraces: boolean,
 ): ByteWriter => {
   const strings = new StringTable()
 
@@ -400,6 +417,7 @@ const makeMetadata = (
       ...(unrecognizedFrameLayout ? [field(`tags`, INT, { array: true })] : []),
     ]),
     type(STACK_TRACE, `jdk.types.StackTrace`, [
+      ...(untruncatableStackTraces ? [] : [field(`truncated`, BOOLEAN)]),
       field(`frames`, STACK_FRAME, { array: true }),
     ]),
     type(EXECUTION_SAMPLE, `jdk.ExecutionSample`, [
