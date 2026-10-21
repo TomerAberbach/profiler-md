@@ -1,5 +1,4 @@
-import { fc, test } from '@fast-check/vitest'
-import { describe, expect } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { asLz4Frame, chunk, streamOf } from '../../helpers/testing.ts'
 import { diffProfiles, profileToMd, profileToMdAsync } from '../../index.ts'
 import {
@@ -1151,14 +1150,23 @@ describe(`convert`, () => {
     survivingObjects: [0x1000],
   })
 
-  const captures = [everyRecord, everyAggregatedRecord].map(capture => ({
+  const captures = [
+    { name: `every record`, capture: everyRecord },
+    { name: `every aggregated record`, capture: everyAggregatedRecord },
+  ].map(({ name, capture }) => ({
+    name,
     capture,
     expectedMd: convertBytesToMd(memrayFormatSpec, capture, options()),
   }))
+  const chunkSizes = Array.from({ length: 64 }, (_, index) => index + 1)
 
-  test.prop([fc.constantFrom(...captures), fc.integer({ min: 1, max: 64 })])(
-    `reads a stream the same way at any chunk size`,
-    async ({ capture, expectedMd }, chunkSize) => {
+  test.each(
+    captures.flatMap(capture =>
+      chunkSizes.map(chunkSize => ({ ...capture, chunkSize })),
+    ),
+  )(
+    `reads a stream of $name the same way at chunk size $chunkSize`,
+    async ({ capture, expectedMd, chunkSize }) => {
       const md = await convertToMdAsync(
         memrayFormatSpec,
         streamOf(...chunk(capture, chunkSize)),
