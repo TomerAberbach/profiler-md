@@ -311,3 +311,14 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   never what the conversion searched for, inferred, or overrode. The test: the
   sentence stays true in a document written by hand from the same data. Report a
   decision the conversion made through the logger instead
+- Emit a section, breakdown, table, or column whenever the profile has data for
+  it, even where its numbers are trivial. A `Callers` breakdown whose only row
+  is 100% still identifies the caller. NEVER omit one because it looks
+  uninformative for this profile. A reader sees one output at a time, so a
+  missing section reads as missing data and raises the question the section
+  would have answered. An omission would also need its own explanation. Output
+  whose structure stays the same across profiles lets a reader find a section
+  where they found it last time. Omit content only when the same output already
+  shows it verbatim (e.g. a ranking's table when a category subsection lists the
+  same rows). A note follows its own rule in `src/modalities/CLAUDE.md`, because
+  it explains notation rather than stating data

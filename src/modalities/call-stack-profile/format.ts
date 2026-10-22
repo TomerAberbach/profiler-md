@@ -1547,9 +1547,10 @@ const isTruncatedKey = (key: CallStackKey): boolean =>
  * Without merging, call stacks distinct only in hidden frames would format as
  * duplicate rows, and each row would show only its own part of the value.
  * The merged row attributes the values of hidden frames, mostly hidden
- * leaves, to the nearest shown frame. Call stacks with fewer than two shown
- * frames, counting {@link TRUNCATED_FRAME_KEY} as one, are dropped: a
- * single-frame "call stack" has no call structure.
+ * leaves, to the nearest shown frame. It drops call stacks with fewer than two
+ * shown frames, counting {@link TRUNCATED_FRAME_KEY} as one, because such a row
+ * repeats its function's self value unless the entry filter hides the
+ * function's callers.
  */
 const mergeShownCallStacks = (
   { callStacks, context }: AggregatedCallStackProfile,
