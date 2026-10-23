@@ -1,11 +1,12 @@
 # Allocated heap profile
 
-Allocated 39.7 MiB over 480,489 objects (86.7 B per object).
+Allocated 236 MiB over 1,160,835 objects (213 B per object).
 
 | Category |     % |     Size | Objects |
 | -------- | ----: | -------: | ------: |
-| Ours     | 73.1% |   29 MiB | 453,990 |
-| Native   | 26.9% | 10.7 MiB |  26,499 |
+| Unknown  | 70.8% |  167 MiB | 174,357 |
+| Ours     | 29.1% | 68.8 MiB | 947,666 |
+| Native   |  0.1% |  194 KiB |  38,812 |
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
@@ -15,970 +16,714 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 Functions with the most bytes allocated within the function body, excluding callees.
 
-|     % |     Size | Objects | Function                                          | Location                                          |
-| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 36.1% | 14.3 MiB | 134,059 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90`                         |
-| 26.5% | 10.5 MiB |  94,143 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90`                         |
-| 25.4% | 10.1 MiB |  13,656 | `0x1c1b3`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  4.4% | 1.76 MiB |  41,345 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90`                         |
-|  3.6% | 1.44 MiB | 122,497 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90`                         |
-|  1.6% |  662 KiB |   2,649 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90`                         |
-|  1.4% |  565 KiB |   5,969 | `0x1c24b`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.4% |  148 KiB |  18,928 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`                         |
-|  0.3% |  102 KiB |  26,217 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90`                         |
-|  0.2% | 82.4 KiB |     796 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90`                     |
-|  0.1% |   26 KiB |   8,047 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90`                     |
-|  0.1% | 24.8 KiB |   5,013 | `0x9980f`                                         | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| <0.1% | 5.16 KiB |   5,280 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90`                         |
-| <0.1% |  2.8 KiB |   1,861 | `0x1c1f3`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% | 2.03 KiB |      10 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90`                         |
-| <0.1% |     85 B |       5 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90`                         |
-| <0.1% |     12 B |      12 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc`                   |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90`                         |
-| <0.1% |      1 B |       1 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90`                         |
+|     % |     Size | Objects | Function                                          | Location                             |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 70.8% |  167 MiB | 174,357 | `(anonymous)`                                     | `<unknown>`                          |
+| 18.8% | 44.3 MiB | 462,275 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11052`      |
+|  6.2% | 14.6 MiB | 137,064 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90:2204`       |
+|  2.0% | 4.67 MiB |  19,126 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90:11192`      |
+|  0.8% |  1.8 MiB |  43,355 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90:10117`      |
+|  0.6% |  1.5 MiB | 125,402 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10882`      |
+|  0.5% |  1.1 MiB |   8,165 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90:483`    |
+|  0.1% |  270 KiB |   1,800 | `__json_value_module_MOD_json_get_string`         | `./json_value_module.F90:9078`       |
+|  0.1% |  194 KiB |  38,812 | `strndup`                                         | `<unknown>`                          |
+|  0.1% |  181 KiB |  58,888 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90:116`    |
+|  0.1% |  155 KiB |  19,834 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90:10690`      |
+| <0.1% |  102 KiB |  26,217 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90:10659`      |
+| <0.1% | 41.7 KiB |  42,722 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90:10755`      |
+| <0.1% | 24.7 KiB |   1,818 | `MAIN__`                                          | `/out/profile.f90:5`                 |
+| <0.1% | 4.32 KiB |      27 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90:11318`      |
+| <0.1% | 2.56 KiB |      17 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90:1016`       |
+| <0.1% | 1.56 KiB |     918 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
+| <0.1% |  1.2 KiB |      18 | `__json_value_module_MOD_json_throw_exception`    | `./json_value_module.F90:2003`       |
+| <0.1% |    170 B |      10 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90:9714`       |
+| <0.1% |     72 B |       9 | `__json_value_module_MOD_to_real`                 | `./json_value_module.F90:10721`      |
 
 #### Categories
 
 Categories accounting for at least 1.0% of self size.
 
+##### Unknown
+
+|     % |    Size | Objects | Function      | Location    |
+| ----: | ------: | ------: | ------------- | ----------- |
+| 70.8% | 167 MiB | 174,357 | `(anonymous)` | `<unknown>` |
+
 ##### Ours
 
-|     % |     Size | Objects | Function                                          | Location                        |
-| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------- |
-| 36.1% | 14.3 MiB | 134,059 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90`       |
-| 26.5% | 10.5 MiB |  94,143 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90`       |
-|  4.4% | 1.76 MiB |  41,345 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90`       |
-|  3.6% | 1.44 MiB | 122,497 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90`       |
-|  1.6% |  662 KiB |   2,649 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90`       |
-|  0.4% |  148 KiB |  18,928 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`       |
-|  0.3% |  102 KiB |  26,217 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90`       |
-|  0.2% | 82.4 KiB |     796 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90`   |
-|  0.1% |   26 KiB |   8,047 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90`   |
-| <0.1% | 5.16 KiB |   5,280 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90`       |
-| <0.1% | 2.03 KiB |      10 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90`       |
-| <0.1% |     85 B |       5 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90`       |
-| <0.1% |     12 B |      12 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90`       |
-| <0.1% |      1 B |       1 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90`       |
-
-##### Native
-
-|     % |     Size | Objects | Function  | Location                                          |
-| ----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 25.4% | 10.1 MiB |  13,656 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.4% |  565 KiB |   5,969 | `0x1c24b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% | 24.8 KiB |   5,013 | `0x9980f` | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| <0.1% |  2.8 KiB |   1,861 | `0x1c1f3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |     Size | Objects | Function                                          | Location                             |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 18.8% | 44.3 MiB | 462,275 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11052`      |
+|  6.2% | 14.6 MiB | 137,064 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90:2204`       |
+|  2.0% | 4.67 MiB |  19,126 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90:11192`      |
+|  0.8% |  1.8 MiB |  43,355 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90:10117`      |
+|  0.6% |  1.5 MiB | 125,402 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10882`      |
+|  0.5% |  1.1 MiB |   8,165 | `__json_string_utilities_MOD_unescape_string`     | `./json_string_utilities.F90:483`    |
+|  0.1% |  270 KiB |   1,800 | `__json_value_module_MOD_json_get_string`         | `./json_value_module.F90:9078`       |
+|  0.1% |  181 KiB |  58,888 | `__json_string_utilities_MOD_string_to_integer`   | `./json_string_utilities.F90:116`    |
+|  0.1% |  155 KiB |  19,834 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90:10690`      |
+| <0.1% |  102 KiB |  26,217 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90:10659`      |
+| <0.1% | 41.7 KiB |  42,722 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90:10755`      |
+| <0.1% | 24.7 KiB |   1,818 | `MAIN__`                                          | `/out/profile.f90:5`                 |
+| <0.1% | 4.32 KiB |      27 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90:11318`      |
+| <0.1% | 2.56 KiB |      17 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90:1016`       |
+| <0.1% | 1.56 KiB |     918 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
+| <0.1% |  1.2 KiB |      18 | `__json_value_module_MOD_json_throw_exception`    | `./json_value_module.F90:2003`       |
+| <0.1% |    170 B |      10 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90:9714`       |
+| <0.1% |     72 B |       9 | `__json_value_module_MOD_to_real`                 | `./json_value_module.F90:10721`      |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90:9671`       |
 
 #### Lines
 
 Lines with the largest contribution to each function's self size.
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
-
-|      % |     Size | Objects | Location                       |
-| -----: | -------: | ------: | ------------------------------ |
-| 100.0% | 14.3 MiB | 134,059 | `./json_value_module.F90:2211` |
-
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
 |     % |     Size | Objects | Location                        |
 | ----: | -------: | ------: | ------------------------------- |
-| 83.2% | 8.76 MiB |  35,879 | `./json_value_module.F90:11073` |
-| 14.0% | 1.47 MiB |  57,672 | `./json_value_module.F90:11122` |
-|  2.7% |  296 KiB |     592 | `./json_value_module.F90:11098` |
+| 82.5% | 36.6 MiB | 149,718 | `./json_value_module.F90:11073` |
+| 14.0% | 6.21 MiB | 308,688 | `./json_value_module.F90:11122` |
+|  3.4% | 1.52 MiB |   3,112 | `./json_value_module.F90:11098` |
+| <0.1% |    757 B |     757 | `./json_value_module.F90:11120` |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
+
+|      % |     Size | Objects | Location                       |
+| -----: | -------: | ------: | ------------------------------ |
+| 100.0% | 14.6 MiB | 137,064 | `./json_value_module.F90:2211` |
+
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
 |      % |     Size | Objects | Location                        |
 | -----: | -------: | ------: | ------------------------------- |
-| 100.0% | 1.76 MiB |  41,345 | `./json_value_module.F90:10185` |
+| 100.0% | 4.67 MiB |  19,126 | `./json_value_module.F90:11216` |
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
-
-|      % |     Size | Objects | Location                        |
-| -----: | -------: | ------: | ------------------------------- |
-| 100.0% | 1.44 MiB | 122,497 | `./json_value_module.F90:10922` |
-
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
 |      % |    Size | Objects | Location                        |
 | -----: | ------: | ------: | ------------------------------- |
-| 100.0% | 662 KiB |   2,649 | `./json_value_module.F90:11216` |
+| 100.0% | 1.8 MiB |  43,355 | `./json_value_module.F90:10185` |
 
-##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
 |      % |    Size | Objects | Location                        |
 | -----: | ------: | ------: | ------------------------------- |
-| 100.0% | 148 KiB |  18,928 | `./json_value_module.F90:10703` |
+| 100.0% | 1.5 MiB | 125,402 | `./json_value_module.F90:10922` |
 
-##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90:483`)
+
+|     % |    Size | Objects | Location                          |
+| ----: | ------: | ------: | --------------------------------- |
+| 64.9% | 732 KiB |   5,304 | `./json_string_utilities.F90:506` |
+| 35.1% | 395 KiB |   2,861 | `./json_string_utilities.F90:611` |
+
+##### `__json_value_module_MOD_json_get_string` (`./json_value_module.F90:9078`)
+
+|     % |    Size | Objects | Location                       |
+| ----: | ------: | ------: | ------------------------------ |
+| 99.7% | 269 KiB |     900 | `./json_value_module.F90:9094` |
+|  0.3% |   900 B |     900 | `./json_value_module.F90:9086` |
+
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
+
+|     % |     Size | Objects | Location                          |
+| ----: | -------: | ------: | --------------------------------- |
+| 82.1% |  149 KiB |  40,737 | `./json_string_utilities.F90:134` |
+| 17.9% | 32.5 KiB |  18,151 | `./json_string_utilities.F90:131` |
+
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
+
+|      % |    Size | Objects | Location                        |
+| -----: | ------: | ------: | ------------------------------- |
+| 100.0% | 155 KiB |  19,834 | `./json_value_module.F90:10703` |
+
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
 |      % |    Size | Objects | Location                        |
 | -----: | ------: | ------: | ------------------------------- |
 | 100.0% | 102 KiB |  26,217 | `./json_value_module.F90:10672` |
 
-##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90`)
-
-|      % |     Size | Objects | Location                          |
-| -----: | -------: | ------: | --------------------------------- |
-| 100.0% | 82.4 KiB |     796 | `./json_string_utilities.F90:506` |
-
-##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
-
-|     % |     Size | Objects | Location                          |
-| ----: | -------: | ------: | --------------------------------- |
-| 79.7% | 20.7 KiB |   5,527 | `./json_string_utilities.F90:134` |
-| 20.3% | 5.28 KiB |   2,520 | `./json_string_utilities.F90:131` |
-
-##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90:10755`)
 
 |      % |     Size | Objects | Location                        |
 | -----: | -------: | ------: | ------------------------------- |
-| 100.0% | 5.16 KiB |   5,280 | `./json_value_module.F90:10800` |
+| 100.0% | 41.7 KiB |  42,722 | `./json_value_module.F90:10800` |
 
-##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|     % |  Size | Objects | Location                       |
-| ----: | ----: | ------: | ------------------------------ |
-| 98.7% | 2 KiB |       8 | `./json_value_module.F90:1048` |
-|  1.3% |  26 B |       2 | `./json_value_module.F90:1196` |
+|      % |     Size | Objects | Location              |
+| -----: | -------: | ------: | --------------------- |
+| 100.0% | 24.7 KiB |   1,818 | `/out/profile.f90:32` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90:11318`)
 
-|      % | Size | Objects | Location                       |
-| -----: | ---: | ------: | ------------------------------ |
-| 100.0% | 85 B |       5 | `./json_value_module.F90:9786` |
+|      % |     Size | Objects | Location                        |
+| -----: | -------: | ------: | ------------------------------- |
+| 100.0% | 4.32 KiB |      27 | `./json_value_module.F90:11383` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90:1016`)
 
-|      % | Size | Objects | Location                          |
-| -----: | ---: | ------: | --------------------------------- |
-| 100.0% | 12 B |      12 | `./json_get_scalar_by_path.inc:6` |
+|     % |    Size | Objects | Location                       |
+| ----: | ------: | ------: | ------------------------------ |
+| 97.5% | 2.5 KiB |      10 | `./json_value_module.F90:1048` |
+|  2.5% |    66 B |       7 | `./json_value_module.F90:1196` |
 
-##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
+
+|     % |  Size | Objects | Location                           |
+| ----: | ----: | ------: | ---------------------------------- |
+| 57.1% | 909 B |     909 | `./json_get_scalar_by_path.inc:6`  |
+| 42.9% | 684 B |       9 | `./json_get_scalar_by_path.inc:19` |
+
+##### `__json_value_module_MOD_json_throw_exception` (`./json_value_module.F90:2003`)
+
+|      % |    Size | Objects | Location                       |
+| -----: | ------: | ------: | ------------------------------ |
+| 100.0% | 1.2 KiB |      18 | `./json_value_module.F90:2021` |
+
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
+
+|      % |  Size | Objects | Location                       |
+| -----: | ----: | ------: | ------------------------------ |
+| 100.0% | 170 B |      10 | `./json_value_module.F90:9786` |
+
+##### `__json_value_module_MOD_to_real` (`./json_value_module.F90:10721`)
+
+|      % | Size | Objects | Location                        |
+| -----: | ---: | ------: | ------------------------------- |
+| 100.0% | 72 B |       9 | `./json_value_module.F90:10734` |
+
+##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90:9671`)
 
 |      % | Size | Objects | Location                       |
 | -----: | ---: | ------: | ------------------------------ |
 | 100.0% |  3 B |       1 | `./json_value_module.F90:9680` |
 
-##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
-
-|      % | Size | Objects | Location                        |
-| -----: | ---: | ------: | ------------------------------- |
-| 100.0% |  1 B |       1 | `./json_value_module.F90:11383` |
-
 #### Callers
 
 Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+##### `(anonymous)` (`<unknown>`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 91.8% | 13.1 MiB | 123,035 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  8.2% | 1.18 MiB |  11,021 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |    336 B |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                  | Location    |
+| -----: | -------: | ------: | ----------------------- | ----------- |
+| 100.0% |  167 MiB | 153,749 | `(anonymous)`           | `<unknown>` |
+|  <0.1% | 26.2 KiB |  20,608 | `_gfortran_string_trim` | `<unknown>` |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 79.2% | 8.33 MiB |  79,310 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-| 20.8% | 2.19 MiB |  14,833 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 65.1% | 28.8 MiB | 336,064 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 34.9% | 15.5 MiB | 126,211 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90:10117` |
 
-##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
 
-|     % |     Size | Objects | Caller     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 78.7% | 7.93 MiB |   1,992 | `0xfa6bf`  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 12.4% | 1.25 MiB |      10 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  7.2% |  745 KiB |   5,962 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.7% |  178 KiB |   5,692 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |     Size | Objects | Caller                                    | Location                        |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------------- |
+| 91.5% | 13.4 MiB | 125,403 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  8.5% | 1.24 MiB |  11,651 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% | 1.09 KiB |      10 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 1.76 MiB |  41,345 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 84.6% | 3.95 MiB |  16,184 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 15.4% |  736 KiB |   2,942 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90:10987` |
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 98.8% | 1.42 MiB | 120,167 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  1.2% | 18.1 KiB |   2,329 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |      8 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 1.8 MiB |  43,355 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 662 KiB |   2,649 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                    | Location                        |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------------- |
+| 98.8% | 1.48 MiB | 122,982 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  1.2% | 18.3 KiB |   2,410 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% |     80 B |      10 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90:483`)
 
-|     % |     Size | Objects | Caller     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 98.7% |  558 KiB |   5,950 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.2% | 6.68 KiB |       9 | `0x10a85b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% |    864 B |       9 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |     16 B |       1 | `0x10b1fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 1.1 MiB |   8,165 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90:11052` |
 
-##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_string` (`./json_value_module.F90:9078`)
 
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 148 KiB |  18,928 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller                                            | Location                             |
+| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 100.0% | 270 KiB |   1,800 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
-##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
+##### `strndup` (`<unknown>`)
 
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 102 KiB |  26,217 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller        | Location    |
+| -----: | ------: | ------: | ------------- | ----------- |
+| 100.0% | 194 KiB |  38,812 | `(anonymous)` | `<unknown>` |
 
-##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
 
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 82.4 KiB |     796 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                             | Location                       |
+| ----: | -------: | ------: | -------------------------------------------------- | ------------------------------ |
+| 95.6% |  173 KiB |  56,161 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90:8074` |
+|  4.4% | 7.91 KiB |   2,727 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90:6787` |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
 
-|      % |   Size | Objects | Caller                                  | Location                  |
-| -----: | -----: | ------: | --------------------------------------- | ------------------------- |
-| 100.0% | 26 KiB |   8,047 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 155 KiB |  19,834 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `0x9980f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
-|     % |     Size | Objects | Caller    | Location                                          |
-| ----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 99.1% | 24.6 KiB |   5,001 | `0x1c42b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.9% |    216 B |      12 | `0x1c3fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 102 KiB |  26,217 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90:10755`)
 
-|      % |     Size | Objects | Caller                                | Location                  |
-| -----: | -------: | ------: | ------------------------------------- | ------------------------- |
-| 100.0% | 5.16 KiB |   5,280 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                                | Location                        |
+| -----: | -------: | ------: | ------------------------------------- | ------------------------------- |
+| 100.0% | 41.7 KiB |  42,722 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90:10117` |
 
-##### `0x1c1f3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 2.8 KiB |   1,861 | `0x118783` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |     Size | Objects | Caller | Location             |
+| -----: | -------: | ------: | ------ | -------------------- |
+| 100.0% | 24.7 KiB |   1,818 | `main` | `/out/profile.f90:6` |
 
-##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90:11318`)
 
-|      % |     Size | Objects | Caller                                                | Location                 |
-| -----: | -------: | ------: | ----------------------------------------------------- | ------------------------ |
-| 100.0% | 2.03 KiB |      10 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90` |
+|     % |     Size | Objects | Caller                                   | Location                        |
+| ----: | -------: | ------: | ---------------------------------------- | ------------------------------- |
+| 99.8% | 4.31 KiB |      18 | `__json_value_module_MOD_parse_string`   | `./json_value_module.F90:11052` |
+|  0.2% |      9 B |       9 | `__json_value_module_MOD_json_parse_end` | `./json_value_module.F90:9878`  |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90:1016`)
 
-|      % | Size | Objects | Caller                                  | Location                 |
-| -----: | ---: | ------: | --------------------------------------- | ------------------------ |
-| 100.0% | 85 B |       5 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+|      % |     Size | Objects | Caller                                                | Location                     |
+| -----: | -------: | ------: | ----------------------------------------------------- | ---------------------------- |
+| 100.0% | 2.56 KiB |      17 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
-|      % | Size | Objects | Caller                                        | Location                 |
-| -----: | ---: | ------: | --------------------------------------------- | ------------------------ |
-| 100.0% | 12 B |      12 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
+|      % |     Size | Objects | Caller                                        | Location                      |
+| -----: | -------: | ------: | --------------------------------------------- | ----------------------------- |
+| 100.0% | 1.56 KiB |     918 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90:1837` |
 
-##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_throw_exception` (`./json_value_module.F90:2003`)
 
-|      % | Size | Objects | Caller                                    | Location                  |
-| -----: | ---: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% |  3 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|     % |  Size | Objects | Caller                                                  | Location                             |
+| ----: | ----: | ------: | ------------------------------------------------------- | ------------------------------------ |
+| 55.9% | 684 B |       9 | `__json_value_module_MOD_json_get_string_by_path`       | `./json_get_scalar_by_path.inc:9182` |
+| 44.1% | 540 B |       9 | `__json_value_module_MOD_json_value_get_child_by_index` | `./json_value_module.F90:5439`       |
 
-##### `__json_value_module_MOD_pop_char.part.0` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|      % | Size | Objects | Caller                                   | Location                  |
-| -----: | ---: | ------: | ---------------------------------------- | ------------------------- |
-| 100.0% |  1 B |       1 | `__json_value_module_MOD_json_parse_end` | `./json_value_module.F90` |
+|      % |  Size | Objects | Caller                                  | Location                     |
+| -----: | ----: | ------: | --------------------------------------- | ---------------------------- |
+| 100.0% | 170 B |      10 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90:842` |
+
+##### `__json_value_module_MOD_to_real` (`./json_value_module.F90:10721`)
+
+|      % | Size | Objects | Caller                                 | Location                        |
+| -----: | ---: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 72 B |       9 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
+
+##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90:9671`)
+
+|      % | Size | Objects | Caller                                    | Location                       |
+| -----: | ---: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% |  3 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
 ### Total size
 
 Functions with the most bytes allocated within the function and its callees.
 
-|     % |     Size | Objects | Function                                        | Location                                          |
-| ----: | -------: | ------: | ----------------------------------------------- | ------------------------------------------------- |
-| 94.5% | 37.5 MiB | 477,898 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90`                         |
-| 46.6% | 18.5 MiB | 232,052 | `__json_value_module_MOD_parse_array`           | `./json_value_module.F90`                         |
-| 36.1% | 14.3 MiB | 134,059 | `__json_value_module_MOD_json_value_create`     | `./json_value_module.F90`                         |
-| 35.9% | 14.3 MiB | 173,325 | `MAIN__`                                        | `/out/profile.f90`                                |
-| 35.4% |   14 MiB | 186,584 | `__json_value_module_MOD_json_parse_file`       | `./json_value_module.F90`                         |
-| 34.4% | 13.7 MiB | 177,395 | `__json_file_module_MOD_json_file_load`         | `./json_file_module.F90`                          |
-| 34.3% | 13.6 MiB | 163,103 | `main`                                          | `/out/profile.f90`                                |
-| 32.3% | 12.8 MiB | 152,764 | `0x27743`                                       | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| 28.9% | 11.5 MiB | 138,759 | `0x27817`                                       | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| 27.3% | 10.8 MiB |  99,717 | `__json_value_module_MOD_parse_string`          | `./json_value_module.F90`                         |
-| 26.2% | 10.4 MiB | 124,114 | `_start`                                        | `<unknown>`                                       |
-| 25.4% | 10.1 MiB |  13,656 | `0x1c1b3`                                       | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 23.8% | 9.43 MiB |  34,566 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90`                     |
-| 23.4% | 9.29 MiB |  53,556 | `__json_value_module_MOD_parse_number`          | `./json_value_module.F90`                         |
-| 21.4% |  8.5 MiB |  31,979 | `__json_value_module_MOD_string_to_int`         | `./json_value_module.F90`                         |
-| 20.0% | 7.96 MiB |   6,993 | `0x109623`                                      | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 20.0% | 7.93 MiB |   1,992 | `0xfa6bf`                                       | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 10.6% | 4.22 MiB |  63,922 | `__json_value_module_MOD_parse_value`           | `./json_value_module.F90`                         |
-|  3.7% | 1.45 MiB |  17,614 | `0x1093fb`                                      | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  3.4% | 1.33 MiB |     340 | `0x4`                                           | `<unknown>`                                       |
+|     % |     Size |   Objects | Function                                           | Location                             |
+| ----: | -------: | --------: | -------------------------------------------------- | ------------------------------------ |
+| 96.1% |  227 MiB | 1,140,696 | `__json_value_module_MOD_parse_object`             | `./json_value_module.F90:10882`      |
+| 81.9% |  193 MiB |   540,250 | `(anonymous)`                                      | `<unknown>`                          |
+| 69.2% |  163 MiB |   295,488 | `__json_value_module_MOD_parse_number`             | `./json_value_module.F90:11192`      |
+| 68.8% |  162 MiB |   266,482 | `__json_string_utilities_MOD_string_to_integer`    | `./json_string_utilities.F90:116`    |
+| 67.1% |  159 MiB |   256,483 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90:8074`       |
+| 56.3% |  133 MiB |   604,668 | `__json_value_module_MOD_parse_array`              | `./json_value_module.F90:10987`      |
+| 32.4% | 76.4 MiB |   453,993 | `__json_value_module_MOD_json_parse_file`          | `./json_value_module.F90:9714`       |
+| 31.1% | 73.4 MiB |   422,033 | `MAIN__`                                           | `/out/profile.f90:5`                 |
+| 28.5% | 67.4 MiB |   430,681 | `__json_file_module_MOD_json_file_load`            | `./json_file_module.F90:842`         |
+| 28.1% | 66.4 MiB |   396,202 | `main`                                             | `/out/profile.f90:6`                 |
+| 20.7% |   49 MiB |   339,140 | `__libc_start_main`                                | `<unknown>`                          |
+| 19.8% | 46.7 MiB |   309,575 | `_start`                                           | `<unknown>`                          |
+| 19.2% | 45.4 MiB |   470,458 | `__json_value_module_MOD_parse_string`             | `./json_value_module.F90:11052`      |
+|  7.8% | 18.4 MiB |   220,471 | `__json_value_module_MOD_parse_value`              | `./json_value_module.F90:10117`      |
+|  6.2% | 14.6 MiB |   137,064 | `__json_value_module_MOD_json_value_create`        | `./json_value_module.F90:2204`       |
+|  1.7% | 4.13 MiB |    12,744 | `__json_value_module_MOD_json_get_string_by_path`  | `./json_get_scalar_by_path.inc:9182` |
+|  1.7% | 4.13 MiB |    12,744 | `__json_file_module_MOD_json_file_get_string`      | `./json_file_module.F90:1837`        |
+|  1.6% | 3.86 MiB |    10,008 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90:6787`       |
+|  1.6% | 3.86 MiB |    10,008 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90:6495`       |
+|  0.5% | 1.25 MiB |        40 | `_gfortran_st_open`                                | `<unknown>`                          |
 
 #### Categories
 
 Categories accounting for at least 1.0% of self size.
 
+##### Unknown
+
+|     % |    Size | Objects | Function      | Location    |
+| ----: | ------: | ------: | ------------- | ----------- |
+| 81.9% | 193 MiB | 540,250 | `(anonymous)` | `<unknown>` |
+
 ##### Ours
 
-|     % |     Size | Objects | Function                                           | Location                                                                        |
-| ----: | -------: | ------: | -------------------------------------------------- | ------------------------------------------------------------------------------- |
-| 94.5% | 37.5 MiB | 477,898 | `__json_value_module_MOD_parse_object`             | `./json_value_module.F90`                                                       |
-| 46.6% | 18.5 MiB | 232,052 | `__json_value_module_MOD_parse_array`              | `./json_value_module.F90`                                                       |
-| 36.1% | 14.3 MiB | 134,059 | `__json_value_module_MOD_json_value_create`        | `./json_value_module.F90`                                                       |
-| 35.9% | 14.3 MiB | 173,325 | `MAIN__`                                           | `/out/profile.f90`                                                              |
-| 35.4% |   14 MiB | 186,584 | `__json_value_module_MOD_json_parse_file`          | `./json_value_module.F90`                                                       |
-| 34.4% | 13.7 MiB | 177,395 | `__json_file_module_MOD_json_file_load`            | `./json_file_module.F90`                                                        |
-| 34.3% | 13.6 MiB | 163,103 | `main`                                             | `/out/profile.f90`                                                              |
-| 27.3% | 10.8 MiB |  99,717 | `__json_value_module_MOD_parse_string`             | `./json_value_module.F90`                                                       |
-| 23.8% | 9.43 MiB |  34,566 | `__json_string_utilities_MOD_string_to_integer`    | `./json_string_utilities.F90`                                                   |
-| 23.4% | 9.29 MiB |  53,556 | `__json_value_module_MOD_parse_number`             | `./json_value_module.F90`                                                       |
-| 21.4% |  8.5 MiB |  31,979 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90`                                                       |
-| 10.6% | 4.22 MiB |  63,922 | `__json_value_module_MOD_parse_value`              | `./json_value_module.F90`                                                       |
-|  2.9% | 1.15 MiB |   9,495 | `0x228cf`                                          | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  2.4% |  958 KiB |   2,534 | `__json_value_module_MOD_json_get_string_by_path`  | `./json_get_scalar_by_path.inc`                                                 |
-|  2.4% |  958 KiB |   2,534 | `__json_file_module_MOD_json_file_get_string`      | `./json_file_module.F90`                                                        |
-|  2.4% |  958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90`                                                       |
-|  2.4% |  958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90`                                                       |
-|  2.3% |  921 KiB |   7,343 | `0x1f22f`                                          | `[stack]`                                                                       |
-|  1.7% |  711 KiB |   6,726 | `0x1f47f`                                          | `[stack]`                                                                       |
-|  0.6% |  235 KiB |     939 | `0x1f237`                                          | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-
-##### Native
-
-|     % |     Size | Objects | Function             | Location                                          |
-| ----: | -------: | ------: | -------------------- | ------------------------------------------------- |
-| 32.3% | 12.8 MiB | 152,764 | `0x27743`            | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| 28.9% | 11.5 MiB | 138,759 | `0x27817`            | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| 26.2% | 10.4 MiB | 124,114 | `_start`             | `<unknown>`                                       |
-| 25.4% | 10.1 MiB |  13,656 | `0x1c1b3`            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 20.0% | 7.96 MiB |   6,993 | `0x109623`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 20.0% | 7.93 MiB |   1,992 | `0xfa6bf`            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  3.7% | 1.45 MiB |  17,614 | `0x1093fb`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  3.4% | 1.33 MiB |     340 | `0x4`                | `<unknown>`                                       |
-|  3.2% | 1.25 MiB |      31 | `0x10324b`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  3.1% | 1.25 MiB |      21 | `0x1029eb`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  3.1% | 1.25 MiB |      10 | `0x10be83`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  2.3% |  923 KiB |  11,654 | `0x10b28f`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  2.2% |  903 KiB |  15,157 | `0xffffffffffffffff` | `<unknown>`                                       |
-|  1.8% |  745 KiB |   5,962 | `0x112ecb`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.4% |  565 KiB |   5,969 | `0x1c24b`            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.4% |  558 KiB |   5,950 | `0x10c847`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.4% |  558 KiB |   5,950 | `0x10ab63`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.4% |  558 KiB |   5,950 | `0x10b283`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.3% |  510 KiB |     149 | `0x5`                | `<unknown>`                                       |
-|  1.0% |  415 KiB |     201 | `0xaaaab89e4197`     | `<unknown>`                                       |
+|     % |     Size |   Objects | Function                                           | Location                             |
+| ----: | -------: | --------: | -------------------------------------------------- | ------------------------------------ |
+| 96.1% |  227 MiB | 1,140,696 | `__json_value_module_MOD_parse_object`             | `./json_value_module.F90:10882`      |
+| 69.2% |  163 MiB |   295,488 | `__json_value_module_MOD_parse_number`             | `./json_value_module.F90:11192`      |
+| 68.8% |  162 MiB |   266,482 | `__json_string_utilities_MOD_string_to_integer`    | `./json_string_utilities.F90:116`    |
+| 67.1% |  159 MiB |   256,483 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90:8074`       |
+| 56.3% |  133 MiB |   604,668 | `__json_value_module_MOD_parse_array`              | `./json_value_module.F90:10987`      |
+| 32.4% | 76.4 MiB |   453,993 | `__json_value_module_MOD_json_parse_file`          | `./json_value_module.F90:9714`       |
+| 31.1% | 73.4 MiB |   422,033 | `MAIN__`                                           | `/out/profile.f90:5`                 |
+| 28.5% | 67.4 MiB |   430,681 | `__json_file_module_MOD_json_file_load`            | `./json_file_module.F90:842`         |
+| 28.1% | 66.4 MiB |   396,202 | `main`                                             | `/out/profile.f90:6`                 |
+| 19.2% | 45.4 MiB |   470,458 | `__json_value_module_MOD_parse_string`             | `./json_value_module.F90:11052`      |
+|  7.8% | 18.4 MiB |   220,471 | `__json_value_module_MOD_parse_value`              | `./json_value_module.F90:10117`      |
+|  6.2% | 14.6 MiB |   137,064 | `__json_value_module_MOD_json_value_create`        | `./json_value_module.F90:2204`       |
+|  1.7% | 4.13 MiB |    12,744 | `__json_value_module_MOD_json_get_string_by_path`  | `./json_get_scalar_by_path.inc:9182` |
+|  1.7% | 4.13 MiB |    12,744 | `__json_file_module_MOD_json_file_get_string`      | `./json_file_module.F90:1837`        |
+|  1.6% | 3.86 MiB |    10,008 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90:6787`       |
+|  1.6% | 3.86 MiB |    10,008 | `__json_value_module_MOD_json_get_by_path`         | `./json_value_module.F90:6495`       |
+|  0.5% |  1.1 MiB |     8,165 | `__json_string_utilities_MOD_unescape_string`      | `./json_string_utilities.F90:483`    |
+|  0.1% |  270 KiB |     1,800 | `__json_value_module_MOD_json_get_string`          | `./json_value_module.F90:9078`       |
+|  0.1% |  155 KiB |    19,834 | `__json_value_module_MOD_to_integer`               | `./json_value_module.F90:10690`      |
+| <0.1% |  102 KiB |    26,217 | `__json_value_module_MOD_to_logical`               | `./json_value_module.F90:10659`      |
 
 #### Callers
 
 Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 99.3% | 37.3 MiB | 474,148 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-| 48.0% |   18 MiB | 227,547 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| 34.1% | 12.8 MiB | 186,543 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-|  0.5% |  205 KiB |   1,878 | `0x1f47f`                                 | `[stack]`                 |
-| <0.1% | 9.02 KiB |     939 | `0x1dd7f`                                 | `[stack]`                 |
+|     % |     Size |   Objects | Caller                                    | Location                        |
+| ----: | -------: | --------: | ----------------------------------------- | ------------------------------- |
+| 99.9% |  227 MiB | 1,135,849 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+| 58.4% |  133 MiB |   600,163 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| 33.1% | 75.2 MiB |   453,923 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+##### `(anonymous)` (`<unknown>`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 98.4% | 18.2 MiB | 225,746 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                          | Location                          |
+| ----: | -------: | ------: | ----------------------------------------------- | --------------------------------- |
+| 86.5% |  167 MiB | 192,561 | `(anonymous)`                                   | `<unknown>`                       |
+| 83.9% |  162 MiB | 187,914 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90:116` |
+| 25.3% |   49 MiB | 339,140 | `__libc_start_main`                             | `<unknown>`                       |
+|  2.0% | 3.85 MiB |   4,560 | `MAIN__`                                        | `/out/profile.f90:5`              |
+|  0.6% | 1.25 MiB |      40 | `_gfortran_st_open`                             | `<unknown>`                       |
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 91.8% | 13.1 MiB | 123,035 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  8.2% | 1.18 MiB |  11,021 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |    336 B |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 86.0% |  140 MiB | 250,760 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 14.0% | 22.9 MiB |  44,728 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90:10987` |
 
-##### `MAIN__` (`/out/profile.f90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
 
-|     % |     Size | Objects | Caller | Location           |
-| ----: | -------: | ------: | ------ | ------------------ |
-| 95.4% | 13.6 MiB | 163,103 | `main` | `/out/profile.f90` |
+|     % |     Size | Objects | Caller                                             | Location                       |
+| ----: | -------: | ------: | -------------------------------------------------- | ------------------------------ |
+| 97.6% |  159 MiB | 256,483 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90:8074` |
+|  2.4% | 3.86 MiB |   9,999 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90:6787` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`)
 
-|     % |     Size | Objects | Caller                                  | Location                 |
-| ----: | -------: | ------: | --------------------------------------- | ------------------------ |
-| 97.3% | 13.7 MiB | 177,395 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 159 MiB | 256,483 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90:10987`)
 
-|     % |     Size | Objects | Caller   | Location           |
-| ----: | -------: | ------: | -------- | ------------------ |
-| 97.6% | 13.3 MiB | 170,767 | `MAIN__` | `/out/profile.f90` |
+|     % |    Size | Objects | Caller                                 | Location                        |
+| ----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 93.8% | 125 MiB | 588,726 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `main` (`/out/profile.f90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|     % |     Size | Objects | Caller    | Location                               |
-| ----: | -------: | ------: | --------- | -------------------------------------- |
-| 94.3% | 12.8 MiB | 152,764 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  0.7% |  100 KiB |     917 | `0x1e0bf` | `[stack]`                              |
+|     % |     Size | Objects | Caller                                  | Location                     |
+| ----: | -------: | ------: | --------------------------------------- | ---------------------------- |
+| 88.2% | 67.4 MiB | 430,681 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90:842` |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|     % |     Size | Objects | Caller    | Location                               |
-| ----: | -------: | ------: | --------- | -------------------------------------- |
-| 89.4% | 11.5 MiB | 138,759 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |  1,008 B |       9 | `0x1`     | `<unknown>`                            |
+|     % |     Size | Objects | Caller | Location             |
+| ----: | -------: | ------: | ------ | -------------------- |
+| 90.4% | 66.4 MiB | 396,202 | `main` | `/out/profile.f90:6` |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`)
+
+|     % |     Size | Objects | Caller   | Location             |
+| ----: | -------: | ------: | -------- | -------------------- |
+| 97.1% | 65.4 MiB | 401,964 | `MAIN__` | `/out/profile.f90:5` |
+
+##### `main` (`/out/profile.f90:6`)
+
+|     % |   Size | Objects | Caller        | Location    |
+| ----: | -----: | ------: | ------------- | ----------- |
+| 88.8% | 59 MiB | 366,201 | `(anonymous)` | `<unknown>` |
+
+##### `__libc_start_main` (`<unknown>`)
 
 |     % |     Size | Objects | Caller   | Location    |
 | ----: | -------: | ------: | -------- | ----------- |
-| 90.5% | 10.4 MiB | 124,114 | `_start` | `<unknown>` |
+| 95.4% | 46.7 MiB | 309,575 | `_start` | `<unknown>` |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 77.0% | 8.33 MiB |  80,249 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-| 21.0% | 2.27 MiB |  15,629 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90` |
-|  1.9% |  205 KiB |   1,876 | `0x1e9ef`                              | `[stack]`                 |
+|     % |     Size | Objects | Caller                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 63.5% | 28.8 MiB | 336,064 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 36.5% | 16.6 MiB | 134,394 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90:10117` |
 
-##### `_start` (`<unknown>`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|     % |     Size | Objects | Caller                                 | Location                                                                        |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------------------------------------------------------------- |
-| 12.1% | 1.25 MiB |     926 | `0x27817`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
-| 11.7% | 1.22 MiB |  37,227 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                                                       |
-|  6.5% |  690 KiB |   5,101 | `0x228cf`                              | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  4.8% |  507 KiB |   7,997 | `0xffffffffffffffff`                   | `<unknown>`                                                                     |
-|  3.9% |  415 KiB |     201 | `0xaaaab89e4197`                       | `<unknown>`                                                                     |
+|      % |     Size | Objects | Caller                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 18.4 MiB | 220,471 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
 
-|     % |     Size | Objects | Caller     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 78.7% | 7.93 MiB |   1,992 | `0xfa6bf`  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 12.4% | 1.25 MiB |      10 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  7.2% |  745 KiB |   5,962 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.7% |  178 KiB |   5,692 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |     Size | Objects | Caller                                    | Location                        |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------------- |
+| 91.5% | 13.4 MiB | 125,403 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  8.5% | 1.24 MiB |  11,651 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% | 1.09 KiB |      10 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
-|     % |    Size | Objects | Caller                                             | Location                  |
-| ----: | ------: | ------: | -------------------------------------------------- | ------------------------- |
-| 90.1% | 8.5 MiB |  31,979 | `__json_value_module_MOD_string_to_int`            | `./json_value_module.F90` |
-|  9.9% | 958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
-| <0.1% |   520 B |      65 | `0xffffffffffffffff`                               | `<unknown>`               |
+|      % |     Size | Objects | Caller                                        | Location                      |
+| -----: | -------: | ------: | --------------------------------------------- | ----------------------------- |
+| 100.0% | 4.13 MiB |  12,744 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90:1837` |
 
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90:1837`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 73.6% | 6.84 MiB |  47,498 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-| 26.4% | 2.45 MiB |   6,058 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller   | Location             |
+| -----: | -------: | ------: | -------- | -------------------- |
+| 100.0% | 4.13 MiB |  12,744 | `MAIN__` | `/out/profile.f90:5` |
 
-##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90:6787`)
 
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 8.5 MiB |  31,979 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                                     | Location                       |
+| -----: | -------: | ------: | ------------------------------------------ | ------------------------------ |
+| 100.0% | 3.86 MiB |  10,008 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90:6495` |
 
-##### `0x109623` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90:6495`)
 
-|      % |     Size | Objects | Caller                                          | Location                      |
-| -----: | -------: | ------: | ----------------------------------------------- | ----------------------------- |
-| 100.0% | 7.96 MiB |   6,993 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+|      % |     Size | Objects | Caller                                            | Location                             |
+| -----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 100.0% | 3.86 MiB |  10,008 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
-##### `0xfa6bf` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `_gfortran_st_open` (`<unknown>`)
 
-|      % |     Size | Objects | Caller     | Location                                          |
-| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 7.93 MiB |   1,992 | `0x109623` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |     Size | Objects | Caller                                    | Location                       |
+| -----: | -------: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% | 1.25 MiB |      40 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_string_utilities_MOD_unescape_string` (`./json_string_utilities.F90:483`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 95.8% | 4.04 MiB |  62,254 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-|  2.1% | 92.3 KiB |     844 | `0x1f47f`                              | `[stack]`                 |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 1.1 MiB |   8,165 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90:11052` |
 
-##### `0x1093fb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_get_string` (`./json_value_module.F90:9078`)
 
-|     % |     Size | Objects | Caller                                          | Location                      |
-| ----: | -------: | ------: | ----------------------------------------------- | ----------------------------- |
-| 99.6% | 1.45 MiB |  17,604 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
-|  0.4% | 5.95 KiB |       9 | `MAIN__`                                        | `/out/profile.f90`            |
-| <0.1% |     96 B |       1 | `__json_value_module_MOD_json_initialize`       | `./json_value_module.F90`     |
+|      % |    Size | Objects | Caller                                            | Location                             |
+| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 100.0% | 270 KiB |   1,800 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
-##### `0x4` (`<unknown>`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
 
-|    % |     Size | Objects | Caller           | Location    |
-| ---: | -------: | ------: | ---------------- | ----------- |
-| 0.3% | 4.08 KiB |       1 | `0xaaaab89e4157` | `<unknown>` |
-| 0.3% | 4.08 KiB |       1 | `0xaaaab89898a7` | `<unknown>` |
-| 0.3% | 4.08 KiB |       1 | `0xaaaab89e416f` | `<unknown>` |
-| 0.3% | 4.08 KiB |       1 | `0xaaaab89894f7` | `<unknown>` |
-| 0.3% | 4.08 KiB |       1 | `0xaaaab895f95f` | `<unknown>` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 155 KiB |  19,834 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
-|      % |     Size | Objects | Caller                                    | Location                  |
-| -----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% | 1.25 MiB |      31 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-
-##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |     Size | Objects | Caller     | Location                                          |
-| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 1.25 MiB |      21 | `0x10324b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |     Size | Objects | Caller     | Location                                          |
-| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 1.25 MiB |      10 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
-
-|     % |     Size | Objects | Caller               | Location    |
-| ----: | -------: | ------: | -------------------- | ----------- |
-| 30.2% |  356 KiB |   3,251 | `0xffffffffffffffff` | `<unknown>` |
-| 19.9% |  235 KiB |     939 | `0x1f22f`            | `[stack]`   |
-|  8.5% | 99.6 KiB |     911 | `0x1e0bf`            | `[stack]`   |
-
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
-
-|      % |    Size | Objects | Caller                                        | Location                 |
-| -----: | ------: | ------: | --------------------------------------------- | ------------------------ |
-| 100.0% | 958 KiB |   2,534 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
-
-##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
-
-|      % |    Size | Objects | Caller   | Location           |
-| -----: | ------: | ------: | -------- | ------------------ |
-| 100.0% | 958 KiB |   2,534 | `MAIN__` | `/out/profile.f90` |
-
-##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
-
-|      % |    Size | Objects | Caller                                     | Location                  |
-| -----: | ------: | ------: | ------------------------------------------ | ------------------------- |
-| 100.0% | 958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
-
-##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
-
-|      % |    Size | Objects | Caller                                            | Location                        |
-| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------- |
-| 100.0% | 958 KiB |   2,522 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
-
-##### `0x10b28f` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 923 KiB |  11,654 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x1f22f` (`[stack]`)
-
-|     % |     Size | Objects | Caller    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 30.5% |  280 KiB |   2,564 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  0.6% | 5.14 KiB |      47 | `0x1e0bf` | `[stack]`                                                                       |
-
-##### `0xffffffffffffffff` (`<unknown>`)
-
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 10.9% | 98.4 KiB |   1,811 | `0x1`                                  | `<unknown>`               |
-|  2.0% | 18.3 KiB |   1,963 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
-|  0.1% | 1.09 KiB |      10 | `0xaaaab612018f`                       | `<unknown>`               |
-|  0.1% |    837 B |      21 | `0xffffffffffffffff`                   | `<unknown>`               |
-| <0.1% |     26 B |       2 | `0xffffa2a5fd7f`                       | `<unknown>`               |
-
-##### `0x112ecb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 745 KiB |   5,962 | `0x10b28f` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x1f47f` (`[stack]`)
-
-|     % |     Size | Objects | Caller    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 44.1% |  313 KiB |   2,866 | `0x1f22f` | `[stack]`                                                                       |
-| 13.5% | 96.3 KiB |     880 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-
-##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|     % |     Size | Objects | Caller     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 98.7% |  558 KiB |   5,950 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.2% | 6.68 KiB |       9 | `0x10a85b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% |    864 B |       9 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |     16 B |       1 | `0x10b1fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10c847` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x10ab63` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10ab63` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x10b283` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10b283` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x5` (`<unknown>`)
-
-|    % |     Size | Objects | Caller           | Location    |
-| ---: | -------: | ------: | ---------------- | ----------- |
-| 0.8% | 4.08 KiB |       1 | `0xaaaab88d2607` | `<unknown>` |
-| 0.8% | 4.08 KiB |       1 | `0xaaaab89888df` | `<unknown>` |
-| 0.8% | 4.08 KiB |       1 | `0xaaaab895fd3f` | `<unknown>` |
-| 0.8% | 4.08 KiB |       1 | `0xaaaab88751c7` | `<unknown>` |
-| 0.8% | 4.08 KiB |       1 | `0xaaaab8931147` | `<unknown>` |
-
-##### `0xaaaab89e4197` (`<unknown>`)
-
-|     % |    Size | Objects | Caller | Location    |
-| ----: | ------: | ------: | ------ | ----------- |
-| 99.2% | 412 KiB |     101 | `0x4`  | `<unknown>` |
-
-##### `0x1f237` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
-
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 235 KiB |     939 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 102 KiB |  26,217 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|     % |     Size | Objects | Callee                                      | Location                  |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------- |
-| 99.3% | 37.3 MiB | 474,148 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
-| 48.5% | 18.2 MiB | 225,746 | `__json_value_module_MOD_parse_array`       | `./json_value_module.F90` |
-| 35.0% | 13.1 MiB | 123,035 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
-| 22.2% | 8.33 MiB |  80,249 | `__json_value_module_MOD_parse_string`      | `./json_value_module.F90` |
-| 18.2% | 6.84 MiB |  47,498 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90` |
+|     % |     Size |   Objects | Callee                                 | Location                        |
+| ----: | -------: | --------: | -------------------------------------- | ------------------------------- |
+| 99.9% |  227 MiB | 1,135,849 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 61.9% |  140 MiB |   250,760 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
+| 55.0% |  125 MiB |   588,726 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90:10987` |
+| 12.7% | 28.8 MiB |   336,064 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90:11052` |
+|  8.1% | 18.4 MiB |   220,471 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90:10117` |
 
-##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+##### `(anonymous)` (`<unknown>`)
 
-|     % |     Size | Objects | Callee                                      | Location                  |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------- |
-| 97.4% |   18 MiB | 227,547 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
-| 13.3% | 2.45 MiB |   6,058 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90` |
-|  6.4% | 1.18 MiB |  11,021 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
-| <0.1% | 5.49 KiB |   2,109 | `_start`                                    | `<unknown>`               |
-| <0.1% | 5.36 KiB |     686 | `0xffffa2a19d67`                            | `<unknown>`               |
+|     % |    Size | Objects | Callee        | Location             |
+| ----: | ------: | ------: | ------------- | -------------------- |
+| 86.5% | 167 MiB | 192,561 | `(anonymous)` | `<unknown>`          |
+| 30.5% |  59 MiB | 366,201 | `main`        | `/out/profile.f90:6` |
+|  0.1% | 194 KiB |  38,812 | `strndup`     | `<unknown>`          |
 
-##### `MAIN__` (`/out/profile.f90`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
-|     % |     Size | Objects | Callee                                                | Location                                          |
-| ----: | -------: | ------: | ----------------------------------------------------- | ------------------------------------------------- |
-| 93.4% | 13.3 MiB | 170,767 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90`                          |
-|  6.6% |  958 KiB |   2,534 | `__json_file_module_MOD_json_file_get_string`         | `./json_file_module.F90`                          |
-| <0.1% | 5.95 KiB |       9 | `0x1093fb`                                            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% | 2.12 KiB |      11 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90`                          |
-| <0.1% |    864 B |       9 | `_start`                                              | `<unknown>`                                       |
+|     % |     Size | Objects | Callee                                   | Location                        |
+| ----: | -------: | ------: | ---------------------------------------- | ------------------------------- |
+| 97.0% |  159 MiB | 256,483 | `__json_value_module_MOD_string_to_int`  | `./json_value_module.F90:8074`  |
+|  0.1% |  155 KiB |  19,834 | `__json_value_module_MOD_to_integer`     | `./json_value_module.F90:10690` |
+| <0.1% | 4.89 KiB |      36 | `__json_value_module_MOD_string_to_dble` | `./json_value_module.F90:8101`  |
+| <0.1% |     72 B |       9 | `__json_value_module_MOD_to_real`        | `./json_value_module.F90:10721` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
 
-|     % |     Size | Objects | Callee                                        | Location                                          |
-| ----: | -------: | ------: | --------------------------------------------- | ------------------------------------------------- |
-| 91.1% | 12.8 MiB | 186,543 | `__json_value_module_MOD_parse_object`        | `./json_value_module.F90`                         |
-|  8.9% | 1.25 MiB |      31 | `0x10324b`                                    | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.5% |  217 KiB |   1,611 | `_start`                                      | `<unknown>`                                       |
-| <0.1% |    336 B |       3 | `__json_value_module_MOD_json_value_create`   | `./json_value_module.F90`                         |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser` | `./json_value_module.F90`                         |
+|     % |     Size | Objects | Callee                  | Location    |
+| ----: | -------: | ------: | ----------------------- | ----------- |
+| 99.9% |  162 MiB | 187,914 | `(anonymous)`           | `<unknown>` |
+| <0.1% | 24.2 KiB |  19,680 | `_gfortran_string_trim` | `<unknown>` |
 
-##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`)
 
-|      % |     Size | Objects | Callee                                    | Location                  |
-| -----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% | 13.7 MiB | 177,395 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-|   0.7% |  102 KiB |     929 | `_start`                                  | `<unknown>`               |
+|      % |    Size | Objects | Callee                                          | Location                          |
+| -----: | ------: | ------: | ----------------------------------------------- | --------------------------------- |
+| 100.0% | 159 MiB | 256,483 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90:116` |
 
-##### `main` (`/out/profile.f90`)
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90:10987`)
 
-|      % |     Size | Objects | Callee   | Location           |
-| -----: | -------: | ------: | -------- | ------------------ |
-| 100.0% | 13.6 MiB | 163,103 | `MAIN__` | `/out/profile.f90` |
-|   1.5% |  203 KiB |   1,856 | `_start` | `<unknown>`        |
+|     % |     Size | Objects | Callee                                      | Location                        |
+| ----: | -------: | ------: | ------------------------------------------- | ------------------------------- |
+| 99.6% |  133 MiB | 600,163 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90:10882` |
+| 17.2% | 22.9 MiB |  44,728 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90:11192` |
+|  0.9% | 1.24 MiB |  11,651 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90:2204`  |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|      % |     Size | Objects | Callee   | Location           |
-| -----: | -------: | ------: | -------- | ------------------ |
-| 100.0% | 12.8 MiB | 152,764 | `main`   | `/out/profile.f90` |
-|  <0.1% | 2.05 KiB |     102 | `_start` | `<unknown>`        |
+|     % |     Size | Objects | Callee                                        | Location                        |
+| ----: | -------: | ------: | --------------------------------------------- | ------------------------------- |
+| 98.4% | 75.2 MiB | 453,923 | `__json_value_module_MOD_parse_object`        | `./json_value_module.F90:10882` |
+|  1.6% | 1.25 MiB |      40 | `_gfortran_st_open`                           | `<unknown>`                     |
+| <0.1% | 1.09 KiB |      10 | `__json_value_module_MOD_json_value_create`   | `./json_value_module.F90:2204`  |
+| <0.1% |      9 B |       9 | `__json_value_module_MOD_json_parse_end`      | `./json_value_module.F90:9878`  |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser` | `./json_value_module.F90:9671`  |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|      % |     Size | Objects | Callee           | Location                               |
-| -----: | -------: | ------: | ---------------- | -------------------------------------- |
-| 100.0% | 11.5 MiB | 138,759 | `0x27743`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  10.9% | 1.25 MiB |     926 | `_start`         | `<unknown>`                            |
-|  <0.1% |      2 B |       1 | `0xffffa219001f` | `<unknown>`                            |
+|     % |     Size | Objects | Callee                                                | Location                      |
+| ----: | -------: | ------: | ----------------------------------------------------- | ----------------------------- |
+| 89.1% | 65.4 MiB | 401,964 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90:842`  |
+|  5.6% | 4.13 MiB |  12,744 | `__json_file_module_MOD_json_file_get_string`         | `./json_file_module.F90:1837` |
+|  5.2% | 3.85 MiB |   4,560 | `(anonymous)`                                         | `<unknown>`                   |
+| <0.1% | 11.3 KiB |      28 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504`  |
+| <0.1% | 1.88 KiB |     919 | `_gfortran_string_trim`                               | `<unknown>`                   |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`)
 
-|    % |     Size | Objects | Callee                                        | Location                      |
-| ---: | -------: | ------: | --------------------------------------------- | ----------------------------- |
-| 1.9% |  211 KiB |   2,815 | `_start`                                      | `<unknown>`                   |
-| 0.7% | 82.4 KiB |     796 | `__json_string_utilities_MOD_unescape_string` | `./json_string_utilities.F90` |
-| 0.2% | 18.3 KiB |   1,963 | `0xffffffffffffffff`                          | `<unknown>`                   |
+|      % |     Size | Objects | Callee                                    | Location                       |
+| -----: | -------: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% | 67.4 MiB | 430,681 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
+
+##### `main` (`/out/profile.f90:6`)
+
+|      % |     Size | Objects | Callee   | Location             |
+| -----: | -------: | ------: | -------- | -------------------- |
+| 100.0% | 66.4 MiB | 396,202 | `MAIN__` | `/out/profile.f90:5` |
+
+##### `__libc_start_main` (`<unknown>`)
+
+|      % |   Size | Objects | Callee        | Location    |
+| -----: | -----: | ------: | ------------- | ----------- |
+| 100.0% | 49 MiB | 339,140 | `(anonymous)` | `<unknown>` |
 
 ##### `_start` (`<unknown>`)
 
-|      % |     Size | Objects | Callee    | Location                               |
-| -----: | -------: | ------: | --------- | -------------------------------------- |
-| 100.0% | 10.4 MiB | 124,114 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|   0.2% | 18.4 KiB |   1,438 | `_start`  | `<unknown>`                            |
+|      % |     Size | Objects | Callee              | Location    |
+| -----: | -------: | ------: | ------------------- | ----------- |
+| 100.0% | 46.7 MiB | 309,575 | `__libc_start_main` | `<unknown>` |
 
-##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
-|     % |     Size | Objects | Callee     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 84.4% | 7.96 MiB |   6,993 | `0x109623` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 15.3% | 1.45 MiB |  17,604 | `0x1093fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% | 2.73 KiB |   1,857 | `0x118783` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |    520 B |      65 | `_start`   | `<unknown>`                                       |
+|     % |     Size | Objects | Callee                                        | Location                          |
+| ----: | -------: | ------: | --------------------------------------------- | --------------------------------- |
+|  2.4% |  1.1 MiB |   8,165 | `__json_string_utilities_MOD_unescape_string` | `./json_string_utilities.F90:483` |
+| <0.1% | 4.31 KiB |      18 | `__json_value_module_MOD_pop_char.part.0`     | `./json_value_module.F90:11318`   |
 
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|     % |    Size | Objects | Callee                                  | Location                  |
-| ----: | ------: | ------: | --------------------------------------- | ------------------------- |
-| 91.5% | 8.5 MiB |  31,979 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
-|  1.6% | 148 KiB |  18,928 | `__json_value_module_MOD_to_integer`    | `./json_value_module.F90` |
+|     % |     Size | Objects | Callee                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 90.0% | 16.6 MiB | 134,394 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90:11052` |
+|  0.2% | 41.7 KiB |  42,722 | `__json_value_module_MOD_to_string`    | `./json_value_module.F90:10755` |
 
-##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
-|      % |    Size | Objects | Callee                                          | Location                      |
-| -----: | ------: | ------: | ----------------------------------------------- | ----------------------------- |
-| 100.0% | 8.5 MiB |  31,979 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
+|     % |     Size | Objects | Callee                                         | Location                       |
+| ----: | -------: | ------: | ---------------------------------------------- | ------------------------------ |
+| 93.6% | 3.86 MiB |  10,008 | `__json_value_module_MOD_json_get_by_path`     | `./json_value_module.F90:6495` |
+|  6.4% |  270 KiB |   1,800 | `__json_value_module_MOD_json_get_string`      | `./json_value_module.F90:9078` |
+| <0.1% |    684 B |       9 | `__json_value_module_MOD_json_throw_exception` | `./json_value_module.F90:2003` |
+| <0.1% |    162 B |       9 | `_gfortran_string_trim`                        | `<unknown>`                    |
 
-##### `0x109623` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90:1837`)
 
-|     % |     Size | Objects | Callee    | Location                                          |
-| ----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 99.7% | 7.93 MiB |   1,992 | `0xfa6bf` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.3% | 24.6 KiB |   5,001 | `0xfa6b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |     Size | Objects | Callee                                            | Location                             |
+| -----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 100.0% | 4.13 MiB |  12,744 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
-##### `0xfa6bf` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90:6787`)
 
-|      % |     Size | Objects | Callee    | Location                                          |
-| -----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 7.93 MiB |   1,992 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |     Size | Objects | Callee                                                  | Location                          |
+| -----: | -------: | ------: | ------------------------------------------------------- | --------------------------------- |
+| 100.0% | 3.86 MiB |   9,999 | `__json_string_utilities_MOD_string_to_integer`         | `./json_string_utilities.F90:116` |
+|  <0.1% |    540 B |       9 | `__json_value_module_MOD_json_value_get_child_by_index` | `./json_value_module.F90:5439`    |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90:6495`)
 
-|     % |     Size | Objects | Callee                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 53.9% | 2.27 MiB |  15,629 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
-|  2.1% | 92.3 KiB |     844 | `_start`                               | `<unknown>`               |
-|  2.1% | 90.1 KiB |     824 | `0x1e39f`                              | `[stack]`                 |
-|  0.1% | 5.16 KiB |   5,280 | `__json_value_module_MOD_to_string`    | `./json_value_module.F90` |
+|      % |     Size | Objects | Callee                                             | Location                       |
+| -----: | -------: | ------: | -------------------------------------------------- | ------------------------------ |
+| 100.0% | 3.86 MiB |  10,008 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90:6787` |
 
-##### `0x1093fb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `_gfortran_st_open` (`<unknown>`)
 
-|     % |     Size | Objects | Callee     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 62.1% |  923 KiB |  11,654 | `0x10b28f` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 37.5% |  558 KiB |   5,950 | `0x10b283` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.4% | 6.68 KiB |       9 | `0x10b26f` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |     16 B |       1 | `0x10b263` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x4` (`<unknown>`)
-
-|     % |     Size | Objects | Callee           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 30.1% |  412 KiB |     101 | `0xaaaab89e413f` | `<unknown>` |
-| 30.1% |  412 KiB |     101 | `0xaaaab89e4197` | `<unknown>` |
-|  2.7% | 36.7 KiB |       9 | `0xffffa218003f` | `<unknown>` |
-|  2.4% | 32.6 KiB |       8 | `_start`         | `<unknown>` |
-|  0.6% | 8.16 KiB |       2 | `0xaaaab88491c7` | `<unknown>` |
-
-##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |     Size | Objects | Callee     | Location                                          |
-| -----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 1.25 MiB |      21 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  <0.1% |    180 B |      10 | `0x102ac7` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|     % |     Size | Objects | Callee     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 99.9% | 1.25 MiB |      10 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% |    864 B |       9 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |     36 B |       2 | `0x10c933` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |     Size | Objects | Callee    | Location                                          |
-| -----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 1.25 MiB |      10 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
-
-|     % |     Size | Objects | Callee    | Location    |
-| ----: | -------: | ------: | --------- | ----------- |
-| 58.5% |  690 KiB |   5,101 | `_start`  | `<unknown>` |
-| 23.8% |  280 KiB |   2,564 | `0x1f22f` | `[stack]`   |
-|  8.3% | 97.8 KiB |     894 | `0x1e337` | `[stack]`   |
-|  8.2% | 96.3 KiB |     880 | `0x1f47f` | `[stack]`   |
-|  1.2% |   14 KiB |      56 | `0x1e70f` | `[stack]`   |
-
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
-
-|      % |    Size | Objects | Callee                                     | Location                  |
-| -----: | ------: | ------: | ------------------------------------------ | ------------------------- |
-| 100.0% | 958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path` | `./json_value_module.F90` |
-
-##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`)
-
-|      % |    Size | Objects | Callee                                            | Location                        |
-| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------- |
-| 100.0% | 958 KiB |   2,534 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
-
-##### `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`)
-
-|      % |    Size | Objects | Callee                                          | Location                      |
-| -----: | ------: | ------: | ----------------------------------------------- | ----------------------------- |
-| 100.0% | 958 KiB |   2,522 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90` |
-
-##### `__json_value_module_MOD_json_get_by_path` (`./json_value_module.F90`)
-
-|      % |    Size | Objects | Callee                                             | Location                  |
-| -----: | ------: | ------: | -------------------------------------------------- | ------------------------- |
-| 100.0% | 958 KiB |   2,522 | `__json_value_module_MOD_json_get_by_path_default` | `./json_value_module.F90` |
-
-##### `0x10b28f` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|     % |    Size | Objects | Callee     | Location                                          |
-| ----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 80.7% | 745 KiB |   5,962 | `0x112ecb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| 19.3% | 178 KiB |   5,692 | `0x112ebb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x1f22f` (`[stack]`)
-
-|     % |     Size | Objects | Callee    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 34.0% |  313 KiB |   2,866 | `0x1f47f` | `[stack]`                                                                       |
-| 31.0% |  286 KiB |   2,611 | `_start`  | `<unknown>`                                                                     |
-| 25.5% |  235 KiB |     939 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  9.4% | 86.9 KiB |     927 | `0x0`     | `<unknown>`                                                                     |
-
-##### `0xffffffffffffffff` (`<unknown>`)
-
-|     % |     Size | Objects | Callee    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 56.2% |  507 KiB |   7,997 | `_start`  | `<unknown>`                                                                     |
-| 39.4% |  356 KiB |   3,251 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  2.2% |   20 KiB |   1,963 | `0xc3d2`  | `<unknown>`                                                                     |
-|  1.3% | 12.2 KiB |     938 | `0x1dd47` | `[stack]`                                                                       |
-|  0.8% | 7.33 KiB |     938 | `0xff`    | `<unknown>`                                                                     |
-
-##### `0x112ecb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Callee    | Location                                          |
-| -----: | ------: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 745 KiB |   5,962 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x1f47f` (`[stack]`)
-
-|     % |     Size | Objects | Callee                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 57.6% |  410 KiB |   3,746 | `_start`                                  | `<unknown>`               |
-| 28.9% |  205 KiB |   1,878 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-| 13.0% | 92.3 KiB |     844 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
-|  0.3% | 2.08 KiB |      19 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
-|  0.3% | 1.87 KiB |     239 | `0xaaaab87a67ff`                          | `<unknown>`               |
-
-##### `0x10c847` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Callee    | Location                                          |
-| -----: | ------: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x1c24b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10ab63` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Callee     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x10c847` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x10b283` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
-
-|      % |    Size | Objects | Callee     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 558 KiB |   5,950 | `0x10ab63` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `0x5` (`<unknown>`)
-
-|    % |     Size | Objects | Callee           | Location    |
-| ---: | -------: | ------: | ---------------- | ----------- |
-| 4.8% | 24.6 KiB |      26 | `_start`         | `<unknown>` |
-| 1.6% | 8.16 KiB |       2 | `0xaaaab884885f` | `<unknown>` |
-| 1.6% | 8.16 KiB |       2 | `0xaaaab89894bf` | `<unknown>` |
-| 1.6% | 8.16 KiB |       2 | `0xaaaab88a5dbf` | `<unknown>` |
-| 1.6% | 8.16 KiB |       2 | `0xaaaab87a1e17` | `<unknown>` |
-
-##### `0xaaaab89e4197` (`<unknown>`)
-
-|      % |    Size | Objects | Callee   | Location    |
-| -----: | ------: | ------: | -------- | ----------- |
-| 100.0% | 415 KiB |     201 | `_start` | `<unknown>` |
-
-##### `0x1f237` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
-
-|      % |    Size | Objects | Callee   | Location    |
-| -----: | ------: | ------: | -------- | ----------- |
-| 100.0% | 235 KiB |     939 | `_start` | `<unknown>` |
+|      % |     Size | Objects | Callee        | Location    |
+| -----: | -------: | ------: | ------------- | ----------- |
+| 100.0% | 1.25 MiB |      40 | `(anonymous)` | `<unknown>` |
 
 ## Hottest call stacks
 
 Call stacks with the most bytes allocated in their leaf frame.
 
-|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 16.4% |  6.5 MiB |  60,816 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`    |
-| 15.3% |  6.1 MiB |  51,946 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`         |
-|  7.1% | 2.81 MiB |     705 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_number` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` |
-|  3.5% | 1.39 MiB |     350 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_number` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`   |
-|  3.1% | 1.25 MiB |      10 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0x10be83` ← `0x1029eb` ← `0x10324b` ← `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  2.2% |  891 KiB |  59,189 | `__json_value_module_MOD_parse_object` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`         |
-|  2.1% |  853 KiB |   5,340 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_value` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`          |
-|  1.9% |  791 KiB |   1,966 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_value` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)         |
-|  1.9% |  783 KiB |     192 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_number` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`  |
-|  1.9% |  783 KiB |     192 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_number` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`   |
-|  1.8% |  743 KiB |  22,123 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`          |
-|  1.2% |  497 KiB |   4,544 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817`                                |
-|  1.2% |  486 KiB |   4,441 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`                                                              |
-|  1.0% |  412 KiB |     101 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`) ← `__json_value_module_MOD_json_get_by_path` ← `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`) ← `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xaaaab89e413f` ← `0x4`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  1.0% |  412 KiB |     101 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0xfa6bf` ← `0x109623` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90`) ← `__json_value_module_MOD_json_get_by_path` ← `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`) ← `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xaaaab89e4197` ← `0x4`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  1.0% |  411 KiB |   3,284 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0x112ecb` ← `0x10b28f` ← `0x1093fb` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_number` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`                            |
-|  1.0% |  390 KiB |   3,566 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`     |
-|  0.9% |  383 KiB |   3,503 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffffffffffffff`                                                                                |
-|  0.9% |  374 KiB |   3,416 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)   |
-|  0.9% |  356 KiB |   3,251 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`) ← `0xffffffffffffffff`                           |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 24.8% | 58.6 MiB |  14,721 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                   |
+|  5.9% |   14 MiB | 165,952 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)     |
+|  5.8% | 13.7 MiB |   3,432 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                     |
+|  3.2% | 7.48 MiB |   1,878 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714)                                                                  |
+|  3.2% | 7.48 MiB |   1,878 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882)                                                                    |
+|  3.2% | 7.48 MiB |   1,878 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987)                                                                    |
+|  3.2% | 7.48 MiB |   1,878 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  3.2% | 7.48 MiB |   1,878 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                  |
+|  3.2% | 7.47 MiB |   1,876 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)`                                                                                                                              |
+|  2.9% | 6.88 MiB |  64,204 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`) ← `__json_value_module_MOD_parse_value` (10117) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)      |
+|  2.9% | 6.83 MiB |   1,716 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                    |
+|  2.8% |  6.5 MiB |  60,816 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) |
+|  2.3% | 5.47 MiB |   1,374 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`)                                                         |
+|  2.3% | 5.46 MiB |   1,372 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6)                                                                                             |
+|  2.0% | 4.76 MiB |   1,194 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                     |
+|  1.5% | 3.62 MiB |     909 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  1.5% | 3.62 MiB |     909 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_json_get_by_path_default` (`./json_value_module.F90:6787`) ← `__json_value_module_MOD_json_get_by_path` (6495) ← `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`) ← `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90:1837`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  0.9% | 2.17 MiB |  28,988 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                                                    |
+|  0.8% | 1.81 MiB |   4,923 | `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`) ← `__json_value_module_MOD_parse_value` (10117) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  0.7% | 1.75 MiB |  19,135 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`) ← `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`) ← `__json_value_module_MOD_parse_number` (11192) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)                                                                                                                                     |
 
 # Retained heap profile
 
@@ -987,7 +732,8 @@ Retained 894 KiB over 14,825 objects (61.8 B per object).
 | Category |     % |    Size | Objects |
 | -------- | ----: | ------: | ------: |
 | Ours     | 85.5% | 765 KiB |  14,818 |
-| Native   | 14.5% | 130 KiB |       7 |
+| Unknown  | 14.5% | 130 KiB |       6 |
+| Native   | <0.1% |    18 B |       1 |
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
@@ -997,23 +743,21 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
 Functions with the most bytes retained within the function body, excluding callees.
 
-|     % |     Size | Objects | Function                                          | Location                                          |
-| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90`                         |
-| 14.3% |  128 KiB |       1 | `0x1c1b3`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  8.7% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90`                         |
-|  7.2% | 64.8 KiB |   5,342 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90`                         |
-|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`                         |
-|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90`                         |
-|  0.2% | 1.59 KiB |       4 | `0x1c24b`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90`                         |
-| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90`                         |
-| <0.1% |     52 B |      52 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90`                         |
-| <0.1% |     18 B |       1 | `0x9980f`                                         | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| <0.1% |     17 B |       1 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90`                         |
-| <0.1% |     17 B |       1 | `0x1c1f3`                                         | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90`                         |
-| <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc`                   |
+|     % |     Size | Objects | Function                                          | Location                             |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90:2204`       |
+| 14.5% |  130 KiB |       6 | `(anonymous)`                                     | `<unknown>`                          |
+|  8.7% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90:10117`      |
+|  7.2% | 64.8 KiB |   5,342 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10882`      |
+|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90:10690`      |
+|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90:10659`      |
+| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90:1016`       |
+| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11052`      |
+| <0.1% |     52 B |      52 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90:10755`      |
+| <0.1% |     18 B |       1 | `strndup`                                         | `<unknown>`                          |
+| <0.1% |     17 B |       1 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90:9714`       |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90:9671`       |
+| <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
 #### Categories
 
@@ -1021,95 +765,92 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
-|     % |     Size | Objects | Function                                          | Location                        |
-| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------- |
-| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90`       |
-|  8.7% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90`       |
-|  7.2% | 64.8 KiB |   5,342 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90`       |
-|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90`       |
-|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90`       |
-| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90`       |
-| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90`       |
-| <0.1% |     52 B |      52 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90`       |
-| <0.1% |     17 B |       1 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90`       |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90`       |
-| <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc` |
+|     % |     Size | Objects | Function                                          | Location                             |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`       | `./json_value_module.F90:2204`       |
+|  8.7% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90:10117`      |
+|  7.2% | 64.8 KiB |   5,342 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10882`      |
+|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`              | `./json_value_module.F90:10690`      |
+|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`              | `./json_value_module.F90:10659`      |
+| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`         | `./json_value_module.F90:1016`       |
+| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11052`      |
+| <0.1% |     52 B |      52 | `__json_value_module_MOD_to_string`               | `./json_value_module.F90:10755`      |
+| <0.1% |     17 B |       1 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90:9714`       |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`     | `./json_value_module.F90:9671`       |
+| <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
-##### Native
+##### Unknown
 
-|     % |     Size | Objects | Function  | Location                                          |
-| ----: | -------: | ------: | --------- | ------------------------------------------------- |
-| 14.3% |  128 KiB |       1 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.2% | 1.59 KiB |       4 | `0x1c24b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-| <0.1% |     18 B |       1 | `0x9980f` | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
-| <0.1% |     17 B |       1 | `0x1c1f3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |    Size | Objects | Function      | Location    |
+| ----: | ------: | ------: | ------------- | ----------- |
+| 14.5% | 130 KiB |       6 | `(anonymous)` | `<unknown>` |
 
 #### Lines
 
 Lines with the largest contribution to each function's self size.
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
 
 |      % |    Size | Objects | Location                       |
 | -----: | ------: | ------: | ------------------------------ |
 | 100.0% | 611 KiB |   5,584 | `./json_value_module.F90:2211` |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
 |      % |     Size | Objects | Location                        |
 | -----: | -------: | ------: | ------------------------------- |
 | 100.0% | 77.5 KiB |   1,865 | `./json_value_module.F90:10185` |
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
 |      % |     Size | Objects | Location                        |
 | -----: | -------: | ------: | ------------------------------- |
 | 100.0% | 64.8 KiB |   5,342 | `./json_value_module.F90:10922` |
 
-##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
 
 |      % |    Size | Objects | Location                        |
 | -----: | ------: | ------: | ------------------------------- |
 | 100.0% | 6.8 KiB |     871 | `./json_value_module.F90:10703` |
 
-##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
 |      % |     Size | Objects | Location                        |
 | -----: | -------: | ------: | ------------------------------- |
 | 100.0% | 4.29 KiB |   1,098 | `./json_value_module.F90:10672` |
 
-##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90:1016`)
 
 |     % |  Size | Objects | Location                       |
 | ----: | ----: | ------: | ------------------------------ |
 | 95.2% | 256 B |       1 | `./json_value_module.F90:1048` |
 |  4.8% |  13 B |       1 | `./json_value_module.F90:1196` |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
 |      % |  Size | Objects | Location                        |
 | -----: | ----: | ------: | ------------------------------- |
 | 100.0% | 256 B |       1 | `./json_value_module.F90:11073` |
 
-##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90:10755`)
 
 |      % | Size | Objects | Location                        |
 | -----: | ---: | ------: | ------------------------------- |
 | 100.0% | 52 B |      52 | `./json_value_module.F90:10800` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
 |      % | Size | Objects | Location                       |
 | -----: | ---: | ------: | ------------------------------ |
 | 100.0% | 17 B |       1 | `./json_value_module.F90:9786` |
 
-##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90:9671`)
 
 |      % | Size | Objects | Location                       |
 | -----: | ---: | ------: | ------------------------------ |
 | 100.0% |  3 B |       1 | `./json_value_module.F90:9680` |
 
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
 |      % | Size | Objects | Location                          |
 | -----: | ---: | ------: | --------------------------------- |
@@ -1119,128 +860,115 @@ Lines with the largest contribution to each function's self size.
 
 Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 95.7% |  584 KiB |   5,343 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  4.3% | 26.3 KiB |     240 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                    | Location                        |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------------- |
+| 95.7% |  584 KiB |   5,343 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  4.3% | 26.3 KiB |     240 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `(anonymous)` (`<unknown>`)
 
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       1 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |    Size | Objects | Caller                  | Location    |
+| -----: | ------: | ------: | ----------------------- | ----------- |
+| 100.0% | 130 KiB |       5 | `(anonymous)`           | `<unknown>` |
+|  <0.1% |    17 B |       1 | `_gfortran_string_trim` | `<unknown>` |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 77.5 KiB |   1,865 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|     % |   Size | Objects | Caller                                    | Location                  |
-| ----: | -----: | ------: | ----------------------------------------- | ------------------------- |
-| 98.7% | 64 KiB |   5,235 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  1.2% |  824 B |     106 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |    8 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|     % |   Size | Objects | Caller                                    | Location                        |
+| ----: | -----: | ------: | ----------------------------------------- | ------------------------------- |
+| 98.7% | 64 KiB |   5,235 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  1.2% |  824 B |     106 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% |    8 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
 
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 6.8 KiB |     871 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 6.8 KiB |     871 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 4.29 KiB |   1,098 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 4.29 KiB |   1,098 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `0x1c24b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90:1016`)
 
-|     % |     Size | Objects | Caller     | Location                                          |
-| ----: | -------: | ------: | ---------- | ------------------------------------------------- |
-| 93.1% | 1.48 KiB |       2 | `0x10a85b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  5.9% |     96 B |       1 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.0% |     16 B |       1 | `0x10b1fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |  Size | Objects | Caller                                                | Location                     |
+| -----: | ----: | ------: | ----------------------------------------------------- | ---------------------------- |
+| 100.0% | 269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504` |
 
-##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
-|      % |  Size | Objects | Caller                                                | Location                 |
-| -----: | ----: | ------: | ----------------------------------------------------- | ------------------------ |
-| 100.0% | 269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90` |
+|      % |  Size | Objects | Caller                                 | Location                        |
+| -----: | ----: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 256 B |       1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90:10755`)
 
-|      % |  Size | Objects | Caller                                 | Location                  |
-| -----: | ----: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 256 B |       1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % | Size | Objects | Caller                                | Location                        |
+| -----: | ---: | ------: | ------------------------------------- | ------------------------------- |
+| 100.0% | 52 B |      52 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90:10117` |
 
-##### `__json_value_module_MOD_to_string` (`./json_value_module.F90`)
+##### `strndup` (`<unknown>`)
 
-|      % | Size | Objects | Caller                                | Location                  |
-| -----: | ---: | ------: | ------------------------------------- | ------------------------- |
-| 100.0% | 52 B |      52 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90` |
+|      % | Size | Objects | Caller        | Location    |
+| -----: | ---: | ------: | ------------- | ----------- |
+| 100.0% | 18 B |       1 | `(anonymous)` | `<unknown>` |
 
-##### `0x9980f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|      % | Size | Objects | Caller    | Location                                          |
-| -----: | ---: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 18 B |       1 | `0x1c3fb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % | Size | Objects | Caller                                  | Location                     |
+| -----: | ---: | ------: | --------------------------------------- | ---------------------------- |
+| 100.0% | 17 B |       1 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90:842` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90:9671`)
 
-|      % | Size | Objects | Caller                                  | Location                 |
-| -----: | ---: | ------: | --------------------------------------- | ------------------------ |
-| 100.0% | 17 B |       1 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+|      % | Size | Objects | Caller                                    | Location                       |
+| -----: | ---: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% |  3 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
-##### `0x1c1f3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
-|      % | Size | Objects | Caller     | Location                                          |
-| -----: | ---: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 17 B |       1 | `0x118783` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-
-##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90`)
-
-|      % | Size | Objects | Caller                                    | Location                  |
-| -----: | ---: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% |  3 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-
-##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc`)
-
-|      % | Size | Objects | Caller                                        | Location                 |
-| -----: | ---: | ------: | --------------------------------------------- | ------------------------ |
-| 100.0% |  1 B |       1 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90` |
+|      % | Size | Objects | Caller                                        | Location                      |
+| -----: | ---: | ------: | --------------------------------------------- | ----------------------------- |
+| 100.0% |  1 B |       1 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90:1837` |
 
 ### Total size
 
 Functions with the most bytes retained within the function and its callees.
 
-|     % |     Size | Objects | Function                                    | Location                                                                        |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------- |
-| 85.6% |  766 KiB |  14,814 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90`                                                       |
-| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90`                                                       |
-| 51.6% |  462 KiB |   6,153 | `__json_value_module_MOD_json_parse_file`   | `./json_value_module.F90`                                                       |
-| 50.0% |  447 KiB |   5,853 | `__json_file_module_MOD_json_file_load`     | `./json_file_module.F90`                                                        |
-| 48.5% |  433 KiB |   5,580 | `MAIN__`                                    | `/out/profile.f90`                                                              |
-| 46.6% |  417 KiB |   5,258 | `main`                                      | `/out/profile.f90`                                                              |
-| 45.6% |  408 KiB |   7,612 | `__json_value_module_MOD_parse_array`       | `./json_value_module.F90`                                                       |
-| 45.0% |  402 KiB |   4,979 | `0x27743`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
-| 42.8% |  382 KiB |   4,623 | `0x27817`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
-| 39.1% |  350 KiB |   4,220 | `_start`                                    | `<unknown>`                                                                     |
-| 14.3% |  128 KiB |       3 | `0x10324b`                                  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
-| 14.3% |  128 KiB |       2 | `0x1029eb`                                  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
-| 14.3% |  128 KiB |       1 | `0x1c1b3`                                   | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
-| 14.3% |  128 KiB |       1 | `0x10be83`                                  | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`                               |
-|  9.5% | 84.8 KiB |   1,983 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90`                                                       |
-|  4.3% | 38.8 KiB |     355 | `0x228cf`                                   | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  4.3% |   38 KiB |     584 | `0xffffffffffffffff`                        | `<unknown>`                                                                     |
-|  3.3% | 29.6 KiB |     307 | `0x1f47f`                                   | `[stack]`                                                                       |
-|  2.8% | 25.2 KiB |     230 | `0x1f22f`                                   | `[stack]`                                                                       |
-|  1.5% | 13.6 KiB |      99 | `0x1`                                       | `<unknown>`                                                                     |
+|     % |     Size | Objects | Function                                              | Location                          |
+| ----: | -------: | ------: | ----------------------------------------------------- | --------------------------------- |
+| 85.5% |  765 KiB |  14,813 | `__json_value_module_MOD_parse_object`                | `./json_value_module.F90:10882`   |
+| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`           | `./json_value_module.F90:2204`    |
+| 51.6% |  462 KiB |   6,153 | `__json_value_module_MOD_json_parse_file`             | `./json_value_module.F90:9714`    |
+| 50.0% |  447 KiB |   5,853 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90:842`      |
+| 48.5% |  433 KiB |   5,580 | `MAIN__`                                              | `/out/profile.f90:5`              |
+| 46.6% |  417 KiB |   5,258 | `main`                                                | `/out/profile.f90:6`              |
+| 45.6% |  408 KiB |   7,612 | `__json_value_module_MOD_parse_array`                 | `./json_value_module.F90:10987`   |
+| 45.0% |  402 KiB |   4,979 | `(anonymous)`                                         | `<unknown>`                       |
+| 42.8% |  382 KiB |   4,623 | `__libc_start_main`                                   | `<unknown>`                       |
+| 39.1% |  350 KiB |   4,220 | `_start`                                              | `<unknown>`                       |
+| 14.3% |  128 KiB |       3 | `_gfortran_st_open`                                   | `<unknown>`                       |
+|  8.7% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_value`                 | `./json_value_module.F90:10117`   |
+|  0.8% | 7.55 KiB |     872 | `__json_value_module_MOD_parse_number`                | `./json_value_module.F90:11192`   |
+|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`                  | `./json_value_module.F90:10690`   |
+|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`                  | `./json_value_module.F90:10659`   |
+|  0.1% |    760 B |       1 | `__json_string_utilities_MOD_string_to_integer`       | `./json_string_utilities.F90:116` |
+|  0.1% |    760 B |       1 | `__json_value_module_MOD_string_to_int`               | `./json_value_module.F90:8074`    |
+| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`             | `./json_value_module.F90:1016`    |
+| <0.1% |    269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504`      |
+| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`                | `./json_value_module.F90:11052`   |
 
 #### Categories
 
@@ -1248,610 +976,325 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Ours
 
-|     % |     Size | Objects | Function                                    | Location                                                                        |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------- |
-| 85.6% |  766 KiB |  14,814 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90`                                                       |
-| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90`                                                       |
-| 51.6% |  462 KiB |   6,153 | `__json_value_module_MOD_json_parse_file`   | `./json_value_module.F90`                                                       |
-| 50.0% |  447 KiB |   5,853 | `__json_file_module_MOD_json_file_load`     | `./json_file_module.F90`                                                        |
-| 48.5% |  433 KiB |   5,580 | `MAIN__`                                    | `/out/profile.f90`                                                              |
-| 46.6% |  417 KiB |   5,258 | `main`                                      | `/out/profile.f90`                                                              |
-| 45.6% |  408 KiB |   7,612 | `__json_value_module_MOD_parse_array`       | `./json_value_module.F90`                                                       |
-|  9.5% | 84.8 KiB |   1,983 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90`                                                       |
-|  4.3% | 38.8 KiB |     355 | `0x228cf`                                   | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  3.3% | 29.6 KiB |     307 | `0x1f47f`                                   | `[stack]`                                                                       |
-|  2.8% | 25.2 KiB |     230 | `0x1f22f`                                   | `[stack]`                                                                       |
-|  1.1% | 9.78 KiB |     200 | `__json_value_module_MOD_parse_string`      | `./json_value_module.F90`                                                       |
-|  1.0% | 8.53 KiB |      78 | `0x1e9ef`                                   | `[stack]`                                                                       |
-|  1.0% | 8.53 KiB |      78 | `0x1dfbf`                                   | `[stack]`                                                                       |
-|  1.0% | 8.53 KiB |      78 | `0x1e0bf`                                   | `[stack]`                                                                       |
-|  0.8% | 7.55 KiB |     872 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90`                                                       |
-|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`        | `./json_value_module.F90`                                                       |
-|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`        | `./json_value_module.F90`                                                       |
-|  0.5% | 4.27 KiB |      39 | `0x1e337`                                   | `[stack]`                                                                       |
-|  0.5% | 4.05 KiB |      37 | `0x1e7cf`                                   | `[stack]`                                                                       |
+|     % |     Size | Objects | Function                                              | Location                             |
+| ----: | -------: | ------: | ----------------------------------------------------- | ------------------------------------ |
+| 85.5% |  765 KiB |  14,813 | `__json_value_module_MOD_parse_object`                | `./json_value_module.F90:10882`      |
+| 68.3% |  611 KiB |   5,584 | `__json_value_module_MOD_json_value_create`           | `./json_value_module.F90:2204`       |
+| 51.6% |  462 KiB |   6,153 | `__json_value_module_MOD_json_parse_file`             | `./json_value_module.F90:9714`       |
+| 50.0% |  447 KiB |   5,853 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90:842`         |
+| 48.5% |  433 KiB |   5,580 | `MAIN__`                                              | `/out/profile.f90:5`                 |
+| 46.6% |  417 KiB |   5,258 | `main`                                                | `/out/profile.f90:6`                 |
+| 45.6% |  408 KiB |   7,612 | `__json_value_module_MOD_parse_array`                 | `./json_value_module.F90:10987`      |
+|  8.7% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_value`                 | `./json_value_module.F90:10117`      |
+|  0.8% | 7.55 KiB |     872 | `__json_value_module_MOD_parse_number`                | `./json_value_module.F90:11192`      |
+|  0.8% |  6.8 KiB |     871 | `__json_value_module_MOD_to_integer`                  | `./json_value_module.F90:10690`      |
+|  0.5% | 4.29 KiB |   1,098 | `__json_value_module_MOD_to_logical`                  | `./json_value_module.F90:10659`      |
+|  0.1% |    760 B |       1 | `__json_string_utilities_MOD_string_to_integer`       | `./json_string_utilities.F90:116`    |
+|  0.1% |    760 B |       1 | `__json_value_module_MOD_string_to_int`               | `./json_value_module.F90:8074`       |
+| <0.1% |    269 B |       2 | `__json_value_module_MOD_json_initialize`             | `./json_value_module.F90:1016`       |
+| <0.1% |    269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504`         |
+| <0.1% |    256 B |       1 | `__json_value_module_MOD_parse_string`                | `./json_value_module.F90:11052`      |
+| <0.1% |     52 B |      52 | `__json_value_module_MOD_to_string`                   | `./json_value_module.F90:10755`      |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`         | `./json_value_module.F90:9671`       |
+| <0.1% |      1 B |       1 | `__json_value_module_MOD_json_get_string_by_path`     | `./json_get_scalar_by_path.inc:9182` |
+| <0.1% |      1 B |       1 | `__json_file_module_MOD_json_file_get_string`         | `./json_file_module.F90:1837`        |
 
-##### Native
+##### Unknown
 
-|     % |     Size | Objects | Function             | Location                                           |
-| ----: | -------: | ------: | -------------------- | -------------------------------------------------- |
-| 45.0% |  402 KiB |   4,979 | `0x27743`            | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
-| 42.8% |  382 KiB |   4,623 | `0x27817`            | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
-| 39.1% |  350 KiB |   4,220 | `_start`             | `<unknown>`                                        |
-| 14.3% |  128 KiB |       3 | `0x10324b`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`  |
-| 14.3% |  128 KiB |       2 | `0x1029eb`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`  |
-| 14.3% |  128 KiB |       1 | `0x1c1b3`            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`  |
-| 14.3% |  128 KiB |       1 | `0x10be83`           | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`  |
-|  4.3% |   38 KiB |     584 | `0xffffffffffffffff` | `<unknown>`                                        |
-|  1.5% | 13.6 KiB |      99 | `0x1`                | `<unknown>`                                        |
-|  1.1% | 10.3 KiB |      72 | `0x2b167`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-|  0.9% | 8.31 KiB |      76 | `0xffffa218003f`     | `<unknown>`                                        |
-|  0.9% | 7.77 KiB |      71 | `0x397ff`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-|  0.6% | 5.63 KiB |     307 | `0xaaaab87a67ff`     | `<unknown>`                                        |
-|  0.5% | 4.27 KiB |      39 | `0x2f9e7`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-|  0.5% | 4.27 KiB |      39 | `0x7c`               | `<unknown>`                                        |
-|  0.4% | 3.94 KiB |      36 | `0x17`               | `<unknown>`                                        |
-|  0.4% | 3.72 KiB |      34 | `0x18`               | `<unknown>`                                        |
-|  0.4% | 3.19 KiB |     136 | `0xffffa2a18fff`     | `<unknown>`                                        |
-|  0.3% | 3.09 KiB |     148 | `0xffffa2a19d67`     | `<unknown>`                                        |
-|  0.3% | 2.35 KiB |     156 | `0x3131f`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+|     % |    Size | Objects | Function      | Location    |
+| ----: | ------: | ------: | ------------- | ----------- |
+| 45.0% | 402 KiB |   4,979 | `(anonymous)` | `<unknown>` |
 
 #### Callers
 
 Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 98.7% |  756 KiB |  14,694 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-| 52.5% |  402 KiB |   7,555 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| 43.5% |  333 KiB |   6,147 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-|  1.1% | 8.53 KiB |      78 | `0x1f47f`                                 | `[stack]`                 |
-| <0.1% |    383 B |      39 | `0x1dd7f`                                 | `[stack]`                 |
+|     % |    Size | Objects | Caller                                    | Location                        |
+| ----: | ------: | ------: | ----------------------------------------- | ------------------------------- |
+| 98.8% | 756 KiB |  14,694 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+| 52.5% | 402 KiB |   7,555 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| 43.6% | 333 KiB |   6,147 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`)
 
-|     % |     Size | Objects | Caller                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 95.7% |  584 KiB |   5,343 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-|  4.3% | 26.3 KiB |     240 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90` |
-| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|     % |     Size | Objects | Caller                                    | Location                        |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------------- |
+| 95.7% |  584 KiB |   5,343 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10882` |
+|  4.3% | 26.3 KiB |     240 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:10987` |
+| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714`  |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|     % |    Size | Objects | Caller                                  | Location                 |
-| ----: | ------: | ------: | --------------------------------------- | ------------------------ |
-| 96.8% | 447 KiB |   5,853 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90` |
+|     % |    Size | Objects | Caller                                  | Location                     |
+| ----: | ------: | ------: | --------------------------------------- | ---------------------------- |
+| 96.8% | 447 KiB |   5,853 | `__json_file_module_MOD_json_file_load` | `./json_file_module.F90:842` |
 
-##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`)
 
-|     % |    Size | Objects | Caller   | Location           |
-| ----: | ------: | ------: | -------- | ------------------ |
-| 96.8% | 432 KiB |   5,574 | `MAIN__` | `/out/profile.f90` |
+|     % |    Size | Objects | Caller   | Location             |
+| ----: | ------: | ------: | -------- | -------------------- |
+| 96.8% | 432 KiB |   5,574 | `MAIN__` | `/out/profile.f90:5` |
 
-##### `MAIN__` (`/out/profile.f90`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|     % |    Size | Objects | Caller | Location           |
-| ----: | ------: | ------: | ------ | ------------------ |
-| 96.2% | 417 KiB |   5,258 | `main` | `/out/profile.f90` |
+|     % |    Size | Objects | Caller | Location             |
+| ----: | ------: | ------: | ------ | -------------------- |
+| 96.2% | 417 KiB |   5,258 | `main` | `/out/profile.f90:6` |
 
-##### `main` (`/out/profile.f90`)
+##### `main` (`/out/profile.f90:6`)
 
-|     % |     Size | Objects | Caller    | Location                               |
-| ----: | -------: | ------: | --------- | -------------------------------------- |
-| 96.5% |  402 KiB |   4,979 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  1.0% | 4.16 KiB |      38 | `0x1e0bf` | `[stack]`                              |
+|     % |    Size | Objects | Caller        | Location    |
+| ----: | ------: | ------: | ------------- | ----------- |
+| 96.5% | 402 KiB |   4,979 | `(anonymous)` | `<unknown>` |
 
-##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90:10987`)
 
-|     % |    Size | Objects | Caller                                 | Location                  |
-| ----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 98.0% | 400 KiB |   7,433 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|     % |    Size | Objects | Caller                                 | Location                        |
+| ----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 98.0% | 400 KiB |   7,433 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `(anonymous)` (`<unknown>`)
 
-|     % |    Size | Objects | Caller    | Location                               |
-| ----: | ------: | ------: | --------- | -------------------------------------- |
-| 95.0% | 382 KiB |   4,623 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| <0.1% |   112 B |       1 | `0x1`     | `<unknown>`                            |
+|     % |    Size | Objects | Caller                                          | Location                          |
+| ----: | ------: | ------: | ----------------------------------------------- | --------------------------------- |
+| 95.0% | 382 KiB |   4,623 | `__libc_start_main`                             | `<unknown>`                       |
+| 32.2% | 130 KiB |       6 | `(anonymous)`                                   | `<unknown>`                       |
+| 31.8% | 128 KiB |       3 | `_gfortran_st_open`                             | `<unknown>`                       |
+|  0.2% |   776 B |       2 | `MAIN__`                                        | `/out/profile.f90:5`              |
+|  0.2% |   760 B |       1 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90:116` |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__libc_start_main` (`<unknown>`)
 
 |     % |    Size | Objects | Caller   | Location    |
 | ----: | ------: | ------: | -------- | ----------- |
 | 91.5% | 350 KiB |   4,220 | `_start` | `<unknown>` |
 
-##### `_start` (`<unknown>`)
+##### `_gfortran_st_open` (`<unknown>`)
 
-|     % |     Size | Objects | Caller                                 | Location                                                                        |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------------------------------------------------------------- |
-| 36.6% |  128 KiB |       1 | `0x27817`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6`                                          |
-|  6.3% | 21.9 KiB |     325 | `0xffffffffffffffff`                   | `<unknown>`                                                                     |
-|  6.0% | 20.9 KiB |   1,213 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90`                                                       |
-|  5.5% | 19.1 KiB |     175 | `0x228cf`                              | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  4.8% |   17 KiB |     155 | `0x1f47f`                              | `[stack]`                                                                       |
+|      % |    Size | Objects | Caller                                    | Location                       |
+| -----: | ------: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% | 128 KiB |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
-##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|      % |    Size | Objects | Caller                                    | Location                  |
-| -----: | ------: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% | 128 KiB |       3 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
+|      % |     Size | Objects | Caller                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       2 | `0x10324b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |     Size | Objects | Caller                                 | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 86.1% |  6.5 KiB |     738 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
+| 13.9% | 1.05 KiB |     134 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90:10987` |
 
-##### `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90:10690`)
 
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       1 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |    Size | Objects | Caller                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 6.8 KiB |     871 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90:10659`)
 
-|      % |    Size | Objects | Caller     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       1 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |     Size | Objects | Caller                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 4.29 KiB |   1,098 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 91.5% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-|  4.4% | 3.72 KiB |      34 | `0x1f47f`                              | `[stack]`                 |
+|      % |  Size | Objects | Caller                                  | Location                       |
+| -----: | ----: | ------: | --------------------------------------- | ------------------------------ |
+| 100.0% | 760 B |       1 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90:8074` |
 
-##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`)
 
-|     % |     Size | Objects | Caller               | Location    |
-| ----: | -------: | ------: | -------------------- | ----------- |
-| 38.6% |   15 KiB |     137 | `0xffffffffffffffff` | `<unknown>` |
-| 10.7% | 4.16 KiB |      38 | `0x1e0bf`            | `[stack]`   |
+|      % |  Size | Objects | Caller                                 | Location                        |
+| -----: | ----: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 760 B |       1 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90:11192` |
 
-##### `0xffffffffffffffff` (`<unknown>`)
+##### `__json_value_module_MOD_json_initialize` (`./json_value_module.F90:1016`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 10.7% | 4.07 KiB |      64 | `0x1`                                  | `<unknown>`               |
-|  2.0% |    784 B |      82 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
-|  2.0% |    764 B |       2 | `0xffffffffffffffff`                   | `<unknown>`               |
-|  0.3% |    112 B |       1 | `0xaaaab612018f`                       | `<unknown>`               |
-| <0.1% |     13 B |       1 | `0xffffa2a5fd7f`                       | `<unknown>`               |
+|      % |  Size | Objects | Caller                                                | Location                     |
+| -----: | ----: | ------: | ----------------------------------------------------- | ---------------------------- |
+| 100.0% | 269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504` |
 
-##### `0x1f47f` (`[stack]`)
+##### `__json_file_module_MOD_initialize_json_core_in_file` (`./json_file_module.F90:504`)
 
-|     % |     Size | Objects | Caller    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 44.7% | 13.2 KiB |     121 | `0x1f22f` | `[stack]`                                                                       |
-| 12.6% | 3.72 KiB |      34 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
+|      % |  Size | Objects | Caller   | Location             |
+| -----: | ----: | ------: | -------- | -------------------- |
+| 100.0% | 269 B |       2 | `MAIN__` | `/out/profile.f90:5` |
 
-##### `0x1f22f` (`[stack]`)
+##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90:11052`)
 
-|     % |     Size | Objects | Caller    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 46.5% | 11.7 KiB |     107 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  0.9% |    224 B |       2 | `0x1e0bf` | `[stack]`                                                                       |
+|      % |  Size | Objects | Caller                                 | Location                        |
+| -----: | ----: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 256 B |       1 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10882` |
 
-##### `0x1` (`<unknown>`)
+##### `__json_value_module_MOD_to_string` (`./json_value_module.F90:10755`)
 
-|     % | Size | Objects | Caller    | Location                                           |
-| ----: | ---: | ------: | --------- | -------------------------------------------------- |
-| <0.1% |  1 B |       1 | `0x39387` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
+|      % | Size | Objects | Caller                                | Location                        |
+| -----: | ---: | ------: | ------------------------------------- | ------------------------------- |
+| 100.0% | 52 B |      52 | `__json_value_module_MOD_parse_value` | `./json_value_module.F90:10117` |
 
-##### `0x2b167` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
+##### `__json_value_module_MOD_json_prepare_parser` (`./json_value_module.F90:9671`)
 
-|     % |     Size | Objects | Caller | Location    |
-| ----: | -------: | ------: | ------ | ----------- |
-| 90.9% | 9.33 KiB |      32 | `0x1`  | `<unknown>` |
+|      % | Size | Objects | Caller                                    | Location                       |
+| -----: | ---: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% |  3 B |       1 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_get_string_by_path` (`./json_get_scalar_by_path.inc:9182`)
 
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 87.3% | 8.53 KiB |      78 | `0x1e9ef`                              | `[stack]`                 |
-|  4.9% |    490 B |      40 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
+|      % | Size | Objects | Caller                                        | Location                      |
+| -----: | ---: | ------: | --------------------------------------------- | ----------------------------- |
+| 100.0% |  1 B |       1 | `__json_file_module_MOD_json_file_get_string` | `./json_file_module.F90:1837` |
 
-##### `0x1dfbf` (`[stack]`)
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90:1837`)
 
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 8.53 KiB |      78 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-
-##### `0xffffa218003f` (`<unknown>`)
-
-|     % |    Size | Objects | Caller  | Location    |
-| ----: | ------: | ------: | ------- | ----------- |
-| 27.6% | 2.3 KiB |      21 | `0x177` | `<unknown>` |
-|  2.6% |   224 B |       2 | `0x169` | `<unknown>` |
-|  1.3% |   112 B |       1 | `0x83`  | `<unknown>` |
-|  1.3% |   112 B |       1 | `0xdf`  | `<unknown>` |
-|  1.3% |   112 B |       1 | `0xd6`  | `<unknown>` |
-
-##### `0x397ff` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|     % |     Size | Objects | Caller    | Location                                           |
-| ----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 50.7% | 3.94 KiB |      36 | `0x17`    | `<unknown>`                                        |
-| 49.3% | 3.83 KiB |      35 | `0x397ff` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
-
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 86.1% |  6.5 KiB |     738 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-| 13.9% | 1.05 KiB |     134 | `__json_value_module_MOD_parse_array`  | `./json_value_module.F90` |
-
-##### `__json_value_module_MOD_to_integer` (`./json_value_module.F90`)
-
-|      % |    Size | Objects | Caller                                 | Location                  |
-| -----: | ------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 6.8 KiB |     871 | `__json_value_module_MOD_parse_number` | `./json_value_module.F90` |
-
-##### `0xaaaab87a67ff` (`<unknown>`)
-
-|     % |     Size | Objects | Caller                                 | Location                  |
-| ----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 19.1% | 1.08 KiB |      45 | `0xffffa2a19d67`                       | `<unknown>`               |
-| 15.6% |    897 B |      39 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-|  5.4% |    312 B |      39 | `0x1f47f`                              | `[stack]`                 |
-
-##### `__json_value_module_MOD_to_logical` (`./json_value_module.F90`)
-
-|      % |     Size | Objects | Caller                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 4.29 KiB |   1,098 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90` |
-
-##### `0x1e337` (`[stack]`)
-
-|      % |     Size | Objects | Caller    | Location                                                                        |
-| -----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 100.0% | 4.27 KiB |      39 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-
-##### `0x2f9e7` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|     % |     Size | Objects | Caller           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 97.4% | 4.16 KiB |      38 | `0xffffa218003f` | `<unknown>` |
-|  2.6% |    112 B |       1 | `0x1e7df`        | `[stack]`   |
-
-##### `0x1e7cf` (`[stack]`)
-
-|      % |     Size | Objects | Caller    | Location  |
-| -----: | -------: | ------: | --------- | --------- |
-| 100.0% | 4.05 KiB |      37 | `0x1e687` | `[stack]` |
-
-##### `0x18` (`<unknown>`)
-
-|      % |     Size | Objects | Caller    | Location  |
-| -----: | -------: | ------: | --------- | --------- |
-| 100.0% | 3.72 KiB |      34 | `0x1e49f` | `[stack]` |
-
-##### `0xffffa2a18fff` (`<unknown>`)
-
-|     % |     Size | Objects | Caller           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 40.6% | 1.29 KiB |      51 | `0xaaaab87a67ff` | `<unknown>` |
-|  3.4% |    112 B |       1 | `0xaaaab8891c4f` | `<unknown>` |
-|  3.4% |    112 B |       1 | `0xaaaab88ad99f` | `<unknown>` |
-|  3.4% |    112 B |       1 | `0xaaaab8939b7f` | `<unknown>` |
-|  3.4% |    112 B |       1 | `0xaaaab887f43f` | `<unknown>` |
-
-##### `0xffffa2a19d67` (`<unknown>`)
-
-|     % |     Size | Objects | Caller           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 65.2% | 2.02 KiB |     103 | `0xaaaab87a67ff` | `<unknown>` |
-
-##### `0x3131f` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|     % |     Size | Objects | Caller           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 51.9% | 1.22 KiB |      78 | `0xffffa2a18fff` | `<unknown>` |
+|      % | Size | Objects | Caller   | Location             |
+| -----: | ---: | ------: | -------- | -------------------- |
+| 100.0% |  1 B |       1 | `MAIN__` | `/out/profile.f90:5` |
 
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`)
 
-|     % |     Size | Objects | Callee                                      | Location                  |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------- |
-| 98.7% |  756 KiB |  14,694 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
-| 76.3% |  584 KiB |   5,343 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
-| 52.2% |  400 KiB |   7,433 | `__json_value_module_MOD_parse_array`       | `./json_value_module.F90` |
-| 10.1% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90` |
-|  2.7% | 20.9 KiB |   1,213 | `_start`                                    | `<unknown>`               |
+|     % |     Size | Objects | Callee                                      | Location                        |
+| ----: | -------: | ------: | ------------------------------------------- | ------------------------------- |
+| 98.8% |  756 KiB |  14,694 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90:10882` |
+| 76.4% |  584 KiB |   5,343 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90:2204`  |
+| 52.3% |  400 KiB |   7,433 | `__json_value_module_MOD_parse_array`       | `./json_value_module.F90:10987` |
+| 10.1% | 77.5 KiB |   1,917 | `__json_value_module_MOD_parse_value`       | `./json_value_module.F90:10117` |
+|  0.8% |  6.5 KiB |     738 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90:11192` |
 
-##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`)
 
-|     % |     Size | Objects | Callee                                        | Location                                          |
-| ----: | -------: | ------: | --------------------------------------------- | ------------------------------------------------- |
-| 72.2% |  333 KiB |   6,147 | `__json_value_module_MOD_parse_object`        | `./json_value_module.F90`                         |
-| 27.8% |  128 KiB |       3 | `0x10324b`                                    | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  1.8% | 8.27 KiB |      63 | `_start`                                      | `<unknown>`                                       |
-| <0.1% |    112 B |       1 | `__json_value_module_MOD_json_value_create`   | `./json_value_module.F90`                         |
-| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser` | `./json_value_module.F90`                         |
+|     % |    Size | Objects | Callee                                        | Location                        |
+| ----: | ------: | ------: | --------------------------------------------- | ------------------------------- |
+| 72.2% | 333 KiB |   6,147 | `__json_value_module_MOD_parse_object`        | `./json_value_module.F90:10882` |
+| 27.8% | 128 KiB |       3 | `_gfortran_st_open`                           | `<unknown>`                     |
+| <0.1% |   112 B |       1 | `__json_value_module_MOD_json_value_create`   | `./json_value_module.F90:2204`  |
+| <0.1% |     3 B |       1 | `__json_value_module_MOD_json_prepare_parser` | `./json_value_module.F90:9671`  |
 
-##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`)
+##### `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`)
 
-|      % |     Size | Objects | Callee                                    | Location                  |
-| -----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% |  447 KiB |   5,853 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90` |
-|   1.0% | 4.27 KiB |      39 | `_start`                                  | `<unknown>`               |
+|      % |    Size | Objects | Callee                                    | Location                       |
+| -----: | ------: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% | 447 KiB |   5,853 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9714` |
 
-##### `MAIN__` (`/out/profile.f90`)
+##### `MAIN__` (`/out/profile.f90:5`)
 
-|     % |    Size | Objects | Callee                                                | Location                                          |
-| ----: | ------: | ------: | ----------------------------------------------------- | ------------------------------------------------- |
-| 99.8% | 432 KiB |   5,574 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90`                          |
-|  0.2% |   776 B |       2 | `0x1093fb`                                            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% |   269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90`                          |
-| <0.1% |    96 B |       1 | `_start`                                              | `<unknown>`                                       |
-| <0.1% |    17 B |       1 | `0x118783`                                            | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |    Size | Objects | Callee                                                | Location                      |
+| ----: | ------: | ------: | ----------------------------------------------------- | ----------------------------- |
+| 99.8% | 432 KiB |   5,574 | `__json_file_module_MOD_json_file_load`               | `./json_file_module.F90:842`  |
+|  0.2% |   776 B |       2 | `(anonymous)`                                         | `<unknown>`                   |
+|  0.1% |   269 B |       2 | `__json_file_module_MOD_initialize_json_core_in_file` | `./json_file_module.F90:504`  |
+| <0.1% |    17 B |       1 | `_gfortran_string_trim`                               | `<unknown>`                   |
+| <0.1% |     1 B |       1 | `__json_file_module_MOD_json_file_get_string`         | `./json_file_module.F90:1837` |
 
-##### `main` (`/out/profile.f90`)
+##### `main` (`/out/profile.f90:6`)
 
-|      % |     Size | Objects | Callee   | Location           |
-| -----: | -------: | ------: | -------- | ------------------ |
-| 100.0% |  417 KiB |   5,258 | `MAIN__` | `/out/profile.f90` |
-|   2.0% | 8.42 KiB |      77 | `_start` | `<unknown>`        |
+|      % |    Size | Objects | Callee   | Location             |
+| -----: | ------: | ------: | -------- | -------------------- |
+| 100.0% | 417 KiB |   5,258 | `MAIN__` | `/out/profile.f90:5` |
 
-##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90`)
+##### `__json_value_module_MOD_parse_array` (`./json_value_module.F90:10987`)
 
-|     % |     Size | Objects | Callee                                      | Location                  |
-| ----: | -------: | ------: | ------------------------------------------- | ------------------------- |
-| 98.5% |  402 KiB |   7,555 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90` |
-|  6.4% | 26.3 KiB |     240 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90` |
-|  0.3% | 1.05 KiB |     134 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90` |
-| <0.1% |    188 B |      47 | `_start`                                    | `<unknown>`               |
+|     % |     Size | Objects | Callee                                      | Location                        |
+| ----: | -------: | ------: | ------------------------------------------- | ------------------------------- |
+| 98.5% |  402 KiB |   7,555 | `__json_value_module_MOD_parse_object`      | `./json_value_module.F90:10882` |
+|  6.4% | 26.3 KiB |     240 | `__json_value_module_MOD_json_value_create` | `./json_value_module.F90:2204`  |
+|  0.3% | 1.05 KiB |     134 | `__json_value_module_MOD_parse_number`      | `./json_value_module.F90:11192` |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `(anonymous)` (`<unknown>`)
 
-|      % |    Size | Objects | Callee   | Location           |
-| -----: | ------: | ------: | -------- | ------------------ |
-| 100.0% | 402 KiB |   4,979 | `main`   | `/out/profile.f90` |
-|   0.1% |   224 B |       2 | `_start` | `<unknown>`        |
+|      % |    Size | Objects | Callee        | Location             |
+| -----: | ------: | ------: | ------------- | -------------------- |
+| 100.0% | 402 KiB |   4,979 | `main`        | `/out/profile.f90:6` |
+|  32.2% | 130 KiB |       6 | `(anonymous)` | `<unknown>`          |
+|  <0.1% |    18 B |       1 | `strndup`     | `<unknown>`          |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__libc_start_main` (`<unknown>`)
 
-|      % |    Size | Objects | Callee    | Location                               |
-| -----: | ------: | ------: | --------- | -------------------------------------- |
-| 100.0% | 382 KiB |   4,623 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  33.5% | 128 KiB |       1 | `_start`  | `<unknown>`                            |
+|      % |    Size | Objects | Callee        | Location    |
+| -----: | ------: | ------: | ------------- | ----------- |
+| 100.0% | 382 KiB |   4,623 | `(anonymous)` | `<unknown>` |
 
 ##### `_start` (`<unknown>`)
 
-|      % |    Size | Objects | Callee    | Location                               |
-| -----: | ------: | ------: | --------- | -------------------------------------- |
-| 100.0% | 350 KiB |   4,220 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Size | Objects | Callee              | Location    |
+| -----: | ------: | ------: | ------------------- | ----------- |
+| 100.0% | 350 KiB |   4,220 | `__libc_start_main` | `<unknown>` |
 
-##### `0x10324b` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `_gfortran_st_open` (`<unknown>`)
 
-|      % |    Size | Objects | Callee     | Location                                          |
-| -----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       2 | `0x1029eb` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  <0.1% |    18 B |       1 | `0x102ac7` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|      % |    Size | Objects | Callee        | Location    |
+| -----: | ------: | ------: | ------------- | ----------- |
+| 100.0% | 128 KiB |       3 | `(anonymous)` | `<unknown>` |
 
-##### `0x1029eb` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`)
 
-|     % |    Size | Objects | Callee     | Location                                          |
-| ----: | ------: | ------: | ---------- | ------------------------------------------------- |
-| 99.9% | 128 KiB |       1 | `0x10be83` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
-|  0.1% |    96 B |       1 | `0x10bd7b` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|    % | Size | Objects | Callee                              | Location                        |
+| ---: | ---: | ------: | ----------------------------------- | ------------------------------- |
+| 0.1% | 52 B |      52 | `__json_value_module_MOD_to_string` | `./json_value_module.F90:10755` |
 
-##### `0x10be83` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`)
+##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90:11192`)
 
-|      % |    Size | Objects | Callee    | Location                                          |
-| -----: | ------: | ------: | --------- | ------------------------------------------------- |
-| 100.0% | 128 KiB |       1 | `0x1c1b3` | `/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0` |
+|     % |    Size | Objects | Callee                                  | Location                        |
+| ----: | ------: | ------: | --------------------------------------- | ------------------------------- |
+| 90.2% | 6.8 KiB |     871 | `__json_value_module_MOD_to_integer`    | `./json_value_module.F90:10690` |
+|  9.8% |   760 B |       1 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90:8074`  |
 
-##### `__json_value_module_MOD_parse_value` (`./json_value_module.F90`)
+##### `__json_string_utilities_MOD_string_to_integer` (`./json_string_utilities.F90:116`)
 
-|    % |     Size | Objects | Callee                              | Location                  |
-| ---: | -------: | ------: | ----------------------------------- | ------------------------- |
-| 4.4% | 3.72 KiB |      34 | `_start`                            | `<unknown>`               |
-| 4.1% |  3.5 KiB |      32 | `0x1e39f`                           | `[stack]`                 |
-| 0.1% |     52 B |      52 | `__json_value_module_MOD_to_string` | `./json_value_module.F90` |
+|      % |  Size | Objects | Callee        | Location    |
+| -----: | ----: | ------: | ------------- | ----------- |
+| 100.0% | 760 B |       1 | `(anonymous)` | `<unknown>` |
 
-##### `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)
+##### `__json_value_module_MOD_string_to_int` (`./json_value_module.F90:8074`)
 
-|     % |     Size | Objects | Callee    | Location    |
-| ----: | -------: | ------: | --------- | ----------- |
-| 49.3% | 19.1 KiB |     175 | `_start`  | `<unknown>` |
-| 30.1% | 11.7 KiB |     107 | `0x1f22f` | `[stack]`   |
-| 11.0% | 4.27 KiB |      39 | `0x1e337` | `[stack]`   |
-|  9.6% | 3.72 KiB |      34 | `0x1f47f` | `[stack]`   |
+|      % |  Size | Objects | Callee                                          | Location                          |
+| -----: | ----: | ------: | ----------------------------------------------- | --------------------------------- |
+| 100.0% | 760 B |       1 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90:116` |
 
-##### `0xffffffffffffffff` (`<unknown>`)
+##### `__json_file_module_MOD_initialize_json_core_in_file` (`./json_file_module.F90:504`)
 
-|     % |     Size | Objects | Callee               | Location                                                                        |
-| ----: | -------: | ------: | -------------------- | ------------------------------------------------------------------------------- |
-| 57.6% | 21.9 KiB |     325 | `_start`             | `<unknown>`                                                                     |
-| 39.4% |   15 KiB |     137 | `0x228cf`            | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  2.2% |    856 B |      82 | `0xc3d2`             | `<unknown>`                                                                     |
-|  2.0% |    764 B |       2 | `0xffffffffffffffff` | `<unknown>`                                                                     |
-|  0.8% |    304 B |      38 | `0xff`               | `<unknown>`                                                                     |
+|      % |  Size | Objects | Callee                                    | Location                       |
+| -----: | ----: | ------: | ----------------------------------------- | ------------------------------ |
+| 100.0% | 269 B |       2 | `__json_value_module_MOD_json_initialize` | `./json_value_module.F90:1016` |
 
-##### `0x1f47f` (`[stack]`)
+##### `__json_file_module_MOD_json_file_get_string` (`./json_file_module.F90:1837`)
 
-|     % |     Size | Objects | Callee                                    | Location                  |
-| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 57.2% |   17 KiB |     155 | `_start`                                  | `<unknown>`               |
-| 28.8% | 8.53 KiB |      78 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90` |
-| 12.6% | 3.72 KiB |      34 | `__json_value_module_MOD_parse_value`     | `./json_value_module.F90` |
-|  1.0% |    312 B |      39 | `0xaaaab87a67ff`                          | `<unknown>`               |
-|  0.4% |    112 B |       1 | `__json_value_module_MOD_pop_char.part.0` | `./json_value_module.F90` |
-
-##### `0x1f22f` (`[stack]`)
-
-|     % |     Size | Objects | Callee    | Location    |
-| ----: | -------: | ------: | --------- | ----------- |
-| 52.6% | 13.2 KiB |     121 | `0x1f47f` | `[stack]`   |
-| 47.4% | 11.9 KiB |     109 | `_start`  | `<unknown>` |
-
-##### `0x1` (`<unknown>`)
-
-|     % |     Size | Objects | Callee               | Location                                           |
-| ----: | -------: | ------: | -------------------- | -------------------------------------------------- |
-| 68.5% | 9.33 KiB |      32 | `0x2b167`            | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-| 29.9% | 4.07 KiB |      64 | `0xffffffffffffffff` | `<unknown>`                                        |
-|  0.8% |    112 B |       1 | `0xe3b383e3a983e391` | `<unknown>`                                        |
-|  0.8% |    112 B |       1 | `0x27743`            | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
-| <0.1% |      1 B |       1 | `_start`             | `<unknown>`                                        |
-
-##### `0x2b167` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|     % |     Size | Objects | Callee    | Location                                           |
-| ----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 90.9% | 9.33 KiB |      32 | `_start`  | `<unknown>`                                        |
-|  6.7% |    702 B |      39 | `0x1e89f` | `[stack]`                                          |
-|  2.4% |    256 B |       1 | `0x313ef` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-
-##### `__json_value_module_MOD_parse_string` (`./json_value_module.F90`)
-
-|     % |     Size | Objects | Callee               | Location    |
-| ----: | -------: | ------: | -------------------- | ----------- |
-| 89.6% | 8.76 KiB |     117 | `_start`             | `<unknown>` |
-|  7.8% |    784 B |      82 | `0xffffffffffffffff` | `<unknown>` |
-
-##### `0x1e9ef` (`[stack]`)
-
-|      % |     Size | Objects | Callee                                 | Location                  |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------- |
-| 100.0% | 8.53 KiB |      78 | `__json_value_module_MOD_parse_string` | `./json_value_module.F90` |
-
-##### `0x1dfbf` (`[stack]`)
-
-|      % |     Size | Objects | Callee   | Location    |
-| -----: | -------: | ------: | -------- | ----------- |
-| 100.0% | 8.53 KiB |      78 | `_start` | `<unknown>` |
-
-##### `0x1e0bf` (`[stack]`)
-
-|     % |     Size | Objects | Callee    | Location                                                                        |
-| ----: | -------: | ------: | --------- | ------------------------------------------------------------------------------- |
-| 48.7% | 4.16 KiB |      38 | `main`    | `/out/profile.f90`                                                              |
-| 48.7% | 4.16 KiB |      38 | `0x228cf` | `/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary` |
-|  2.6% |    224 B |       2 | `0x1f22f` | `[stack]`                                                                       |
-
-##### `0xffffa218003f` (`<unknown>`)
-
-|     % |     Size | Objects | Callee    | Location                                           |
-| ----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 50.0% | 4.16 KiB |      38 | `0x2f9e7` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-| 50.0% | 4.16 KiB |      38 | `_start`  | `<unknown>`                                        |
-
-##### `0x397ff` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|      % |     Size | Objects | Callee    | Location                                           |
-| -----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 100.0% | 7.77 KiB |      71 | `_start`  | `<unknown>`                                        |
-|  49.3% | 3.83 KiB |      35 | `0x397ff` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-
-##### `__json_value_module_MOD_parse_number` (`./json_value_module.F90`)
-
-|     % |    Size | Objects | Callee                                  | Location                  |
-| ----: | ------: | ------: | --------------------------------------- | ------------------------- |
-| 90.2% | 6.8 KiB |     871 | `__json_value_module_MOD_to_integer`    | `./json_value_module.F90` |
-|  9.8% |   760 B |       1 | `__json_value_module_MOD_string_to_int` | `./json_value_module.F90` |
-
-##### `0xaaaab87a67ff` (`<unknown>`)
-
-|     % |     Size | Objects | Callee           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 41.1% | 2.31 KiB |     153 | `_start`         | `<unknown>` |
-| 35.9% | 2.02 KiB |     103 | `0xffffa2a19d67` | `<unknown>` |
-| 23.0% | 1.29 KiB |      51 | `0xffffa2a18fff` | `<unknown>` |
-
-##### `0x1e337` (`[stack]`)
-
-|      % |     Size | Objects | Callee   | Location    |
-| -----: | -------: | ------: | -------- | ----------- |
-| 100.0% | 4.27 KiB |      39 | `_start` | `<unknown>` |
-
-##### `0x2f9e7` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|      % |     Size | Objects | Callee   | Location    |
-| -----: | -------: | ------: | -------- | ----------- |
-| 100.0% | 4.27 KiB |      39 | `_start` | `<unknown>` |
-
-##### `0x7c` (`<unknown>`)
-
-|    % |  Size | Objects | Callee           | Location    |
-| ---: | ----: | ------: | ---------------- | ----------- |
-| 2.6% | 112 B |       1 | `0xaaaab8849377` | `<unknown>` |
-| 2.6% | 112 B |       1 | `0xaaaab89bac9f` | `<unknown>` |
-| 2.6% | 112 B |       1 | `0xaaaab89311bf` | `<unknown>` |
-| 2.6% | 112 B |       1 | `0xaaaab881808f` | `<unknown>` |
-| 2.6% | 112 B |       1 | `0xaaaab893094f` | `<unknown>` |
-
-##### `0x1e7cf` (`[stack]`)
-
-|      % |     Size | Objects | Callee   | Location    |
-| -----: | -------: | ------: | -------- | ----------- |
-| 100.0% | 4.05 KiB |      37 | `_start` | `<unknown>` |
-
-##### `0x17` (`<unknown>`)
-
-|      % |     Size | Objects | Callee    | Location                                           |
-| -----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 100.0% | 3.94 KiB |      36 | `0x397ff` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-
-##### `0x18` (`<unknown>`)
-
-|      % |     Size | Objects | Callee   | Location    |
-| -----: | -------: | ------: | -------- | ----------- |
-| 100.0% | 3.72 KiB |      34 | `_start` | `<unknown>` |
-
-##### `0xffffa2a18fff` (`<unknown>`)
-
-|     % |     Size | Objects | Callee    | Location                                           |
-| ----: | -------: | ------: | --------- | -------------------------------------------------- |
-| 54.3% | 1.73 KiB |      55 | `_start`  | `<unknown>`                                        |
-| 38.3% | 1.22 KiB |      78 | `0x3131f` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-|  6.9% |    224 B |       2 | `0x3143b` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-|  0.6% |     18 B |       1 | `0x3142b` | `/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10` |
-
-##### `0xffffa2a19d67` (`<unknown>`)
-
-|     % |     Size | Objects | Callee           | Location    |
-| ----: | -------: | ------: | ---------------- | ----------- |
-| 65.2% | 2.02 KiB |     103 | `_start`         | `<unknown>` |
-| 34.8% | 1.08 KiB |      45 | `0xaaaab87a67ff` | `<unknown>` |
-
-##### `0x3131f` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`)
-
-|     % |     Size | Objects | Callee    | Location    |
-| ----: | -------: | ------: | --------- | ----------- |
-| 51.9% | 1.22 KiB |      78 | `_start`  | `<unknown>` |
-| 33.5% |    808 B |      39 | `0x1dc7f` | `[stack]`   |
-| 14.6% |    351 B |      39 | `0x1e69f` | `[stack]`   |
+|      % | Size | Objects | Callee                                            | Location                             |
+| -----: | ---: | ------: | ------------------------------------------------- | ------------------------------------ |
+| 100.0% |  1 B |       1 | `__json_value_module_MOD_json_get_string_by_path` | `./json_get_scalar_by_path.inc:9182` |
 
 ## Hottest call stacks
 
 Call stacks with the most bytes retained in their leaf frame.
 
-|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 31.5% |  282 KiB |   2,577 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`                      |
-| 14.3% |  128 KiB |       1 | `0x1c1b3` (`/usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0`) ← `0x10be83` ← `0x1029eb` ← `0x10324b` ← `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90`) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  4.2% | 37.6 KiB |   2,507 | `__json_value_module_MOD_parse_object` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`                           |
-|  3.5% | 31.6 KiB |     937 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`                            |
-|  2.3% | 20.6 KiB |     188 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817`                                                  |
-|  2.3% | 20.1 KiB |     184 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start`                                                                                |
-|  1.8% |   16 KiB |     146 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffffffffffffff`                                                                                                  |
-|  1.7% | 15.3 KiB |     140 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)                     |
-|  1.7% |   15 KiB |     137 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`) ← `0xffffffffffffffff`                                             |
-|  1.3% | 11.7 KiB |     107 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x1f22f` (`[stack]`) ← `0x228cf` (`/tmp/nix-shell.NcwiQ3/profiler-md-input-generation.fqUYfr/fortran-base/binary`)                                                                                     |
-|  1.3% | 11.3 KiB |     103 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main`                                 |
-|  1.2% | 10.5 KiB |      39 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817`                                                        |
-|  1.0% | 9.33 KiB |      32 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x2b167` (`/usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10`) ← `0x1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object`                        |
-|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `__json_value_module_MOD_parse_string` (`./json_value_module.F90`) ← `0x1e9ef` (`[stack]`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x1f47f` (`[stack]`) ← `0x1f22f`                                                                                                                                                                                                                |
-|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x1dfbf` (`[stack]`) ← `__json_value_module_MOD_parse_object` (`./json_value_module.F90`)                                                                                                                                                                                                                                         |
-|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `__json_value_module_MOD_parse_object` (`./json_value_module.F90`) ← `0x1f47f` (`[stack]`)                                                                                                                                                                                                |
-|  0.9% | 7.88 KiB |      72 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_json_parse_file` ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90`) ← `MAIN__` (`/out/profile.f90`) |
-|  0.8% | 7.55 KiB |      69 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90`) ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_object` ← `__json_value_module_MOD_parse_array` ← `__json_value_module_MOD_parse_object`                       |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 31.5% |  282 KiB |   2,577 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) |
+| 14.3% |  128 KiB |       2 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `_gfortran_st_open` ← `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9714`) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  4.2% | 37.6 KiB |   2,507 | `__json_value_module_MOD_parse_object` (`./json_value_module.F90:10882`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)     |
+|  3.5% | 31.6 KiB |     937 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)      |
+|  2.3% | 20.6 KiB |     188 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main`                                                                                       |
+|  2.3% | 20.1 KiB |     184 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                             |
+|  1.8% |   16 KiB |     146 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                              |
+|  1.7% | 15.3 KiB |     140 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)`                                                            |
+|  1.7% |   15 KiB |     137 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                               |
+|  1.3% | 11.7 KiB |     107 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                |
+|  1.3% | 11.3 KiB |     103 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6)                           |
+|  1.2% | 11.1 KiB |      39 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  1.2% | 10.5 KiB |      39 | `__json_value_module_MOD_parse_value` (`./json_value_module.F90:10117`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main`                                                                                            |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882)   |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                 |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  1.0% | 8.53 KiB |      78 | `__json_value_module_MOD_json_value_create` (`./json_value_module.F90:2204`) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_parse_array` (10987) ← `__json_value_module_MOD_parse_object` (10882) ← `__json_value_module_MOD_json_parse_file` (9714) ← `__json_file_module_MOD_json_file_load` (`./json_file_module.F90:842`) ← `MAIN__` (`/out/profile.f90:5`) ← `main` (6) ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |

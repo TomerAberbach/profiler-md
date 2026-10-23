@@ -37,7 +37,8 @@ declare -A HEAP_DUMP_EXPECTED_POINTS=(
 )
 
 run_jvm_workload() {
-  local jvm_arg=$1 cfg=$2 side=$4
+  local cfg=$1 side=$3
+  local jvm_args=("${@:4}")
   local version=${RENAISSANCE_VERSION[$side]}
   local jar="$REPO/scripts/inputs/assets/java/renaissance-mit-$version.jar"
   fetch_asset "Renaissance $version jar" \
@@ -52,13 +53,13 @@ run_jvm_workload() {
     if [[ -n "${HEAP_DUMP_EXPECTED_POINTS[$side]:-}" ]]; then
       overrides+=(-o "expected_points=${HEAP_DUMP_EXPECTED_POINTS[$side]}")
     fi
-    java "$jvm_arg" -jar "$jar" \
+    java "${jvm_args[@]}" -jar "$jar" \
       --scratch-base "$WORKDIR" \
       "${overrides[@]}" \
       -t "$HEAP_DUMP_RUN_SECONDS" fj-kmeans
     return
   fi
-  java "$jvm_arg" -jar "$jar" \
+  java "${jvm_args[@]}" -jar "$jar" \
     --scratch-base "$WORKDIR" -r "$REPETITIONS" fj-kmeans
 }
 

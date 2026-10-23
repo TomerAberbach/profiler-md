@@ -206,7 +206,9 @@ and reducing GC pressure.
 import { writeFile } from 'node:fs/promises'
 import { encode, heap } from '@datadog/pprof'
 
-heap.start(512 * 1024, 64) // Sampling interval in bytes, max stack depth
+// Sampling interval in bytes, and max stack depth. A deeper stack loses its
+// outermost callers
+heap.start(512 * 1024, 1024)
 
 // Code to profile...
 

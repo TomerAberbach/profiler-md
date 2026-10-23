@@ -20,22 +20,22 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
-|      % |    Size |   Objects | Function                                   | Location                                    |
-| -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
-|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h`  |
+|      % |    Size |   Objects | Function                                   | Location                                        |
+| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc:217` |
+|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h:112`  |
 
 #### Lines
 
 Lines with the largest contribution to each function's self size.
 
-##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc:217`)
 
 |      % |    Size |   Objects | Location                                        |
 | -----: | ------: | --------: | ----------------------------------------------- |
 | 100.0% | 120 MiB | 1,998,000 | `/usr/include/c++/12/bits/basic_string.tcc:225` |
 
-##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h`)
+##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h:112`)
 
 |      % |  Size | Objects | Location                                       |
 | -----: | ----: | ------: | ---------------------------------------------- |
@@ -45,43 +45,37 @@ Lines with the largest contribution to each function's self size.
 
 Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
-##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc:217`)
 
-|      % |    Size |   Objects | Caller                                     | Location                                  |
-| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+|      % |    Size |   Objects | Caller                                     | Location                                      |
+| -----: | ------: | --------: | ------------------------------------------ | --------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h:612` |
 
-##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h`)
+##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h:112`)
 
-|      % |  Size | Objects | Caller                            | Location                                  |
-| -----: | ----: | ------: | --------------------------------- | ----------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h` |
+|      % |  Size | Objects | Caller                            | Location                                      |
+| -----: | ----: | ------: | --------------------------------- | --------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h:463` |
 
 ### Total size
 
 Functions with the most bytes allocated within the function and its callees.
 
-|      % |    Size |   Objects | Function                                   | Location                                    |
-| -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------- |
-| 100.0% | 120 MiB | 1,998,001 | `main`                                     | `/out/profile.cpp`                          |
-| 100.0% | 120 MiB | 1,998,001 | `0x27743`                                  | `/usr/lib/aarch64-linux-gnu/libc.so.6`      |
-| 100.0% | 120 MiB | 1,998,001 | `0x27817`                                  | `/usr/lib/aarch64-linux-gnu/libc.so.6`      |
-| 100.0% | 120 MiB | 1,998,001 | `_start`                                   | `<unknown>`                                 |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h`   |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string`                      | `./format.h`                                |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]`             | `./format-inl.h`                            |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format`                         | `./format.h`                                |
-|  99.1% | 119 MiB | 1,982,596 | `0xffffffffffffffff`                       | `<unknown>`                                 |
-|  98.3% | 118 MiB | 1,966,776 | `0x6400000009`                             | `<unknown>`                                 |
-|   0.5% | 653 KiB |     9,881 | `0x6400000000`                             | `<unknown>`                                 |
-|   0.3% | 398 KiB |     7,061 | `0xffffa3610027`                           | `<unknown>`                                 |
-|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h`  |
-|  <0.1% |   8 KiB |         1 | `std::allocator_traits::allocate`          | `/usr/include/c++/12/bits/alloc_traits.h`   |
-|  <0.1% |   8 KiB |         1 | `std::_Vector_base::_M_allocate`           | `/usr/include/c++/12/bits/stl_vector.h`     |
-|  <0.1% |   8 KiB |         1 | `std::vector::reserve`                     | `/usr/include/c++/12/bits/vector.tcc`       |
-|  <0.1% |   8 KiB |         1 | `0xffff00000000`                           | `<unknown>`                                 |
-|  <0.1% |   137 B |         2 | `0xffffc92ac017`                           | `<unknown>`                                 |
+|      % |    Size |   Objects | Function                                   | Location                                        |
+| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,001 | `main`                                     | `/out/profile.cpp:8`                            |
+| 100.0% | 120 MiB | 1,998,001 | `(anonymous)`                              | `<unknown>`                                     |
+| 100.0% | 120 MiB | 1,998,001 | `__libc_start_main`                        | `<unknown>`                                     |
+| 100.0% | 120 MiB | 1,998,001 | `_start`                                   | `<unknown>`                                     |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc:217` |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h:612`   |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string`                      | `./format.h:882`                                |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]`             | `./format-inl.h:1442`                           |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format`                         | `./format.h:4198`                               |
+|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h:112`  |
+|  <0.1% |   8 KiB |         1 | `std::allocator_traits::allocate`          | `/usr/include/c++/12/bits/alloc_traits.h:463`   |
+|  <0.1% |   8 KiB |         1 | `std::_Vector_base::_M_allocate`           | `/usr/include/c++/12/bits/stl_vector.h:375`     |
+|  <0.1% |   8 KiB |         1 | `std::vector::reserve`                     | `/usr/include/c++/12/bits/vector.tcc:67`        |
 
 #### Categories
 
@@ -89,263 +83,172 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
-|      % |    Size |   Objects | Function                                   | Location                                    |
-| -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h`   |
-|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h`  |
-|  <0.1% |   8 KiB |         1 | `std::allocator_traits::allocate`          | `/usr/include/c++/12/bits/alloc_traits.h`   |
-|  <0.1% |   8 KiB |         1 | `std::_Vector_base::_M_allocate`           | `/usr/include/c++/12/bits/stl_vector.h`     |
-|  <0.1% |   8 KiB |         1 | `std::vector::reserve`                     | `/usr/include/c++/12/bits/vector.tcc`       |
+|      % |    Size |   Objects | Function                                   | Location                                        |
+| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc:217` |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h:612`   |
+|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate`           | `/usr/include/c++/12/bits/new_allocator.h:112`  |
+|  <0.1% |   8 KiB |         1 | `std::allocator_traits::allocate`          | `/usr/include/c++/12/bits/alloc_traits.h:463`   |
+|  <0.1% |   8 KiB |         1 | `std::_Vector_base::_M_allocate`           | `/usr/include/c++/12/bits/stl_vector.h:375`     |
+|  <0.1% |   8 KiB |         1 | `std::vector::reserve`                     | `/usr/include/c++/12/bits/vector.tcc:67`        |
 
 #### Callers
 
 Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `main` (`/out/profile.cpp`)
+##### `main` (`/out/profile.cpp:8`)
 
-|      % |    Size |   Objects | Caller    | Location                               |
-| -----: | ------: | --------: | --------- | -------------------------------------- |
-| 100.0% | 120 MiB | 1,998,001 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Size |   Objects | Caller        | Location    |
+| -----: | ------: | --------: | ------------- | ----------- |
+| 100.0% | 120 MiB | 1,998,001 | `(anonymous)` | `<unknown>` |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `(anonymous)` (`<unknown>`)
 
-|      % |    Size |   Objects | Caller    | Location                               |
-| -----: | ------: | --------: | --------- | -------------------------------------- |
-| 100.0% | 120 MiB | 1,998,001 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Size |   Objects | Caller              | Location    |
+| -----: | ------: | --------: | ------------------- | ----------- |
+| 100.0% | 120 MiB | 1,998,001 | `__libc_start_main` | `<unknown>` |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__libc_start_main` (`<unknown>`)
 
 |      % |    Size |   Objects | Caller   | Location    |
 | -----: | ------: | --------: | -------- | ----------- |
 | 100.0% | 120 MiB | 1,998,001 | `_start` | `<unknown>` |
 
-##### `_start` (`<unknown>`)
+##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc:217`)
 
-|     % |      Size |   Objects | Caller                                     | Location                                    |
-| ----: | --------: | --------: | ------------------------------------------ | ------------------------------------------- |
-| 98.3% |   118 MiB | 1,966,776 | `0x6400000009`                             | `<unknown>`                                 |
-|  0.8% | 1,016 KiB |    14,280 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
-|  0.5% |   653 KiB |     9,881 | `0x6400000000`                             | `<unknown>`                                 |
-|  0.3% |   398 KiB |     7,061 | `0xffffa3610027`                           | `<unknown>`                                 |
-| <0.1% |     8 KiB |         1 | `0xffff00000000`                           | `<unknown>`                                 |
+|      % |    Size |   Objects | Caller                                     | Location                                      |
+| -----: | ------: | --------: | ------------------------------------------ | --------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h:612` |
 
-##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h:612`)
 
-|      % |    Size |   Objects | Caller                                     | Location                                  |
-| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+|      % |    Size |   Objects | Caller                | Location         |
+| -----: | ------: | --------: | --------------------- | ---------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string` | `./format.h:882` |
 
-##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`)
+##### `fmt::v11::to_string` (`./format.h:882`)
 
-|      % |    Size |   Objects | Caller                | Location     |
-| -----: | ------: | --------: | --------------------- | ------------ |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string` | `./format.h` |
+|      % |    Size |   Objects | Caller                         | Location              |
+| -----: | ------: | --------: | ------------------------------ | --------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h:1442` |
 
-##### `fmt::v11::to_string` (`./format.h`)
+##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h:1442`)
 
-|      % |    Size |   Objects | Caller                         | Location         |
-| -----: | ------: | --------: | ------------------------------ | ---------------- |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+|      % |    Size |   Objects | Caller             | Location          |
+| -----: | ------: | --------: | ------------------ | ----------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format` | `./format.h:4198` |
 
-##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`)
+##### `fmt::v11::format` (`./format.h:4198`)
 
-|      % |    Size |   Objects | Caller             | Location     |
-| -----: | ------: | --------: | ------------------ | ------------ |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format` | `./format.h` |
+|      % |    Size |   Objects | Caller | Location             |
+| -----: | ------: | --------: | ------ | -------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `main` | `/out/profile.cpp:8` |
 
-##### `fmt::v11::format` (`./format.h`)
+##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h:112`)
 
-|      % |    Size |   Objects | Caller | Location           |
-| -----: | ------: | --------: | ------ | ------------------ |
-| 100.0% | 120 MiB | 1,998,000 | `main` | `/out/profile.cpp` |
+|      % |  Size | Objects | Caller                            | Location                                      |
+| -----: | ----: | ------: | --------------------------------- | --------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h:463` |
 
-##### `0x6400000009` (`<unknown>`)
+##### `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h:463`)
 
-|      % |    Size |   Objects | Caller               | Location    |
-| -----: | ------: | --------: | -------------------- | ----------- |
-| 100.0% | 118 MiB | 1,966,776 | `0xffffffffffffffff` | `<unknown>` |
+|      % |  Size | Objects | Caller                           | Location                                    |
+| -----: | ----: | ------: | -------------------------------- | ------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::_Vector_base::_M_allocate` | `/usr/include/c++/12/bits/stl_vector.h:375` |
 
-##### `0x6400000000` (`<unknown>`)
+##### `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h:375`)
 
-|      % |    Size | Objects | Caller               | Location    |
-| -----: | ------: | ------: | -------------------- | ----------- |
-| 100.0% | 653 KiB |   9,881 | `0xffffffffffffffff` | `<unknown>` |
+|      % |  Size | Objects | Caller                 | Location                                 |
+| -----: | ----: | ------: | ---------------------- | ---------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::vector::reserve` | `/usr/include/c++/12/bits/vector.tcc:67` |
 
-##### `0xffffa3610027` (`<unknown>`)
+##### `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc:67`)
 
-|     % |     Size | Objects | Caller               | Location    |
-| ----: | -------: | ------: | -------------------- | ----------- |
-| 81.3% |  323 KiB |   5,936 | `0xffffffffffffffff` | `<unknown>` |
-| 18.7% | 74.4 KiB |   1,125 | `0xffffa3610027`     | `<unknown>` |
-
-##### `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h`)
-
-|      % |  Size | Objects | Caller                            | Location                                  |
-| -----: | ----: | ------: | --------------------------------- | ----------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h` |
-
-##### `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h`)
-
-|      % |  Size | Objects | Caller                           | Location                                |
-| -----: | ----: | ------: | -------------------------------- | --------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::_Vector_base::_M_allocate` | `/usr/include/c++/12/bits/stl_vector.h` |
-
-##### `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h`)
-
-|      % |  Size | Objects | Caller                 | Location                              |
-| -----: | ----: | ------: | ---------------------- | ------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::vector::reserve` | `/usr/include/c++/12/bits/vector.tcc` |
-
-##### `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc`)
-
-|      % |  Size | Objects | Caller | Location           |
-| -----: | ----: | ------: | ------ | ------------------ |
-| 100.0% | 8 KiB |       1 | `main` | `/out/profile.cpp` |
-
-##### `0xffff00000000` (`<unknown>`)
-
-|      % |  Size | Objects | Caller               | Location    |
-| -----: | ----: | ------: | -------------------- | ----------- |
-| 100.0% | 8 KiB |       1 | `0xffffffffffffffff` | `<unknown>` |
-
-##### `0xffffc92ac017` (`<unknown>`)
-
-|      % |  Size | Objects | Caller               | Location    |
-| -----: | ----: | ------: | -------------------- | ----------- |
-| 100.0% | 137 B |       2 | `0xffffffffffffffff` | `<unknown>` |
+|      % |  Size | Objects | Caller | Location             |
+| -----: | ----: | ------: | ------ | -------------------- |
+| 100.0% | 8 KiB |       1 | `main` | `/out/profile.cpp:8` |
 
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `main` (`/out/profile.cpp`)
+##### `main` (`/out/profile.cpp:8`)
 
-|      % |    Size |   Objects | Callee                 | Location                              |
-| -----: | ------: | --------: | ---------------------- | ------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format`     | `./format.h`                          |
-|  <0.1% |   8 KiB |         1 | `std::vector::reserve` | `/usr/include/c++/12/bits/vector.tcc` |
+|      % |    Size |   Objects | Callee                 | Location                                 |
+| -----: | ------: | --------: | ---------------------- | ---------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format`     | `./format.h:4198`                        |
+|  <0.1% |   8 KiB |         1 | `std::vector::reserve` | `/usr/include/c++/12/bits/vector.tcc:67` |
 
-##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `(anonymous)` (`<unknown>`)
 
-|      % |    Size |   Objects | Callee | Location           |
-| -----: | ------: | --------: | ------ | ------------------ |
-| 100.0% | 120 MiB | 1,998,001 | `main` | `/out/profile.cpp` |
+|      % |    Size |   Objects | Callee | Location             |
+| -----: | ------: | --------: | ------ | -------------------- |
+| 100.0% | 120 MiB | 1,998,001 | `main` | `/out/profile.cpp:8` |
 
-##### `0x27817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+##### `__libc_start_main` (`<unknown>`)
 
-|      % |    Size |   Objects | Callee    | Location                               |
-| -----: | ------: | --------: | --------- | -------------------------------------- |
-| 100.0% | 120 MiB | 1,998,001 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Size |   Objects | Callee        | Location    |
+| -----: | ------: | --------: | ------------- | ----------- |
+| 100.0% | 120 MiB | 1,998,001 | `(anonymous)` | `<unknown>` |
 
 ##### `_start` (`<unknown>`)
 
-|      % |    Size |   Objects | Callee    | Location                               |
-| -----: | ------: | --------: | --------- | -------------------------------------- |
-| 100.0% | 120 MiB | 1,998,001 | `0x27817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|      % |    Size |   Objects | Callee              | Location    |
+| -----: | ------: | --------: | ------------------- | ----------- |
+| 100.0% | 120 MiB | 1,998,001 | `__libc_start_main` | `<unknown>` |
 
-##### `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`)
+##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h:612`)
 
-|    % |      Size | Objects | Callee   | Location    |
-| ---: | --------: | ------: | -------- | ----------- |
-| 0.8% | 1,016 KiB |  14,280 | `_start` | `<unknown>` |
+|      % |    Size |   Objects | Callee                                     | Location                                        |
+| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc:217` |
 
-##### `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`)
+##### `fmt::v11::to_string` (`./format.h:882`)
 
-|      % |    Size |   Objects | Callee                                     | Location                                    |
-| -----: | ------: | --------: | ------------------------------------------ | ------------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc` |
+|      % |    Size |   Objects | Callee                                     | Location                                      |
+| -----: | ------: | --------: | ------------------------------------------ | --------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h:612` |
 
-##### `fmt::v11::to_string` (`./format.h`)
+##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h:1442`)
 
-|      % |    Size |   Objects | Callee                                     | Location                                  |
-| -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------- |
-| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::basic_string` | `/usr/include/c++/12/bits/basic_string.h` |
+|      % |    Size |   Objects | Callee                | Location         |
+| -----: | ------: | --------: | --------------------- | ---------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string` | `./format.h:882` |
 
-##### `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`)
+##### `fmt::v11::format` (`./format.h:4198`)
 
-|      % |    Size |   Objects | Callee                | Location     |
-| -----: | ------: | --------: | --------------------- | ------------ |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::to_string` | `./format.h` |
+|      % |    Size |   Objects | Callee                         | Location              |
+| -----: | ------: | --------: | ------------------------------ | --------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h:1442` |
 
-##### `fmt::v11::format` (`./format.h`)
+##### `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h:463`)
 
-|      % |    Size |   Objects | Callee                         | Location         |
-| -----: | ------: | --------: | ------------------------------ | ---------------- |
-| 100.0% | 120 MiB | 1,998,000 | `fmt::v11::vformat[abi:cxx11]` | `./format-inl.h` |
+|      % |  Size | Objects | Callee                           | Location                                       |
+| -----: | ----: | ------: | -------------------------------- | ---------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::__new_allocator::allocate` | `/usr/include/c++/12/bits/new_allocator.h:112` |
 
-##### `0xffffffffffffffff` (`<unknown>`)
+##### `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h:375`)
 
-|     % |    Size |   Objects | Callee           | Location    |
-| ----: | ------: | --------: | ---------------- | ----------- |
-| 99.2% | 118 MiB | 1,966,776 | `0x6400000009`   | `<unknown>` |
-|  0.5% | 653 KiB |     9,881 | `0x6400000000`   | `<unknown>` |
-|  0.3% | 323 KiB |     5,936 | `0xffffa3610027` | `<unknown>` |
-| <0.1% |   8 KiB |         1 | `0xffff00000000` | `<unknown>` |
-| <0.1% |   137 B |         2 | `0xffffc92ac017` | `<unknown>` |
+|      % |  Size | Objects | Callee                            | Location                                      |
+| -----: | ----: | ------: | --------------------------------- | --------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h:463` |
 
-##### `0x6400000009` (`<unknown>`)
+##### `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc:67`)
 
-|      % |    Size |   Objects | Callee   | Location    |
-| -----: | ------: | --------: | -------- | ----------- |
-| 100.0% | 118 MiB | 1,966,776 | `_start` | `<unknown>` |
-
-##### `0x6400000000` (`<unknown>`)
-
-|      % |    Size | Objects | Callee   | Location    |
-| -----: | ------: | ------: | -------- | ----------- |
-| 100.0% | 653 KiB |   9,881 | `_start` | `<unknown>` |
-
-##### `0xffffa3610027` (`<unknown>`)
-
-|      % |     Size | Objects | Callee           | Location    |
-| -----: | -------: | ------: | ---------------- | ----------- |
-| 100.0% |  398 KiB |   7,061 | `_start`         | `<unknown>` |
-|  18.7% | 74.4 KiB |   1,125 | `0xffffa3610027` | `<unknown>` |
-
-##### `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h`)
-
-|      % |  Size | Objects | Callee                           | Location                                   |
-| -----: | ----: | ------: | -------------------------------- | ------------------------------------------ |
-| 100.0% | 8 KiB |       1 | `std::__new_allocator::allocate` | `/usr/include/c++/12/bits/new_allocator.h` |
-
-##### `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h`)
-
-|      % |  Size | Objects | Callee                            | Location                                  |
-| -----: | ----: | ------: | --------------------------------- | ----------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::allocator_traits::allocate` | `/usr/include/c++/12/bits/alloc_traits.h` |
-
-##### `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc`)
-
-|      % |  Size | Objects | Callee                           | Location                                |
-| -----: | ----: | ------: | -------------------------------- | --------------------------------------- |
-| 100.0% | 8 KiB |       1 | `std::_Vector_base::_M_allocate` | `/usr/include/c++/12/bits/stl_vector.h` |
-
-##### `0xffff00000000` (`<unknown>`)
-
-|      % |  Size | Objects | Callee   | Location    |
-| -----: | ----: | ------: | -------- | ----------- |
-| 100.0% | 8 KiB |       1 | `_start` | `<unknown>` |
-
-##### `0xffffc92ac017` (`<unknown>`)
-
-|      % |  Size | Objects | Callee   | Location    |
-| -----: | ----: | ------: | -------- | ----------- |
-| 100.0% | 137 B |       2 | `_start` | `<unknown>` |
+|      % |  Size | Objects | Callee                           | Location                                    |
+| -----: | ----: | ------: | -------------------------------- | ------------------------------------------- |
+| 100.0% | 8 KiB |       1 | `std::_Vector_base::_M_allocate` | `/usr/include/c++/12/bits/stl_vector.h:375` |
 
 ## Hottest call stacks
 
 Call stacks with the most bytes allocated in their leaf frame.
 
-|     % |      Size |   Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----: | --------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 98.3% |   118 MiB | 1,966,776 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x6400000009` ← `0xffffffffffffffff`                                                                                                                                                                                                                                        |
-|  0.8% | 1,016 KiB |    14,280 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) |
-|  0.5% |   653 KiB |     9,881 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0x6400000000` ← `0xffffffffffffffff`                                                                                                                                                                                                                                        |
-|  0.3% |   323 KiB |     5,936 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffa3610027` ← `0xffffffffffffffff`                                                                                                                                                                                                                                      |
-|  0.1% |  74.4 KiB |     1,125 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffa3610027` ← `0xffffa3610027`                                                                                                                                                                                                                                          |
-| <0.1% |     8 KiB |         1 | `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h`) ← `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h`) ← `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h`) ← `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffff00000000` ← `0xffffffffffffffff`                                                                                                                                                                                                                                           |
-| <0.1% |     137 B |         2 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h`) ← `fmt::v11::to_string` (`./format.h`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h`) ← `fmt::v11::format` (`./format.h`) ← `main` (`/out/profile.cpp`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0x27817` ← `_start` ← `0xffffc92ac017` ← `0xffffffffffffffff`                                                                                                                                                                                                                                      |
+Common call stack: `main` (`/out/profile.cpp:8`) ← `(anonymous)` ← `__libc_start_main` ← `_start`
+
+|      % |    Size |   Objects | Call stack                                                                                                                                                                                                                                                                                                                             |
+| -----: | ------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` (`/usr/include/c++/12/bits/basic_string.tcc:217`) ← `std::__cxx11::basic_string::basic_string` (`/usr/include/c++/12/bits/basic_string.h:612`) ← `fmt::v11::to_string` (`./format.h:882`) ← `fmt::v11::vformat[abi:cxx11]` (`./format-inl.h:1442`) ← `fmt::v11::format` (`./format.h:4198`) |
+|  <0.1% |   8 KiB |         1 | `std::__new_allocator::allocate` (`/usr/include/c++/12/bits/new_allocator.h:112`) ← `std::allocator_traits::allocate` (`/usr/include/c++/12/bits/alloc_traits.h:463`) ← `std::_Vector_base::_M_allocate` (`/usr/include/c++/12/bits/stl_vector.h:375`) ← `std::vector::reserve` (`/usr/include/c++/12/bits/vector.tcc:67`)             |
 
 # Retained heap profile
 

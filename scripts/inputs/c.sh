@@ -20,6 +20,8 @@ run_for_side() {
   local dir="$WORKDIR/c-$side"
   mkdir -p "$dir"
 
+  stage_container_pprof "$dir" || return 1
+
   notice "Profiling zstd with gperftools ($side)"
 
   docker_capture "$dir" '
@@ -27,7 +29,7 @@ run_for_side() {
 
       apt-get update -qq
       apt-get install -y -qq --no-install-recommends \
-        google-perftools libgoogle-perftools-dev \
+        google-perftools libgoogle-perftools-dev llvm \
         build-essential git ca-certificates curl unzip
 
       git clone --depth 1 --branch "'"${ZSTD_TAG[$side]}"'" "'"$ZSTD_REPO"'" /src/zstd
@@ -60,23 +62,27 @@ run_for_side() {
         "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
 
       # tcmalloc dumps numbered heap.NNNN.heap files.
-      HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
+      # libc lacks frame pointers, so the default frame pointer walk continues
+      # past the program'"'"'s entry into invalid frames. The libgcc unwinder reads
+      # unwind tables instead, so it walks through libc.
+      TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=1048576 \
         "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
 
-      # The binary is needed on the host to symbolize the raw profiles.
       cp "$ZSTD" /out/binary
-    ' -e SIDE="$side"
 
-  # pprof can't symbolize the Linux runtime libraries (libc, tcmalloc, ld) on
-  # another OS, so drop those expected warnings. Other errors still print and
-  # fail the capture through the exit code.
-  local drop='Local symbolization failed'
-  pprof -proto "$dir/binary" "$dir/cpu.raw" >"$dir/cpu.pprof" \
-    2> >(grep -v "$drop" >&2 || true)
-  pprof -proto "$dir/binary" "$dir/heap.raw" >"$dir/heap.pprof" \
-    2> >(grep -v "$drop" >&2 || true)
+      # pprof symbolizes against the files the profiles map, and the runtime
+      # libraries among them exist only in this container. pprof cannot
+      # symbolize the kernel'"'"'s pseudo-mappings, such as [vdso], so the grep
+      # drops its warnings about them. pprof prefers llvm-symbolizer, which
+      # reports an unknown file as empty. addr2line reports `??:?`, which pprof
+      # keeps as a file name (https://github.com/google/pprof/issues/1044).
+      for name in cpu heap; do
+        /out/pprof -proto /out/binary "/out/$name.raw" >"/out/$name.pprof" \
+          2> >(grep -v "Local symbolization failed for \[" >&2 || true)
+      done
+    ' -e SIDE="$side"
 
   rundir[$side]=$dir
 }

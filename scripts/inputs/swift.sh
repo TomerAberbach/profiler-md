@@ -28,6 +28,7 @@ run_swift() {
   local dir="$WORKDIR/swift"
   mkdir -p "$dir/pkg"
   cp -R "$profile_dir/." "$dir/pkg"
+  stage_container_pprof "$dir" || return 1
 
 
   notice "Profiling swift-syntax with gperftools (base + current; builds swift-syntax from source)"
@@ -44,7 +45,7 @@ run_swift() {
 
       apt-get update -qq
       apt-get install -y -qq --no-install-recommends \
-        google-perftools libgoogle-perftools-dev
+        google-perftools libgoogle-perftools-dev binutils llvm
 
       # Build outside the bind mount: SwiftPM writes tens of thousands of files
       # and the mount is slower than the container filesystem.
@@ -64,7 +65,7 @@ run_swift() {
           rm -rf .build Package.resolved
         fi
 
-        # -g records the line info the host pprof needs to symbolize
+        # -g records the line info pprof needs to symbolize
         # swift-syntax frames. SwiftPM statically links the package and its
         # dependencies into the executable, so their symbols are in the one
         # binary pprof reads.
@@ -88,12 +89,25 @@ run_swift() {
         # tcmalloc dumps heap.<side>.NNNN.heap, numbered from 0001. The workload
         # allocates about 77 MiB in total, under the 1 GB allocation interval
         # and the 100 MB in-use interval, so the dump at exit is the only one.
-        HEAPPROFILE="/out/heap.$side" LD_PRELOAD="$LIBTCMALLOC" \
-          ./.build/release/profile "$SRC" 6
+        # libc lacks frame pointers, so the default frame pointer walk continues
+        # past the program'"'"'s entry into invalid frames. The libgcc unwinder
+        # reads unwind tables instead, so it walks through libc.
+        TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE="/out/heap.$side" \
+          LD_PRELOAD="$LIBTCMALLOC" ./.build/release/profile "$SRC" 6
         cp "$(ls -1 "/out/heap.$side".*.heap | sort | tail -n1)" "/out/heap.$side.raw"
 
-        # The host needs the binary to symbolize the raw profiles.
-        cp ./.build/release/profile "/out/binary.$side"
+        # pprof symbolizes against the files the profiles map, and the runtime
+        # libraries among them exist only in this container. pprof cannot
+        # symbolize the kernel'"'"'s pseudo-mappings, such as [vdso], so the grep
+        # drops its warnings about them. pprof prefers llvm-symbolizer, which
+        # reports an unknown file as empty. addr2line reports `??:?`, which
+        # pprof keeps as a file name
+        # (https://github.com/google/pprof/issues/1044).
+        for name in cpu heap; do
+          /out/pprof -proto ./.build/release/profile "/out/$name.$side.raw" \
+            >"/out/$name.$side.pprof" \
+            2> >(grep -v "Local symbolization failed for \[" >&2 || true)
+        done
       done
     ' || {
     run_failed=1
@@ -104,24 +118,18 @@ run_swift() {
 }
 
 # capture_fn for emit: $1=out  $2=side  $3=in-container basename (cpu|heap)
-symbolize_swift_profile() {
+copy_swift_profile() {
   local out=$1 side=$2 name=$3
   run_swift || return 1
 
-  # The Linux runtime libraries (libc, libswiftCore, ld) can't be symbolized
-  # cross-OS, so the grep drops those expected warnings. Real errors still print
-  # and fail the build via the exit code.
-  local drop='Local symbolization failed'
-  pprof -proto "$rundir/binary.$side" "$rundir/$name.$side.raw" >"$rundir/$name.$side.pprof" \
-    2> >(grep -v "$drop" >&2 || true) || return 1
   cp "$rundir/$name.$side.pprof" "$out"
 }
 
 ensure_docker
 
 for side in base current; do
-  try emit "$GENERATED_INPUTS/swift.gperftools.cpu.$side.pprof"  symbolize_swift_profile "$side" cpu
-  try emit "$GENERATED_INPUTS/swift.gperftools.heap.$side.pprof" symbolize_swift_profile "$side" heap
+  try emit "$GENERATED_INPUTS/swift.gperftools.cpu.$side.pprof"  copy_swift_profile "$side" cpu
+  try emit "$GENERATED_INPUTS/swift.gperftools.heap.$side.pprof" copy_swift_profile "$side" heap
 done
 
 verify_pairs
