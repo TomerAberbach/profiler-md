@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { formatBytes } from '../src/helpers/format.ts'
+import { compileCachePath } from './helpers/compile-cache.ts'
 
 const check = process.argv.includes(`--check`)
 
@@ -119,6 +120,12 @@ if (check) {
 
   process.stderr.write(`${gifPath} matches ${tapePath} (${digest}).\n`)
 } else {
+  // The digest runs the tape's commands, so computing it before recording
+  // fills the compile cache the recorded commands then load from. Without it,
+  // stripping types and compiling slows the recording's first frames.
+  process.env.NODE_COMPILE_CACHE = compileCachePath
+  const digest = computeDigest()
+
   execFileSync(`vhs`, [tapePath], { stdio: `inherit` })
 
   const recordedSize = readFileSync(gifPath).length
@@ -139,7 +146,7 @@ if (check) {
   )
 
   const gif = readFileSync(gifPath)
-  writeFileSync(gifPath, embedDigest(gif, computeDigest()))
+  writeFileSync(gifPath, embedDigest(gif, digest))
   process.stderr.write(
     `Recorded ${gifPath} and embedded its digest ` +
       `(${formatBytes(recordedSize)} → ${formatBytes(gif.length)}).\n`,

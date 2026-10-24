@@ -20,7 +20,8 @@ Show
 Type "profiler-md examples/input/javascript.node.base.cpuprofile"
 Sleep 300ms
 Enter
-Sleep 1.5s
+Wait /^:/
+Sleep 1s
 Down@100ms 20
 Sleep 900ms
 Type@800ms "dddd"
@@ -51,7 +52,8 @@ Show
 Type "profiler-md examples/input/javascript.node.base.cpuprofile examples/input/javascript.node.current.cpuprofile"
 Sleep 300ms
 Enter
-Sleep 1.5s
+Wait /^:/
+Sleep 1s
 Down@100ms 20
 Sleep 900ms
 Type@800ms "ddd"
