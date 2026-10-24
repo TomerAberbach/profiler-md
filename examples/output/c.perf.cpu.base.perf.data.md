@@ -9,6 +9,53 @@ Took 1.14s over 1,144 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1.14s (99.8%) [[via 2 frames]] 0x9cf0  ./zstd
+    ├── 945.9ms (82.6%) 0x61404
+    │   ├── 934.9ms (81.6%) 0x16020
+    │   │   └── 934.9ms (81.6%) 0x11090
+    │   │       ├── 632.6ms (55.2%) 0x59274
+    │   │       │   ├── 138.1ms (12.1%) 0x5f848  (14.9% self in 3 call stacks)
+    │   │       │   ├── 127.1ms (11.1%) 0x5f800  (14.5% self in 4 call stacks)
+    │   │       │   ├── 117.1ms (10.2%) 0x5fab8  (12.4% self in 2 call stacks)
+    │   │       │   ├── 99.1ms (8.7%) 0x5fadc  (11.3% self in 3 call stacks)
+    │   │       │   ├── 30.0ms (2.6%) 0x5f838
+    │   │       │   ├── 17.0ms (1.5%) 0x5fb10  (2.6% self in 3 call stacks)
+    │   │       │   ├── 12.0ms (1.0%) 0x5f888
+    │   │       │   ├── 11.0ms (1.0%) 0x5fae0
+    │   │       │   ├── 8.0ms (0.7%) 0x5f7f8
+    │   │       │   ├── 8.0ms (0.7%) 0x5f854
+    │   │       │   ├── 7.0ms (0.6%) 0x5f83c
+    │   │       │   ├── 6.0ms (0.5%) 0x5f86c
+    │   │       │   ├── 3.0ms (0.3%) 0x5f820
+    │   │       │   └── 49.0ms (4.3%) 31 more branches, largest 0x5f724 (0.3%)
+    │   │       ├── 37.0ms (3.2%) 0x594d8
+    │   │       ├── 25.0ms (2.2%) 0x59640  (2.7% self in 2 call stacks)
+    │   │       ├── 19.0ms (1.7%) 0x596dc
+    │   │       ├── 17.0ms (1.5%) 0x5960c  (2.0% self in 3 call stacks)
+    │   │       ├── 15.0ms (1.3%) 0x596b8
+    │   │       ├── 12.0ms (1.0%) 0x577d4
+    │   │       ├── 12.0ms (1.0%) 0x59628
+    │   │       ├── 10.0ms (0.9%) 0x595f0
+    │   │       ├── 10.0ms (0.9%) 0x596b4
+    │   │       ├── 9.0ms (0.8%) 0x591d0
+    │   │       ├── 6.0ms (0.5%) 0x59558
+    │   │       ├── 6.0ms (0.5%) 0x57610
+    │   │       ├── 4.0ms (0.3%) 0x596f4
+    │   │       └── 120.1ms (10.5%) 48 more branches, largest 0x609c0 (1.4%)
+    │   └── 11.0ms (1.0%) 4 more branches, largest 0x161a4 (0.7%)
+    └── 192.2ms (16.8%) [[via 3 frames]] 0x11090  ./zstd
+        ├── 151.2ms (13.2%) 0x59274
+        │   ├── 37.0ms (3.2%) 0x5f800
+        │   ├── 29.0ms (2.5%) 0x5fadc
+        │   └── 85.1ms (7.4%) 15 more branches, largest 0x5f848 (2.5%) and 0x5fab8 (2.2%)
+        └── 41.0ms (3.6%) 21 more branches, largest 0x59640 (0.5%)
+```
+
 ## Hottest functions
 
 ### Self time

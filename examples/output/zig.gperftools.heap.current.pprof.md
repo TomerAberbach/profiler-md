@@ -8,6 +8,53 @@ Allocated 1.56 GiB over 240,915 objects (6.81 KiB per object).
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.55 GiB (98.8%) [[via 6 frames]] profile.main  ./profile.zig:11
+│   ├── 873 MiB (54.5%) zig.Ast.parse  /opt/zig/lib/std/zig/Ast.zig:145
+│   │   ├── 561 MiB (35.1%) zig.Ast.parseTokens  :168
+│   │   │   ├── 512 MiB (31.9%) [[via 7 frames]] heap.c_allocator_impl.alloc  (74.5% self in 1,662 call stacks)  /opt/zig/lib/std/heap.zig:208
+│   │   │   └── 49.8 MiB (3.1%) zig.Parse.parseRoot  /opt/zig/lib/std/zig/Parse.zig:192
+│   │   │       └── 49.8 MiB (3.1%) zig.Parse.parseContainerMembers  :235
+│   │   │           ├── 12 MiB (0.7%) [[via 15–18 frames]] zig.Parse.expectTopLevelDeclRecoverable  /opt/zig/lib/std/zig/Parse.zig:669
+│   │   │           │   └── 12 MiB (0.7%) 1 more branch, zig.Parse.expectTopLevelDecl  :604
+│   │   │           ├── 11.8 MiB (0.7%) [[via 2 frames]] zig.Parse.parseBlock  /opt/zig/lib/std/zig/Parse.zig:2094
+│   │   │           │   └── 4.89 MiB (0.3%) zig.Parse.expectStatementRecoverable  :1145
+│   │   │           └── 19.2 MiB (1.2%) 4 more branches, largest zig.Parse.expectTestDeclRecoverable (0.7%)  :588
+│   │   ├── 221 MiB (13.8%) [[via 7 frames]] heap.c_allocator_impl.alloc  /opt/zig/lib/std/heap.zig:208
+│   │   └── 90 MiB (5.6%) [[via 9 frames]] heap.c_allocator_impl.alloc  /opt/zig/lib/std/heap.zig:208
+│   ├── 355 MiB (22.1%) [[via 3 frames]] zig.Ast.Render.renderMembers  /opt/zig/lib/std/zig/Ast/Render.zig:122
+│   │   ├── 321 MiB (20.0%) zig.Ast.Render.renderMember  :141
+│   │   │   ├── 139 MiB (8.7%) zig.Ast.Render.renderExpression  :314
+│   │   │   │   ├── 23.6 MiB (1.5%) [[via 12–22 frames]] heap.c_allocator_impl.remap  (25.5% self in 1,472 call stacks)  /opt/zig/lib/std/heap.zig:291
+│   │   │   │   ├── 22.9 MiB (1.4%) [[via 2–6 frames]] zig.Ast.Render.renderToken  /opt/zig/lib/std/zig/Ast/Render.zig:2720
+│   │   │   │   │   └── 22.1 MiB (1.4%) zig.Ast.Render.AutoIndentingStream.writeAll  :3353
+│   │   │   │   │       ├── 12.1 MiB (0.8%) [[via 7 frames]] heap.c_allocator_impl.remap  /opt/zig/lib/std/heap.zig:291
+│   │   │   │   │       └── 9.94 MiB (0.6%) zig.Ast.Render.AutoIndentingStream.applyIndent  :3516
+│   │   │   │   │           └── 9.94 MiB (0.6%) 1 more branch, Io.Writer.splatByteAll  /opt/zig/lib/std/Io/Writer.zig:770
+│   │   │   │   ├── 12.9 MiB (0.8%) [[via 13–18 frames]] heap.c_allocator_impl.remap  /opt/zig/lib/std/heap.zig:291
+│   │   │   │   ├── 11.1 MiB (0.7%) [[via 2–4 frames]] zig.Ast.Render.renderBlock  /opt/zig/lib/std/zig/Ast/Render.zig:1998
+│   │   │   │   │   └── 11.1 MiB (0.7%) 2 more branches, largest zig.Ast.Render.finishRenderBlock (0.5%)  :2023
+│   │   │   │   └── 55.5 MiB (3.5%) 17 more branches, largest zig.Ast.Render.renderBlock (0.7%)  :1998 and zig.Ast.Render.renderIf (0.6%)
+│   │   │   ├── 73.5 MiB (4.6%) [[via 3–5 frames]] zig.Ast.Render.renderExpression  /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   ├── 13.7 MiB (0.9%) [[via 11–16 frames]] heap.c_allocator_impl.remap  /opt/zig/lib/std/heap.zig:291
+│   │   │   │   └── 55.7 MiB (3.5%) 21 more branches, largest zig.Ast.Render.renderToken (0.9%)  /opt/zig/lib/std/zig/Ast/Render.zig:2720 and zig.Ast.Render.renderBlock (0.7%)
+│   │   │   ├── 38.4 MiB (2.4%) [[via 2 frames]] zig.Ast.Render.renderExpression  /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   └── 38.4 MiB (2.4%) 14 more branches, largest zig.Ast.Render.renderContainerDecl (0.7%)  :2344 and zig.Ast.Render.AutoIndentingStream.writeAll (0.6%)
+│   │   │   ├── 26.6 MiB (1.7%) [[via 3–5 frames]] zig.Ast.Render.renderContainerField  /opt/zig/lib/std/zig/Ast/Render.zig:1577
+│   │   │   │   └── 26.6 MiB (1.7%) 5 more branches, largest zig.Ast.Render.renderIdentifier (1.0%)  :2812
+│   │   │   ├── 23.1 MiB (1.4%) [[via 5–7 frames]] zig.Ast.Render.renderExpression  /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   └── 23.1 MiB (1.4%) 13 more branches, largest zig.Ast.Render.renderToken (0.5%)  /opt/zig/lib/std/zig/Ast/Render.zig:2720
+│   │   │   └── 6.28 MiB (0.4%) [[via 3–5 frames]] zig.Ast.Render.renderDocComments  /opt/zig/lib/std/zig/Ast/Render.zig:3108
+│   │   └── 33.3 MiB (2.1%) zig.Ast.Render.renderExpression  :314
+│   │       └── 33.3 MiB (2.1%) 15 more branches, largest zig.Ast.Render.renderParamList (0.4%)  /opt/zig/lib/std/zig/Ast/Render.zig:2600
+│   └── 353 MiB (22.1%) [[via 12 frames]] heap.c_allocator_impl.alloc  /opt/zig/lib/std/heap.zig:208
+└── 18.6 MiB (1.2%) 24 more branches, largest __libc_start_main (0.2%)
+```
+
 ## Hottest functions
 
 ### Self size

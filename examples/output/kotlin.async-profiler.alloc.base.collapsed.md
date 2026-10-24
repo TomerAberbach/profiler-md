@@ -7,6 +7,53 @@ Collected 1,257 samples.
 | Standard library | 75.3% |     947 |
 | Ours             | 24.7% |     310 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,256 samples (99.9%) main  org.jetbrains.kotlin.preloading.Preloader
+    └── 1,256 samples (99.9%) run
+        ├── 655 samples (52.1%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 587 samples (46.7%) loadAllClassesFromJars
+        │   │   ├── 291 samples (23.2%) <init>  (26.7% self in 2 call stacks)  java.io.ByteArrayOutputStream
+        │   │   ├── 280 samples (22.3%) toByteArray  java.io.ByteArrayOutputStream
+        │   │   │   └── 280 samples (22.3%) copyOf  (self 18.4%; 21.4% in 37 call stacks)  java.util.Arrays
+        │   │   │       └── 49 samples (3.9%) clone  (5.6% self in 3 call stacks)  java.lang.Object
+        │   │   └── 3 samples (0.2%) [[via 6 frames]] copyOfRange  java.util.Arrays
+        │   │       └── 3 samples (0.2%) copyOfRangeByte  (2.5% self in 27 call stacks)
+        │   └── 68 samples (5.4%) [[via 1 frame]] loadAllClassesFromJars  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │       └── 68 samples (5.4%) 3 more branches, largest <init> (3.6%)  java.io.ByteArrayOutputStream and toByteArray (1.7%)
+        └── 598 samples (47.6%) [[via 3 frames]] invokeExact_MT  java.lang.invoke.Invokers$Holder
+            ├── 567 samples (45.1%) [[via 7 frames]] exec  org.jetbrains.kotlin.cli.common.CLICompiler
+            │   ├── 555 samples (44.2%) [[via 11 frames]] invoke  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+            │   │   ├── 534 samples (42.5%) phaseBody  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+            │   │   │   ├── 375 samples (29.8%) [[via 1 frame]] executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+            │   │   │   │   ├── 301 samples (23.9%) [[via 1 frame]] resolveAndCheckFir  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+            │   │   │   │   │   ├── 250 samples (19.9%) runResolution  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+            │   │   │   │   │   │   └── 249 samples (19.8%) process  org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+            │   │   │   │   │   │       ├── 57 samples (4.5%) [[via 59 frames]] computePackagePartInfo  org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider
+            │   │   │   │   │   │       │   ├── 5 samples (0.4%) [[via 17 frames]] readElementValue  org.jetbrains.org.objectweb.asm.ClassReader
+            │   │   │   │   │   │       │   │   └── 2 samples (0.2%) [[via 4 frames]] grow  (1.1% self in 14 call stacks)  java.util.ArrayList
+            │   │   │   │   │   │       │   └── 47 samples (3.7%) 2 more branches, largest readPackageDataFrom (3.7%)  org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil
+            │   │   │   │   │   │       └── 188 samples (15.0%) 1 more branch, processFile  org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+            │   │   │   │   │   └── 50 samples (4.0%) [[via 5 frames]] visitNestedElements  org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor
+            │   │   │   │   │       ├── 1 sample (0.1%) [[via 30 frames]] resize  (1.2% self in 15 call stacks)  java.util.HashMap
+            │   │   │   │   │       ├── 1 sample (0.1%) [[via 18 frames]] box-impl  (0.8% self in 10 call stacks)  org.jetbrains.kotlin.fir.MutableOrEmptyList
+            │   │   │   │   │       └── 37 samples (2.9%) 16 more branches, largest acceptChildren (0.7%)  org.jetbrains.kotlin.fir.declarations.impl.FirFileImpl
+            │   │   │   │   └── 74 samples (5.9%) 4 more branches, largest prepareJvmSessions (2.1%)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase and buildFirViaLightTree (1.8%)
+            │   │   │   ├── 36 samples (2.9%) [[via 1 frame]] executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFir2IrPipelinePhase
+            │   │   │   │   └── 36 samples (2.9%) [[via 2 frames]] convertToIrAndActualizeForJvm-_I1IR-w  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+            │   │   │   │       ├── 28 samples (2.2%) [[via 2 frames]] convertToIrAndActualize  org.jetbrains.kotlin.fir.pipeline.Fir2IrPipeline
+            │   │   │   │       │   ├── 2 samples (0.2%) [[via 14 frames]] iterator  (2.3% self in 29 call stacks)  java.util.ArrayList
+            │   │   │   │       │   └── 25 samples (2.0%) 1 more branch, runFir2IrConversion
+            │   │   │   │       └── 8 samples (0.6%) 1 more branch, getInstance  org.jetbrains.kotlin.builtins.DefaultBuiltIns$Companion
+            │   │   │   └── 123 samples (9.8%) 3 more branches, largest executePhase (9.5%)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+            │   │   └── 21 samples (1.7%) 2 more branches, largest phaseBody (1.5%)  org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+            │   └── 1 sample (0.1%) [[via 55–59 frames]] defineClass1  java.lang.ClassLoader
+            └── 29 samples (2.3%) 2 more branches, largest invokeStatic (2.1%)  java.lang.invoke.LambdaForm$DMH.0x000000c801230000
+```
+
 ## Hottest functions
 
 ### Self samples

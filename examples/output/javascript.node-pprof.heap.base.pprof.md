@@ -11,6 +11,53 @@ Allocated 741 MiB over 6,116,491 objects (127 B per object).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.xkrVDK/profiler-md-input-generation.tORfp3/zod/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 739 MiB (99.7%) [[via 2 frames]] next
+    ├── 726 MiB (98.0%) (anonymous)  ./datadog-pprof-heap.mjs:1:1
+    │   └── 725 MiB (97.8%) typeCheckProject  ./tsc-workload.mjs
+    │       ├── 470 MiB (63.4%) [[via 9 frames]] (anonymous)  ./node_modules/typescript/lib/typescript.js:123385:37
+    │       │   ├── 386 MiB (52.1%) [[via 4 frames]] checkSourceFileWorker  ./node_modules/typescript/lib/typescript.js
+    │       │   │   ├── 224 MiB (30.3%) checkDeferredNodes
+    │       │   │   │   └── 224 MiB (30.3%) forEach
+    │       │   │   │       ├── 217 MiB (29.2%) checkDeferredNode  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   ├── 196 MiB (26.4%) checkSourceElementWorker
+    │       │   │   │       │   │   ├── 58.5 MiB (7.9%) [[via 2–4 frames]] checkExpression  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   ├── 46.3 MiB (6.2%) [[via 3–7 frames]] checkExpressionWorker  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   │   ├── 27.2 MiB (3.7%) checkPropertyAccessExpressionOrQualifiedName  (0.7% self in 3 call stacks)
+    │       │   │   │       │   │   │   │   │   └── 26.2 MiB (3.5%) getPropertyOfType
+    │       │   │   │       │   │   │   │   │       ├── 20.5 MiB (2.8%) getPropertiesOfUnionOrIntersectionType
+    │       │   │   │       │   │   │   │   │       │   ├── 12.5 MiB (1.7%) [[via 3 frames]] instantiateSymbol  (13.2% self in 136 call stacks)  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   │   │       │   └── 3.01 MiB (0.4%) set
+    │       │   │   │       │   │   │   │   │       └── 5.66 MiB (0.8%) 1 more branch, resolveStructuredTypeMembers
+    │       │   │   │       │   │   │   │   └── 18.6 MiB (2.5%) 5 more branches, largest checkCallExpression (2.2%)  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   └── 12.3 MiB (1.7%) 1 more branch, checkExpressionWorker
+    │       │   │   │       │   │   ├── 43.3 MiB (5.8%) [[via 3–7 frames]] checkTypeReferenceNode  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   ├── 28.3 MiB (3.8%) [[via 2 frames]] isRelatedTo  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   │   ├── 16.5 MiB (2.2%) [[via 8–11 frames]] signaturesRelatedTo  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   │   │   ├── 4 MiB (0.5%) [[via 4 frames]] instantiateSignature  (2.6% self in 29 call stacks)  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   │   │   └── 9 MiB (1.2%) 1 more branch, signatureRelatedTo
+    │       │   │   │       │   │   │   │   └── 10.8 MiB (1.5%) recursiveTypeRelatedTo  (0.7% self in 10 call stacks)
+    │       │   │   │       │   │   │   │       ├── 5.25 MiB (0.7%) resetMaybeStack
+    │       │   │   │       │   │   │   │       │   └── 5.25 MiB (0.7%) set  (8.7% self in 88 call stacks)
+    │       │   │   │       │   │   │   │       └── 4 MiB (0.5%) [[via 8 frames]] instantiateAnonymousType  (3.5% self in 41 call stacks)  ./node_modules/typescript/lib/typescript.js
+    │       │   │   │       │   │   │   └── 15 MiB (2.0%) 2 more branches, largest getTypeFromTypeNodeWorker (2.0%)
+    │       │   │   │       │   │   └── 94.1 MiB (12.7%) 2 more branches, largest checkVariableDeclaration (11.0%)  ./node_modules/typescript/lib/typescript.js and checkReturnStatement (1.7%)
+    │       │   │   │       │   └── 20.8 MiB (2.8%) 4 more branches, largest getReturnTypeOfSignature (2.3%)
+    │       │   │   │       └── 7 MiB (0.9%) [[via 8–28 frames]] (anonymous)  (1.8% self in 22 call stacks)  ./node_modules/typescript/lib/typescript.js:52487:21
+    │       │   │   └── 162 MiB (21.8%) 2 more branches, largest forEach (21.8%)
+    │       │   └── 83.5 MiB (11.3%) 1 more branch, getTypeChecker
+    │       ├── 241 MiB (32.5%) createProgram  ./node_modules/typescript/lib/typescript.js
+    │       │   ├── 193 MiB (26.0%) forEach
+    │       │   │   └── 193 MiB (26.0%) 4 more branches, largest (anonymous) (8.8%)  :122498:30 and (anonymous) (8.3%)
+    │       │   └── 48.4 MiB (6.5%) 1 more branch, processTypeReferenceDirective
+    │       └── 13.9 MiB (1.9%) 2 more branches, largest require (1.7%)  node:internal/modules/helpers
+    └── 11.6 MiB (1.6%) 1 more branch, getUnmatchedProperties  ./node_modules/typescript/lib/typescript.js
+```
+
 ## Hottest functions
 
 ### Self size

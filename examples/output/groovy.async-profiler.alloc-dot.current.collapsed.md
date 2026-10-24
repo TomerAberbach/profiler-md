@@ -6,6 +6,53 @@ Collected 769 samples.
 | ---------------- | -----: | ------: |
 | Standard library | 100.0% |     769 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 738 samples (96.0%) main  org.codenarc.CodeNarc
+│   └── 737 samples (95.8%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 580 samples (75.4%) [[via 8–27 frames]] invoke  java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│       │   ├── 576 samples (74.9%) invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       │   │   ├── 530 samples (68.9%) fromCache  (self 0.8%; 1.6% in 11 call stacks)  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │   │   ├── 502 samples (65.3%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │   │   │   │   ├── 445 samples (57.9%) [[via 4 frames]] guardWithCatch  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+│       │   │   │   │   │   ├── 437 samples (56.8%) [[via 8 frames]] buildAST  org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│       │   │   │   │   │   │   ├── 419 samples (54.5%) buildAST  org.apache.groovy.parser.antlr4.AstBuilder
+│       │   │   │   │   │   │   │   ├── 396 samples (51.5%) [[via 6 frames]] classDeclaration  org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   │   │   ├── 384 samples (49.9%) [[via 2 frames]] memberDeclaration  org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   │   │   │   └── 381 samples (49.5%) methodDeclaration
+│       │   │   │   │   │   │   │   │   │       ├── 368 samples (47.9%) methodBody
+│       │   │   │   │   │   │   │   │   │       │   └── 368 samples (47.9%) block
+│       │   │   │   │   │   │   │   │   │       │       ├── 293 samples (38.1%) blockStatementsOpt
+│       │   │   │   │   │   │   │   │   │       │       │   ├── 241 samples (31.3%) blockStatements
+│       │   │   │   │   │   │   │   │   │       │       │   │   └── 241 samples (31.3%) blockStatement
+│       │   │   │   │   │   │   │   │   │       │       │   │       ├── 205 samples (26.7%) statement
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   ├── 75 samples (9.8%) [[via 7–8 frames]] computeTargetState  groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   ├── 52 samples (6.8%) closure
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   │   ├── 20 samples (2.6%) [[via 1–32 frames]] getEpsilonTarget  groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   │   │   ├── 9 samples (1.2%) transform  (9.6% self in 71 call stacks)  groovyjarjarantlr4.v4.runtime.atn.ATNConfig
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   │   │   └── 11 samples (1.4%) 2 more branches, largest ruleTransition (1.3%)
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   │   └── 31 samples (4.0%) 3 more branches, largest add (3.4%)  groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet and <init> (0.5%)
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   │   └── 23 samples (3.0%) 2 more branches, largest addDFAEdge (2.7%)
+│       │   │   │   │   │   │   │   │   │       │       │   │       │   └── 127 samples (16.5%) 4 more branches, largest statementExpression (14.8%) and expression (0.8%)
+│       │   │   │   │   │   │   │   │   │       │       │   │       └── 36 samples (4.7%) 2 more branches, largest localVariableDeclaration (2.6%) and adaptivePredict (2.1%)
+│       │   │   │   │   │   │   │   │   │       │       │   └── 52 samples (6.8%) 2 more branches, largest blockStatements (6.6%)  org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   │   │   │       │       └── 75 samples (9.8%) 2 more branches, largest blockStatementsOpt (9.6%)  org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   │   │   │       └── 13 samples (1.7%) 5 more branches, largest formalParameters (1.2%)
+│       │   │   │   │   │   │   │   │   └── 11 samples (1.4%) 2 more branches, largest classBody (0.9%)  org.apache.groovy.parser.antlr4.GroovyParser and typeList (0.5%)
+│       │   │   │   │   │   │   │   └── 23 samples (3.0%) 1 more branch, visit
+│       │   │   │   │   │   │   └── 18 samples (2.3%) 2 more branches, largest <init> (1.7%)  org.apache.groovy.parser.antlr4.AstBuilder and loadClass (0.7%)
+│       │   │   │   │   │   └── 7 samples (0.9%) 2 more branches, largest invokeInterface (0.8%)  java.lang.invoke.LambdaForm$DMH.0x0000007001094c00
+│       │   │   │   │   └── 56 samples (7.3%) 17 more branches, largest newInvokeSpecial (1.8%)  java.lang.invoke.DirectMethodHandle$Holder and invoke (1.6%)
+│       │   │   │   └── 22 samples (2.9%) 1 more branch, doWithCallSite
+│       │   │   └── 46 samples (6.0%) 2 more branches, largest fromCache (4.0%)  org.codehaus.groovy.vmplugin.v8.IndyInterface and selectMethod (2.0%)
+│       │   └── 3 samples (0.4%) [[via 6 frames]] invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       └── 157 samples (20.4%) 7 more branches, largest invoke (7.0%)  java.lang.invoke.LambdaForm$MH.0x000000700108e000 and invoke (6.5%)
+└── 31 samples (4.0%) 3 more branches, largest <clinit> (3.5%)  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

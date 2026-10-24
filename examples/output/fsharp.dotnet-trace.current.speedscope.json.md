@@ -9,6 +9,53 @@ Took 11.01s.
 | Unknown          |  0.3% | 36.8ms |
 | Ours             | <0.1% | <0.1µs |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 10.99s (99.8%) main(String[])  Profile
+│   ├── 10.02s (91.0%) Invoke(BindingEnv)  Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965
+│   │   ├── 5.89s (53.5%) [[via 2 frames]] GetUnionCases(Type, FSharpOption`1<BindingFlags>)  Microsoft.FSharp.Reflection.FSharpType
+│   │   │   ├── 4.54s (41.3%) getTypeOfReprType(Type, BindingFlags)  Microsoft.FSharp.Reflection.Impl
+│   │   │   │   ├── 3.77s (34.3%) [[via 4 frames]] FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)  System.Reflection.CustomAttribute
+│   │   │   │   │   ├── 3.60s (32.7%) [[via 2 frames]] ?!?
+│   │   │   │   │   │   └── 3.60s (32.7%) UNMANAGED_CODE_TIME  (99.1% self in 159 call stacks)
+│   │   │   │   │   └── 174.8ms (1.6%) 3 more branches, largest ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[]) (0.7%)  System.ModuleHandle and ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[]) (0.6%)
+│   │   │   │   └── 770.3ms (7.0%) [[via 4 frames]] FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)  System.Reflection.CustomAttribute
+│   │   │   │       ├── 636.2ms (5.8%) ResolveType(int32, Type[], Type[])  System.Reflection.RuntimeModule
+│   │   │   │       │   └── 636.2ms (5.8%) 1 more branch, ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])  System.ModuleHandle
+│   │   │   │       └── 134.1ms (1.2%) 3 more branches, largest ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[]) (0.6%)  System.ModuleHandle
+│   │   │   ├── 677.2ms (6.1%) [[via 4 frames]] FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)  System.Reflection.CustomAttribute
+│   │   │   │   └── 677.2ms (6.1%) 4 more branches, largest ResolveType(int32, Type[], Type[]) (4.9%)  System.Reflection.RuntimeModule and ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[]) (0.5%)
+│   │   │   └── 665.9ms (6.0%) [[via 5 frames]] FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)  System.Reflection.CustomAttribute
+│   │   │       └── 665.9ms (6.0%) 4 more branches, largest ResolveType(int32, Type[], Type[]) (5.0%)  System.Reflection.RuntimeModule
+│   │   ├── 3.54s (32.1%) [[via 2 frames]] MakeGenericType(Type[])  System.RuntimeType
+│   │   │   ├── 3.37s (30.7%) UNMANAGED_CODE_TIME
+│   │   │   └── 152.9ms (1.4%) 1 more branch, ?!?
+│   │   ├── 395.5ms (3.6%) Invoke(FSharpFunc`2<int32, Type>)  Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3
+│   │   │   └── 395.5ms (3.6%) 1 more branch, MakeGenericType(Type[])  System.RuntimeType
+│   │   └── 199.5ms (1.8%) 3 more branches, largest MakeGenericType(Type[]) (1.8%)  System.RuntimeType
+│   ├── 412.2ms (3.7%) Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])  Microsoft.FSharp.Quotations.FSharpExpr
+│   │   └── 410.8ms (3.7%) deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])  Microsoft.FSharp.Quotations.PatternsModule
+│   │       ├── 385.1ms (3.5%) Invoke(BindingEnv)  Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5
+│   │       │   ├── 128.5ms (1.2%) [[via 7–8 frames]] GetInstantiationInternal()  System.RuntimeTypeHandle
+│   │       │   │   └── 111.2ms (1.0%) UNMANAGED_CODE_TIME
+│   │       │   └── 222.2ms (2.0%) 1 more branch, Invoke(BindingEnv)  Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1983-2
+│   │       └── 20.3ms (0.2%) [[via 2 frames]] u_Expr(InputState)  Microsoft.FSharp.Quotations.PatternsModule
+│   │           └── 10.8ms (0.1%) [[via 3 frames]] u_list_aux(FSharpFunc`2<InputState, !!0>, FSharpList`1<!!0>, InputState)  Microsoft.FSharp.Quotations.PatternsModule+SimpleUnpickle
+│   │               └── 9.5ms (0.1%) Invoke(InputState)  Microsoft.FSharp.Quotations.PatternsModule+b@1962
+│   │                   └── 8.1ms (0.1%) u_dtype(InputState)  Microsoft.FSharp.Quotations.PatternsModule
+│   │                       └── 8.1ms (0.1%) u_tyconstSpec(InputState)
+│   ├── 46.9ms (0.4%) Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)  Argu.ArgumentParser`1[System.__Canon]
+│   │   └── 29.4ms (0.3%) parseKeyValueConfig(IConfigurationReader, UnionArgInfo)  Argu.KeyValueParser
+│   │       └── 22.7ms (0.2%) [[via 4 frames]] GetSection(String)  System.Configuration.ClientConfigurationSystem.System.Configuration.Internal.IInternalConfigSystem
+│   ├── 12.2ms (0.1%) [[via 4 frames]] Invoke(Unit)  <StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]
+│   │   └── 8.0ms (0.1%) [[via 2 frames]] TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)  Microsoft.FSharp.Collections.SeqModule
+│   └── 442.5ms (4.0%) 9 more branches, largest MakeGenericType(Type[]) (3.2%)  System.RuntimeType and deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[]) (0.5%)
+└── 9.5ms (0.1%) [[via 6 frames]] CreateManifestAndDescriptors(Type, String, EventSource, EventManifestOptions)  System.Diagnostics.Tracing.EventSource
+```
+
 ## Hottest functions
 
 ### Self time

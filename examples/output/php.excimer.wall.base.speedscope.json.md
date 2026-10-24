@@ -9,6 +9,53 @@ Took 4.16s over 3,261 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-workload/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 4.15s (99.8%) [[via 2 frames]] Symfony\Component\Console\Application::run  ./composer/vendor/symfony/console/Application.php
+    ├── 3.99s (95.8%) Composer\Console\Application::doRun  ./composer/src/Composer/Console/Application.php
+    │   ├── 3.69s (88.7%) [[via 2 frames]] Symfony\Component\Console\Command\Command::run  ./composer/vendor/symfony/console/Command/Command.php
+    │   │   ├── 2.94s (70.7%) Composer\Command\DumpAutoloadCommand::execute  ./composer/src/Composer/Command/DumpAutoloadCommand.php
+    │   │   │   └── 2.94s (70.7%) Composer\Autoload\AutoloadGenerator::dump  ./composer/src/Composer/Autoload/AutoloadGenerator.php
+    │   │   │       ├── 2.78s (66.9%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths  (self 1.8%)  ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+    │   │   │       │   ├── 2.52s (60.5%) Composer\ClassMapGenerator\PhpFileParser::findClasses  (self 15.8%)  ./composer/vendor/composer/class-map-generator/src/PhpFileParser.php
+    │   │   │       │   │   ├── 1.66s (39.9%) Composer\ClassMapGenerator\PhpFileCleaner::clean  (self 10.4%)  ./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php
+    │   │   │       │   │   │   ├── 989.0ms (23.8%) Composer\ClassMapGenerator\PhpFileCleaner::match  (self 2.6%)
+    │   │   │       │   │   │   │   └── 882.0ms (21.2%) Composer\Pcre\Preg::isMatchStrictGroups  (self 3.3%)  ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   │   │   │       └── 743.0ms (17.8%) Composer\Pcre\Preg::matchStrictGroups  (self 3.3%)
+    │   │   │       │   │   │   │           ├── 467.0ms (11.2%) Composer\Pcre\Preg::match  (self 3.4%)
+    │   │   │       │   │   │   │           │   ├── 252.0ms (6.1%) Composer\Pcre\Preg::pregMatch  (6.6% self in 6 call stacks)
+    │   │   │       │   │   │   │           │   └── 75.0ms (1.8%) Composer\Pcre\Preg::checkOffsetCapture
+    │   │   │       │   │   │   │           └── 138.0ms (3.3%) Composer\Pcre\Preg::enforceNonNullMatches
+    │   │   │       │   │   │   ├── 203.0ms (4.9%) Composer\ClassMapGenerator\PhpFileCleaner::skipString  (self 4.9%)
+    │   │   │       │   │   │   └── 19.0ms (0.5%) Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc
+    │   │   │       │   │   ├── 158.0ms (3.8%) Composer\Pcre\Preg::matchAllStrictGroups  ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   │   │   └── 155.0ms (3.7%) Composer\Pcre\Preg::matchAll  (self 3.7%; 4.5% in 2 call stacks)
+    │   │   │       │   │   └── 42.0ms (1.0%) Composer\Pcre\Preg::matchAll  (self 0.8%)  ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   ├── 55.0ms (1.3%) Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::hasChildren  ./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php
+    │   │   │       │   │   └── 55.0ms (1.3%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::hasChildren  ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+    │   │   │       │   ├── 51.0ms (1.2%) [[via 2 frames]] Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct  ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+    │   │   │       │   └── 77.0ms (1.8%) 10 more branches, largest Composer\ClassMapGenerator\ClassMapGenerator::normalizePath (0.9%)
+    │   │   │       ├── 112.0ms (2.7%) Composer\Autoload\AutoloadGenerator::getPathCode
+    │   │   │       │   ├── 35.0ms (0.8%) Composer\Util\Filesystem::normalizePath  ./composer/src/Composer/Util/Filesystem.php
+    │   │   │       │   └── 67.0ms (1.6%) 2 more branches, largest Composer\Util\Filesystem::findShortestPath (1.6%)  ./composer/src/Composer/Util/Filesystem.php
+    │   │   │       └── 22.0ms (0.5%) Composer\Autoload\AutoloadGenerator::getStaticFile
+    │   │   └── 748.0ms (18.0%) [[via 4 frames]] Composer\Factory::createComposer  ./composer/src/Composer/Factory.php
+    │   │       ├── 710.0ms (17.1%) Composer\Package\Loader\RootPackageLoader::load  ./composer/src/Composer/Package/Loader/RootPackageLoader.php
+    │   │       │   └── 705.0ms (16.9%) Composer\Package\Version\VersionGuesser::guessVersion  ./composer/src/Composer/Package/Version/VersionGuesser.php
+    │   │       │       ├── 458.0ms (11.0%) Composer\Package\Version\VersionGuesser::guessGitVersion
+    │   │       │       │   ├── 299.0ms (7.2%) [[via 3 frames]] Symfony\Component\Process\Process::run  ./composer/vendor/symfony/process/Process.php
+    │   │       │       │   │   ├── 277.0ms (6.7%) [[via 2 frames]] Symfony\Component\Process\Pipes\UnixPipes::readAndWrite  (15.5% self in 7 call stacks)  ./composer/vendor/symfony/process/Pipes/UnixPipes.php
+    │   │       │       │   │   └── 18.0ms (0.4%) Symfony\Component\Process\Process::start  (0.9% self in 5 call stacks)
+    │   │       │       │   └── 154.0ms (3.7%) 3 more branches, largest Composer\Package\Version\VersionGuesser::versionFromGitTags (3.5%)
+    │   │       │       └── 247.0ms (5.9%) 3 more branches, largest Composer\Package\Version\VersionGuesser::guessFossilVersion (3.0%) and Composer\Package\Version\VersionGuesser::guessHgVersion (1.5%)
+    │   │       └── 4.0ms (0.1%) [[via 11 frames]] JsonSchema\Uri\UriRetriever::loadSchema  ./composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php
+    │   └── 279.0ms (6.7%) Composer\Util\Silencer::call  (self 6.3%)  ./composer/src/Composer/Util/Silencer.php
+    └── 161.0ms (3.9%) [[via 4 frames]] Symfony\Component\Console\Terminal::readFromProcess  ./composer/vendor/symfony/console/Terminal.php
+```
+
 ## Hottest functions
 
 ### Self time

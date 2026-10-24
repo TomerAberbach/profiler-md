@@ -7,6 +7,53 @@ Took 3.44s over 344 samples (10.0ms per sample).
 | Standard library  | 99.7% |  3.43s |     343 |
 | Garbage collector |  0.3% | 10.0ms |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.71s (49.7%) [[via 2 frames]] github.com/tomeraberbach/profiler-md-workload/internal/work.Run  github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│   ├── 1.13s (32.8%) encoding/json.Unmarshal  encoding/json/decode.go:102
+│   │   ├── 670.0ms (19.5%) [[via 3 frames]] encoding/json.(*decodeState).objectInterface  (self 0.6%)  encoding/json/decode.go:1078
+│   │   │   ├── 160.0ms (4.7%) [[via 2–4 frames]] encoding/json.(*decodeState).scanWhile  (self 2.0%)  encoding/json/decode.go:298
+│   │   │   │   └── 90.0ms (2.6%) 3 more branches, largest encoding/json.stateBeginString (1.5%)  encoding/json/scanner.go:268 and encoding/json.stateBeginValue (0.9%)
+│   │   │   ├── 90.0ms (2.6%) [[via 2–4 frames]] encoding/json.unquote  encoding/json/decode.go:1187
+│   │   │   │   └── 90.0ms (2.6%) encoding/json.unquoteBytes  (3.2% self in 4 call stacks)  :1193
+│   │   │   ├── 50.0ms (1.5%) [[via 2–4 frames]] encoding/json.(*decodeState).rescanLiteral  (self 1.2%; 1.7% in 4 call stacks)  encoding/json/decode.go:322
+│   │   │   └── 350.0ms (10.2%) 2 more branches, largest runtime.mapassign_faststr (5.5%)  internal/runtime/maps/runtime_faststr.go:263 and encoding/json.(*decodeState).valueInterface (4.7%)
+│   │   └── 460.0ms (13.4%) encoding/json.checkValid  (self 3.8%)  encoding/json/scanner.go:33
+│   │       ├── 120.0ms (3.5%) encoding/json.stateInString  :339
+│   │       ├── 90.0ms (2.6%) encoding/json.stateBeginString  (self 2.0%; 2.9% in 3 call stacks)  :268
+│   │       │   └── 20.0ms (0.6%) encoding/json.isSpace  (2.6% self in 7 call stacks)  :201
+│   │       └── 120.0ms (3.5%) 8 more branches, largest encoding/json.stateEndValue (1.2%)  :281 and encoding/json.stateBeginStringOrEmpty (0.6%)
+│   └── 580.0ms (16.9%) [[via 2 frames]] encoding/json.(*encodeState).reflectValue  encoding/json/encode.go:366
+│       ├── 400.0ms (11.6%) [[via 3–4 frames]] encoding/json.mapEncoder.encode  encoding/json/encode.go:765
+│       │   └── 390.0ms (11.3%) 8 more branches, largest slices.SortFunc[go.shape.[]encoding/json.reflectWithString,go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }] (2.9%)  slices/sort.go:30 and reflect.(*MapIter).Key (2.6%)
+│       ├── 90.0ms (2.6%) [[via 3 frames]] encoding/json.stringEncoder  encoding/json/encode.go:610
+│       │   └── 90.0ms (2.6%) encoding/json.appendString[go.shape.string]  (self 2.0%; 4.1% in 6 call stacks)  :999
+│       │       └── 20.0ms (0.6%) 1 more branch, unicode/utf8.DecodeRuneInString  unicode/utf8/utf8.go:219
+│       └── 80.0ms (2.3%) 3 more branches, largest encoding/json.valueEncoder (1.5%)  encoding/json/encode.go:381 and encoding/json.sliceEncoder.encode (0.6%)
+├── 1.14s (33.1%) runtime.systemstack  runtime/asm_arm64.s:353
+│   ├── 560.0ms (16.3%) [[via 4 frames]] runtime.madvise  runtime/sys_darwin.go:224
+│   ├── 330.0ms (9.6%) [[via 3 frames]] runtime.kevent  runtime/sys_darwin.go:438
+│   ├── 140.0ms (4.1%) runtime.gcBgMarkWorker.func2  runtime/mgc.go:1847
+│   │   ├── 80.0ms (2.3%) [[via 2 frames]] runtime.(*gcControllerState).enlistWorker  runtime/mgcpacer.go:697
+│   │   │   ├── 30.0ms (0.9%) [[via 4 frames]] runtime.pthread_cond_signal  (3.2% self in 5 call stacks)  runtime/sys_darwin.go:508
+│   │   │   └── 40.0ms (1.2%) 1 more branch, runtime.preemptone  runtime/proc.go:6866
+│   │   └── 50.0ms (1.5%) 1 more branch, runtime.gcDrainMarkWorkerIdle  runtime/mgcmark.go:1167
+│   ├── 50.0ms (1.5%) [[via 6 frames]] runtime.pthread_kill  (4.4% self in 4 call stacks)  runtime/sys_darwin.go:148
+│   └── 60.0ms (1.7%) 3 more branches, largest runtime.gcMarkTermination.forEachP.func7 (0.9%)  runtime/proc.go:2112 and runtime.gcMarkTermination.func3 (0.6%)
+├── 400.0ms (11.6%) [[via 2 frames]] runtime.schedule  runtime/proc.go:4135
+│   ├── 370.0ms (10.8%) runtime.findRunnable  :3389
+│   │   ├── 270.0ms (7.8%) [[via 4 frames]] runtime.pthread_cond_wait  runtime/sys_darwin.go:487
+│   │   └── 80.0ms (2.3%) 4 more branches, largest runtime.stealWork (0.9%)  :3828 and runtime.runSafePointFn (0.6%)
+│   └── 30.0ms (0.9%) 1 more branch, runtime.resetspinning  :4021
+├── 80.0ms (2.3%) [[via 3 frames]] runtime.goschedImpl  runtime/proc.go:4307
+│   ├── 60.0ms (1.7%) [[via 4 frames]] runtime.usleep  (4.1% self in 7 call stacks)  runtime/sys_darwin.go:273
+│   └── 10.0ms (0.3%) runtime.wakep  :3212
+└── 110.0ms (3.2%) 1 more branch, runtime.gcBgMarkWorker  runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

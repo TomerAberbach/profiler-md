@@ -7,6 +7,53 @@ Collected 794 samples.
 | Standard library | 99.9% |     793 |
 | Ours             |  0.1% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 774 samples (97.5%) main  org.codenarc.CodeNarc
+│   └── 771 samples (97.1%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 626 samples (78.8%) [[via 8–29 frames]] invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010a9400
+│       │   ├── 617 samples (77.7%) invokeStatic  java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       │   │   ├── 564 samples (71.0%) fromCache  (1.1% self in 9 call stacks)  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │   │   ├── 540 samples (68.0%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │   │   │   │   ├── 470 samples (59.2%) [[via 4 frames]] guardWithCatch  java.lang.invoke.LambdaForm$MH.0x000000d0010abc00
+│       │   │   │   │   │   ├── 454 samples (57.2%) [[via 8 frames]] buildAST  org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│       │   │   │   │   │   │   ├── 433 samples (54.5%) buildAST  org.apache.groovy.parser.antlr4.AstBuilder
+│       │   │   │   │   │   │   │   ├── 402 samples (50.6%) buildCST
+│       │   │   │   │   │   │   │   │   └── 402 samples (50.6%) 1 more branch, compilationUnit  org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   │   └── 31 samples (3.9%) 1 more branch, visit
+│       │   │   │   │   │   │   └── 20 samples (2.5%) 2 more branches, largest <init> (2.0%)  org.apache.groovy.parser.antlr4.AstBuilder and loadClass (0.5%)
+│       │   │   │   │   │   └── 15 samples (1.9%) 4 more branches, largest invokeInterface (1.3%)  java.lang.invoke.LambdaForm$DMH.0x000000d001093000
+│       │   │   │   │   ├── 8 samples (1.0%) [[via 25 frames]] compile  java.util.regex.Pattern
+│       │   │   │   │   │   └── 4 samples (0.5%) [[via 2 frames]] optimize  (1.4% self in 9 call stacks)  java.util.regex.Pattern$BnM
+│       │   │   │   │   ├── 2 samples (0.3%) [[via 29–30 frames]] makeImpl  (1.5% self in 12 call stacks)  java.lang.invoke.MethodType
+│       │   │   │   │   └── 59 samples (7.4%) 19 more branches, largest newInvokeSpecial (2.8%)  java.lang.invoke.DirectMethodHandle$Holder and invoke (0.6%)
+│       │   │   │   └── 22 samples (2.8%) 1 more branch, doWithCallSite
+│       │   │   └── 53 samples (6.7%) 2 more branches, largest fromCache (4.3%)  org.codehaus.groovy.vmplugin.v8.IndyInterface and selectMethod (2.4%)
+│       │   └── 9 samples (1.1%) 2 more branches, largest invokeStatic (1.0%)  java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       ├── 42 samples (5.3%) [[via 19 frames]] doFindClasses  org.codehaus.groovy.vmplugin.v9.Java9
+│       │   └── 40 samples (5.0%) find  org.codehaus.groovy.vmplugin.v9.ClassFinder
+│       │       └── 37 samples (4.7%) [[via 1 frame]] walkFileTree  java.nio.file.Files
+│       │           ├── 13 samples (1.6%) [[via 1 frame]] visitFile  org.codehaus.groovy.vmplugin.v9.ClassFinder$1
+│       │           │   └── 11 samples (1.4%) [[via 1 frame]] split  java.lang.String
+│       │           │       ├── 6 samples (0.8%) [[via 1 frame]] compile  (1.6% self in 12 call stacks)  java.util.regex.Pattern
+│       │           │       └── 2 samples (0.3%) [[via 7 frames]] copyOfRangeByte  (2.0% self in 15 call stacks)  java.util.Arrays
+│       │           └── 24 samples (3.0%) 2 more branches, largest next (2.8%)  java.nio.file.FileTreeWalker
+│       ├── 25 samples (3.1%) [[via 8–29 frames]] invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010d8c00
+│       │   ├── 14 samples (1.8%) invokeStatic  java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       │   │   ├── 4 samples (0.5%) [[via 9 frames]] setHandleForMetaMethod  org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │   │   │   └── 2 samples (0.3%) [[via 14 frames]] fillInStackTrace  (3.3% self in 25 call stacks)  java.lang.Throwable
+│       │   │   └── 7 samples (0.9%) 1 more branch, fromCache  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   └── 11 samples (1.4%) 1 more branch, invokeStatic  java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       ├── 4 samples (0.5%) [[via 10–27 frames]] fromCache  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   └── 1 sample (0.1%) [[via 6 frames]] newInstance  (1.9% self in 15 call stacks)  java.lang.reflect.Array
+│       ├── 1 sample (0.1%) [[via 42–63 frames]] enlarge  (1.5% self in 12 call stacks)  jdk.internal.org.objectweb.asm.ByteVector
+│       └── 65 samples (8.2%) 4 more branches, largest invoke (6.5%)  java.lang.invoke.LambdaForm$MH.0x000000d001092000 and invoke (1.4%)
+└── 20 samples (2.5%) 2 more branches, largest <clinit> (2.3%)  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

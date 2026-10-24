@@ -9,6 +9,53 @@ Allocated 21.8 MiB over 28 samples (798 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 21.8 MiB (100.0%) [[via 4 frames]] typeCheckProject  ./tsc-workload.mjs:3:33
+    ├── 12.3 MiB (56.4%) [[via 5 frames]] (anonymous)  node:internal/modules/cjs/loader:1878:37
+    │   ├── 8.27 MiB (37.9%) [[via 2 frames]] readFileSync  node:fs:433:22
+    │   └── 4.03 MiB (18.5%) (anonymous)  :1731:37
+    │       ├── 2.03 MiB (9.3%) wrapSafe  :1671:18
+    │       └── 2 MiB (9.2%) (anonymous)  (self 2.3%)  ./node_modules/typescript/lib/typescript.js:1:1
+    │           └── 1.5 MiB (6.9%) (anonymous)  :16:15
+    │               ├── 1 MiB (4.6%) diag  :9336:14
+    │               └── 512 KiB (2.3%) createNodeFactory  :23135:27
+    ├── 4.51 MiB (20.7%) [[via 9 frames]] (anonymous)  ./node_modules/typescript/lib/typescript.js:123385:37
+    │   ├── 3.51 MiB (16.1%) [[via 4 frames]] checkSourceFileWorker  ./node_modules/typescript/lib/typescript.js:87270:33
+    │   │   ├── 2.51 MiB (11.5%) forEach  :2365:17
+    │   │   │   ├── 2.01 MiB (9.2%) [[via 4 frames]] checkSourceElement  ./node_modules/typescript/lib/typescript.js:86886:30
+    │   │   │   │   ├── 1.51 MiB (6.9%) [[via 16 frames]] typeToString  ./node_modules/typescript/lib/typescript.js:53002:24
+    │   │   │   │   │   ├── 518 KiB (2.3%) [[via 7 frames]] typeToTypeNodeWorker  ./node_modules/typescript/lib/typescript.js:53183:34
+    │   │   │   │   │   └── 1 MiB (4.6%) 2 more branches, largest (anonymous) (2.3%)  :3504:10 and writeNode (2.3%)
+    │   │   │   │   └── 513 KiB (2.3%) [[via 18 frames]] getPropertiesOfUnionOrIntersectionType  ./node_modules/typescript/lib/typescript.js:60131:50
+    │   │   │   └── 513 KiB (2.3%) [[via 6 frames]] checkMemberForOverrideModifier  ./node_modules/typescript/lib/typescript.js:85606:42
+    │   │   └── 1 MiB (4.6%) [[via 2 frames]] checkDeferredNode  ./node_modules/typescript/lib/typescript.js:87186:29
+    │   │       ├── 512 KiB (2.3%) [[via 22 frames]] emitIntersectionType  ./node_modules/typescript/lib/typescript.js:117665:32
+    │   │       └── 512 KiB (2.3%) [[via 26 frames]] isConstContext  ./node_modules/typescript/lib/typescript.js:81235:26
+    │   └── 1 MiB (4.6%) getTypeChecker  (self 2.3%)  :123266:26
+    │       └── 513 KiB (2.3%) [[via 17 frames]] bindParentToChildIgnoringJSDoc  ./node_modules/typescript/lib/typescript.js:21713:42
+    ├── 4.51 MiB (20.7%) createProgram  ./node_modules/typescript/lib/typescript.js:122262:23
+    │   └── 4.51 MiB (20.7%) forEach  :2365:17
+    │       ├── 3.51 MiB (16.1%) [[via 2 frames]] processSourceFile  ./node_modules/typescript/lib/typescript.js:123920:29
+    │       │   ├── 3 MiB (13.8%) [[via 2 frames]] findSourceFile  ./node_modules/typescript/lib/typescript.js:123967:26
+    │       │   │   ├── 2.5 MiB (11.5%) [[via 3 frames]] findSourceFileWorker  ./node_modules/typescript/lib/typescript.js:123984:32
+    │       │   │   │   ├── 1 MiB (4.6%) [[via 6 frames]] resolveModuleName  (self 2.3%)  ./node_modules/typescript/lib/typescript.js:42868:27
+    │       │   │   │   │   └── 512 KiB (2.3%) 1 more branch, getFromDirectoryCache  :42672:33
+    │       │   │   │   ├── 513 KiB (2.3%) getCreateSourceFileOptions  :123978:38
+    │       │   │   │   │   └── 513 KiB (2.3%) getSetExternalModuleIndicator  :20661:39
+    │       │   │   │   ├── 512 KiB (2.3%) [[via 12 frames]] readPackageJsonTypesVersionPaths  ./node_modules/typescript/lib/typescript.js:42158:42
+    │       │   │   │   └── 512 KiB (2.3%) toPath3  :122790:19
+    │       │   │   └── 513 KiB (2.3%) [[via 9 frames]] parseDeclarationWorker  ./node_modules/typescript/lib/typescript.js:36069:34
+    │       │   └── 514 KiB (2.3%) [[via 14 frames]] parseSourceFile  (2.3% self in 1 call stack)  ./node_modules/typescript/lib/typescript.js:31471:27
+    │       │       └── 514 KiB (2.3%) [[via 3 frames]] exec
+    │       ├── 512 KiB (2.3%) [[via 21 frames]] join
+    │       └── 514 KiB (2.3%) 1 more branch, (anonymous)  ./node_modules/typescript/lib/typescript.js:124200:35
+    └── 512 KiB (2.3%) [[via 11 frames]] getSubPatternFromSpec  ./node_modules/typescript/lib/typescript.js:21110:31
+```
+
 ## Hottest functions
 
 ### Self size

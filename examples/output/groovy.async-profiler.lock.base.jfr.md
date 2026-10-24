@@ -6,6 +6,31 @@ Blocked 3.0ms over 44 contentions (68.7µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 3.0ms |          44 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2.5ms (81.2%) [[via 3 frames]] enqueue(Reference)  java.lang.ref.NativeReferenceQueue
+└── 0.6ms (18.8%) [[via 14–30 frames]] invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+    ├── 0.4ms (12.0%) [[via 6 frames]] selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+    │   └── 0.4ms (12.0%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+    │       ├── 0.3ms (11.3%) setCallSiteTarget()  org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+    │       │   ├── 0.2ms (5.8%) [[via 9 frames]] poll()  (18.8% self in 14 call stacks)  java.lang.ref.NativeReferenceQueue
+    │       │   ├── 0.1ms (3.8%) setGuards(Object)
+    │       │   │   ├── 0.1ms (2.2%) [[via 11 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       │   │   └── 27.6µs (0.9%) [[via 9 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       │   └── 37.0µs (1.2%) [[via 12 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       └── 22.8µs (0.8%) [[via 9 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    ├── 0.2ms (5.6%) [[via 19–34 frames]] fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+    │   ├── 0.1ms (3.9%) [[via 10 frames]] makeImpl(Class, Class[], boolean)  java.lang.invoke.MethodType
+    │   │   ├── 0.1ms (2.9%) [[via 4 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │   │   └── 28.9µs (1.0%) [[via 3 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │   ├── 32.5µs (1.1%) [[via 9 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │   └── 19.3µs (0.6%) [[via 11 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    └── 35.5µs (1.2%) [[via 21 frames]] poll()  java.lang.ref.NativeReferenceQueue
+```
+
 ## Hottest functions
 
 ### Self time

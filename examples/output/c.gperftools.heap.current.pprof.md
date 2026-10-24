@@ -8,6 +8,25 @@ Allocated 148 MiB over 81 objects (1.83 MiB per object).
 | Ours     | 45.8% | 67.8 MiB |      49 |
 | Unknown  | <0.1% | 2.11 KiB |       6 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 82.8 MiB (55.9%) [[via 2 frames]] (anonymous)
+│   └── 82.8 MiB (55.9%) main
+│       └── 82.8 MiB (55.9%) FIO_compressFilename
+│           ├── 80 MiB (54.0%) [[via 3 frames]] ZSTDMT_initCStream_internal
+│           └── 2.76 MiB (1.9%) FIO_createCResources  fileio.c
+│               ├── 1.5 MiB (1.0%) AIO_ReadPool_create
+│               │   └── 1.25 MiB (0.8%) AIO_IOPool_init  (self 0.8%)  fileio_asyncio.c
+│               └── 1.26 MiB (0.8%) AIO_WritePool_create
+│                   └── 1.26 MiB (0.8%) AIO_IOPool_init  (self 0.8%; 1.7% in 2 call stacks)  fileio_asyncio.c
+└── 65.3 MiB (44.1%) [[via 3 frames]] ZSTDMT_compressionJob  zstdmt_compress.c
+    ├── 49.2 MiB (33.3%) [[via 2 frames]] ZSTD_resetCCtx_internal  zstd_compress.c
+    └── 16.1 MiB (10.8%) ZSTDMT_getBuffer
+```
+
 ## Hottest functions
 
 ### Self size
@@ -728,6 +747,14 @@ Retained 1.19 KiB over 4 objects (304 B per object).
 | Category |      % |     Size | Objects |
 | -------- | -----: | -------: | ------: |
 | Unknown  | 100.0% | 1.19 KiB |       4 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1.19 KiB (100.0%) [[via 2 frames]] (anonymous)
+```
 
 ## Hottest functions
 

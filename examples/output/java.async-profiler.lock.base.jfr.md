@@ -6,6 +6,26 @@ Blocked 1.6ms over 11 contentions (146.9µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.6ms |          11 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.0ms (64.9%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 0.7ms (41.9%) [[via 13 frames]] loadClass(String, boolean)  (64.9% self in 2 call stacks)  java.lang.ClassLoader
+│   └── 0.4ms (23.1%) [[via 7 frames]] loadClass(String, boolean)  java.lang.ClassLoader
+└── 0.6ms (35.1%) [[via 5 frames]] deleteRecursively(Path, boolean)  org.renaissance.core.DirUtils
+    ├── 0.4ms (22.5%) [[via 3 frames]] loadClassOrNull(String, boolean)  (24.4% self in 2 call stacks)  jdk.internal.loader.BuiltinClassLoader
+    └── 0.2ms (12.6%) walkFileTree(Path, FileVisitor)  java.nio.file.Files
+        ├── 0.2ms (11.5%) walkFileTree(Path, Set, int, FileVisitor)  (self 3.6%)
+        │   ├── 0.1ms (5.9%) walk(Path)  java.nio.file.FileTreeWalker
+        │   │   └── 0.1ms (5.9%) visit(Path, boolean, boolean)
+        │   │       ├── 0.1ms (4.5%) [[via 3 frames]] <init>(boolean)  java.util.concurrent.locks.ReentrantReadWriteLock
+        │   │       └── 23.7µs (1.5%) [[via 2 frames]] iterator(DirectoryStream)  sun.nio.fs.UnixDirectoryStream
+        │   └── 30.3µs (1.9%) [[via 5 frames]] loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader
+        └── 18.1µs (1.1%) [[via 8 frames]] getDeclaredMethods0(boolean)  java.lang.Class
+```
+
 ## Hottest functions
 
 ### Self time

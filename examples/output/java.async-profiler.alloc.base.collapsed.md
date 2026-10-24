@@ -7,6 +7,53 @@ Collected 75,385 samples.
 | Standard library | 93.2% |  70,236 |
 | Ours             |  6.8% |   5,149 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 75,003 samples (99.5%) [[via 4 frames]] doExec  java.util.concurrent.ForkJoinTask
+│   ├── 64,370 samples (85.4%) [[via 5–6 frames]] exec  java.util.concurrent.RecursiveTask
+│   │   └── 64,370 samples (85.4%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 47,300 samples (62.7%) combineResults  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   └── 47,300 samples (62.7%) [[via 1 frame]] merge  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │       └── 46,825 samples (62.1%) [[via 5 frames]] lambda$merge$6  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │           ├── 34,925 samples (46.3%) addAll  java.util.ArrayList
+│   │       │           │   ├── 22,778 samples (30.2%) grow
+│   │       │           │   │   └── 22,778 samples (30.2%) copyOf  (91.1% self in 1,928 call stacks)  java.util.Arrays
+│   │       │           │   └── 12,147 samples (16.1%) toArray
+│   │       │           │       └── 12,147 samples (16.1%) copyOf  java.util.Arrays
+│   │       │           └── 11,675 samples (15.5%) <init>  java.util.ArrayList
+│   │       │               └── 11,675 samples (15.5%) 1 more branch, toArray
+│   │       ├── 16,343 samples (21.7%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   ├── 12,930 samples (17.2%) [[via 1 frame]] collectClusters  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │   ├── 12,121 samples (16.1%) add  java.util.ArrayList
+│   │       │   │   │   └── 12,121 samples (16.1%) [[via 1 frame]] grow  (self 0.6%)  java.util.ArrayList
+│   │       │   │   │       └── 11,681 samples (15.5%) [[via 1 frame]] copyOf  java.util.Arrays
+│   │       │   │   └── 626 samples (0.8%) computeIfAbsent  java.util.HashMap
+│   │       │   │       ├── 279 samples (0.4%) newNode
+│   │       │   │       ├── 210 samples (0.3%) apply  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000801186b38
+│   │       │   │       │   └── 210 samples (0.3%) lambda$collectClusters$0  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │       └── 137 samples (0.2%) resize
+│   │       │   └── 3,413 samples (4.5%) [[via 1 frame]] findNearestCentroid  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 217 samples (0.3%) createSubtask  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       ├── 177 samples (0.2%) createSubtask  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 172 samples (0.2%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       │   └── 172 samples (0.2%) [[via 1 frame]] vectorSum  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       └── 141 samples (0.2%) combineResults  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │           └── 141 samples (0.2%) [[via 1 frame]] add  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── 10,633 samples (14.1%) 2 more branches, largest exec (14.1%)  java.util.concurrent.RecursiveTask
+└── 328 samples (0.4%) [[via 21 frames]] evaluate  java.util.stream.AbstractPipeline
+    ├── 128 samples (0.2%) [[via 7 frames]] lambda$generateData$5  org.renaissance.jdk.concurrent.JavaKMeans
+    │   ├── 69 samples (0.1%) range  java.util.stream.IntStream
+    │   │   └── 44 samples (0.1%) intStream  java.util.stream.StreamSupport
+    │   └── 44 samples (0.1%) mapToObj  java.util.stream.IntPipeline
+    ├── 116 samples (0.2%) [[via 18 frames]] valueOf  java.lang.Double
+    └── 55 samples (0.1%) [[via 11 frames]] makeNodeBuilder  java.util.stream.ReferencePipeline
+        └── 55 samples (0.1%) builder  java.util.stream.Nodes
+            └── 38 samples (0.1%) [[via 3 frames]] lambda$generateData$4  org.renaissance.jdk.concurrent.JavaKMeans
+```
+
 ## Hottest functions
 
 ### Self samples

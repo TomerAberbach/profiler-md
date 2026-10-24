@@ -8,6 +8,53 @@ Collected 1,434 samples.
 | Garbage collector | 10.9% |     156 |
 | Standard library  |  2.9% |      42 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,433 samples (99.9%) [[via 16 frames]] pytest_pyfunc_call  python.py
+    ├── 180 samples (12.6%) [[via 14 frames]] Shrinker.step.<locals>.<lambda>  shrinker.py
+    │   ├── 135 samples (9.4%) [[via 5 frames]] StateForActualGivenExecution._execute_once_for_engine  (0.9% self in 12 call stacks)  core.py
+    │   │   ├── 35 samples (2.4%) extract_tb  (1.2% self in 16 call stacks)  traceback.py
+    │   │   │   └── 34 samples (2.4%) StackSummary._extract_from_extended_frame_gen  (5.6% self in 64 call stacks)
+    │   │   │       └── 32 samples (2.2%) _walk_tb_with_full_positions  (0.8% self in 11 call stacks)
+    │   │   │           └── 32 samples (2.2%) _get_code_position  (58.3% self in 312 call stacks)
+    │   │   └── 99 samples (6.9%) 6 more branches, largest InterestingOrigin.from_exception (2.2%)  escalation.py and get_trimmed_traceback (2.0%)
+    │   └── 38 samples (2.6%) 4 more branches, largest Shrinker.minimize_individual_choices (2.3%)
+    ├── 125 samples (8.7%) [[via 9 frames]] Shrinker.shrink  shrinker.py
+    │   ├── 117 samples (8.2%) [[via 4 frames]] Shrinker.step.<locals>.<lambda>  shrinker.py
+    │   │   └── 117 samples (8.2%) 6 more branches, largest Shrinker.try_trivial_spans (4.4%) and Shrinker.minimize_individual_choices (3.1%)
+    │   └── 8 samples (0.6%) Shrinker.initial_coarse_reduction
+    │       └── 8 samples (0.6%) 1 more branch, Shrinker.reduce_each_alternative
+    ├── 110 samples (7.7%) [[via 6 frames]] StateForActualGivenExecution.run_engine  core.py
+    │   ├── 102 samples (7.1%) ConjectureRunner.run  engine.py
+    │   │   └── 102 samples (7.1%) ConjectureRunner._run
+    │   │       └── 102 samples (7.1%) 2 more branches, largest ConjectureRunner.shrink_interesting_test_cases (6.6%) and ConjectureRunner.generate_new_test_cases (0.6%)
+    │   └── 5 samples (0.3%) get_trimmed_traceback  (1.4% self in 18 call stacks)  escalation.py
+    ├── 106 samples (7.4%) [[via 3 frames]] given.<locals>.run_test_as_given.<locals>.wrapped_test  core.py
+    │   ├── 84 samples (5.9%) StateForActualGivenExecution.run_engine
+    │   │   ├── 55 samples (3.8%) ConjectureRunner.run  engine.py
+    │   │   │   └── 55 samples (3.8%) ConjectureRunner._run
+    │   │   │       ├── 24 samples (1.7%) [[via 3 frames]] StateForActualGivenExecution._execute_once_for_engine  core.py
+    │   │   │       │   ├── 2 samples (0.1%) [[via 2 frames]] checkcache  (2.4% self in 32 call stacks)  <frozen linecache>
+    │   │   │       │   └── 16 samples (1.1%) 3 more branches, largest get_trimmed_traceback (0.6%)  escalation.py
+    │   │   │       └── 29 samples (2.0%) 1 more branch, ConjectureRunner.generate_new_test_cases
+    │   │   └── 29 samples (2.0%) 3 more branches, largest get_trimmed_traceback (1.4%)  escalation.py and function_digest (0.6%)
+    │   └── 22 samples (1.5%) 1 more branch, get_trimmed_traceback  escalation.py
+    ├── 97 samples (6.8%) [[via 18 frames]] Shrinker.run  common.py
+    │   ├── 75 samples (5.2%) [[via 11 frames]] StateForActualGivenExecution._execute_once_for_engine  core.py
+    │   │   ├── 38 samples (2.6%) [[via 10 frames]] (garbage collector)  (10.9% self in 78 call stacks)
+    │   │   └── 36 samples (2.5%) 3 more branches, largest InterestingOrigin.from_exception (1.1%)  escalation.py and extract_tb (0.8%)
+    │   └── 21 samples (1.5%) 1 more branch, Integer.run_step  integer.py
+    ├── 61 samples (4.3%) [[via 20 frames]] StateForActualGivenExecution._execute_once_for_engine  core.py
+    │   ├── 15 samples (1.0%) [[via 2 frames]] StackSummary._extract_from_extended_frame_gen  traceback.py
+    │   │   ├── 2 samples (0.1%) FrameSummary.line  (1.8% self in 25 call stacks)
+    │   │   └── 13 samples (0.9%) 2 more branches, largest _walk_tb_with_full_positions (0.8%)
+    │   └── 46 samples (3.2%) 5 more branches, largest extract_tb (1.0%)  traceback.py and format_exception (0.8%)
+    └── 736 samples (51.3%) 50 more branches, largest accept.<locals>.test_lowering_together_mixed (5.0%)  test_shrink_quality.py and test_containment (4.7%)
+```
+
 ## Hottest functions
 
 ### Self samples

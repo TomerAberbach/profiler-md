@@ -10,6 +10,53 @@ Collected 4,682 samples.
 | JIT              |  1.4% |      64 |
 | Compiler         |  1.0% |      49 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,424 samples (94.5%) run  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,424 samples (94.5%) runWorker  java.util.concurrent.ForkJoinPool
+│       ├── 4,154 samples (88.7%) [[via 2 frames]] doExec  java.util.concurrent.ForkJoinTask
+│       │   ├── 3,794 samples (81.0%) [[via 5–7 frames]] exec  java.util.concurrent.RecursiveTask
+│       │   │   └── 3,794 samples (81.0%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,756 samples (37.5%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 1,307 samples (27.9%) [[via 1 frame]] findNearestCentroid  (self 7.5%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 893 samples (19.1%) distance  (self 18.6%)
+│       │   │       │   │   └── 62 samples (1.3%) 5 more branches, largest get (1.1%)  java.util.ArrayList
+│       │   │       │   └── 449 samples (9.6%) [[via 1 frame]] collectClusters  (self 2.3%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 153 samples (3.3%) computeIfAbsent  (self 2.9%)  java.util.HashMap
+│       │   │       │       │   └── 17 samples (0.4%) hash
+│       │   │       │       ├── 121 samples (2.6%) add  (self 1.2%)  java.util.ArrayList
+│       │   │       │       │   └── 61 samples (1.3%) [[via 1 frame]] grow  (self 0.5%)  java.util.ArrayList
+│       │   │       │       │       └── 16 samples (0.3%) [[via 1 frame]] zero_blocks
+│       │   │       │       └── 61 samples (1.3%) get  java.util.ArrayList
+│       │   │       │           ├── 32 samples (0.7%) elementData
+│       │   │       │           └── 28 samples (0.6%) checkIndex  java.util.Objects
+│       │   │       ├── 1,467 samples (31.3%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 1,466 samples (31.3%) [[via 1 frame]] vectorSum  (self 9.6%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 948 samples (20.2%) accumulate  (self 17.9%)
+│       │   │       │       │   └── 111 samples (2.4%) doubleValue  java.lang.Double
+│       │   │       │       └── 70 samples (1.5%) get  java.util.ArrayList
+│       │   │       │           └── 70 samples (1.5%) elementData  (3.1% self in 77 call stacks)
+│       │   │       ├── 296 samples (6.3%) join  java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 294 samples (6.3%) awaitDone
+│       │   │       │       ├── 258 samples (5.5%) [[via 4 frames]] __psynch_cvwait  (13.8% self in 99 call stacks)
+│       │   │       │       └── 23 samples (0.5%) helpJoin  java.util.concurrent.ForkJoinPool
+│       │   │       └── 250 samples (5.3%) [[via 6 frames]] merge  java.util.HashMap
+│       │   │           ├── 165 samples (3.5%) apply  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801187218
+│       │   │           │   └── 165 samples (3.5%) lambda$merge$6  org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │           │       ├── 52 samples (1.1%) [[via 3 frames]] arrayof_jint_disjoint_arraycopy
+│       │   │           │       │   └── 46 samples (1.0%) forward_copy_longs  (5.0% self in 71 call stacks)
+│       │   │           │       └── 104 samples (2.2%) 1 more branch, addAll  java.util.ArrayList
+│       │   │           ├── 32 samples (0.7%) zero_blocks  (1.3% self in 32 call stacks)
+│       │   │           └── 44 samples (0.9%) 1 more branch, arrayof_jint_disjoint_arraycopy
+│       │   ├── 17 samples (0.4%) [[via 5 frames]] __psynch_cvsignal  (1.0% self in 21 call stacks)
+│       │   └── 338 samples (7.2%) 4 more branches, largest exec (6.7%)  java.util.concurrent.RecursiveTask
+│       └── 257 samples (5.5%) 1 more branch, awaitWork
+└── 258 samples (5.5%) 5 more branches, largest thread_start (4.5%) and main (0.8%)
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -8,6 +8,53 @@ Took 19.8ms.
 | Ours             |  0.2% | 31.0µs |
 | Idle             |  0.1% | 20.0µs |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 19.8ms (100.0%) <0.10.0>
+    └── 19.8ms (100.0%) apply/2  eflambe
+        ├── 15.8ms (79.9%) foldl_1/3  lists
+        │   ├── 8.0ms (40.2%) decode/1  json
+        │   │   ├── 1.9ms (9.5%) string/7  (11.9% self in 2 call stacks)
+        │   │   ├── 1.1ms (5.6%) string_ascii/7  (7.0% self in 2 call stacks)
+        │   │   ├── 0.9ms (4.5%) string_utf8/10  (5.6% self in 2 call stacks)
+        │   │   ├── 0.6ms (3.2%) continue/7  (4.0% self in 2 call stacks)
+        │   │   ├── 0.6ms (3.0%) string/9  (3.7% self in 2 call stacks)
+        │   │   ├── 0.5ms (2.6%) string_ascii/9  (3.3% self in 2 call stacks)
+        │   │   ├── 0.5ms (2.5%) number/7  (self 1.4%)
+        │   │   │   └── 0.2ms (1.1%) binary_to_integer/1  erlang
+        │   │   │       ├── 0.1ms (0.5%) big_binary_to_int/2
+        │   │   │       └── 36.0µs (0.2%) binary_to_integer/2  erts_internal
+        │   │   ├── 0.4ms (1.8%) object_push/8  (self 1.7%)
+        │   │   ├── 0.3ms (1.6%) value/6
+        │   │   ├── 0.3ms (1.5%) object_value/7
+        │   │   ├── 0.3ms (1.5%) object_key/6  (self 1.5%)
+        │   │   ├── 0.2ms (1.3%) string_utf8/8
+        │   │   ├── 0.1ms (0.3%) false/6
+        │   │   └── 0.3ms (1.3%) 8 more branches, largest number_zero/7 (0.4%)
+        │   └── 7.8ms (39.4%) [[via 2 frames]] do_encode_map/2  (self 2.0%)  json
+        │       ├── 4.0ms (20.2%) [[via 2–3 frames]] -do_encode_map/2-lc$^0/1-0-/2  (self 3.4%; 6.1% in 10 call stacks)  json
+        │       │   ├── 1.4ms (7.1%) escape_binary/5  (self 7.1%; 15.7% in 10 call stacks)
+        │       │   ├── 0.9ms (4.4%) escape_binary_ascii/5  (self 4.4%; 10.3% in 10 call stacks)
+        │       │   ├── 0.5ms (2.5%) do_encode/2  (self 2.3%; 4.3% in 18 call stacks)
+        │       │   │   └── 28.0µs (0.1%) integer_to_binary/1  erlang
+        │       │   ├── 0.2ms (1.1%) key/2  (1.9% self in 10 call stacks)
+        │       │   └── 0.3ms (1.8%) 3 more branches, largest escape_binary_utf8/6 (1.3%)
+        │       ├── 3.3ms (16.8%) -do_encode_map/2-lc$^0/1-0-/2  (self 1.4%)
+        │       │   ├── 0.9ms (4.5%) escape_binary_utf8/6  (7.2% self in 6 call stacks)
+        │       │   └── 2.2ms (10.9%) 4 more branches, largest escape_binary/5 (5.5%) and escape_binary_ascii/5 (3.8%)
+        │       └── 0.1ms (0.4%) [[via 2–3 frames]] mc_iterator/1  erts_internal
+        └── 4.0ms (20.0%) foldl/3  lists
+            ├── 2.0ms (10.1%) decode/1  json
+            │   └── 2.0ms (10.1%) 21 more branches, largest string/7 (2.4%) and string_ascii/7 (1.4%)
+            └── 1.9ms (9.8%) [[via 2 frames]] do_encode_map/2  json
+                ├── 1.0ms (5.0%) [[via 2–3 frames]] -do_encode_map/2-lc$^0/1-0-/2  (self 0.9%)  json
+                │   └── 0.8ms (4.2%) 7 more branches, largest escape_binary/5 (1.8%) and escape_binary_ascii/5 (1.1%)
+                └── 0.9ms (4.3%) 2 more branches, largest -do_encode_map/2-lc$^0/1-0-/2 (4.2%)
+```
+
 ## Hottest functions
 
 ### Self time

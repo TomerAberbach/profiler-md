@@ -8,6 +8,30 @@ Took 12s over 12,009 samples (1.0ms per sample).
 | Kernel   |  0.1% | 10.0ms |      10 |
 | Native   |  0.1% |  9.0ms |       9 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 11.99s (99.9%) unknown (libc.so.6)
+    └── 11.98s (99.8%) [[via 3 frames]] ZSTD_compressContinue_internal  zstd_compress.c
+        ├── 11.92s (99.3%) ZSTD_buildSeqStore
+        │   ├── 11.70s (97.5%) ZSTD_compressBlock_opt2  (self 14.3%)  zstd_opt.c
+        │   │   ├── 9.96s (82.9%) ZSTD_btGetAllMatches_noDict_3  (self 82.7%)
+        │   │   │   └── 28.0ms (0.2%) ZSTD_insertBt1
+        │   │   └── 24.0ms (0.2%) ZSTD_insertAndFindFirstIndexHash3
+        │   ├── 126.0ms (1.0%) ZSTD_litLengthPrice  zstd_opt.c
+        │   ├── 36.0ms (0.3%) ZSTD_rawLiteralsCost  zstd_opt.c
+        │   ├── 27.0ms (0.2%) ZSTD_updateStats  zstd_opt.c
+        │   └── 7.0ms (0.1%) ZSTD_optLdm_processMatchCandidate  zstd_opt.c
+        ├── 26.0ms (0.2%) ZSTD_compressSeqStore_singleBlock
+        │   └── 26.0ms (0.2%) ZSTD_entropyCompressSeqStore_internal
+        │       ├── 11.0ms (0.1%) ZSTD_buildSequencesStatistics
+        │       │   └── 8.0ms (0.1%) HIST_count_parallel_wksp  hist.c
+        │       └── 10.0ms (0.1%) ZSTD_encodeSequences  zstd_compress_sequences.c
+        └── 16.0ms (0.1%) [[via 2 frames]] ZSTD_estimateBlockSize_symbolType  zstd_compress.c
+```
+
 ## Hottest functions
 
 ### Self time
@@ -723,6 +747,14 @@ Slept 2 times.
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |      2 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 2 times (100.0%) [[via 36 frames]] bpf_trace_run4 ([kernel])
+```
+
 ## Hottest functions
 
 ### Self sleeps
@@ -1039,6 +1071,15 @@ Slept 215 times.
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |    215 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 164 times (76.3%) [[via 17 frames]] bpf_trace_run4 ([kernel])  (100.0% self in 4 call stacks)
+└── 51 times (23.7%) [[via 23 frames]] bpf_trace_run4 ([kernel])
+```
 
 ## Hottest functions
 

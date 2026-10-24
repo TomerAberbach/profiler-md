@@ -10,6 +10,53 @@ Held 78.6 MiB over 22,680 allocations (3.55 KiB per allocation).
 
 Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 78.6 MiB (100.0%) _run_tracker  /venv13/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 78.6 MiB (100.0%) run_module  <frozen runpy>:201
+        ├── 74 MiB (94.2%) [[via 12 frames]] format_file_contents  ./black/__init__.py:1054
+        │   ├── 51.8 MiB (65.9%) format_str  :1189
+        │   │   └── 51.8 MiB (65.9%) _format_str_once  :1236
+        │   │       ├── 36.4 MiB (46.4%) visit  ./black/nodes.py:163
+        │   │       │   ├── 32.3 MiB (41.1%) [[via 2–4 frames]] visit_default  (self 2.5%; 3.8% in 3 call stacks)  ./black/linegen.py:134
+        │   │       │   │   ├── 21.3 MiB (27.1%) append  ./black/lines.py:63
+        │   │       │   │   │   ├── 20.2 MiB (25.7%) mark  (self 21.9%; 23.2% in 990 call stacks)  ./black/brackets.py:70
+        │   │       │   │   │   │   └── 3 MiB (3.8%) is_split_before_delimiter  :232
+        │   │       │   │   │   └── 1.05 MiB (1.3%) 2 more branches, largest is_complex_subscript (1.3%)  :441
+        │   │       │   │   └── 9 MiB (11.5%) generate_comments  (self 2.5%)  ./black/comments.py:52
+        │   │       │   │       └── 7 MiB (8.9%) [[via 2 frames]] changed  ./blib2to3/pytree.py:171
+        │   │       │   ├── 1 MiB (1.3%) [[via 6 frames]] __init__  (2.5% self in 2 call stacks)  <string>:2
+        │   │       │   └── 3.17 MiB (4.0%) 6 more branches, largest visit_power (1.3%)  ./black/linegen.py:341 and visit_simple_stmt (1.3%)
+        │   │       ├── 12.1 MiB (15.3%) [[via 2 frames]] parse_tokens  ./blib2to3/pgen2/driver.py:114
+        │   │       │   ├── 9.04 MiB (11.5%) addtoken  ./blib2to3/pgen2/parse.py:242
+        │   │       │   │   └── 9 MiB (11.5%) _addtoken  (self 1.3%)  :290
+        │   │       │   │       ├── 4 MiB (5.1%) pop  (self 2.5%)  :398
+        │   │       │   │       │   └── 2 MiB (2.5%) convert  ./blib2to3/pytree.py:486
+        │   │       │   │       │       ├── 1 MiB (1.3%) __init__  :248
+        │   │       │   │       │       └── 1 MiB (1.3%) __new__  :81
+        │   │       │   │       ├── 3 MiB (3.8%) shift  :373
+        │   │       │   │       │   └── 3 MiB (3.8%) convert  ./blib2to3/pytree.py:486
+        │   │       │   │       │       ├── 2 MiB (2.5%) __new__  (3.8% self in 2 call stacks)  :81
+        │   │       │   │       │       └── 1 MiB (1.3%) __init__  :400
+        │   │       │   │       └── 1 MiB (1.3%) push  :386
+        │   │       │   └── 3.01 MiB (3.8%) __next__  :80
+        │   │       │       └── 3 MiB (3.8%) generate_tokens  ./blib2to3/pgen2/tokenize.py:565
+        │   │       ├── 2.01 MiB (2.6%) [[via 2 frames]] _rhs  (self 1.3%)  ./black/linegen.py:650
+        │   │       │   └── 1.01 MiB (1.3%) 1 more branch, right_hand_split  :809
+        │   │       └── 1 MiB (1.3%) __str__  ./black/lines.py:490
+        │   └── 22.3 MiB (28.3%) check_stability_and_equivalence  :1037
+        │       └── 22.3 MiB (28.3%) assert_equivalent  (self 9.0%)  :1524
+        │           ├── 9.12 MiB (11.6%) [[via 2 frames]] parse  /usr/lib/python3.11/ast.py:33
+        │           └── 6.05 MiB (7.7%) _stringify_ast  ./black/parsing.py:174
+        └── 4.19 MiB (5.3%) [[via 11–13 frames]] exec_module  <frozen importlib._bootstrap_external>:934
+            ├── 2.51 MiB (3.2%) get_code  :1007
+            │   └── 2.51 MiB (3.2%) _compile_bytecode  :727
+            └── 1.68 MiB (2.1%) 1 more branch, _call_with_frames_removed  <frozen importlib._bootstrap>:233
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1352,6 +1399,53 @@ Leaked 59.9 MiB over 22,485 allocations (2.73 KiB per allocation).
 | Third-party      |  0.4% |  237 KiB |         230 |
 
 Paths starting with `./` or `../` are relative to `/src/black/src/`.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 59.9 MiB (100.0%) _run_tracker  /venv13/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 59.9 MiB (100.0%) run_module  <frozen runpy>:201
+        ├── 55.6 MiB (92.8%) [[via 12 frames]] format_file_contents  ./black/__init__.py:1054
+        │   ├── 36.1 MiB (60.2%) format_str  :1189
+        │   │   └── 36.1 MiB (60.2%) _format_str_once  :1236
+        │   │       ├── 21 MiB (35.1%) visit  ./black/nodes.py:163
+        │   │       │   ├── 18 MiB (30.0%) [[via 2–4 frames]] visit_default  (self 3.3%; 5.0% in 3 call stacks)  ./black/linegen.py:134
+        │   │       │   │   ├── 9 MiB (15.0%) generate_comments  (self 3.3%)  ./black/comments.py:52
+        │   │       │   │   │   └── 7 MiB (11.7%) [[via 2 frames]] changed  ./blib2to3/pytree.py:171
+        │   │       │   │   └── 7 MiB (11.7%) append  ./black/lines.py:63
+        │   │       │   │       ├── 6 MiB (10.0%) mark  (self 5.0%)  ./black/brackets.py:70
+        │   │       │   │       │   └── 3 MiB (5.0%) is_split_before_delimiter  :232
+        │   │       │   │       └── 1 MiB (1.7%) 1 more branch, is_complex_subscript  :441
+        │   │       │   ├── 1 MiB (1.7%) [[via 6 frames]] __init__  (3.3% self in 2 call stacks)  <string>:2
+        │   │       │   └── 2.01 MiB (3.4%) 5 more branches, largest visit_power (1.7%)  ./black/linegen.py:341 and visit_simple_stmt (1.7%)
+        │   │       ├── 12 MiB (20.1%) [[via 2 frames]] parse_tokens  ./blib2to3/pgen2/driver.py:114
+        │   │       │   ├── 9 MiB (15.0%) addtoken  ./blib2to3/pgen2/parse.py:242
+        │   │       │   │   └── 9 MiB (15.0%) _addtoken  (self 1.7%)  :290
+        │   │       │   │       ├── 4 MiB (6.7%) pop  (self 3.3%)  :398
+        │   │       │   │       │   └── 2 MiB (3.3%) 1 more branch, convert  ./blib2to3/pytree.py:486
+        │   │       │   │       ├── 3 MiB (5.0%) shift  :373
+        │   │       │   │       │   └── 3 MiB (5.0%) convert  ./blib2to3/pytree.py:486
+        │   │       │   │       │       ├── 2 MiB (3.3%) __new__  (5.0% self in 2 call stacks)  :81
+        │   │       │   │       │       └── 1 MiB (1.7%) __init__  :400
+        │   │       │   │       └── 1 MiB (1.7%) push  :386
+        │   │       │   └── 3.01 MiB (5.0%) __next__  :80
+        │   │       │       └── 3 MiB (5.0%) generate_tokens  ./blib2to3/pgen2/tokenize.py:565
+        │   │       ├── 1 MiB (1.7%) __str__  ./black/lines.py:490
+        │   │       └── 2.04 MiB (3.4%) 5 more branches, largest transform_line (3.4%)  ./black/linegen.py:601
+        │   └── 19.5 MiB (32.6%) check_stability_and_equivalence  :1037
+        │       ├── 15.4 MiB (25.7%) [[via 2 frames]] visit  ./black/nodes.py:163
+        │       │   ├── 14.2 MiB (23.7%) [[via 4–6 frames]] mark  (30.4% self in 994 call stacks)  ./black/brackets.py:70
+        │       │   └── 1.15 MiB (1.9%) 2 more branches, largest visit_STRING (1.1%)  ./black/linegen.py:413 and visit_NUMBER (0.8%)
+        │       └── 4.01 MiB (6.7%) assert_equivalent  :1524
+        │           ├── 3.01 MiB (5.0%) [[via 2 frames]] parse  /usr/lib/python3.11/ast.py:33
+        │           └── 1 MiB (1.7%) _stringify_ast  ./black/parsing.py:174
+        └── 4.15 MiB (6.9%) [[via 11–13 frames]] exec_module  <frozen importlib._bootstrap_external>:934
+            ├── 2.51 MiB (4.2%) get_code  :1007
+            │   └── 2.51 MiB (4.2%) _compile_bytecode  :727
+            └── 1.64 MiB (2.7%) 1 more branch, _call_with_frames_removed  <frozen importlib._bootstrap>:233
+```
 
 ## Hottest functions
 

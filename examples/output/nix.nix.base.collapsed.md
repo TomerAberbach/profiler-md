@@ -11,6 +11,53 @@ Collected 1,266 samples.
 
 Paths starting with `./` or `../` are relative to `/nix/store/j2r11kxv91yl5xqppy3vy84klwxjbz1i-source/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 994 samples (78.5%) [[via 2 frames]] (anonymous)  (self 0.9%; 3.6% in 22 call stacks)
+│   ├── 655 samples (51.7%) (anonymous)  ./lib/attrsets.nix:1188:85
+│   │   ├── 554 samples (43.8%) [[via 5–20 frames]] primop addErrorContext  ./lib/modules.nix:1147:15
+│   │   │   ├── 324 samples (25.6%) [[via 12–23 frames]] primop getAttr  «nix-internal»/derivation-internal.nix:50:17
+│   │   │   │   ├── 9 samples (0.7%) [[via 2 frames]] primop derivationStrict:pandoc-3.7.0.2  «nix-internal»/derivation-internal.nix:37:12
+│   │   │   │   │   └── 7 samples (0.6%) (anonymous)  (7.6% self in 73 call stacks)  ./pkgs/stdenv/generic/make-derivation.nix:631:18
+│   │   │   │   └── 311 samples (24.6%) 196 more branches, largest primop derivationStrict:lazy-options.json (2.0%)  «nix-internal»/derivation-internal.nix:37:12 and primop derivationStrict:system-path (1.7%)
+│   │   │   ├── 115 samples (9.1%) primop all  :1253:17
+│   │   │   │   └── 106 samples (8.4%) [[via 5 frames]] primop getAttr  «nix-internal»/derivation-internal.nix:50:17
+│   │   │   │       ├── 9 samples (0.7%) [[via 2 frames]] primop derivationStrict:gst-plugins-bad-1.26.11  «nix-internal»/derivation-internal.nix:37:12
+│   │   │   │       │   ├── 7 samples (0.6%) (anonymous)  (11.8% self in 106 call stacks)  ./pkgs/stdenv/generic/make-derivation.nix:582:18
+│   │   │   │       │   └── 2 samples (0.2%) [[via 8 frames]] primop functionArgs  (5.3% self in 66 call stacks)  ./lib/trivial.nix:1109:86
+│   │   │   │       └── 97 samples (7.7%) 64 more branches, largest primop derivationStrict:cargo-vendor-dir (1.0%)  «nix-internal»/derivation-internal.nix:37:12
+│   │   │   ├── 92 samples (7.3%) primop any  :1209:14
+│   │   │   │   ├── 56 samples (4.4%) [[via 6 frames]] dischargeProperties  ./lib/modules.nix:1200:80
+│   │   │   │   │   ├── 49 samples (3.9%) primop getAttr  «nix-internal»/derivation-internal.nix:50:17
+│   │   │   │   │   │   ├── 5 samples (0.4%) [[via 2 frames]] primop derivationStrict:asciidoc-10.2.1  «nix-internal»/derivation-internal.nix:37:12
+│   │   │   │   │   │   │   └── 3 samples (0.2%) (anonymous)  (7.0% self in 81 call stacks)  ./pkgs/stdenv/generic/make-derivation.nix:563:18
+│   │   │   │   │   │   └── 43 samples (3.4%) 26 more branches, largest primop derivationStrict:python3.13-wheel-0.46.1 (0.3%)  «nix-internal»/derivation-internal.nix:37:12
+│   │   │   │   │   └── 3 samples (0.2%) dischargeProperties  :1381:31
+│   │   │   │   └── 36 samples (2.8%) 2 more branches, largest (anonymous) (2.7%)  :1209:19
+│   │   │   └── 21 samples (1.7%) 5 more branches, largest primop mapAttrs (0.7%)  ./lib/types.nix:1025:21
+│   │   └── 101 samples (8.0%) 1 more branch, primop addErrorContext  ./lib/modules.nix:1147:15
+│   ├── 133 samples (10.5%) [[via 15 frames]] (anonymous)  ./lib/attrsets.nix:1188:85
+│   │   ├── 82 samples (6.5%) [[via 11–19 frames]] primop addErrorContext  ./lib/modules.nix:1147:15
+│   │   │   └── 82 samples (6.5%) 3 more branches, largest primop any (6.3%)  :1209:14
+│   │   └── 51 samples (4.0%) 1 more branch, primop addErrorContext  ./lib/modules.nix:1147:15
+│   └── 194 samples (15.3%) 12 more branches, largest primop isString (8.5%)  ./pkgs/stdenv/generic/make-derivation.nix:1009:14 and optional (3.6%)
+├── 153 samples (12.1%) primop derivationStrict:nixos-system-profiler-26.11pre-git  «nix-internal»/derivation-internal.nix:37:12
+│   ├── 131 samples (10.3%) primop getAttr  :50:17
+│   │   ├── 40 samples (3.2%) [[via 10 frames]] (anonymous)  ./lib/attrsets.nix:1188:85
+│   │   │   ├── 25 samples (2.0%) primop addErrorContext  ./lib/modules.nix:1147:15
+│   │   │   │   └── 23 samples (1.8%) mergeEqualOption  (2.7% self in 10 call stacks)  :1254:11
+│   │   │   └── 15 samples (1.2%) 1 more branch, primop addErrorContext  ./lib/modules.nix:1147:15
+│   │   └── 89 samples (7.0%) 41 more branches, largest primop derivationStrict:system-units (2.1%)  «nix-internal»/derivation-internal.nix:37:12 and primop derivationStrict:linux-config-6.18.35 (0.8%)
+│   └── 22 samples (1.7%) 2 more branches, largest (anonymous) (1.7%)  ./nixos/modules/system/activation/top-level.nix:43:7
+└── 118 samples (9.3%) primop seq  ./lib/modules.nix:402:18
+    ├── 62 samples (4.9%) [[via 17 frames]] primop concatLists  ./lib/modules.nix:527:24
+    │   └── 55 samples (4.3%) [[via 4 frames]] applyModuleArgs  ./lib/modules.nix:705:56
+    └── 55 samples (4.3%) 2 more branches, largest primop concatLists (4.1%)  :944:11
+```
+
 ## Hottest functions
 
 ### Self samples

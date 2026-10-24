@@ -10,6 +10,53 @@ Took 5.24s over 5,239 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5.24s (100.0%) [[via 3 frames]] 0x1130c  ./binary
+    ├── 3.90s (74.4%) 0x10144
+    │   ├── 1.60s (30.6%) 0x44b48
+    │   │   ├── 1.10s (21.0%) 0x4aa18
+    │   │   │   ├── 641.6ms (12.2%) 0x383d0
+    │   │   │   │   └── 641.6ms (12.2%) 24 more branches, largest 0x537bc (6.7%) and 0x53784 (2.4%)
+    │   │   │   └── 461.5ms (8.8%) 49 more branches, largest 0x368f8 (2.0%) and 0x36d98 (1.9%)
+    │   │   ├── 400.4ms (7.6%) [[via 4–10 frames]] 0x4aa18  ./binary
+    │   │   │   ├── 180.2ms (3.4%) 0x383d0
+    │   │   │   │   ├── 4.0ms (0.1%) [[via 2 frames]] 0x433d0  (1.3% self in 60 call stacks)  ./binary
+    │   │   │   │   └── 163.2ms (3.1%) 11 more branches, largest 0x537bc (2.0%) and 0x53784 (0.6%)
+    │   │   │   └── 220.2ms (4.2%) 18 more branches, largest 0x36670 (2.6%)
+    │   │   └── 103.1ms (2.0%) 17 more branches, largest 0x4a1ac (0.8%)
+    │   ├── 1.51s (28.9%) 0x45be0
+    │   │   ├── 1.32s (25.3%) 0x368f8
+    │   │   │   ├── 316.3ms (6.0%) 0x6449c
+    │   │   │   │   └── 316.3ms (6.0%) 30 more branches, largest 0x36b64 (2.3%) and 0x36ddc (0.9%)
+    │   │   │   └── 1.01s (19.3%) 24 more branches, largest 0x642d8 (5.9%)  ./binary and 0x64480 (5.4%)
+    │   │   └── 187.2ms (3.6%) 2 more branches, largest 0x368f8 (3.6%)  ./binary
+    │   ├── 546.5ms (10.4%) 0x368f8
+    │   │   └── 546.5ms (10.4%) 12 more branches, largest 0x6449c (5.5%) and 0x64480 (2.9%)
+    │   └── 233.2ms (4.4%) 18 more branches, largest 0x45934 (2.8%) and 0x44e28 (0.6%)
+    ├── 521.5ms (9.9%) 0xf660
+    │   ├── 33.0ms (0.6%) 0x1392c  (2.8% self in 103 call stacks)
+    │   ├── 32.0ms (0.6%) 0x138f0  (3.9% self in 148 call stacks)
+    │   ├── 20.0ms (0.4%) 0x13910  (2.4% self in 93 call stacks)
+    │   ├── 17.0ms (0.3%) 0x138fc  (1.3% self in 50 call stacks)
+    │   ├── 16.0ms (0.3%) 0x139a8  (1.1% self in 45 call stacks)
+    │   ├── 15.0ms (0.3%) 0x1391c  (1.4% self in 52 call stacks)
+    │   ├── 15.0ms (0.3%) 0x13904  (1.2% self in 46 call stacks)
+    │   ├── 11.0ms (0.2%) 0x1396c  (1.4% self in 62 call stacks)
+    │   ├── 11.0ms (0.2%) 0x13978  (1.0% self in 39 call stacks)
+    │   ├── 8.0ms (0.2%) 0x139b0  (1.2% self in 51 call stacks)
+    │   └── 336.3ms (6.4%) 89 more branches, largest 0x131a4 (0.6%)
+    ├── 67.1ms (1.3%) 0xf68c
+    │   ├── 27.0ms (0.5%) 0x9d200  (2.3% self in 78 call stacks)  /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   └── 11.0ms (0.2%) 0x11f14
+    ├── 21.0ms (0.4%) 0xf75c
+    │   └── 16.0ms (0.3%) 0x9e670  (1.1% self in 38 call stacks)  /usr/lib/aarch64-linux-gnu/libc.so.6
+    └── 730.7ms (13.9%) 36 more branches, largest 0xf7d4 (9.6%) and 0x100f0 (1.4%)
+```
+
 ## Hottest functions
 
 ### Self time

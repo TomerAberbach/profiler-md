@@ -10,6 +10,50 @@ Took 5.78s.
 
 Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5.78s (100.0%) <module>  /venv/bin/black:1
+    ├── 5.63s (97.5%) [[via 2 frames]] main  /venv/lib/python3.11/site-packages/click/core.py:1484
+    │   └── 5.63s (97.4%) [[via 3 frames]] main  ./black/__init__.py:240
+    │       └── 5.63s (97.4%) reformat_one  :865
+    │           └── 5.63s (97.4%) format_file_in_place  :922
+    │               └── 5.63s (97.4%) format_file_contents  :1059
+    │                   ├── 3.09s (53.5%) format_str  :1168
+    │                   │   └── 3.08s (53.4%) _format_str_once  (self 26.8%; 43.5% in 2 call stacks)  :1215
+    │                   │       ├── 1.26s (21.8%) [[via 2 frames]] parse_tokens  (self 19.9%; 31.7% in 2 call stacks)  ./blib2to3/pgen2/driver.py:114
+    │                   │       │   └── 112.3ms (1.9%) addtoken  ./blib2to3/pgen2/parse.py:230
+    │                   │       │       └── 112.3ms (1.9%) _addtoken  :278
+    │                   │       │           └── 109.7ms (1.9%) shift  :361
+    │                   │       │               └── 109.7ms (1.9%) convert  ./blib2to3/pytree.py:475
+    │                   │       │                   └── 108.7ms (1.9%) __init__  :389
+    │                   │       ├── 205.0ms (3.5%) detect_target_versions  :1443
+    │                   │       │   └── 205.0ms (3.5%) get_features_used  (5.6% self in 2 call stacks)  :1286
+    │                   │       └── 65.0ms (1.1%) transform_line  ./black/linegen.py:601
+    │                   │           └── 65.0ms (1.1%) [[via 2 frames]] _hugging_power_ops_line_to_string  ./black/linegen.py:590
+    │                   │               └── 64.8ms (1.1%) [[via 3 frames]] __contains__  ./black/mode.py:249
+    │                   └── 2.54s (44.0%) check_stability_and_equivalence  :1042
+    │                       ├── 1.97s (34.1%) assert_stable  :1543
+    │                       │   └── 1.96s (34.0%) _format_str_once  (self 16.6%)  :1215
+    │                       │       ├── 682.9ms (11.8%) [[via 2 frames]] parse_tokens  ./blib2to3/pgen2/driver.py:114
+    │                       │       ├── 202.0ms (3.5%) visit  (self 1.2%)  ./black/nodes.py:152
+    │                       │       │   ├── 117.9ms (2.0%) [[via 4 frames]] visit_STRING  ./black/linegen.py:413
+    │                       │       │   │   └── 117.9ms (2.0%) visit_default  :134
+    │                       │       │   │       └── 117.9ms (2.0%) append  ./black/lines.py:52
+    │                       │       │   │           └── 116.9ms (2.0%) is_complex_subscript  :430
+    │                       │       │   └── 12.0ms (0.2%) [[via 3 frames]] visit_stmt  ./black/linegen.py:199
+    │                       │       └── 119.0ms (2.1%) detect_target_versions  :1443
+    │                       │           └── 119.0ms (2.1%) get_features_used  :1286
+    │                       └── 565.3ms (9.8%) assert_equivalent  (self 4.7%)  :1510
+    │                           ├── 153.0ms (2.6%) _stringify_ast  ./black/parsing.py:182
+    │                           └── 141.0ms (2.4%) [[via 3 frames]] compile  <built-in>
+    └── 141.0ms (2.4%) <module>  (self 1.3%)  ./black/__init__.py:1
+        └── 66.9ms (1.2%) <module>  ./black/comments.py:1
+            └── 64.0ms (1.1%) <module>  ./black/nodes.py:1
+```
+
 ## Hottest functions
 
 ### Self time

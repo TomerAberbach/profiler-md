@@ -8,6 +8,49 @@ Took 1.82s over 1,822 samples (1.0ms per sample).
 | Native   |  0.8% | 14.0ms |      14 |
 | Unknown  |  0.3% |  5.0ms |       5 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.81s (99.8%) (anonymous)
+│   └── 1.81s (99.7%) [[via 1 frame]] POOL_thread  pool.c
+│       └── 1.81s (99.7%) ZSTDMT_compressionJob  zstdmt_compress.c
+│           ├── 1.46s (80.3%) ZSTD_compressContinue_public
+│           │   └── 1.46s (80.3%) ZSTD_compress_frameChunk  zstd_compress.c
+│           │       ├── 1.44s (79.3%) ZSTD_buildSeqStore
+│           │       │   ├── 1.41s (77.6%) ZSTD_compressBlock_opt2  (self 13.6%; 15.9% in 3 call stacks)  zstd_opt.c
+│           │       │   │   └── 1.16s (64.0%) ZSTD_btGetAllMatches_noDict_3  (self 63.8%; 81.7% in 3 call stacks)
+│           │       │   │       └── 3.0ms (0.2%) ZSTD_insertBt1.constprop.3
+│           │       │   ├── 21.0ms (1.2%) ZSTD_compressBlock_btultra2
+│           │       │   │   └── 21.0ms (1.2%) ZSTD_compressBlock_opt2  zstd_opt.c
+│           │       │   │       ├── 14.0ms (0.8%) ZSTD_btGetAllMatches_noDict_3
+│           │       │   │       └── 1.0ms (0.1%) ZSTD_rescaleFreqs
+│           │       │   │           └── 1.0ms (0.1%) HIST_count_simple
+│           │       │   ├── 7.0ms (0.4%) ZSTD_litLengthPrice.constprop.1.isra.0  zstd_opt.c
+│           │       │   └── 3.0ms (0.2%) ZSTD_litLengthPrice.constprop.0.isra.0  zstd_opt.c
+│           │       ├── 8.0ms (0.4%) [[via 2 frames]] ZSTD_buildBlockEntropyStats
+│           │       │   ├── 4.0ms (0.2%) ZSTD_buildSequencesStatistics  zstd_compress.c
+│           │       │   │   ├── 3.0ms (0.2%) HIST_count_parallel_wksp  hist.c
+│           │       │   │   └── 1.0ms (0.1%) ZSTD_buildCTable
+│           │       │   │       └── 1.0ms (0.1%) FSE_buildCTable_wksp
+│           │       │   └── 3.0ms (0.2%) HUF_optimalTableLog
+│           │       │       ├── 2.0ms (0.1%) HUF_buildCTable_wksp
+│           │       │       └── 1.0ms (0.1%) HUF_writeCTable_wksp
+│           │       │           └── 1.0ms (0.1%) FSE_compress_usingCTable_generic  fse_compress.c
+│           │       ├── 6.0ms (0.3%) ZSTD_compressSeqStore_singleBlock
+│           │       │   ├── 5.0ms (0.3%) ZSTD_encodeSequences
+│           │       │   └── 1.0ms (0.1%) ZSTD_seqToCodes
+│           │       └── 1.0ms (0.1%) ZSTD_XXH64_update
+│           └── 353.0ms (19.4%) ZSTD_compressEnd_public
+│               └── 353.0ms (19.4%) ZSTD_compress_frameChunk  zstd_compress.c
+│                   ├── 350.0ms (19.2%) ZSTD_buildSeqStore
+│                   │   └── 347.0ms (19.0%) ZSTD_compressBlock_opt2  (self 2.0%)  zstd_opt.c
+│                   │       └── 311.0ms (17.1%) ZSTD_btGetAllMatches_noDict_3
+│                   └── 1.0ms (0.1%) [[via 6 frames]] FSE_writeNCount_generic  fse_compress.c
+└── 1.0ms (0.1%) [[via 9 frames]] munmap
+```
+
 ## Hottest functions
 
 ### Self time

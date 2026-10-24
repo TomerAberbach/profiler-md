@@ -11,6 +11,53 @@ Collected 4,436 samples.
 | JIT               |  1.0% |      44 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,187 samples (94.4%) run  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,187 samples (94.4%) runWorker  java.util.concurrent.ForkJoinPool
+│       ├── 3,880 samples (87.5%) [[via 2 frames]] doExec  java.util.concurrent.ForkJoinTask
+│       │   ├── 3,589 samples (80.9%) [[via 5–7 frames]] exec  java.util.concurrent.RecursiveTask
+│       │   │   └── 3,587 samples (80.9%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,552 samples (35.0%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 1,132 samples (25.5%) [[via 1 frame]] findNearestCentroid  (self 7.2%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 767 samples (17.3%) distance  (self 17.1%)
+│       │   │       │   │   └── 45 samples (1.0%) 2 more branches, largest get (0.9%)  java.util.ArrayList
+│       │   │       │   └── 420 samples (9.5%) [[via 1 frame]] collectClusters  (self 1.9%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 158 samples (3.6%) computeIfAbsent  (self 2.9%)  java.util.HashMap
+│       │   │       │       │   └── 25 samples (0.6%) hash
+│       │   │       │       ├── 110 samples (2.5%) add  (self 1.1%)  java.util.ArrayList
+│       │   │       │       │   └── 63 samples (1.4%) [[via 1 frame]] grow  (self 0.6%)  java.util.ArrayList
+│       │   │       │       │       └── 16 samples (0.4%) [[via 1 frame]] zero_blocks
+│       │   │       │       └── 63 samples (1.4%) get  java.util.ArrayList
+│       │   │       │           ├── 36 samples (0.8%) elementData
+│       │   │       │           └── 26 samples (0.6%) checkIndex  java.util.Objects
+│       │   │       ├── 1,535 samples (34.6%) computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 1,534 samples (34.6%) [[via 1 frame]] vectorSum  (self 10.1%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 1,011 samples (22.8%) accumulate  (self 20.4%)
+│       │   │       │       │   └── 107 samples (2.4%) doubleValue  java.lang.Double
+│       │   │       │       └── 76 samples (1.7%) get  java.util.ArrayList
+│       │   │       │           └── 75 samples (1.7%) elementData  (3.4% self in 73 call stacks)
+│       │   │       ├── 228 samples (5.1%) [[via 6 frames]] merge  java.util.HashMap
+│       │   │       │   ├── 162 samples (3.7%) apply  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a7490
+│       │   │       │   │   └── 161 samples (3.6%) lambda$merge$6  org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │   │       ├── 107 samples (2.4%) addAll  java.util.ArrayList
+│       │   │       │   │       │   ├── 8 samples (0.2%) [[via 7 frames]] _platform_bzero
+│       │   │       │   │       │   └── 89 samples (2.0%) 4 more branches, largest toArray (1.0%) and arrayof_oop_disjoint_arraycopy (0.9%)
+│       │   │       │   │       └── 46 samples (1.0%) [[via 3 frames]] arrayof_jint_disjoint_arraycopy
+│       │   │       │   │           └── 43 samples (1.0%) forward_copy_longs  (4.6% self in 71 call stacks)
+│       │   │       │   ├── 18 samples (0.4%) zero_blocks  (1.0% self in 22 call stacks)
+│       │   │       │   └── 41 samples (0.9%) 1 more branch, arrayof_jint_disjoint_arraycopy
+│       │   │       └── 255 samples (5.7%) 7 more branches, largest join (5.5%)  java.util.concurrent.ForkJoinTask
+│       │   ├── 21 samples (0.5%) [[via 5 frames]] __psynch_cvsignal
+│       │   └── 268 samples (6.0%) 4 more branches, largest exec (5.7%)  java.util.concurrent.RecursiveTask
+│       └── 275 samples (6.2%) [[via 4 frames]] Parker::park
+│           └── 272 samples (6.1%) __psynch_cvwait  (14.0% self in 76 call stacks)
+└── 249 samples (5.6%) 7 more branches, largest thread_start (4.4%) and main (1.0%)
+```
+
 ## Hottest functions
 
 ### Self samples

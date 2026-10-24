@@ -10,6 +10,53 @@ Collected 1,335 samples.
 | Standard library |  4.6% |      61 |
 | JIT              |  1.1% |      15 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 899 samples (67.3%) [[via 3 frames]] Thread::call_run()
+│   ├── 835 samples (62.5%) JavaThread::thread_main_inner()
+│   │   └── 833 samples (62.4%) CompileBroker::compiler_thread_loop()
+│   │       ├── 813 samples (60.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 568 samples (42.5%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 568 samples (42.5%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 291 samples (21.8%) Compile::Code_Gen()
+│   │       │   │       │   ├── 162 samples (12.1%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 35 samples (2.6%) PhaseChaitin::Split(unsigned int, ResourceArea*)  (self 1.6%)
+│   │       │   │       │   │   │   └── 13 samples (1.0%) 5 more branches, largest MachNode::rematerialize() const (0.4%)
+│   │       │   │       │   │   └── 126 samples (9.4%) 22 more branches, largest PhaseChaitin::build_ifg_physical(ResourceArea*) (1.8%) and PhaseChaitin::gather_lrg_masks(bool) (1.2%)
+│   │       │   │       │   └── 129 samples (9.7%) 7 more branches, largest Matcher::match() (4.0%) and PhaseCFG::do_global_code_motion() (2.8%)
+│   │       │   │       └── 277 samples (20.7%) 8 more branches, largest Compile::Optimize() (14.7%) and ParseGenerator::generate(JVMState*) (5.1%)
+│   │       │   └── 245 samples (18.4%) 5 more branches, largest Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*) (17.6%)
+│   │       └── 13 samples (1.0%) [[via 3 frames]] __psynch_cvwait
+│   └── 64 samples (4.8%) 4 more branches, largest WorkerThread::run() (4.3%)
+├── 426 samples (31.9%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 426 samples (31.9%) run(String[])
+│       ├── 348 samples (26.1%) [[via 12 frames]] exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 342 samples (25.6%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── 330 samples (24.7%) [[via 9 frames]] invoke(PhaseConfig, PhaserState, LoggingContext, Object)  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   ├── 307 samples (23.0%) phaseBody(LoggingContext, Object)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │   │   └── 307 samples (23.0%) phaseBody(PipelineContext, PipelineArtifact)
+│       │       │   │       ├── 218 samples (16.3%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │   │       │   └── 218 samples (16.3%) executePhase(ConfigurationPipelineArtifact)
+│       │       │   │       │       ├── 23 samples (1.7%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│       │       │   │       │       │   └── 22 samples (1.6%) createProjectEnvironment(CompilerConfiguration, Disposable, EnvironmentConfigFiles)  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │   │       │       │       ├── 4 samples (0.3%) [[via 6 frames]] <clinit>()  org.jetbrains.kotlin.KtNodeTypes
+│       │       │   │       │       │       │   └── 1 sample (0.1%) [[via 20 frames]] InstanceKlass::find_method_index(Array<Method*> const*, Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::StaticLookupMode, Klass::PrivateLookupMode)  (1.7% self in 23 call stacks)
+│       │       │   │       │       │       └── 12 samples (0.9%) 4 more branches, largest <init>(Disposable, KotlinCoreApplicationEnvironment, CompilerConfiguration) (0.3%)  org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment
+│       │       │   │       │       └── 195 samples (14.6%) 4 more branches, largest resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) (12.0%)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt and prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1) (1.3%)
+│       │       │   │       └── 89 samples (6.7%) 3 more branches, largest executePhase(PipelineArtifact) (4.2%)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase and executePhase(PipelineArtifact) (2.2%)
+│       │       │   └── 23 samples (1.7%) 2 more branches, largest phaseBody(LoggingContext, Object) (1.4%)  org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │       └── 8 samples (0.6%) 1 more branch, <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       └── 74 samples (5.5%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           └── 64 samples (4.8%) [[via 2 frames]] read(byte[], int, int)  java.util.zip.ZipInputStream
+│               └── 58 samples (4.3%) [[via 3 frames]] Java_java_util_zip_Inflater_inflateBytesBytes
+│                   ├── 46 samples (3.4%) inflate_fast
+│                   └── 12 samples (0.9%) 2 more branches, largest inflate (0.7%)
+└── 9 samples (0.7%) 3 more branches, largest [break_stack_range] (0.5%)
+```
+
 ## Hottest functions
 
 ### Self samples

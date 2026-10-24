@@ -6,6 +6,53 @@ Took 3.46s over 346 samples (10.0ms per sample).
 | ---------------- | -----: | ----: | ------: |
 | Standard library | 100.0% | 3.46s |     346 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.51s (43.6%) [[via 2 frames]] github.com/tomeraberbach/profiler-md-workload/internal/work.Run  github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│   ├── 1.02s (29.5%) encoding/json.Unmarshal  encoding/json/decode.go:102
+│   │   ├── 550.0ms (15.9%) [[via 3 frames]] encoding/json.(*decodeState).objectInterface  encoding/json/decode.go:1078
+│   │   │   ├── 40.0ms (1.2%) [[via 2–4 frames]] encoding/json.(*decodeState).rescanLiteral  encoding/json/decode.go:322
+│   │   │   └── 510.0ms (14.7%) 4 more branches, largest encoding/json.(*decodeState).valueInterface (5.5%)  encoding/json/decode.go:1035 and encoding/json.unquote (3.8%)
+│   │   └── 470.0ms (13.6%) encoding/json.checkValid  (self 5.5%)  encoding/json/scanner.go:33
+│   │       ├── 170.0ms (4.9%) encoding/json.stateInString  :339
+│   │       ├── 40.0ms (1.2%) encoding/json.stateBeginString  (1.7% self in 3 call stacks)  :268
+│   │       └── 70.0ms (2.0%) 4 more branches, largest encoding/json.stateBeginValue (1.2%)  :217
+│   └── 490.0ms (14.2%) [[via 2 frames]] encoding/json.(*encodeState).reflectValue  encoding/json/encode.go:366
+│       ├── 90.0ms (2.6%) [[via 3 frames]] encoding/json.stringEncoder  encoding/json/encode.go:610
+│       │   └── 90.0ms (2.6%) encoding/json.appendString[go.shape.string]  (self 1.7%; 2.6% in 6 call stacks)  :999
+│       │       └── 30.0ms (0.9%) 1 more branch, unicode/utf8.DecodeRuneInString  unicode/utf8/utf8.go:219
+│       └── 400.0ms (11.6%) 3 more branches, largest encoding/json.mapEncoder.encode (10.1%)  encoding/json/encode.go:765 and encoding/json.valueEncoder (0.9%)
+├── 1.16s (33.5%) runtime.systemstack  runtime/asm_arm64.s:353
+│   ├── 640.0ms (18.5%) [[via 4 frames]] runtime.madvise  runtime/sys_darwin.go:224
+│   ├── 370.0ms (10.7%) [[via 3 frames]] runtime.kevent  runtime/sys_darwin.go:438
+│   ├── 120.0ms (3.5%) runtime.gcBgMarkWorker.func2  runtime/mgc.go:1847
+│   │   ├── 90.0ms (2.6%) runtime.gcDrainMarkWorkerDedicated  runtime/mgcmark.go:1173
+│   │   │   └── 90.0ms (2.6%) runtime.gcDrain  :1239
+│   │   │       ├── 70.0ms (2.0%) runtime.(*gcControllerState).enlistWorker  runtime/mgcpacer.go:697
+│   │   │       │   ├── 40.0ms (1.2%) [[via 4 frames]] runtime.pthread_cond_signal  (3.5% self in 6 call stacks)  runtime/sys_darwin.go:508
+│   │   │       │   └── 30.0ms (0.9%) 1 more branch, runtime.preemptone  runtime/proc.go:6866
+│   │   │       └── 10.0ms (0.3%) runtime.(*gcWork).balance  runtime/mgcwork.go:356
+│   │   └── 30.0ms (0.9%) [[via 6 frames]] runtime.pthread_kill  (2.3% self in 4 call stacks)  runtime/sys_darwin.go:148
+│   └── 10.0ms (0.3%) runtime.gcMarkTermination.func3  runtime/mgc.go:1500
+├── 510.0ms (14.7%) [[via 2 frames]] runtime.schedule  runtime/proc.go:4135
+│   ├── 480.0ms (13.9%) runtime.findRunnable  :3389
+│   │   ├── 420.0ms (12.1%) runtime.stopm  :2992
+│   │   │   ├── 380.0ms (11.0%) [[via 3 frames]] runtime.pthread_cond_wait  runtime/sys_darwin.go:487
+│   │   │   └── 40.0ms (1.2%) 1 more branch, runtime.lock  runtime/lock_spinbit.go:151
+│   │   └── 60.0ms (1.7%) 2 more branches, largest runtime.lock (1.4%)  runtime/lock_spinbit.go:151
+│   └── 30.0ms (0.9%) 1 more branch, runtime.resetspinning  :4021
+├── 160.0ms (4.6%) [[via 3 frames]] runtime.goschedImpl  runtime/proc.go:4307
+│   ├── 110.0ms (3.2%) [[via 2 frames]] runtime.lock2  runtime/lock_spinbit.go:155
+│   │   ├── 80.0ms (2.3%) runtime.osyield  runtime/os_darwin.go:379
+│   │   │   └── 80.0ms (2.3%) runtime.usleep  (5.2% self in 5 call stacks)  runtime/sys_darwin.go:273
+│   │   └── 10.0ms (0.3%) runtime.semasleep  runtime/os_darwin.go:45
+│   └── 50.0ms (1.4%) 2 more branches, largest runtime.wakep (0.9%)  :3212 and runtime.schedule (0.6%)
+└── 120.0ms (3.5%) 2 more branches, largest runtime.gcBgMarkWorker (3.2%)  runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

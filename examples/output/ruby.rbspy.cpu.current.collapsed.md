@@ -11,6 +11,53 @@ Collected 1,555 samples.
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,553 samples (99.9%) <main>  ./profile.rb
+    ├── 1,471 samples (94.6%) [[via 4 frames]] ActionDispatch::Static#call  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │   ├── 1,456 samples (93.6%) [[via 11 frames]] ActiveSupport::Callbacks#run_callbacks  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb
+    │   │   ├── 1,334 samples (85.8%) [[via 42 frames]] ActionView::Rendering#render_to_body  /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/rendering.rb
+    │   │   │   └── 1,325 samples (85.2%) [[via 9 frames]] ActiveSupport::Notifications.instrument  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb
+    │   │   │       ├── 1,316 samples (84.6%) [[via 8 frames]] Kernel#public_send [c function]
+    │   │   │       │   ├── 1,031 samples (66.3%) #<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128
+    │   │   │       │   │   └── 1,029 samples (66.2%) Array#each
+    │   │   │       │   │       ├── 747 samples (48.0%) block in _app_views_statuses_index_html_erb__328993190567029661_3128  (self 2.2%)
+    │   │   │       │   │       │   ├── 573 samples (36.8%) ActionView::Helpers::SanitizeHelper#sanitize  /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │   │   │       │   │       │   │   └── 568 samples (36.5%) Rails::HTML::Concern::ComposedSanitize#sanitize  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │   │   │       │   │       │   │       ├── 180 samples (11.6%) [[via 2 frames]] Loofah::HtmlFragmentBehavior::ClassMethods#parse  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │   │   │       │   │       │   │       │   ├── 119 samples (7.7%) Nokogiri::XML::DocumentFragment.new  (self 0.6%)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
+    │   │   │       │   │       │   │       │   │   ├── 96 samples (6.2%) Nokogiri::HTML5::DocumentFragment#initialize  (self 0.7%)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb
+    │   │   │       │   │       │   │       │   │   │   └── 84 samples (5.4%) Nokogiri::Gumbo.fragment [c function]  (self 4.8%)
+    │   │   │       │   │       │   │       │   │   │       └── 10 samples (0.6%) 1 more branch, Nokogiri::XML::Node#internal_subset [c function]
+    │   │   │       │   │       │   │       │   │   └── 7 samples (0.5%) [[via 3 frames]] block in decorate  (1.4% self in 5 call stacks)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb
+    │   │   │       │   │       │   │       │   └── 58 samples (3.7%) Nokogiri::HTML4::Document.new [c function]  (self 2.5%)
+    │   │   │       │   │       │   │       │       └── 19 samples (1.2%) 1 more branch, Loofah::DocumentDecorator#initialize  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │   │   │       │   │       │   │       └── 385 samples (24.8%) 2 more branches, largest Rails::HTML::Concern::Serializer::UTF8Encode#serialize (13.8%) and Rails::HTML::Concern::Scrubber::SafeList#scrub (11.0%)
+    │   │   │       │   │       │   └── 140 samples (9.0%) 6 more branches, largest block in define_url_helper (2.9%)  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb and ActionView::Helpers::UrlHelper#link_to (2.6%)
+    │   │   │       │   │       ├── 125 samples (8.0%) [[via 12–16 frames]] Module#extend_object [c function]
+    │   │   │       │   │       ├── 96 samples (6.2%) [[via 10 frames]] block in scrub_attributes  (self 0.5%)  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │   │   │       │   │       │   └── 82 samples (5.3%) Rails::HTML::PermitScrubber#scrub_attribute  (self 0.5%)
+    │   │   │       │   │       │       ├── 58 samples (3.7%) Loofah::HTML5::Scrub.scrub_uri_attribute  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │       │   │       │       │   ├── 18 samples (1.2%) Loofah::HTML5::Scrub.allowed_uri?
+    │   │   │       │   │       │       │   │   └── 18 samples (1.2%) String#gsub [c function]  (2.1% self in 7 call stacks)
+    │   │   │       │   │       │       │   └── 38 samples (2.4%) 10 more branches, largest String#gsub! [c function] (1.0%)
+    │   │   │       │   │       │       ├── 8 samples (0.5%) Loofah::HTML5::Scrub.force_correct_attribute_escaping!  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │       │   │       │       └── 6 samples (0.4%) Nokogiri::XML::Node#node_name [c function]  (1.2% self in 5 call stacks)
+    │   │   │       │   │       └── 51 samples (3.3%) 4 more branches, largest block in force_correct_attribute_escaping! (1.5%)  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb and block in evaluate (1.0%)
+    │   │   │       │   └── 281 samples (18.1%) 2 more branches, largest ActiveSupport::NumberHelper#number_to_delimited (15.6%)  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb and #<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160 (2.5%)
+    │   │   │       └── 3 samples (0.2%) ActiveSupport::Notifications::Instrumenter#instrument  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb
+    │   │   └── 105 samples (6.8%) [[via 3 frames]] Rack::Session::Abstract::Persisted#context  /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │   │       ├── 91 samples (5.9%) [[via 3 frames]] Rack::ETag#call  /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │   │       │   ├── 67 samples (4.3%) [[via 3 frames]] Digest::Base#<< [c function]
+    │   │       │   └── 24 samples (1.5%) 3 more branches, largest Rack::TempfileReaper#call (1.4%)  /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │   │       └── 12 samples (0.8%) 1 more branch, ActionDispatch::Session::SessionObject#commit_session  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb
+    │   └── 10 samples (0.6%) 1 more branch, ActionDispatch::FileHandler#attempt
+    └── 76 samples (4.9%) 3 more branches, largest Kernel#require_relative [c function] (4.7%)
+```
+
 ## Hottest functions
 
 ### Self samples

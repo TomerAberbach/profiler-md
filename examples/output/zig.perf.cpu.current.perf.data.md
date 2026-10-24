@@ -10,6 +10,53 @@ Took 5.95s over 5,954 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5.95s (100.0%) [[via 3 frames]] 0x16900  ./binary
+    ├── 4.17s (70.0%) 0x15964
+    │   ├── 1.70s (28.6%) 0x6503c
+    │   │   ├── 1.14s (19.3%) 0x78ff4
+    │   │   │   ├── 686.7ms (11.5%) 0x61a90
+    │   │   │   │   ├── 102.1ms (1.7%) 0x7197c
+    │   │   │   │   │   ├── 66.1ms (1.1%) 0x79dc4
+    │   │   │   │   │   │   ├── 4.0ms (0.1%) 0x70918  (0.9% self in 47 call stacks)
+    │   │   │   │   │   │   └── 61.1ms (1.0%) 20 more branches, largest 0x6f75c (0.5%)
+    │   │   │   │   │   └── 21.0ms (0.4%) 0x79e10
+    │   │   │   │   └── 584.6ms (9.8%) 22 more branches, largest 0x71d44 (6.5%) and 0x71cf8 (2.0%)
+    │   │   │   └── 462.5ms (7.8%) 36 more branches, largest 0x5eff4 (2.2%) and 0x5ebe0 (1.5%)
+    │   │   └── 554.6ms (9.3%) 18 more branches, largest 0x78ff4 (7.7%)  ./binary and 0x782ec (0.6%)
+    │   ├── 1.63s (27.5%) 0x6639c
+    │   │   ├── 1.44s (24.2%) 0x5eff4
+    │   │   │   ├── 484.5ms (8.1%) [[via 2–10 frames]] 0x672f0  ./binary
+    │   │   │   │   └── 484.5ms (8.1%) 45 more branches, largest 0x61f50 (2.1%) and 0x5e9c0 (1.3%)
+    │   │   │   ├── 475.5ms (8.0%) 0x672f0
+    │   │   │   │   ├── 125.1ms (2.1%) 0x61f50
+    │   │   │   │   │   ├── 11.0ms (0.2%) 0x6a110
+    │   │   │   │   │   │   └── 5.0ms (0.1%) 0x7b36c  (0.9% self in 46 call stacks)
+    │   │   │   │   │   └── 114.1ms (1.9%) 18 more branches, largest 0x6a0c8 (1.3%)
+    │   │   │   │   └── 350.4ms (5.9%) 36 more branches, largest 0x61a90 (1.2%) and 0x5ebe0 (1.1%)
+    │   │   │   └── 480.5ms (8.1%) 15 more branches, largest 0x672d4 (6.5%)
+    │   │   └── 199.2ms (3.3%) 7 more branches, largest 0x5eff4 (3.1%)  ./binary
+    │   └── 830.8ms (13.9%) 26 more branches, largest 0x5eff4 (9.3%) and 0x6627c (3.2%)
+    ├── 620.6ms (10.4%) 0x150ac
+    │   └── 620.6ms (10.4%) 11 more branches, largest 0x8f8ec (5.1%) and 0x8fa64 (3.5%)
+    ├── 573.6ms (9.6%) 0x14f10
+    │   ├── 48.0ms (0.8%) 0x6f844
+    │   ├── 45.0ms (0.8%) 0x70014  (3.1% self in 122 call stacks)
+    │   ├── 33.0ms (0.6%) 0x70050  (2.0% self in 75 call stacks)
+    │   ├── 19.0ms (0.3%) 0x70034  (1.4% self in 60 call stacks)
+    │   ├── 18.0ms (0.3%) 0x70040  (0.9% self in 34 call stacks)
+    │   ├── 13.0ms (0.2%) 0x700cc  (1.0% self in 47 call stacks)
+    │   ├── 9.0ms (0.2%) 0x70020  (0.9% self in 41 call stacks)
+    │   ├── 6.0ms (0.1%) 0x70090  (0.9% self in 42 call stacks)
+    │   └── 374.4ms (6.3%) 89 more branches, largest 0x6f850 (0.6%)
+    ├── 179.2ms (3.0%) [[via 2 frames]] 0x9a704  (6.2% self in 62 call stacks)  ./binary
+    └── 396.4ms (6.7%) 29 more branches, largest 0x14e90 (1.5%) and 0x14f40 (1.3%)
+```
+
 ## Hottest functions
 
 ### Self time

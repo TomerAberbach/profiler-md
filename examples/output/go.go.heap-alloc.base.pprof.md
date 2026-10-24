@@ -9,6 +9,35 @@ Allocated 1.67 GiB over 21,825,386 objects (82.4 B per object).
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.67 GiB (99.8%) main.workload.func1  ./profile.go:25
+│   ├── 917 MiB (53.5%) encoding/json.Marshal  (self 10.6%)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205
+│   │   └── 735 MiB (42.9%) encoding/json.(*encodeState).marshal  :333
+│   │       └── 735 MiB (42.9%) encoding/json.(*encodeState).reflectValue  :366
+│   │           ├── 538 MiB (31.4%) [[via 3–4 frames]] encoding/json.mapEncoder.encode  (self 13.0%)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+│   │           │   ├── 152 MiB (8.9%) [[via 2 frames]] bytes.growSlice  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247
+│   │           │   ├── 81.9 MiB (4.8%) [[via 2 frames]] reflect.unsafe_New  (9.5% self in 43 call stacks)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177
+│   │           │   └── 81.2 MiB (4.7%) [[via 2 frames]] reflect.unsafe_New  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177
+│   │           └── 196 MiB (11.5%) [[via 5 frames]] bytes.(*Buffer).grow  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:144
+│   │               └── 196 MiB (11.5%) bytes.growSlice  (20.3% self in 15 call stacks)  :247
+│   └── 795 MiB (46.3%) encoding/json.Unmarshal  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102
+│       └── 794 MiB (46.3%) [[via 3 frames]] encoding/json.(*decodeState).objectInterface  (self 32.6%)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078
+│           ├── 156 MiB (9.1%) [[via 2–4 frames]] encoding/json.(*decodeState).valueInterface  (self 0.6%)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035
+│           │   ├── 141 MiB (8.2%) encoding/json.(*decodeState).literalInterface  (self 1.8%)  :1129
+│           │   │   ├── 104 MiB (6.1%) encoding/json.unquote  (self 4.9%; 9.5% in 24 call stacks)  :1187
+│           │   │   │   └── 19.6 MiB (1.1%) encoding/json.unquoteBytes  :1193
+│           │   │   └── 6.41 MiB (0.4%) encoding/json.(*decodeState).convertNumber  :838
+│           │   └── 3.86 MiB (0.2%) encoding/json.(*decodeState).arrayInterface  :1052
+│           └── 78.1 MiB (4.6%) [[via 2–4 frames]] encoding/json.unquote  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187
+├── 1.32 MiB (0.1%) [[via 3 frames]] runtime/pprof.(*profileBuilder).emitLocation  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:589
+│   └── 1.14 MiB (0.1%) [[via 2 frames]] compress/flate.NewWriter  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/compress/flate/deflate.go:664
+└── 1.13 MiB (0.1%) [[via 2 frames]] runtime/pprof.StartCPUProfile  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:888
+```
+
 ## Hottest functions
 
 ### Self size
@@ -667,6 +696,21 @@ Retained 2.09 MiB over 291 objects (7.36 KiB per object).
 | Standard library | 100.0% | 2.09 MiB |     291 |
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2 MiB (95.8%) main.workload.func1  ./profile.go:25
+│   ├── 2 MiB (95.6%) [[via 9 frames]] bytes.growSlice  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247
+│   └── 4.05 KiB (0.2%) [[via 4 frames]] encoding/json.(*decodeState).objectInterface  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078
+├── 20.3 KiB (0.9%) [[via 6 frames]] runtime.mallocgc  (4.2% self in 8 call stacks)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+├── 15.2 KiB (0.7%) [[via 10 frames]] runtime.mallocgc  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+├── 14.4 KiB (0.7%) [[via 4 frames]] runtime.mallocgc  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+├── 12.7 KiB (0.6%) [[via 5 frames]] runtime.mallocgc  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+└── 10.2 KiB (0.5%) [[via 8 frames]] runtime.newobject  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156
+```
 
 ## Hottest functions
 

@@ -12,6 +12,53 @@ Collected 6,026 samples.
 | Garbage collector |  0.1% |       5 |
 | Unknown           | <0.1% |       3 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 3,723 samples (61.8%) [[via 3 frames]] Thread::call_run
+│   ├── 3,341 samples (55.4%) [[via 2 frames]] CompileBroker::invoke_compiler_on_method
+│   │   ├── 2,707 samples (44.9%) C2Compiler::compile_method
+│   │   │   └── 2,703 samples (44.9%) Compile::Compile
+│   │   │       ├── 1,291 samples (21.4%) Compile::Code_Gen
+│   │   │       │   ├── 751 samples (12.5%) PhaseChaitin::Register_Allocate
+│   │   │       │   │   ├── 189 samples (3.1%) PhaseChaitin::Split  (self 1.9%)
+│   │   │       │   │   │   └── 72 samples (1.2%) 17 more branches, largest MachNode::rematerialize (0.6%)
+│   │   │       │   │   ├── 69 samples (1.1%) PhaseChaitin::gather_lrg_masks  (self 0.7%)
+│   │   │       │   │   ├── 57 samples (0.9%) PhaseAggressiveCoalesce::insert_copies  (self 0.9%)
+│   │   │       │   │   └── 436 samples (7.2%) 38 more branches, largest PhaseChaitin::build_ifg_physical (1.8%) and PhaseLive::compute (1.3%)
+│   │   │       │   └── 540 samples (9.0%) 9 more branches, largest Matcher::match (3.5%) and PhaseOutput::Output (2.7%)
+│   │   │       ├── 1,066 samples (17.7%) Compile::Optimize
+│   │   │       │   ├── 287 samples (4.8%) PhaseIdealLoop::optimize
+│   │   │       │   │   ├── 74 samples (1.2%) PhaseIterGVN::optimize
+│   │   │       │   │   │   └── 70 samples (1.2%) PhaseIterGVN::transform_old
+│   │   │       │   │   │       ├── 26 samples (0.4%) [[via 4 frames]] Node::dominates  (1.9% self in 20 call stacks)
+│   │   │       │   │   │       └── 12 samples (0.2%) RegionNode::Ideal
+│   │   │       │   │   └── 213 samples (3.5%) 2 more branches, largest PhaseIdealLoop::PhaseIdealLoop (3.5%)
+│   │   │       │   └── 779 samples (12.9%) 17 more branches, largest PhaseIterGVN::optimize (3.4%) and Compile::optimize_loops (3.3%)
+│   │   │       └── 346 samples (5.7%) 6 more branches, largest ParseGenerator::generate (5.2%)
+│   │   └── 625 samples (10.4%) Compiler::compile_method
+│   │       └── 625 samples (10.4%) 2 more branches, largest Compilation::Compilation (10.3%)
+│   └── 352 samples (5.8%) 4 more branches, largest WorkerThread::run (5.6%)
+├── 2,261 samples (37.5%) main  org.codenarc.CodeNarc
+│   └── 2,259 samples (37.5%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 1,011 samples (16.8%) [[via 7–46 frames]] invoke  java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│       │   ├── 951 samples (15.8%) invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       │   │   └── 938 samples (15.6%) 2 more branches, largest fromCache (13.0%)  org.codehaus.groovy.vmplugin.v8.IndyInterface and selectMethod (2.5%)
+│       │   └── 44 samples (0.7%) collector  java.lang.invoke.LambdaForm$MH.0x00000070010a1000
+│       │       └── 10 samples (0.2%) [[via 5 frames]] pthread_jit_write_protect_np  (1.7% self in 102 call stacks)
+│       ├── 451 samples (7.5%) [[via 7–42 frames]] invoke  java.lang.invoke.LambdaForm$MH.0x000000700108e000
+│       │   ├── 56 samples (0.9%) collector  java.lang.invoke.LambdaForm$MH.0x0000007001031800
+│       │   │   └── 45 samples (0.7%) invoke  java.lang.invoke.LambdaForm$MH.0x0000007001031400
+│       │   │       ├── 35 samples (0.6%) invokeStatic  java.lang.invoke.LambdaForm$DMH.0x000000700102b400
+│       │   │       │   └── 35 samples (0.6%) newInstance  (1.0% self in 59 call stacks)  java.lang.reflect.Array
+│       │   │       └── 10 samples (0.2%) [[via 2 frames]] cast  (1.5% self in 91 call stacks)  java.lang.Class
+│       │   └── 393 samples (6.5%) 1 more branch, invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       └── 795 samples (13.2%) 16 more branches, largest invoke (8.7%)  java.lang.invoke.LambdaForm$MH.0x00000070010d8800 and invoke (2.1%)
+└── 15 samples (0.2%) [unknown]
+```
+
 ## Hottest functions
 
 ### Self samples

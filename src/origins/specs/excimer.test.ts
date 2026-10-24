@@ -5,6 +5,7 @@ import { convertBytesToMd } from '../../formats/testing.ts'
 import { diffProfiles } from '../../index.ts'
 import {
   callStackTables,
+  callTreeLines,
   selfSamplesTables,
 } from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
@@ -168,6 +169,22 @@ describe(`truncation`, () => {
       makeCollapsed(lines),
       normalizeProfileToMdOptions({ baseURL: `/var/www` }),
     )
+
+  test(`draws the stacks Excimer truncated under a line of their own`, () => {
+    const md = convertLines([
+      `/var/www/index.php;App\\Report::render;pad_rows 3`,
+      `excimer_truncated;App\\Report::render;pad_rows 1`,
+    ])
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `├── 3 samples (75.0%) [[via 2 frames]] pad_rows  (100.0% self in 2 call stacks)`,
+        `└── 1 sample (25.0%) [[truncated call stacks]]`,
+        `    └── 1 sample (25.0%) render  App\\Report`,
+        `        └── 1 sample (25.0%) pad_rows`,
+      ],
+    ])
+  })
 
   test(`states the share of the stacks Excimer truncated and marks them`, () => {
     const md = convertLines([

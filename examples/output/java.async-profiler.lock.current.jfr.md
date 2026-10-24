@@ -7,6 +7,27 @@ Blocked 8.0ms over 9 contentions (886.1µs per contention).
 | Standard library | 98.9% | 7.9ms |           8 |
 | Ours             |  1.1% | 0.1ms |           1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 7.7ms (96.2%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 6.6ms (82.8%) [[via 11 frames]] average(List)  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│   │   └── 6.6ms (82.8%) loadClass(String)  java.lang.ClassLoader
+│   │       └── 6.6ms (82.8%) loadClass(String, boolean)  (95.1% self in 3 call stacks)
+│   └── 1.1ms (13.3%) [[via 5 frames]] average(List)  (self 1.1%)  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       └── 1.0ms (12.2%) loadClass(String)  java.lang.ClassLoader
+│           └── 1.0ms (12.2%) loadClass(String, boolean)
+└── 0.3ms (3.8%) [[via 5 frames]] deleteRecursively(Path, boolean)  org.renaissance.core.DirUtils
+    ├── 0.2ms (2.8%) [[via 3 frames]] loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader
+    └── 0.1ms (1.1%) walkFileTree(Path, FileVisitor)  java.nio.file.Files
+        └── 0.1ms (1.1%) walkFileTree(Path, Set, int, FileVisitor)  (self 0.6%)
+            └── 36.5µs (0.5%) [[via 5 frames]] <init>(boolean)  java.util.concurrent.locks.ReentrantReadWriteLock
+                └── 5.1µs (0.1%) <init>()  java.util.concurrent.locks.ReentrantReadWriteLock$FairSync
+                    └── 5.1µs (0.1%) <init>()  java.util.concurrent.locks.ReentrantReadWriteLock$Sync
+```
+
 ## Hottest functions
 
 ### Self time

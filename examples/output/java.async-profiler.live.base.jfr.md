@@ -7,6 +7,53 @@ Allocated 36.9 GiB over 75,164 samples (514 KiB per sample).
 | Standard library | 93.3% | 34.4 GiB |  70,115 |
 | Ours             |  6.7% | 2.47 GiB |   5,049 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 36.6 GiB (99.4%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 31.5 GiB (85.4%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│   │   └── 31.5 GiB (85.4%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 23.1 GiB (62.7%) [[via 2 frames]] merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │   └── 22.9 GiB (62.1%) [[via 5 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │       ├── 17.1 GiB (46.3%) addAll(Collection)  java.util.ArrayList
+│   │       │       │   ├── 11.1 GiB (30.1%) grow(int)
+│   │       │       │   │   └── 11.1 GiB (30.1%) copyOf(Object[], int)  (self 30.1%; 91.0% in 1,852 call stacks)  java.util.Arrays
+│   │       │       │   └── 5.95 GiB (16.2%) toArray()
+│   │       │       │       └── 5.95 GiB (16.2%) copyOf(Object[], int)  (self 16.1%)  java.util.Arrays
+│   │       │       └── 5.73 GiB (15.6%) [[via 2 frames]] copyOf(Object[], int)  (self 15.5%)  java.util.Arrays
+│   │       ├── 7.99 GiB (21.7%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   ├── 6.37 GiB (17.3%) [[via 1 frame]] collectClusters(int[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │   ├── 5.96 GiB (16.2%) [[via 3 frames]] grow(int)  (self 0.6%)  java.util.ArrayList
+│   │       │   │   │   └── 5.72 GiB (15.5%) copyOf(Object[], int)  (self 15.5%)  java.util.Arrays
+│   │       │   │   └── 309 MiB (0.8%) computeIfAbsent(Object, Function)  java.util.HashMap
+│   │       │   │       ├── 135 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│   │       │   │       ├── 103 MiB (0.3%) apply(Object)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007001186b38
+│   │       │   │       │   └── 103 MiB (0.3%) lambda$collectClusters$0(Double[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │       └── 70.5 MiB (0.2%) resize()
+│   │       │   └── 1.62 GiB (4.4%) [[via 1 frame]] findNearestCentroid()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 117 MiB (0.3%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       ├── 107 MiB (0.3%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 69.5 MiB (0.2%) [[via 2 frames]] add(double[], double[])  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       └── 66.5 MiB (0.2%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │           └── 66.5 MiB (0.2%) [[via 1 frame]] vectorSum()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── 5.04 GiB (13.7%) [[via 10 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       ├── 3.79 GiB (10.3%) addAll(Collection)  java.util.ArrayList
+│       │   ├── 2.33 GiB (6.3%) grow(int)
+│       │   │   └── 2.33 GiB (6.3%) copyOf(Object[], int)  java.util.Arrays
+│       │   └── 1.45 GiB (3.9%) 1 more branch, toArray()
+│       └── 1.25 GiB (3.4%) 1 more branch, <init>(Collection)  java.util.ArrayList
+└── 183 MiB (0.5%) [[via 23 frames]] wrapAndCopyInto(Sink, Spliterator)  java.util.stream.AbstractPipeline
+    ├── 103 MiB (0.3%) [[via 5 frames]] lambda$generateData$5(int, int, Random[], int)  org.renaissance.jdk.concurrent.JavaKMeans
+    │   ├── 35.5 MiB (0.1%) range(int, int)  java.util.stream.IntStream
+    │   │   └── 21 MiB (0.1%) intStream(Spliterator$OfInt, boolean)  java.util.stream.StreamSupport
+    │   ├── 25.5 MiB (0.1%) mapToObj(IntFunction)  java.util.stream.IntPipeline
+    │   │   └── 25.5 MiB (0.1%) mapToObj(IntFunction, int)
+    │   └── 25.5 MiB (0.1%) [[via 4 frames]] builder(long, IntFunction)  java.util.stream.Nodes
+    └── 63 MiB (0.2%) [[via 16 frames]] valueOf(double)  java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1148,6 +1195,34 @@ Retained 15.8 MiB over 393 objects (41.2 KiB per object).
 | ---------------- | ----: | -------: | ------: |
 | Standard library | 99.9% | 15.8 MiB |     354 |
 | Ours             |  0.1% | 9.15 KiB |      39 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 13.7 MiB (86.9%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 10.7 MiB (67.6%) [[via 5–6 frames]] exec()  java.util.concurrent.RecursiveTask
+│   │   └── 10.7 MiB (67.6%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 10.7 MiB (67.5%) [[via 2 frames]] merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │   └── 10.7 MiB (67.5%) [[via 5 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │       ├── 8.91 MiB (56.4%) addAll(Collection)  java.util.ArrayList
+│   │       │       │   ├── 6.61 MiB (41.9%) grow(int)
+│   │       │       │   │   └── 6.61 MiB (41.9%) copyOf(Object[], int)  (86.9% self in 81 call stacks)  java.util.Arrays
+│   │       │       │   └── 2.3 MiB (14.5%) toArray()
+│   │       │       │       └── 2.3 MiB (14.5%) copyOf(Object[], int)  java.util.Arrays
+│   │       │       └── 1.75 MiB (11.1%) [[via 2 frames]] copyOf(Object[], int)  java.util.Arrays
+│   │       └── 20.8 KiB (0.1%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │           └── 13.1 KiB (0.1%) [[via 1 frame]] collectClusters(int[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   └── 3.05 MiB (19.3%) [[via 10 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       ├── 2.66 MiB (16.8%) addAll(Collection)  java.util.ArrayList
+│       │   ├── 1.96 MiB (12.4%) grow(int)
+│       │   │   └── 1.96 MiB (12.4%) copyOf(Object[], int)  java.util.Arrays
+│       │   └── 714 KiB (4.4%) toArray()
+│       │       └── 714 KiB (4.4%) copyOf(Object[], int)  java.util.Arrays
+│       └── 402 KiB (2.5%) [[via 2 frames]] copyOf(Object[], int)  java.util.Arrays
+└── 2.06 MiB (13.0%) [[via 35 frames]] copyOf(Object[], int, Class)  java.util.Arrays
+```
 
 ## Hottest functions
 

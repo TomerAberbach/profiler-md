@@ -73,6 +73,7 @@ import type {
 import {
   diffMeasuresOf,
   measuresOf,
+  selfRankedFunctions,
   selfValueOf,
   totalValueOf,
   zeroTotalScope,
@@ -89,6 +90,7 @@ import {
   TRUNCATED_FRAMES_NAME,
 } from './table.ts'
 import type { FunctionMeasureRow, ShownFrame } from './table.ts'
+import { formatCallTree, NEGLIGIBLE_SHARE } from './tree.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
@@ -122,6 +124,12 @@ export const formatCallStackProfile = (
     ...formatOverallSummary(profile, measures),
     ...formatBaseURLNote(options),
     ...formatTruncatedNote(profile, measures),
+    ...formatCallTreeSection(
+      profile,
+      measures,
+      sectionOptions,
+      headingLevel + 1,
+    ),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -253,8 +261,22 @@ const truncatedNote = (share: string, metric: Metric): RootContent =>
     `Call stacks missing their outermost callers account for ${share} of the ${metric.phrases.pastParticipleVerbPhrase}.`,
   )
 
-/** The share of the profile below which a value goes unstated. */
-const NEGLIGIBLE_SHARE = 0.005
+const formatCallTreeSection = (
+  profile: AggregatedCallStackProfile,
+  measures: Measure[],
+  options: FormattingProfileToMdOptions,
+  headingLevel: number,
+): RootContent[] => {
+  // The first measure with a value ranks the tree.
+  const measure = measures.find(({ total }) => total > 0)
+  if (measure === undefined) {
+    return []
+  }
+  const callTree = formatCallTree({ profile, measure, options })
+  return callTree.length === 0
+    ? []
+    : [heading(headingLevel, `Call tree`), ...callTree]
+}
 
 const formatSummaryLine = (
   {
@@ -391,9 +413,7 @@ const formatHottestSelfFunctions = ({
     selfValueOf(measure, func)
   const countOf = (func: AggregatedCallStackProfileFunction) => func.selfCount
   const ranking = rankEntities({
-    entities: profile.functions.filter(
-      func => options.showEntry(func, profile.context) && valueOf(func) > 0,
-    ),
+    entities: selfRankedFunctions(profile, measure, options),
     categories,
     valueOf,
     topN: options.topN,

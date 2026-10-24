@@ -13,6 +13,53 @@ Took 16.28s over 12,969 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 14.17s (87.0%) [[via 2 frames]] typeCheckProject  ./tsc-workload.mjs
+│   ├── 12.19s (74.9%) [[via 8 frames]] runWithCancellationToken  ./node_modules/typescript/lib/typescript.js
+│   │   ├── 11.42s (70.1%) [[via 5 frames]] checkSourceFileWorker  ./node_modules/typescript/lib/typescript.js
+│   │   │   ├── 6.33s (38.9%) [[via 2 frames]] checkFunctionExpressionOrObjectLiteralMethodDeferred  ./node_modules/typescript/lib/typescript.js
+│   │   │   │   ├── 6.16s (37.8%) checkSourceElement
+│   │   │   │   │   └── 6.15s (37.8%) [[via 2–17 frames]] checkSourceElementWorker  ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       ├── 3.18s (19.5%) checkVariableDeclaration
+│   │   │   │   │       │   └── 3.15s (19.4%) checkVariableLikeDeclaration
+│   │   │   │   │       │       ├── 2.63s (16.2%) getTypeOfSymbol
+│   │   │   │   │       │       │   ├── 67.8ms (0.4%) [[via 16–37 frames]] getObjectTypeInstantiation  (2.0% self in 215 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       │   └── 2.48s (15.2%) 4 more branches, largest getTypeOfVariableOrParameterOrProperty (14.6%) and getTypeOfMappedSymbol (0.6%)
+│   │   │   │   │       │       └── 518.7ms (3.2%) 8 more branches, largest checkExpressionCached (2.6%)
+│   │   │   │   │       ├── 790.0ms (4.9%) checkTypeReferenceNode
+│   │   │   │   │       │   └── 783.7ms (4.8%) checkTypeReferenceOrImport
+│   │   │   │   │       │       ├── 580.3ms (3.6%) [[via 4 frames]] checkTypeRelatedTo  (2.8% self in 119 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       │   └── 579.0ms (3.6%) isRelatedTo  (2.1% self in 159 call stacks)
+│   │   │   │   │       │       │       ├── 461.0ms (2.8%) [[via 6–8 frames]] recursiveTypeRelatedTo  (3.1% self in 206 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       │       │   └── 413.2ms (2.5%) 4 more branches, largest structuredTypeRelatedTo (2.4%)
+│   │   │   │   │       │       │       └── 72.8ms (0.4%) recursiveTypeRelatedTo
+│   │   │   │   │       │       └── 201.0ms (1.2%) 2 more branches, largest getTypeFromTypeNode (1.2%)
+│   │   │   │   │       └── 2.17s (13.3%) 25 more branches, largest checkExpressionStatement (10.9%) and checkReturnStatement (1.4%)
+│   │   │   │   └── 79.1ms (0.5%) [[via 7–14 frames]] checkExpressionWorker  ./node_modules/typescript/lib/typescript.js
+│   │   │   │       └── 32.7ms (0.2%) [[via 2 frames]] getNodeLinks  (0.9% self in 77 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │   └── 5.03s (30.9%) forEach
+│   │   │       ├── 4.25s (26.1%) [[via 2–7 frames]] checkSourceElement  ./node_modules/typescript/lib/typescript.js
+│   │   │       │   ├── 3.22s (19.8%) checkSourceElementWorker
+│   │   │       │   │   └── 3.21s (19.7%) 21 more branches, largest checkVariableDeclaration (9.5%) and checkReturnStatement (3.1%)
+│   │   │       │   └── 1.01s (6.2%) [[via 2–18 frames]] checkSourceElementWorker  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       ├── 772.4ms (4.7%) [[via 4 frames]] checkTypeArgumentConstraints  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │   ├── 356.7ms (2.2%) [[via 7–25 frames]] instantiateTypeWorker  (1.8% self in 215 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │   │   └── 251.2ms (1.5%) [[via 12–14 frames]] isRelatedTo  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │   │       ├── 20.1ms (0.1%) [[via 13–17 frames]] createInstantiatedSymbolTable  (0.8% self in 74 call stacks)  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │   │       └── 179.6ms (1.1%) 3 more branches, largest recursiveTypeRelatedTo (1.0%)  ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │   └── 395.6ms (2.4%) 2 more branches, largest checkTypeAssignableTo (2.4%)
+│   │   │       │       └── 170.8ms (1.0%) 16 more branches, largest checkReturnStatement (0.3%)
+│   │   │       └── 781.2ms (4.8%) 8 more branches, largest checkSourceElement (4.0%) and checkParameter (0.5%)
+│   │   └── 769.9ms (4.7%) 4 more branches, largest (anonymous) (4.6%)  :123389:26
+│   └── 1.96s (12.1%) 5 more branches, largest createProgram (11.3%)  ./node_modules/typescript/lib/typescript.js and require (0.6%)
+├── 1.90s (11.7%) (garbage collector)
+└── 213.5ms (1.3%) 45 more branches, largest checkSourceElement (0.1%)  ./node_modules/typescript/lib/typescript.js
+```
+
 ## Hottest functions
 
 ### Self time
