@@ -25,6 +25,7 @@ import { safariOriginSpec } from './safari.ts'
 import { simpleperfOriginSpec } from './simpleperf.ts'
 import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
+import { tscOriginSpec } from './tsc.ts'
 import { unknownOriginSpec } from './unknown.ts'
 import { valgrindOriginSpec } from './valgrind.ts'
 
@@ -72,6 +73,7 @@ export const originSpecs = [
   // hint, or an explicit origin; their position has no effect.
   gperftoolsOriginSpec,
   clangOriginSpec,
+  tscOriginSpec,
   excimerOriginSpec,
   memrayOriginSpec,
   ghcOriginSpec,
