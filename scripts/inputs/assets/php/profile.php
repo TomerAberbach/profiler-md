@@ -4,9 +4,10 @@ $outDir      = $argv[1] ?? null;
 $eventArg    = $argv[2] ?? 'cpu';
 $composerSrc = $argv[3] ?? null;
 $targetDir   = $argv[4] ?? null;
+$maxDepth    = $argv[5] ?? null;
 
 if ($outDir === null || $composerSrc === null || $targetDir === null) {
-    fwrite(STDERR, "usage: php profile.php <out-dir> <cpu|wall> <composer-src> <target-dir>\n");
+    fwrite(STDERR, "usage: php profile.php <out-dir> <cpu|wall> <composer-src> <target-dir> [max-depth]\n");
     exit(2);
 }
 
@@ -29,6 +30,12 @@ $profiler->setEventType($eventType);
 
 // 1ms is Excimer's conventional period.
 $profiler->setPeriod(0.001);
+
+// Excimer records a stack's innermost frames up to the maximum depth, and
+// writes an `excimer_truncated` frame in place of the outermost ones it drops.
+if ($maxDepth !== null) {
+    $profiler->setMaxDepth((int) $maxDepth);
+}
 
 $profiler->start();
 

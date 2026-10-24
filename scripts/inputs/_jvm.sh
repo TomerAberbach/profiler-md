@@ -16,6 +16,11 @@
 #   JVM_HEAP_DUMP         capture a heap dump under the `heap` config
 #   JVM_HEAP_DUMP_WARMUP  seconds to let that run work before dumping it
 #                         (15 by default)
+#
+# A workload script that also captures JFR recordings with truncated stack
+# traces sets:
+#
+#   JVM_TRUNCATED_JFR     capture the JDK_JFR_TRUNCATED_CONFIGS
 
 # Resolves libasyncProfiler once per run. Call it directly rather than in a
 # command substitution, whose subshell would discard the memoization.
@@ -51,6 +56,13 @@ declare -A JDK_JFR_OPTS=(
 )
 JDK_JFR_CONFIGS=(cpu alloc live lock all)
 
+# These configs record at Flight Recorder's default stack depth, which marks
+# the workloads' deeper traces truncated, so they record truncated traces beside
+# complete ones.
+declare -A JDK_JFR_TRUNCATED_STACK_DEPTH=([cpu-stackdepth-64]=64)
+JDK_JFR_OPTS[cpu-stackdepth-64]="${JDK_JFR_OPTS[cpu]}"
+JDK_JFR_TRUNCATED_CONFIGS=(cpu-stackdepth-64)
+
 # The `profile` template records the JVM's environment variables and the
 # machine's whole process list. Both describe the machine that generated the
 # input rather than the workload, and the inputs are committed to a public
@@ -61,7 +73,7 @@ JDK_JFR_PRIVACY_OPTS="+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemP
 # and marks a deeper trace truncated. The workloads' stacks run deeper, so a
 # truncated trace lacks its outermost callers. 2048 matches the depth
 # async-profiler records by default.
-JDK_JFR_STACK_DEPTH_OPT="-XX:FlightRecorderOptions:stackdepth=2048"
+JDK_JFR_STACK_DEPTH=2048
 
 # A JFR recording holds the JVM's command line, so a JFR capture writes to
 # WORKDIR and moves the recording into place, and the recording names no path in
@@ -159,9 +171,10 @@ capture_jdk_heap_dump() {
 # capture_fn for emit: $1=out  $2=side  $3=config  $4=extra StartFlightRecording options
 capture_jdk_jfr() {
   local out=$1 side=$2 cfg=$3 extra=$4 capture
+  local depth=${JDK_JFR_TRUNCATED_STACK_DEPTH[$cfg]:-$JDK_JFR_STACK_DEPTH}
   capture="$(capture_path "$out")"
-  notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($side, $extra)"
-  run_jvm_workload "$cfg" jfr "$side" "$JDK_JFR_STACK_DEPTH_OPT" \
+  notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($side, $extra, stackdepth=$depth)"
+  run_jvm_workload "$cfg" jfr "$side" "-XX:FlightRecorderOptions:stackdepth=$depth" \
     "-XX:StartFlightRecording=filename=$capture,$extra,$JDK_JFR_PRIVACY_OPTS" \
     || return 1
   mv "$capture" "$out"
@@ -180,7 +193,11 @@ emit_jvm_captures() {
       try emit "$out" capture_ap_collapsed "$side" "$cfg" "${AP_COLLAPSED_OPTS[$cfg]}"
     done
 
-    for cfg in "${JDK_JFR_CONFIGS[@]}"; do
+    local jdk_jfr_configs=("${JDK_JFR_CONFIGS[@]}")
+    if [[ -n "${JVM_TRUNCATED_JFR:-}" ]]; then
+      jdk_jfr_configs+=("${JDK_JFR_TRUNCATED_CONFIGS[@]}")
+    fi
+    for cfg in "${jdk_jfr_configs[@]}"; do
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$side.jfr"
       try emit "$out" capture_jdk_jfr "$side" "$cfg" "${JDK_JFR_OPTS[$cfg]}"
     done
