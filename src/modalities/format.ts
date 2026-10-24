@@ -312,15 +312,15 @@ export const selectLargestChanges = <Item>(
   )
 
 /**
- * The increase and decrease subsections for the functions' self or total
- * values, under a {@link title} heading, followed by {@link detailSections}
- * breaking down the functions they show.
+ * The increase and decrease subsections for the entities' values of one
+ * measure, under a {@link title} heading, followed by {@link detailSections}
+ * breaking down the entities they show.
  *
- * When nothing differed but {@link hasActive} functions exist on either side,
- * the section stays, with a "did not differ" note. When no functions are
+ * When nothing differed but {@link hasActive} entities exist on either side,
+ * the section stays, with a "did not differ" note. When no entities are
  * active (the section a non-diff input would have omitted), it is omitted.
  */
-export const formatDiffFunctionSections = <Entity, Row>({
+export const formatDiffMeasureSections = <Entity, Row>({
   headingLevel,
   title,
   description,
@@ -334,6 +334,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
   minCategoryShare,
   rowOf,
   detailSections = [],
+  entities,
 }: {
   headingLevel: number
   title: string
@@ -350,13 +351,16 @@ export const formatDiffFunctionSections = <Entity, Row>({
   minCategoryShare: number
   rowOf: (entity: Entity) => Diff<Row>
   detailSections?: RootContent[]
+
+  /** The noun for the ranked entities. */
+  entities: EntityNoun
 }): RootContent[] => {
   const sections = diffRankings(improvement).flatMap(
     ({ change, title: subtitle }) =>
       formatDiffRankingSections({
         headingLevel: headingLevel + 1,
         subtitle,
-        sentence: diffRankingSentence(`Functions`, change, description),
+        sentence: diffRankingSentence(entities.plural, change, description),
         columns,
         ...changedEntities(change, { increases, decreases }),
         categoryRankings,
@@ -370,13 +374,23 @@ export const formatDiffFunctionSections = <Entity, Row>({
     if (!hasActive) {
       return []
     }
-    sections.push(paragraph(unchangedDiffSentence(`function`, description)))
+    sections.push(
+      paragraph(unchangedDiffSentence(entities.singular, description)),
+    )
   }
 
   return formatSectionGroup(
     [heading(headingLevel, title)],
     [...sections, ...detailSections],
   )
+}
+
+/** The noun for a kind of entity, as a sentence about a ranking states it. */
+export type EntityNoun = { singular: string; plural: string }
+
+export const FUNCTION_NOUN: EntityNoun = {
+  singular: `function`,
+  plural: `Functions`,
 }
 
 export const formatDiffRankingSections = <Entity, Row>({

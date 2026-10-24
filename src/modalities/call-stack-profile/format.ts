@@ -40,11 +40,12 @@ import {
   diffRankings,
   diffRankingSentence,
   formatBaseURLNote,
-  formatDiffFunctionSections,
+  formatDiffMeasureSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
+  FUNCTION_NOUN,
   rankDiffEntities,
   rankingSentence,
   resolveEntryFilter,
@@ -1133,8 +1134,9 @@ const formatDiffDirectionFunctions = ({
     current: sideRowOf(currentMeasure, current),
   })
 
-  return formatDiffFunctionSections({
+  return formatDiffMeasureSections({
     headingLevel,
+    entities: FUNCTION_NOUN,
     title: titleOf(metric),
     description: descriptionOf(metric),
     improvement: metric.improvement,
