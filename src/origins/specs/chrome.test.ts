@@ -114,3 +114,53 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(relativeEntry(`get`))).toBe(`stdlib`)
   })
 })
+
+describe(`detection of a trace`, () => {
+  test(`a trace no process name identifies falls back to Chrome`, () => {
+    expect(determineOrigin({ format: `trace-event`, entries: [] })).toBe(
+      `chrome`,
+    )
+    expect(
+      determineOrigin({ format: `trace-event`, entries: [], hint: `renderer` }),
+    ).toBe(`chrome`)
+  })
+})
+
+describe(`categorizeTraceEvent`, () => {
+  const { categorizeTraceEvent } = chromeOriginSpec
+
+  test(`an event V8 writes takes V8's category`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `V8.GC_SCAVENGER`,
+        declaredCategories: [`devtools.timeline`, `disabled-by-default-v8.gc`],
+      }),
+    ).toBe(`garbage-collection-pause`)
+  })
+
+  test(`a Node event has no category`, () => {
+    expect(
+      categorizeTraceEvent({
+        name: `fs.sync.read`,
+        declaredCategories: [`node`, `node.fs`, `node.fs.sync`],
+      }),
+    ).toBeUndefined()
+  })
+})
+
+describe(`normalizeTraceEvent`, () => {
+  test(`a V8 collection becomes a collection's events`, () => {
+    expect(
+      chromeOriginSpec.normalizeTraceEvent({
+        type: `span`,
+        name: `MajorGC`,
+        start: 0,
+        duration: 10,
+        arguments: { usedHeapSizeBefore: 8, usedHeapSizeAfter: 2 },
+      }),
+    ).toMatchObject({
+      event: { name: `MajorGC`, category: `garbage-collection-pause` },
+      readings: [{ value: 8 }, { value: 2 }],
+    })
+  })
+})

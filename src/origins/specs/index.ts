@@ -1,6 +1,7 @@
 import { asyncProfilerOriginSpec } from './async-profiler.ts'
 import { bunOriginSpec } from './bun.ts'
 import { chromeOriginSpec } from './chrome.ts'
+import { clangOriginSpec } from './clang.ts'
 import { denoOriginSpec } from './deno.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
@@ -24,6 +25,7 @@ import { safariOriginSpec } from './safari.ts'
 import { simpleperfOriginSpec } from './simpleperf.ts'
 import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
+import { tscOriginSpec } from './tsc.ts'
 import { unknownOriginSpec } from './unknown.ts'
 import { valgrindOriginSpec } from './valgrind.ts'
 
@@ -70,6 +72,8 @@ export const originSpecs = [
   // Markerless origins, reachable only by format fallback, a parser origin
   // hint, or an explicit origin; their position has no effect.
   gperftoolsOriginSpec,
+  clangOriginSpec,
+  tscOriginSpec,
   excimerOriginSpec,
   memrayOriginSpec,
   ghcOriginSpec,

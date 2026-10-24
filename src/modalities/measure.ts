@@ -59,7 +59,7 @@ export const formatProseValueDelta = (value: number, metric: Metric): string =>
  * A count metric formats as a bare count, since the column header above the
  * cell already names the unit. Prose uses {@link formatProseValue} instead.
  */
-const formatValue = (value: number, metric: Metric): string => {
+export const formatValue = (value: number, metric: Metric): string => {
   switch (metric.type) {
     case `time`:
       return formatMilliseconds(value * metric.milliseconds)

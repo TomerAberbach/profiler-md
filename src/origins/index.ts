@@ -7,13 +7,17 @@ import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.
 import type { Metric } from '../modalities/metric.ts'
 import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
 import type {
+  TraceEvent,
+  TraceEventCategory,
+} from '../modalities/trace/type.ts'
+import type {
   EntryMatch,
   FunctionCategory,
   ProfileEntry,
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
-import type { OriginSpec } from './spec.ts'
+import type { NormalizedTraceEvent, OriginSpec } from './spec.ts'
 import { originSpecs } from './specs/index.ts'
 
 /**
@@ -146,6 +150,26 @@ export const normalizeStackFrameForContext = (
   }
 
   return normalizedFrame
+}
+
+/** @see {@link OriginSpec.categorizeTraceEvent} */
+export const categorizeTraceEventForOrigin = (
+  event: DeepReadonly<Pick<TraceEvent, `name` | `declaredCategories`>>,
+  origin: Origin,
+): TraceEventCategory => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.categorizeTraceEvent?.(event) ?? `other`
+}
+
+/** @see {@link OriginSpec.normalizeTraceEvent} */
+export const normalizeTraceEventForContext = (
+  event: TraceEvent,
+  { format, origin }: ProfileToMdContext,
+): NormalizedTraceEvent => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.normalizeTraceEvent
+    ? spec.normalizeTraceEvent(event, format)
+    : event
 }
 
 /**
