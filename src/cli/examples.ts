@@ -163,5 +163,7 @@ const configNames: Record<string, string> = {
   [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
   [`cpu-dot`]: `CPU (dot)`,
   [`alloc-dot`]: `alloc (dot)`,
+  [`cpu-stackdepth-64`]: `CPU (stackdepth=64)`,
+  [`wall-maxdepth-16`]: `wall (max depth 16)`,
   goroutineleak: `goroutine leak`,
 }
