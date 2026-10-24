@@ -25,11 +25,12 @@ import { functionIdMatcher, lineMatcher } from '../diff.ts'
 import type { DiffedLine, FunctionIdMatcher, LineMatcher } from '../diff.ts'
 import {
   formatBaseURLNote,
-  formatDiffFunctionSections,
+  formatDiffMeasureSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
+  FUNCTION_NOUN,
   rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
@@ -692,8 +693,9 @@ const formatDiffDirectionFunctions = ({
     options,
     headingLevel: headingLevel + 1,
   }
-  return formatDiffFunctionSections({
+  return formatDiffMeasureSections({
     headingLevel,
+    entities: FUNCTION_NOUN,
     title,
     description,
     improvement: metric.improvement,
