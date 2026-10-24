@@ -22,6 +22,11 @@ if ! php -r 'exit(defined("EXCIMER_CPU") ? 0 : 1);' >/dev/null 2>&1; then
   CONFIGS=(wall)
 fi
 
+# Composer's stacks run deeper than 16 frames, so this config records truncated
+# stacks beside complete ones.
+declare -A MAX_DEPTH=([wall-maxdepth-16]=16)
+CONFIGS+=(wall-maxdepth-16)
+
 workload_assets="$REPO/scripts/inputs/assets/php"
 
 # Excimer names each frame by the file it was defined in, so the workload's
@@ -98,8 +103,8 @@ run_for_side() {
   mkdir -p "$dir" || return 1
 
   notice "Profiling composer dump-autoload using excimer ($cfg, $side)"
-  php "$WORKLOAD_DIR/profile.php" "$dir" "$cfg" "$composer_src" "$WORKLOAD_DIR" \
-    || return 1
+  php "$WORKLOAD_DIR/profile.php" "$dir" "${cfg%%-*}" "$composer_src" \
+    "$WORKLOAD_DIR" ${MAX_DEPTH[$cfg]:+"${MAX_DEPTH[$cfg]}"} || return 1
 
   rundir[$key]=$dir
 }

@@ -18,6 +18,7 @@ declare -A RENAISSANCE_SHA256=(
 REPETITIONS=4
 
 JVM_HEAP_DUMP=1
+JVM_TRUNCATED_JFR=1
 
 # The heap dump is taken from a running JVM, so its run is bounded by wall-clock
 # time rather than repetitions and outlives the warmup below on any machine.

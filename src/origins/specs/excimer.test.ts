@@ -181,7 +181,7 @@ describe(`truncation`, () => {
       `Call stacks missing their outermost callers account for 25.0% of the samples collected.`,
     ])
     expect(openingParagraphs(md, `Hottest call stacks`)).toEqual([
-      `Call stacks with the most samples collected in their leaf frame. \`[[truncated]]\` stands for missing outermost callers.`,
+      `Call stacks with the most samples collected in their leaf frame. \`truncated\` stands for missing outermost callers.`,
     ])
     expect(callStackTables(md)).toEqual([
       [
@@ -193,7 +193,7 @@ describe(`truncation`, () => {
         {
           '%': `25.0%`,
           Samples: `1`,
-          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
         },
       ],
     ])
@@ -215,7 +215,7 @@ describe(`truncation`, () => {
         {
           '%': `16.7%`,
           Samples: `1`,
-          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
         },
       ],
     ])
@@ -233,12 +233,12 @@ describe(`truncation`, () => {
         {
           '%': `75.0%`,
           Samples: `3`,
-          'Call stack': `pad_rows ← render (App\\Report) ← [[truncated]]`,
+          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
         },
         {
           '%': `25.0%`,
           Samples: `1`,
-          'Call stack': `format_cell ← render (App\\Report) ← [[truncated]]`,
+          'Call stack': `format_cell ← render (App\\Report) ← truncated`,
         },
       ],
     ])
@@ -252,7 +252,7 @@ describe(`truncation`, () => {
         {
           '%': `100.0%`,
           Samples: `1`,
-          'Call stack': `pad_rows ← [[truncated]]`,
+          'Call stack': `pad_rows ← truncated`,
         },
       ],
     ])

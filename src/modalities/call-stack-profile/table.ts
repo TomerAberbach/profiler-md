@@ -88,8 +88,11 @@ export const HIDDEN_FRAMES = { type: `hidden` } as const
  */
 export const TRUNCATED_FRAMES = { type: `truncated` } as const
 
-/** How a call stack shows {@link TRUNCATED_FRAMES}. */
-export const TRUNCATED_FRAMES_NAME = `[[truncated]]`
+/**
+ * How a call stack shows {@link TRUNCATED_FRAMES}, as plain text so it reads
+ * apart from the functions' names, which are code.
+ */
+export const TRUNCATED_FRAMES_NAME = `truncated`
 
 /**
  * The {@link measureColumns} followed by a `Call stack` column, with
@@ -133,7 +136,7 @@ export const formatCallStack = (
       return parts
     }
     if (frame.type === `truncated`) {
-      parts.push(inlineCode(TRUNCATED_FRAMES_NAME))
+      parts.push(text(TRUNCATED_FRAMES_NAME))
       return parts
     }
 
