@@ -7,7 +7,7 @@ export const traceEventFormatSpec = {
   id: `trace-event`,
   title: `Trace Event Format`,
   extension: `trace-event.json`,
-  languages: [`javascript`],
+  languages: [`c`, `javascript`],
   // Chromium's trace viewer defines the format, and the other origins write it
   // to be openable there.
   fallbackOrigin: `chrome`,
