@@ -1,7 +1,7 @@
 # memray
 
-The capture file [memray](https://github.com/bloomberg/memray), Bloomberg's
-Python memory profiler, writes for its own reporters to read.
+A memray capture is the file that [memray](https://github.com/bloomberg/memray),
+Bloomberg's Python memory profiler, writes for its own reporters to read.
 
 A capture is a binary stream of records describing a program's allocations: the
 code objects its functions belong to, each thread's frame pushes and pops, and

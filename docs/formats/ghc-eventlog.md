@@ -1,6 +1,6 @@
 # GHC eventlog
 
-The binary event stream
+The GHC eventlog is the binary event stream
 [GHC](https://downloads.haskell.org/ghc/latest/docs/users_guide/eventlog-formats.html)'s
 runtime writes for a program run with `+RTS -l`, recording what the runtime did
 and when: garbage collections and thread scheduling. A program compiled with

@@ -13,4 +13,4 @@ profiles per file. A file containing several counts (a heap profile's
 `alloc_objects` and `inuse_objects`) becomes one profile per count, each
 reporting the metrics measured over it.
 
-Files are commonly gzip-compressed (extension `.pb.gz`).
+Files are commonly gzip-compressed, with the `.pb.gz` extension.
