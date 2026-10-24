@@ -388,6 +388,13 @@ const RULES: readonly Rule[] = [
     threshold: 4,
   },
   {
+    name: `command line`,
+    description: `the generating process's arguments`,
+    // A JSON array under an argument-list key, as a tracer writes its own
+    // process's arguments (Node's `node.environment` trace events).
+    matches: regexMatches(/"(?:exec_args|execArgv|argv)"\s*:\s*\[[^\]]*\]/gu),
+  },
+  {
     name: `process list`,
     description: `applications running on the generating machine`,
     matches: regexMatches(
