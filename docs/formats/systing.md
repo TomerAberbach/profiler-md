@@ -1,6 +1,6 @@
 # systing profile export
 
-The line-oriented profile export written by
+The systing profile export is a line-oriented format written by
 [systing](https://github.com/josefbacik/systing), a Linux eBPF system profiler,
 specified by its
 [`docs/PROFILE_EXPORT_FORMAT.md`](https://github.com/josefbacik/systing/blob/main/docs/PROFILE_EXPORT_FORMAT.md).

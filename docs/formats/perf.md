@@ -1,7 +1,8 @@
 # perf.data
 
-The binary file [Linux `perf`](https://perfwiki.github.io/main/) writes: the
-on-disk form of the kernel's own `perf_event` records, specified by the kernel's
+`perf.data` is the binary file [Linux `perf`](https://perfwiki.github.io/main/)
+writes. It is the on-disk form of the kernel's `perf_event` records, specified
+by the kernel's
 [`perf.data` file format documentation](https://github.com/torvalds/linux/blob/master/tools/perf/Documentation/perf.data-file-format.txt)
 and
 [`perf_event.h`](https://github.com/torvalds/linux/blob/master/include/uapi/linux/perf_event.h).
