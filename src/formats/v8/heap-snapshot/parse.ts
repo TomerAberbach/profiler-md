@@ -1,4 +1,5 @@
 import {
+  absoluteFileReference,
   formatSourceLocation,
   makeFileReference,
   sourceReferenceToSourceLocation,
@@ -721,12 +722,7 @@ const nodeName = (
       const name =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      const fileReference = makeFileReference(name)
-      return {
-        name,
-        nameLocation:
-          fileReference?.type === `absolute` ? fileReference : undefined,
-      }
+      return { name, nameLocation: absoluteFileReference(name) }
     }
   }
 }

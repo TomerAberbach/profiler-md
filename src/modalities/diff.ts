@@ -1,7 +1,7 @@
 import { alignPositions } from '../helpers/align.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import type { FileReference, SourceLocation } from '../location.ts'
 import type {
   NormalizedProfileToMdOptions,
   ProfileEntry,
@@ -51,7 +51,12 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
  * one name and location for the pair wherever it shows either side.
  */
 export const copyMergedIdentities = <
-  Entry extends { name?: string; location?: SourceLocation; merged?: boolean },
+  Entry extends {
+    name?: string
+    nameLocation?: FileReference
+    location?: SourceLocation
+    merged?: boolean
+  },
 >(
   diffs: readonly Diff<Entry>[],
 ): void => {
@@ -61,6 +66,11 @@ export const copyMergedIdentities = <
     if (merged && other) {
       other.name = merged.name
       other.location = merged.location
+      // Assigns a name location only when either entry has one, so an entry
+      // type that has no name location never gains the property.
+      if (merged.nameLocation || other.nameLocation) {
+        other.nameLocation = merged.nameLocation
+      }
     }
   }
 }

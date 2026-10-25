@@ -160,10 +160,11 @@ export type ProfileToMdOptions = {
    * and locations are equal, and pairs only the rest by their entry matches.
    * Where an entry match gives distinct entities one key, the diff still pairs
    * each entity whose identifier is unchanged with itself. Each side of a call
-   * stack profile diff merges its functions with no line that share a match key
-   * and that the other side lacks into one function, named and located by the
-   * entry match, because the diff has no position to pair them by. The function
-   * it pairs with on the other side takes the same name and location.
+   * stack profile or heap snapshot diff merges its entities with no line that
+   * share a match key and that the other side lacks into one entity, named and
+   * located by the entry match, because the diff has no position to pair them
+   * by. The entity it pairs with on the other side takes the same name and
+   * location.
    *
    * Matched entries display the _current_ profile's name and location (not
    * _base_).
