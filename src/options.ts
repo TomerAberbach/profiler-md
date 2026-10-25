@@ -288,9 +288,6 @@ export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
 
 /** A single entry in a formatted profile. */
 export type ProfileEntry = {
-  /** An index that uniquely identifies this entry. */
-  id: number
-
   /** The name of the entity corresponding to this entry (e.g. a function name). */
   name?: string
 
@@ -504,7 +501,7 @@ const ensureTrailingSlash = (url: URL): URL => {
 const cacheEntryFunction = <Entry extends object, Context, Value>(
   func: (entry: Entry, context: Context) => Value,
 ): ((entry: Entry, context?: Context) => Value) => {
-  // Cache by entry identity rather than entry ID because IDs are unique only
+  // Cache by entry identity, because an aggregated entity's ID is unique only
   // within a single aggregated input, and the same options apply to every
   // aggregated input of a conversion, whether a raw input yields several or a
   // diff aggregates two. Keying by the entry alone stays valid despite the

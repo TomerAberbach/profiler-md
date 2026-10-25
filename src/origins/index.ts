@@ -86,7 +86,7 @@ const originSourceKey = (
   location: DeepReadonly<SourceLocation>,
   origin: Origin,
 ): string =>
-  matchEntryForOrigin({ id: 0, location }, origin)?.location ??
+  matchEntryForOrigin({ location }, origin)?.location ??
   sourceReferenceId(location)
 
 export const matchEntryForOrigin = (

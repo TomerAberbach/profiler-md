@@ -94,12 +94,11 @@ describe(`normalizeStackFrame`, () => {
 
 /** A frame as it looks after normalization. */
 const moduleEntry = (name: string, module: string): ProfileEntry => ({
-  id: 1,
   name,
   location: { type: `logical`, name: module },
 })
 
-const named = (name: string): ProfileEntry => ({ id: 1, name })
+const named = (name: string): ProfileEntry => ({ name })
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = eflambeOriginSpec

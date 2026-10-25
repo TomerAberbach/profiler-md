@@ -316,7 +316,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     }
 
     this.#entries = [...this.#constructors, ...this.#functions].map(entity => ({
-      id: entity.id,
       name: entity.name,
       location: entityLocation(entity),
     }))

@@ -88,6 +88,6 @@ describe(`hasRuntimeInsertedArcs`, () => {
   })
 
   test(`keeps a nameless frame's arcs`, () => {
-    expect(hasRuntimeInsertedArcs({ id: 1 })).toBe(false)
+    expect(hasRuntimeInsertedArcs({})).toBe(false)
   })
 })

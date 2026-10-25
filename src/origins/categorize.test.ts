@@ -4,18 +4,16 @@ import { categorizeEntryForOrigin, origins } from './index.ts'
 import type { Origin } from './index.ts'
 
 const located = (url: string): ProfileEntry => ({
-  id: 1,
   name: `f`,
   location: { type: `absolute`, url: new URL(url) },
 })
 
 const relative = (path: string): ProfileEntry => ({
-  id: 1,
   name: `f`,
   location: { type: `relative`, path },
 })
 
-const named = (name: string): ProfileEntry => ({ id: 1, name })
+const named = (name: string): ProfileEntry => ({ name })
 
 describe(`every origin`, () => {
   test.each(origins)(`%s`, origin => {

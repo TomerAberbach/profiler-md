@@ -22,7 +22,6 @@ export const determineOrigin = ({
 }
 
 export const relativeEntry = (name: string, path?: string): ProfileEntry => ({
-  id: 1,
   name,
   ...(path ? { location: { type: `relative`, path } } : {}),
 })
@@ -31,13 +30,11 @@ export const logicalEntry = (
   name: string,
   logicalName?: string,
 ): ProfileEntry => ({
-  id: 1,
   name,
   ...(logicalName ? { location: { type: `logical`, name: logicalName } } : {}),
 })
 
 export const absoluteEntry = (name: string, url: string): ProfileEntry => ({
-  id: 1,
   name,
   location: { type: `absolute`, url: new URL(url) },
 })
