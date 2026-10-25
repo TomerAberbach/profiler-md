@@ -184,6 +184,13 @@ class FunctionsAggregator {
    * functions that normalize alike (e.g. callgrind's `fn` and its
    * recursion-separated `fn'2`) merge into one function. A frame the origin
    * dropped merges into a single shared anonymous function.
+   *
+   * A diff side keeps apart the functions with no line that share a match key,
+   * unlike a call stack profile's, and the diff pairs them in order. A merged
+   * function's total would need to know whether its members' subtrees overlap,
+   * as when one lambda calls another, or add, as when two run apart. A call
+   * graph records arcs but no call stacks, so it cannot tell, and either
+   * choice would report a total the profiler did not measure.
    */
   #mergeFunctions(): AggregatedCallGraphFunction[] {
     return this.#functions.map((_, index) => {

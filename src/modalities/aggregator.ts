@@ -13,9 +13,20 @@ export type InputAggregator<Aggregated> = {
    */
   detectOrigin: (detector: OriginDetector) => void
 
-  /** Aggregates the input under the raw input's resolved context. */
+  /**
+   * Aggregates the input under the raw input's resolved context. On a side of
+   * a diff, {@link otherSide} is the other side's input that the diff pairs
+   * with this one.
+   */
   aggregate: (
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
+    otherSide?: OtherSideInput,
   ) => Aggregated
+}
+
+/** An input's aggregator, under the context of the raw input it is part of. */
+export type OtherSideInput = {
+  aggregator: InputAggregator<unknown>
+  context: ProfileToMdContext
 }

@@ -45,6 +45,26 @@ export const matchDiffedFunctions = <Func extends ProfileEntry>(
     func => entryMatchKeys(func, current.context),
   )
 
+/**
+ * Names and locates the other side of each pair with a merged entry as the
+ * merged entry, the current one when both sides merged, so the Markdown shows
+ * one name and location for the pair wherever it shows either side.
+ */
+export const copyMergedIdentities = <
+  Entry extends { name?: string; location?: SourceLocation; merged?: boolean },
+>(
+  diffs: readonly Diff<Entry>[],
+): void => {
+  for (const { base, current } of diffs) {
+    const merged = current?.merged ? current : base?.merged ? base : undefined
+    const other = merged === base ? current : base
+    if (merged && other) {
+      other.name = merged.name
+      other.location = merged.location
+    }
+  }
+}
+
 /** An entry matchable across the two sides of a diff by name and location. */
 type DiffableEntry = {
   location?: DeepReadonly<SourceLocation> | undefined

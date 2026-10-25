@@ -19,7 +19,12 @@ import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
-import { aggregateParseResult, makeContext } from './aggregate.ts'
+import {
+  aggregatePreparedInputs,
+  makeContext,
+  prepareParseResult,
+} from './aggregate.ts'
+import type { PreparedInputs } from './aggregate.ts'
 import {
   withBufferedDecompressedAsync,
   withDecompressed,
@@ -106,8 +111,7 @@ export const diffProfiles = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    aggregateInput(base, normalizedOptions),
-    aggregateInput(current, normalizedOptions),
+    ...aggregateDiffSides(base, current, normalizedOptions),
     normalizedOptions,
   )
 }
@@ -128,10 +132,7 @@ export const diffProfilesAsync = async (
 ): Promise<string> => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    ...(await Promise.all([
-      aggregateInputAsync(base, normalizedOptions),
-      aggregateInputAsync(current, normalizedOptions),
-    ])),
+    ...(await aggregateDiffSidesAsync(base, current, normalizedOptions)),
     normalizedOptions,
   )
 }
@@ -139,31 +140,96 @@ export const diffProfilesAsync = async (
 export const aggregateInput = (
   input: ProfileInput<ProfileData>,
   options: AggregationProfileToMdOptions,
-): AggregatedInput[] => {
-  const { name, ...normalized } = normalizeProfileInput(input)
-  try {
-    return aggregateNormalizedInput(normalized, options)
-  } catch (error: unknown) {
-    throw prefixInputName(error, name)
-  }
-}
+): AggregatedInput[] => aggregateSide(prepareInput(input, options), options)
 
 const aggregateInputAsync = async (
   input: ProfileInput<AsyncProfileData>,
   options: AggregationProfileToMdOptions,
-): Promise<AggregatedInput[]> => {
+): Promise<AggregatedInput[]> =>
+  aggregateSide(await prepareInputAsync(input, options), options)
+
+/**
+ * Aggregates a diff's two sides after preparing both, so each side merges its
+ * functions by the other side's.
+ */
+export const aggregateDiffSides = (
+  base: ProfileInput<ProfileData>,
+  current: ProfileInput<ProfileData>,
+  options: AggregationProfileToMdOptions,
+): [AggregatedInput[], AggregatedInput[]] =>
+  aggregatePreparedSides(
+    prepareInput(base, options),
+    prepareInput(current, options),
+    options,
+  )
+
+const aggregateDiffSidesAsync = async (
+  base: ProfileInput<AsyncProfileData>,
+  current: ProfileInput<AsyncProfileData>,
+  options: AggregationProfileToMdOptions,
+): Promise<[AggregatedInput[], AggregatedInput[]]> => {
+  const [baseSide, currentSide] = await Promise.all([
+    prepareInputAsync(base, options),
+    prepareInputAsync(current, options),
+  ])
+  return aggregatePreparedSides(baseSide, currentSide, options)
+}
+
+const aggregatePreparedSides = (
+  baseSide: PreparedSide,
+  currentSide: PreparedSide,
+  options: AggregationProfileToMdOptions,
+): [AggregatedInput[], AggregatedInput[]] => [
+  aggregateSide(baseSide, options, currentSide),
+  aggregateSide(currentSide, options, baseSide),
+]
+
+/** A raw input's prepared inputs, with the input's name for its errors. */
+type PreparedSide = { name: string | undefined; prepared: PreparedInputs }
+
+const prepareInput = (
+  input: ProfileInput<ProfileData>,
+  options: AggregationProfileToMdOptions,
+): PreparedSide => {
   const { name, ...normalized } = normalizeProfileInput(input)
   try {
-    return await aggregateNormalizedInputAsync(normalized, options)
+    return { name, prepared: prepareNormalizedInput(normalized, options) }
   } catch (error: unknown) {
     throw prefixInputName(error, name)
   }
 }
 
-const aggregateNormalizedInput = (
+const prepareInputAsync = async (
+  input: ProfileInput<AsyncProfileData>,
+  options: AggregationProfileToMdOptions,
+): Promise<PreparedSide> => {
+  const { name, ...normalized } = normalizeProfileInput(input)
+  try {
+    return {
+      name,
+      prepared: await prepareNormalizedInputAsync(normalized, options),
+    }
+  } catch (error: unknown) {
+    throw prefixInputName(error, name)
+  }
+}
+
+const aggregateSide = (
+  { name, prepared }: PreparedSide,
+  options: AggregationProfileToMdOptions,
+  otherSide?: PreparedSide,
+): AggregatedInput[] => {
+  try {
+    return aggregatePreparedInputs(prepared, options, otherSide?.prepared)
+  } catch (error: unknown) {
+    throw prefixInputName(error, name)
+  }
+}
+
+const prepareNormalizedInput = (
   { data, format, origin }: Omit<NormalizedProfileInput<ProfileData>, `name`>,
   options: AggregationProfileToMdOptions,
-): AggregatedInput[] => {
+): PreparedInputs => {
   if (format) {
     logFormat(format, `specified`, options)
 
@@ -171,7 +237,7 @@ const aggregateNormalizedInput = (
     const result = withDecompressed(data, decompressed =>
       parseAsFormat(formatSpec, decompressed),
     )
-    return aggregateParseResult(result, options, makeContext(format, origin))
+    return prepareParseResult(result, options, makeContext(format, origin))
   }
 
   const detected = withDecompressed(data, decompressed =>
@@ -179,21 +245,21 @@ const aggregateNormalizedInput = (
   )
   logFormat(detected.format, `detected`, options)
 
-  return aggregateParseResult(
+  return prepareParseResult(
     detected,
     options,
     makeContext(detected.format, origin),
   )
 }
 
-const aggregateNormalizedInputAsync = async (
+const prepareNormalizedInputAsync = async (
   {
     data,
     format,
     origin,
   }: Omit<NormalizedProfileInput<AsyncProfileData>, `name`>,
   options: AggregationProfileToMdOptions,
-): Promise<AggregatedInput[]> => {
+): Promise<PreparedInputs> => {
   if (format) {
     logFormat(format, `specified`, options)
 
@@ -201,7 +267,7 @@ const aggregateNormalizedInputAsync = async (
     const result = await withDecompressedAsync(data, decompressed =>
       parseAsFormatAsync(formatSpec, decompressed),
     )
-    return aggregateParseResult(result, options, makeContext(format, origin))
+    return prepareParseResult(result, options, makeContext(format, origin))
   }
 
   // Detection reads the data several times.
@@ -210,7 +276,7 @@ const aggregateNormalizedInputAsync = async (
   )
   logFormat(detected.format, `detected`, options)
 
-  return aggregateParseResult(
+  return prepareParseResult(
     detected,
     options,
     makeContext(detected.format, origin),

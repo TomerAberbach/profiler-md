@@ -1310,28 +1310,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Ours
 
-|  Change | Delta |            % | Samples | Function                                                                                                                               | Location                                                                                                                  |
-| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| +400.0% |    +4 | <0.1% → 0.2% |   1 → 5 | `transformResult(FirTransformer, Object)`                                                                                              | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`                                                          |
-| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer`                   |
-| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`                  |
-| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, Object)`                                                                                           | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`                  |
-| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transform(FirTransformer, Object)`                                                                                                    | `org.jetbrains.kotlin.fir.expressions.FirWhenBranch`                                                                      |
-| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformBranches(FirTransformer, Object)`                                                                                            | `org.jetbrains.kotlin.fir.expressions.impl.FirWhenExpressionImpl`                                                         |
-|  +33.3% |    +3 |  0.3% → 0.4% |  9 → 12 | `transformSingle(FirElement, FirTransformer, Object)`                                                                                  | `org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt`                                                                  |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformQualifiedAccessExpression(FirQualifiedAccessExpression, ResolutionMode, boolean, boolean, boolean)`                          | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`                             |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformQualifiedAccessExpression(FirQualifiedAccessExpression, ResolutionMode)`                                                     | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`                             |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformPropertyAccessExpression(FirPropertyAccessExpression, ResolutionMode)`                                                       | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`                  |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformPropertyAccessExpression(FirPropertyAccessExpression, Object)`                                                               | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`                  |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transform(FirTransformer, Object)`                                                                                                    | `org.jetbrains.kotlin.fir.expressions.FirPropertyAccessExpression`                                                        |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformBody(FirTransformer, Object)`                                                                                                | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`                                                     |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformAnonymousFunctionBody$lambda$0(FirDeclarationsResolveTransformer, FirAnonymousFunction, FirTypeRef)`                         | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`                            |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `invoke()`                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000000701685978` |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `withAnonymousFunction(FirAnonymousFunction, SessionAndScopeSessionHolder, Function0)`                                                 | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`                                           |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformAnonymousFunctionBody(FirAnonymousFunction, FirTypeRef)`                                                                     | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`                            |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `doTransformAnonymousFunctionBodyFromCallCompletion$org_jetbrains_kotlin_resolve(FirAnonymousFunctionExpression, FirResolvedTypeRef)`  | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`                            |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `analyzeAndGetLambdaReturnArguments$lambda$5$2(FirDeclarationsResolveTransformer, FirAnonymousFunctionExpression, FirResolvedTypeRef)` | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl`                                          |
-| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `invoke()`                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl$$Lambda.0x0000000701685740`               |
+|  Change | Delta |            % | Samples | Function                                                                                                                               | Location                                                                                                    |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| +400.0% |    +4 | <0.1% → 0.2% |   1 → 5 | `transformResult(FirTransformer, Object)`                                                                                              | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`                                            |
+| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer`     |
+| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`    |
+| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformWhenBranch(FirWhenBranch, Object)`                                                                                           | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`    |
+| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transform(FirTransformer, Object)`                                                                                                    | `org.jetbrains.kotlin.fir.expressions.FirWhenBranch`                                                        |
+| +200.0% |    +4 |  0.1% → 0.2% |   2 → 6 | `transformBranches(FirTransformer, Object)`                                                                                            | `org.jetbrains.kotlin.fir.expressions.impl.FirWhenExpressionImpl`                                           |
+|  +33.3% |    +3 |  0.3% → 0.4% |  9 → 12 | `transformSingle(FirElement, FirTransformer, Object)`                                                                                  | `org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt`                                                    |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformQualifiedAccessExpression(FirQualifiedAccessExpression, ResolutionMode, boolean, boolean, boolean)`                          | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`               |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformQualifiedAccessExpression(FirQualifiedAccessExpression, ResolutionMode)`                                                     | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`               |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformPropertyAccessExpression(FirPropertyAccessExpression, ResolutionMode)`                                                       | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`    |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transformPropertyAccessExpression(FirPropertyAccessExpression, Object)`                                                               | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`    |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `transform(FirTransformer, Object)`                                                                                                    | `org.jetbrains.kotlin.fir.expressions.FirPropertyAccessExpression`                                          |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformBody(FirTransformer, Object)`                                                                                                | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`                                       |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformAnonymousFunctionBody$lambda$0(FirDeclarationsResolveTransformer, FirAnonymousFunction, FirTypeRef)`                         | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`              |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `withAnonymousFunction(FirAnonymousFunction, SessionAndScopeSessionHolder, Function0)`                                                 | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`                             |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `transformAnonymousFunctionBody(FirAnonymousFunction, FirTypeRef)`                                                                     | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`              |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `doTransformAnonymousFunctionBodyFromCallCompletion$org_jetbrains_kotlin_resolve(FirAnonymousFunctionExpression, FirResolvedTypeRef)`  | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`              |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `analyzeAndGetLambdaReturnArguments$lambda$5$2(FirDeclarationsResolveTransformer, FirAnonymousFunctionExpression, FirResolvedTypeRef)` | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl`                            |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `invoke()`                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl$$Lambda.0x0000000701685740` |
+| +150.0% |    +3 |  0.1% → 0.2% |   2 → 5 | `runLambdaCompletion(Candidate, boolean, Function0)`                                                                                   | `org.jetbrains.kotlin.fir.resolve.inference.FirInferenceSession`                                            |
 
 #### Improvements
 
@@ -1785,15 +1785,9 @@ Callers with the largest change in contribution to each function's total samples
 
 ##### `transformAnonymousFunctionBody$lambda$0(FirDeclarationsResolveTransformer, FirAnonymousFunction, FirTypeRef)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`)
 
-|  Change | Delta |      % | Samples | Caller     | Location                                                                                                                  |
-| ------: | ----: | -----: | ------: | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
-| +150.0% |    +3 | 100.0% |   2 → 5 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000000701685978` |
-
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000000701685978`)
-
-|  Change | Delta |      % | Samples | Caller                                                                                 | Location                                                                        |
-| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| +150.0% |    +3 | 100.0% |   2 → 5 | `withAnonymousFunction(FirAnonymousFunction, SessionAndScopeSessionHolder, Function0)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+|  Change | Delta |      % | Samples | Caller     | Location                                                                                               |
+| ------: | ----: | -----: | ------: | ---------- | ------------------------------------------------------------------------------------------------------ |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda` |
 
 ##### `withAnonymousFunction(FirAnonymousFunction, SessionAndScopeSessionHolder, Function0)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`)
 
@@ -1824,6 +1818,12 @@ Callers with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Caller                                               | Location                                                         |
 | ------: | ----: | -----: | ------: | ---------------------------------------------------- | ---------------------------------------------------------------- |
 | +150.0% |    +3 | 100.0% |   2 → 5 | `runLambdaCompletion(Candidate, boolean, Function0)` | `org.jetbrains.kotlin.fir.resolve.inference.FirInferenceSession` |
+
+##### `runLambdaCompletion(Candidate, boolean, Function0)` (`org.jetbrains.kotlin.fir.resolve.inference.FirInferenceSession`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                                | Location                                                                         |
+| ------: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `analyzeAndGetLambdaReturnArguments(ConeResolvedLambdaAtom, ConeKotlinType, List, List, ConeKotlinType, Candidate, boolean, boolean)` | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl` |
 
 ##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
 
@@ -2582,17 +2582,11 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | +150.0% |    +3 | 100.0% |   2 → 5 | `transformFunctionContent(FirFunction, ResolutionMode, boolean)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
 
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000000701685978`)
-
-|  Change | Delta |      % | Samples | Callee                                                                                                         | Location                                                                                       |
-| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| +150.0% |    +3 | 100.0% |   2 → 5 | `transformAnonymousFunctionBody$lambda$0(FirDeclarationsResolveTransformer, FirAnonymousFunction, FirTypeRef)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-
 ##### `withAnonymousFunction(FirAnonymousFunction, SessionAndScopeSessionHolder, Function0)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`)
 
-|  Change | Delta |      % | Samples | Callee     | Location                                                                                                                  |
-| ------: | ----: | -----: | ------: | ---------- | ------------------------------------------------------------------------------------------------------------------------- |
-| +150.0% |    +3 | 100.0% |   2 → 5 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000000701685978` |
+|  Change | Delta |      % | Samples | Callee     | Location                                                                                               |
+| ------: | ----: | -----: | ------: | ---------- | ------------------------------------------------------------------------------------------------------ |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda` |
 
 ##### `transformAnonymousFunctionBody(FirAnonymousFunction, FirTypeRef)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`)
 
@@ -2617,6 +2611,12 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Callee                                                                                                                                 | Location                                                                         |
 | ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | +150.0% |    +3 | 100.0% |   2 → 5 | `analyzeAndGetLambdaReturnArguments$lambda$5$2(FirDeclarationsResolveTransformer, FirAnonymousFunctionExpression, FirResolvedTypeRef)` | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl` |
+
+##### `runLambdaCompletion(Candidate, boolean, Function0)` (`org.jetbrains.kotlin.fir.resolve.inference.FirInferenceSession`)
+
+|  Change | Delta |      % | Samples | Callee     | Location                                                                                                    |
+| ------: | ----: | -----: | ------: | ---------- | ----------------------------------------------------------------------------------------------------------- |
+| +150.0% |    +3 | 100.0% |   2 → 5 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter$LambdaAnalyzerImpl$$Lambda.0x0000000701685740` |
 
 ##### `_pthread_start` (`libsystem_pthread.dylib`)
 

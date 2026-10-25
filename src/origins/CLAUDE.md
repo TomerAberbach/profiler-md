@@ -26,7 +26,9 @@ origins
   and an unsymbolized address, because stripping either gives distinct functions
   one match key
 - Record in the rule's doc comment which entities share a match key once it
-  strips the identifier. The diff pairs them in order
+  strips the identifier. The diff pairs those with a line by position. A call
+  stack profile diff merges those without one that the other side lacks, which
+  it has nothing to pair by
 - Drop a pseudo-frame (`[tid=16387]`) in `normalizeStackFrame`, never by
   matching it
 - `src/origins/index.test.ts` fails when an unpaired base key and an unpaired

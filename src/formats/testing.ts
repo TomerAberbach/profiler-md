@@ -3,7 +3,7 @@ import path from 'node:path'
 import { expect, inject } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import { aggregateParseResult } from './aggregate.ts'
+import { aggregatePreparedInputs, prepareParseResult } from './aggregate.ts'
 import { formatAggregatedInputs } from './format.ts'
 import type { Format } from './index.ts'
 import { runParse, runParseAsync } from './parse.ts'
@@ -135,10 +135,13 @@ const convertParseResultToMd = (
   format?: Format,
 ): string =>
   formatAggregatedInputs(
-    aggregateParseResult(
-      result,
+    aggregatePreparedInputs(
+      prepareParseResult(
+        result,
+        options,
+        format ? { format, origin: null } : profileToMdContext(formatSpec),
+      ),
       options,
-      format ? { format, origin: null } : profileToMdContext(formatSpec),
     ),
     options,
   )

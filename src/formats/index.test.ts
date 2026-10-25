@@ -1527,6 +1527,161 @@ describe(`diffProfiles`, () => {
       expect(rankingTables(md, `Total time`, `Improvements`)).toEqual([[funcB]])
     })
 
+    test.each<{
+      name: string
+      firstSuffix: string
+      secondSuffix: string
+      matchEntry?: ProfileToMdOptions[`matchEntry`]
+      location: string
+    }>([
+      {
+        name: `two with an address`,
+        firstSuffix: `.0x0000000801183d68`,
+        secondSuffix: `.0x0000000801186d88`,
+        location: `org.app.Main$$Lambda`,
+      },
+      {
+        name: `one without an address`,
+        firstSuffix: ``,
+        secondSuffix: `.0x0000000801186d88`,
+        location: `org.app.Main$$Lambda`,
+      },
+      {
+        name: `with no location when the entry match pairs by name alone`,
+        firstSuffix: `.0x0000000801183d68`,
+        secondSuffix: `.0x0000000801186d88`,
+        matchEntry: () => ({ location: `` }),
+        location: `<unknown>`,
+      },
+    ])(
+      `merges the functions with no line that share a match key and the other side lacks, $name`,
+      ({ firstSuffix, secondSuffix, matchEntry, location }) => {
+        const lambda = (suffix: string, count: number) =>
+          `java/lang/Thread.run;org/app/Main$$Lambda${suffix}.call ${count}`
+        const base = [lambda(firstSuffix, 3), lambda(secondSuffix, 5)].join(
+          `\n`,
+        )
+        const current = lambda(`.0x000000a8011a7490`, 6)
+
+        const md = diffProfiles(
+          { data: base, format: `collapsed`, origin: `async-profiler` },
+          { data: current, format: `collapsed`, origin: `async-profiler` },
+          { baseURL: null, matchEntry },
+        )
+
+        expect(rankingTables(md, `Self samples`, `Improvements`)).toEqual([
+          [
+            {
+              Change: `-25.0%`,
+              Delta: `-2`,
+              '%': `100.0%`,
+              Samples: `8 → 6`,
+              Function: `call`,
+              Location: location,
+            },
+          ],
+        ])
+      },
+    )
+
+    test(`pairs functions with no line that share a match key and both sides have with themselves`, () => {
+      const base = [`main;free__anon_1 3`, `main;free__anon_2 5`].join(`\n`)
+      const current = [`main;free__anon_1 4`, `main;free__anon_2 5`].join(`\n`)
+
+      const md = diffProfiles(
+        { data: base, format: `collapsed` },
+        { data: current, format: `collapsed` },
+        {
+          baseURL: null,
+          matchEntry: entry => ({ name: entry.name?.replace(/_\d+$/u, ``) }),
+        },
+      )
+
+      expect(rankingTables(md, `Self samples`, `Regressions`)).toEqual([
+        [
+          {
+            Change: `+33.3%`,
+            Delta: `+1`,
+            '%': `37.5% → 44.4%`,
+            Samples: `3 → 4`,
+            Function: `free__anon_1`,
+            Location: `<unknown>`,
+          },
+        ],
+      ])
+    })
+
+    test(`applies the entry match once to merged functions with no line`, () => {
+      const base = [`main;v1_v2_call 3`, `main;v3_v2_call 5`].join(`\n`)
+      const current = `main;v4_v2_call 6`
+
+      const md = diffProfiles(
+        { data: base, format: `collapsed` },
+        { data: current, format: `collapsed` },
+        {
+          baseURL: null,
+          matchEntry: entry => ({ name: entry.name?.replace(/^v\d+_/u, ``) }),
+        },
+      )
+
+      expect(rankingTables(md, `Self samples`, `Improvements`)).toEqual([
+        [
+          {
+            Change: `-25.0%`,
+            Delta: `-2`,
+            '%': `100.0%`,
+            Samples: `8 → 6`,
+            Function: `v2_call`,
+            Location: `<unknown>`,
+          },
+        ],
+      ])
+    })
+
+    test(`locates merged functions at an entry match's absolute file path`, () => {
+      const speedscope = (files: string[], weights: number[]): string =>
+        JSON.stringify({
+          $schema: `https://www.speedscope.app/file-format-schema.json`,
+          shared: { frames: files.map(file => ({ name: `call`, file })) },
+          profiles: [
+            {
+              type: `sampled`,
+              name: `profile`,
+              unit: `none`,
+              startValue: 0,
+              endValue: 1,
+              samples: files.map((_, index) => [index]),
+              weights,
+            },
+          ],
+        })
+      const base = speedscope(
+        [`/app/chunk.0x1.js`, `/app/chunk.0x2.js`],
+        [3, 5],
+      )
+      const current = speedscope([`/app/chunk.0x3.js`], [6])
+
+      const md = diffProfiles(
+        { data: base, format: `speedscope` },
+        { data: current, format: `speedscope` },
+        { baseURL: null, matchEntry: () => ({ location: `/app/chunk.js` }) },
+      )
+
+      expect(rankingTables(md, `Self occurrences`, `Decreases`)).toEqual([
+        [
+          {
+            Change: `-25.0%`,
+            Delta: `-2`,
+            '%': `100.0%`,
+            Occurrences: `8 → 6`,
+            Samples: `2 → 1`,
+            Function: `call`,
+            Location: `/app/chunk.js`,
+          },
+        ],
+      ])
+    })
+
     test(`baseURL: 'auto' infers one common ancestor across both diff sides`, () => {
       // The function moved from src/ to lib/ between the two profiles. A
       // per-side base would format both as a bare `a.ts`; the shared base keeps

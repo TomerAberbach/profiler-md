@@ -1,13 +1,18 @@
 import {
   makeSourceLocation,
   unresolvedSourceReferenceString,
+  withSourceReferenceId,
 } from '../location.ts'
 import type {
   SourceLocation,
   SourcePosition,
   UnresolvedSourceReference,
 } from '../location.ts'
-import type { ProfileToMdContext } from '../options.ts'
+import type {
+  AggregationProfileToMdOptions,
+  ProfileEntry,
+  ProfileToMdContext,
+} from '../options.ts'
 import {
   functionIdentityForContext,
   normalizeStackFrameForContext,
@@ -182,6 +187,8 @@ export class StackFrameFunctionTable {
 
   readonly #functions: StackFrameFunction[] = []
 
+  #linelessFunctionKeys: Set<string> | undefined
+
   readonly #identity: FunctionIdentity
 
   /** Whether the raw frame at an index is the origin's truncation marker. */
@@ -211,6 +218,20 @@ export class StackFrameFunctionTable {
     return func
   }
 
+  /** The identity keys of the table's functions with no definition line. */
+  public linelessFunctionKeys(): ReadonlySet<string> {
+    if (!this.#linelessFunctionKeys) {
+      this.#linelessFunctionKeys = new Set()
+      for (let index = 0; index < this.#frames.length; index++) {
+        const func = this.function(index)
+        if (func && func.location?.line === undefined) {
+          this.#linelessFunctionKeys.add(func.key)
+        }
+      }
+    }
+    return this.#linelessFunctionKeys
+  }
+
   public executingLine(index: number): number | undefined {
     return this.#frames[index]?.executing?.line
   }
@@ -236,6 +257,126 @@ export const parseStackFrameFunction = (
     location: makeSourceLocation(identifying, identifying?.position),
     key: functionIdentityKey(frame.name, identifying),
   }
+}
+
+/**
+ * Resolves each frame's function to the aggregated function it adds to. A diff
+ * side merges the functions with no definition line that share a match key and
+ * whose identity keys are absent from the other side, because the diff has no
+ * position to pair them by (e.g. the lambdas of one JVM class, whose names
+ * differ only by a runtime address). A function the other side has pairs with
+ * itself instead. A merged function takes the entry match's name and location
+ * once a second function merges into it, and a function alone with its match
+ * key keeps its own.
+ */
+export class FunctionMerger {
+  readonly #options: AggregationProfileToMdOptions
+  readonly #context: ProfileToMdContext
+
+  /**
+   * On a diff side, the identity keys of the other side's functions with no
+   * line.
+   */
+  readonly #otherSideKeys: ReadonlySet<string> | undefined
+
+  /** Each function's own key to its match. */
+  readonly #ownKeyToMatch = new Map<string, FunctionMatch>()
+
+  /** Each merged function's key to the own key of its first function. */
+  readonly #keyToFirstOwnKey = new Map<string, string>()
+
+  public constructor(
+    options: AggregationProfileToMdOptions,
+    context: ProfileToMdContext,
+    otherSideKeys: ReadonlySet<string> | undefined,
+  ) {
+    this.#options = options
+    this.#context = context
+    this.#otherSideKeys = otherSideKeys
+  }
+
+  public resolve<Func extends ProfileEntry & MergeableFunction>(
+    frameFunction: StackFrameFunction,
+    keyToFunction: ReadonlyMap<unknown, Func>,
+    register: (key: string, frameFunction: StackFrameFunction) => Func,
+  ): Func {
+    const match = this.#matchOf(frameFunction, keyToFunction.size)
+    if (!match) {
+      return (
+        keyToFunction.get(frameFunction.key) ??
+        register(frameFunction.key, frameFunction)
+      )
+    }
+
+    const func = keyToFunction.get(match.key)
+    if (!func) {
+      this.#keyToFirstOwnKey.set(match.key, frameFunction.key)
+      const first = register(match.key, frameFunction)
+      // Caches the match keys of the function's own name and location, so the
+      // diff pairs it by those once a merge renames it.
+      this.#options.entryMatchKeys(first, this.#context)
+      return first
+    }
+    if (
+      !func.merged &&
+      this.#keyToFirstOwnKey.get(match.key) !== frameFunction.key
+    ) {
+      func.name = match.name
+      func.location = match.location
+      func.merged = true
+    }
+    return func
+  }
+
+  /**
+   * The match of {@link func} on a diff side when it has no line and the other
+   * side lacks its identity key, which {@link id} identifies until a function
+   * registers with that ID.
+   */
+  #matchOf(func: StackFrameFunction, id: number): FunctionMatch | undefined {
+    const otherSideKeys = this.#otherSideKeys
+    if (
+      !otherSideKeys ||
+      func.location?.line !== undefined ||
+      otherSideKeys.has(func.key)
+    ) {
+      return undefined
+    }
+    const cached = this.#ownKeyToMatch.get(func.key)
+    if (cached) {
+      return cached
+    }
+
+    const keys = this.#options.entryMatchKeys(
+      { id, name: func.name, location: func.location },
+      this.#context,
+    )
+    const match = {
+      key: `\0match\0${keys.nameAndLocation}`,
+      name: keys.name,
+      location: withSourceReferenceId(func.location, keys.location),
+    }
+    this.#ownKeyToMatch.set(func.key, match)
+    return match
+  }
+}
+
+/** An aggregated function a {@link FunctionMerger} can merge into. */
+type MergeableFunction = {
+  name: string
+  location?: SourceLocation
+  merged?: boolean
+}
+
+/**
+ * The key a function with no line merges by, and the name and location it
+ * takes once merged. An entry match that pairs by name alone leaves it no
+ * location.
+ */
+type FunctionMatch = {
+  key: string
+  name: string
+  location: SourceLocation | undefined
 }
 
 const functionIdentityKey = (

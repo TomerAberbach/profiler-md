@@ -1,5 +1,6 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId } from '../location.ts'
+import type { InputAggregator } from '../modalities/aggregator.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'
 import type { AggregatedInput } from '../modalities/registry.ts'
 import type {
@@ -13,18 +14,19 @@ import type { Origin, OriginEvidence } from '../origins/index.ts'
 import type { ParseResult } from './parse.ts'
 import type { Format } from './registry.ts'
 
-/**
- * Aggregates each parsed input through its modality's uniform pipeline, then
- * rejects the input if the parse left it with no records, or warns about what
- * the parse skipped.
- *
- * The origin is detected once across all inputs.
- */
-export const aggregateParseResult = (
+/** A raw input's aggregators, under the context its origin detection resolved. */
+export type PreparedInputs = {
+  aggregators: InputAggregator<AggregatedInput>[]
+  context: ProfileToMdContext
+  recordTally: ParseResult[`recordTally`]
+}
+
+/** Creates each parsed input's aggregator and detects the origin across them. */
+export const prepareParseResult = (
   { parsed, recordTally }: ParseResult,
   options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
-): AggregatedInput[] => {
+): PreparedInputs => {
   const aggregators = parsed.map(input =>
     modalitySpecOf(input).aggregator(input, recordTally),
   )
@@ -43,9 +45,31 @@ export const aggregateParseResult = (
   if (aggregators.length > 0) {
     logOrigin(detector, resolvedContext, options)
   }
-  const aggregated = aggregators.map(aggregator =>
-    aggregator.aggregate(options, resolvedContext),
-  )
+  return { aggregators, context: resolvedContext, recordTally }
+}
+
+/**
+ * Aggregates each prepared input, then rejects the raw input if the parse left
+ * it with no records, or warns about what the parse skipped.
+ *
+ * On a side of a diff, {@link otherSide} is the other side's prepared inputs.
+ */
+export const aggregatePreparedInputs = (
+  { aggregators, context, recordTally }: PreparedInputs,
+  options: AggregationProfileToMdOptions,
+  otherSide?: PreparedInputs,
+): AggregatedInput[] => {
+  const aggregated = aggregators.map((aggregator, index) => {
+    const otherSideAggregator = otherSide?.aggregators[index]
+    return aggregator.aggregate(
+      options,
+      context,
+      otherSideAggregator && {
+        aggregator: otherSideAggregator,
+        context: otherSide.context,
+      },
+    )
+  })
   recordTally.throwOrWarn(options)
   return aggregated
 }

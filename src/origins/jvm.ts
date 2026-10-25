@@ -19,8 +19,9 @@ import type { EntryMatchRule } from './spec.ts'
  * external name spells it. A Java identifier cannot start with a digit, so the
  * separator followed by `0x` occurs only before a hidden class's address. The
  * class name without it identifies the class across runs. Several lambda forms
- * with the same method then share a match key, and the diff pairs them in
- * order.
+ * with the same method then share a match key, and because they have no line
+ * and their addresses differ per run, a call stack profile diff merges them
+ * into one row.
  */
 const HIDDEN_CLASS_ADDRESS_REGEX = /(?<=[\w$])[.+]0x[0-9a-fA-F]+(?![\w$])/gu
 

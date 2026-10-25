@@ -278,13 +278,12 @@ Functions with the largest decrease in samples collected within the function bod
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                     | Location    |
-| ------: | ----: | ----------: | ------: | ---------------------------- | ----------- |
-|  -42.9% |    -3 | 0.5% → 0.3% |   7 → 4 | `I2C/C2I adapters(0xbb)`     | `<unknown>` |
-| removed |    -2 | 0.1% → 0.0% |   2 → 0 | `vtable stub`                | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`       | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbb)`  | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbba)` | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                 | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
+|  -42.9% |    -3 | 0.5% → 0.3% |   7 → 4 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
+|  -66.7% |    -2 | 0.2% → 0.1% |   3 → 1 | `I2C/C2I adapters`       | `<unknown>` |
+| removed |    -2 | 0.1% → 0.0% |   2 → 0 | `vtable stub`            | `<unknown>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`   | `<unknown>` |
 
 #### Callers
 
@@ -1345,6 +1344,15 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ----------------------- | ------------------ |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<init>(StringBuilder)` | `java.lang.String` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                        | Location                                                      |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `exitVariableInitialization(MutableFlow, FirExpression, FirProperty, FirExpression, boolean)` | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`    |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `isVisible(FirVisibilityChecker, FirMemberDeclaration, CallInfo, FirExpression, boolean)`     | `org.jetbrains.kotlin.fir.resolve.calls.VisibilityUtilsKt`    |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `visitTypeOperator(IrTypeOperatorCall)`                                                       | `org.jetbrains.kotlin.backend.jvm.lower.TypeOperatorLowering` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `setContainingClassForStaticMemberAttr(FirCallableDeclaration, ConeClassLikeLookupTag)`       | `org.jetbrains.kotlin.fir.ClassMembersKt`                     |
+
 ##### `vtable stub` (`<unknown>`)
 
 |  Change | Delta |            % | Samples | Caller                      | Location                                                  |
@@ -1358,46 +1366,34 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | --------------------------------------- | ----------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `forName(String, boolean, ClassLoader)` | `java.lang.Class` |
 
-##### `I2C/C2I adapters(0xbbbbb)` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                                                                    | Location                                                   |
-| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `isVisible(FirVisibilityChecker, FirMemberDeclaration, CallInfo, FirExpression, boolean)` | `org.jetbrains.kotlin.fir.resolve.calls.VisibilityUtilsKt` |
-
-##### `I2C/C2I adapters(0xbbbbba)` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                  | Location                                                      |
-| ------: | ----: | ------------: | ------: | --------------------------------------- | ------------------------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `visitTypeOperator(IrTypeOperatorCall)` | `org.jetbrains.kotlin.backend.jvm.lower.TypeOperatorLowering` |
-
 ### Total samples
 
 #### Regressions
 
 Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
-|  Change | Delta |           % | Samples | Function                                                                                                                                       | Location                                                                                                                  |
-| ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-|  +36.8% |   +25 | 5.0% → 7.0% | 68 → 93 | `invoke()`                                                                                                                                     | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016540f0` |
-|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `ClassFileParser::parse_constant_pool_entries(ClassFileStream const*, ConstantPool*, int, JavaThread*)`                                        | `<unknown>`                                                                                                               |
-|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `completeCall(FirExpression, ResolutionMode, boolean)`                                                                                         | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                             |
-|  +20.8% |   +10 | 3.5% → 4.3% | 48 → 58 | `ClassFileParser::ClassFileParser(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const*, ClassFileParser::Publicity, JavaThread*)` | `<unknown>`                                                                                                               |
-|  +76.9% |   +10 | 1.0% → 1.7% | 13 → 23 | `accept(FirVisitor, Object)`                                                                                                                   | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall`                                                                    |
-| +250.0% |   +10 | 0.3% → 1.0% |  4 → 14 | `invoke(Object)`                                                                                                                               | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000700166d520`                            |
-|  +26.5% |    +9 | 2.5% → 3.2% | 34 → 43 | `ClassFileParser::parse_constant_pool(ClassFileStream const*, ConstantPool*, int, JavaThread*)`                                                | `<unknown>`                                                                                                               |
-|  +50.0% |    +9 | 1.3% → 2.0% | 18 → 27 | `SymbolTable::do_lookup(char const*, int, unsigned long)`                                                                                      | `<unknown>`                                                                                                               |
-|  +36.0% |    +9 | 1.8% → 2.5% | 25 → 34 | `PhaseCFG::global_code_motion()`                                                                                                               | `<unknown>`                                                                                                               |
-|  +32.1% |    +9 | 2.0% → 2.8% | 28 → 37 | `PhaseCFG::do_global_code_motion()`                                                                                                            | `<unknown>`                                                                                                               |
-| +112.5% |    +9 | 0.6% → 1.3% |  8 → 17 | `PhaseCCP::push_child_nodes_to_worklist(Unique_Node_List&, Node*) const`                                                                       | `<unknown>`                                                                                                               |
-| +900.0% |    +9 | 0.1% → 0.7% |  1 → 10 | `PhaseCCP::push_more_uses(Unique_Node_List&, Node*, Node const*) const`                                                                        | `<unknown>`                                                                                                               |
-|  +14.8% |    +8 | 4.0% → 4.6% | 54 → 62 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)`                             | `<unknown>`                                                                                                               |
-| +100.0% |    +8 | 0.6% → 1.2% |  8 → 16 | `PhaseMacroExpand::expand_macro_nodes()`                                                                                                       | `<unknown>`                                                                                                               |
-|  +66.7% |    +8 | 0.9% → 1.5% | 12 → 20 | `PhaseCCP::analyze()`                                                                                                                          | `<unknown>`                                                                                                               |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `acceptChildren(FirVisitor, Object)`                                                                                                           | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`                                                       |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `visitArgumentList(FirArgumentList, Object)`                                                                                                   | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                                            |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `accept(FirVisitor, Object)`                                                                                                                   | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                                                                    |
-| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                        | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                          |
-| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `isSubtypeOf(TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                   | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                          |
+|  Change | Delta |           % | Samples | Function                                                                                                                                       | Location                                                               |
+| ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `ClassFileParser::parse_constant_pool_entries(ClassFileStream const*, ConstantPool*, int, JavaThread*)`                                        | `<unknown>`                                                            |
+|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `completeCall(FirExpression, ResolutionMode, boolean)`                                                                                         | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`          |
+|  +20.8% |   +10 | 3.5% → 4.3% | 48 → 58 | `ClassFileParser::ClassFileParser(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const*, ClassFileParser::Publicity, JavaThread*)` | `<unknown>`                                                            |
+|  +76.9% |   +10 | 1.0% → 1.7% | 13 → 23 | `accept(FirVisitor, Object)`                                                                                                                   | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall`                 |
+|  +26.5% |    +9 | 2.5% → 3.2% | 34 → 43 | `ClassFileParser::parse_constant_pool(ClassFileStream const*, ConstantPool*, int, JavaThread*)`                                                | `<unknown>`                                                            |
+|  +50.0% |    +9 | 1.3% → 2.0% | 18 → 27 | `SymbolTable::do_lookup(char const*, int, unsigned long)`                                                                                      | `<unknown>`                                                            |
+|  +36.0% |    +9 | 1.8% → 2.5% | 25 → 34 | `PhaseCFG::global_code_motion()`                                                                                                               | `<unknown>`                                                            |
+|  +32.1% |    +9 | 2.0% → 2.8% | 28 → 37 | `PhaseCFG::do_global_code_motion()`                                                                                                            | `<unknown>`                                                            |
+| +112.5% |    +9 | 0.6% → 1.3% |  8 → 17 | `PhaseCCP::push_child_nodes_to_worklist(Unique_Node_List&, Node*) const`                                                                       | `<unknown>`                                                            |
+| +900.0% |    +9 | 0.1% → 0.7% |  1 → 10 | `PhaseCCP::push_more_uses(Unique_Node_List&, Node*, Node const*) const`                                                                        | `<unknown>`                                                            |
+|  +14.8% |    +8 | 4.0% → 4.6% | 54 → 62 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)`                             | `<unknown>`                                                            |
+| +100.0% |    +8 | 0.6% → 1.2% |  8 → 16 | `PhaseMacroExpand::expand_macro_nodes()`                                                                                                       | `<unknown>`                                                            |
+|  +66.7% |    +8 | 0.9% → 1.5% | 12 → 20 | `PhaseCCP::analyze()`                                                                                                                          | `<unknown>`                                                            |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `acceptChildren(FirVisitor, Object)`                                                                                                           | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`    |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `visitArgumentList(FirArgumentList, Object)`                                                                                                   | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                         |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `accept(FirVisitor, Object)`                                                                                                                   | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                 |
+| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                        | `org.jetbrains.kotlin.types.AbstractTypeChecker`                       |
+| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `isSubtypeOf(TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                   | `org.jetbrains.kotlin.types.AbstractTypeChecker`                       |
+|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)`                                                                      | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
+|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)`                                            | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
 
 ##### Compiler
 
@@ -1451,28 +1447,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Ours
 
-|  Change | Delta |           % | Samples | Function                                                                                                                                                                     | Location                                                                                                                  |
-| ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-|  +36.8% |   +25 | 5.0% → 7.0% | 68 → 93 | `invoke()`                                                                                                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016540f0` |
-|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `completeCall(FirExpression, ResolutionMode, boolean)`                                                                                                                       | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                             |
-|  +76.9% |   +10 | 1.0% → 1.7% | 13 → 23 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall`                                                                    |
-| +250.0% |   +10 | 0.3% → 1.0% |  4 → 14 | `invoke(Object)`                                                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000700166d520`                            |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `acceptChildren(FirVisitor, Object)`                                                                                                                                         | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`                                                       |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `visitArgumentList(FirArgumentList, Object)`                                                                                                                                 | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                                            |
-| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                                                                    |
-| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                      | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                          |
-| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `isSubtypeOf(TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                                                 | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                          |
-|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)`                                                                                                    | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)`                                                                          | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-| +140.0% |    +7 | 0.4% → 0.9% |  5 → 12 | `acceptChildren(FirVisitor, Object)`                                                                                                                                         | `org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`                                                           |
-|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `complete(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)`      | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `runCompletionForCall(Candidate, ConstraintSystemCompletionMode, FirExpression, ConeKotlinType, PostponedArgumentsAnalyzer)`                                                 | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                             |
-|  +60.0% |    +6 | 0.7% → 1.2% | 10 → 16 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirReturnExpression`                                                                |
-|  +85.7% |    +6 | 0.5% → 1.0% |  7 → 13 | `addConstraintIfCompatible(ConstraintSystemBuilder, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition, ConstraintKind)`                                                 | `org.jetbrains.kotlin.resolve.calls.inference.ConstraintSystemBuilderKt`                                                  |
-|  +85.7% |    +6 | 0.5% → 1.0% |  7 → 13 | `addSubtypeConstraintIfCompatible(ConstraintSystemBuilder, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition)`                                                          | `org.jetbrains.kotlin.resolve.calls.inference.ConstraintSystemBuilderKt`                                                  |
-| +150.0% |    +6 | 0.3% → 0.7% |  4 → 10 | `runIsSubtypeOf$isSubtypeOf(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, boolean, KotlinTypeMarker)`                                          | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector`        |
-| +150.0% |    +6 | 0.3% → 0.7% |  4 → 10 | `runIsSubtypeOf(KotlinTypeMarker, KotlinTypeMarker, boolean, boolean)`                                                                                                       | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector`        |
+|  Change | Delta |           % | Samples | Function                                                                                                                                                                     | Location                                                                                                           |
+| ------: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+|  +37.9% |   +11 | 2.1% → 3.0% | 29 → 40 | `completeCall(FirExpression, ResolutionMode, boolean)`                                                                                                                       | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                      |
+|  +76.9% |   +10 | 1.0% → 1.7% | 13 → 23 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall`                                                             |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `acceptChildren(FirVisitor, Object)`                                                                                                                                         | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`                                                |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `visitArgumentList(FirArgumentList, Object)`                                                                                                                                 | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                                     |
+| +160.0% |    +8 | 0.4% → 1.0% |  5 → 13 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                                                             |
+| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                      | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                   |
+| +133.3% |    +8 | 0.4% → 1.0% |  6 → 14 | `isSubtypeOf(TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                                                 | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                   |
+|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)`                                                                                                    | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                             |
+|     new |    +8 | 0.0% → 0.6% |   0 → 8 | `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)`                                                                          | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                             |
+| +140.0% |    +7 | 0.4% → 0.9% |  5 → 12 | `acceptChildren(FirVisitor, Object)`                                                                                                                                         | `org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`                                                    |
+|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                             |
+|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `complete(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)`      | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                             |
+|  +24.0% |    +6 | 1.8% → 2.3% | 25 → 31 | `runCompletionForCall(Candidate, ConstraintSystemCompletionMode, FirExpression, ConeKotlinType, PostponedArgumentsAnalyzer)`                                                 | `org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter`                                                      |
+|  +60.0% |    +6 | 0.7% → 1.2% | 10 → 16 | `accept(FirVisitor, Object)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.expressions.FirReturnExpression`                                                         |
+|  +85.7% |    +6 | 0.5% → 1.0% |  7 → 13 | `addConstraintIfCompatible(ConstraintSystemBuilder, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition, ConstraintKind)`                                                 | `org.jetbrains.kotlin.resolve.calls.inference.ConstraintSystemBuilderKt`                                           |
+|  +85.7% |    +6 | 0.5% → 1.0% |  7 → 13 | `addSubtypeConstraintIfCompatible(ConstraintSystemBuilder, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition)`                                                          | `org.jetbrains.kotlin.resolve.calls.inference.ConstraintSystemBuilderKt`                                           |
+| +150.0% |    +6 | 0.3% → 0.7% |  4 → 10 | `runIsSubtypeOf$isSubtypeOf(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, boolean, KotlinTypeMarker)`                                          | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+| +150.0% |    +6 | 0.3% → 0.7% |  4 → 10 | `runIsSubtypeOf(KotlinTypeMarker, KotlinTypeMarker, boolean, boolean)`                                                                                                       | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+| +200.0% |    +6 | 0.2% → 0.7% |   3 → 9 | `runIsSubtypeOf$default(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, KotlinTypeMarker, boolean, boolean, int, Object)`                        | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+| +150.0% |    +6 | 0.3% → 0.7% |  4 → 10 | `transformChildren(IrTransformer, Object)`                                                                                                                                   | `org.jetbrains.kotlin.ir.expressions.IrBlockBody`                                                                  |
 
 ##### Standard library
 
@@ -1510,28 +1506,28 @@ Functions with the largest increase in samples collected within the function and
 
 Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
-|  Change | Delta |             % |   Samples | Function                                                                                                                              | Location                                                                                                                  |
-| ------: | ----: | ------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-|  -25.2% |   -32 |   9.3% → 7.1% |  127 → 95 | `PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)`                                                                               | `<unknown>`                                                                                                               |
-|  -27.4% |   -26 |   7.0% → 5.2% |   95 → 69 | `invoke()`                                                                                                                            | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016b47e0` |
-|  -20.2% |   -22 |   8.0% → 6.5% |  109 → 87 | `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)`                                                                         | `<unknown>`                                                                                                               |
-|  -19.4% |   -21 |   7.9% → 6.5% |  108 → 87 | `PhaseIdealLoop::build_and_optimize()`                                                                                                | `<unknown>`                                                                                                               |
-|   -2.1% |   -19 | 67.2% → 67.3% | 918 → 899 | `Thread::call_run()`                                                                                                                  | `<unknown>`                                                                                                               |
-|   -2.1% |   -19 | 67.2% → 67.3% | 918 → 899 | `thread_native_entry(Thread*)`                                                                                                        | `<unknown>`                                                                                                               |
-|   -2.1% |   -19 | 67.3% → 67.4% | 919 → 900 | `_pthread_start`                                                                                                                      | `<unknown>`                                                                                                               |
-|   -2.1% |   -19 | 67.3% → 67.4% | 919 → 900 | `thread_start`                                                                                                                        | `<unknown>`                                                                                                               |
-|   -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `run(String[])`                                                                                                                       | `org.jetbrains.kotlin.preloading.Preloader`                                                                               |
-|   -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `main(String[])`                                                                                                                      | `org.jetbrains.kotlin.preloading.Preloader`                                                                               |
-|   -6.2% |   -13 | 15.3% → 14.7% | 209 → 196 | `Compile::Optimize()`                                                                                                                 | `<unknown>`                                                                                                               |
-|  -18.3% |   -13 |   5.2% → 4.3% |   71 → 58 | `WorkerThread::run()`                                                                                                                 | `<unknown>`                                                                                                               |
-|  -38.7% |   -12 |   2.3% → 1.4% |   31 → 19 | `G1EvacuateRegionsBaseTask::work(unsigned int)`                                                                                       | `<unknown>`                                                                                                               |
-| removed |   -12 |   0.9% → 0.0% |    12 → 0 | `G1ParScanThreadState::steal_and_trim_queue(GenericTaskQueueSet<OverflowTaskQueue<ScannerTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*)` | `<unknown>`                                                                                                               |
-|  -80.0% |   -12 |   1.1% → 0.2% |    15 → 3 | `G1ParEvacuateFollowersClosure::do_void()`                                                                                            | `<unknown>`                                                                                                               |
-|  -80.0% |   -12 |   1.1% → 0.2% |    15 → 3 | `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)`                                                   | `<unknown>`                                                                                                               |
-|  -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `resumeTask(TowerResolveManager$SuspendedResolverTask)`                                                                               | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                        |
-|  -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `runTasks()`                                                                                                                          | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                        |
-|  -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, TowerResolveManager, CandidateFactory)`                                 | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                           |
-|  -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)`                                                      | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                           |
+|  Change | Delta |             % |   Samples | Function                                                                                                                              | Location                                                           |
+| ------: | ----: | ------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+|  -25.2% |   -32 |   9.3% → 7.1% |  127 → 95 | `PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)`                                                                               | `<unknown>`                                                        |
+|  -20.2% |   -22 |   8.0% → 6.5% |  109 → 87 | `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)`                                                                         | `<unknown>`                                                        |
+|  -19.4% |   -21 |   7.9% → 6.5% |  108 → 87 | `PhaseIdealLoop::build_and_optimize()`                                                                                                | `<unknown>`                                                        |
+|   -2.1% |   -19 | 67.2% → 67.3% | 918 → 899 | `Thread::call_run()`                                                                                                                  | `<unknown>`                                                        |
+|   -2.1% |   -19 | 67.2% → 67.3% | 918 → 899 | `thread_native_entry(Thread*)`                                                                                                        | `<unknown>`                                                        |
+|   -2.1% |   -19 | 67.3% → 67.4% | 919 → 900 | `_pthread_start`                                                                                                                      | `<unknown>`                                                        |
+|   -2.1% |   -19 | 67.3% → 67.4% | 919 → 900 | `thread_start`                                                                                                                        | `<unknown>`                                                        |
+|   -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `run(String[])`                                                                                                                       | `org.jetbrains.kotlin.preloading.Preloader`                        |
+|   -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `main(String[])`                                                                                                                      | `org.jetbrains.kotlin.preloading.Preloader`                        |
+|   -6.2% |   -13 | 15.3% → 14.7% | 209 → 196 | `Compile::Optimize()`                                                                                                                 | `<unknown>`                                                        |
+|  -18.3% |   -13 |   5.2% → 4.3% |   71 → 58 | `WorkerThread::run()`                                                                                                                 | `<unknown>`                                                        |
+|  -38.7% |   -12 |   2.3% → 1.4% |   31 → 19 | `G1EvacuateRegionsBaseTask::work(unsigned int)`                                                                                       | `<unknown>`                                                        |
+| removed |   -12 |   0.9% → 0.0% |    12 → 0 | `G1ParScanThreadState::steal_and_trim_queue(GenericTaskQueueSet<OverflowTaskQueue<ScannerTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*)` | `<unknown>`                                                        |
+|  -80.0% |   -12 |   1.1% → 0.2% |    15 → 3 | `G1ParEvacuateFollowersClosure::do_void()`                                                                                            | `<unknown>`                                                        |
+|  -80.0% |   -12 |   1.1% → 0.2% |    15 → 3 | `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)`                                                   | `<unknown>`                                                        |
+|  -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `resumeTask(TowerResolveManager$SuspendedResolverTask)`                                                                               | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager` |
+|  -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `runTasks()`                                                                                                                          | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager` |
+|  -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, TowerResolveManager, CandidateFactory)`                                 | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`    |
+|  -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)`                                                      | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`    |
+|  -19.3% |   -11 |   4.2% → 3.4% |   57 → 46 | `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)`               | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`    |
 
 ##### Compiler
 
@@ -1585,28 +1581,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Ours
 
-| Change | Delta |             % |   Samples | Function                                                                                                                                                                                                                                                 | Location                                                                                                                  |
-| -----: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| -27.4% |   -26 |   7.0% → 5.2% |   95 → 69 | `invoke()`                                                                                                                                                                                                                                               | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016b47e0` |
-|  -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `run(String[])`                                                                                                                                                                                                                                          | `org.jetbrains.kotlin.preloading.Preloader`                                                                               |
-|  -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `main(String[])`                                                                                                                                                                                                                                         | `org.jetbrains.kotlin.preloading.Preloader`                                                                               |
-| -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `resumeTask(TowerResolveManager$SuspendedResolverTask)`                                                                                                                                                                                                  | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                        |
-| -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `runTasks()`                                                                                                                                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                                        |
-| -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, TowerResolveManager, CandidateFactory)`                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                           |
-| -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)`                                                                                                                                                                         | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                           |
-| -19.3% |   -11 |   4.2% → 3.4% |   57 → 46 | `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)`                                                                                                                                  | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`                                                           |
-| -23.4% |   -11 |   3.4% → 2.7% |   47 → 36 | `resolveCallAndSelectCandidate(FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                  |
-| -23.4% |   -11 |   3.4% → 2.7% |   47 → 36 | `resolveCallAndSelectCandidate$default(FirCallResolver, FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)`                                                                                                           | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                  |
-|  -2.8% |   -10 | 25.8% → 25.6% | 352 → 342 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                                                                                                                                                                              | `org.jetbrains.kotlin.cli.common.CLICompiler`                                                                             |
-| -17.5% |   -10 |   4.2% → 3.5% |   57 → 47 | `collectCandidates(FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext)`                                       | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                  |
-| -17.5% |   -10 |   4.2% → 3.5% |   57 → 47 | `collectCandidates$default(FirCallResolver, FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`                                                                  |
-| -20.0% |   -10 |   3.7% → 3.0% |   50 → 40 | `processLevel(TowerLevel, CallInfo, TowerGroup, ExplicitReceiverKind, Continuation)`                                                                                                                                                                     | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask`                                                    |
-| -20.0% |   -10 |   3.7% → 3.0% |   50 → 40 | `access$processLevel(FirBaseTowerResolveTask, TowerLevel, CallInfo, TowerGroup, ExplicitReceiverKind, Continuation)`                                                                                                                                     | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask`                                                    |
-|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)`                                                                                                                                                      | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                                                                   |
-|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)`                                                                                                            | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                                                                   |
-|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `execute(CommonCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                           | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                                                                   |
-|  -2.6% |    -9 | 25.1% → 25.0% | 343 → 334 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                    | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                                              |
-|  -2.6% |    -9 | 25.1% → 25.0% | 343 → 334 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                                              |
+| Change | Delta |             % |   Samples | Function                                                                                                                                                                                                                                                 | Location                                                               |
+| -----: | ----: | ------------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `run(String[])`                                                                                                                                                                                                                                          | `org.jetbrains.kotlin.preloading.Preloader`                            |
+|  -3.0% |   -13 | 32.1% → 31.9% | 439 → 426 | `main(String[])`                                                                                                                                                                                                                                         | `org.jetbrains.kotlin.preloading.Preloader`                            |
+| -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `resumeTask(TowerResolveManager$SuspendedResolverTask)`                                                                                                                                                                                                  | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`     |
+| -20.4% |   -11 |   4.0% → 3.2% |   54 → 43 | `runTasks()`                                                                                                                                                                                                                                             | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`     |
+| -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, TowerResolveManager, CandidateFactory)`                                                                                                                                                    | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`        |
+| -19.6% |   -11 |   4.1% → 3.4% |   56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)`                                                                                                                                                                         | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`        |
+| -19.3% |   -11 |   4.2% → 3.4% |   57 → 46 | `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)`                                                                                                                                  | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`        |
+| -23.4% |   -11 |   3.4% → 2.7% |   47 → 36 | `resolveCallAndSelectCandidate(FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`               |
+| -23.4% |   -11 |   3.4% → 2.7% |   47 → 36 | `resolveCallAndSelectCandidate$default(FirCallResolver, FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)`                                                                                                           | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`               |
+|  -2.8% |   -10 | 25.8% → 25.6% | 352 → 342 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                                                                                                                                                                              | `org.jetbrains.kotlin.cli.common.CLICompiler`                          |
+| -17.5% |   -10 |   4.2% → 3.5% |   57 → 47 | `collectCandidates(FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext)`                                       | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`               |
+| -17.5% |   -10 |   4.2% → 3.5% |   57 → 47 | `collectCandidates$default(FirCallResolver, FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`               |
+| -20.0% |   -10 |   3.7% → 3.0% |   50 → 40 | `processLevel(TowerLevel, CallInfo, TowerGroup, ExplicitReceiverKind, Continuation)`                                                                                                                                                                     | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask` |
+| -20.0% |   -10 |   3.7% → 3.0% |   50 → 40 | `access$processLevel(FirBaseTowerResolveTask, TowerLevel, CallInfo, TowerGroup, ExplicitReceiverKind, Continuation)`                                                                                                                                     | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirBaseTowerResolveTask` |
+|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)`                                                                                                                                                      | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                |
+|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)`                                                                                                            | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                |
+|  -2.6% |    -9 | 25.0% → 24.9% | 342 → 333 | `execute(CommonCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                           | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                |
+|  -2.6% |    -9 | 25.1% → 25.0% | 343 → 334 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                    | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                           |
+|  -2.6% |    -9 | 25.1% → 25.0% | 343 → 334 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                                                                                                                                                                                   | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                           |
+|  -2.6% |    -9 | 25.1% → 25.0% | 343 → 334 | `execImpl(MessageCollector, Services, CommonCompilerArguments)`                                                                                                                                                                                          | `org.jetbrains.kotlin.cli.common.CLICompiler`                          |
 
 ##### Standard library
 
@@ -1635,26 +1631,17 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### JIT
 
-|  Change | Delta |           % | Samples | Function                     | Location    |
-| ------: | ----: | ----------: | ------: | ---------------------------- | ----------- |
-|  -42.9% |    -3 | 0.5% → 0.3% |   7 → 4 | `I2C/C2I adapters(0xbb)`     | `<unknown>` |
-| removed |    -2 | 0.1% → 0.0% |   2 → 0 | `vtable stub`                | `<unknown>` |
-|  -50.0% |    -1 |        0.1% |   2 → 1 | `I2C/C2I adapters(0xbbb)`    | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`       | `<unknown>` |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0xbbbbba)` | `<unknown>` |
+|  Change | Delta |           % | Samples | Function                  | Location    |
+| ------: | ----: | ----------: | ------: | ------------------------- | ----------- |
+|  -42.9% |    -3 | 0.5% → 0.3% |   7 → 4 | `I2C/C2I adapters(0xbb)`  | `<unknown>` |
+| removed |    -2 | 0.1% → 0.0% |   2 → 0 | `vtable stub`             | `<unknown>` |
+|  -33.3% |    -1 | 0.2% → 0.1% |   3 → 2 | `I2C/C2I adapters`        | `<unknown>` |
+|  -50.0% |    -1 |        0.1% |   2 → 1 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `I2C/C2I adapters(0x)`    | `<unknown>` |
 
 #### Callers
 
 Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
-
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016540f0`)
-
-|  Change | Delta |             % | Samples | Caller                                                                            | Location                                                                                                                                            |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     new |   +72 |  0.0% → 77.4% |  0 → 72 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`                                                      |
-| removed |   -68 | 100.0% → 0.0% |  68 → 0 | `withParameters(FirCallableDeclaration, SessionAndScopeSessionHolder, Function0)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`                                                                     |
-|     new |   +19 |  0.0% → 20.4% |  0 → 19 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.contracts.FirAbstractContractResolveTransformerDispatcher$FirDeclarationsContractResolveTransformer` |
-|     new |    +2 |   0.0% → 2.2% |   0 → 2 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.plugin.FirDeclarationsResolveTransformerForAnnotationArguments`                                      |
 
 ##### `ClassFileParser::parse_constant_pool_entries(ClassFileStream const*, ConstantPool*, int, JavaThread*)` (`<unknown>`)
 
@@ -1684,16 +1671,6 @@ Callers with the largest change in contribution to each function's total samples
 |     new |    +3 |  0.0% → 13.0% |   0 → 3 | `acceptChildren(FirVisitor, Object)`                                                        | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`                     |
 |  +50.0% |    +2 | 30.8% → 26.1% |   4 → 6 | `acceptChildren(FirVisitor, Object)`                                                        | `org.jetbrains.kotlin.fir.expressions.impl.FirContractCallBlock`                        |
 | +200.0% |    +2 |  7.7% → 13.0% |   1 → 3 | `acceptChildren(FirVisitor, Object)`                                                        | `org.jetbrains.kotlin.fir.declarations.impl.FirPropertyImpl`                            |
-
-##### `invoke(Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000700166d520`)
-
-|  Change | Delta |            % | Samples | Caller                                                                        | Location                                                            |
-| ------: | ----: | -----------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-|     new |    +8 | 0.0% → 57.1% |   0 → 8 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)` | `org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope` |
-|     new |    +5 | 0.0% → 35.7% |   0 → 5 | `processFunctionsByName(Name, Function1)`                                     | `org.jetbrains.kotlin.fir.scopes.impl.FirPackageMemberScope`        |
-| removed |    -3 | 75.0% → 0.0% |   3 → 0 | `processPropertiesByName(Name, Function1)`                                    | `org.jetbrains.kotlin.fir.scopes.impl.FirLocalScope`                |
-| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `processPropertiesByName$lambda$0(Function1, FirVariableSymbol)`              | `org.jetbrains.kotlin.fir.scopes.impl.FirStaticScope`               |
-|     new |    +1 |  0.0% → 7.1% |   0 → 1 | `processFunctionsByName(Name, List, Function1)`                               | `org.jetbrains.kotlin.fir.scopes.impl.FirAbstractImportingScope`    |
 
 ##### `ClassFileParser::parse_constant_pool(ClassFileStream const*, ConstantPool*, int, JavaThread*)` (`<unknown>`)
 
@@ -1788,6 +1765,18 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | +150.0% |    +6 | 66.7% → 71.4% |  4 → 10 | `runIsSubtypeOf$isSubtypeOf(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, boolean, KotlinTypeMarker)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
 | +300.0% |    +6 | 33.3% → 57.1% |   2 → 8 | `isSubtypeOf$default(AbstractTypeChecker, TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean, int, Object)`              | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                                   |
+
+##### `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
+
+| Change | Delta |             % | Samples | Caller                                                                                              | Location                                                               |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
+
+##### `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                                                                       | Location                                                               |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
 
 ##### `CompileQueue::get(CompilerThread*)` (`<unknown>`)
 
@@ -1985,18 +1974,6 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | -------------------------- | ----------- |
 | +500.0% |    +5 | 100.0% |   1 → 6 | `Parse::do_one_bytecode()` | `<unknown>` |
 
-##### `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-| Change | Delta |             % | Samples | Caller                                                                                              | Location                                                               |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-
-##### `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-| Change | Delta |             % | Samples | Caller                                                                                                                                                                       | Location                                                               |
-| -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-
 ##### `acceptChildren(FirVisitor, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`)
 
 |  Change | Delta |              % | Samples | Caller                            | Location                                                                                                                |
@@ -2055,6 +2032,20 @@ Callers with the largest change in contribution to each function's total samples
 |  Change | Delta |             % | Samples | Caller                                                                                                                                                | Location                                                                                                           |
 | ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | +200.0% |    +6 | 75.0% → 90.0% |   3 → 9 | `runIsSubtypeOf$default(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, KotlinTypeMarker, boolean, boolean, int, Object)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+
+##### `runIsSubtypeOf$default(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, KotlinTypeMarker, boolean, boolean, int, Object)` (`org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                                                           | Location                                                                     |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| +200.0% |    +6 | 100.0% |   3 → 9 | `addSubTypeConstraintAndIncorporateIt(ConstraintInjector$Context, ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, KotlinTypeMarker)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector` |
+
+##### `transformChildren(IrTransformer, Object)` (`org.jetbrains.kotlin.ir.expressions.IrBlockBody`)
+
+|  Change | Delta |             % | Samples | Caller                                                       | Location                                                      |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------ | ------------------------------------------------------------- |
+| +200.0% |    +2 | 25.0% → 30.0% |   1 → 3 | `visitBody(IrBody, Object)`                                  | `org.jetbrains.kotlin.ir.visitors.IrTransformer`              |
+|  +66.7% |    +2 | 75.0% → 50.0% |   3 → 5 | `visitBody(IrBody)`                                          | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid`   |
+|     new |    +2 |  0.0% → 20.0% |   0 → 2 | `transformChildrenVoid(IrElement, IrElementTransformerVoid)` | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoidKt` |
 
 ##### `areEqual(Object, Object)` (`kotlin.jvm.internal.Intrinsics`)
 
@@ -2219,15 +2210,6 @@ Callers with the largest change in contribution to each function's total samples
 | -33.8% |   -23 | 53.5% → 47.4% | 68 → 45 | `Compile::Optimize()`                                  | `<unknown>` |
 | -15.3% |    -9 | 46.5% → 52.6% | 59 → 50 | `Compile::optimize_loops(PhaseIterGVN&, LoopOptsMode)` | `<unknown>` |
 
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016b47e0`)
-
-|  Change | Delta |             % | Samples | Caller                                                                            | Location                                                                                                                                            |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed |   -70 |  73.7% → 0.0% |  70 → 0 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer`                                                      |
-|     new |   +69 | 0.0% → 100.0% |  0 → 69 | `withParameters(FirCallableDeclaration, SessionAndScopeSessionHolder, Function0)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext`                                                                     |
-| removed |   -22 |  23.2% → 0.0% |  22 → 0 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.contracts.FirAbstractContractResolveTransformerDispatcher$FirDeclarationsContractResolveTransformer` |
-| removed |    -3 |   3.2% → 0.0% |   3 → 0 | `withFile(FirFile, Function0)`                                                    | `org.jetbrains.kotlin.fir.resolve.transformers.plugin.FirDeclarationsResolveTransformerForAnnotationArguments`                                      |
-
 ##### `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)` (`<unknown>`)
 
 | Change | Delta |      % |  Samples | Caller                                                  | Location    |
@@ -2323,6 +2305,12 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Caller                                                                                                                  | Location                                                        |
 | -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | -19.6% |   -11 | 100.0% | 56 → 45 | `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver` |
+
+##### `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                                                                             | Location                                                 |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| -19.3% |   -11 | 100.0% | 57 → 46 | `collectCandidates(FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext)` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver` |
 
 ##### `PhaseGVN::transform_no_reclaim(Node*)` (`<unknown>`)
 
@@ -2509,12 +2497,6 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -1 |   5.9% → 0.0% |   1 → 0 | `TypeInstPtr::cast_to_exactness(bool) const` | `<unknown>` |
 |     new |    +1 |   0.0% → 8.3% |   0 → 1 | `TypeFunc::make(ciMethod*)`                  | `<unknown>` |
 
-##### `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`)
-
-| Change | Delta |      % | Samples | Caller                                                                                                                                                                                                             | Location                                                 |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| -19.3% |   -11 | 100.0% | 57 → 46 | `collectCandidates(FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext)` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver` |
-
 ##### `resolveCallAndSelectCandidate(FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext)` (`org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`)
 
 | Change | Delta |      % | Samples | Caller                                                                                                                                         | Location                                                 |
@@ -2590,6 +2572,12 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % |   Samples | Caller                                                          | Location                                      |
 | -----: | ----: | -----: | --------: | --------------------------------------------------------------- | --------------------------------------------- |
 |  -2.6% |    -9 | 100.0% | 343 → 334 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+| Change | Delta |      % |   Samples | Caller                                                      | Location                                      |
+| -----: | ----: | -----: | --------: | ----------------------------------------------------------- | --------------------------------------------- |
+|  -2.6% |    -9 | 100.0% | 343 → 334 | `exec(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `resumeWith(Object)` (`kotlin.coroutines.jvm.internal.BaseContinuationImpl`)
 
@@ -2743,6 +2731,16 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -1 | 50.0% → 0.0% |   1 → 0 | `hash(Object)`              | `kotlin.collections.builders.MapBuilder`                  |
 | removed |    -1 | 50.0% → 0.0% |   1 → 0 | `getDispatchReceiverType()` | `org.jetbrains.kotlin.fir.symbols.impl.FirCallableSymbol` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                                                                                                             | Location                                                                     |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `exitVariableInitialization(MutableFlow, FirExpression, FirProperty, FirExpression, boolean)`                      | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`                   |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `isVisible(FirVisibilityChecker, FirMemberDeclaration, CallInfo, FirExpression, boolean)`                          | `org.jetbrains.kotlin.fir.resolve.calls.VisibilityUtilsKt`                   |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `visitTypeOperator(IrTypeOperatorCall)`                                                                            | `org.jetbrains.kotlin.backend.jvm.lower.TypeOperatorLowering`                |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `setContainingClassForStaticMemberAttr(FirCallableDeclaration, ConeClassLikeLookupTag)`                            | `org.jetbrains.kotlin.fir.ClassMembersKt`                                    |
+|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `addInitialEqualityConstraint(ConstraintInjector$Context, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector` |
+
 ##### `I2C/C2I adapters(0xbbb)` (`<unknown>`)
 
 |  Change | Delta |            % | Samples | Caller                                                                                                           | Location                                                                                      |
@@ -2756,22 +2754,9 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | --------------------------------------- | ----------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `forName(String, boolean, ClassLoader)` | `java.lang.Class` |
 
-##### `I2C/C2I adapters(0xbbbbba)` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                  | Location                                                      |
-| ------: | ----: | ------------: | ------: | --------------------------------------- | ------------------------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `visitTypeOperator(IrTypeOperatorCall)` | `org.jetbrains.kotlin.backend.jvm.lower.TypeOperatorLowering` |
-
 #### Callees
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
-
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016540f0`)
-
-|  Change | Delta |             % | Samples | Callee                                                                                              | Location                                                                                       |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-|     new |   +93 | 0.0% → 100.0% |  0 → 93 | `doTransformFile$lambda$0(FirDeclarationsResolveTransformer, FirFile, ResolutionMode)`              | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-| removed |   -68 | 100.0% → 0.0% |  68 → 0 | `transformNamedFunction$lambda$0$0$0(FirDeclarationsResolveTransformer, FirNamedFunction, boolean)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
 
 ##### `ClassFileParser::parse_constant_pool_entries(ClassFileStream const*, ConstantPool*, int, JavaThread*)` (`<unknown>`)
 
@@ -2807,13 +2792,6 @@ Callees with the largest change in contribution to each function's total samples
 | +100.0% |    +4 | 30.8% → 34.8% |   4 → 8 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckersDiagnosticComponent` |
 |  +75.0% |    +3 | 30.8% → 30.4% |   4 → 7 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.backend.Fir2IrVisitor`                                              |
 |     new |    +2 |   0.0% → 8.7% |   0 → 2 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                |
-
-##### `invoke(Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel$$Lambda.0x000000700166d520`)
-
-|  Change | Delta |             % | Samples | Callee                                                                                                                                                | Location                                                            |
-| ------: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-|     new |   +14 | 0.0% → 100.0% |  0 → 14 | `processFunctionsByName$lambda$0(FirLookupTrackerComponent, CallInfo, Ref$BooleanRef, ScopeBasedTowerLevel, TowerLevelProcessor, FirCallableSymbol)`  | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel` |
-| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `processPropertiesByName$lambda$0(FirLookupTrackerComponent, CallInfo, Ref$BooleanRef, ScopeBasedTowerLevel, TowerLevelProcessor, FirVariableSymbol)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.ScopeBasedTowerLevel` |
 
 ##### `ClassFileParser::parse_constant_pool(ClassFileStream const*, ConstantPool*, int, JavaThread*)` (`<unknown>`)
 
@@ -2932,6 +2910,19 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Callee                                                                                                  | Location                                         |
 | ------: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | +133.3% |    +8 | 100.0% |  6 → 14 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)` | `org.jetbrains.kotlin.types.AbstractTypeChecker` |
+
+##### `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
+
+| Change | Delta |            % | Samples | Callee                                                                                                                  | Location                                                                     |
+| -----: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+|    new |    +5 | 0.0% → 62.5% |   0 → 5 | `fixVariable(TypeVariableMarker, KotlinTypeMarker, FixVariableConstraintPosition)`                                      | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl` |
+|    new |    +3 | 0.0% → 37.5% |   0 → 3 | `findResultType(ResultTypeResolver$Context, VariableWithConstraints, TypeVariableDirectionCalculator$ResolveDirection)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ResultTypeResolver` |
+
+##### `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
+
+| Change | Delta |             % | Samples | Callee                                                                    | Location                                                               |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
 
 ##### `CompileQueue::get(CompilerThread*)` (`<unknown>`)
 
@@ -3129,19 +3120,6 @@ Callees with the largest change in contribution to each function's total samples
 |    new |    +2 | 0.0% → 33.3% |   0 → 2 | `Parse::adjust_map_after_if(BoolTest::mask, Node*, float, Parse::Block*)` | `<unknown>` |
 |    new |    +1 | 0.0% → 16.7% |   0 → 1 | `GraphKit::create_and_xform_if(Node*, Node*, float, float)`               | `<unknown>` |
 
-##### `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-| Change | Delta |            % | Samples | Callee                                                                                                                  | Location                                                                     |
-| -----: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-|    new |    +5 | 0.0% → 62.5% |   0 → 5 | `fixVariable(TypeVariableMarker, KotlinTypeMarker, FixVariableConstraintPosition)`                                      | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl` |
-|    new |    +3 | 0.0% → 37.5% |   0 → 3 | `findResultType(ResultTypeResolver$Context, VariableWithConstraints, TypeVariableDirectionCalculator$ResolveDirection)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ResultTypeResolver` |
-
-##### `fixVariableIfReady(ConstraintSystemCompletionContext, VariableFixationFinder$VariableForFixation)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-| Change | Delta |             % | Samples | Callee                                                                    | Location                                                               |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-|    new |    +8 | 0.0% → 100.0% |   0 → 8 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-
 ##### `acceptChildren(FirVisitor, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirFunctionCallImpl`)
 
 |  Change | Delta |      % | Samples | Callee                       | Location                                               |
@@ -3204,6 +3182,18 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Callee                                                                                                                              | Location                                                                                                           |
 | ------: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | +150.0% |    +6 | 100.0% |  4 → 10 | `runIsSubtypeOf$isSubtypeOf(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, boolean, KotlinTypeMarker)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+
+##### `runIsSubtypeOf$default(ConstraintInjector$TypeCheckerStateForConstraintInjector, KotlinTypeMarker, KotlinTypeMarker, boolean, boolean, int, Object)` (`org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector`)
+
+|  Change | Delta |      % | Samples | Callee                                                                 | Location                                                                                                           |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| +200.0% |    +6 | 100.0% |   3 → 9 | `runIsSubtypeOf(KotlinTypeMarker, KotlinTypeMarker, boolean, boolean)` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector$TypeCheckerStateForConstraintInjector` |
+
+##### `transformChildren(IrTransformer, Object)` (`org.jetbrains.kotlin.ir.expressions.IrBlockBody`)
+
+|  Change | Delta |      % | Samples | Callee                                          | Location                                   |
+| ------: | ----: | -----: | ------: | ----------------------------------------------- | ------------------------------------------ |
+| +150.0% |    +6 | 100.0% |  4 → 10 | `transformInPlace(List, IrTransformer, Object)` | `org.jetbrains.kotlin.ir.util.TransformKt` |
 
 ##### `areEqual(Object, Object)` (`kotlin.jvm.internal.Intrinsics`)
 
@@ -3343,13 +3333,6 @@ Callees with the largest change in contribution to each function's total samples
 |  -52.9% |    -9 |  13.4% → 8.4% |   17 → 8 | `PhaseIterGVN::optimize()`                                    | `<unknown>` |
 | removed |    -1 |   0.8% → 0.0% |    1 → 0 | `_platform_memset`                                            | `<unknown>` |
 
-##### `invoke()` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016b47e0`)
-
-|  Change | Delta |             % | Samples | Callee                                                                                              | Location                                                                                       |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| removed |   -95 | 100.0% → 0.0% |  95 → 0 | `doTransformFile$lambda$0(FirDeclarationsResolveTransformer, FirFile, ResolutionMode)`              | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-|     new |   +69 | 0.0% → 100.0% |  0 → 69 | `transformNamedFunction$lambda$0$0$0(FirDeclarationsResolveTransformer, FirNamedFunction, boolean)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-
 ##### `PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)` (`<unknown>`)
 
 |  Change | Delta |              % |  Samples | Callee                                 | Location    |
@@ -3478,6 +3461,12 @@ Callees with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Callee                                                                                                | Location                                                        |
 | -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | -19.6% |   -11 | 100.0% | 56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, TowerResolveManager, CandidateFactory)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver` |
+
+##### `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`)
+
+| Change | Delta |             % | Samples | Callee                                                                           | Location                                                        |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| -19.6% |   -11 | 98.2% → 97.8% | 56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver` |
 
 ##### `PhaseGVN::transform_no_reclaim(Node*)` (`<unknown>`)
 
@@ -3711,12 +3700,6 @@ Callees with the largest change in contribution to each function's total samples
 | removed |    -1 |   5.9% → 0.0% |   1 → 0 | `cmpkey(void const*, void const*)`    | `<unknown>` |
 |     new |    +1 |   0.0% → 8.3% |   0 → 1 | `TypeNarrowPtr::hash() const`         | `<unknown>` |
 
-##### `runResolver$default(FirTowerResolver, CallInfo, ResolutionContext, CandidateCollector, CandidateFactory, int, Object)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver`)
-
-| Change | Delta |             % | Samples | Callee                                                                           | Location                                                        |
-| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| -19.6% |   -11 | 98.2% → 97.8% | 56 → 45 | `runResolver(CallInfo, ResolutionContext, CandidateCollector, CandidateFactory)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolver` |
-
 ##### `resolveCallAndSelectCandidate(FirFunctionCall, ResolutionMode, CollectionLiteralOuterCandidateContext)` (`org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver`)
 
 |  Change | Delta |              % | Samples | Callee                                                                                                                                                                                                                                                   | Location                                                        |
@@ -3794,6 +3777,12 @@ Callees with the largest change in contribution to each function's total samples
 | Change | Delta |      % |   Samples | Callee                                                                | Location                                     |
 | -----: | ----: | -----: | --------: | --------------------------------------------------------------------- | -------------------------------------------- |
 |  -2.6% |    -9 | 100.0% | 343 → 334 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+| Change | Delta |      % |   Samples | Callee                                                                 | Location                                     |
+| -----: | ----: | -----: | --------: | ---------------------------------------------------------------------- | -------------------------------------------- |
+|  -2.6% |    -9 | 100.0% | 343 → 334 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
 
 ##### `resumeWith(Object)` (`kotlin.coroutines.jvm.internal.BaseContinuationImpl`)
 
@@ -3928,6 +3917,12 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |             % | Samples | Callee                                            | Location                        |
 | ------: | ----: | ------------: | ------: | ------------------------------------------------- | ------------------------------- |
 | removed |    -3 | 100.0% → 0.0% |   3 → 0 | `newInstanceWithCaller(Object[], boolean, Class)` | `java.lang.reflect.Constructor` |
+
+##### `I2C/C2I adapters` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Callee                                                           | Location    |
+| -----: | ----: | -----------: | ------: | ---------------------------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `SharedRuntime::fixup_callers_callsite(Method*, unsigned char*)` | `<unknown>` |
 
 ##### `I2C/C2I adapters(0xbbb)` (`<unknown>`)
 
