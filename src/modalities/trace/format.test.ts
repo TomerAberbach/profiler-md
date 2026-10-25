@@ -201,6 +201,46 @@ describe(`longest spans`, () => {
     ])
   })
 
+  test(`a span nested in one its origin drops is nested in that span's parent`, () => {
+    // Clang's origin drops the `Total <name>` rollup event.
+    const md = traceMd(
+      makeAggregatedTrace(
+        [
+          span(`outer`, { start: 0, duration: 100 }),
+          span(`Total inner`, {
+            start: 0,
+            duration: 60,
+            parent: 0,
+            arguments: { count: 1, 'avg ms': 60 },
+          }),
+          span(`inner`, { start: 10, duration: 40, parent: 1 }),
+        ],
+        { context: { format: `trace-event`, origin: `clang` } },
+      ),
+    )
+
+    expect(categorySubsectionTables(md, `Self time`)).toEqual({
+      Compilation: [
+        {
+          '%': `60.0%`,
+          Time: `60.0ms`,
+          Count: `1`,
+          Mean: `60.0ms`,
+          Max: `60.0ms`,
+          Span: `outer`,
+        },
+        {
+          '%': `40.0%`,
+          Time: `40.0ms`,
+          Count: `1`,
+          Mean: `40.0ms`,
+          Max: `40.0ms`,
+          Span: `inner`,
+        },
+      ],
+    })
+  })
+
   test(`a trace with no nesting has no self time section`, () => {
     const md = traceMd(
       makeAggregatedTrace([

@@ -33,12 +33,6 @@ const UNEMITTED_CATEGORIES: ReadonlyMap<string, string> = new Map([
           `recording's layout records would produce it.`,
       ] as const,
   ),
-  [
-    `trace event parsing`,
-    `The committed Node.js trace records its script as already compiled, so ` +
-      `no input records a parse. A trace of a compiler reading source files ` +
-      `would produce it.`,
-  ],
 ])
 
 /**

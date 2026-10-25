@@ -14,14 +14,14 @@ import {
 
 /** The lines logged when no entry or hint selects an origin. */
 const FALLBACK_ORIGIN_LOGS = [
-  `debug: origin candidates, in priority order: node, chrome`,
+  `debug: origin candidates, in priority order: node, chrome, clang`,
   `info: fallback origin: chrome`,
   `debug: no entry marked another origin`,
 ]
 
 /** The lines logged when the `process_name` metadata selects {@link origin}. */
 const hintedOriginLogs = (origin: string) => [
-  `debug: origin candidates, in priority order: node, chrome`,
+  `debug: origin candidates, in priority order: node, chrome, clang`,
   `info: detected origin: ${origin}`,
   `debug: ${origin} is named by the format's metadata`,
 ]
@@ -1015,14 +1015,17 @@ describe(`convert`, () => {
   })
 
   describe(`origin`, () => {
-    test.each([`node`])(`a process named %s hints its origin`, name => {
-      convertTraceEvents([
-        processName(1, name),
-        { ph: `X`, name: `task`, pid: 1, tid: 1, ts: 0, dur: 1000 },
-      ])
+    test.each([`node`, `clang`])(
+      `a process named %s hints its origin`,
+      name => {
+        convertTraceEvents([
+          processName(1, name),
+          { ph: `X`, name: `task`, pid: 1, tid: 1, ts: 0, dur: 1000 },
+        ])
 
-      expectLogs(hintedOriginLogs(name))
-    })
+        expectLogs(hintedOriginLogs(name))
+      },
+    )
 
     test(`a process name is matched whatever its case`, () => {
       convertTraceEvents([
