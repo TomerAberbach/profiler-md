@@ -97,7 +97,7 @@ export const formatZeroTotalNote = (
   paragraph(`No ${metric.phrases.pastParticipleVerbPhrase}${scope}.`)
 
 /**
- * The name displayed for {@link category}, from either modality's set of
+ * The name displayed for {@link category}, from any modality's set of
  * categories.
  *
  * A category's value is an identifier, so its displayed name capitalizes it and
@@ -132,6 +132,16 @@ const CATEGORY_NAMES: Record<EntryCategory, string> = {
   'object-shape': `Object shape`,
   internal: `Internal`,
   synthetic: `Synthetic`,
+  script: `Script`,
+  parsing: `Parsing`,
+  compilation: `Compilation`,
+  'garbage-collection-pause': `Garbage collection pause`,
+  'garbage-collection': `Garbage collection`,
+  style: `Style`,
+  layout: `Layout`,
+  paint: `Paint`,
+  io: `I/O`,
+  other: `Other`,
 }
 
 export type NamedFunction = {

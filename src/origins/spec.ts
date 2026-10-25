@@ -5,6 +5,11 @@ import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
 import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
+import type {
+  TraceEvent,
+  TraceEventCategory,
+  TraceEventWithReadings,
+} from '../modalities/trace/type.ts'
 import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
 
 /**
@@ -193,7 +198,40 @@ export type OriginSpec = {
    * Defaults to `definition` when omitted.
    */
   functionIdentity?: FunctionIdentity
+
+  /**
+   * Returns the category of a trace event under this origin's naming, from the
+   * event's name and the category names its format records, or `undefined` for
+   * an event the origin has no rule for, which is categorized `other`.
+   *
+   * An event whose parser or shared constructor set its category skips this.
+   */
+  categorizeTraceEvent?: (
+    event: DeepReadonly<Pick<TraceEvent, `name` | `declaredCategories`>>,
+  ) => TraceEventCategory | undefined
+
+  /**
+   * Normalizes a parsed trace event to a canonical form: turns one of the
+   * format's {@link TraceEvent.arguments} into an attribute or a gauge reading
+   * recorded beside the event, and removes an argument that is neither. Each
+   * argument left that holds a string becomes an attribute.
+   *
+   * Returning `null` drops the event, for an event the profiler writes to
+   * restate others (e.g. a per-name rollup), whose time would count twice.
+   *
+   * MUST return {@link input} unchanged for an event lacking the origin's
+   * marker. That keeps it safe to run on every format.
+   *
+   * Defaults to the identity when omitted.
+   */
+  normalizeTraceEvent?: (
+    input: TraceEvent,
+    format: Format,
+  ) => NormalizedTraceEvent
 }
+
+/** A trace event, alone or with the gauge readings its arguments record. */
+export type NormalizedTraceEvent = TraceEvent | TraceEventWithReadings | null
 
 /**
  * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that packs a

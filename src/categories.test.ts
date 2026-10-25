@@ -5,6 +5,7 @@ import { FUNCTION_CATEGORY_SET } from './modalities/category-sets.ts'
 import { formatCategory } from './modalities/format.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORY_SET } from './modalities/heap-snapshot/type.ts'
 import { CATEGORY_SETS } from './modalities/registry.ts'
+import { TRACE_EVENT_CATEGORY_SET } from './modalities/trace/type.ts'
 
 /**
  * The categories no committed example emits, with the reason nothing reaches
@@ -23,13 +24,29 @@ const UNEMITTED_CATEGORIES: ReadonlyMap<string, string> = new Map([
       `not classify. A format that declared a type name it then failed to ` +
       `resolve would produce it.`,
   ],
+  ...[`style`, `layout`, `paint`].map(
+    category =>
+      [
+        `trace event ${category}`,
+        `No committed input traces a browser page, so none records the ` +
+          `rendering of one. A Chrome DevTools trace or a WebKit timeline ` +
+          `recording's layout records would produce it.`,
+      ] as const,
+  ),
+  [
+    `trace event parsing`,
+    `The committed Node.js trace records its script as already compiled, so ` +
+      `no input records a parse. A trace of a compiler reading source files ` +
+      `would produce it.`,
+  ],
 ])
 
 /**
  * The categories the committed examples emit, by modality.
  *
- * A heap snapshot's categories are a set of their own that shares several names
- * with the function categories, so they are counted separately. Read from the
+ * A heap snapshot's and a trace's categories are sets of their own, and the
+ * first shares several names with the function categories, so each set is
+ * counted separately. Read from the
  * generated output rather than by re-running the pipeline, because
  * `pnpm check-examples` already checks that output against the inputs.
  */
@@ -45,7 +62,9 @@ const emittedCategoriesByModality = (): Map<string, Map<string, string>> => {
     const categoryToFilename = modalityToCategoryToFilename.get(
       output.startsWith(`# Heap snapshot`)
         ? HEAP_SNAPSHOT_NODE_CATEGORY_SET.noun
-        : FUNCTION_CATEGORY_SET.noun,
+        : output.startsWith(`# Trace`)
+          ? TRACE_EVENT_CATEGORY_SET.noun
+          : FUNCTION_CATEGORY_SET.noun,
     )!
     for (const category of emittedCategories(output)) {
       if (!categoryToFilename.has(category)) {
@@ -83,7 +102,7 @@ const emittedCategories = (output: string): string[] => {
 }
 
 /** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
+const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 /-]*?) +\|/u
 
 describe.each(
   CATEGORY_SETS.map(({ noun, categories }) => [noun, categories] as const),
