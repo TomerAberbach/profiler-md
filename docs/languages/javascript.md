@@ -2,8 +2,8 @@
 
 JavaScript profiling uses the profilers built into Node.js, Deno, Bun, Chrome
 DevTools, and Safari's Web Inspector, which capture CPU profiles, heap profiles,
-and heap snapshots in the V8 and JavaScriptCore formats. Node.js also writes
-traces in the Trace Event Format.
+and heap snapshots in the V8 and JavaScriptCore formats. Node.js and the
+TypeScript compiler also write traces in the Trace Event Format.
 
 ## CPU profiling
 
@@ -211,6 +211,29 @@ tracing.enable()
 
 tracing.disable()
 ```
+
+## Type check tracing
+
+Traces the TypeScript compiler building a program: each file it parses, binds,
+and checks, and the type comparisons it samples. Useful for finding the files
+and types that slow a type check.
+
+### CLI
+
+```sh
+tsc --generateTrace trace-directory
+```
+
+#### Flags
+
+| Flag                    | Default | Description                                    |
+| ----------------------- | ------- | ---------------------------------------------- |
+| `--generateTrace <dir>` | —       | Output directory that enables tracing when set |
+
+The compiler writes `trace.json`, which this tool reads, and `types.json` to the
+directory. It records a type comparison only when the comparison is running at
+one of its 10 ms sampling points, so an event's count excludes the comparisons
+that ran between sampling points.
 
 ## pprof
 

@@ -273,7 +273,7 @@ Origins:
   async-profiler, bun, chrome, clang, deno, dotnet-trace, eflambe, excimer, ghc,
   go, gperftools, jdk, memray, nix, node, node-pprof, perf, pprof-jl, pprof-rs,
   profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon,
-  unknown, valgrind
+  tsc, unknown, valgrind
 
 Function categories:
   ours, third-party, stdlib, native, unknown, garbage-collector, compiler, jit,
@@ -418,7 +418,7 @@ Each example links to the Markdown for a base profile, a current profile, and
 the diff between them.
 
 <details>
-<summary><b>Browse 136 examples</b></summary>
+<summary><b>Browse 137 examples</b></summary>
 <br />
 <table>
 <thead>
@@ -506,12 +506,13 @@ the diff between them.
 <tr><td>Kotlin JDK CPU</td><td><a href="docs/formats/jfr.md">JFR</a></td><td><a href="examples/output/kotlin.jdk.cpu.base.jfr.md">base</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.cpu.current.jfr.md">current</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.cpu.diff.jfr.md">diff</a></td></tr>
 <tr><td>Kotlin JDK live</td><td><a href="docs/formats/jfr.md">JFR</a></td><td><a href="examples/output/kotlin.jdk.live.base.jfr.md">base</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.live.current.jfr.md">current</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.live.diff.jfr.md">diff</a></td></tr>
 <tr><td>Kotlin JDK lock</td><td><a href="docs/formats/jfr.md">JFR</a></td><td><a href="examples/output/kotlin.jdk.lock.base.jfr.md">base</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.lock.current.jfr.md">current</a>&nbsp;·&nbsp;<a href="examples/output/kotlin.jdk.lock.diff.jfr.md">diff</a></td></tr>
-<tr><td rowspan="18" align="center"><a href="docs/languages/javascript.md"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/javascript/javascript-original.svg" alt="JavaScript" width="32" height="32" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/typescript/typescript-original.svg" alt="TypeScript" width="32" height="32" /><br /><sub><b>JavaScript⁠/⁠TypeScript</b></sub></a></td><td>JavaScript Bun</td><td><a href="docs/formats/jsc-heap-snapshot.md">JSC heap snapshot</a></td><td><a href="examples/output/javascript.bun.base.jsc-heap-snapshot.json.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.current.jsc-heap-snapshot.json.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.diff.jsc-heap-snapshot.json.md">diff</a></td></tr>
+<tr><td rowspan="19" align="center"><a href="docs/languages/javascript.md"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/javascript/javascript-original.svg" alt="JavaScript" width="32" height="32" /> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/typescript/typescript-original.svg" alt="TypeScript" width="32" height="32" /><br /><sub><b>JavaScript⁠/⁠TypeScript</b></sub></a></td><td>JavaScript Bun</td><td><a href="docs/formats/jsc-heap-snapshot.md">JSC heap snapshot</a></td><td><a href="examples/output/javascript.bun.base.jsc-heap-snapshot.json.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.current.jsc-heap-snapshot.json.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.diff.jsc-heap-snapshot.json.md">diff</a></td></tr>
 <tr><td>JavaScript Safari</td><td><a href="docs/formats/jsc-heap-snapshot.md">JSC heap snapshot</a></td><td><a href="examples/output/javascript.safari.base.jsc-heap-snapshot.json.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.safari.current.jsc-heap-snapshot.json.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.safari.diff.jsc-heap-snapshot.json.md">diff</a></td></tr>
 <tr><td>JavaScript node-pprof CPU</td><td><a href="docs/formats/pprof.md">pprof</a></td><td><a href="examples/output/javascript.node-pprof.cpu.base.pprof.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.cpu.current.pprof.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.cpu.diff.pprof.md">diff</a></td></tr>
 <tr><td>JavaScript node-pprof CPU (line numbers)</td><td><a href="docs/formats/pprof.md">pprof</a></td><td><a href="examples/output/javascript.node-pprof.cpu-lines.base.pprof.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.cpu-lines.current.pprof.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.cpu-lines.diff.pprof.md">diff</a></td></tr>
 <tr><td>JavaScript node-pprof heap</td><td><a href="docs/formats/pprof.md">pprof</a></td><td><a href="examples/output/javascript.node-pprof.heap.base.pprof.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.heap.current.pprof.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node-pprof.heap.diff.pprof.md">diff</a></td></tr>
 <tr><td>JavaScript Node.js</td><td><a href="docs/formats/trace-event.md">Trace Event Format</a></td><td><a href="examples/output/javascript.node.base.trace-event.json.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node.current.trace-event.json.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.node.diff.trace-event.json.md">diff</a></td></tr>
+<tr><td>TypeScript TypeScript compiler</td><td><a href="docs/formats/trace-event.md">Trace Event Format</a></td><td><a href="examples/output/typescript.tsc.base.trace-event.json.md">base</a>&nbsp;·&nbsp;<a href="examples/output/typescript.tsc.current.trace-event.json.md">current</a>&nbsp;·&nbsp;<a href="examples/output/typescript.tsc.diff.trace-event.json.md">diff</a></td></tr>
 <tr><td>JavaScript Bun</td><td><a href="docs/formats/v8-cpu-profile.md">V8 CPU profile</a></td><td><a href="examples/output/javascript.bun.base.cpuprofile.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.current.cpuprofile.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.bun.diff.cpuprofile.md">diff</a></td></tr>
 <tr><td>JavaScript Chrome</td><td><a href="docs/formats/v8-cpu-profile.md">V8 CPU profile</a></td><td><a href="examples/output/javascript.chrome.base.cpuprofile.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.chrome.current.cpuprofile.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.chrome.diff.cpuprofile.md">diff</a></td></tr>
 <tr><td>JavaScript Deno</td><td><a href="docs/formats/v8-cpu-profile.md">V8 CPU profile</a></td><td><a href="examples/output/javascript.deno.base.cpuprofile.md">base</a>&nbsp;·&nbsp;<a href="examples/output/javascript.deno.current.cpuprofile.md">current</a>&nbsp;·&nbsp;<a href="examples/output/javascript.deno.diff.cpuprofile.md">diff</a></td></tr>

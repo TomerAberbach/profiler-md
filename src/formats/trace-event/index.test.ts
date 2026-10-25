@@ -14,14 +14,14 @@ import {
 
 /** The lines logged when no entry or hint selects an origin. */
 const FALLBACK_ORIGIN_LOGS = [
-  `debug: origin candidates, in priority order: node, chrome, clang`,
+  `debug: origin candidates, in priority order: node, chrome, clang, tsc`,
   `info: fallback origin: chrome`,
   `debug: no entry marked another origin`,
 ]
 
 /** The lines logged when the `process_name` metadata selects {@link origin}. */
 const hintedOriginLogs = (origin: string) => [
-  `debug: origin candidates, in priority order: node, chrome, clang`,
+  `debug: origin candidates, in priority order: node, chrome, clang, tsc`,
   `info: detected origin: ${origin}`,
   `debug: ${origin} is named by the format's metadata`,
 ]
@@ -1015,7 +1015,7 @@ describe(`convert`, () => {
   })
 
   describe(`origin`, () => {
-    test.each([`node`, `clang`])(
+    test.each([`node`, `clang`, `tsc`])(
       `a process named %s hints its origin`,
       name => {
         convertTraceEvents([

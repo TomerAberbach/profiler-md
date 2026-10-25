@@ -229,6 +229,7 @@ const UNSCORED_PINS: ReadonlyMap<string, string> = new Map([
   [`groovy:CODENARC_VERSION`, JVM_REASON],
   [`java:RENAISSANCE_VERSION`, JVM_REASON],
   [`python:HYPOTHESIS_VERSION`, `tachyon records file basenames only`],
+  [`typescript:ZOD_TAG`, `a trace's events have a name and no location`],
 ])
 
 /**
