@@ -153,11 +153,10 @@ describe(`normalizeStackFrame`, () => {
   })
 })
 
-const named = (name: string): ProfileEntry => ({ id: 1, name })
+const named = (name: string): ProfileEntry => ({ name })
 
 /** A frame as it looks after normalization. */
 const typeEntry = (name: string, type: string): ProfileEntry => ({
-  id: 1,
   name,
   location: { type: `logical`, name: type },
 })

@@ -138,7 +138,7 @@ export class StackFrameTable {
     const { length } = this.#frames
     for (let index = 0; !detector.decided && index < length; index++) {
       const { name, location } = this.#getOrCreateFunction(index)
-      detector.add({ id: index, name, location })
+      detector.add({ name, location })
     }
   }
 
@@ -300,7 +300,7 @@ export class FunctionMerger {
     keyToFunction: ReadonlyMap<unknown, Func>,
     register: (key: string, frameFunction: StackFrameFunction) => Func,
   ): Func {
-    const match = this.#matchOf(frameFunction, keyToFunction.size)
+    const match = this.#matchOf(frameFunction)
     if (!match) {
       return (
         keyToFunction.get(frameFunction.key) ??
@@ -330,10 +330,9 @@ export class FunctionMerger {
 
   /**
    * The match of {@link func} on a diff side when it has no line and the other
-   * side lacks its identity key, which {@link id} identifies until a function
-   * registers with that ID.
+   * side lacks its identity key.
    */
-  #matchOf(func: StackFrameFunction, id: number): FunctionMatch | undefined {
+  #matchOf(func: StackFrameFunction): FunctionMatch | undefined {
     const otherSideKeys = this.#otherSideKeys
     if (
       !otherSideKeys ||
@@ -348,7 +347,7 @@ export class FunctionMerger {
     }
 
     const keys = this.#options.entryMatchKeys(
-      { id, name: func.name, location: func.location },
+      { name: func.name, location: func.location },
       this.#context,
     )
     const match = {

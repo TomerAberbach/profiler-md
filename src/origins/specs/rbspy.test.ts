@@ -175,12 +175,11 @@ describe(`normalizeStackFrame`, () => {
 })
 
 const located = (name: string, path: string): ProfileEntry => ({
-  id: 1,
   name,
   location: { type: `relative`, path },
 })
 
-const named = (name: string): ProfileEntry => ({ id: 1, name })
+const named = (name: string): ProfileEntry => ({ name })
 
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = rbspyOriginSpec

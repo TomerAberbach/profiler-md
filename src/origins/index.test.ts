@@ -322,7 +322,6 @@ if (format === undefined) {
       const detector = new OriginDetector({ format: `pprof`, origin: null })
       detector.hint(`gperftools`)
       detector.add({
-        id: 1,
         name: `runtime.main`,
         location: { type: `relative`, path: `/usr/lib/go/src/runtime/proc.go` },
       })
