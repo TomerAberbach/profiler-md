@@ -34,8 +34,8 @@ const totalInputBytes = (filenames: string[]): number =>
     0,
   )
 
-/** Fails under `--check` instead of deleting. */
-const deleteOutputsWithoutInput = (examples: Example[]): void => {
+/** Fails under `--check` instead of deleting, returning whether it failed. */
+const deleteOutputsWithoutInput = (examples: Example[]): boolean => {
   const expectedFilenames = new Set(examples.map(({ name }) => `${name}.md`))
   for (const filename of readdirSync(`examples/output`)) {
     if (expectedFilenames.has(filename)) {
@@ -46,18 +46,19 @@ const deleteOutputsWithoutInput = (examples: Example[]): void => {
       process.stderr.write(
         `examples/output/${filename} has no corresponding input. Run \`pnpm update-examples\` to fix.\n`,
       )
-      process.exit(1)
-    } else {
-      rmSync(join(`examples/output`, filename))
+      return true
     }
+
+    rmSync(join(`examples/output`, filename))
   }
+  return false
 }
 
 // Worker threads convert in-process, so the module graph loads once per thread
 // instead of once per example.
-const convertExamples = async (examples: Example[]): Promise<void> => {
+const convertExamples = async (examples: Example[]): Promise<boolean> => {
   if (examples.length === 0) {
-    return
+    return false
   }
 
   const workers = Array.from(
@@ -68,23 +69,26 @@ const convertExamples = async (examples: Example[]): Promise<void> => {
       }),
   )
 
-  await convertOnWorkers(workers, examples)
+  const failed = await convertOnWorkers(workers, examples)
 
   await Promise.all(workers.map(worker => worker.terminate()))
+  return failed
 }
 
+/** Stops at the first failed example, resolving to whether one failed. */
 const convertOnWorkers = (
   workers: Worker[],
   examples: Example[],
-): Promise<void> => {
+): Promise<boolean> => {
   let nextIndex = 0
   let done = 0
-  return new Promise<void>((resolve, reject) => {
+  let failed = false
+  return new Promise<boolean>((resolve, reject) => {
     for (const worker of workers) {
       const sendNext = (): void => {
         if (nextIndex >= examples.length) {
           if (done === examples.length) {
-            resolve()
+            resolve(false)
           }
           return
         }
@@ -99,9 +103,22 @@ const convertOnWorkers = (
       }
 
       worker.on(`message`, (result: ExampleResult) => {
+        if (failed) {
+          return
+        }
+
         done++
         reportConverted(result, done, examples.length)
-        sendNext()
+        if (result.failure === undefined) {
+          sendNext()
+          return
+        }
+
+        process.stderr.write(
+          `${result.exampleName} failed:\n${result.failure}\n`,
+        )
+        failed = true
+        resolve(true)
       })
       worker.on(`error`, reject)
       sendNext()
@@ -110,17 +127,13 @@ const convertOnWorkers = (
 }
 
 const reportConverted = (
-  { exampleName, elapsed, failure }: ExampleResult,
+  { exampleName, elapsed }: ExampleResult,
   done: number,
   total: number,
 ): void => {
   process.stderr.write(
     `[${done}/${total}] ${exampleName} ${elapsed.toFixed(0)}ms\n`,
   )
-  if (failure !== undefined) {
-    process.stderr.write(`${failure}\n`)
-    process.exit(1)
-  }
 }
 
 const inputFilenames = readdirSync(`examples/input`)
@@ -128,5 +141,6 @@ const examples = listExamplesLargestFirst(
   inputFilenames,
   exampleDiffPairs(inputFilenames),
 )
-deleteOutputsWithoutInput(examples)
-await convertExamples(examples)
+if (deleteOutputsWithoutInput(examples) || (await convertExamples(examples))) {
+  process.exitCode = 1
+}

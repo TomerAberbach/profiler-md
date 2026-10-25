@@ -138,7 +138,7 @@ export const checkGroundTruth = (
   ]
   if (problems.length > 0) {
     process.stderr.write(`${problems.join(`\n`)}\n`)
-    process.exit(1)
+    process.exitCode = 1
   }
 }
 

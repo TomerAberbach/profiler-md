@@ -232,7 +232,7 @@ if (check) {
     process.stderr.write(
       `readme.md is out of date. Run \`pnpm update-readme\` to fix.\n`,
     )
-    process.exit(1)
+    process.exitCode = 1
   }
 } else {
   writeFileSync(`readme.md`, readme)
