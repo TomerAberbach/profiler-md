@@ -143,12 +143,10 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### JIT
 
-| Change | Delta |           % | Samples | Function                      | Location    |
-| -----: | ----: | ----------: | ------: | ----------------------------- | ----------- |
-|    new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`                 | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`     | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbabbab)`  | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbbbba)` | `<unknown>` |
+|  Change | Delta |           % | Samples | Function           | Location    |
+| ------: | ----: | ----------: | ------: | ------------------ | ----------- |
+| +150.0% |    +3 | 0.2% → 0.4% |   2 → 5 | `I2C/C2I adapters` | `<unknown>` |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`      | `<unknown>` |
 
 #### Improvements
 
@@ -1271,6 +1269,16 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | --------------- | -------------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `toByteArray()` | `jdk.internal.org.objectweb.asm.ClassWriter` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                                                                                                         | Location                                                                          |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `loadMemberAnnotations(FirSession, KotlinJvmBinaryClass, byte[], KotlinClassFinder)`                           | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializerKt` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `getDeprecationsProviderFromAnnotations$default(List, FirSession, boolean, List, int, Object)`                 | `org.jetbrains.kotlin.fir.declarations.DeprecationUtilsKt`                        |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `processCandidate$default(ResolutionStageRunner, Candidate, ResolutionContext, boolean, boolean, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner`             |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `isSubtypeOfForSingleClassifierType(TypeCheckerState, TypeSystemContext, RigidTypeMarker, RigidTypeMarker)`    | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                  |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `put(byte[], int, int)`                                                                                        | `java.nio.HeapByteBuffer`                                                         |
+
 ##### `itable stub` (`<unknown>`)
 
 | Change | Delta |            % | Samples | Caller                                   | Location                                           |
@@ -1278,24 +1286,6 @@ Callers with the largest change in contribution to each function's self samples.
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `collectionSizeOrDefault(Iterable, int)` | `kotlin.collections.CollectionsKt__IterablesKt`    |
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `zip(Iterable, Iterable)`                | `kotlin.collections.CollectionsKt___CollectionsKt` |
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `hasNext()`                              | `kotlin.sequences.TransformingSequence$iterator$1` |
-
-##### `I2C/C2I adapters(0xaaa)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                  | Location                  |
-| -----: | ----: | ------------: | ------: | ----------------------- | ------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `put(byte[], int, int)` | `java.nio.HeapByteBuffer` |
-
-##### `I2C/C2I adapters(0xbabbab)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                       | Location                                               |
-| -----: | ----: | ------------: | ------: | ---------------------------- | ------------------------------------------------------ |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `accept(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall` |
-
-##### `I2C/C2I adapters(0xbbbbbba)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller       | Location                                        |
-| -----: | ----: | ------------: | ------: | ------------ | ----------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `visitEnd()` | `org.jetbrains.org.objectweb.asm.MethodVisitor` |
 
 ##### `inflate_fast` (`libzip.dylib`)
 
@@ -1974,12 +1964,10 @@ Functions with the largest increase in samples collected within the function and
 
 ##### JIT
 
-| Change | Delta |           % | Samples | Function                      | Location    |
-| -----: | ----: | ----------: | ------: | ----------------------------- | ----------- |
-|    new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`                 | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xaaa)`     | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbabbab)`  | `<unknown>` |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xbbbbbba)` | `<unknown>` |
+|  Change | Delta |           % | Samples | Function           | Location    |
+| ------: | ----: | ----------: | ------: | ------------------ | ----------- |
+| +150.0% |    +3 | 0.2% → 0.4% |   2 → 5 | `I2C/C2I adapters` | `<unknown>` |
+|     new |    +3 | 0.0% → 0.2% |   0 → 3 | `itable stub`      | `<unknown>` |
 
 #### Improvements
 
@@ -2653,6 +2641,16 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ---------- | ---------------------------------------------------------------------- |
 | +200.0% |    +2 | 100.0% |   1 → 3 | `invoke()` | `kotlin.reflect.jvm.internal.KDeclarationContainerImpl$Data$$Lambda$0` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                                                                                                         | Location                                                                          |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `loadMemberAnnotations(FirSession, KotlinJvmBinaryClass, byte[], KotlinClassFinder)`                           | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializerKt` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `getDeprecationsProviderFromAnnotations$default(List, FirSession, boolean, List, int, Object)`                 | `org.jetbrains.kotlin.fir.declarations.DeprecationUtilsKt`                        |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `processCandidate$default(ResolutionStageRunner, Candidate, ResolutionContext, boolean, boolean, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.stages.ResolutionStageRunner`             |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `isSubtypeOfForSingleClassifierType(TypeCheckerState, TypeSystemContext, RigidTypeMarker, RigidTypeMarker)`    | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                  |
+|     new |    +1 | 0.0% → 20.0% |   0 → 1 | `put(byte[], int, int)`                                                                                        | `java.nio.HeapByteBuffer`                                                         |
+
 ##### `itable stub` (`<unknown>`)
 
 | Change | Delta |            % | Samples | Caller                                   | Location                                           |
@@ -2660,24 +2658,6 @@ Callers with the largest change in contribution to each function's total samples
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `collectionSizeOrDefault(Iterable, int)` | `kotlin.collections.CollectionsKt__IterablesKt`    |
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `zip(Iterable, Iterable)`                | `kotlin.collections.CollectionsKt___CollectionsKt` |
 |    new |    +1 | 0.0% → 33.3% |   0 → 1 | `hasNext()`                              | `kotlin.sequences.TransformingSequence$iterator$1` |
-
-##### `I2C/C2I adapters(0xaaa)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                  | Location                  |
-| -----: | ----: | ------------: | ------: | ----------------------- | ------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `put(byte[], int, int)` | `java.nio.HeapByteBuffer` |
-
-##### `I2C/C2I adapters(0xbabbab)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                       | Location                                               |
-| -----: | ----: | ------------: | ------: | ---------------------------- | ------------------------------------------------------ |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `accept(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.expressions.FirFunctionCall` |
-
-##### `I2C/C2I adapters(0xbbbbbba)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller       | Location                                        |
-| -----: | ----: | ------------: | ------: | ------------ | ----------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `visitEnd()` | `org.jetbrains.org.objectweb.asm.MethodVisitor` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
@@ -3763,7 +3743,7 @@ Callees with the largest change in contribution to each function's total samples
 | +133.3% |    +4 | 50.0% → 63.6% |   3 → 7 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver$$Lambda.0x0000007001686d48`                                                                        |
 | removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents$$Lambda.0x0000008801596398` |
 | removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryClassSignatureParser$$Lambda.0x000000880160b6c8`                                           |
-| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163efa0`                                                                            |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda`                                                                                               |
 |     new |    +1 |   0.0% → 9.1% |   0 → 1 | `invoke()` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x0000007001670720`                                                                    |
 
 ##### `put(Object, Object)` (`java.util.HashMap`)
@@ -3787,7 +3767,7 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -----------: | ------: | ---------- | ------------------------------------------------------------------------------------------- |
 | +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x000000700137ba80`        |
 | removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.impl.FirEnumEntriesSupport$$Lambda.0x0000008801453498`     |
-| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda.0x000000880163b700`             |
+| removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.scopes.jvm.JvmMappedScope$$Lambda`                                |
 | removed |    -1 |  7.7% → 0.0% |   1 → 0 | `invoke()` | `org.jetbrains.kotlin.fir.backend.Fir2IrBuiltinSymbolsContainer$$Lambda.0x000000880177efb0` |
 | +100.0% |    +1 | 7.7% → 12.5% |   1 → 2 | `invoke()` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$$Lambda.0x00000070018913f0`          |
 

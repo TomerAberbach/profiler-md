@@ -151,14 +151,19 @@ export type ProfileToMdOptions = {
    *
    * Only affects which entries are considered the same entity when diffing
    * (e.g. profile functions); displayed names and locations, categorization,
-   * and source map resolution always use the entry's real name and location.
+   * and source map resolution use the entry's real name and location, except
+   * where a diff side merges functions.
    *
    * `profileToMd` and `profileToMdAsync` ignore it and log a warning.
    *
    * A call stack profile or call graph diff first pairs entries whose own names
    * and locations are equal, and pairs only the rest by their entry matches.
    * Where an entry match gives distinct entities one key, the diff still pairs
-   * each entity whose identifier is unchanged with itself.
+   * each entity whose identifier is unchanged with itself. Each side of a call
+   * stack profile diff merges its functions with no line that share a match key
+   * and that the other side lacks into one function, named and located by the
+   * entry match, because the diff has no position to pair them by. The function
+   * it pairs with on the other side takes the same name and location.
    *
    * Matched entries display the _current_ profile's name and location (not
    * _base_).
@@ -503,7 +508,8 @@ const cacheEntryFunction = <Entry extends object, Context, Value>(
   // aggregated input of a conversion, whether a raw input yields several or a
   // diff aggregates two. Keying by the entry alone stays valid despite the
   // context, because an entry is in exactly one aggregated input and so is only
-  // ever passed with that input's context.
+  // ever passed with that input's context. An entry keeps the keys of the name
+  // and location it was first keyed with, even after they change.
   const cache = new WeakMap<Entry, Value>()
   return (entry, context) => {
     let cached = cache.get(entry)
@@ -525,6 +531,12 @@ type EntryMatchKeys = {
    * whose location varies between profiles of the same program.
    */
   name: string
+
+  /**
+   * The source reference ID the entry match pairs the entry by, or the
+   * entry's own. Empty when the entry match pairs by name alone.
+   */
+  location: string | undefined
 
   nameAndLocation: string
 
@@ -550,19 +562,18 @@ const entryMatchKeys = (
   if (!match) {
     return {
       name: entryName,
+      location: entryLocation,
       nameAndLocation: ownNameAndLocation,
       ownNameAndLocation,
     }
   }
 
   const name = match.name ?? entryName
+  const location = match.location ?? entryLocation
   return {
     name,
-    nameAndLocation: nameAndLocationKey(
-      entry,
-      name,
-      match.location ?? entryLocation,
-    ),
+    location,
+    nameAndLocation: nameAndLocationKey(entry, name, location),
     ownNameAndLocation,
   }
 }

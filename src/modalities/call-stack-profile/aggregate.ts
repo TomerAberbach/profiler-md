@@ -7,9 +7,13 @@ import type {
 } from '../../options.ts'
 import { countMetricForOrigin } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
-import type { InputAggregator } from '../aggregator.ts'
+import type { InputAggregator, OtherSideInput } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
-import { parseStackFrameFunction, StackFrameTable } from '../stack-frame.ts'
+import {
+  FunctionMerger,
+  parseStackFrameFunction,
+  StackFrameTable,
+} from '../stack-frame.ts'
 import type {
   StackFrameFunction,
   StackFrameFunctionTable,
@@ -98,9 +102,19 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     StackFrameTable.for(this.#profile.frames).addToDetector(detector)
   }
 
+  /** The identity keys of the input's functions with no line. */
+  public linelessFunctionKeys(
+    context: ProfileToMdContext,
+  ): ReadonlySet<string> {
+    return StackFrameTable.for(this.#profile.frames)
+      .resolve(context)
+      .linelessFunctionKeys()
+  }
+
   public aggregate(
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
+    otherSide?: OtherSideInput,
   ): AggregatedCallStackProfile {
     const { metrics, countMetric, frames, observations, lineMetrics } =
       this.#profile
@@ -114,6 +128,7 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
       functions,
       options,
       context,
+      otherSide && otherSideFunctionKeys(otherSide),
     )
     for (const observation of observations) {
       aggregator.addObservation(observation)
@@ -124,6 +139,18 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     return aggregator.aggregate()
   }
 }
+
+/**
+ * The identity keys of the other side's functions with no line, or none when
+ * the other side's input is another modality's.
+ */
+const otherSideFunctionKeys = ({
+  aggregator,
+  context,
+}: OtherSideInput): ReadonlySet<string> =>
+  aggregator instanceof CallStackProfileAggregator
+    ? aggregator.linelessFunctionKeys(context)
+    : new Set()
 
 /**
  * An aggregation of data from every observation of functions with a given
@@ -154,6 +181,12 @@ export type AggregatedCallStackProfileFunction = {
 
   /** Where the function was defined, if known. */
   location?: SourceLocation
+
+  /**
+   * Whether the function merges several functions of a diff side that have no
+   * line and share a match key, so the entry match names and locates it.
+   */
+  merged?: boolean
 
   category: FunctionCategory
 
@@ -338,6 +371,8 @@ class ObservationsAggregator {
 
   readonly #frameIndexToFunction: AggregatedCallStackProfileFunction[]
 
+  readonly #functionMerger: FunctionMerger
+
   public constructor(
     /** @see {@link AggregatedCallStackProfile.metrics} */
     metrics: Metric[],
@@ -346,6 +381,8 @@ class ObservationsAggregator {
     functions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
+    /** @see {@link FunctionMerger} */
+    otherSideKeys: ReadonlySet<string> | undefined,
   ) {
     this.#metrics = metrics
     this.#countMetric = countMetric
@@ -359,6 +396,7 @@ class ObservationsAggregator {
     this.#idToCallStack = []
     this.#keyToFunction = new Map()
     this.#frameIndexToFunction = []
+    this.#functionMerger = new FunctionMerger(options, context, otherSideKeys)
   }
 
   /**
@@ -540,9 +578,11 @@ class ObservationsAggregator {
     if (!frameFunction) {
       return undefined
     }
-    const func =
-      this.#keyToFunction.get(frameFunction.key) ??
-      this.#registerFunction(frameFunction.key, frameFunction)
+    const func = this.#functionMerger.resolve(
+      frameFunction,
+      this.#keyToFunction,
+      (key, func) => this.#registerFunction(key, func),
+    )
     this.#frameIndexToFunction[index] = func
     return func
   }

@@ -41,6 +41,7 @@ of any modality.
 | **Category**        | A classification of an entity in an input, drawn from a closed set per entity type                                       | type, group                   |
 | **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                                                | default origin                |
 | **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, move misfiled positions, drop pseudo-frames)               | clean, fix up                 |
+| **Prepare**         | Create a raw input's aggregators and detect its origin, the step before aggregating                                      | —                             |
 | **Aggregate**       | Combine data from an input into an aggregated form                                                                       | accumulate, summarize         |
 | **Format (verb)**   | Convert an aggregated input to Markdown output                                                                           | render, rendering             |
 
@@ -104,18 +105,19 @@ of any modality.
 
 ### Call stacks
 
-| Term                  | Definition                                                                                                               | Aliases to avoid             |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------ | ---------------------------- |
-| **Call stack**        | A unique callee-to-caller sequence of functions, aggregating all observations with that exact sequence                   | stack                        |
-| **Call tree**         | A format's tree of nodes in which each node stands for the call stack from the root to it                                | —                            |
-| **Frame record**      | A parser's record of one function reference, its name and positions, which observations and functions reference by index | frame universe               |
-| **Stack frame**       | A function's position within a specific call stack                                                                       | call frame                   |
-| **Pseudo-frame**      | A profiler-inserted stack entry that is not a function, dropped during normalization                                     | scaffolding, wrapper         |
-| **Hidden frame**      | A stack frame whose function the entry filter hides, shown as `…` between shown frames                                   | elided frame                 |
-| **Common call stack** | The longest run of root-side callers shared by every complete call stack a ranking shows, printed once above its table   | shared suffix, common prefix |
-| **Leaf frame**        | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded                    | top frame, bottom frame      |
-| **Root frame**        | The last frame in a call stack (callee-to-caller order); the outermost caller                                            | top frame, bottom frame      |
-| **Frame pair**        | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution                             | edge, call edge              |
+| Term                  | Definition                                                                                                                                                        | Aliases to avoid             |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **Call stack**        | A unique callee-to-caller sequence of functions, aggregating all observations with that exact sequence                                                            | stack                        |
+| **Call tree**         | A format's tree of nodes in which each node stands for the call stack from the root to it                                                                         | —                            |
+| **Frame record**      | A parser's record of one function reference, its name and positions, which observations and functions reference by index                                          | frame universe               |
+| **Stack frame**       | A function's position within a specific call stack                                                                                                                | call frame                   |
+| **Pseudo-frame**      | A profiler-inserted stack entry that is not a function, dropped during normalization                                                                              | scaffolding, wrapper         |
+| **Hidden frame**      | A stack frame whose function the entry filter hides, shown as `…` between shown frames                                                                            | elided frame                 |
+| **Common call stack** | The longest run of root-side callers shared by every complete call stack a ranking shows, printed once above its table                                            | shared suffix, common prefix |
+| **Leaf frame**        | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded                                                             | top frame, bottom frame      |
+| **Root frame**        | The last frame in a call stack (callee-to-caller order); the outermost caller                                                                                     | top frame, bottom frame      |
+| **Frame pair**        | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution                                                                      | edge, call edge              |
+| **Identity key**      | The key a call stack profile or call graph identifies a function by within one input, built from its normalized name and unresolved source reference and position | function key                 |
 
 ## Call graph
 
@@ -181,21 +183,22 @@ of any modality.
 
 ## Diffing
 
-| Term            | Definition                                                                                                                 | Aliases to avoid                 |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
-| **Diff**        | A comparison of two same-modality inputs, pairing entities across sides                                                    | comparison, delta (for the diff) |
-| **Side**        | The base or the current half of a diff, or the workload run that produces it                                               | role                             |
-| **Base**        | The side a diff compares from                                                                                              | before, old, left                |
-| **Current**     | The side a diff compares to                                                                                                | after, new, right                |
-| **Entry match** | The name and location overrides an entry's match key is built from, with identifiers that differ per run or build stripped | match normalization              |
-| **Match key**   | The key, built from an entry's entry match, that pairs the entry across a diff's sides                                     | id, entry key, normalized key    |
-| **Own key**     | The key built from an entry's own name and location, ignoring its entry match                                              | raw key                          |
-| **Anchor**      | An entry that is the only one with its match key on each side, whose offset pairs its file's unpaired entries              | —                                |
-| **Offset**      | A paired position's current position minus its base position                                                               | displacement, shift              |
-| **Delta**       | A diffed entity's current value minus its base value                                                                       | difference                       |
-| **Change**      | A diffed entity's delta relative to its base value, or `new` or `removed` for an unpaired entity                           | —                                |
-| **Regression**  | A diffed entity whose measure moved against its metric's improvement direction                                             | increase                         |
-| **Improvement** | A diffed entity whose measure moved along its metric's improvement direction                                               | progression                      |
+| Term              | Definition                                                                                                                                               | Aliases to avoid                  |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| **Diff**          | A comparison of two same-modality inputs, pairing entities across sides                                                                                  | comparison, delta (for the diff)  |
+| **Side**          | The base or the current half of a diff, or the workload run that produces it                                                                             | role                              |
+| **Base**          | The side a diff compares from                                                                                                                            | before, old, left                 |
+| **Current**       | The side a diff compares to                                                                                                                              | after, new, right                 |
+| **Entry match**   | The name and location overrides an entry's match key is built from, with identifiers that differ per run or build stripped                               | match normalization               |
+| **Match key**     | The key, built from an entry's entry match, that pairs the entry across a diff's sides                                                                   | id, entry key, normalized key     |
+| **Own key**       | The key built from an entry's own name and location, ignoring its entry match                                                                            | raw key                           |
+| **Merged entity** | An entity a diff side combines from its entities with no line that share a match key and that the other side lacks, named and located by the entry match | collapsed entity, combined entity |
+| **Anchor**        | An entry that is the only one with its match key on each side, whose offset pairs its file's unpaired entries                                            | —                                 |
+| **Offset**        | A paired position's current position minus its base position                                                                                             | displacement, shift               |
+| **Delta**         | A diffed entity's current value minus its base value                                                                                                     | difference                        |
+| **Change**        | A diffed entity's delta relative to its base value, or `new` or `removed` for an unpaired entity                                                         | —                                 |
+| **Regression**    | A diffed entity whose measure moved against its metric's improvement direction                                                                           | increase                          |
+| **Improvement**   | A diffed entity whose measure moved along its metric's improvement direction                                                                             | progression                       |
 
 ## CLI
 
@@ -246,6 +249,8 @@ of any modality.
   **marker entries**, an **origin hint**, or the **fallback origin**
 - A raw **input** is **decoded**, then **parsed** to one or more parsed
   **inputs**, each **formatted** as its own **profile section**
+- A raw **input** is **prepared** before it is **aggregated**. A **diff**
+  **prepares** both raw **inputs** before **aggregating** either
 - A **parse** has exactly one **record tally**. The pipeline rejects an
   **input** with no **records** and something tallied, and otherwise warns per
   reason
@@ -284,10 +289,13 @@ of any modality.
   **outermost instances** only
 - A **ranking** shows **entities** under an **entity section**, split into
   **partitions**, with **breakdowns** under each **entity**
-- A **diff** merges each **side**'s **entities** that share a **match key**,
-  then pairs each **base** **entity** with at most one **current** **entity**,
-  first by **own key** and then by **match key**. An unpaired **entity** is new
-  or removed
+- A **diff** pairs each **base** **entity** with at most one **current**
+  **entity**, first by **own key**, then by **match key**, and by position among
+  several that share one. An unpaired **entity** is new or removed
+- Each **side** of a call stack profile **diff** first combines its
+  **functions** with no line that share a **match key** and whose **identity
+  key** the other **side** lacks into one **merged entity**
+- A **merged entity** combines two or more of one **side**'s **entities**
 - A **retainer group** is an **instance group** or a **retained node group**
 - A **diff** pairs an **entity**'s **retainer groups** across its **sides** by
   **retainer path**, and pairs **retained node groups** by their **nodes**'

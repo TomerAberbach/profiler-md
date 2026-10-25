@@ -148,9 +148,9 @@ Functions with the largest increase in samples collected within the function bod
 | ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
 | +400.0% |    +4 | 0.1% → 0.4% |   1 → 5 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
 |  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters`       | `<unknown>` |
 |  +50.0% |    +1 | 0.1% → 0.2% |   2 → 3 | `itable stub`            | `<unknown>` |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `vtable stub`            | `<unknown>` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 
@@ -244,7 +244,7 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `addEdge$default`                                                     | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder`                                 |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `mayHaveTopLevelClassifier`                                           | `org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider`                                |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `tryToSetSourceForImplicitReceiver$tryToSetSourceForImplicitReceiver` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate`                                       |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `invoke`                                                              | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeResolverImpl$$Lambda.0x000000e0015c5258`   |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `invoke`                                                              | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeResolverImpl$$Lambda`                      |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `forEachArgument`                                                     | `org.jetbrains.kotlin.fir.analysis.cfa.FirCallsEffectAnalyzer`                                     |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `getArguments`                                                        | `org.jetbrains.kotlin.fir.expressions.FirEmptyArgumentList`                                        |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `checkParameterBounds`                                                | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirExposedVisibilityDeclarationChecker`    |
@@ -272,12 +272,12 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `generateInnerClass` | `java.lang.invoke.InnerClassLambdaMetafactory`          |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `getPackageName`     | `java.lang.Class`                                       |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `size`               | `java.util.Collections$SingletonSet`                    |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH.0x000000e0015ec800`     |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH`                        |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `decompress`         | `jdk.internal.jimage.ImageLocation`                     |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `get`                | `java.util.concurrent.ConcurrentHashMap`                |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `parseInt`           | `java.lang.Integer`                                     |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `getShortUnaligned`  | `jdk.internal.misc.Unsafe`                              |
-| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `newInvokeSpecial`   | `java.lang.invoke.LambdaForm$DMH.0x000000e0015e4000`    |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `newInvokeSpecial`   | `java.lang.invoke.LambdaForm$DMH`                       |
 
 ##### JIT
 
@@ -821,6 +821,14 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ---------- | ---------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `toString` | `java.lang.Long` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                      | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `casTail`                                                   | `java.util.concurrent.locks.AbstractQueuedSynchronizer`                                       |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `transformBlockInCurrentScope$org_jetbrains_kotlin_resolve` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer` |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `visitVarInsn`                                              | `org.jetbrains.org.objectweb.asm.tree.MethodNode`                                             |
+
 ##### `itable stub` (`<unknown>`)
 
 |  Change | Delta |            % | Samples | Caller                  | Location                                                                                |
@@ -836,12 +844,6 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller   | Location            |
 | -----: | ----: | ------------: | ------: | -------- | ------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `putVal` | `java.util.HashMap` |
-
-##### `I2C/C2I adapters(0xba)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller         | Location                                          |
-| -----: | ----: | ------------: | ------: | -------------- | ------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `visitVarInsn` | `org.jetbrains.org.objectweb.asm.tree.MethodNode` |
 
 ##### `__psynch_mutexwait` (`<unknown>`)
 
@@ -1195,7 +1197,7 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ----------------------------------- | ------------------------------------------------------------ |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `tryToSetSourceForImplicitReceiver` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate` |
 
-##### `invoke` (`org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeResolverImpl$$Lambda.0x000000e0015c5258`)
+##### `invoke` (`org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeResolverImpl$$Lambda`)
 
 |  Change | Delta |             % | Samples | Caller                          | Location                                                              |
 | ------: | ----: | ------------: | ------: | ------------------------------- | --------------------------------------------------------------------- |
@@ -1327,7 +1329,7 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ------------------ | ---------------------------------------------------------------------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `reduceCandidates` | `org.jetbrains.kotlin.fir.resolve.calls.overloads.FirOverloadByLambdaReturnTypeResolver` |
 
-##### `linkToTargetMethod` (`java.lang.invoke.LambdaForm$MH.0x000000e0015ec800`)
+##### `linkToTargetMethod` (`java.lang.invoke.LambdaForm$MH`)
 
 |  Change | Delta |             % | Samples | Caller                       | Location                                                                          |
 | ------: | ----: | ------------: | ------: | ---------------------------- | --------------------------------------------------------------------------------- |
@@ -1357,11 +1359,11 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | --------------------------- | -------------------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `getShortUnalignedInternal` | `jdk.internal.misc.ScopedMemoryAccess` |
 
-##### `newInvokeSpecial` (`java.lang.invoke.LambdaForm$DMH.0x000000e0015e4000`)
+##### `newInvokeSpecial` (`java.lang.invoke.LambdaForm$DMH`)
 
-|  Change | Delta |             % | Samples | Caller               | Location                                            |
-| ------: | ----: | ------------: | ------: | -------------------- | --------------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH.0x000000e0015e4800` |
+|  Change | Delta |             % | Samples | Caller               | Location                         |
+| ------: | ----: | ------------: | ------: | -------------------- | -------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `linkToTargetMethod` | `java.lang.invoke.LambdaForm$MH` |
 
 ##### `I2C/C2I adapters(0x)` (`<unknown>`)
 
@@ -1375,28 +1377,28 @@ Callers with the largest change in contribution to each function's self samples.
 
 Functions with the largest increase in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
 
-|  Change | Delta |           % |   Samples | Function                                         | Location                                                                                                                  |
-| ------: | ----: | ----------: | --------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| +566.7% |   +17 | 0.2% → 1.5% |    3 → 20 | `invoke`                                         | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000007001687c78` |
-|  +41.0% |   +16 | 2.3% → 4.2% |   39 → 55 | `Matcher::match`                                 | `<unknown>`                                                                                                               |
-|  +31.9% |   +15 | 2.8% → 4.8% |   47 → 62 | `Compile::optimize_loops`                        | `<unknown>`                                                                                                               |
-|  +53.6% |   +15 | 1.7% → 3.3% |   28 → 43 | `Matcher::xform`                                 | `<unknown>`                                                                                                               |
-|  +52.6% |   +10 | 1.1% → 2.2% |   19 → 29 | `tlv_get_addr`                                   | `<unknown>`                                                                                                               |
-|   +8.2% |    +8 | 5.8% → 8.0% |  97 → 105 | `PhaseIdealLoop::build_and_optimize`             | `<unknown>`                                                                                                               |
-|  +88.9% |    +8 | 0.5% → 1.3% |    9 → 17 | `nmethod::nmethod`                               | `<unknown>`                                                                                                               |
-|  +50.0% |    +8 | 1.0% → 1.8% |   16 → 24 | `PhaseIdealLoop::build_loop_late_post_work`      | `<unknown>`                                                                                                               |
-|   +7.1% |    +7 | 5.9% → 8.0% |  98 → 105 | `PhaseIdealLoop::PhaseIdealLoop`                 | `<unknown>`                                                                                                               |
-|  +50.0% |    +7 | 0.8% → 1.6% |   14 → 21 | `nmethod::new_nmethod`                           | `<unknown>`                                                                                                               |
-| +100.0% |    +7 | 0.4% → 1.1% |    7 → 14 | `Matcher::Label_Root`                            | `<unknown>`                                                                                                               |
-|  +38.9% |    +7 | 1.1% → 1.9% |   18 → 25 | `Matcher::match_tree`                            | `<unknown>`                                                                                                               |
-| +233.3% |    +7 | 0.2% → 0.8% |    3 → 10 | `LIR_Assembler::process_debug_info`              | `<unknown>`                                                                                                               |
-| +140.0% |    +7 | 0.3% → 0.9% |    5 → 12 | `LIR_Assembler::record_non_safepoint_debug_info` | `<unknown>`                                                                                                               |
-|  +87.5% |    +7 | 0.5% → 1.1% |    8 → 15 | `PhaseIdealLoop::build_loop_early`               | `<unknown>`                                                                                                               |
-|   +5.2% |    +6 | 6.9% → 9.3% | 115 → 121 | `PhaseIdealLoop::optimize`                       | `<unknown>`                                                                                                               |
-|  +11.3% |    +6 | 3.2% → 4.5% |   53 → 59 | `PhaseIterGVN::optimize`                         | `<unknown>`                                                                                                               |
-| +100.0% |    +6 | 0.4% → 0.9% |    6 → 12 | `accept`                                         | `org.jetbrains.kotlin.ir.declarations.IrFile`                                                                             |
-| +200.0% |    +6 | 0.2% → 0.7% |     3 → 9 | `State::DFA`                                     | `<unknown>`                                                                                                               |
-| +300.0% |    +6 | 0.1% → 0.6% |     2 → 8 | `acceptChildren`                                 | `org.jetbrains.kotlin.ir.declarations.IrPackageFragment`                                                                  |
+|  Change | Delta |           % |   Samples | Function                                         | Location                                                 |
+| ------: | ----: | ----------: | --------: | ------------------------------------------------ | -------------------------------------------------------- |
+|  +41.0% |   +16 | 2.3% → 4.2% |   39 → 55 | `Matcher::match`                                 | `<unknown>`                                              |
+|  +31.9% |   +15 | 2.8% → 4.8% |   47 → 62 | `Compile::optimize_loops`                        | `<unknown>`                                              |
+|  +53.6% |   +15 | 1.7% → 3.3% |   28 → 43 | `Matcher::xform`                                 | `<unknown>`                                              |
+|  +52.6% |   +10 | 1.1% → 2.2% |   19 → 29 | `tlv_get_addr`                                   | `<unknown>`                                              |
+|   +8.2% |    +8 | 5.8% → 8.0% |  97 → 105 | `PhaseIdealLoop::build_and_optimize`             | `<unknown>`                                              |
+|  +88.9% |    +8 | 0.5% → 1.3% |    9 → 17 | `nmethod::nmethod`                               | `<unknown>`                                              |
+|  +50.0% |    +8 | 1.0% → 1.8% |   16 → 24 | `PhaseIdealLoop::build_loop_late_post_work`      | `<unknown>`                                              |
+|   +7.1% |    +7 | 5.9% → 8.0% |  98 → 105 | `PhaseIdealLoop::PhaseIdealLoop`                 | `<unknown>`                                              |
+|  +50.0% |    +7 | 0.8% → 1.6% |   14 → 21 | `nmethod::new_nmethod`                           | `<unknown>`                                              |
+| +100.0% |    +7 | 0.4% → 1.1% |    7 → 14 | `Matcher::Label_Root`                            | `<unknown>`                                              |
+|  +38.9% |    +7 | 1.1% → 1.9% |   18 → 25 | `Matcher::match_tree`                            | `<unknown>`                                              |
+| +233.3% |    +7 | 0.2% → 0.8% |    3 → 10 | `LIR_Assembler::process_debug_info`              | `<unknown>`                                              |
+| +140.0% |    +7 | 0.3% → 0.9% |    5 → 12 | `LIR_Assembler::record_non_safepoint_debug_info` | `<unknown>`                                              |
+|  +87.5% |    +7 | 0.5% → 1.1% |    8 → 15 | `PhaseIdealLoop::build_loop_early`               | `<unknown>`                                              |
+|   +5.2% |    +6 | 6.9% → 9.3% | 115 → 121 | `PhaseIdealLoop::optimize`                       | `<unknown>`                                              |
+|  +11.3% |    +6 | 3.2% → 4.5% |   53 → 59 | `PhaseIterGVN::optimize`                         | `<unknown>`                                              |
+| +100.0% |    +6 | 0.4% → 0.9% |    6 → 12 | `accept`                                         | `org.jetbrains.kotlin.ir.declarations.IrFile`            |
+| +200.0% |    +6 | 0.2% → 0.7% |     3 → 9 | `State::DFA`                                     | `<unknown>`                                              |
+| +300.0% |    +6 | 0.1% → 0.6% |     2 → 8 | `acceptChildren`                                 | `org.jetbrains.kotlin.ir.declarations.IrPackageFragment` |
+| +600.0% |    +6 | 0.1% → 0.5% |     1 → 7 | `I2C/C2I adapters(0xbb)`                         | `<unknown>`                                              |
 
 ##### Native
 
@@ -1450,28 +1452,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Ours
 
-|  Change | Delta |           % | Samples | Function                              | Location                                                                                                                  |
-| ------: | ----: | ----------: | ------: | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| +566.7% |   +17 | 0.2% → 1.5% |  3 → 20 | `invoke`                              | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000007001687c78` |
-| +100.0% |    +6 | 0.4% → 0.9% |  6 → 12 | `accept`                              | `org.jetbrains.kotlin.ir.declarations.IrFile`                                                                             |
-| +300.0% |    +6 | 0.1% → 0.6% |   2 → 8 | `acceptChildren`                      | `org.jetbrains.kotlin.ir.declarations.IrPackageFragment`                                                                  |
-|     new |    +6 | 0.0% → 0.5% |   0 → 6 | `acceptChildren`                      | `org.jetbrains.kotlin.ir.declarations.IrClass`                                                                            |
-| +250.0% |    +5 | 0.1% → 0.5% |   2 → 7 | `visitAnonymousFunction`              | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`                                         |
-| +250.0% |    +5 | 0.1% → 0.5% |   2 → 7 | `visitAnonymousFunctionExpression`    | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`                                         |
-| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `accept`                              | `org.jetbrains.kotlin.fir.expressions.FirAnonymousFunctionExpression`                                                     |
-| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `fixVariable`                         | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `fixVariableIfReady`                  | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                                                    |
-| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `mapSignature`                        | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                                                          |
-| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `mapSignature$default`                | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                                                          |
-|     new |    +5 | 0.0% → 0.4% |   0 → 5 | `writeParameter`                      | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                                                          |
-|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processGivenConstraints`             | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`                                              |
-|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processConstraintsIgnoringForksData` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`                                              |
-|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processConstraints`                  | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`                                              |
-|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `acceptChildren`                      | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`                                                       |
-|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `visitArgumentList`                   | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                                            |
-|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `accept`                              | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                                                                    |
-| +133.3% |    +4 | 0.2% → 0.5% |   3 → 7 | `visitVariable`                       | `org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen`                                                              |
-| +100.0% |    +4 | 0.2% → 0.6% |   4 → 8 | `compileInlineFunction`               | `org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline`                                                      |
+|  Change | Delta |           % | Samples | Function                              | Location                                                                          |
+| ------: | ----: | ----------: | ------: | ------------------------------------- | --------------------------------------------------------------------------------- |
+| +100.0% |    +6 | 0.4% → 0.9% |  6 → 12 | `accept`                              | `org.jetbrains.kotlin.ir.declarations.IrFile`                                     |
+| +300.0% |    +6 | 0.1% → 0.6% |   2 → 8 | `acceptChildren`                      | `org.jetbrains.kotlin.ir.declarations.IrPackageFragment`                          |
+|     new |    +6 | 0.0% → 0.5% |   0 → 6 | `acceptChildren`                      | `org.jetbrains.kotlin.ir.declarations.IrClass`                                    |
+| +250.0% |    +5 | 0.1% → 0.5% |   2 → 7 | `visitAnonymousFunction`              | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor` |
+| +250.0% |    +5 | 0.1% → 0.5% |   2 → 7 | `visitAnonymousFunctionExpression`    | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor` |
+| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `accept`                              | `org.jetbrains.kotlin.fir.expressions.FirAnonymousFunctionExpression`             |
+| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `fixVariable`                         | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`            |
+| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `fixVariableIfReady`                  | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`            |
+| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `mapSignature`                        | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                  |
+| +166.7% |    +5 | 0.2% → 0.6% |   3 → 8 | `mapSignature$default`                | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                  |
+|     new |    +5 | 0.0% → 0.4% |   0 → 5 | `writeParameter`                      | `org.jetbrains.kotlin.backend.jvm.mapping.MethodSignatureMapper`                  |
+|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processGivenConstraints`             | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`      |
+|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processConstraintsIgnoringForksData` | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`      |
+|  +50.0% |    +4 | 0.5% → 0.9% |  8 → 12 | `processConstraints`                  | `org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector`      |
+|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `acceptChildren`                      | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentList`               |
+|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `visitArgumentList`                   | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                    |
+|  +66.7% |    +4 | 0.4% → 0.8% |  6 → 10 | `accept`                              | `org.jetbrains.kotlin.fir.expressions.FirArgumentList`                            |
+| +133.3% |    +4 | 0.2% → 0.5% |   3 → 7 | `visitVariable`                       | `org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen`                      |
+| +100.0% |    +4 | 0.2% → 0.6% |   4 → 8 | `compileInlineFunction`               | `org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline`              |
+| +100.0% |    +4 | 0.2% → 0.6% |   4 → 8 | `toIrType`                            | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`                            |
 
 ##### Standard library
 
@@ -1504,9 +1506,9 @@ Functions with the largest increase in samples collected within the function and
 | ------: | ----: | ----------: | ------: | ------------------------ | ----------- |
 | +600.0% |    +6 | 0.1% → 0.5% |   1 → 7 | `I2C/C2I adapters(0xbb)` | `<unknown>` |
 |  +75.0% |    +3 | 0.2% → 0.5% |   4 → 7 | `I2C/C2I adapters(0xb)`  | `<unknown>` |
+| +100.0% |    +1 | 0.1% → 0.2% |   1 → 2 | `I2C/C2I adapters`       | `<unknown>` |
 |  +50.0% |    +1 | 0.1% → 0.2% |   2 → 3 | `itable stub`            | `<unknown>` |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `vtable stub`            | `<unknown>` |
-|     new |    +1 | 0.0% → 0.1% |   0 → 1 | `I2C/C2I adapters(0xba)` | `<unknown>` |
 
 #### Improvements
 
@@ -1529,7 +1531,7 @@ Functions with the largest decrease in samples collected within the function and
 | -16.4% |   -68 | 24.8% → 26.6% |   415 → 347 | `doMain`                                   | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 | -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `main`                                     | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`  |
 | -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `main`                                     | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
-| -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `invokeStatic`                             | `java.lang.invoke.LambdaForm$DMH.0x0000007001008400`    |
+| -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `invokeStatic`                             | `java.lang.invoke.LambdaForm$DMH`                       |
 | -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `invoke`                                   | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`     |
 | -16.3% |   -68 | 24.9% → 26.7% |   416 → 348 | `invokeExact_MT`                           | `java.lang.invoke.Invokers$Holder`                      |
 | -16.2% |   -67 | 24.7% → 26.5% |   413 → 346 | `exec`                                     | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
@@ -1612,28 +1614,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Standard library
 
-|  Change | Delta |             % |   Samples | Function            | Location                                             |
-| ------: | ----: | ------------: | --------: | ------------------- | ---------------------------------------------------- |
-|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invokeImpl`        | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invoke`            | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invoke`            | `java.lang.reflect.Method`                           |
-|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH.0x0000007001008400` |
-|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`  |
-|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invokeExact_MT`    | `java.lang.invoke.Invokers$Holder`                   |
-|  -28.9% |   -28 |   5.8% → 5.3% |   97 → 69 | `read`              | `java.util.zip.ZipInputStream`                       |
-|  -28.9% |   -28 |   5.8% → 5.3% |   97 → 69 | `read`              | `java.io.FilterInputStream`                          |
-|  -27.8% |   -27 |   5.8% → 5.4% |   97 → 70 | `read`              | `java.util.zip.InflaterInputStream`                  |
-|  -27.4% |   -26 |   5.7% → 5.3% |   95 → 69 | `inflate`           | `java.util.zip.Inflater`                             |
-|  -28.7% |   -25 |   5.2% → 4.8% |   87 → 62 | `loadClass`         | `java.lang.ClassLoader`                              |
-|  -25.8% |   -24 |   5.6% → 5.3% |   93 → 69 | `inflateBytesBytes` | `java.util.zip.Inflater`                             |
-|  -23.4% |   -18 |   4.6% → 4.5% |   77 → 59 | `defineClass`       | `java.lang.ClassLoader`                              |
-|  -21.3% |   -16 |          4.5% |   75 → 59 | `defineClass1`      | `java.lang.ClassLoader`                              |
-|  -42.3% |   -11 |   1.6% → 1.1% |   26 → 15 | `getValue`          | `kotlin.SynchronizedLazyImpl`                        |
-| removed |    -7 |   0.4% → 0.0% |     7 → 0 | `<init>`            | `java.io.ByteArrayOutputStream`                      |
-|  -35.3% |    -6 |   1.0% → 0.8% |   17 → 11 | `getValue`          | `kotlin.UnsafeLazyImpl`                              |
-|  -75.0% |    -6 |   0.5% → 0.2% |     8 → 2 | `toByteArray`       | `java.io.ByteArrayOutputStream`                      |
-|  -85.7% |    -6 |   0.4% → 0.1% |     7 → 1 | `getNode`           | `java.util.HashMap`                                  |
-|  -85.7% |    -6 |   0.4% → 0.1% |     7 → 1 | `get`               | `java.util.HashMap`                                  |
+|  Change | Delta |             % |   Samples | Function            | Location                                            |
+| ------: | ----: | ------------: | --------: | ------------------- | --------------------------------------------------- |
+|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invokeImpl`        | `jdk.internal.reflect.DirectMethodHandleAccessor`   |
+|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invoke`            | `jdk.internal.reflect.DirectMethodHandleAccessor`   |
+|  -16.5% |   -69 | 24.9% → 26.7% | 417 → 348 | `invoke`            | `java.lang.reflect.Method`                          |
+|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invokeStatic`      | `java.lang.invoke.LambdaForm$DMH`                   |
+|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invoke`            | `java.lang.invoke.LambdaForm$MH.0x0000007001009800` |
+|  -16.3% |   -68 | 24.9% → 26.7% | 416 → 348 | `invokeExact_MT`    | `java.lang.invoke.Invokers$Holder`                  |
+|  -28.9% |   -28 |   5.8% → 5.3% |   97 → 69 | `read`              | `java.util.zip.ZipInputStream`                      |
+|  -28.9% |   -28 |   5.8% → 5.3% |   97 → 69 | `read`              | `java.io.FilterInputStream`                         |
+|  -27.8% |   -27 |   5.8% → 5.4% |   97 → 70 | `read`              | `java.util.zip.InflaterInputStream`                 |
+|  -27.4% |   -26 |   5.7% → 5.3% |   95 → 69 | `inflate`           | `java.util.zip.Inflater`                            |
+|  -28.7% |   -25 |   5.2% → 4.8% |   87 → 62 | `loadClass`         | `java.lang.ClassLoader`                             |
+|  -25.8% |   -24 |   5.6% → 5.3% |   93 → 69 | `inflateBytesBytes` | `java.util.zip.Inflater`                            |
+|  -23.4% |   -18 |   4.6% → 4.5% |   77 → 59 | `defineClass`       | `java.lang.ClassLoader`                             |
+|  -21.3% |   -16 |          4.5% |   75 → 59 | `defineClass1`      | `java.lang.ClassLoader`                             |
+|  -42.3% |   -11 |   1.6% → 1.1% |   26 → 15 | `getValue`          | `kotlin.SynchronizedLazyImpl`                       |
+| removed |    -7 |   0.4% → 0.0% |     7 → 0 | `<init>`            | `java.io.ByteArrayOutputStream`                     |
+|  -35.3% |    -6 |   1.0% → 0.8% |   17 → 11 | `getValue`          | `kotlin.UnsafeLazyImpl`                             |
+|  -75.0% |    -6 |   0.5% → 0.2% |     8 → 2 | `toByteArray`       | `java.io.ByteArrayOutputStream`                     |
+|  -85.7% |    -6 |   0.4% → 0.1% |     7 → 1 | `getNode`           | `java.util.HashMap`                                 |
+|  -85.7% |    -6 |   0.4% → 0.1% |     7 → 1 | `get`               | `java.util.HashMap`                                 |
 
 ##### JIT
 
@@ -1645,13 +1647,6 @@ Functions with the largest decrease in samples collected within the function and
 #### Callers
 
 Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
-
-##### `invoke` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000007001687c78`)
-
-|  Change | Delta |             % | Samples | Caller                           | Location                                                                        |
-| ------: | ----: | ------------: | ------: | -------------------------------- | ------------------------------------------------------------------------------- |
-|     new |   +20 | 0.0% → 100.0% |  0 → 20 | `withAnonymousFunction`          | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
-| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `forRegularClassBody$lambda$0$0` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
 
 ##### `Matcher::match` (`<unknown>`)
 
@@ -1785,6 +1780,16 @@ Callers with the largest change in contribution to each function's total samples
 |    new |    +2 |   0.0% → 25.0% |   0 → 2 | `lower`              | `org.jetbrains.kotlin.backend.jvm.lower.InterfaceObjectCallsLowering`           |
 | +50.0% |    +1 | 100.0% → 37.5% |   2 → 3 | `acceptChildrenVoid` | `org.jetbrains.kotlin.ir.visitors.IrVisitorsKt`                                 |
 |    new |    +1 |   0.0% → 12.5% |   0 → 1 | `visitElement`       | `org.jetbrains.kotlin.backend.jvm.lower.RecordEnclosingMethodsLowering$lower$1` |
+
+##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Caller                    | Location                                                                                  |
+| -----: | ----: | -----------: | ------: | ------------------------- | ----------------------------------------------------------------------------------------- |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `parseMethodDescription`  | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaMethodBase$Companion` |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `isInplaceCallEndMarker`  | `org.jetbrains.kotlin.codegen.inline.InlineArgumentsInPlaceKt`                            |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `addType`                 | `jdk.internal.org.objectweb.asm.SymbolTable`                                              |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `containingNonLocalClass` | `org.jetbrains.kotlin.fir.FirVisibilityCheckerKt`                                         |
+|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `data$lambda$0`           | `kotlin.reflect.jvm.internal.KClassImpl`                                                  |
 
 ##### `Arena::contains` (`<unknown>`)
 
@@ -2051,6 +2056,13 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | --------------- | ---------------------------------------------------------- |
 | +100.0% |    +4 | 100.0% |   4 → 8 | `genInlineCall` | `org.jetbrains.kotlin.backend.jvm.codegen.IrInlineCodegen` |
 
+##### `toIrType` (`org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`)
+
+|  Change | Delta |             % | Samples | Caller             | Location                                                 |
+| ------: | ----: | ------------: | ------: | ------------------ | -------------------------------------------------------- |
+| +100.0% |    +4 |        100.0% |   4 → 8 | `toIrType$default` | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`   |
+| +400.0% |    +4 | 25.0% → 62.5% |   1 → 5 | `toIrType`         | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverterKt` |
+
 ##### `linkToTargetMethod` (`java.lang.invoke.Invokers$Holder`)
 
 | Change | Delta |            % | Samples | Caller                        | Location                                                                |
@@ -2188,16 +2200,6 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | ------------: | ------: | --------------- | -------------------------------------------------- |
 |    new |    +2 | 0.0% → 100.0% |   0 → 2 | `toMutableList` | `kotlin.collections.CollectionsKt___CollectionsKt` |
 
-##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
-
-| Change | Delta |            % | Samples | Caller                    | Location                                                                                  |
-| -----: | ----: | -----------: | ------: | ------------------------- | ----------------------------------------------------------------------------------------- |
-|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `parseMethodDescription`  | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaMethodBase$Companion` |
-|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `isInplaceCallEndMarker`  | `org.jetbrains.kotlin.codegen.inline.InlineArgumentsInPlaceKt`                            |
-|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `addType`                 | `jdk.internal.org.objectweb.asm.SymbolTable`                                              |
-|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `containingNonLocalClass` | `org.jetbrains.kotlin.fir.FirVisibilityCheckerKt`                                         |
-|    new |    +1 | 0.0% → 14.3% |   0 → 1 | `data$lambda$0`           | `kotlin.reflect.jvm.internal.KClassImpl`                                                  |
-
 ##### `I2C/C2I adapters(0xb)` (`<unknown>`)
 
 |  Change | Delta |            % | Samples | Caller                    | Location                                                                             |
@@ -2207,6 +2209,14 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -1 | 25.0% → 0.0% |   1 → 0 | `leaveTemps`              | `org.jetbrains.kotlin.backend.jvm.codegen.IrInlineCodegen`                           |
 |     new |    +1 | 0.0% → 14.3% |   0 → 1 | `<init>`                  | `org.jetbrains.kotlin.resolve.constants.AnnotationValue`                             |
 |     new |    +1 | 0.0% → 14.3% |   0 → 1 | `isPrimitiveType`         | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeCheckerContextForTypeMapping`        |
+
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                      | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `casTail`                                                   | `java.util.concurrent.locks.AbstractQueuedSynchronizer`                                       |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `transformBlockInCurrentScope$org_jetbrains_kotlin_resolve` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer` |
+|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `visitVarInsn`                                              | `org.jetbrains.org.objectweb.asm.tree.MethodNode`                                             |
 
 ##### `itable stub` (`<unknown>`)
 
@@ -2223,12 +2233,6 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |             % | Samples | Caller   | Location            |
 | -----: | ----: | ------------: | ------: | -------- | ------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `putVal` | `java.util.HashMap` |
-
-##### `I2C/C2I adapters(0xba)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller         | Location                                          |
-| -----: | ----: | ------------: | ------: | -------------- | ------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `visitVarInsn` | `org.jetbrains.org.objectweb.asm.tree.MethodNode` |
 
 ##### `thread_native_entry` (`<unknown>`)
 
@@ -2306,15 +2310,16 @@ Callers with the largest change in contribution to each function's total samples
 
 ##### `main` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
-| Change | Delta |      % |   Samples | Caller         | Location                                             |
-| -----: | ----: | -----: | --------: | -------------- | ---------------------------------------------------- |
-| -16.3% |   -68 | 100.0% | 416 → 348 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008400` |
+| Change | Delta |      % |   Samples | Caller         | Location                          |
+| -----: | ----: | -----: | --------: | -------------- | --------------------------------- |
+| -16.3% |   -68 | 100.0% | 416 → 348 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH` |
 
-##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000007001008400`)
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH`)
 
-| Change | Delta |      % |   Samples | Caller   | Location                                            |
-| -----: | ----: | -----: | --------: | -------- | --------------------------------------------------- |
-| -16.3% |   -68 | 100.0% | 416 → 348 | `invoke` | `java.lang.invoke.LambdaForm$MH.0x0000007001009800` |
+| Change | Delta |           % |   Samples | Caller           | Location                                            |
+| -----: | ----: | ----------: | --------: | ---------------- | --------------------------------------------------- |
+| -16.3% |   -68 |      100.0% | 416 → 348 | `invoke`         | `java.lang.invoke.LambdaForm$MH.0x0000007001009800` |
+| -42.9% |    -3 | 1.7% → 1.1% |     7 → 4 | `invokeExact_MT` | `java.lang.invoke.Invokers$Holder`                  |
 
 ##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001009800`)
 
@@ -2765,13 +2770,6 @@ Callers with the largest change in contribution to each function's total samples
 
 Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `invoke` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x0000007001687c78`)
-
-|  Change | Delta |             % | Samples | Callee                                    | Location                                                                                       |
-| ------: | ----: | ------------: | ------: | ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
-|     new |   +20 | 0.0% → 100.0% |  0 → 20 | `transformAnonymousFunctionBody$lambda$0` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `forRegularClassBody$lambda$0`            | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer` |
-
 ##### `Matcher::match` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Callee                 | Location    |
@@ -2925,6 +2923,12 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Callee   | Location                                       |
 | ------: | ----: | -----: | ------: | -------- | ---------------------------------------------- |
 | +300.0% |    +6 | 100.0% |   2 → 8 | `accept` | `org.jetbrains.kotlin.ir.declarations.IrClass` |
+
+##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Callee                                  | Location    |
+| -----: | ----: | -----------: | ------: | --------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 28.6% |   0 → 2 | `SharedRuntime::fixup_callers_callsite` | `<unknown>` |
 
 ##### `void G1CMTask::process_grey_task_entry<true>` (`<unknown>`)
 
@@ -3185,6 +3189,16 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -------------: | ------: | -------------------- | ------------------------------------------------------- |
 | +166.7% |    +5 | 75.0% → 100.0% |   3 → 8 | `generateMethodNode` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
 
+##### `toIrType` (`org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`)
+
+|  Change | Delta |             % | Samples | Callee                  | Location                                                                |
+| ------: | ----: | ------------: | ------: | ----------------------- | ----------------------------------------------------------------------- |
+| +400.0% |    +4 | 25.0% → 62.5% |   1 → 5 | `toIrType$default`      | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`                  |
+|     new |    +2 |  0.0% → 25.0% |   0 → 2 | `linkToTargetMethod`    | `java.lang.invoke.Invokers$Holder`                                      |
+| +100.0% |    +1 |         25.0% |   1 → 2 | `convertToIrAnnotation` | `org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `toIrSymbol`            | `org.jetbrains.kotlin.fir.backend.utils.SymbolConversionUtilsKt`        |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `getBuiltInClassSymbol` | `org.jetbrains.kotlin.fir.backend.Fir2IrTypeConverter`                  |
+
 ##### `linkToTargetMethod` (`java.lang.invoke.Invokers$Holder`)
 
 | Change | Delta |            % | Samples | Callee             | Location                                     |
@@ -3312,12 +3326,6 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -----------: | ------: | --------- | --------------------------------------- |
 |    new |    +1 | 0.0% → 50.0% |   0 → 1 | `toArray` | `kotlin.collections.AbstractCollection` |
 
-##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
-
-| Change | Delta |            % | Samples | Callee                                  | Location    |
-| -----: | ----: | -----------: | ------: | --------------------------------------- | ----------- |
-|    new |    +2 | 0.0% → 28.6% |   0 → 2 | `SharedRuntime::fixup_callers_callsite` | `<unknown>` |
-
 ##### `thread_native_entry` (`<unknown>`)
 
 |  Change | Delta |              % |     Samples | Callee                                  | Location    |
@@ -3429,25 +3437,26 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | --------: | ------ | ------------------------------------------------------ |
 | -16.3% |   -68 | 100.0% | 416 → 348 | `main` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion` |
 
-##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH.0x0000007001008400`)
+##### `invokeStatic` (`java.lang.invoke.LambdaForm$DMH`)
 
-| Change | Delta |      % |   Samples | Callee | Location                                     |
-| -----: | ----: | -----: | --------: | ------ | -------------------------------------------- |
-| -16.3% |   -68 | 100.0% | 416 → 348 | `main` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+| Change | Delta |           % |   Samples | Callee        | Location                                     |
+| -----: | ----: | ----------: | --------: | ------------- | -------------------------------------------- |
+| -16.3% |   -68 |      100.0% | 416 → 348 | `main`        | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+| -42.9% |    -3 | 1.7% → 1.1% |     7 → 4 | `metafactory` | `java.lang.invoke.LambdaMetafactory`         |
 
 ##### `invoke` (`java.lang.invoke.LambdaForm$MH.0x0000007001009800`)
 
-| Change | Delta |      % |   Samples | Callee         | Location                                             |
-| -----: | ----: | -----: | --------: | -------------- | ---------------------------------------------------- |
-| -16.3% |   -68 | 100.0% | 416 → 348 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008400` |
+| Change | Delta |      % |   Samples | Callee         | Location                          |
+| -----: | ----: | -----: | --------: | -------------- | --------------------------------- |
+| -16.3% |   -68 | 100.0% | 416 → 348 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH` |
 
 ##### `invokeExact_MT` (`java.lang.invoke.Invokers$Holder`)
 
-| Change | Delta |           % |   Samples | Callee         | Location                                             |
-| -----: | ----: | ----------: | --------: | -------------- | ---------------------------------------------------- |
-| -16.3% |   -68 |      100.0% | 416 → 348 | `invoke`       | `java.lang.invoke.LambdaForm$MH.0x0000007001009800`  |
-| -42.9% |    -3 | 1.7% → 1.1% |     7 → 4 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH.0x0000007001234000` |
-| +50.0% |    +1 | 0.5% → 0.9% |     2 → 3 | `invokeStatic` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| Change | Delta |           % |   Samples | Callee         | Location                                            |
+| -----: | ----: | ----------: | --------: | -------------- | --------------------------------------------------- |
+| -16.3% |   -68 |      100.0% | 416 → 348 | `invoke`       | `java.lang.invoke.LambdaForm$MH.0x0000007001009800` |
+| -42.9% |    -3 | 1.7% → 1.1% |     7 → 4 | `invokeStatic` | `java.lang.invoke.LambdaForm$DMH`                   |
+| +50.0% |    +1 | 0.5% → 0.9% |     2 → 3 | `invokeStatic` | `java.lang.invoke.DirectMethodHandle$Holder`        |
 
 ##### `exec` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
@@ -3888,7 +3897,7 @@ Callees with the largest change in contribution to each function's total samples
 
 |  Change | Delta |             % | Samples | Callee   | Location                                                                                         |
 | ------: | ----: | ------------: | ------: | -------- | ------------------------------------------------------------------------------------------------ |
-|  -66.7% |    -4 | 23.1% → 13.3% |   6 → 2 | `invoke` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x0000007001614db0`             |
+|  -66.7% |    -4 | 23.1% → 13.3% |   6 → 2 | `invoke` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda`                                |
 |  -50.0% |    -2 | 15.4% → 13.3% |   4 → 2 | `invoke` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x0000007001388ad0`             |
 |  -33.3% |    -1 | 11.5% → 13.3% |   3 → 2 | `invoke` | `org.jetbrains.kotlin.builtins.DefaultBuiltIns$$Lambda.0x0000007001758000`                       |
 | removed |    -1 |   3.8% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrar$$Lambda.0x000000e0013704a0`           |
@@ -3904,13 +3913,13 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `getValue` (`kotlin.UnsafeLazyImpl`)
 
-|  Change | Delta |            % | Samples | Callee   | Location                                                                                                                                                   |
-| ------: | ----: | -----------: | ------: | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed |    -2 | 11.8% → 0.0% |   2 → 0 | `invoke` | `org.jetbrains.kotlin.fir.analysis.cfa.util.PropertyInitializationInfoData$$Lambda.0x000000e001718c88`                                                     |
-| removed |    -1 |  5.9% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents$$Lambda.0x000000e001597d38` |
-| removed |    -1 |  5.9% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x000000e0016704a0`                                                                    |
-| +100.0% |    +1 | 5.9% → 18.2% |   1 → 2 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerDataElementsForName$$Lambda.0x0000007001667c98`                                                         |
-| removed |    -1 |  5.9% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.java.enhancement.FirSignatureEnhancement$$Lambda.0x000000e001611fa8`                                                             |
+|  Change | Delta |            % | Samples | Callee   | Location                                                                                                                                |
+| ------: | ----: | -----------: | ------: | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| removed |    -2 | 11.8% → 0.0% |   2 → 0 | `invoke` | `org.jetbrains.kotlin.fir.analysis.cfa.util.PropertyInitializationInfoData$$Lambda.0x000000e001718c88`                                  |
+|  -50.0% |    -1 | 11.8% → 9.1% |   2 → 1 | `invoke` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformer$BodyResolveTransformerComponents$$Lambda` |
+| removed |    -1 |  5.9% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.Candidate$$Lambda.0x000000e0016704a0`                                                 |
+| +100.0% |    +1 | 5.9% → 18.2% |   1 → 2 | `invoke` | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerDataElementsForName$$Lambda.0x0000007001667c98`                                      |
+| removed |    -1 |  5.9% → 0.0% |   1 → 0 | `invoke` | `org.jetbrains.kotlin.fir.java.enhancement.FirSignatureEnhancement$$Lambda.0x000000e001611fa8`                                          |
 
 ##### `toByteArray` (`java.io.ByteArrayOutputStream`)
 

@@ -43,18 +43,18 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### Ours
 
-|  Change | Delta |             % |   Samples | Function                                   | Location                                                               |
-| ------: | ----: | ------------: | --------: | ------------------------------------------ | ---------------------------------------------------------------------- |
-|  +26.4% |  +101 |   8.1% → 9.9% | 382 → 483 | `vectorSum()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|  +29.8% |   +31 |   2.2% → 2.8% | 104 → 135 | `collectClusters(int[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|   +1.6% |   +14 | 18.4% → 18.1% | 874 → 888 | `distance(Double[], Double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-| +400.0% |    +4 |  <0.1% → 0.1% |     1 → 5 | `compute()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
-|     new |    +3 |   0.0% → 0.1% |     0 → 3 | `<init>(JavaKMeans, List, List, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|   +0.3% |    +1 |   8.4% → 8.1% | 396 → 397 | `findNearestCentroid()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `combineResults(Object, Object)`           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `apply(int)`                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2150` |
-| +100.0% |    +1 |         <0.1% |     1 → 2 | `combineResults(Object, Object)`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `createSubtask(int, int)`                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  Change | Delta |             % |   Samples | Function                                   | Location                                                   |
+| ------: | ----: | ------------: | --------: | ------------------------------------------ | ---------------------------------------------------------- |
+|  +26.4% |  +101 |   8.1% → 9.9% | 382 → 483 | `vectorSum()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  +29.8% |   +31 |   2.2% → 2.8% | 104 → 135 | `collectClusters(int[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|   +1.6% |   +14 | 18.4% → 18.1% | 874 → 888 | `distance(Double[], Double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| +400.0% |    +4 |  <0.1% → 0.1% |     1 → 5 | `compute()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+|     new |    +3 |   0.0% → 0.1% |     0 → 3 | `<init>(JavaKMeans, List, List, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|   +0.3% |    +1 |   8.4% → 8.1% | 396 → 397 | `findNearestCentroid()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `combineResults(Object, Object)`           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `apply(int)`                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`        |
+| +100.0% |    +1 |         <0.1% |     1 → 2 | `combineResults(Object, Object)`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|     new |    +1 |  0.0% → <0.1% |     0 → 1 | `createSubtask(int, int)`                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ##### Native
 
@@ -108,13 +108,11 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### JIT
 
-| Change | Delta |            % | Samples | Function                    | Location    |
-| -----: | ----: | -----------: | ------: | --------------------------- | ----------- |
-|  +1.6% |    +1 |         1.3% | 63 → 64 | `zero_blocks`               | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `vtable stub`               | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbe)`   | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xabebe)` | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbaa)`  | `<unknown>` |
+|  Change | Delta |            % | Samples | Function           | Location    |
+| ------: | ----: | -----------: | ------: | ------------------ | ----------- |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `I2C/C2I adapters` | `<unknown>` |
+|   +1.6% |    +1 |         1.3% | 63 → 64 | `zero_blocks`      | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `vtable stub`      | `<unknown>` |
 
 ##### Compiler
 
@@ -781,7 +779,7 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------ |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2150`)
+##### `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`)
 
 | Change | Delta |             % | Samples | Caller        | Location                           |
 | -----: | ----: | ------------: | ------: | ------------- | ---------------------------------- |
@@ -953,6 +951,15 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | -----: | ------: | -------- | --------------------------------- |
 | +100.0% |    +1 | 100.0% |   1 → 2 | `next()` | `java.util.HashMap$EntryIterator` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                     | Location                                                   |
+| ------: | ----: | ------------: | ------: | ------------------------------------------ | ---------------------------------------------------------- |
+|     new |    +2 |  0.0% → 50.0% |   0 → 2 | `runWorker(ForkJoinPool$WorkQueue)`        | `java.util.concurrent.ForkJoinPool`                        |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `findNearestCentroid()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `awaitDone(int, long)`                     | `java.util.concurrent.ForkJoinTask`                        |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `checkResource(String, boolean, JarEntry)` | `jdk.internal.loader.URLClassPath$JarLoader`               |
+
 ##### `zero_blocks` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Caller                              | Location                                                   |
@@ -967,24 +974,6 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller      | Location                                               |
 | -----: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------ |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `I2C/C2I adapters(0xbbe)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                 | Location                            |
-| -----: | ----: | ------------: | ------: | ---------------------- | ----------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
-
-##### `I2C/C2I adapters(0xabebe)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                                     | Location                                     |
-| -----: | ----: | ------------: | ------: | ------------------------------------------ | -------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `checkResource(String, boolean, JarEntry)` | `jdk.internal.loader.URLClassPath$JarLoader` |
-
-##### `I2C/C2I adapters(0xbbaa)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                              | Location                            |
-| -----: | ----: | ------------: | ------: | ----------------------------------- | ----------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
 
 ##### `Compile::disconnect_useless_nodes` (`libjvm.dylib`)
 
@@ -1245,10 +1234,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|  Change | Delta |             % | Samples | Caller       | Location                                                               |
-| ------: | ----: | ------------: | ------: | ------------ | ---------------------------------------------------------------------- |
-| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801125b10` |
-|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2388` |
+| Change | Delta |      % | Samples | Caller       | Location                                            |
+| -----: | ----: | -----: | ------: | ------------ | --------------------------------------------------- |
+| -75.0% |    -3 | 100.0% |   4 → 1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda` |
 
 ##### `div(double[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
@@ -1583,10 +1571,10 @@ Functions with the largest increase in samples collected within the function and
 |  +7.3% |   +16 |   4.6% → 4.8% |     219 → 235 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                                                   |
 |  +7.3% |   +16 |   4.6% → 4.8% |     219 → 235 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a7248`                        |
 | +87.5% |    +7 |   0.2% → 0.3% |        8 → 15 | `setUpBeforeAll(BenchmarkContext)`                                                                                     | `org.renaissance.jdk.concurrent.FjKmeans`                                                     |
+|    new |    +6 |   0.0% → 0.1% |         0 → 6 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda`                                             |
 |  +1.5% |    +5 |   7.2% → 7.1% |     341 → 346 | `combineResults(Object, Object)`                                                                                       | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                                    |
 |    new |    +5 |   0.0% → 0.1% |         0 → 5 | `rowToArray$1(Map)`                                                                                                    | `org.renaissance.jdk.concurrent.FjKmeans`                                                     |
 |    new |    +5 |   0.0% → 0.1% |         0 → 5 | `setUpBeforeAll$$anonfun$1(Map)`                                                                                       | `org.renaissance.jdk.concurrent.FjKmeans`                                                     |
-|    new |    +5 |   0.0% → 0.1% |         0 → 5 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000000301126908`                          |
 |    new |    +5 |   0.0% → 0.1% |         0 → 5 | `lambda$toCsvRows$2(String[], Function, String)`                                                                       | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`                            |
 |    new |    +5 |   0.0% → 0.1% |         0 → 5 | `apply(Object)`                                                                                                        | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter$$Lambda.0x0000000301123bf8` |
 
@@ -1642,13 +1630,11 @@ Functions with the largest increase in samples collected within the function and
 
 ##### JIT
 
-| Change | Delta |            % | Samples | Function                    | Location    |
-| -----: | ----: | -----------: | ------: | --------------------------- | ----------- |
-|  +1.6% |    +1 |         1.3% | 63 → 64 | `zero_blocks`               | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `vtable stub`               | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbe)`   | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xabebe)` | `<unknown>` |
-|    new |    +1 | 0.0% → <0.1% |   0 → 1 | `I2C/C2I adapters(0xbbaa)`  | `<unknown>` |
+|  Change | Delta |            % | Samples | Function           | Location    |
+| ------: | ----: | -----------: | ------: | ------------------ | ----------- |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `I2C/C2I adapters` | `<unknown>` |
+|   +1.6% |    +1 |         1.3% | 63 → 64 | `zero_blocks`      | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `vtable stub`      | `<unknown>` |
 
 ##### Compiler
 
@@ -1711,7 +1697,6 @@ Functions with the largest decrease in samples collected within the function and
 |   -1.8% |    -6 |   6.9% → 6.6% | 329 → 323 | `lambda$merge$7(Map, Object, List)`                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |   -1.8% |    -6 |   7.0% → 6.6% | 330 → 324 | `accept(Object, Object)`                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a3b90` |
 |  -80.0% |    -4 |  0.1% → <0.1% |     5 → 1 | `run(BenchmarkContext)`                                                                                                | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-|  -37.5% |    -3 |   0.2% → 0.1% |     8 → 5 | `apply(int)`                                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2388` |
 |  -60.0% |    -3 |  0.1% → <0.1% |     5 → 2 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
 |   -0.7% |    -3 |   9.5% → 9.2% | 452 → 449 | `lambda$run$0(int, List, int)`                                                                                         | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |   -0.7% |    -3 |   9.5% → 9.2% | 452 → 449 | `call()`                                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2bd0` |
@@ -1726,6 +1711,7 @@ Functions with the largest decrease in samples collected within the function and
 | removed |    -1 |  <0.1% → 0.0% |     1 → 0 | `fireChange(OptionDef, Read)`                                                                                          | `scopt.OptionDef`                                                      |
 | removed |    -1 |  <0.1% → 0.0% |     1 → 0 | `validate(Function1)`                                                                                                  | `scopt.OptionDef`                                                      |
 |  -50.0% |    -1 |         <0.1% |     2 → 1 | `parse(Seq, Object)`                                                                                                   | `scopt.OptionParser`                                                   |
+| removed |    -1 |  <0.1% → 0.0% |     1 → 0 | `$anonfun$1(Config, Path)`                                                                                             | `org.renaissance.harness.RenaissanceSuite$`                            |
 
 ##### Native
 
@@ -1963,6 +1949,13 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | ------: | -------------------- | ----------------------------------------- |
 | +87.5% |    +7 | 100.0% |  8 → 15 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
 
+##### `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda`)
+
+| Change | Delta |            % | Samples | Caller                                           | Location                                                           |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------ | ------------------------------------------------------------------ |
+|    new |    +5 | 0.0% → 83.3% |   0 → 5 | `lambda$toCsvRows$2(String[], Function, String)` | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `map(Function1)`                                 | `scala.collection.immutable.Range`                                 |
+
 ##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 | Change | Delta |      % |   Samples | Caller      | Location                                               |
@@ -1977,15 +1970,9 @@ Callers with the largest change in contribution to each function's total samples
 
 ##### `setUpBeforeAll$$anonfun$1(Map)` (`org.renaissance.jdk.concurrent.FjKmeans`)
 
-| Change | Delta |             % | Samples | Caller          | Location                                                             |
-| -----: | ----: | ------------: | ------: | --------------- | -------------------------------------------------------------------- |
-|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000000301126908` |
-
-##### `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000000301126908`)
-
-| Change | Delta |             % | Samples | Caller                                           | Location                                                           |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------ | ------------------------------------------------------------------ |
-|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `lambda$toCsvRows$2(String[], Function, String)` | `org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter` |
+| Change | Delta |             % | Samples | Caller          | Location                                          |
+| -----: | ----: | ------------: | ------: | --------------- | ------------------------------------------------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda` |
 
 ##### `lambda$toCsvRows$2(String[], Function, String)` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`)
 
@@ -2173,6 +2160,15 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | --------: | ---------------------------- | ------------------------------------------- |
 |  +6.4% |    +9 | 100.0% | 140 → 149 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
+##### `I2C/C2I adapters` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                     | Location                                                   |
+| ------: | ----: | ------------: | ------: | ------------------------------------------ | ---------------------------------------------------------- |
+|     new |    +2 |  0.0% → 50.0% |   0 → 2 | `runWorker(ForkJoinPool$WorkQueue)`        | `java.util.concurrent.ForkJoinPool`                        |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `findNearestCentroid()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `awaitDone(int, long)`                     | `java.util.concurrent.ForkJoinTask`                        |
+|     new |    +1 |  0.0% → 25.0% |   0 → 1 | `checkResource(String, boolean, JarEntry)` | `jdk.internal.loader.URLClassPath$JarLoader`               |
+
 ##### `zero_blocks` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Caller                              | Location                                                   |
@@ -2187,24 +2183,6 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |             % | Samples | Caller      | Location                                               |
 | -----: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------ |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `I2C/C2I adapters(0xbbe)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                 | Location                            |
-| -----: | ----: | ------------: | ------: | ---------------------- | ----------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
-
-##### `I2C/C2I adapters(0xabebe)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                                     | Location                                     |
-| -----: | ----: | ------------: | ------: | ------------------------------------------ | -------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `checkResource(String, boolean, JarEntry)` | `jdk.internal.loader.URLClassPath$JarLoader` |
-
-##### `I2C/C2I adapters(0xbbaa)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                              | Location                            |
-| -----: | ----: | ------------: | ------: | ----------------------------------- | ----------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
 
 ##### `PhaseCFG::global_code_motion` (`libjvm.dylib`)
 
@@ -2469,12 +2447,6 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | ------: | ----------------------- | ----------------------------------------- |
 | -80.0% |    -4 | 100.0% |   5 → 1 | `executeOperation(int)` | `org.renaissance.harness.ExecutionDriver` |
 
-##### `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2388`)
-
-| Change | Delta |      % | Samples | Caller        | Location                           |
-| -----: | ----: | -----: | ------: | ------------- | ---------------------------------- |
-| -37.5% |    -3 | 100.0% |   8 → 5 | `accept(int)` | `java.util.stream.IntPipeline$1$1` |
-
 ##### `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`)
 
 | Change | Delta |      % | Samples | Caller               | Location                                  |
@@ -2558,6 +2530,12 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Caller            | Location                               |
 | -----: | ----: | -----: | ------: | ----------------- | -------------------------------------- |
 | -50.0% |    -1 | 100.0% |   2 → 1 | `parse(String[])` | `org.renaissance.harness.ConfigParser` |
+
+##### `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|  Change | Delta |             % | Samples | Caller    | Location                                                               |
+| ------: | ----: | ------------: | ------: | --------- | ---------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `apply()` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000c8011038c0` |
 
 ##### `Compiler::compile_method` (`libjvm.dylib`)
 
@@ -2842,7 +2820,7 @@ Callees with the largest change in contribution to each function's total samples
 |  +4.5% |  +166 |         94.5% | 3,706 → 3,872 | `tryRemoveAndExec(ForkJoinTask, boolean)`                 | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 |  +9.7% |  +100 | 26.4% → 27.7% | 1,035 → 1,135 | `helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)` | `java.util.concurrent.ForkJoinPool`           |
 |  +3.6% |   +16 | 11.2% → 11.1% |     439 → 455 | `park()`                                                  | `java.util.concurrent.locks.LockSupport`      |
-|    new |    +1 |  0.0% → <0.1% |         0 → 1 | `I2C/C2I adapters(0xbbe)`                                 | `<unknown>`                                   |
+|    new |    +1 |  0.0% → <0.1% |         0 → 1 | `I2C/C2I adapters`                                        | `<unknown>`                                   |
 |    new |    +1 |  0.0% → <0.1% |         0 → 1 | `signalWaiters()`                                         | `java.util.concurrent.ForkJoinTask`           |
 
 ##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
@@ -2851,9 +2829,8 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -----------: | ------------: | ------------------------------------------------ | ----------------------------------- |
 |   +3.9% |  +163 |        93.2% | 4,141 → 4,304 | `scan(ForkJoinPool$WorkQueue, int, int)`         | `java.util.concurrent.ForkJoinPool` |
 |   +3.0% |    +9 |         6.7% |     300 → 309 | `awaitWork(ForkJoinPool$WorkQueue)`              | `java.util.concurrent.ForkJoinPool` |
+|     new |    +2 | 0.0% → <0.1% |         0 → 2 | `I2C/C2I adapters`                               | `<unknown>`                         |
 | removed |    -1 | <0.1% → 0.0% |         1 → 0 | `InterpreterRuntime::frequency_counter_overflow` | `libjvm.dylib`                      |
-|     new |    +1 | 0.0% → <0.1% |         0 → 1 | `I2C/C2I adapters(0xbb)`                         | `<unknown>`                         |
-|     new |    +1 | 0.0% → <0.1% |         0 → 1 | `I2C/C2I adapters(0xbbaa)`                       | `<unknown>`                         |
 
 ##### `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -3025,6 +3002,13 @@ Callees with the largest change in contribution to each function's total samples
 | +12.5% |    +1 | 100.0% → 60.0% |   8 → 9 | `generateData(int, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                        |
 |    new |    +1 |    0.0% → 6.7% |   0 → 1 | `loadClass(String)`           | `java.lang.ClassLoader`                                            |
 
+##### `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda`)
+
+| Change | Delta |            % | Samples | Callee                           | Location                                  |
+| -----: | ----: | -----------: | ------: | -------------------------------- | ----------------------------------------- |
+|    new |    +5 | 0.0% → 83.3% |   0 → 5 | `setUpBeforeAll$$anonfun$1(Map)` | `org.renaissance.jdk.concurrent.FjKmeans` |
+|    new |    +1 | 0.0% → 16.7% |   0 → 1 | `$anonfun$adapted$1(Object)`     | `org.renaissance.jdk.concurrent.FjKmeans` |
+
 ##### `combineResults(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 | Change | Delta |              % |   Samples | Callee                           | Location                                                   |
@@ -3045,17 +3029,11 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | ------------: | ------: | ------------------- | ----------------------------------------- |
 |    new |    +5 | 0.0% → 100.0% |   0 → 5 | `rowToArray$1(Map)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
-##### `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000000301126908`)
-
-| Change | Delta |             % | Samples | Callee                           | Location                                  |
-| -----: | ----: | ------------: | ------: | -------------------------------- | ----------------------------------------- |
-|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `setUpBeforeAll$$anonfun$1(Map)` | `org.renaissance.jdk.concurrent.FjKmeans` |
-
 ##### `lambda$toCsvRows$2(String[], Function, String)` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter`)
 
-| Change | Delta |             % | Samples | Callee          | Location                                                             |
-| -----: | ----: | ------------: | ------: | --------------- | -------------------------------------------------------------------- |
-|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x0000000301126908` |
+| Change | Delta |             % | Samples | Callee          | Location                                          |
+| -----: | ----: | ------------: | ------: | --------------- | ------------------------------------------------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda` |
 
 ##### `apply(Object)` (`org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter$$Lambda.0x0000000301123bf8`)
 
@@ -3511,13 +3489,6 @@ Callees with the largest change in contribution to each function's total samples
 | removed |    -1 |  20.0% → 0.0% |   1 → 0 | `until$extension(int, int)` | `scala.runtime.RichInt$`           |
 |     new |    +1 | 0.0% → 100.0% |   0 → 1 | `map(Function1)`            | `scala.collection.immutable.Range` |
 
-##### `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a2388`)
-
-|  Change | Delta |             % | Samples | Callee                                           | Location                                    |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------ | ------------------------------------------- |
-| removed |    -8 | 100.0% → 0.0% |   8 → 0 | `lambda$generateData$5(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
-|     new |    +5 | 0.0% → 100.0% |   0 → 5 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
-
 ##### `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`)
 
 | Change | Delta |              % | Samples | Callee                  | Location                                                             |
@@ -3592,6 +3563,12 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |            % | Samples | Callee              | Location                |
 | ------: | ----: | -----------: | ------: | ------------------- | ----------------------- |
 | removed |    -1 | 50.0% → 0.0% |   1 → 0 | `loadClass(String)` | `java.lang.ClassLoader` |
+
+##### `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|  Change | Delta |             % | Samples | Callee                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `InterpreterRuntime::resolve_from_cache` | `libjvm.dylib` |
 
 ##### `Compiler::compile_method` (`libjvm.dylib`)
 

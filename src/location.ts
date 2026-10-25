@@ -633,6 +633,36 @@ const hasSegmentPrefix = (segments: string[], prefix: string[]): boolean =>
 
 const WINDOWS_DRIVE = /^[a-z]:$/iu
 
+/**
+ * {@link location} with its source reference replaced by the one {@link id}
+ * identifies, a {@link sourceReferenceId} of the same type, or `undefined`
+ * when either is missing or empty. An absolute location's {@link id} becomes
+ * whatever file reference it parses as.
+ */
+export const withSourceReferenceId = (
+  location: SourceLocation | undefined,
+  id: string | undefined,
+): SourceLocation | undefined => {
+  if (!location || !id) {
+    return undefined
+  }
+  if (id === sourceReferenceId(location)) {
+    return location
+  }
+
+  const { line, column } = location
+  switch (location.type) {
+    case `absolute`: {
+      const fileReference = makeFileReference(id)
+      return fileReference ? { ...fileReference, line, column } : location
+    }
+    case `relative`:
+      return { type: `relative`, path: id, line, column }
+    case `logical`:
+      return { type: `logical`, name: id, line, column }
+  }
+}
+
 export const sourceReferenceId = (
   sourceReference: DeepReadonly<SourceReference>,
 ): string => {
