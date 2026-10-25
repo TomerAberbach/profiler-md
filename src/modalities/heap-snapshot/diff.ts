@@ -1,4 +1,9 @@
-import { sourceReferenceId, sourceReferenceKind } from '../../location.ts'
+import {
+  absoluteFileReference,
+  sourceReferenceId,
+  sourceReferenceKind,
+  withSourceReferenceId,
+} from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
   FormattingProfileToMdOptions,
@@ -6,7 +11,11 @@ import type {
 } from '../../options.ts'
 import { matchHeapSnapshotEdgeNameForOrigin } from '../../origins/index.ts'
 import type { Diff, DiffedMatchKeys, EntryDiff } from '../diff.ts'
-import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
+import {
+  copyMergedIdentities,
+  matchDiffedEntries,
+  matchDiffedMaps,
+} from '../diff.ts'
 import type {
   AggregatedHeapSnapshot,
   AggregatedHeapSnapshotConstructor,
@@ -64,7 +73,15 @@ export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<{
  * snapshot, so it never compares across the two snapshots.
  */
 export type DiffedHeapSnapshotEntity<Instances = unknown> =
-  AggregatedHeapSnapshotEntity & { instanceCount: number } & Instances
+  AggregatedHeapSnapshotEntity & {
+    instanceCount: number
+
+    /**
+     * Whether the entity merges several entities of its side that have no line
+     * and share a match key, so the entry match names and locates it.
+     */
+    merged?: boolean
+  } & Instances
 
 /**
  * An entity matched across the base and current snapshots.
@@ -95,81 +112,139 @@ export const diffAggregatedHeapSnapshots = (
     base.nodeCategoryToStats,
     current.nodeCategoryToStats,
   ),
-  // Each side's entities are keyed under that side's own context, because the
-  // origin normalizes their match keys.
-  constructors: entityDiffsFromMatches(
-    matchDiffedMaps(
-      mergeConstructors(base.constructors, base.context, options),
-      mergeConstructors(current.constructors, current.context, options),
-    ),
+  constructors: matchDiffedEntities(
+    base,
+    current,
+    snapshot => snapshot.constructors,
+    mergeConstructors,
+    options,
   ),
-  functions: entityDiffsFromMatches(
-    matchDiffedMaps(
-      mergeFunctions(base.functions, base.context, options),
-      mergeFunctions(current.functions, current.context, options),
-    ),
+  functions: matchDiffedEntities(
+    base,
+    current,
+    snapshot => snapshot.functions,
+    mergeFunctions,
+    options,
   ),
   strings: entityDiffsFromMatches(
-    matchDiffedMaps(mergeStrings(base.strings), mergeStrings(current.strings)),
+    matchDiffedMaps(
+      mergeStrings(base.strings),
+      mergeStrings(current.strings),
+    ).values(),
   ),
 })
 
+/**
+ * Pairs the sides' entities by match key and, where several share one, by
+ * position, after each side merges its entities with no line that share a
+ * match key and that the other side lacks. Each side's entities are keyed
+ * under that side's own context, because the origin builds their match keys.
+ */
+const matchDiffedEntities = <
+  Entity extends AggregatedHeapSnapshotEntity,
+  Diffed extends DiffedHeapSnapshotEntity,
+>(
+  base: AggregatedHeapSnapshot,
+  current: AggregatedHeapSnapshot,
+  entitiesOf: (snapshot: AggregatedHeapSnapshot) => Entity[],
+  merge: (
+    entities: Entity[],
+    side: MergeSide,
+    options: FormattingProfileToMdOptions,
+  ) => Diffed[],
+  options: FormattingProfileToMdOptions,
+): AggregatedHeapSnapshotEntityDiff<Diffed>[] => {
+  const { entryMatchKeys } = options
+  const baseEntities = entitiesOf(base)
+  const currentEntities = entitiesOf(current)
+  const matches = matchDiffedEntries(
+    merge(
+      baseEntities,
+      {
+        context: base.context,
+        otherSideKeys: linelessOwnKeys(
+          currentEntities,
+          current.context,
+          options,
+        ),
+      },
+      options,
+    ),
+    merge(
+      currentEntities,
+      {
+        context: current.context,
+        otherSideKeys: linelessOwnKeys(baseEntities, base.context, options),
+      },
+      options,
+    ),
+    entity => entryMatchKeys(entity, base.context),
+    entity => entryMatchKeys(entity, current.context),
+  )
+  copyMergedIdentities(matches)
+  return entityDiffsFromMatches(matches)
+}
+
+/**
+ * A side's context, and the own keys of the other side's entities with no
+ * line, which decide which of the side's entities merge.
+ */
+type MergeSide = {
+  context: ProfileToMdContext
+  otherSideKeys: ReadonlySet<string>
+}
+
+const linelessOwnKeys = (
+  entities: readonly AggregatedHeapSnapshotEntity[],
+  context: ProfileToMdContext,
+  { entryMatchKeys }: FormattingProfileToMdOptions,
+): Set<string> => {
+  const keys = new Set<string>()
+  for (const entity of entities) {
+    if (entity.location?.line === undefined) {
+      keys.add(entryMatchKeys(entity, context).ownNameAndLocation)
+    }
+  }
+  return keys
+}
+
 const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
-  diffs: Map<string, Diff<Entity>>,
+  diffs: Iterable<Diff<Entity>>,
 ): AggregatedHeapSnapshotEntityDiff<Entity>[] =>
-  Array.from(diffs.values(), ({ base, current }) => {
+  Array.from(diffs, ({ base, current }) => {
     const { name, nameLocation, location, category } = (current ?? base)!
     return { name: name!, nameLocation, location, category, base, current }
   })
 
 /**
- * Merges constructors sharing the same match key so the same class matches
- * across snapshots even when the runtime includes a per-run address in its name
- * or its definition shifted between builds. The JVM includes an address in the
- * names of the hidden classes it generates for lambdas.
+ * A side's constructors, with those that share a match key, have no line, and
+ * that the other side lacks merged, because the diff has nothing to pair them
+ * by. The JVM includes an address in the names of the hidden classes it
+ * generates for lambdas, so one class's lambdas share a match key.
  *
- * A merged constructor takes the normalized name its members share, because
+ * A merged constructor takes the entry match's name its members share, because
  * each member's own name contains the per-run part they differ in. Merged
  * members can be categorized differently, so it takes the category of its
  * largest member.
  */
 const mergeConstructors = (
   constructors: AggregatedHeapSnapshotConstructor[],
-  context: ProfileToMdContext,
+  side: MergeSide,
   options: FormattingProfileToMdOptions,
-): Map<string, DiffedHeapSnapshotConstructor> => {
-  const keyToConstructor = new Map<string, DiffedHeapSnapshotConstructor>()
-  const keyToCategorySelfSize = new Map<string, number>()
+): DiffedHeapSnapshotConstructor[] => {
+  const largestSelfSizes = new Map<DiffedHeapSnapshotConstructor, number>()
   // A merged constructor shares its first member's instances until another
   // member merges into it.
-  const mergedKeys = new Set<string>()
-  for (const constructor of constructors) {
-    const { name, nameAndLocation: key } = options.entryMatchKeys(
-      constructor,
-      context,
-    )
-    const merged = keyToConstructor.get(key)
-    if (merged) {
-      merged.selfSize += constructor.selfSize
-      merged.retainedSize += constructor.retainedSize
-      merged.instanceCount += constructor.instances.length
-      if (!mergedKeys.has(key)) {
-        merged.instances = [...merged.instances]
-        mergedKeys.add(key)
-      }
-      for (const instance of constructor.instances) {
-        merged.instances.push(instance)
-      }
-      if (constructor.selfSize > keyToCategorySelfSize.get(key)!) {
-        merged.category = constructor.category
-        keyToCategorySelfSize.set(key, constructor.selfSize)
-      }
-    } else {
-      keyToCategorySelfSize.set(key, constructor.selfSize)
-      keyToConstructor.set(key, {
+  const copiedInstances = new Set<DiffedHeapSnapshotConstructor>()
+  return mergeLinelessEntities({
+    entities: constructors,
+    side,
+    options,
+    toDiffed: constructor => {
+      const diffed: DiffedHeapSnapshotConstructor = {
         type: `node`,
         id: constructor.id,
-        name,
+        name: constructor.name,
         nameLocation: constructor.nameLocation,
         location: constructor.location,
         category: constructor.category,
@@ -177,45 +252,116 @@ const mergeConstructors = (
         retainedSize: constructor.retainedSize,
         instanceCount: constructor.instances.length,
         instances: constructor.instances,
-      })
-    }
-  }
-  return keyToConstructor
+      }
+      largestSelfSizes.set(diffed, constructor.selfSize)
+      return diffed
+    },
+    merge: (merged, constructor) => {
+      merged.selfSize += constructor.selfSize
+      merged.retainedSize += constructor.retainedSize
+      merged.instanceCount += constructor.instances.length
+      if (!copiedInstances.has(merged)) {
+        merged.instances = [...merged.instances]
+        copiedInstances.add(merged)
+      }
+      for (const instance of constructor.instances) {
+        merged.instances.push(instance)
+      }
+      if (constructor.selfSize > largestSelfSizes.get(merged)!) {
+        merged.category = constructor.category
+        largestSelfSizes.set(merged, constructor.selfSize)
+      }
+    },
+  })
 }
 
 /**
- * Merges functions sharing the same match key so the same function matches
- * across snapshots even when its definition shifted between builds.
+ * A side's functions, with those that share a match key, have no line, and
+ * that the other side lacks merged, because the diff has nothing to pair them
+ * by.
  */
 const mergeFunctions = (
   functions: AggregatedHeapSnapshotFunction[],
-  context: ProfileToMdContext,
+  side: MergeSide,
   options: FormattingProfileToMdOptions,
-): Map<string, DiffedHeapSnapshotFunction> => {
-  const keyToFunction = new Map<string, DiffedHeapSnapshotFunction>()
-  for (const func of functions) {
-    const key = options.entryMatchKeys(func, context).nameAndLocation
-    const merged = keyToFunction.get(key)
-    if (merged) {
+): DiffedHeapSnapshotFunction[] =>
+  mergeLinelessEntities({
+    entities: functions,
+    side,
+    options,
+    toDiffed: func => ({
+      type: `node`,
+      id: func.largestInstanceOrdinal,
+      name: func.name,
+      location: func.location,
+      category: func.category,
+      selfSize: func.selfSize,
+      retainedSize: func.retainedSize,
+      instanceCount: func.instanceOrdinals.length,
+      instanceOrdinals: [...func.instanceOrdinals],
+    }),
+    merge: (merged, func) => {
       merged.selfSize += func.selfSize
       merged.retainedSize += func.retainedSize
       merged.instanceCount += func.instanceOrdinals.length
       merged.instanceOrdinals.push(...func.instanceOrdinals)
+    },
+  })
+
+/**
+ * Converts a side's entities to their diffed form, merging each entity that
+ * has no line and that the other side lacks into the first such entity that
+ * shares its match key, which then takes the entry match's name and location.
+ */
+const mergeLinelessEntities = <
+  Entity extends AggregatedHeapSnapshotEntity,
+  Diffed extends DiffedHeapSnapshotEntity,
+>({
+  entities,
+  side: { context, otherSideKeys },
+  options,
+  toDiffed,
+  merge,
+}: {
+  entities: Entity[]
+  side: MergeSide
+  options: FormattingProfileToMdOptions
+  toDiffed: (entity: Entity) => Diffed
+  merge: (merged: Diffed, entity: Entity) => void
+}): Diffed[] => {
+  const diffed: Diffed[] = []
+  const keyToMerged = new Map<string, Diffed>()
+  for (const entity of entities) {
+    if (entity.location?.line !== undefined) {
+      diffed.push(toDiffed(entity))
+      continue
+    }
+
+    const keys = options.entryMatchKeys(entity, context)
+    if (otherSideKeys.has(keys.ownNameAndLocation)) {
+      diffed.push(toDiffed(entity))
+      continue
+    }
+
+    const merged = keyToMerged.get(keys.nameAndLocation)
+    if (merged) {
+      merge(merged, entity)
+      if (!merged.merged) {
+        merged.name = keys.name
+        merged.nameLocation &&= absoluteFileReference(keys.name)
+        merged.location = withSourceReferenceId(entity.location, keys.location)
+        merged.merged = true
+      }
     } else {
-      keyToFunction.set(key, {
-        type: `node`,
-        id: func.largestInstanceOrdinal,
-        name: func.name,
-        location: func.location,
-        category: func.category,
-        selfSize: func.selfSize,
-        retainedSize: func.retainedSize,
-        instanceCount: func.instanceOrdinals.length,
-        instanceOrdinals: [...func.instanceOrdinals],
-      })
+      const first = toDiffed(entity)
+      // Caches the match keys of the entity's own name and location, so the
+      // diff pairs it by those once a merge renames it.
+      options.entryMatchKeys(first, context)
+      keyToMerged.set(keys.nameAndLocation, first)
+      diffed.push(first)
     }
   }
-  return keyToFunction
+  return diffed
 }
 
 /**

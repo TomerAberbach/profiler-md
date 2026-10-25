@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import { makeFileReference } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
-import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../options.ts'
 import {
   categoryTables,
@@ -31,6 +31,16 @@ import {
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
+
+const JDK_CONTEXT = { format: `hprof`, origin: `jdk` } as const
+
+const jdkLambda = (address: string, selfSize: number) =>
+  makeAggregatedHeapSnapshotConstructor({
+    name: `JavaKMeans$$Lambda+0x${address}`,
+    selfSize,
+    retainedSize: selfSize,
+    instanceCount: 1,
+  })
 
 describe(`diffAggregatedHeapSnapshots`, () => {
   test(`reports a constructor only in base as removed`, () => {
@@ -235,11 +245,11 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`keys each side's functions under that snapshot's own context`, () => {
     // The origin normalizes match keys.
-    const observedContexts: ProfileToMdContext[] = []
+    const observedKeyings = new Set<string>()
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
-      matchEntry: (entry, context) => {
-        observedContexts.push(context)
+      matchEntry: (entry, { format, origin }) => {
+        observedKeyings.add(`${entry.name} as ${format} from ${origin}`)
         return undefined
       },
     })
@@ -247,7 +257,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       context: { format: `v8-heap-snapshot`, origin: `node` },
       functions: [
         makeAggregatedHeapSnapshotFunction({
-          name: `myFn`,
+          name: `baseFn`,
           selfSize: 64,
           retainedSize: 100,
         }),
@@ -257,7 +267,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       context: { format: `jsc-heap-snapshot`, origin: `safari` },
       functions: [
         makeAggregatedHeapSnapshotFunction({
-          name: `myFn`,
+          name: `currentFn`,
           selfSize: 128,
           retainedSize: 300,
         }),
@@ -266,10 +276,12 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
     diffAggregatedHeapSnapshots(base, current, options)
 
-    expect(observedContexts).toEqual([
-      { format: `v8-heap-snapshot`, origin: `node` },
-      { format: `jsc-heap-snapshot`, origin: `safari` },
-    ])
+    expect(observedKeyings).toEqual(
+      new Set([
+        `baseFn as v8-heap-snapshot from node`,
+        `currentFn as jsc-heap-snapshot from safari`,
+      ]),
+    )
   })
 
   test(`does not match functions with the same name in different files`, () => {
@@ -329,7 +341,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     ])
   })
 
-  test(`merges same-side functions sharing a name and file`, () => {
+  test(`keeps same-side functions at different lines of a file apart`, () => {
     const base = makeAggregatedHeapSnapshot({
       functions: [
         makeAggregatedHeapSnapshotFunction({
@@ -358,18 +370,139 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       [
         {
           Change: `removed`,
-          Delta: `-150 B`,
-          '%': `150.0% → 0.0%`,
-          Retained: `150 B → 0 B`,
-          Instances: `3 → 0`,
+          Delta: `-100 B`,
+          '%': `100.0% → 0.0%`,
+          Retained: `100 B → 0 B`,
+          Instances: `2 → 0`,
           Paths: `1 → 0`,
           Name: `myFn`,
           Location: `./src/a.ts:5:10`,
           'Example path': `(unknown) ← (GC root)`,
         },
+        {
+          Change: `removed`,
+          Delta: `-50 B`,
+          '%': `50.0% → 0.0%`,
+          Retained: `50 B → 0 B`,
+          Instances: `1 → 0`,
+          Paths: `1 → 0`,
+          Name: `myFn`,
+          Location: `./src/a.ts:25:3`,
+          'Example path': `(unknown) ← (GC root)`,
+        },
       ],
     ])
   })
+
+  test(`merges same-side constructors with no line that share a match key`, () => {
+    const base = makeAggregatedHeapSnapshot({
+      context: JDK_CONTEXT,
+      constructors: [
+        jdkLambda(`000000b801205218`, 40),
+        jdkLambda(`000000b801205400`, 60),
+      ],
+    })
+    const current = makeAggregatedHeapSnapshot({
+      context: JDK_CONTEXT,
+      constructors: [jdkLambda(`000000c8012a0000`, 30)],
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
+
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+      [
+        {
+          Change: `-70.0%`,
+          Delta: `-70 B`,
+          '%': `100.0%`,
+          Size: `100 B → 30 B`,
+          Instances: `2 → 1`,
+          Constructor: `JavaKMeans$$Lambda`,
+        },
+      ],
+    ])
+  })
+
+  test(`pairs same-side constructors with no line that both sides have with themselves`, () => {
+    const base = makeAggregatedHeapSnapshot({
+      context: JDK_CONTEXT,
+      constructors: [
+        jdkLambda(`000000b801205218`, 40),
+        jdkLambda(`000000b801205400`, 60),
+      ],
+    })
+    const current = makeAggregatedHeapSnapshot({
+      context: JDK_CONTEXT,
+      constructors: [
+        jdkLambda(`000000b801205218`, 30),
+        jdkLambda(`000000b801205400`, 60),
+      ],
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
+
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+      [
+        {
+          Change: `-25.0%`,
+          Delta: `-10 B`,
+          '%': `40.0% → 33.3%`,
+          Size: `40 B → 30 B`,
+          Instances: `1`,
+          Constructor: `JavaKMeans$$Lambda+0x000000b801205218`,
+        },
+      ],
+    ])
+  })
+
+  test.each([
+    [
+      `a URL`,
+      (name: string) => name.replace(/\.[a-z]+\.js$/u, `.js`),
+      `./chunk.js`,
+    ],
+    [`a name`, () => `chunk`, `chunk`],
+  ])(
+    `names a merged constructor named by a URL by an entry match naming %s`,
+    (_, matchName, expectedConstructor) => {
+      const chunk = (hash: string, selfSize: number) =>
+        makeAggregatedHeapSnapshotConstructor({
+          name: `file:///project/chunk.${hash}.js`,
+          nameLocation: makeFileReference(`file:///project/chunk.${hash}.js`),
+          selfSize,
+          retainedSize: selfSize,
+          instanceCount: 1,
+        })
+      const base = makeAggregatedHeapSnapshot({
+        constructors: [chunk(`abc`, 40), chunk(`def`, 60)],
+      })
+      const current = makeAggregatedHeapSnapshot({
+        constructors: [chunk(`ghi`, 30)],
+      })
+      const options = resolveProfileToMdOptions({
+        baseURL: `/project`,
+        matchEntry: entry => ({ name: matchName(entry.name!) }),
+      })
+
+      const diff = diffAggregatedHeapSnapshots(base, current, options)
+      const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
+
+      expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+        [
+          {
+            Change: `-70.0%`,
+            Delta: `-70 B`,
+            '%': `100.0%`,
+            Size: `100 B → 30 B`,
+            Instances: `2 → 1`,
+            Constructor: expectedConstructor,
+          },
+        ],
+      ])
+    },
+  )
 
   test(`matches functions without locations by name`, () => {
     const base = makeAggregatedHeapSnapshot({

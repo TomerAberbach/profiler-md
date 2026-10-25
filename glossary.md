@@ -294,7 +294,8 @@ of any modality.
   several that share one. An unpaired **entity** is new or removed
 - Each **side** of a call stack profile **diff** first combines its
   **functions** with no line that share a **match key** and whose **identity
-  key** the other **side** lacks into one **merged entity**
+  key** the other **side** lacks into one **merged entity**. Each **side** of a
+  heap snapshot **diff** does the same with its **entities**, by **own key**
 - A **merged entity** combines two or more of one **side**'s **entities**
 - A **retainer group** is an **instance group** or a **retained node group**
 - A **diff** pairs an **entity**'s **retainer groups** across its **sides** by

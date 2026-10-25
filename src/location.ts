@@ -113,6 +113,17 @@ export const makeSourceLocation = (
 }
 
 /**
+ * The absolute file reference {@link urlOrPath} resolves to, or `undefined`
+ * when it resolves to a relative path or to nothing.
+ */
+export const absoluteFileReference = (
+  urlOrPath: string,
+): Extract<FileReference, { type: `absolute` }> | undefined => {
+  const fileReference = makeFileReference(urlOrPath)
+  return fileReference?.type === `absolute` ? fileReference : undefined
+}
+
+/**
  * Resolves an unresolved file reference's URL or path, or returns `undefined`
  * for an empty one.
  *

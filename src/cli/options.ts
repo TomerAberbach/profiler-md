@@ -15,7 +15,7 @@ import type {
   SourceMap,
 } from '../index.ts'
 import {
-  makeFileReference,
+  absoluteFileReference,
   sourceReferenceId,
   sourceReferencePathOrName,
 } from '../location.ts'
@@ -460,7 +460,7 @@ const resolveSourceMapSources = (
   return {
     ...sourceMap,
     sources: sourceMap.sources.map(source =>
-      makeFileReference(source)?.type === `absolute`
+      absoluteFileReference(source)
         ? source
         : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
     ),

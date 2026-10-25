@@ -7,7 +7,7 @@ import {
 } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
 import { makeFileReference } from '../../location.ts'
-import type { SourceLocation } from '../../location.ts'
+import type { FileReference, SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import type {
   AggregatedHeapSnapshot,
@@ -196,6 +196,7 @@ export const makeSourceLocation = (
 
 export const makeAggregatedHeapSnapshotConstructor = ({
   name,
+  nameLocation,
   location,
   selfSize,
   retainedSize,
@@ -203,6 +204,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
   category = `object`,
 }: {
   name: string
+  nameLocation?: FileReference
   location?: SourceLocation
   selfSize: number
   retainedSize: number
@@ -212,6 +214,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
   type: `node`,
   id: 0,
   name,
+  nameLocation,
   location,
   category,
   selfSize,
