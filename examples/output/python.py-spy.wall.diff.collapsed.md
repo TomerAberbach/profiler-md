@@ -8,6 +8,55 @@ Collected 215 → 208 samples (-7 samples, -3.3%).
 | Unknown          | +33.3% |    +3 |   4.2% → 5.8% |    9 → 12 |
 | Standard library | -50.0% |    -1 |   0.9% → 0.5% |     2 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 206 → 196 samples (95.8% → 94.2%) _run_module_as_main at <frozen runpy>
+│   ├── … 199 → 192 samples (92.6% → 92.3%) format_file_contents at black/__init__.py
+│   │   ├── 118 → 115 samples (54.9% → 55.3%) format_str
+│   │   │   └── 118 → 115 samples (54.9% → 55.3%) _format_str_once
+│   │   │       ├── … 52 → 53 samples (24.2% → 25.5%, self 1.9% → 1.0%, self 1.9% globally) parse_tokens at blib2to3/pgen2/driver.py
+│   │   │       │   ├── 32 → 42 samples (14.9% → 20.2%) addtoken at blib2to3/pgen2/parse.py
+│   │   │       │   │   ├── 31 → 40 samples (14.4% → 19.2%, self 3.7% → 6.3%, self 7.0% → 9.1% globally) _addtoken
+│   │   │       │   │   │   ├── 12 → 9 samples (5.6% → 4.3%, self 0.9% → 3.8%) pop
+│   │   │       │   │   │   │   └── 10 → 1 sample (4.7% → 0.5%, self 1.4% → 0.0%, self 5.1% → 1.0% globally) convert at blib2to3/pytree.py
+│   │   │       │   │   │   │       └── 6 → 0 samples (2.8% → 0.0%, self 3.7% → 2.9% globally) __new__
+│   │   │       │   │   │   ├── 2 → 13 samples (0.9% → 6.3%) push
+│   │   │       │   │   │   └── 9 → 5 samples (4.2% → 2.4%) shift …
+│   │   │       │   │   └── 1 → 2 samples (0.5% → 1.0%) classify
+│   │   │       │   └── 15 → 8 samples (7.0% → 3.8%) __next__
+│   │   │       │       └── 15 → 8 samples (7.0% → 3.8%, self 6.0% → 3.4%, self 9.8% → 4.3% globally) generate_tokens at blib2to3/pgen2/tokenize.py
+│   │   │       │           └── 1 sample (0.5%) current
+│   │   │       ├── 51 → 42 samples (23.7% → 20.2%, self 0.9% → 3.4%, self 3.3% → 3.8% globally) visit at black/nodes.py
+│   │   │       │   ├── … 30 → 28 samples (14.0% → 13.5%, self 2.3% → 1.9%, self 4.7% → 2.9% globally) visit_default at black/linegen.py
+│   │   │       │   │   ├── 11 → 15 samples (5.1% → 7.2%, self 0.5% → 1.4%, self 0.5% → 2.4% globally) append at black/lines.py
+│   │   │       │   │   │   ├── 2 → 0 samples (0.9% → 0.0%) append_comment
+│   │   │       │   │   │   └── 8 → 12 samples (3.7% → 5.8%) 3 more callees, led by (2.3% → 3.8%) mark at black/brackets.py
+│   │   │       │   │   ├── 12 → 7 samples (5.6% → 3.4%, self 5.1% → 2.9%, self 8.4% → 4.8% globally) generate_comments at black/comments.py
+│   │   │       │   │   └── 2 samples (0.9% → 1.0%) visit_default at black/nodes.py
+│   │   │       │   └── 19 → 7 samples (8.8% → 3.4%) 7 more callees, led by (4.2% → 1.4%) visit_stmt at black/linegen.py
+│   │   │       ├── 2 → 0 samples (0.9% → 0.0%, self 1.9% → 0.0% globally) all_lines at black/lines.py
+│   │   │       └── 12 → 20 samples (5.6% → 9.6%) 3 more callees, led by (2.3% → 6.3%) transform_line at black/linegen.py
+│   │   └── 81 → 77 samples (37.7% → 37.0%) check_stability_and_equivalence
+│   │       ├── 56 → 51 samples (26.0% → 24.5%) assert_stable
+│   │       │   └── 56 → 51 samples (26.0% → 24.5%, self 0.0% → 1.0%) _format_str_once
+│   │       │       ├── 25 → 23 samples (11.6% → 11.1%, self 2.3% → 0.5%) visit at black/nodes.py
+│   │       │       │   ├── … 2 → 0 samples (0.9% → 0.0%) visit_suite at black/linegen.py
+│   │       │       │   │   └── 2 → 0 samples (0.9% → 0.0%) visit_default
+│   │       │       │   └── 18 → 22 samples (8.4% → 10.6%) 6 more callees, led by (6.0% → 5.8%) visit_default at black/linegen.py
+│   │       │       └── 31 → 26 samples (14.4% → 12.5%) 7 more callees, led by (9.8% → 8.2%) lib2to3_parse at black/parsing.py
+│   │       └── 25 → 26 samples (11.6% → 12.5%, self 0.9% → 0.5%) assert_equivalent
+│   │           ├── 15 → 14 samples (7.0% → 6.7%) parse_ast at black/parsing.py …
+│   │           └── 8 → 11 samples (3.7% → 5.3%, self 3.7% → 2.9%) _stringify_ast at black/parsing.py
+│   │               └── … 0 → 5 samples (0.0% → 2.4%) _stringify_ast_with_new_parent at black/parsing.py
+│   └── 6 → 4 samples (2.8% → 1.9%) _get_module_details …
+└── 9 → 12 samples (4.2% → 5.8%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

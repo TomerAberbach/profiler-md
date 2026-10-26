@@ -10,6 +10,55 @@ Took 101.6ms → 102.2ms (+0.55ms, +0.5%) over 89 → 91 samples (1.1ms per samp
 
 Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 27.0ms → 28.0ms (26.6% → 27.4%) (anonymous) at ./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558
+│   ├── 13.0ms → 16.0ms (12.8% → 15.7%, self 1.0%) doPropagation at 5:254
+│   │   └── 12.0ms → 15.0ms (11.8% → 14.7%, self 0.0% → 1.0%) execute at 10:868
+│   │       └── 12.0ms → 14.0ms (11.8% → 13.7%) runScript at 11:59
+│   │           ├── … 1.0ms → 0ms (1.0% → 0.0%) jar.js at ./w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:3:20
+│   │           └── 11.0ms → 14.0ms (10.8% → 13.7%) 15 more callees, led by (3.0% → 2.9%) (anonymous) at ./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:57
+│   ├── … 12.0ms (11.8% → 11.7%, self 9.8%) eval
+│   │   ├── … 1.0ms → 0ms (1.0% → 0.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:24 → 11:203
+│   │   ├── … 1.0ms → 0ms (1.0% → 0.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24
+│   │   └── 0ms → 2.0ms (0.0% → 2.0%) 2 more callees, led by (0.0% → 1.0%) (program) at ./w/load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:1
+│   └── 2.0ms → <0.1µs (2.0% → <0.1%) 2 more callees, led by (1.0% → 0.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:30:633
+├── 24.6ms → 23.2ms (24.2% → 22.7%) unformattedArticleTextContentIncludingMetadata at __InjectedScript_ReaderArticleFinder.js:13:67861
+│   ├── 8.2ms → 12.9ms (8.1% → 12.7%) articleTitle at 13:39565
+│   │   └── 8.2ms → 12.9ms (8.1% → 12.7%) articleTitleInformation at 13:39662
+│   │       ├── 1.0ms → 6.5ms (1.0% → 6.3%) extraArticleNode at 13:8749
+│   │       │   └── 1.0ms → 6.5ms (1.0% → 6.3%) findExtraArticle at 13:55651
+│   │       │       ├── 1.0ms → 3.2ms (1.0% → 3.2%) findExtraArticleCandidateElements at 13:57439
+│   │       │       │   ├── 0ms → 3.2ms (0.0% → 3.2%) (anonymous) at 12:25480
+│   │       │       │   │   └── 0ms → 3.2ms (0.0% → 3.2%) elementLooksLikePartOfACarousel at 12:8505
+│   │       │       │   └── 1.0ms → 0ms (1.0% → 0.0%) push
+│   │       │       └── … 0ms → 3.2ms (0.0% → 3.2%) t at __InjectedScript_ReaderArticleFinder.js:13:56642
+│   │       ├── … 5.2ms → 0ms (5.1% → 0.0%) levenshteinDistance at __InjectedScript_ReaderArticleFinder.js:12:6770
+│   │       ├── 0ms → 3.2ms (0.0% → 3.2%, self 1.0% → 4.1% globally) normalizedElementTagName at 12:19601
+│   │       ├── 0ms → 3.2ms (0.0% → 3.2%) domDistance at 12:2553
+│   │       └── 2.0ms → 0ms (2.0% → 0.0%) 2 more callees, led by (1.0% → 0.0%) bound 
+│   ├── 10.4ms → 3.2ms (10.2% → 3.2%) adoptableMetadataBlock at 13:48923
+│   │   └── 10.4ms → 3.2ms (10.2% → 3.2%, self 5.1% → 0.0%) updateArticleBylineAndDateElementsIfNecessary at 13:53699
+│   │       └── … 5.2ms → 3.2ms (5.1% → 3.2%) trimmedInnerTextIgnoringTextTransform at __InjectedScript_ReaderArticleFinder.js:12:6561
+│   └── 6.0ms → 7.0ms (5.9% → 6.9%) articleNode at 13:8074 …
+├── 16.0ms (15.7%) flushCssBuffer at ./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217
+│   ├── 13.0ms → 12.0ms (12.8% → 11.7%) (anonymous) at 12:421
+│   │   └── 13.0ms → 12.0ms (12.8% → 11.7%) runScript at 11:59
+│   │       └── 13.0ms → 12.0ms (12.8% → 11.7%) 7 more callees, led by (6.9% → 7.8%) resources/skins.vector.js/skin.js at ./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155
+│   └── … 3.0ms → 4.0ms (3.0% → 3.9%, self 3.9% → 5.9% globally) insertBefore
+├── 13.0ms → 12.0ms (12.8% → 11.7%) (anonymous) at ./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636
+│   └── 13.0ms → 12.0ms (12.8% → 11.7%) mightThrow at 44:918
+│       └── 13.0ms → 12.0ms (12.8% → 11.7%) 9 more callees, led by (3.9%) (anonymous) at ./w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:977
+├── 1.0ms → 0ms (1.0% → 0.0%) (program) at ./wiki/Profiling_(computer_programming):6:10
+│   └── 1.0ms → 0ms (1.0% → 0.0%) (anonymous) at 6:19
+└── 20.0ms → 23.0ms (19.7% → 22.5%) 8 more root frames, led by (8.9% → 10.8%) formsAndMetadata at FormMetadata.js:3:82286
+```
+
 ## Hottest functions
 
 ### Self time

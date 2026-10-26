@@ -7,6 +7,55 @@ Took 3.46s → 3.44s (-20.00ms, -0.6%) over 346 → 344 samples (10.0ms per samp
 | Standard library  |  -0.9% | -30.00ms | 100.0% → 99.7% | 3.46s → 3.43s | 346 → 343 |
 | Garbage collector |    new | +10.00ms |    0.0% → 0.3% |  0ms → 10.0ms |     0 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 1.51s → 1.71s (43.6% → 49.7%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run at github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│   ├── 1.02s → 1.13s (29.5% → 32.8%) encoding/json.Unmarshal at encoding/json/decode.go:102
+│   │   ├── … 550.0ms → 670.0ms (15.9% → 19.5%, self 0.0% → 0.6%) encoding/json.(*decodeState).objectInterface at encoding/json/decode.go:1078
+│   │   │   ├── … 120.0ms → 160.0ms (3.5% → 4.7%, self 0.6% → 2.0%) encoding/json.(*decodeState).scanWhile at encoding/json/decode.go:298
+│   │   │   │   ├── 30.0ms → 10.0ms (0.9% → 0.3%) encoding/json.stateBeginStringOrEmpty at encoding/json/scanner.go:255
+│   │   │   │   │   └── 20.0ms → 0ms (0.6% → 0.0%, self 1.4% → 2.6% globally) encoding/json.isSpace at 201
+│   │   │   │   └── 70.0ms → 80.0ms (2.0% → 2.3%) 3 more callees, led by (0.9% → 1.5%) encoding/json.stateBeginString at encoding/json/scanner.go:268
+│   │   │   ├── … 130.0ms → 90.0ms (3.8% → 2.6%) encoding/json.unquote at encoding/json/decode.go:1187
+│   │   │   │   ├── 60.0ms → 90.0ms (1.7% → 2.6%, self 1.7% → 3.2% globally) encoding/json.unquoteBytes at 1193
+│   │   │   │   └── 70.0ms → 0ms (2.0% → 0.0%) runtime.slicebytetostring at runtime/string.go:139 …
+│   │   │   └── 300.0ms → 400.0ms (8.7% → 11.6%) 3 more callees, led by (5.5% → 4.7%) encoding/json.(*decodeState).valueInterface at encoding/json/decode.go:1035
+│   │   └── 470.0ms → 460.0ms (13.6% → 13.4%, self 5.5% → 3.8%) encoding/json.checkValid at encoding/json/scanner.go:33
+│   │       ├── 170.0ms → 120.0ms (4.9% → 3.5%) encoding/json.stateInString at 339
+│   │       └── 110.0ms → 210.0ms (3.2% → 6.1%) 9 more callees, led by (1.2% → 2.6%) encoding/json.stateBeginString at 268
+│   └── … 490.0ms → 580.0ms (14.2% → 16.9%) encoding/json.(*encodeState).reflectValue at encoding/json/encode.go:366
+│       ├── … 350.0ms → 400.0ms (10.1% → 11.6%) encoding/json.mapEncoder.encode at encoding/json/encode.go:765
+│       │   ├── 30.0ms → 70.0ms (0.9% → 2.0%, self 2.6% → 4.1% globally) encoding/json.appendString[go.shape.string] at 999
+│       │   └── 310.0ms → 320.0ms (9.0% → 9.3%) 8 more callees, led by (4.6% → 2.9%) slices.SortFunc[go.shape.[]encoding/json.reflectWithString,go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }] at slices/sort.go:30
+│       ├── … 20.0ms → 0ms (0.6% → 0.0%) internal/strconv.formatBase10 at internal/strconv/itoa.go:191
+│       └── 120.0ms → 160.0ms (3.5% → 4.7%) 3 more callees, led by (2.6%) encoding/json.stringEncoder at encoding/json/encode.go:610
+├── 1.16s → 1.14s (33.5% → 33.1%) runtime.systemstack at runtime/asm_arm64.s:353
+│   ├── … 640.0ms → 560.0ms (18.5% → 16.3%) runtime.madvise at runtime/sys_darwin.go:224
+│   ├── … 370.0ms → 330.0ms (10.7% → 9.6%) runtime.kevent at runtime/sys_darwin.go:438
+│   ├── … 10.0ms → 50.0ms (0.3% → 1.5%, self 2.3% → 4.4% globally) runtime.pthread_kill at runtime/sys_darwin.go:148
+│   └── 130.0ms → 200.0ms (3.8% → 5.8%) 4 more callees, led by (3.5% → 4.1%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+├── … 510.0ms → 400.0ms (14.7% → 11.6%) runtime.schedule at runtime/proc.go:4135
+│   ├── 480.0ms → 370.0ms (13.9% → 10.8%) runtime.findRunnable at 3389
+│   │   ├── 420.0ms → 280.0ms (12.1% → 8.1%) runtime.stopm at 2992
+│   │   │   ├── … 380.0ms → 270.0ms (11.0% → 7.8%) runtime.pthread_cond_wait at runtime/sys_darwin.go:487
+│   │   │   └── … 40.0ms → 10.0ms (1.2% → 0.3%, self 5.2% → 4.1% globally) runtime.usleep at runtime/sys_darwin.go:273
+│   │   └── 60.0ms → 80.0ms (1.7% → 2.3%) 4 more callees, led by (1.4% → 0.6%) runtime.lock at runtime/lock_spinbit.go:151
+│   └── 30.0ms (0.9%) runtime.resetspinning at 4021 …
+├── … 100.0ms (2.9%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+│   ├── 70.0ms → 50.0ms (2.0% → 1.5%) runtime.gcDrainMarkWorkerDedicated at runtime/mgcmark.go:1173
+│   │   └── 70.0ms → 50.0ms (2.0% → 1.5%) runtime.gcDrain at 1239
+│   │       ├── 20.0ms → 40.0ms (0.6% → 1.2%) runtime.scanObject at runtime/mgcmark_greenteagc.go:1187
+│   │       │   └── 0ms → 40.0ms (0.0% → 1.2%, self 0.9% → 2.0% globally) runtime.tryDeferToSpanScan at 264
+│   │       └── 50.0ms → 10.0ms (1.4% → 0.3%) runtime.scanSpan at runtime/mgcmark_greenteagc.go:844 …
+│   └── 30.0ms → 50.0ms (0.9% → 1.5%) runtime.gcDrainMarkWorkerIdle at runtime/mgcmark.go:1167 …
+└── 170.0ms → 80.0ms (4.9% → 2.3%) 2 more root frames, led by (4.6% → 2.3%) runtime.morestack at runtime/asm_arm64.s:457
+```
+
 ## Hottest functions
 
 ### Self time

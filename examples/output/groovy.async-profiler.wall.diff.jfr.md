@@ -11,6 +11,55 @@ Collected 14,141 → 13,896 samples (-245 samples, -1.7%).
 | JIT               | -41.2% |    -7 |          0.1% |         17 → 10 |
 | Garbage collector | -50.0% |    -1 |         <0.1% |           2 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 11,813 → 11,603 samples (83.5%) thread_start at libsystem_pthread.dylib
+│   └── 11,813 → 11,603 samples (83.5%) _pthread_start
+│       ├── 11,346 → 11,143 samples (80.2%) thread_native_entry at libjvm.dylib
+│       │   └── 11,346 → 11,143 samples (80.2%) Thread::call_run
+│       │       ├── 5,066 → 4,990 samples (35.8% → 35.9%) WorkerThread::run
+│       │       │   └── 5,024 → 4,952 samples (35.5% → 35.6%, self 39.0% → 39.2% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       ├── 3,951 → 3,858 samples (27.9% → 27.8%) JavaThread::thread_main_inner
+│       │       │   ├── 1,622 → 1,564 samples (11.5% → 11.3%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 934 → 908 samples (6.6% → 6.5%, self 46.0% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 684 → 654 samples (4.8% → 4.7%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 550 → 532 samples (3.9% → 3.8%) C2Compiler::compile_method
+│       │       │   │       │   └── 549 → 532 samples (3.9% → 3.8%) Compile::Compile
+│       │       │   │       │       ├── 254 → 267 samples (1.8% → 1.9%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 145 → 149 samples (1.0% → 1.1%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 35 → 34 samples (0.2%) PhaseChaitin::Split
+│       │       │   │       │       │   │   ├── 19 → 30 samples (0.1% → 0.2%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   │   ├── 16 → 13 samples (0.1%) PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │       │   │   ├── 6 → 20 samples (<0.1% → 0.1%) PhaseChaitin::gather_lrg_masks
+│       │       │   │       │       │   │   ├── 5 → 10 samples (<0.1% → 0.1%) PhaseAggressiveCoalesce::insert_copies
+│       │       │   │       │       │   │   └── 9 → 2 samples (0.1% → <0.1%) PhaseIFG::SquareUp
+│       │       │   │       │       │   └── 109 → 118 samples (0.8%) 7 more callees, led by (0.3%) Matcher::match
+│       │       │   │       │       ├── 218 → 197 samples (1.5% → 1.4%) Compile::Optimize
+│       │       │   │       │       │   ├── … 1 → 8 samples (<0.1% → 0.1%) Node::dominates at libjvm.dylib
+│       │       │   │       │       │   └── 165 → 137 samples (1.2% → 1.0%) 17 more callees, led by (0.4% → 0.3%) Compile::optimize_loops
+│       │       │   │       │       └── 69 → 60 samples (0.5% → 0.4%) ParseGenerator::generate
+│       │       │   │       └── 134 → 122 samples (0.9%) 4 more callees, led by (0.9%) Compiler::compile_method
+│       │       │   └── 2,329 → 2,294 samples (16.5%) 5 more callees, led by (3.3%) signal_thread_entry
+│       │       ├── 1,397 → 1,377 samples (9.9%) ConcurrentGCThread::run
+│       │       │   └── 1,397 → 1,377 samples (9.9%) 3 more callees, led by (3.3%) G1ConcurrentMarkThread::run_service
+│       │       └── 932 → 918 samples (6.6%) 2 more callees, led by (3.3%) VMThread::run
+│       └── … 466 → 459 samples (3.3%) __ulock_wait at libsystem_kernel.dylib
+├── … 466 → 459 samples (3.3%) mach_msg2_trap at libsystem_kernel.dylib
+├── … 454 → 448 samples (3.2%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH
+│   ├── … 146 → 140 samples (1.0%) invokeSpecial(Object, Object, Object) at java.lang.invoke.DirectMethodHandle$Holder
+│   │   ├── … 20 → 24 samples (0.1% → 0.2%) java_lang_Throwable::fill_in_stack_trace at libjvm.dylib
+│   │   └── 19 → 20 samples (0.1%) doCall(Object) at org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3
+│   ├── … 89 → 100 samples (0.6% → 0.7%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH
+│   │   └── 37 → 32 samples (0.3% → 0.2%) reinvoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000008010aa800
+│   └── 150 → 143 samples (1.1% → 1.0%) 23 more callees, led by (0.3%) invokeVirtual(Object, Object, int) at java.lang.invoke.LambdaForm$DMH
+└── 1,402 → 1,378 samples (9.9%) 6 more root frames, led by (3.3%) run() at java.lang.ref.Finalizer$FinalizerThread
+```
+
 ## Hottest functions
 
 ### Self samples

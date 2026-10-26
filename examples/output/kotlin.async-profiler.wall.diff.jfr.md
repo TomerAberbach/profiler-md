@@ -11,6 +11,55 @@ Collected 2,725 → 2,696 samples (-29 samples, -1.1%).
 | Unknown          | -12.5% |    -1 |          0.3% |         8 → 7 |
 | JIT              | -33.3% |    -1 |          0.1% |         3 → 2 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2,251 → 2,228 samples (82.6%) thread_start at libsystem_pthread.dylib
+│   └── 2,251 → 2,228 samples (82.6%) _pthread_start
+│       ├── 2,156 → 2,134 samples (79.1% → 79.2%) thread_native_entry at libjvm.dylib
+│       │   └── 2,156 → 2,134 samples (79.1% → 79.2%) Thread::call_run
+│       │       ├── 887 → 878 samples (32.6%) WorkerThread::run
+│       │       │   ├── 881 → 871 samples (32.3%, self 35.9% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       │   └── … 3 → 4 samples (0.1%) G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object at libjvm.dylib
+│       │       │       └── 2 → 4 samples (0.1%) void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>
+│       │       ├── 799 → 791 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 330 → 328 samples (12.1% → 12.2%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 176 → 166 samples (6.5% → 6.2%, self 47.7% → 47.3% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 153 → 160 samples (5.6% → 5.9%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 99 → 114 samples (3.6% → 4.2%) C2Compiler::compile_method
+│       │       │   │       │   └── 99 → 113 samples (3.6% → 4.2%) Compile::Compile
+│       │       │   │       │       ├── 49 → 57 samples (1.8% → 2.1%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 22 → 33 samples (0.8% → 1.2%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 1 → 8 samples (<0.1% → 0.3%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   │   ├── 1 → 7 samples (<0.1% → 0.3%) PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │       │   │   │   └── 0 → 5 samples (0.0% → 0.2%) PhaseChaitin::elide_copy
+│       │       │   │       │       │   │   ├── 2 → 4 samples (0.1%) PhaseLive::compute
+│       │       │   │       │       │   │   ├── 4 → 2 samples (0.1%) PhaseChaitin::gather_lrg_masks
+│       │       │   │       │       │   │   └── 4 → 0 samples (0.1% → 0.0%) PhaseChaitin::Select
+│       │       │   │       │       │   │       └── 2 → 0 samples (0.1% → 0.0%) PhaseIFG::re_insert
+│       │       │   │       │       │   ├── 13 → 8 samples (0.5% → 0.3%) Matcher::match
+│       │       │   │       │       │   │   └── 9 → 8 samples (0.3%) Matcher::xform
+│       │       │   │       │       │   │       └── 0 → 3 samples (0.0% → 0.1%) Arena::contains
+│       │       │   │       │       │   └── … 2 → 0 samples (0.1% → 0.0%) OopFlow::compute_reach at libjvm.dylib
+│       │       │   │       │       ├── 37 → 42 samples (1.4% → 1.6%) Compile::Optimize
+│       │       │   │       │       │   ├── 0 → 11 samples (0.0% → 0.4%) PhaseCCP::PhaseCCP
+│       │       │   │       │       │   │   └── 0 → 9 samples (0.0% → 0.3%) PhaseCCP::analyze
+│       │       │   │       │       │   └── 37 → 31 samples (1.4% → 1.1%) 9 more callees, led by (0.3% → 0.6%) PhaseIdealLoop::optimize
+│       │       │   │       │       ├── 9 → 11 samples (0.3% → 0.4%) ParseGenerator::generate
+│       │       │   │       │       └── … 2 → 0 samples (0.1% → 0.0%) ciObjectFactory::get_metadata at libjvm.dylib
+│       │       │   │       └── 54 → 46 samples (2.0% → 1.7%) 4 more callees, led by (1.9% → 1.6%) Compiler::compile_method
+│       │       │   └── 469 → 463 samples (17.2%) 5 more callees, led by (3.4%) ServiceThread::service_thread_entry
+│       │       ├── 282 → 279 samples (10.3%) ConcurrentGCThread::run
+│       │       │   └── 282 → 279 samples (10.3%) 3 more callees, led by (3.4%) G1ConcurrentMarkThread::run_service
+│       │       └── 188 → 186 samples (6.9%) 2 more callees, led by (3.4%) WatcherThread::run
+│       └── 95 → 94 samples (3.5%) 2 more callees, led by (3.4%) apple_main at libjli.dylib
+└── 474 → 468 samples (17.4%) 6 more root frames, led by (3.4%) unknown
+```
+
 ## Hottest functions
 
 ### Self samples

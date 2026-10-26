@@ -10,6 +10,55 @@ Collected 1,303 → 1,315 samples (+12 samples, +0.9%).
 | Standard library | +15.0% |    +9 |   4.6% → 5.2% |   60 → 69 |
 | JIT              | -30.0% |    -6 |   1.5% → 1.1% |   20 → 14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 871 → 872 samples (66.8% → 66.3%) Thread::call_run at libjvm.dylib
+│   ├── 806 → 783 samples (61.9% → 59.5%) JavaThread::thread_main_inner
+│   │   └── 806 → 781 samples (61.9% → 59.4%) CompileBroker::compiler_thread_loop
+│   │       ├── 792 → 768 samples (60.8% → 58.4%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 546 → 523 samples (41.9% → 39.8%) C2Compiler::compile_method
+│   │       │   │   └── 545 → 522 samples (41.8% → 39.7%) Compile::Compile
+│   │       │   │       ├── 285 → 267 samples (21.9% → 20.3%) Compile::Code_Gen
+│   │       │   │       │   ├── 146 → 143 samples (11.2% → 10.9%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 29 → 32 samples (2.2% → 2.4%, self 1.0% → 1.7%) PhaseChaitin::build_ifg_physical
+│   │       │   │       │   │   │   ├── 9 → 1 sample (0.7% → 0.1%, self 1.2% → 0.5% globally) IndexSetIterator::advance_and_next
+│   │       │   │       │   │   │   └── 7 → 9 samples (0.5% → 0.7%) 11 more callees, led by (0.2% → 0.1%) MachNode::rematerialize
+│   │       │   │       │   │   ├── 23 → 15 samples (1.8% → 1.1%, self 0.8% → 0.7%) PhaseLive::compute
+│   │       │   │       │   │   │   └── 9 → 3 samples (0.7% → 0.2%, self 0.5% → 0.2%) PhaseLive::add_liveout
+│   │       │   │       │   │   └── 93 → 96 samples (7.1% → 7.3%) 30 more callees, led by (1.6% → 1.3%) PhaseChaitin::Split
+│   │       │   │       │   └── 139 → 124 samples (10.7% → 9.4%) 8 more callees, led by (3.7% → 3.8%) Matcher::match
+│   │       │   │       └── 260 → 255 samples (20.0% → 19.4%) 5 more callees, led by (14.8% → 13.6%) Compile::Optimize
+│   │       │   ├── … 1 → 0 samples (0.1% → 0.0%, self 0.3% → 0.7% globally) __psynch_mutexdrop at libsystem_kernel.dylib
+│   │       │   └── 244 → 243 samples (18.7% → 18.5%) 5 more callees, led by (18.3% → 18.1%) Compiler::compile_method
+│   │       └── … 12 → 7 samples (0.9% → 0.5%) __psynch_cvwait at libsystem_kernel.dylib
+│   └── 60 → 84 samples (4.6% → 6.4%) WorkerThread::run
+│       ├── 22 → 35 samples (1.7% → 2.7%) G1EvacuateRegionsBaseTask::work
+│       │   ├── … 11 → 15 samples (0.8% → 1.1%) G1ParScanThreadState::trim_queue_to_threshold at libjvm.dylib
+│       │   │   └── 7 → 9 samples (0.5% → 0.7%) G1ParScanThreadState::do_copy_to_survivor_space
+│       │   └── 9 → 19 samples (0.7% → 1.4%) 2 more callees, led by (0.5% → 1.1%) G1EvacuateRegionsTask::scan_roots
+│       └── 38 → 49 samples (2.9% → 3.7%) 8 more callees, led by (1.5% → 1.1%) G1CMConcurrentMarkingTask::work
+├── 422 → 435 samples (32.4% → 33.1%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 422 → 435 samples (32.4% → 33.1%) run(String[])
+│       ├── … 342 → 358 samples (26.2% → 27.2%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 339 → 353 samples (26.0% → 26.8%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── … 328 → 340 samples (25.2% → 25.9%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   └── 328 → 340 samples (25.2% → 25.9%) 3 more callees, led by (23.5% → 24.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       └── 8 → 9 samples (0.6% → 0.7%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       └── 75 → 73 samples (5.8% → 5.6%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── … 74 → 73 samples (5.7% → 5.6%) loadAllClassesFromJars(Collection, int, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           │   ├── … 66 → 58 samples (5.1% → 4.4%) Java_java_util_zip_Inflater_inflateBytesBytes at libzip.dylib
+│           │   │   ├── 54 → 44 samples (4.1% → 3.3%) inflate_fast
+│           │   │   └── 12 → 14 samples (0.9% → 1.1%) 3 more callees, led by (0.5% → 0.9%) inflate
+│           │   └── 6 → 10 samples (0.5% → 0.8%) 6 more callees, led by (0.3% → 0.2%) <init>(int) at java.io.ByteArrayOutputStream
+│           └── 1 → 0 samples (0.1% → 0.0%) I2C/C2I adapters(0xbb)
+└── 6 → 4 samples (0.5% → 0.3%) break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

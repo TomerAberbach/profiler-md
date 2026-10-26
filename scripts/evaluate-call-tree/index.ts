@@ -39,6 +39,7 @@ import type { AggregatedCallStackProfile } from '../../src/modalities/call-stack
 import { memoizeShowEntry } from '../../src/modalities/call-stack-profile/format.ts'
 import {
   measuresOf,
+  NEGLIGIBLE_SHARE,
   selfRankedFunctions,
   selfValueOf,
 } from '../../src/modalities/call-stack-profile/measure.ts'
@@ -151,9 +152,12 @@ const scoreProfile = (
   )
   let drawnSelf = 0
   for (const { func } of tree.terminals) {
-    drawnSelf += selfValueOf(measure, func)
+    drawnSelf += selfValueOf(measure, profile.functions[func.id]!)
   }
-  const { summarized, largestSummary, unaccounted } = undrawnValues(tree)
+  const { summarized, largestSummary, unaccounted } = undrawnValues(
+    tree,
+    NEGLIGIBLE_SHARE * measure.total,
+  )
   const nodeSelf = nodeSelfOf(tree, drawnFunctionIds)
 
   return {
@@ -192,10 +196,10 @@ const rankPrefixOf = (
   return prefix === -1 ? ranked.length : prefix
 }
 
-const undrawnValues = ({
-  root,
-  negligible,
-}: CallTree): {
+const undrawnValues = (
+  { root }: CallTree,
+  negligible: number,
+): {
   summarized: number
   largestSummary: number
   unaccounted: number

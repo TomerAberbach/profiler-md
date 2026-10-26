@@ -12,6 +12,55 @@ Collected 1,366 → 1,335 samples (-31 samples, -2.3%).
 | Garbage collector | removed |    -1 |   0.1% → 0.0% |     1 → 0 |
 | Unknown           | removed |    -1 |   0.1% → 0.0% |     1 → 0 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 918 → 899 samples (67.2% → 67.3%) Thread::call_run()
+│   ├── 836 → 835 samples (61.2% → 62.5%) JavaThread::thread_main_inner()
+│   │   └── 835 → 833 samples (61.1% → 62.4%) CompileBroker::compiler_thread_loop()
+│   │       ├── 822 → 813 samples (60.2% → 60.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 578 → 568 samples (42.3% → 42.5%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 577 → 568 samples (42.2% → 42.5%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 209 → 196 samples (15.3% → 14.7%) Compile::Optimize()
+│   │       │   │       │   ├── 0 → 3 samples (0.0% → 0.2%) PhaseIterGVN::PhaseIterGVN(PhaseGVN*)
+│   │       │   │       │   │   └── 0 → 3 samples (0.0% → 0.2%) PhaseIterGVN::add_users_to_worklist(Node*)
+│   │       │   │       │   └── 209 → 193 samples (15.3% → 14.5%) 16 more callees, led by (5.0% → 3.4%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       └── 368 → 372 samples (26.9% → 27.9%) 10 more callees, led by (20.9% → 21.8%) Compile::Code_Gen()
+│   │       │   └── 244 → 245 samples (17.9% → 18.4%) 7 more callees, led by (17.3% → 17.6%) Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       └── … 6 → 13 samples (0.4% → 1.0%) __psynch_cvwait
+│   └── 82 → 64 samples (6.0% → 4.8%) 4 more callees, led by (5.2% → 4.3%) WorkerThread::run()
+├── 439 → 426 samples (32.1% → 31.9%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 439 → 426 samples (32.1% → 31.9%) run(String[])
+│       ├── … 355 → 348 samples (26.0% → 26.1%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 351 → 342 samples (25.7% → 25.6%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── … 337 → 330 samples (24.7%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   ├── 313 → 307 samples (22.9% → 23.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │   │   └── 313 → 307 samples (22.9% → 23.0%) phaseBody(PipelineContext, PipelineArtifact)
+│       │       │   │       ├── 224 → 218 samples (16.4% → 16.3%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │   │       │   └── 224 → 218 samples (16.4% → 16.3%) executePhase(ConfigurationPipelineArtifact)
+│       │       │   │       │       ├── 24 → 23 samples (1.8% → 1.7%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│       │       │   │       │       │   └── 24 → 22 samples (1.8% → 1.6%) createProjectEnvironment(CompilerConfiguration, Disposable, EnvironmentConfigFiles) at org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │   │       │       │       ├── … 11 → 10 samples (0.8% → 0.7%) createApplicationEnvironment(Disposable, CompilerConfiguration, KotlinCoreApplicationEnvironmentMode) at org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$Companion
+│       │       │   │       │       │       │   ├── … 1 → 0 samples (0.1% → 0.0%, self 1.2% → 2.0% globally) SymbolTable::do_lookup(char const*, int, unsigned long)
+│       │       │   │       │       │       │   └── … 1 → 0 samples (0.1% → 0.0%) _platform_memchr
+│       │       │   │       │       │       └── 13 → 12 samples (1.0% → 0.9%) 5 more callees, led by (0.3%) <init>(Disposable, KotlinCoreApplicationEnvironment, CompilerConfiguration) at org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment
+│       │       │   │       │       ├── 14 → 10 samples (1.0% → 0.7%) buildFirViaLightTree(FirSession, Collection, DiagnosticReporter, Function2) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       │   │       │       │   └── 13 → 9 samples (1.0% → 0.7%) buildFirFile(CharSequence, KtSourceFile, KtSourceFileLinesMapping) at org.jetbrains.kotlin.fir.lightTree.LightTree2Fir
+│       │       │   │       │       │       ├── 7 → 4 samples (0.5% → 0.3%) buildLightTree(CharSequence, KtSourceFile, KotlinLightParser$LightTreeParsingErrorListener) at org.jetbrains.kotlin.parsing.KotlinLightParser …
+│       │       │   │       │       │       └── … 1 → 0 samples (0.1% → 0.0%, self 0.7% → 0.2% globally) ClassVerifier::verify_method(methodHandle const&, JavaThread*)
+│       │       │   │       │       └── 186 → 185 samples (13.6% → 13.9%) 4 more callees, led by (11.9% → 12.0%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       │   │       └── 89 samples (6.5% → 6.7%) 3 more callees, led by (4.2%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│       │       │   └── 24 → 23 samples (1.8% → 1.7%) 2 more callees, led by (1.3% → 1.4%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │       └── 9 → 8 samples (0.7% → 0.6%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       └── 78 → 74 samples (5.7% → 5.5%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           └── … 78 → 74 samples (5.7% → 5.5%) loadAllClassesFromJars(Collection, int, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils …
+└── 8 → 9 samples (0.6% → 0.7%) 4 more root frames, led by (0.4% → 0.5%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

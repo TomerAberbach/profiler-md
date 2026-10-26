@@ -10,6 +10,55 @@ Collected 5,110 → 5,812 samples (+702 samples, +13.7%).
 | JIT              | +66.7% |    +6 |   0.2% → 0.3% |        9 → 15 |
 | Compiler         | -22.2% |    -2 |   0.2% → 0.1% |         9 → 7 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2,869 → 3,300 samples (56.1% → 56.8%) thread_start at libsystem_pthread.dylib
+│   └── 2,869 → 3,300 samples (56.1% → 56.8%) _pthread_start
+│       ├── 2,742 → 3,154 samples (53.7% → 54.3%) thread_native_entry at libjvm.dylib
+│       │   └── 2,742 → 3,154 samples (53.7% → 54.3%) Thread::call_run
+│       │       ├── 1,200 → 1,390 samples (23.5% → 23.9%) WorkerThread::run
+│       │       │   ├── 1,193 → 1,371 samples (23.3% → 23.6%, self 26.2% → 26.5% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       │   └── … 0 → 6 samples (0.0% → 0.1%) G1FullGCMarker::mark_object at libjvm.dylib
+│       │       ├── 912 → 1,039 samples (17.8% → 17.9%) JavaThread::thread_main_inner
+│       │       │   └── 912 → 1,039 samples (17.8% → 17.9%) 6 more callees, led by (5.5% → 5.4%) CompileBroker::compiler_thread_loop
+│       │       ├── 378 → 435 samples (7.4% → 7.5%) ConcurrentGCThread::run
+│       │       │   └── 378 → 435 samples (7.4% → 7.5%) 3 more callees, led by (2.5%) G1ServiceThread::run_service
+│       │       └── 252 → 290 samples (4.9% → 5.0%) 2 more callees, led by (2.5%) VMThread::run
+│       └── … 126 → 145 samples (2.5%) __ulock_wait at libsystem_kernel.dylib
+├── 1,613 → 1,788 samples (31.6% → 30.8%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 1,613 → 1,788 samples (31.6% → 30.8%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 1,172 → 1,268 samples (22.9% → 21.8%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   ├── 420 → 410 samples (8.2% → 7.1%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │   ├── … 331 → 279 samples (6.5% → 4.8%, self 1.8% → 1.3%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │   │   └── 226 → 191 samples (4.4% → 3.3%, self 4.1% → 3.2%) distance(Double[], Double[])
+│       │   │   └── … 89 → 131 samples (1.7% → 2.3%, self 0.4% → 0.6%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       ├── 27 → 36 samples (0.5% → 0.6%) add(Object) at java.util.ArrayList
+│       │   │       │   └── 27 → 36 samples (0.5% → 0.6%) add(Object, Object[], int)
+│       │   │       ├── 25 → 38 samples (0.5% → 0.7%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │   └── 2 → 8 samples (<0.1% → 0.1%) hash(Object)
+│       │   │       └── 13 → 19 samples (0.3%) get(int) at java.util.ArrayList
+│       │   │           └── 4 → 10 samples (0.1% → 0.2%) checkIndex(int, int) at java.util.Objects
+│       │   ├── 396 → 387 samples (7.7% → 6.7%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │   └── … 396 → 387 samples (7.7% → 6.7%, self 1.8% → 2.0%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       └── 283 → 242 samples (5.5% → 4.2%, self 5.0% → 3.8%) accumulate(Double[], double[])
+│       │   │           └── 26 → 24 samples (0.5% → 0.4%) doubleValue() at java.lang.Double
+│       │   ├── … 74 → 72 samples (1.4% → 1.2%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │   ├── 7 → 9 samples (0.1% → 0.2%) zero_blocks
+│       │   │   └── 67 → 61 samples (1.3% → 1.0%) 2 more callees, led by (1.1% → 0.9%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000078011a7248
+│       │   └── 278 → 395 samples (5.4% → 6.8%) 8 more callees, led by (5.3% → 6.7%) join() at java.util.concurrent.ForkJoinTask
+│       └── … 408 → 467 samples (8.0%, self 50.4% → 52.1% globally) __psynch_cvwait at libsystem_kernel.dylib
+├── … 126 → 145 samples (2.5%) mach_msg2_trap at libsystem_kernel.dylib
+├── … 120 → 138 samples (2.3% → 2.4%) applyVoid(Object) at org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780111ede0
+│   ├── 120 → 0 samples (2.3% → 0.0%) runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor) at org.renaissance.harness.RenaissanceSuite$ …
+│   └── … 0 → 131 samples (0.0% → 2.3%) __psynch_cvwait at libsystem_kernel.dylib
+└── 377 → 435 samples (7.4% → 7.5%) 4 more root frames, led by (2.5%) run() at java.lang.ref.Reference$ReferenceHandler
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -9,6 +9,55 @@ Took 4.72s → 4.76s (+36.80ms, +0.8%).
 | Native           |  +17.4% | +19.19ms |   2.3% → 2.7% | 110.6ms → 129.7ms |
 | Unknown          | +212.7% | +<0.01µs |         <0.1% |            <0.1µs |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 4.70s → 4.74s (99.6%) Main() at Profile.Program
+│   ├── 3.51s → 3.61s (74.4% → 75.8%) DeserializeObject(String, Type, JsonSerializerSettings) at Newtonsoft.Json.JsonConvert
+│   │   ├── 3.40s → 3.50s (72.0% → 73.6%) DeserializeInternal(JsonReader, Type) at Newtonsoft.Json.JsonSerializer
+│   │   │   └── 3.39s → 3.50s (71.9% → 73.6%) Deserialize(JsonReader, Type, bool) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+│   │   │       ├── 3.35s → 3.44s (70.9% → 72.4%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
+│   │   │       │   ├── … 2.32s → 2.41s (49.1% → 50.7%) CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+│   │   │       │   │   ├── 2.28s → 2.36s (48.3% → 49.6%, self 2.9%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)
+│   │   │       │   │   │   ├── 1.91s → 1.99s (40.6% → 42.0%, self 35.2% → 37.1%, self 36.4% → 38.3% globally) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+│   │   │       │   │   │   │   ├── 44.5ms → 25.7ms (0.9% → 0.5%, self 0.7% → 0.3%) ParseValue() at Newtonsoft.Json.JsonTextReader
+│   │   │       │   │   │   │   └── 211.1ms → 208.3ms (4.5% → 4.4%) 3 more callees, led by (3.4% → 3.6%) ReadNumberValue(ReadType) at Newtonsoft.Json.JsonTextReader
+│   │   │       │   │   │   ├── 49.6ms → 32.5ms (1.0% → 0.7%, self 0.8% → 0.5%) FindValue(!0) at System.Collections.Generic.Dictionary`2[System.__Canon,System.__Canon]
+│   │   │       │   │   │   ├── 0ms → 10.8ms (0.0% → 0.2%) SetValue(Object, Object) at Newtonsoft.Json.Serialization.DynamicValueProvider
+│   │   │       │   │   │   └── 175.1ms → 184.9ms (3.7% → 3.9%) 5 more callees, led by (2.7% → 3.0%) ParseObject() at Newtonsoft.Json.JsonTextReader
+│   │   │       │   │   └── 40.7ms → 49.1ms (0.9% → 1.0%) 3 more callees, led by (0.6% → 0.7%) ParseObject() at Newtonsoft.Json.JsonTextReader
+│   │   │       │   └── … 1s → 1.02s (21.2% → 21.6%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+│   │   │       │       ├── 785.3ms → 836.4ms (16.6% → 17.6%, self 16.5% → 17.5%, self 17.9% → 19.1% globally) CopyTo(Array, int32) at System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection
+│   │   │       │       └── 210.4ms → 186.2ms (4.5% → 3.9%, self 1.1%) PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)
+│   │   │       │           ├── 125.3ms → 111.3ms (2.7% → 2.3%) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+│   │   │       │           │   └── 107.8ms → 85.5ms (2.3% → 1.8%, self 0.5% → 0.4%) ReadStringValue(ReadType) at Newtonsoft.Json.JsonTextReader
+│   │   │       │           │       └── 83.6ms → 68.2ms (1.8% → 1.4%) 3 more callees, led by (1.0% → 0.9%) ReadStringIntoBuffer(wchar)
+│   │   │       │           └── 27.2ms → 23.1ms (0.6% → 0.5%) Add(Object) at System.Collections.Generic.List`1[System.__Canon].System.Collections.IList
+│   │   │       └── 39.5ms → 41.8ms (0.8% → 0.9%) 3 more callees, led by (0.7%) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+│   │   └── 105.1ms → 93.0ms (2.2% → 2.0%) 2 more callees, led by (2.2% → 1.9%) Deserialize(JsonReader, Type) at Newtonsoft.Json.JsonSerializer
+│   ├── 866.2ms → 803.8ms (18.3% → 16.9%) SerializeObjectInternal(Object, Type, JsonSerializer) at Newtonsoft.Json.JsonConvert
+│   │   ├── … 835.5ms → 748.1ms (17.7% → 15.7%, self 0.8%) SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+│   │   │   ├── … 348.1ms → 293.6ms (7.4% → 6.2%, self 6.5% → 5.6%) SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+│   │   │   │   ├── 21.6ms → 9.4ms (0.5% → 0.2%) CheckForCircularReference(JsonWriter, Object, JsonProperty, JsonContract, JsonContainerContract, JsonProperty)
+│   │   │   │   ├── 14.8ms → 0ms (0.3% → 0.0%) GetValue(Object) at Newtonsoft.Json.Serialization.ExpressionValueProvider
+│   │   │   │   └── 0ms → 9.6ms (0.0% → 0.2%) GetValue(Object) at Newtonsoft.Json.Serialization.DynamicValueProvider
+│   │   │   ├── … 223.9ms → 205.5ms (4.7% → 4.3%, self 0.6% → 0.7%) WriteValue(JsonWriter, PrimitiveTypeCode, Object) at Newtonsoft.Json.JsonWriter
+│   │   │   │   ├── 115.9ms → 100.1ms (2.5% → 2.1%) WriteValue(float64) at Newtonsoft.Json.JsonTextWriter
+│   │   │   │   │   └── 78.6ms → 64.2ms (1.7% → 1.3%) FormatDouble(float64, String, NumberFormatInfo) at System.Number
+│   │   │   │   │       └── 66.3ms → 43.2ms (1.4% → 0.9%) FormatDouble(ValueListBuilder`1<!!0>&, float64, ReadOnlySpan`1<wchar>, NumberFormatInfo)
+│   │   │   │   │           └── 29.9ms → 18.8ms (0.6% → 0.4%) TryRunDouble(float64, int32, NumberBuffer&) at System.Number+Grisu3
+│   │   │   │   │               └── 27.2ms → 14.7ms (0.6% → 0.3%) TryDigitGenShortest(DiyFp&, DiyFp&, DiyFp&, Span`1<unsigned int8>, int32&, int32&)
+│   │   │   │   └── 71.2ms → 66.0ms (1.5% → 1.4%, self 1.4% → 1.3%) WriteEscapedJavaScriptString(TextWriter, String, wchar, bool, bool[], StringEscapeHandling, IArrayPool`1<wchar>, wchar[]&) at Newtonsoft.Json.Utilities.JavaScriptUtils
+│   │   │   └── 224.7ms → 213.2ms (4.8% → 4.5%) 3 more callees, led by (4.2% → 3.9%) SerializeList(JsonWriter, IEnumerable, JsonArrayContract, JsonProperty, JsonContainerContract, JsonProperty) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+│   │   └── 14.6ms → 33.8ms (0.3% → 0.7%) 3 more callees, led by (0.3% → 0.5%) Serialize(JsonWriter, Object, Type) at Newtonsoft.Json.JsonSerializer
+│   └── 328.4ms → 328.5ms (6.9%) 5 more callees, led by (4.8% → 5.1%) DeserializeObject(String) at Newtonsoft.Json.JsonConvert
+└── … 0ms → 5.4ms (0.0% → 0.1%, self 2.3% → 2.7% globally) UNMANAGED_CODE_TIME
+```
+
 ## Hottest functions
 
 ### Self time

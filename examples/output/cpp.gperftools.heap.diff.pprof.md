@@ -8,6 +8,27 @@ Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 
 Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 120 MiB (100.0%) _start
+    └── 120 MiB (100.0%) __libc_start_main
+        └── 120 MiB (100.0%) (anonymous)
+            └── 120 MiB (100.0%) main at /out/profile.cpp:8
+                ├── 120 MiB → 0 B (100.0% → 0.0%) fmt::v11::format at ./format.h:4198
+                │   └── 120 MiB → 0 B (100.0% → 0.0%) fmt::v11::vformat[abi:cxx11] at ./format-inl.h:1442
+                │       └── 120 MiB → 0 B (100.0% → 0.0%) fmt::v11::to_string at ./format.h:882
+                │           └── 120 MiB → 0 B (100.0% → 0.0%) std::__cxx11::basic_string::basic_string at /usr/include/c++/12/bits/basic_string.h:612
+                │               └── 120 MiB → 0 B (100.0% → 0.0%) std::__cxx11::basic_string::_M_construct at /usr/include/c++/12/bits/basic_string.tcc:217
+                └── 0 B → 120 MiB (0.0% → 100.0%) fmt::v12::format at ./format.h:4335
+                    └── 0 B → 120 MiB (0.0% → 100.0%) fmt::v12::vformat[abi:cxx11] at ./format-inl.h:1446
+                        └── 0 B → 120 MiB (0.0% → 100.0%) fmt::v12::to_string at ./format.h:910
+                            └── 0 B → 120 MiB (0.0% → 100.0%) std::__cxx11::basic_string::basic_string at /usr/include/c++/12/bits/basic_string.h:612
+                                └── 0 B → 120 MiB (0.0% → 100.0%, self 100.0% globally) std::__cxx11::basic_string::_M_construct at /usr/include/c++/12/bits/basic_string.tcc:217
+```
+
 ## Hottest functions
 
 ### Self size

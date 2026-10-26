@@ -7,6 +7,55 @@ Allocated 680 MiB → 643 MiB (-37.313 MiB, -5.5%) over 1,354 → 1,279 sampl
 | Standard library |  -7.1% |  -36.813 MiB | 76.3% → 75.0% | 519 MiB → 482 MiB | 1,032 → 958 |
 | Ours             |  -0.3% | -511.999 KiB | 23.7% → 25.0% |           161 MiB |   322 → 321 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 680 MiB → 641 MiB (99.9% → 99.8%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+    └── 680 MiB → 641 MiB (99.9% → 99.8%) run(String[])
+        ├── 365 MiB → 337 MiB (53.7% → 52.4%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   └── … 365 MiB → 336 MiB (53.7% → 52.3%) loadAllClassesFromJars(Collection, int, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │       ├── 195 MiB → 151 MiB (28.7% → 23.5%) <init>(int) at java.io.ByteArrayOutputStream
+        │       ├── 159 MiB → 175 MiB (23.3% → 27.2%) toByteArray() at java.io.ByteArrayOutputStream
+        │       │   └── 159 MiB → 175 MiB (23.3% → 27.2%, self 17.5% → 20.0%, self 18.6% → 21.7% globally) copyOf(byte[], int) at java.util.Arrays
+        │       │       └── 39.5 MiB → 46 MiB (5.8% → 7.2%) clone() at java.lang.Object
+        │       └── 10 MiB → 9.5 MiB (1.5%) 2 more callees, led by (1.4% → 1.1%) getNextEntry() at java.util.zip.ZipInputStream
+        └── … 314 MiB → 304 MiB (46.2% → 47.3%) main(String[]) at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion
+            ├── … 310 MiB → 300 MiB (45.5% → 46.7%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+            │   ├── 307 MiB → 298 MiB (45.1% → 46.3%) exec(MessageCollector, Services, CommonCompilerArguments)
+            │   │   ├── … 302 MiB → 294 MiB (44.4% → 45.7%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+            │   │   │   ├── 290 MiB → 287 MiB (42.6% → 44.6%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+            │   │   │   │   └── 290 MiB → 287 MiB (42.6% → 44.6%) phaseBody(PipelineContext, PipelineArtifact)
+            │   │   │   │       ├── 210 MiB → 208 MiB (30.9% → 32.3%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+            │   │   │   │       │   └── 210 MiB → 208 MiB (30.9% → 32.3%) executePhase(ConfigurationPipelineArtifact)
+            │   │   │   │       │       ├── 161 MiB → 166 MiB (23.7% → 25.9%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+            │   │   │   │       │       │   ├── 137 MiB → 136 MiB (20.1% → 21.2%) runResolution(FirSession, List) at org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+            │   │   │   │       │       │   │   └── 137 MiB → 136 MiB (20.1% → 21.2%) process(List) at org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+            │   │   │   │       │       │   │       ├── 99 MiB → 94 MiB (14.6%) processFile(FirFile) at org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor …
+            │   │   │   │       │       │   │       └── … 34.7 MiB → 39.2 MiB (5.1% → 6.1%) computePackagePartInfo(FqName, String) at org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider
+            │   │   │   │       │       │   │           ├── 26 MiB → 32 MiB (3.8% → 5.0%) readPackageDataFrom(String[], String[]) at org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil
+            │   │   │   │       │       │   │           │   ├── … 21.5 MiB → 30 MiB (3.2% → 4.7%) <init>(CodedInputStream, ExtensionRegistryLite) at org.jetbrains.kotlin.metadata.ProtoBuf$Package
+            │   │   │   │       │       │   │           │   │   ├── 21.5 MiB → 29 MiB (3.2% → 4.5%) readMessage(Parser, ExtensionRegistryLite) at org.jetbrains.kotlin.protobuf.CodedInputStream …
+            │   │   │   │       │       │   │           │   │   └── … 0 B → 1 MiB (0.0% → 0.2%, self 0.7% → 0.4% globally) copyOf(Object[], int) at java.util.Arrays
+            │   │   │   │       │       │   │           │   └── … 1.5 MiB → 512 KiB (0.2% → 0.1%, self 0.7% → 0.5% globally) newString(byte[], int, int) at java.lang.StringLatin1
+            │   │   │   │       │       │   │           └── … 5.5 MiB → 3 MiB (0.8% → 0.5%) accept(ClassVisitor, Attribute[], int) at org.jetbrains.org.objectweb.asm.ClassReader
+            │   │   │   │       │       │   │               └── … 1.5 MiB → 512 KiB (0.2% → 0.1%, self 2.3% → 1.9% globally) copyOfRangeByte(byte[], int, int) at java.util.Arrays
+            │   │   │   │       │       │   └── 24.5 MiB → 30 MiB (3.6% → 4.7%) runCheckers(FirSession, ScopeSession, Collection, BaseDiagnosticsCollector, MppCheckerKind) at org.jetbrains.kotlin.fir.pipeline.AnalyseKt …
+            │   │   │   │       │       ├── … 11 MiB → 8.5 MiB (1.6% → 1.3%) prepareSessions(List, CompilerConfiguration, Name, TargetPlatform, boolean, DependencyListForCliModule, List, Function1, Function1, Function2, Function0, Function0, Function1, FirSessionProducer, Function4) at org.jetbrains.kotlin.cli.common.SessionConstructionUtils
+            │   │   │   │       │       │   ├── … 512 KiB → 0 B (0.1% → 0.0%) defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String) at java.lang.ClassLoader
+            │   │   │   │       │       │   └── 8 MiB → 6 MiB (1.2% → 0.9%) 3 more callees, led by (1.0% → 0.9%) invoke(Object) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase$$Lambda.0x0000009001422db0
+            │   │   │   │       │       └── 37 MiB → 31.5 MiB (5.4% → 4.9%) 5 more callees, led by (2.1% → 2.8%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+            │   │   │   │       └── 79.5 MiB → 79 MiB (11.7% → 12.3%) 4 more callees, led by (8.3% → 8.9%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+            │   │   │   └── 12 MiB → 7 MiB (1.8% → 1.1%) 4 more callees, led by (1.6% → 0.5%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+            │   │   └── … 512 KiB → 0 B (0.1% → 0.0%) unmodifiableList(List) at java.util.Collections
+            │   └── … 512 KiB → 0 B (0.1% → 0.0%, self 2.6% → 1.9% globally) iterator() at java.util.ArrayList
+            └── 4.21 MiB → 3.71 MiB (0.6%) <init>() at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
+                └── 4.21 MiB → 3.71 MiB (0.6%) <init>() at org.jetbrains.kotlin.cli.common.CLICompiler …
+```
+
 ## Hottest functions
 
 ### Self size

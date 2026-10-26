@@ -128,6 +128,16 @@ export const selfValueOf = (
   entity: { selfValues: Float64Array; selfCount: number },
 ): number => measure.valueOf(entity.selfValues, entity.selfCount)
 
+/** The self value of a diff side's entity, or 0 when the side lacks it. */
+export const sideSelfValueOf = (
+  measure: Measure,
+  entity: { selfValues: Float64Array; selfCount: number } | undefined,
+): number => (entity === undefined ? 0 : selfValueOf(measure, entity))
+
+/** {@link value}'s share of the measure's total, or 0 when the total is 0. */
+export const shareOf = (value: number, { total }: Measure): number =>
+  total === 0 ? 0 : value / total
+
 /**
  * The functions a ranking by self value ranks: those the entry filter shows
  * that the profile recorded executing.

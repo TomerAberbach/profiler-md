@@ -14,6 +14,55 @@ Took 2.13s → 2.15s (+17.97ms, +0.8%) over 2,912 → 2,926 samples (733.3µs �
 
 Paths starting with `./` or `../` are relative to `/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 1.96s → 1.97s (92.1% → 91.7%) processTicksAndRejections at ext:core/01_core.js:356:37
+│   ├── … 1.94s (90.9% → 90.4%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   │   ├── … 1.44s (67.7% → 67.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37
+│   │   │   ├── … 1.33s (62.3% → 61.8%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33
+│   │   │   │   ├── … 733.7ms → 720.3ms (34.4% → 33.4%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js:79840:64 → 81135:64
+│   │   │   │   │   ├── 713.8ms → 707.7ms (33.4% → 32.9%) checkSourceElement at 86886:30 → 88199:30
+│   │   │   │   │   │   └── … 713.8ms → 707.7ms (33.4% → 32.9%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36
+│   │   │   │   │   │       ├── 365.8ms → 368.3ms (17.1%) checkVariableDeclaration at 84101:36 → 85396:36
+│   │   │   │   │   │       │   └── 365.8ms → 367.0ms (17.1% → 17.0%) 2 more callees, led by (17.1% → 17.0%) checkVariableLikeDeclaration at 83907:40 → 85202:40
+│   │   │   │   │   │       └── 346.7ms → 338.2ms (16.2% → 15.7%) 22 more callees, led by (9.4% → 8.8%) checkExpressionStatement at 84124:36 → 85419:36
+│   │   │   │   │   └── 18.8ms → 11.0ms (0.9% → 0.5%) 5 more callees, led by (0.6% → 0.4%) getReturnTypeOfSignature at 61207:36 → 62462:36
+│   │   │   │   └── 589.8ms → 602.0ms (27.6% → 28.0%) forEach at 2365:17 → 2378:17
+│   │   │   │       ├── … 568.1ms (26.6% → 26.4%) checkSourceElement at ./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30
+│   │   │   │       │   └── … 568.1ms → 567.1ms (26.6% → 26.3%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36
+│   │   │   │       │       ├── … 1.9ms → 0ms (0.1% → 0.0%) getNamedMembers at ./node_modules/typescript/lib/typescript.js:52485:27 → 53726:27
+│   │   │   │       │       └── 557.2ms → 561.4ms (26.1%) 31 more callees, led by (8.7%) checkVariableDeclaration at 84101:36 → 85396:36
+│   │   │   │       ├── … 4.4ms → 7.3ms (0.2% → 0.3%) checkImportBinding at ./node_modules/typescript/lib/typescript.js:86542:30 → 87855:30
+│   │   │   │       └── … 3.7ms → 5.0ms (0.2%, self 3.1% → 2.5% globally) isRelatedTo at ./node_modules/typescript/lib/typescript.js:66493:25 → 67753:25
+│   │   │   │           └── … 0ms → 1.3ms (0.0% → 0.1%) isSimpleTypeRelatedTo at ./node_modules/typescript/lib/typescript.js:66052:33 → 67312:33
+│   │   │   └── … 106.1ms → 111.1ms (5.0% → 5.2%, self 0.6%) bind at ./node_modules/typescript/lib/typescript.js:46600:16 → 47793:16
+│   │   │       ├── … 0ms → 3.8ms (0.0% → 0.2%) canHaveJSDoc at ./node_modules/typescript/lib/typescript.js:17852:22 → 18835:22
+│   │   │       └── 92.9ms → 92.7ms (4.4% → 4.3%) 5 more callees, led by (2.9% → 2.8%) bindWorker at ./node_modules/typescript/lib/typescript.js:46663:22 → 47856:22
+│   │   ├── 346.3ms → 362.0ms (16.2% → 16.8%) createProgram at ./node_modules/typescript/lib/typescript.js:122262:23 → 123840:23
+│   │   │   ├── 283.0ms → 300.5ms (13.3% → 14.0%) forEach at 2365:17 → 2378:17
+│   │   │   │   ├── … 123.2ms → 131.6ms (5.8% → 6.1%) findSourceFileWorker at ./node_modules/typescript/lib/typescript.js:123984:32 → 125566:32
+│   │   │   │   │   ├── … 85.9ms → 95.3ms (4.0% → 4.4%) parseSourceFileWorker at ./node_modules/typescript/lib/typescript.js:31659:33 → 32711:33
+│   │   │   │   │   │   └── 82.1ms → 92.8ms (3.8% → 4.3%) parseList at 32618:21 → 33673:21
+│   │   │   │   │   │       └── … 77.0ms → 90.1ms (3.6% → 4.2%) parseListElement at ./node_modules/typescript/lib/typescript.js:32639:28 → 33694:28
+│   │   │   │   │   │           ├── … 0ms → 2.5ms (0.0% → 0.1%, self 0.2% → 1.1% globally) internIdentifier at ./node_modules/typescript/lib/typescript.js:32276:28 → 33331:28
+│   │   │   │   │   │           └── 70.4ms → 79.5ms (3.3% → 3.7%) 14 more callees, led by (1.4% → 1.7%) parseStatement at 35924:26 → 36979:26
+│   │   │   │   │   └── 28.9ms → 30.1ms (1.4%) 5 more callees, led by (1.1% → 1.0%) processImportedModules at 124378:34 → 125960:34
+│   │   │   │   ├── … 47.6ms → 50.9ms (2.2% → 2.4%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124350:42 → 125932:42
+│   │   │   │   │   ├── 23.6ms → 27.3ms (1.1% → 1.3%) processRootFile at 123708:27 → 125290:27 …
+│   │   │   │   │   └── … 23.3ms → 18.5ms (1.1% → 0.9%) loadModuleFromImmediateNodeModulesDirectory at ./node_modules/typescript/lib/typescript.js:44319:53 → 45512:53
+│   │   │   │   │       └── … 8.3ms → 1.5ms (0.4% → 0.1%, self 0.8% → 0.2% globally) buildCustomError at ext:core/00_infra.js:94:28
+│   │   │   │   └── 112.1ms → 118.0ms (5.3% → 5.5%) 3 more callees, led by (3.2% → 3.5%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124200:35 → 125782:35
+│   │   │   └── 59.7ms → 59.1ms (2.8% → 2.7%) 5 more callees, led by (2.3%) processTypeReferenceDirective at 124232:41 → 125814:41
+│   │   └── 147.3ms → 133.2ms (6.9% → 6.2%) 2 more callees, led by (6.4% → 5.8%) require at node:module:1752:35
+│   └── 26.3ms → 26.6ms (1.2%) (anonymous) at ./cpuprofile-run.mjs …
+└── 168.5ms → 179.1ms (7.9% → 8.3%) 82 more root frames, led by (5.7% → 5.8%) (garbage collector)
+```
+
 ## Hottest functions
 
 ### Self time

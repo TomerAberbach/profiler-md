@@ -7,6 +7,55 @@ Collected 794 → 769 samples (-25 samples, -3.1%).
 | Standard library |   -3.0% |   -24 | 99.9% → 100.0% | 793 → 769 |
 | Ours             | removed |    -1 |    0.1% → 0.0% |     1 → 0 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 771 → 737 samples (97.1% → 95.8%) invoke at java.lang.invoke.LambdaForm$MH
+│   ├── … 518 → 511 samples (65.2% → 66.4%) invokeVirtual at java.lang.invoke.LambdaForm$DMH
+│   │   ├── … 454 → 438 samples (57.2% → 57.0%) buildAST at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│   │   │   ├── 433 → 420 samples (54.5% → 54.6%) buildAST at org.apache.groovy.parser.antlr4.AstBuilder
+│   │   │   │   ├── … 400 → 396 samples (50.4% → 51.5%) classDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │   │   ├── … 393 → 389 samples (49.5% → 50.6%) memberDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │   │   │   ├── 385 → 386 samples (48.5% → 50.2%) methodDeclaration
+│   │   │   │   │   │   │   ├── … 373 → 370 samples (47.0% → 48.1%) blockStatement at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │   │   │   │   │   ├── 341 → 327 samples (42.9% → 42.5%) statement
+│   │   │   │   │   │   │   │   │   ├── … 119 → 113 samples (15.0% → 14.7%) adaptivePredict at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   │   └── … 118 → 113 samples (14.9% → 14.7%) execDFA at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   │       └── … 114 → 110 samples (14.4% → 14.3%) computeTargetState at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   │           ├── 67 → 72 samples (8.4% → 9.4%) closure
+│   │   │   │   │   │   │   │   │   │           │   ├── … 37 → 36 samples (4.7%) add at groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet
+│   │   │   │   │   │   │   │   │   │           │   │   ├── 16 → 9 samples (2.0% → 1.2%, self 6.2% → 5.2% globally) valueOf at java.lang.Long
+│   │   │   │   │   │   │   │   │   │           │   │   └── 21 → 27 samples (2.6% → 3.5%) 3 more callees, led by (1.8%) put at java.util.HashMap
+│   │   │   │   │   │   │   │   │   │           │   └── 29 → 35 samples (3.7% → 4.6%) 4 more callees, led by (3.3% → 3.8%) getEpsilonTarget at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   │           └── 47 → 38 samples (5.9% → 4.9%) 2 more callees, led by (5.8% → 4.7%) addDFAEdge
+│   │   │   │   │   │   │   │   │   └── 221 → 214 samples (27.8%) 5 more callees, led by (25.1% → 25.6%) statementExpression at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │   │   │   │   │   ├── … 18 → 22 samples (2.3% → 2.9%) computeTargetState at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   ├── 11 → 14 samples (1.4% → 1.8%) closure
+│   │   │   │   │   │   │   │   │   │   ├── … 9 → 7 samples (1.1% → 0.9%) add at groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet
+│   │   │   │   │   │   │   │   │   │   │   ├── … 3 → 0 samples (0.4% → 0.0%, self 5.4% → 7.4% globally) copyOf at java.util.Arrays
+│   │   │   │   │   │   │   │   │   │   │   └── 6 → 7 samples (0.8% → 0.9%) 3 more callees, led by (0.3% → 0.7%) valueOf at java.lang.Long
+│   │   │   │   │   │   │   │   │   │   └── 2 → 7 samples (0.3% → 0.9%) 2 more callees, led by (0.1% → 0.9%) getEpsilonTarget at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │   │   └── 7 → 8 samples (0.9% → 1.0%) 2 more callees, led by (0.8% → 0.9%) addDFAEdge
+│   │   │   │   │   │   │   │   └── … 11 → 19 samples (1.4% → 2.5%) expression at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │   │   │   │   │       ├── … 3 → 9 samples (0.4% → 1.2%) computeTargetState at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │   │   │   │   │   │   │       │   └── … 1 → 5 samples (0.1% → 0.7%, self 0.1% → 0.5%, self 6.5% → 5.1% globally) join at groovyjarjarantlr4.v4.runtime.atn.PredictionContext
+│   │   │   │   │   │   │   │       └── 8 → 7 samples (1.0% → 0.9%) 2 more callees, led by (0.9%) postfixExpression
+│   │   │   │   │   │   │   └── 12 → 14 samples (1.5% → 1.8%) 6 more callees, led by (1.3% → 1.2%) formalParameters
+│   │   │   │   │   │   └── 8 → 3 samples (1.0% → 0.4%) 3 more callees, led by (0.8% → 0.1%) fieldDeclaration
+│   │   │   │   │   └── 6 → 4 samples (0.8% → 0.5%) typeList …
+│   │   │   │   └── 31 → 24 samples (3.9% → 3.1%) visit
+│   │   │   │       └── … 31 → 24 samples (3.9% → 3.1%) visit at groovyjarjarantlr4.v4.runtime.tree.AbstractParseTreeVisitor …
+│   │   │   └── 20 → 18 samples (2.5% → 2.3%) 2 more callees, led by (2.0% → 1.7%) <init> at org.apache.groovy.parser.antlr4.AstBuilder
+│   │   └── 63 → 72 samples (7.9% → 9.4%) 19 more callees, led by (5.7% → 6.1%) doMethodInvoke at org.codehaus.groovy.runtime.dgm$59
+│   ├── … 7 → 4 samples (0.9% → 0.5%, self 0.5% → 0.1%, self 1.6% → 1.0% globally) compile at java.util.regex.Pattern
+│   └── 245 → 219 samples (30.9% → 28.5%) 11 more callees, led by (21.8% → 21.5%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+└── 20 → 31 samples (2.5% → 4.0%) 3 more root frames, led by (2.3% → 3.5%) <clinit> at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

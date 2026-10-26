@@ -9,6 +9,55 @@ Took 4.16s → 3.94s (-220.00ms, -5.3%) over 3,261 → 3,250 samples (1.3ms → 
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-workload/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── … 4.15s → 3.94s (99.8% → 99.9%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
+    ├── 3.99s → 3.92s (95.8% → 99.5%) Composer\Console\Application::doRun at ./composer/src/Composer/Console/Application.php
+    │   ├── … 3.69s → 3.65s (88.7% → 92.6%) Symfony\Component\Console\Command\Command::run at ./composer/vendor/symfony/console/Command/Command.php
+    │   │   ├── 2.94s → 2.92s (70.7% → 74.1%) Composer\Command\DumpAutoloadCommand::execute at ./composer/src/Composer/Command/DumpAutoloadCommand.php
+    │   │   │   └── 2.94s → 2.92s (70.7% → 74.0%) Composer\Autoload\AutoloadGenerator::dump at ./composer/src/Composer/Autoload/AutoloadGenerator.php
+    │   │   │       ├── 2.78s → 2.76s (66.9% → 70.1%, self 1.8% → 1.6%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths at ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+    │   │   │       │   ├── 2.52s → 2.50s (60.5% → 63.4%, self 15.8% → 17.0%) Composer\ClassMapGenerator\PhpFileParser::findClasses at ./composer/vendor/composer/class-map-generator/src/PhpFileParser.php
+    │   │   │       │   │   ├── 1.66s → 1.64s (39.9% → 41.8%, self 10.4% → 10.3%) Composer\ClassMapGenerator\PhpFileCleaner::clean at ./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php
+    │   │   │       │   │   │   ├── 989.0ms → 1.01s (23.8% → 25.8%, self 2.6% → 2.9%) Composer\ClassMapGenerator\PhpFileCleaner::match
+    │   │   │       │   │   │   │   └── 882.0ms → 902.0ms (21.2% → 22.9%, self 3.3% → 3.2%) Composer\Pcre\Preg::isMatchStrictGroups at ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   │   │   │       └── 743.0ms → 776.0ms (17.8% → 19.7%, self 3.3% → 3.5%) Composer\Pcre\Preg::matchStrictGroups
+    │   │   │       │   │   │   │           ├── 467.0ms → 509.0ms (11.2% → 12.9%, self 3.4% → 4.1%) Composer\Pcre\Preg::match
+    │   │   │       │   │   │   │           │   ├── 252.0ms → 248.0ms (6.1% → 6.3%, self 6.6% → 6.7% globally) Composer\Pcre\Preg::pregMatch
+    │   │   │       │   │   │   │           │   └── 75.0ms → 98.0ms (1.8% → 2.5%) Composer\Pcre\Preg::checkOffsetCapture
+    │   │   │       │   │   │   │           └── 138.0ms → 127.0ms (3.3% → 3.2%) Composer\Pcre\Preg::enforceNonNullMatches
+    │   │   │       │   │   │   ├── 203.0ms → 195.0ms (4.9%, self 4.9%) Composer\ClassMapGenerator\PhpFileCleaner::skipString
+    │   │   │       │   │   │   ├── 19.0ms → 21.0ms (0.5%) Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc
+    │   │   │       │   │   │   └── … 7.0ms → 0ms (0.2% → 0.0%) Composer\Pcre\Preg::pregMatch at ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   │   ├── 158.0ms → 144.0ms (3.8% → 3.7%) Composer\Pcre\Preg::matchAllStrictGroups at ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   │   │   └── 155.0ms → 141.0ms (3.7% → 3.6%, self 3.7% → 3.6%, self 4.5% globally) Composer\Pcre\Preg::matchAll
+    │   │   │       │   │   └── 42.0ms → 38.0ms (1.0%, self 0.8% → 1.0%) Composer\Pcre\Preg::matchAll at ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       │   ├── … 51.0ms → 77.0ms (1.2% → 2.0%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct at ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+    │   │   │       │   └── 132.0ms → 124.0ms (3.2% → 3.1%) 15 more callees, led by (1.3% → 1.4%) Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::hasChildren at ./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php
+    │   │   │       ├── 22.0ms → 20.0ms (0.5%) Composer\Autoload\AutoloadGenerator::getStaticFile
+    │   │   │       │   └── 7.0ms → 1.0ms (0.2% → <0.1%) Composer\Pcre\Preg::replace at ./composer/vendor/composer/pcre/src/Preg.php
+    │   │   │       └── 132.0ms (3.2% → 3.3%) 14 more callees, led by (2.7% → 3.0%) Composer\Autoload\AutoloadGenerator::getPathCode
+    │   │   └── … 748.0ms → 732.0ms (18.0% → 18.6%) Composer\Factory::createComposer at ./composer/src/Composer/Factory.php
+    │   │       ├── 710.0ms → 697.0ms (17.1% → 17.7%) Composer\Package\Loader\RootPackageLoader::load at ./composer/src/Composer/Package/Loader/RootPackageLoader.php
+    │   │       │   └── 705.0ms → 692.0ms (16.9% → 17.5%) Composer\Package\Version\VersionGuesser::guessVersion at ./composer/src/Composer/Package/Version/VersionGuesser.php
+    │   │       │       ├── … 122.0ms → 117.0ms (2.9% → 3.0%) Symfony\Component\Process\Process::run at ./composer/vendor/symfony/process/Process.php
+    │   │       │       │   ├── … 108.0ms → 97.0ms (2.6% → 2.5%, self 15.5% → 15.9% globally) Symfony\Component\Process\Pipes\UnixPipes::readAndWrite at ./composer/vendor/symfony/process/Pipes/UnixPipes.php
+    │   │       │       │   └── 13.0ms → 18.0ms (0.3% → 0.5%, self 0.9% → 1.1% globally) Symfony\Component\Process\Process::start
+    │   │       │       └── 580.0ms → 574.0ms (13.9% → 14.6%) 3 more callees, led by (11.0% → 11.6%) Composer\Package\Version\VersionGuesser::guessGitVersion
+    │   │       ├── … 4.0ms → 10.0ms (0.1% → 0.3%) JsonSchema\Uri\UriRetriever::loadSchema at ./composer/vendor/justinrainbow/json-schema/src/JsonSchema/Uri/UriRetriever.php
+    │   │       └── 2.0ms → 4.0ms (<0.1% → 0.1%) Composer\Autoload\ClassLoader::loadClass at ./composer/vendor/composer/ClassLoader.php
+    │   ├── 279.0ms → 246.0ms (6.7% → 6.2%, self 6.3% → 5.9%) Composer\Util\Silencer::call at ./composer/src/Composer/Util/Silencer.php
+    │   │   ├── 0ms → 15.0ms (0.0% → 0.4%) (anonymous) at ./composer/src/Composer/Console/Application.php:349
+    │   │   └── 14.0ms → 0ms (0.3% → 0.0%) (anonymous) at ./composer/src/Composer/Console/Application.php:353
+    │   └── 13.0ms → 16.0ms (0.3% → 0.4%) Symfony\Component\Console\Application::find at ./composer/vendor/symfony/console/Application.php
+    └── … 161.0ms → 9.0ms (3.9% → 0.2%) Symfony\Component\Console\Terminal::readFromProcess at ./composer/vendor/symfony/console/Terminal.php
+```
+
 ## Hottest functions
 
 ### Self time

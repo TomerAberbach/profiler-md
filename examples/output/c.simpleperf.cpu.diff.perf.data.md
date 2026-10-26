@@ -10,6 +10,55 @@ Took 1.88s → 1.60s (-279.28ms, -14.8%) over 1,887 → 1,608 samples (1.0ms per
 
 Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 1.88s → 1.60s (99.8% → 99.9%) 0xebf5a at /usr/lib/aarch64-linux-gnu/libc.so.6
+    └── 1.88s → 1.60s (99.8% → 99.9%) 0x8202e
+        ├── 0ms → 1.60s (0.0% → 99.9%) 0x9f1e at ./zstd
+        │   ├── … 0ms → 1.32s (0.0% → 82.3%) 0x1162e at ./zstd
+        │   │   ├── 0ms → 1.03s (0.0% → 64.2%) 0x5a3f2
+        │   │   │   ├── 0ms → 235.2ms (0.0% → 14.6%, self 0.0% → 17.2% globally) 0x609c8
+        │   │   │   ├── 0ms → 223.2ms (0.0% → 13.9%, self 0.0% → 17.3% globally) 0x60980
+        │   │   │   ├── 0ms → 178.2ms (0.0% → 11.1%, self 0.0% → 14.0% globally) 0x60c38
+        │   │   │   ├── 0ms → 176.2ms (0.0% → 10.9%, self 0.0% → 13.6% globally) 0x60c5c
+        │   │   │   ├── 0ms → 43.0ms (0.0% → 2.7%, self 0.0% → 3.5% globally) 0x609b8
+        │   │   │   ├── 0ms → 32.0ms (0.0% → 2.0%, self 0.0% → 2.7% globally) 0x60c90
+        │   │   │   └── 0ms → 145.1ms (0.0% → 9.0%) 40 more callees, led by (0.0% → 0.9%) 0x60a08
+        │   │   ├── 0ms → 39.0ms (0.0% → 2.4%, self 0.0% → 3.0% globally) 0x5a65c
+        │   │   ├── 0ms → 26.0ms (0.0% → 1.6%) 0x5a85c
+        │   │   ├── 0ms → 24.0ms (0.0% → 1.5%) 0x5a7c0
+        │   │   ├── 0ms → 17.0ms (0.0% → 1.1%) 0x5a78c
+        │   │   └── 0ms → 185.2ms (0.0% → 11.5%) 66 more callees, led by (0.0% → 1.2%) 0x61b3e
+        │   └── … 0ms → 272.3ms (0.0% → 16.9%) 0x1162e at ./zstd
+        │       └── 0ms → 272.3ms (0.0% → 16.9%) 22 more callees, led by (0.0% → 14.7%) 0x5a3f2
+        └── 1.88s → 0ms (99.8% → 0.0%) 0x9cee at ./zstd
+            ├── 1.57s → 0ms (83.5% → 0.0%) 0x61402
+            │   ├── 1.56s → 0ms (82.7% → 0.0%) 0x1601e
+            │   │   └── 1.56s → 0ms (82.7% → 0.0%) 0x1108e
+            │   │       ├── 1.22s → 0ms (65.0% → 0.0%) 0x59272
+            │   │       │   ├── 247.2ms → 0ms (13.1% → 0.0%, self 15.7% → 0.0% globally) 0x5f800
+            │   │       │   ├── 247.2ms → 0ms (13.1% → 0.0%, self 15.7% → 0.0% globally) 0x5f848
+            │   │       │   ├── 244.2ms → 0ms (12.9% → 0.0%, self 15.5% → 0.0% globally) 0x5fab8
+            │   │       │   ├── 206.2ms → 0ms (10.9% → 0.0%, self 13.2% → 0.0% globally) 0x5fadc
+            │   │       │   ├── 83.1ms → 0ms (4.4% → 0.0%, self 5.2% → 0.0% globally) 0x5f838
+            │   │       │   ├── 41.0ms → 0ms (2.2% → 0.0%, self 2.8% → 0.0% globally) 0x5fb10
+            │   │       │   ├── 23.0ms → 0ms (1.2% → 0.0%) 0x5f86c
+            │   │       │   └── 135.1ms → 0ms (7.2% → 0.0%) 42 more callees, led by (0.6% → 0.0%) 0x5f888
+            │   │       ├── 39.0ms → 0ms (2.1% → 0.0%) 0x59640
+            │   │       ├── 38.0ms → 0ms (2.0% → 0.0%) 0x594d8
+            │   │       ├── 27.0ms → 0ms (1.4% → 0.0%) 0x596dc
+            │   │       ├── 19.0ms → 0ms (1.0% → 0.0%) 0x5960c
+            │   │       └── 211.2ms → 0ms (11.2% → 0.0%) 65 more callees, led by (1.0% → 0.0%) 0x609be
+            │   └── 7.0ms → 0ms (0.4% → 0.0%) 0x1617e
+            └── … 305.3ms → 0ms (16.2% → 0.0%) 0x1108e at ./zstd
+                └── 305.3ms → 0ms (16.2% → 0.0%) 27 more callees, led by (13.5% → 0.0%) 0x59272
+```
+
 ## Hottest functions
 
 ### Self time

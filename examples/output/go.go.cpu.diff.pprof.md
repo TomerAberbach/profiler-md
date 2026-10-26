@@ -9,6 +9,55 @@ Took 5.39s → 5.63s (+240.00ms, +4.5%) over 539 → 563 samples (10.0ms per sam
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2.61s → 2.95s (48.4% → 52.4%) runtime.systemstack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:353
+│   ├── 1.52s → 1.57s (28.2% → 27.9%) runtime.(*mheap).alloc.func1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1011
+│   │   └── 1.51s → 1.55s (28.0% → 27.5%) runtime.(*mheap).allocSpan at 1224
+│   │       ├── … 1.49s → 1.52s (27.6% → 27.0%, self 28.2% → 27.4% globally) runtime.madvise at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:224
+│   │       └── 10.0ms → 20.0ms (0.2% → 0.4%) runtime.lock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:151
+│   ├── 710.0ms → 830.0ms (13.2% → 14.7%) runtime.mProf_Malloc.func1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:463
+│   │   └── 710.0ms → 830.0ms (13.2% → 14.7%) runtime.setprofilebucket at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:2717
+│   │       ├── 660.0ms → 740.0ms (12.2% → 13.1%) runtime.lock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:151
+│   │       │   └── 660.0ms → 740.0ms (12.2% → 13.1%) runtime.lockWithRank at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lockrank_off.go:23 …
+│   │       └── 50.0ms → 90.0ms (0.9% → 1.6%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260 …
+│   ├── 120.0ms → 280.0ms (2.2% → 5.0%) runtime.gcBgMarkWorker.func2 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1847
+│   │   ├── … 80.0ms → 140.0ms (1.5% → 2.5%) runtime.(*gcControllerState).enlistWorker at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcpacer.go:697
+│   │   │   ├── … 30.0ms → 80.0ms (0.6% → 1.4%, self 4.1% → 5.9% globally) runtime.pthread_cond_signal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:508
+│   │   │   └── 50.0ms (0.9%) runtime.preemptone at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6866 …
+│   │   └── … 30.0ms → 110.0ms (0.6% → 2.0%) runtime.(*gcControllerState).enlistWorker at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcpacer.go:697
+│   │       ├── … 10.0ms → 80.0ms (0.2% → 1.4%, self 5.0% → 5.9% globally) runtime.pthread_kill at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:148
+│   │       └── 20.0ms → 30.0ms (0.4% → 0.5%) runtime.wakep at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3212 …
+│   └── 260.0ms → 270.0ms (4.8%) 9 more callees, led by (2.4% → 2.3%) runtime.gcStart.func2 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:834
+├── 900.0ms → 930.0ms (16.7% → 16.5%) runtime.morestack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457
+│   └── 900.0ms → 930.0ms (16.7% → 16.5%) runtime.newstack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026
+│       ├── 880.0ms → 900.0ms (16.3% → 16.0%) runtime.gopreempt_m at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361
+│       │   └── 880.0ms → 900.0ms (16.3% → 16.0%) runtime.goschedImpl at 4307
+│       │       ├── 280.0ms → 380.0ms (5.2% → 6.7%) runtime.schedule at 4135
+│       │       │   └── 280.0ms → 380.0ms (5.2% → 6.7%) runtime.findRunnable at 3389
+│       │       │       ├── 240.0ms → 310.0ms (4.5% → 5.5%) runtime.gcstopm at 3296
+│       │       │       │   └── … 230.0ms → 280.0ms (4.3% → 5.0%) runtime.lock2 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:155
+│       │       │       │       ├── 200.0ms → 190.0ms (3.7% → 3.4%) runtime.osyield at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/os_darwin.go:379 …
+│       │       │       │       └── 30.0ms → 70.0ms (0.6% → 1.2%) runtime.procyield at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stubs.go:278
+│       │       │       │           └── 30.0ms → 70.0ms (0.6% → 1.2%, self 0.7% → 2.0% globally) runtime.procyieldAsm at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1103
+│       │       │       └── 40.0ms → 70.0ms (0.7% → 1.2%) 5 more callees, led by (0.2% → 0.9%) runtime.runSafePointFn at 2232
+│       │       └── 590.0ms → 500.0ms (10.9% → 8.9%) 3 more callees, led by (5.9% → 5.3%) runtime.lock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:151
+│       └── … 20.0ms → 0ms (0.4% → 0.0%) runtime.runqgrab at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:7662
+├── 860.0ms → 790.0ms (16.0% → 14.0%) main.workload.func1 at ./profile.go:25
+│   └── 860.0ms → 790.0ms (16.0% → 14.0%) 2 more callees, led by (12.1% → 10.7%) encoding/json.Unmarshal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102
+├── … 650.0ms → 580.0ms (12.1% → 10.3%) runtime.findRunnable at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3389
+│   ├── … 180.0ms → 90.0ms (3.3% → 1.6%) runtime.lock2 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:155
+│   │   └── 170.0ms → 90.0ms (3.2% → 1.6%) runtime.osyield at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/os_darwin.go:379
+│   │       └── 170.0ms → 90.0ms (3.2% → 1.6%, self 36.5% → 36.9% globally) runtime.usleep at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:273
+│   └── 470.0ms → 490.0ms (8.7%) 5 more callees, led by (6.9% → 6.2%) runtime.stopm at 2992
+└── 350.0ms → 360.0ms (6.5% → 6.4%) 2 more root frames, led by (5.2% → 4.3%) runtime.gcBgMarkWorker at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

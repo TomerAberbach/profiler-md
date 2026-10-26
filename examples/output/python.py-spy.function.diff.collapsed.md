@@ -8,6 +8,55 @@ Collected 219 → 221 samples (+2 samples, +0.9%).
 | Unknown          |   0.0% |     0 | 3.7% → 3.6% |         8 |
 | Standard library |   0.0% |     0 |        0.5% |         1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 211 → 213 samples (96.3% → 96.4%) _run_module_as_main at <frozen runpy>
+│   ├── … 209 → 210 samples (95.4% → 95.0%) reformat_one at black/__init__.py
+│   │   ├── 209 → 207 samples (95.4% → 93.7%) format_file_in_place
+│   │   │   └── 209 → 207 samples (95.4% → 93.7%) format_file_contents
+│   │   │       ├── 125 → 132 samples (57.1% → 59.7%, self 0.0% → 0.9%) format_str
+│   │   │       │   └── 125 → 130 samples (57.1% → 58.8%) _format_str_once
+│   │   │       │       ├── … 51 → 60 samples (23.3% → 27.1%, self 0.9% → 2.3%) parse_tokens at blib2to3/pgen2/driver.py
+│   │   │       │       │   ├── 40 → 45 samples (18.3% → 20.4%) addtoken at blib2to3/pgen2/parse.py
+│   │   │       │       │   │   └── 40 → 45 samples (18.3% → 20.4%, self 6.8% → 9.0%, self 12.8% → 10.0% globally) _addtoken
+│   │   │       │       │   │       ├── 16 → 5 samples (7.3% → 2.3%, self 1.8% → 1.4%, self 2.7% → 1.4% globally) pop
+│   │   │       │       │   │       │   └── 12 → 2 samples (5.5% → 0.9%, self 0.0% → 0.9%, self 3.2% → 1.8% globally) convert at blib2to3/pytree.py
+│   │   │       │       │   │       │       ├── 10 → 0 samples (4.6% → 0.0%, self 6.8% → 3.6% globally) __new__
+│   │   │       │       │   │       │       └── 2 → 0 samples (0.9% → 0.0%, self 1.4% → 2.3% globally) __init__
+│   │   │       │       │   │       ├── 1 → 15 samples (0.5% → 6.8%, self 1.4% → 8.6% globally) push
+│   │   │       │       │   │       └── 8 → 5 samples (3.7% → 2.3%) shift …
+│   │   │       │       │   └── 9 → 10 samples (4.1% → 4.5%) 2 more callees, led by (4.1%) __next__
+│   │   │       │       ├── 46 → 43 samples (21.0% → 19.5%, self 0.9% → 1.8%, self 1.8% → 2.3% globally) visit at black/nodes.py
+│   │   │       │       │   ├── … 27 → 19 samples (12.3% → 8.6%, self 0.5% → 0.9%, self 0.5% → 2.7% globally) visit_default at black/linegen.py
+│   │   │       │       │   │   ├── 16 → 7 samples (7.3% → 3.2%, self 3.7% → 3.2%, self 4.6% → 4.5% globally) generate_comments at black/comments.py
+│   │   │       │       │   │   │   └── 8 → 0 samples (3.7% → 0.0%, self 2.3% → 0.0%, self 4.1% → 0.9% globally) normalize_trailing_prefix
+│   │   │       │       │   │   │       └── 3 → 0 samples (1.4% → 0.0%) 2 more callees, led by (0.9% → 0.0%) prefix at blib2to3/pytree.py
+│   │   │       │       │   │   └── 10 samples (4.6% → 4.5%) append at black/lines.py …
+│   │   │       │       │   ├── … 0 → 5 samples (0.0% → 2.3%, self 0.0% → 1.4%) visit_power at black/linegen.py
+│   │   │       │       │   │   └── 0 → 2 samples (0.0% → 0.9%) visit_default
+│   │   │       │       │   └── 17 → 15 samples (7.8% → 6.8%) 8 more callees, led by (4.1% → 0.9%) visit_stmt at black/linegen.py
+│   │   │       │       ├── 9 → 4 samples (4.1% → 1.8%) detect_target_versions
+│   │   │       │       │   └── 9 → 4 samples (4.1% → 1.8%, self 2.3% → 0.9%, self 5.0% → 1.4% globally) get_features_used
+│   │   │       │       │       └── 3 → 1 sample (1.4% → 0.5%) pre_order at blib2to3/pytree.py
+│   │   │       │       └── 19 → 23 samples (8.7% → 10.4%) 5 more callees, led by (3.2% → 6.3%) transform_line at black/linegen.py
+│   │   │       └── 84 → 75 samples (38.4% → 33.9%) check_stability_and_equivalence
+│   │   │           ├── 55 → 47 samples (25.1% → 21.3%) assert_stable
+│   │   │           │   └── 55 → 47 samples (25.1% → 21.3%) _format_str_once
+│   │   │           │       └── 55 → 47 samples (25.1% → 21.3%) 8 more callees, led by (13.7% → 10.0%) lib2to3_parse at black/parsing.py
+│   │   │           └── 29 → 27 samples (13.2% → 12.2%) assert_equivalent
+│   │   │               ├── … 15 → 20 samples (6.8% → 9.0%) parse at ast.py
+│   │   │               └── 13 → 6 samples (5.9% → 2.7%, self 3.7% → 2.3%) _stringify_ast at black/parsing.py
+│   │   │                   └── … 5 → 1 sample (2.3% → 0.5%) _stringify_ast_with_new_parent at black/parsing.py
+│   │   └── … 0 → 2 samples (0.0% → 0.9%) parse_parts at pathlib.py
+│   └── 2 → 3 samples (0.9% → 1.4%) _get_module_details …
+└── 8 samples (3.7% → 3.6%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

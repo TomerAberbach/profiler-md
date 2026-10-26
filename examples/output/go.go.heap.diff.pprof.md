@@ -9,6 +9,49 @@ Allocated 1.67 GiB (-2.123 MiB, -0.1%) over 21,825,386 → 21,882,354 objects 
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 1.67 GiB (99.8%) main.workload.func1 at ./profile.go:25
+│   ├── 917 MiB (53.5% → 53.6%, self 10.6%) encoding/json.Marshal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205
+│   │   └── 735 MiB → 736 MiB (42.9% → 43.0%) encoding/json.(*encodeState).marshal at 333
+│   │       └── 735 MiB → 736 MiB (42.9% → 43.0%) encoding/json.(*encodeState).reflectValue at 366
+│   │           ├── … 538 MiB → 539 MiB (31.4% → 31.5%, self 13.0% → 13.1%) encoding/json.mapEncoder.encode at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+│   │           │   ├── 152 MiB (8.9%) bytes.(*Buffer).Write at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193
+│   │           │   │   └── 152 MiB (8.9%) bytes.(*Buffer).grow at 144
+│   │           │   │       └── 152 MiB (8.9%) bytes.growSlice at 247
+│   │           │   ├── 81.2 MiB → 82.1 MiB (4.7% → 4.8%) reflect.(*MapIter).Key at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/map.go:245
+│   │           │   │   └── 81.2 MiB → 82.1 MiB (4.7% → 4.8%) reflect.copyVal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/value.go:1881
+│   │           │   │       └── 81.2 MiB → 82.1 MiB (4.7% → 4.8%, self 9.5% globally) reflect.unsafe_New at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177
+│   │           │   └── 81.9 MiB → 81.3 MiB (4.8% → 4.7%) reflect.(*MapIter).Value at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/map.go:289
+│   │           │       └── 81.9 MiB → 81.3 MiB (4.8% → 4.7%) reflect.copyVal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/value.go:1881
+│   │           │           └── 81.9 MiB → 81.3 MiB (4.8% → 4.7%) reflect.unsafe_New at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177
+│   │           └── … 197 MiB → 196 MiB (11.5% → 11.4%) encoding/json.stringEncoder at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610
+│   │               └── 196 MiB (11.5% → 11.4%) bytes.(*Buffer).Write at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193
+│   │                   └── 196 MiB (11.5% → 11.4%) bytes.(*Buffer).grow at 144
+│   │                       └── 196 MiB (11.5% → 11.4%, self 20.3% globally) bytes.growSlice at 247
+│   └── 795 MiB → 793 MiB (46.3%) encoding/json.Unmarshal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102
+│       └── 794 MiB → 792 MiB (46.3%) encoding/json.(*decodeState).unmarshal at 173
+│           └── 794 MiB → 792 MiB (46.3%) encoding/json.(*decodeState).value at 363
+│               └── 794 MiB → 792 MiB (46.3%) encoding/json.(*decodeState).object at 604
+│                   └── 794 MiB → 792 MiB (46.3%, self 32.6% → 32.5%) encoding/json.(*decodeState).objectInterface at 1078
+│                       ├── … 158 MiB → 159 MiB (9.2% → 9.3%, self 0.6%) encoding/json.(*decodeState).valueInterface at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035
+│                       │   ├── 143 MiB (8.3% → 8.4%, self 1.8% → 1.9%) encoding/json.(*decodeState).literalInterface at 1129
+│                       │   │   ├── 104 MiB (6.1% → 6.0%, self 4.9%, self 9.5% → 9.4% globally) encoding/json.unquote at 1187
+│                       │   │   │   └── 19.6 MiB → 19.4 MiB (1.1%) encoding/json.unquoteBytes at 1193
+│                       │   │   └── 7.1 MiB → 7.23 MiB (0.4%) encoding/json.(*decodeState).convertNumber at 838
+│                       │   └── 5.53 MiB (0.3%) encoding/json.(*decodeState).arrayInterface at 1052
+│                       └── … 78.1 MiB → 77.6 MiB (4.6% → 4.5%) encoding/json.unquote at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1187
+└── 1.55 MiB → 1.61 MiB (0.1%) runtime/pprof.profileWriter at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:922
+    └── 1.5 MiB → 1.56 MiB (0.1%) runtime/pprof.(*profileBuilder).build at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/proto.go:348
+        └── 1.45 MiB → 1.51 MiB (0.1%) runtime/pprof.(*profileBuilder).appendLocsForStack at 406
+            └── 1.32 MiB → 1.34 MiB (0.1%) runtime/pprof.(*profileBuilder).emitLocation at 589
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1073,6 +1116,55 @@ Retained 2.09 MiB → 1.59 MiB (-516.607 KiB, -24.1%) over 291 → 285 object
 | Standard library | -24.1% | -516.607 KiB | 100.0% | 2.09 MiB → 1.59 MiB | 291 → 285 |
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2 MiB → 1.51 MiB (95.8% → 95.2%) main.workload.func1 at ./profile.go:25
+│   ├── 2 MiB → 1.51 MiB (95.6% → 95.2%) encoding/json.Marshal at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205
+│   │   ├── 2 MiB → 1.51 MiB (95.6% → 95.0%) encoding/json.(*encodeState).marshal at 333
+│   │   │   └── 2 MiB → 1.51 MiB (95.6% → 95.0%) encoding/json.(*encodeState).reflectValue at 366
+│   │   │       ├── … 2 MiB → 1.5 MiB (95.6% → 94.5%) encoding/json.stringEncoder at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:610
+│   │   │       │   └── 2 MiB → 1.5 MiB (95.6% → 94.5%) bytes.(*Buffer).Write at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193
+│   │   │       │       └── 2 MiB → 1.5 MiB (95.6% → 94.5%) bytes.(*Buffer).grow at 144
+│   │   │       │           └── 2 MiB → 1.5 MiB (95.6% → 94.5%) bytes.growSlice at 247
+│   │   │       ├── … 0 B → 4.07 KiB (0.0% → 0.3%) reflect.addReflectOff at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:707
+│   │   │       └── … 0 B → 4.05 KiB (0.0% → 0.2%) encoding/json.mapEncoder.encode at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+│   │   └── 0 B → 4.03 KiB (0.0% → 0.2%) encoding/json.newEncodeState at 315
+│   └── … 4.05 KiB → 0 B (0.2% → 0.0%) encoding/json.(*decodeState).objectInterface at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078
+├── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.mstart at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:258
+│   └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.mstart0 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1862
+│       └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.mstart1 at 1904
+│           └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.schedule at 4135
+│               └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.resetspinning at 4021
+│                   └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.wakep at 3212
+│                       └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.startm at 3035
+│                           └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.newm at 2857
+│                               └── 19.8 KiB → 23.2 KiB (0.9% → 1.4%) runtime.allocm at 2269
+│                                   ├── 15.2 KiB → 10.2 KiB (0.7% → 0.6%) runtime.newobject at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156
+│                                   │   └── 15.2 KiB → 10.2 KiB (0.7% → 0.6%) runtime.mallocgc at 1067
+│                                   └── … 0 B → 8.48 KiB (0.0% → 0.5%) runtime.mallocgc at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+├── 28.8 KiB → 12.4 KiB (1.3% → 0.8%) runtime.gcBgMarkWorker at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+│   └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%) runtime.gcMarkDone at 1015
+│       └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%) runtime.semacquire at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sema.go:142
+│           └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%) runtime.semacquire1 at 146
+│               └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%) runtime.acquireSudog at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:488
+│                   └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%) runtime.newobject at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156
+│                       └── 20.3 KiB → 8.11 KiB (0.9% → 0.5%, self 4.2% → 4.8% globally) runtime.mallocgc at 1067
+├── 12.7 KiB → 22.4 KiB (0.6% → 1.4%) runtime.systemstack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:353
+│   ├── 12.7 KiB → 8.48 KiB (0.6% → 0.5%) runtime.newproc.func1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5298
+│   │   └── 12.7 KiB → 8.48 KiB (0.6% → 0.5%) runtime.newproc1 at 5313
+│   │       └── 12.7 KiB → 8.48 KiB (0.6% → 0.5%) runtime.malg at 5273
+│   │           └── 12.7 KiB → 8.48 KiB (0.6% → 0.5%) runtime.newobject at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2156
+│   │               └── 12.7 KiB → 8.48 KiB (0.6% → 0.5%) runtime.mallocgc at 1067
+│   └── … 0 B → 4.59 KiB (0.0% → 0.3%) runtime.mcommoninit at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:998
+├── … 10.2 KiB → 15.2 KiB (0.5% → 0.9%) runtime.mallocgc at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+└── … 14.4 KiB → 0 B (0.7% → 0.0%) runtime.mallocgc at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067
+```
 
 ## Hottest functions
 

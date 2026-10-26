@@ -80,6 +80,7 @@ import {
   NEGLIGIBLE_SHARE,
   selfRankedFunctions,
   selfValueOf,
+  sideSelfValueOf,
   totalValueOf,
   zeroTotalScope,
 } from './measure.ts'
@@ -100,7 +101,7 @@ import type {
   ShownFrame,
   ShownFrameNotation,
 } from './table.ts'
-import { formatCallTree } from './tree/index.ts'
+import { formatCallTree, formatDiffCallTree } from './tree/index.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
@@ -289,11 +290,37 @@ const formatCallTreeSection = (
   if (measure === undefined) {
     return []
   }
-  const callTree = formatCallTree({ profile, measure, options, notation })
-  return callTree.length === 0
-    ? []
-    : [heading(headingLevel, `Call tree`), ...callTree]
+  return callTreeSection(
+    formatCallTree({ profile, measure, options, notation }),
+    headingLevel,
+  )
 }
+
+/** The diffing counterpart to {@link formatCallTreeSection}. */
+const formatDiffCallTreeSection = (
+  diff: AggregatedCallStackProfileDiff,
+  shownByIndex: readonly boolean[],
+  measures: DiffMeasure[],
+  options: FormattingProfileToMdOptions,
+  notation: ShownFrameNotation,
+  headingLevel: number,
+): RootContent[] => {
+  const measure = measures.find(measure => !isZeroDiffTotal(measure))
+  if (measure === undefined) {
+    return []
+  }
+  return callTreeSection(
+    formatDiffCallTree({ diff, shownByIndex, measure, options, notation }),
+    headingLevel,
+  )
+}
+
+/** {@link callTree} under its heading, or nothing when it draws no path. */
+const callTreeSection = (
+  callTree: RootContent[],
+  headingLevel: number,
+): RootContent[] =>
+  callTree.length === 0 ? [] : [heading(headingLevel, `Call tree`), ...callTree]
 
 const formatSummaryLine = (
   {
@@ -854,35 +881,45 @@ export const formatCallStackProfileDiff = (
   )
   const callStacks = matchDiffedCallStacks(diff, shownByIndex)
   const notation = newShownFrameNotation()
-  const sections = formatMeasureSections(
-    measures,
-    headingLevel + 1,
-    (measure, sectionHeadingLevel) => {
-      if (isZeroDiffTotal(measure)) {
-        return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
-      }
+  const sections = [
+    ...formatDiffCallTreeSection(
+      diff,
+      shownByIndex,
+      measures,
+      sectionOptions,
+      notation,
+      headingLevel + 1,
+    ),
+    ...formatMeasureSections(
+      measures,
+      headingLevel + 1,
+      (measure, sectionHeadingLevel) => {
+        if (isZeroDiffTotal(measure)) {
+          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
+        }
 
-      return [
-        ...formatDiffFunctions({
-          diff,
-          matchLines,
-          matchFunctionIds,
-          shownFunctions,
-          measure,
-          options: sectionOptions,
-          headingLevel: sectionHeadingLevel,
-        }),
-        ...formatDiffCallStacks({
-          callStacks,
-          functions: diff.functions,
-          measure,
-          options: sectionOptions,
-          notation,
-          headingLevel: sectionHeadingLevel,
-        }),
-      ]
-    },
-  )
+        return [
+          ...formatDiffFunctions({
+            diff,
+            matchLines,
+            matchFunctionIds,
+            shownFunctions,
+            measure,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+          ...formatDiffCallStacks({
+            callStacks,
+            functions: diff.functions,
+            measure,
+            options: sectionOptions,
+            notation,
+            headingLevel: sectionHeadingLevel,
+          }),
+        ]
+      },
+    ),
+  ]
   return [
     heading(
       headingLevel,
@@ -1113,12 +1150,8 @@ const formatDiffFunctions = ({
   // Resolved once for both rankings, as in `formatHottestFunctions`.
   const categories = subsectionDiffCategories({
     entries: shownFunctions,
-    baseSelfValueOf: func =>
-      func.base === undefined ? 0 : selfValueOf(measure.base, func.base),
-    currentSelfValueOf: func =>
-      func.current === undefined
-        ? 0
-        : selfValueOf(measure.current, func.current),
+    baseSelfValueOf: func => sideSelfValueOf(measure.base, func.base),
+    currentSelfValueOf: func => sideSelfValueOf(measure.current, func.current),
     categoryOf: func => func.category,
     minCategoryShare: options.minCategoryShare,
   })

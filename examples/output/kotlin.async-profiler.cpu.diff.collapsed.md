@@ -11,6 +11,55 @@ Collected 1,672 → 1,305 samples (-367 samples, -21.9%).
 | JIT               | +26.7% |    +4 |   0.9% → 1.5% |   15 → 19 |
 | Garbage collector |    new |    +1 |   0.0% → 0.1% |     0 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 1,106 → 867 samples (66.1% → 66.4%) Thread::call_run
+│   ├── 966 → 812 samples (57.8% → 62.2%) JavaThread::thread_main_inner
+│   │   └── 959 → 812 samples (57.4% → 62.2%) CompileBroker::compiler_thread_loop
+│   │       ├── 916 → 799 samples (54.8% → 61.2%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 624 → 558 samples (37.3% → 42.8%) C2Compiler::compile_method
+│   │       │   │   └── 620 → 556 samples (37.1% → 42.6%) Compile::Compile
+│   │       │   │       ├── 312 → 280 samples (18.7% → 21.5%) Compile::Code_Gen
+│   │       │   │       │   ├── 164 → 154 samples (9.8% → 11.8%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 28 → 22 samples (1.7%, self 1.0% → 0.8%) PhaseChaitin::build_ifg_physical
+│   │       │   │       │   │   │   ├── 4 → 2 samples (0.2%, self 1.1% → 0.8% globally) IndexSetIterator::advance_and_next
+│   │       │   │       │   │   │   └── 0 → 3 samples (0.0% → 0.2%, self 1.1% → 2.2% globally) tlv_get_addr
+│   │       │   │       │   │   └── 136 → 130 samples (8.1% → 10.0%) 28 more callees, led by (1.6% → 2.1%) PhaseChaitin::Split
+│   │       │   │       │   └── 148 → 126 samples (8.9% → 9.7%) 7 more callees, led by (2.3% → 4.2%) Matcher::match
+│   │       │   │       └── 307 → 276 samples (18.4% → 21.1%) 11 more callees, led by (12.2% → 15.7%) Compile::Optimize
+│   │       │   └── 290 → 241 samples (17.3% → 18.5%) 8 more callees, led by (16.3% → 17.7%) Compiler::compile_method
+│   │       └── … 40 → 11 samples (2.4% → 0.8%) PlatformMonitor::wait
+│   │           ├── 33 → 9 samples (2.0% → 0.7%, self 3.7% → 0.9% globally) __psynch_cvwait
+│   │           └── … 6 → 1 sample (0.4% → 0.1%, self 4.6% → 1.0% globally) __psynch_mutexwait
+│   ├── 114 → 52 samples (6.8% → 4.0%) WorkerThread::run
+│   │   ├── 9 → 3 samples (0.5% → 0.2%) semaphore_wait_trap
+│   │   └── 104 → 49 samples (6.2% → 3.8%) 5 more callees, led by (3.2% → 1.1%) G1EvacuateRegionsBaseTask::work
+│   └── 26 → 3 samples (1.6% → 0.2%) 3 more callees, led by (1.1% → 0.0%) VMThread::run
+├── 548 → 423 samples (32.8% → 32.4%) main at org.jetbrains.kotlin.preloading.Preloader
+│   └── 548 → 423 samples (32.8% → 32.4%) run
+│       ├── … 416 → 347 samples (24.9% → 26.6%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │   ├── … 404 → 338 samples (24.2% → 25.9%) exec at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   │   ├── … 386 → 325 samples (23.1% → 24.9%) execImpl at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   │   │   └── 386 → 325 samples (23.1% → 24.9%) doExecutePhased at org.jetbrains.kotlin.cli.jvm.K2JVMCompiler …
+│       │   │   └── 18 → 13 samples (1.1% → 1.0%) 4 more callees, led by (0.8% → 0.6%) <clinit> at org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │   └── … 7 → 4 samples (0.4% → 0.3%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+│       └── 130 → 74 samples (7.8% → 5.7%) preloadClasses at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           └── … 130 → 74 samples (7.8% → 5.7%) loadAllClassesFromJars at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│               ├── … 89 → 67 samples (5.3% → 5.1%) inflate at java.util.zip.Inflater
+│               │   └── 87 → 67 samples (5.2% → 5.1%) inflateBytesBytes
+│               │       └── 86 → 66 samples (5.1%) Java_java_util_zip_Inflater_inflateBytesBytes
+│               │           ├── 67 → 46 samples (4.0% → 3.5%) inflate_fast
+│               │           └── 19 → 20 samples (1.1% → 1.5%) 3 more callees, led by (0.9% → 1.2%) inflate
+│               ├── … 5 → 1 sample (0.3% → 0.1%, self 1.3% → 0.5% globally) _platform_memset
+│               └── 22 → 2 samples (1.3% → 0.2%) 6 more callees, led by (0.4% → 0.0%) <init> at java.io.ByteArrayOutputStream
+└── 16 → 14 samples (1.0% → 1.1%) 7 more root frames, led by (0.5% → 0.8%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

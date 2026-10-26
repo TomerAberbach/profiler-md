@@ -7,6 +7,55 @@ Collected 767 → 783 samples (+16 samples, +2.1%).
 | Standard library |  +2.0% |   +15 | 99.7% → 99.6% | 765 → 780 |
 | Ours             | +50.0% |    +1 |   0.3% → 0.4% |     2 → 3 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 744 → 758 samples (97.0% → 96.8%) main at org.codenarc.CodeNarc
+│   ├── 740 → 757 samples (96.5% → 96.7%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│   │   └── … 740 → 757 samples (96.5% → 96.7%) invoke at java.lang.invoke.LambdaForm$MH
+│   │       ├── … 509 → 500 samples (66.4% → 63.9%) invokeVirtual at java.lang.invoke.LambdaForm$DMH
+│   │       │   ├── … 435 → 430 samples (56.7% → 54.9%) buildAST at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│   │       │   │   ├── 423 → 412 samples (55.1% → 52.6%) buildAST at org.apache.groovy.parser.antlr4.AstBuilder
+│   │       │   │   │   ├── 399 → 386 samples (52.0% → 49.3%) buildCST
+│   │       │   │   │   │   └── … 399 → 386 samples (52.0% → 49.3%) compilationUnit at org.apache.groovy.parser.antlr4.GroovyParser
+│   │       │   │   │   │       ├── … 391 → 375 samples (51.0% → 47.9%) classDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│   │       │   │   │   │       │   ├── … 384 → 367 samples (50.1% → 46.9%) memberDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│   │       │   │   │   │       │   │   ├── 373 → 359 samples (48.6% → 45.8%) methodDeclaration
+│   │       │   │   │   │       │   │   │   ├── … 361 → 341 samples (47.1% → 43.6%) blockStatement at org.apache.groovy.parser.antlr4.GroovyParser
+│   │       │   │   │   │       │   │   │   │   ├── 341 → 309 samples (44.5% → 39.5%) statement
+│   │       │   │   │   │       │   │   │   │   │   ├── … 126 → 118 samples (16.4% → 15.1%) execATN at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │       │   │   │   │       │   │   │   │   │   │   ├── 125 → 114 samples (16.3% → 14.6%) computeReachSet
+│   │       │   │   │   │       │   │   │   │   │   │   │   └── 125 → 114 samples (16.3% → 14.6%) computeTargetState
+│   │       │   │   │   │       │   │   │   │   │   │   │       ├── … 40 → 42 samples (5.2% → 5.4%, self 0.5%, self 1.4% → 1.0% globally) getCachedContext at groovyjarjarantlr4.v4.runtime.atn.ATN
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   ├── 31 → 30 samples (4.0% → 3.8%) getCachedContext at groovyjarjarantlr4.v4.runtime.atn.PredictionContext
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   │   ├── 21 → 20 samples (2.7% → 2.6%, self 1.7% → 1.1%, self 2.9% → 2.4% globally) put at groovyjarjarantlr4.v4.runtime.misc.FlexibleHashMap
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   │   │   ├── 1 → 9 samples (0.1% → 1.1%) add at java.util.LinkedList
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   │   │   │   └── 1 → 9 samples (0.1% → 1.1%, self 0.7% → 2.4% globally) linkLast
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   │   │   └── 7 → 2 samples (0.9% → 0.3%) iterator at java.util.AbstractSequentialList …
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   │   └── 9 samples (1.2% → 1.1%) 3 more callees, led by (0.7% → 0.9%) get at java.util.concurrent.ConcurrentHashMap
+│   │       │   │   │   │       │   │   │   │   │   │   │       │   └── 5 → 8 samples (0.7% → 1.0%) <init> at groovyjarjarantlr4.v4.runtime.atn.PredictionContext$IdentityHashMap …
+│   │       │   │   │   │       │   │   │   │   │   │   │       └── 83 → 71 samples (10.8% → 9.1%) 2 more callees, led by (10.7% → 9.1%) closure
+│   │       │   │   │   │       │   │   │   │   │   │   └── 1 → 4 samples (0.1% → 0.5%) consume at groovyjarjarantlr4.v4.runtime.BufferedTokenStream …
+│   │       │   │   │   │       │   │   │   │   │   └── 213 → 191 samples (27.8% → 24.4%) 6 more callees, led by (24.1% → 22.2%) statementExpression
+│   │       │   │   │   │       │   │   │   │   └── 20 → 32 samples (2.6% → 4.1%) 2 more callees, led by (1.6% → 2.2%) adaptivePredict at groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator
+│   │       │   │   │   │       │   │   │   └── 11 → 17 samples (1.4% → 2.2%) 2 more callees, led by (1.3% → 2.0%) formalParameters
+│   │       │   │   │   │       │   │   └── 11 → 8 samples (1.4% → 1.0%) 2 more callees, led by (0.8% → 0.6%) fieldDeclaration
+│   │       │   │   │   │       │   └── 6 → 5 samples (0.8% → 0.6%) 2 more callees, led by (0.8% → 0.5%) typeList
+│   │       │   │   │   │       └── 5 → 8 samples (0.7% → 1.0%) 4 more callees, led by (0.1% → 0.8%) nls
+│   │       │   │   │   └── 24 → 26 samples (3.1% → 3.3%) visit
+│   │       │   │   │       └── … 24 → 26 samples (3.1% → 3.3%) visit at groovyjarjarantlr4.v4.runtime.tree.AbstractParseTreeVisitor …
+│   │       │   │   ├── 8 → 12 samples (1.0% → 1.5%) <init> at org.apache.groovy.parser.antlr4.AstBuilder …
+│   │       │   │   └── … 2 → 5 samples (0.3% → 0.6%, self 6.8% → 7.4% globally) copyOf at java.util.Arrays
+│   │       │   └── 74 → 70 samples (9.6% → 8.9%) 17 more callees, led by (7.2% → 6.8%) doMethodInvoke at org.codehaus.groovy.runtime.dgm$59
+│   │       └── 231 → 257 samples (30.1% → 32.8%) 11 more callees, led by (23.1% → 24.3%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+│   └── 4 → 1 sample (0.5% → 0.1%) linkCallSite at java.lang.invoke.MethodHandleNatives …
+└── 23 → 25 samples (3.0% → 3.2%) 3 more root frames, led by (2.6%) <clinit> at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

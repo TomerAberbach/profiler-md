@@ -6,6 +6,55 @@ Blocked 3.0ms → 3.3ms (+0.23ms, +7.6%) over 44 → 48 contentions (68.7µs →
 | ---------------- | -----: | ------: | -----: | ------------: | ----------: |
 | Standard library |  +7.6% | +0.23ms | 100.0% | 3.0ms → 3.3ms |     44 → 48 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2.5ms → 2.9ms (81.2% → 89.1%) run() at java.lang.ref.Reference$ReferenceHandler
+│   └── 2.5ms → 2.9ms (81.2% → 89.1%) processPendingReferences() at java.lang.ref.Reference
+│       └── 2.5ms → 2.9ms (81.2% → 89.1%) enqueueFromPending()
+│           └── 2.5ms → 2.9ms (81.2% → 89.1%) enqueue(Reference) at java.lang.ref.NativeReferenceQueue
+└── 0.6ms → 0.4ms (18.8% → 10.9%) main(String[]) at org.codenarc.CodeNarc
+    └── 0.6ms → 0.4ms (18.8% → 10.9%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        └── … 0.6ms → 0.4ms (18.8% → 10.9%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+            └── 0.6ms → 0.4ms (18.8% → 10.9%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+                ├── … 0.4ms → 0.3ms (12.0% → 8.0%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+                │   └── 0.4ms → 0.3ms (12.0% → 8.0%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+                │       ├── 0.3ms → 0.2ms (11.3% → 6.7%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+                │       │   ├── … 0.2ms → 22.5µs (5.8% → 0.7%, self 18.8% → 10.9% globally) poll() at java.lang.ref.NativeReferenceQueue
+                │       │   ├── 13.2µs → 0.2ms (0.4% → 5.7%) setHandleForMetaMethod()
+                │       │   │   ├── 13.2µs → 0.1ms (0.4% → 3.2%) correctClassForNameAndUnReflectOtherwise(Method)
+                │       │   │   │   └── 13.2µs → 0.1ms (0.4% → 3.2%) unreflect(Method) at java.lang.invoke.MethodHandles$Lookup
+                │       │   │   │       └── 13.2µs → 0.1ms (0.4% → 3.2%) getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)
+                │       │   │   │           └── 13.2µs → 0.1ms (0.4% → 3.2%) getDirectMethodCommon(byte, Class, MemberName, boolean, boolean, MethodHandles$Lookup)
+                │       │   │   │               └── 13.2µs → 0.1ms (0.4% → 3.2%) make(byte, Class, MemberName, Class) at java.lang.invoke.DirectMethodHandle
+                │       │   │   │                   ├── … 13.2µs → 0.1ms (0.4% → 1.9%) poll() at java.lang.ref.NativeReferenceQueue
+                │       │   │   │                   └── … 0ms → 42.5µs (0.0% → 1.3%) poll() at java.lang.ref.NativeReferenceQueue
+                │       │   │   └── … 0ms → 0.1ms (0.0% → 2.6%) poll() at java.lang.ref.NativeReferenceQueue
+                │       │   ├── 0.1ms → 10.0µs (3.8% → 0.3%) setGuards(Object)
+                │       │   │   ├── … 0.1ms → 0ms (2.2% → 0.0%) poll() at java.lang.ref.NativeReferenceQueue
+                │       │   │   └── 40.0µs → 0ms (1.3% → 0.0%) 2 more callees, led by (0.9% → 0.0%) guardWithTest(MethodHandle, MethodHandle) at java.lang.invoke.SwitchPoint
+                │       │   └── … 37.0µs → 0ms (1.2% → 0.0%) poll() at java.lang.ref.NativeReferenceQueue
+                │       ├── … 0ms → 40.9µs (0.0% → 1.3%) poll() at java.lang.ref.NativeReferenceQueue
+                │       └── … 22.8µs → 0ms (0.8% → 0.0%) poll() at java.lang.ref.NativeReferenceQueue
+                └── … 0.2ms → 0.1ms (6.8% → 2.9%) get() at org.codehaus.groovy.vmplugin.v8.IndyInterface$FallbackSupplier
+                    └── 0.2ms → 0.1ms (6.8% → 2.9%) access$000(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+                        └── 0.2ms → 0.1ms (6.8% → 2.9%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+                            ├── … 0.1ms → 42.7µs (3.9% → 1.3%) makeImpl(Class, Class[], boolean) at java.lang.invoke.MethodType
+                            │   ├── … 0.1ms → 1.9µs (2.9% → 0.1%) poll() at java.lang.ref.NativeReferenceQueue
+                            │   └── … 28.9µs → 40.9µs (1.0% → 1.3%) poll() at java.lang.ref.NativeReferenceQueue
+                            ├── 0.1ms → 33.8µs (1.8% → 1.0%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+                            │   ├── 35.5µs → 24.7µs (1.2% → 0.8%) setGuards(Object)
+                            │   │   ├── … 35.5µs → 0.9µs (1.2% → <0.1%) poll() at java.lang.ref.NativeReferenceQueue
+                            │   │   └── … 0ms → 23.8µs (0.0% → 0.7%) poll() at java.lang.ref.NativeReferenceQueue
+                            │   └── 19.3µs → 9.1µs (0.6% → 0.3%) 2 more callees, led by (0.6% → 0.0%) addExceptionHandler()
+                            └── … 32.5µs → 8.2µs (1.1% → 0.3%) intern(ReferencedKeyMap, Object) at jdk.internal.util.ReferencedKeyMap
+                                └── 32.5µs → 8.2µs (1.1% → 0.3%) 2 more callees, led by (1.1% → 0.0%) internKey(ReferencedKeyMap, Object)
+```
+
 ## Hottest functions
 
 ### Self time

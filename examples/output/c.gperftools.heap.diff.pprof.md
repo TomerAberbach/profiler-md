@@ -8,6 +8,36 @@ Allocated 132 MiB → 148 MiB (+16.003 MiB, +12.1%) over 78 → 81 objects (1
 | Ours     |    ~0% |  +1.898 KiB | 51.3% → 45.8% |            67.8 MiB |      49 |
 | Unknown  | +56.1% |      +776 B |         <0.1% | 1.35 KiB → 2.11 KiB |   4 → 6 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 66.8 MiB → 82.8 MiB (50.6% → 55.9%) _start
+│   └── 66.8 MiB → 82.8 MiB (50.6% → 55.9%) __libc_start_main
+│       └── 66.8 MiB → 82.8 MiB (50.6% → 55.9%) (anonymous)
+│           └── 66.8 MiB → 82.8 MiB (50.6% → 55.9%) main
+│               └── 66.8 MiB → 82.8 MiB (50.6% → 55.9%) FIO_compressFilename
+│                   ├── 64 MiB → 80 MiB (48.5% → 54.0%) FIO_compressFilename_srcFile at fileio.c
+│                   │   └── 64 MiB → 80 MiB (48.5% → 54.0%) ZSTD_compressStream2
+│                   │       └── 64 MiB → 80 MiB (48.5% → 54.0%) ZSTD_CCtx_init_compressStream2 at zstd_compress.c
+│                   │           └── 64 MiB → 80 MiB (48.5% → 54.0%) ZSTDMT_initCStream_internal
+│                   └── 2.76 MiB (2.1% → 1.9%) FIO_createCResources at fileio.c
+│                       ├── 1.5 MiB (1.1% → 1.0%) AIO_ReadPool_create
+│                       │   └── 1.25 MiB (0.9% → 0.8%, self 0.9% → 0.8%) AIO_IOPool_init at fileio_asyncio.c
+│                       └── 1.26 MiB (1.0% → 0.8%) AIO_WritePool_create
+│                           └── 1.26 MiB (1.0% → 0.8%, self 1.0% → 0.8%, self 1.9% → 1.7% globally) AIO_IOPool_init at fileio_asyncio.c
+└── 65.3 MiB (49.4% → 44.1%) (anonymous)
+    └── … 65.3 MiB (49.4% → 44.1%) POOL_thread at pool.c
+        └── 65.3 MiB (49.4% → 44.1%) ZSTDMT_compressionJob at zstdmt_compress.c
+            ├── 49.2 MiB (37.3% → 33.3%) ZSTD_compressBegin_advanced_internal
+            │   └── 49.2 MiB (37.3% → 33.3%) ZSTD_compressBegin_internal at zstd_compress.c
+            │       └── 49.2 MiB (37.3% → 33.3%) ZSTD_resetCCtx_internal
+            └── 16.1 MiB (12.2% → 10.8%) ZSTDMT_getBuffer
+```
+
 ## Hottest functions
 
 ### Self size
@@ -493,6 +523,16 @@ Retained 912 B → 1.19 KiB (+304 B, +33.3%) over 3 → 4 objects (304 B per
 | Category | Change |  Delta |      % |             Size | Objects |
 | -------- | -----: | -----: | -----: | ---------------: | ------: |
 | Unknown  | +33.3% | +304 B | 100.0% | 912 B → 1.19 KiB |   3 → 4 |
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 912 B → 1.19 KiB (100.0%) _start
+    └── 912 B → 1.19 KiB (100.0%) __libc_start_main
+        └── 912 B → 1.19 KiB (100.0%) (anonymous)
+```
 
 ## Hottest functions
 

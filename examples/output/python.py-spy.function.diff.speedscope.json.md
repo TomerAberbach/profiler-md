@@ -9,6 +9,55 @@ Took 2.28s → 1.88s (-400.00ms, -17.5%) over 228 → 188 samples (10.0ms per sa
 | Unknown          | +28.6% |  +20.00ms |   3.1% → 4.8% |   70.0ms → 90.0ms |     7 → 9 |
 | Ours             | -80.0% |  -40.00ms |   2.2% → 0.5% |   50.0ms → 10.0ms |     5 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 2.21s → 1.79s (96.9% → 95.2%) _run_module_as_main at <frozen runpy>
+│   ├── … 2.20s → 1.77s (96.5% → 94.1%) format_file_contents at /venv/lib/python3.11/site-packages/black/__init__.py
+│   │   ├── 1.37s → 930.0ms (60.1% → 49.5%) format_str
+│   │   │   └── 1.37s → 930.0ms (60.1% → 49.5%) _format_str_once
+│   │   │       ├── … 570.0ms → 460.0ms (25.0% → 24.5%, self 2.6% → 1.1%, self 3.9% → 1.6% globally) parse_tokens at /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py
+│   │   │       │   ├── 430.0ms → 360.0ms (18.9% → 19.1%, self 0.0% → 1.6%) addtoken at /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │   │       │   │   ├── 430.0ms → 320.0ms (18.9% → 17.0%, self 9.6% → 6.4%, self 13.6% → 15.4% globally) _addtoken
+│   │   │       │   │   │   ├── 100.0ms → 90.0ms (4.4% → 4.8%, self 0.4% → 4.8%, self 1.3% → 4.8% globally) pop
+│   │   │       │   │   │   │   └── 90.0ms → 0ms (3.9% → 0.0%) convert at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │   │   │       ├── 60.0ms → 0ms (2.6% → 0.0%, self 3.9% → 1.1% globally) __new__
+│   │   │       │   │   │   │       └── 20.0ms → 0ms (0.9% → 0.0%) __init__
+│   │   │       │   │   │   ├── 30.0ms → 80.0ms (1.3% → 4.3%, self 2.6% → 4.3% globally) push
+│   │   │       │   │   │   └── 80.0ms → 30.0ms (3.5% → 1.6%, self 0.0% → 0.5%, self 0.4% → 1.1% globally) shift
+│   │   │       │   │   │       └── 80.0ms → 20.0ms (3.5% → 1.1%, self 1.3% → 0.5% globally) convert at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │   │           ├── 40.0ms → 10.0ms (1.8% → 0.5%, self 3.5% → 0.5% globally) __init__
+│   │   │       │   │   │           └── 30.0ms → 10.0ms (1.3% → 0.5%) __new__
+│   │   │       │   │   └── 0ms → 10.0ms (0.0% → 0.5%) classify
+│   │   │       │   └── 80.0ms (3.5% → 4.3%) 2 more callees, led by (3.1% → 4.3%) __next__
+│   │   │       ├── 510.0ms → 340.0ms (22.4% → 18.1%, self 0.9% → 1.1%, self 1.8% → 1.1% globally) visit at /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   ├── … 280.0ms → 230.0ms (12.3% → 12.2%, self 0.4% → 0.5%, self 0.4% → 1.6% globally) visit_default at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 160.0ms → 120.0ms (7.0% → 6.4%, self 5.7% → 4.3%, self 8.8% → 6.9% globally) generate_comments at /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   │   │   └── … 30.0ms → 40.0ms (1.3% → 2.1%, self 2.6% → 2.7% globally) changed at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │   ├── 20.0ms → 0ms (0.9% → 0.0%, self 1.8% → 1.1% globally) visit_default at /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   │   └── 90.0ms → 100.0ms (3.9% → 5.3%) 2 more callees, led by (3.5% → 5.3%) append at /venv/lib/python3.11/site-packages/black/lines.py
+│   │   │       │   ├── … 60.0ms → 50.0ms (2.6% → 2.7%) visit_stmt at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 30.0ms → 50.0ms (1.3% → 2.7%) normalize_invisible_parens …
+│   │   │       │   │   └── 20.0ms → 0ms (0.9% → 0.0%) line
+│   │   │       │   │       └── 20.0ms → 0ms (0.9% → 0.0%, self 2.2% → 0.5% globally) __init__ at <string>
+│   │   │       │   └── 150.0ms → 40.0ms (6.6% → 2.1%) 6 more callees, led by (2.2% → 0.5%) visit_simple_stmt at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       └── 290.0ms → 130.0ms (12.7% → 6.9%) 6 more callees, led by (5.7% → 1.1%) transform_line at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   └── 830.0ms → 840.0ms (36.4% → 44.7%, self 0.0% → 0.5%) check_stability_and_equivalence
+│   │       ├── 570.0ms → 590.0ms (25.0% → 31.4%) assert_stable
+│   │       │   └── 560.0ms → 590.0ms (24.6% → 31.4%) _format_str_once
+│   │       │       ├── 30.0ms → 90.0ms (1.3% → 4.8%) detect_target_versions
+│   │       │       │   └── 30.0ms → 90.0ms (1.3% → 4.8%, self 1.3% → 4.3%, self 1.3% → 6.4% globally) get_features_used
+│   │       │       │       └── 0ms → 10.0ms (0.0% → 0.5%, self 1.8% → 1.1% globally) pre_order at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │       │       └── 530.0ms → 500.0ms (23.2% → 26.6%) 6 more callees, led by (11.8% → 11.7%) lib2to3_parse at /venv/lib/python3.11/site-packages/black/parsing.py
+│   │       └── 260.0ms → 240.0ms (11.4% → 12.8%) assert_equivalent …
+│   └── 10.0ms → 20.0ms (0.4% → 1.1%) _get_module_details …
+└── 70.0ms → 90.0ms (3.1% → 4.8%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,55 @@ Collected 255 → 214 samples (-41 samples, -16.1%).
 | Unknown          |  +9.1% |    +1 |   4.3% → 5.6% |   11 → 12 |
 | Standard library |   0.0% |     0 |   0.4% → 0.5% |         1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 244 → 202 samples (95.7% → 94.4%) _run_module_as_main at <frozen runpy>
+│   ├── … 239 → 200 samples (93.7% → 93.5%) format_file_contents at black/__init__.py
+│   │   ├── 140 → 120 samples (54.9% → 56.1%, self 0.8% → 0.0%) format_str
+│   │   │   └── 138 → 120 samples (54.1% → 56.1%) _format_str_once
+│   │   │       ├── 54 → 45 samples (21.2% → 21.0%, self 1.6% → 3.7%, self 1.6% → 4.7% globally) visit at black/nodes.py
+│   │   │       │   ├── … 23 → 20 samples (9.0% → 9.3%, self 2.0% → 3.3%, self 2.7% → 3.3% globally) visit_default at black/linegen.py
+│   │   │       │   │   ├── 9 → 5 samples (3.5% → 2.3%, self 3.5% → 0.9%) generate_comments at black/comments.py
+│   │   │       │   │   │   └── 0 → 2 samples (0.0% → 0.9%) normalize_trailing_prefix
+│   │   │       │   │   └── 9 → 8 samples (3.5% → 3.7%) 2 more callees, led by (3.5% → 2.8%) append at black/lines.py
+│   │   │       │   ├── … 5 → 11 samples (2.0% → 5.1%, self 2.4% → 0.0% globally) append at black/lines.py
+│   │   │       │   │   └── 5 → 11 samples (2.0% → 5.1%) 2 more callees, led by (2.0% → 3.7%) is_complex_subscript
+│   │   │       │   └── 22 → 6 samples (8.6% → 2.8%) 8 more callees, led by (2.4% → 0.9%) visit_stmt at black/linegen.py
+│   │   │       ├── … 52 → 43 samples (20.4% → 20.1%, self 2.7% → 0.5%, self 3.5% → 0.9% globally) parse_tokens at blib2to3/pgen2/driver.py
+│   │   │       │   ├── 34 → 31 samples (13.3% → 14.5%) addtoken at blib2to3/pgen2/parse.py
+│   │   │       │   │   ├── 33 → 28 samples (12.9% → 13.1%, self 3.9% → 2.8%, self 7.5% → 5.1% globally) _addtoken
+│   │   │       │   │   │   └── 23 → 22 samples (9.0% → 10.3%) 3 more callees, led by (5.9% → 7.9%) pop
+│   │   │       │   │   └── 1 → 3 samples (0.4% → 1.4%, self 1.2% → 1.4% globally) classify
+│   │   │       │   └── 11 samples (4.3% → 5.1%) 2 more callees, led by (4.3% → 4.2%) __next__
+│   │   │       ├── 12 → 11 samples (4.7% → 5.1%, self 2.4% → 0.0%, self 2.7% → 1.4% globally) transform_line at black/linegen.py
+│   │   │       │   └── 6 → 11 samples (2.4% → 5.1%) 4 more callees, led by (1.6% → 1.4%) run_transformer
+│   │   │       ├── 6 → 10 samples (2.4% → 4.7%, self 0.4% → 1.9%) maybe_empty_lines at black/lines.py
+│   │   │       │   ├── 5 → 4 samples (2.0% → 1.9%, self 1.2% → 0.0%) _maybe_empty_lines
+│   │   │       │   │   └── 2 → 4 samples (0.8% → 1.9%) 3 more callees, led by (0.8% → 0.5%) is_docstring
+│   │   │       │   └── 0 → 2 samples (0.0% → 0.9%, self 0.8% → 1.4% globally) __init__ at <string>
+│   │   │       └── 14 → 11 samples (5.5% → 5.1%) 3 more callees, led by (2.7% → 2.3%) detect_target_versions
+│   │   └── 99 → 80 samples (38.8% → 37.4%, self 0.0% → 0.9%) check_stability_and_equivalence
+│   │       ├── 75 → 49 samples (29.4% → 22.9%) assert_stable
+│   │       │   └── 75 → 49 samples (29.4% → 22.9%, self 0.8% → 0.0%) _format_str_once
+│   │       │       ├── … 32 → 17 samples (12.5% → 7.9%, self 0.8% → 0.5%) parse_tokens at blib2to3/pgen2/driver.py
+│   │       │       │   ├── 12 → 6 samples (4.7% → 2.8%, self 0.8% → 0.0%) __next__
+│   │       │       │   │   └── 10 → 6 samples (3.9% → 2.8%, self 3.1% → 2.3%, self 7.5% → 6.5% globally) generate_tokens at blib2to3/pgen2/tokenize.py
+│   │       │       │   │       └── 2 → 1 sample (0.8% → 0.5%) is_fstring_start
+│   │       │       │   └── 18 → 10 samples (7.1% → 4.7%) 2 more callees, led by (6.7% → 4.7%) addtoken at blib2to3/pgen2/parse.py
+│   │       │       ├── 9 → 2 samples (3.5% → 0.9%, self 5.9% → 3.3% globally) __str__ at black/lines.py
+│   │       │       └── 32 → 30 samples (12.5% → 14.0%) 6 more callees, led by (7.5% → 7.9%) visit at black/nodes.py
+│   │       └── 24 → 29 samples (9.4% → 13.6%, self 0.4% → 0.9%) assert_equivalent
+│   │           ├── … 15 → 13 samples (5.9% → 6.1%) parse at ast.py
+│   │           └── 8 → 14 samples (3.1% → 6.5%, self 2.7% → 6.5%) _stringify_ast at black/parsing.py
+│   └── 5 → 2 samples (2.0% → 0.9%) _get_module_details …
+└── 11 → 12 samples (4.3% → 5.6%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

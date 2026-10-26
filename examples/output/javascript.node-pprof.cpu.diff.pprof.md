@@ -12,6 +12,55 @@ Took 16.84s → 16.43s (-410.14ms, -2.4%) over 13,404 → 13,109 samples (1.3ms 
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 14.61s → 14.17s (86.8% → 86.2%) typeCheckProject at ./tsc-workload.mjs
+│   ├── … 12.49s → 12.15s (74.2% → 73.9%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37
+│   │   ├── … 11.69s → 11.37s (69.4% → 69.2%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   ├── … 6.82s → 6.41s (40.5% → 39.0%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   ├── 6.64s → 6.27s (39.5% → 38.2%) checkSourceElement
+│   │   │   │   │   └── … 6.64s → 6.26s (39.4% → 38.1%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       ├── 3.45s → 3.21s (20.5% → 19.5%) checkVariableDeclaration
+│   │   │   │   │       │   └── 3.42s → 3.17s (20.3% → 19.3%) checkVariableLikeDeclaration
+│   │   │   │   │       │       ├── … 15.1ms → 5.0ms (0.1% → <0.1%) propertiesRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       └── 3.35s → 3.11s (19.9% → 18.9%) 9 more callees, led by (17.1% → 16.0%) getTypeOfSymbol
+│   │   │   │   │       ├── … 1.88s → 1.83s (11.2% → 11.1%) checkExpressionWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │   ├── 1.01s → 958.1ms (6.1% → 5.8%) checkCallExpression
+│   │   │   │   │       │   │   ├── … 76.7ms → 90.3ms (0.5%, self 1.9% → 1.7% globally) instantiateTypeWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │   │   │   └── 23.9ms → 12.5ms (0.1%, self 0.6% → 0.4% globally) getIntersectionType
+│   │   │   │   │       │   │   └── 928.9ms → 861.5ms (5.5% → 5.2%) 3 more callees, led by (5.5% → 5.2%) getResolvedSignature
+│   │   │   │   │       │   ├── 443.7ms → 452.7ms (2.6% → 2.8%) checkPropertyAccessExpression
+│   │   │   │   │       │   │   └── 417.3ms → 411.3ms (2.5%) checkPropertyAccessExpressionOrQualifiedName
+│   │   │   │   │       │   │       ├── 305.5ms → 278.4ms (1.8% → 1.7%) getPropertyOfType
+│   │   │   │   │       │   │       │   └── 222.5ms → 184.3ms (1.3% → 1.1%, self 0.9% → 0.6% globally) getReducedApparentType
+│   │   │   │   │       │   │       │       └── 164.7ms → 144.2ms (1.0% → 0.9%) getReducedType
+│   │   │   │   │       │   │       │           └── 153.4ms → 129.2ms (0.9% → 0.8%) 2 more callees, led by (0.9% → 0.8%) getPropertiesOfUnionOrIntersectionType
+│   │   │   │   │       │   │       └── 27.7ms → 28.8ms (0.2%) getFlowTypeOfAccessExpression
+│   │   │   │   │       │   ├── … 10.1ms → 2.5ms (0.1% → <0.1%) getFlowTypeOfReference at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │   └── 369.6ms → 378.7ms (2.2% → 2.3%) 42 more callees, led by (1.4%) checkIdentifier
+│   │   │   │   │       ├── 882.4ms → 806.3ms (5.2% → 4.9%) checkTypeReferenceNode
+│   │   │   │   │       │   └── 878.6ms → 802.6ms (5.2% → 4.9%) checkTypeReferenceOrImport
+│   │   │   │   │       │       ├── … 636.0ms → 578.1ms (3.8% → 3.5%, self 2.1% → 1.8% globally) isRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       │   └── 607.1ms → 560.5ms (3.6% → 3.4%) 7 more callees, led by (3.5% → 3.3%) recursiveTypeRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       └── 237.6ms → 218.2ms (1.4% → 1.3%) 3 more callees, led by (1.4% → 1.3%) getTypeFromTypeNode
+│   │   │   │   │       └── 397.2ms → 387.5ms (2.4%) 35 more callees, led by (1.3%) checkReturnStatement
+│   │   │   │   └── 165.9ms → 144.2ms (1.0% → 0.9%) 5 more callees, led by (0.8% → 0.7%) getReturnTypeOfSignature
+│   │   │   └── 4.83s → 4.89s (28.7% → 29.8%) forEach
+│   │   │       ├── … 4.71s → 4.75s (28.0% → 28.9%) checkSourceElement at ./node_modules/typescript/lib/typescript.js
+│   │   │       │   └── … 4.70s → 4.74s (27.9% → 28.9%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       └── 4.69s → 4.72s (27.8% → 28.8%) 43 more callees, led by (9.5% → 9.4%) checkVariableDeclaration
+│   │   │       └── 119.4ms → 134.2ms (0.7% → 0.8%) 11 more callees, led by (0.4% → 0.5%) checkParameter at ./node_modules/typescript/lib/typescript.js
+│   │   └── 800.7ms → 776.2ms (4.8% → 4.7%) 2 more callees, led by (4.7%) getTypeChecker
+│   └── 2.11s → 2.01s (12.5% → 12.2%) 5 more callees, led by (11.8% → 11.4%) createProgram at ./node_modules/typescript/lib/typescript.js
+├── 2.06s → 2.08s (12.2% → 12.7%) (garbage collector)
+└── 172.2ms → 179.3ms (1.0% → 1.1%) 55 more root frames, led by (0.1%) structuredTypeRelatedToWorker at ./node_modules/typescript/lib/typescript.js
+```
+
 ## Hottest functions
 
 ### Self time

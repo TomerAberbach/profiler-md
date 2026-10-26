@@ -20,7 +20,11 @@ import {
 } from '../metrics.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { formatCallStackProfileDiff } from './format.ts'
-import { makeAggregatedCallStackProfile, makeFunction } from './testing.ts'
+import {
+  callTreeLines,
+  makeAggregatedCallStackProfile,
+  makeFunction,
+} from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -1907,5 +1911,283 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
         ``,
       ].join(`\n`),
     )
+  })
+})
+
+describe(`formatCallStackProfileDiff call tree`, () => {
+  const formatDiff = (
+    base: ReturnType<typeof makeFunction>[],
+    current: ReturnType<typeof makeFunction>[],
+    options = defaultOptions,
+  ) =>
+    mdastToMarkdown(
+      formatCallStackProfileDiff(
+        diffAggregatedCallStackProfiles(
+          makeAggregatedCallStackProfile([MICROSECONDS_METRIC], base),
+          makeAggregatedCallStackProfile([MICROSECONDS_METRIC], current),
+          options,
+        ),
+        options,
+      ),
+    )
+
+  const callTreeSection = (md: string) =>
+    mdastToMarkdown(
+      nodesUnderHeading(parseMd(md), `Call tree`) as RootContent[],
+    )
+
+  test(`pairs each node across the sides by its function`, () => {
+    const md = formatDiff(
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`leaf`, 4, { stack: [1, 0] }),
+        makeFunction(`gone`, 1, { stack: [2, 0] }),
+      ],
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`leaf`, 6, { stack: [1, 0] }),
+        makeFunction(`other`, 2, { stack: [2, 0] }),
+      ],
+    )
+
+    expect(callTreeSection(md)).toBe(
+      [
+        `Call paths to the hottest and most changed functions.`,
+        ``,
+        `\`\`\``,
+        `└── 5.0µs → 8.0µs (100.0%) main at ./src/main.ts:1`,
+        `    ├── 4.0µs → 6.0µs (80.0% → 75.0%) leaf at ./src/leaf.ts:1`,
+        `    ├── 0ms → 2.0µs (0.0% → 25.0%) other at ./src/other.ts:1`,
+        `    └── 1.0µs → 0ms (20.0% → 0.0%) gone at ./src/gone.ts:1`,
+        `\`\`\``,
+        ``,
+      ].join(`\n`),
+    )
+  })
+
+  test(`states an unchanged node's value once, and each side's location`, () => {
+    const md = formatDiff(
+      [makeFunction(`main`, 0), makeFunction(`leaf`, 4, { stack: [1, 0] })],
+      [
+        makeFunction(`main`, 0, { line: 2 }),
+        makeFunction(`leaf`, 4, { stack: [1, 0], line: 7 }),
+        makeFunction(`other`, 1, { stack: [2, 0] }),
+      ],
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 4.0µs → 5.0µs (100.0%) main at ./src/main.ts:1 → 2`,
+        `    ├── 4.0µs (100.0% → 80.0%) leaf at ./src/leaf.ts:1 → 7`,
+        `    └── 0ms → 1.0µs (0.0% → 20.0%) other at ./src/other.ts:1`,
+      ],
+    ])
+  })
+
+  test(`states each side's self share of a frame with callees`, () => {
+    const md = formatDiff(
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`mid`, 2, { stack: [1, 0] }),
+        makeFunction(`leaf`, 4, { stack: [2, 1, 0] }),
+      ],
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`mid`, 1, { stack: [1, 0] }),
+        makeFunction(`leaf`, 6, { stack: [2, 1, 0] }),
+      ],
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 6.0µs → 7.0µs (100.0%) main at ./src/main.ts:1`,
+        `    └── 6.0µs → 7.0µs (100.0%, self 33.3% → 14.3%) mid at ./src/mid.ts:1`,
+        `        └── 4.0µs → 6.0µs (66.7% → 85.7%) leaf at ./src/leaf.ts:1`,
+      ],
+    ])
+  })
+
+  test(`states that no call path differed when every node is unchanged`, () => {
+    const profile = [
+      makeFunction(`main`, 0),
+      makeFunction(`leaf`, 4, { stack: [1, 0] }),
+    ]
+
+    expect(callTreeSection(formatDiff(profile, profile))).toBe(
+      `No call path differed in time spent.\n`,
+    )
+  })
+
+  test(`notes the ellipsis below the summary when the tree omits frames`, () => {
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `middle`,
+    })
+
+    const md = formatDiff(
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`middle`, 0),
+        makeFunction(`leaf`, 4, { stack: [2, 1, 0] }),
+      ],
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`middle`, 0),
+        makeFunction(`leaf`, 6, { stack: [2, 1, 0] }),
+      ],
+      options,
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 4.0µs → 6.0µs (100.0%) main at ./src/main.ts:1`,
+        `    └── … 4.0µs → 6.0µs (100.0%) leaf at ./src/leaf.ts:1`,
+      ],
+    ])
+    expect(md).toContain(`\n\n\`…\` stands for omitted frames.\n\n`)
+  })
+
+  test.each([
+    { side: `base`, hiddenLine: 1 },
+    { side: `current`, hiddenLine: 5 },
+  ])(
+    `draws a frame the filter hides on the $side side only`,
+    ({ hiddenLine }) => {
+      const options = resolveProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry =>
+          entry.name !== `middle` || entry.location?.line !== hiddenLine,
+      })
+
+      const md = formatDiff(
+        [
+          makeFunction(`main`, 0),
+          makeFunction(`middle`, 0),
+          makeFunction(`leaf`, 4, { stack: [2, 1, 0] }),
+        ],
+        [
+          makeFunction(`main`, 0),
+          makeFunction(`middle`, 0, { line: 5 }),
+          makeFunction(`leaf`, 6, { stack: [2, 1, 0] }),
+        ],
+        options,
+      )
+
+      expect(callTreeLines(md)).toEqual([
+        [
+          `└── 4.0µs → 6.0µs (100.0%) main at ./src/main.ts:1`,
+          `    └── 4.0µs → 6.0µs (100.0%) middle at ./src/middle.ts:1 → 5`,
+          `        └── 4.0µs → 6.0µs (100.0%) leaf at ./src/leaf.ts:1`,
+        ],
+      ])
+    },
+  )
+
+  test(`draws at most two lines per top N entry`, () => {
+    const md = formatDiff(
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`a`, 3, { stack: [1, 0] }),
+        makeFunction(`b`, 2, { stack: [2, 0] }),
+        makeFunction(`c`, 1, { stack: [3, 0] }),
+      ],
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`a`, 3, { stack: [1, 0] }),
+        makeFunction(`b`, 5, { stack: [2, 0] }),
+        makeFunction(`c`, 1, { stack: [3, 0] }),
+      ],
+      resolveProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 6.0µs → 9.0µs (100.0%) main at ./src/main.ts:1`,
+        `    └── 6.0µs → 9.0µs (100.0%) 3 more callees, led by (33.3% → 55.6%) b at ./src/b.ts:1`,
+      ],
+    ])
+  })
+
+  test(`draws the path a function's change is on over a larger unchanged path`, () => {
+    // Main → a → f holds 40µs on both sides, and main → b → f grows from 1µs
+    // to 10µs.
+    const fOn = (count: number, stack: number[]) => ({
+      ...makeFunction(`f`, count),
+      callStack: stack,
+    })
+    const side = (fOnB: number) => [
+      makeFunction(`main`, 0),
+      makeFunction(`a`, 0, { stack: [1, 0] }),
+      makeFunction(`b`, 0, { stack: [2, 0] }),
+      fOn(40, [3, 1, 0]),
+      fOn(fOnB, [3, 2, 0]),
+      makeFunction(`c`, 59, { stack: [5, 0] }),
+    ]
+
+    const md = formatDiff(
+      side(1),
+      side(10),
+      resolveProfileToMdOptions({ baseURL: `/project`, topN: 2 }),
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 0.1ms (100.0%) main at ./src/main.ts:1`,
+        `    ├── 1.0µs → 10.0µs (1.0% → 9.2%) b at ./src/b.ts:1`,
+        `    │   └── 1.0µs → 10.0µs (1.0% → 9.2%, self 41.0% → 45.9% globally) f at ./src/f.ts:1`,
+        `    └── 0.1ms (99.0% → 90.8%) 2 more callees, led by (59.0% → 54.1%) c at ./src/c.ts:1`,
+      ],
+    ])
+  })
+
+  test(`leaves to the rankings a path stating less than 0.1% on each side`, () => {
+    const md = formatDiff(
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`big`, 9997, { stack: [1, 0] }),
+        makeFunction(`tiny`, 3, { stack: [2, 0] }),
+      ],
+      [
+        makeFunction(`main`, 0),
+        makeFunction(`big`, 9996, { stack: [1, 0] }),
+        makeFunction(`tiny`, 4, { stack: [2, 0] }),
+      ],
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 10.0ms (100.0%) main at ./src/main.ts:1`,
+        `    └── 10.0ms (100.0%) big at ./src/big.ts:1`,
+      ],
+    ])
+  })
+
+  test(`states both sides' locations when one side's is in the source of the line above`, () => {
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      matchEntry: ({ name }) =>
+        name === `inner` ? { location: `` } : undefined,
+    })
+    const outer = makeFunction(`outer`, 0)
+
+    const md = formatDiff(
+      [
+        outer,
+        {
+          ...makeFunction(`inner`, 4, { stack: [1, 0] }),
+          url: outer.url,
+          line: undefined,
+        },
+      ],
+      [outer, makeFunction(`inner`, 6, { stack: [1, 0], line: 3 })],
+      options,
+    )
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `└── 4.0µs → 6.0µs (100.0%) outer at ./src/outer.ts:1`,
+        `    └── 4.0µs → 6.0µs (100.0%) inner at ./src/outer.ts → ./src/inner.ts:3`,
+      ],
+    ])
   })
 })

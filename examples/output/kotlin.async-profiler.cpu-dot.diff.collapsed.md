@@ -11,6 +11,55 @@ Collected 1,283 → 1,319 samples (+36 samples, +2.8%).
 | JIT              |  -6.3% |    -1 |   1.2% → 1.1% |   16 → 15 |
 | Unknown          |    new |    +1 |   0.0% → 0.1% |     0 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 854 → 891 samples (66.6% → 67.6%) Thread::call_run
+│   ├── 808 → 809 samples (63.0% → 61.3%) JavaThread::thread_main_inner
+│   │   └── 808 → 809 samples (63.0% → 61.3%) CompileBroker::compiler_thread_loop
+│   │       ├── 793 → 799 samples (61.8% → 60.6%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 555 → 561 samples (43.3% → 42.5%) C2Compiler::compile_method
+│   │       │   │   └── 554 → 561 samples (43.2% → 42.5%) Compile::Compile
+│   │       │   │       └── 554 → 561 samples (43.2% → 42.5%) 11 more callees, led by (20.9% → 21.6%) Compile::Code_Gen
+│   │       │   ├── … 227 → 232 samples (17.7% → 17.6%) Compilation::compile_method
+│   │       │   │   ├── 211 → 214 samples (16.4% → 16.2%) Compilation::compile_java_method
+│   │       │   │   │   ├── 73 → 72 samples (5.7% → 5.5%) Compilation::build_hir
+│   │       │   │   │   │   ├── … 52 → 46 samples (4.1% → 3.5%) GraphBuilder::iterate_bytecodes_for_block
+│   │       │   │   │   │   │   ├── 30 → 29 samples (2.3% → 2.2%) GraphBuilder::invoke
+│   │       │   │   │   │   │   │   ├── 2 → 0 samples (0.2% → 0.0%, self 1.9% → 1.1% globally) tlv_get_addr
+│   │       │   │   │   │   │   │   └── 28 → 29 samples (2.2%) 7 more callees, led by (1.2% → 1.1%) GraphBuilder::try_inline
+│   │       │   │   │   │   │   └── 20 → 16 samples (1.6% → 1.2%) 15 more callees, led by (0.2% → 0.5%) GraphBuilder::access_field
+│   │       │   │   │   │   └── 17 → 20 samples (1.3% → 1.5%) 7 more callees, led by (0.2% → 0.5%) GlobalValueNumbering::GlobalValueNumbering
+│   │       │   │   │   └── 138 → 142 samples (10.8%) 3 more callees, led by (7.4% → 7.1%) Compilation::emit_lir
+│   │       │   │   └── 16 → 18 samples (1.2% → 1.4%) 2 more callees, led by (1.2%) ciEnv::register_method
+│   │       │   └── 3 → 4 samples (0.2% → 0.3%) ciEnv::get_method_from_handle
+│   │       └── 15 → 10 samples (1.2% → 0.8%) 2 more callees, led by (1.1% → 0.8%) CompileQueue::get
+│   └── 46 → 82 samples (3.6% → 6.2%) 4 more callees, led by (3.3% → 5.4%) WorkerThread::run
+├── 422 → 420 samples (32.9% → 31.8%) main at org.jetbrains.kotlin.preloading.Preloader
+│   └── 422 → 420 samples (32.9% → 31.8%) run
+│       ├── … 346 → 348 samples (27.0% → 26.4%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │   ├── … 337 → 339 samples (26.3% → 25.7%) exec at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   │   ├── … 323 → 322 samples (25.2% → 24.4%) invoke at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │   │   │   ├── 300 → 301 samples (23.4% → 22.8%) phaseBody at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │   │   │   │   ├── … 216 → 214 samples (16.8% → 16.2%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │   │   │   │   │   ├── … 20 → 19 samples (1.6% → 1.4%) createEnvironmentAndSources at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │   │   │   │   │   │   └── 20 → 18 samples (1.6% → 1.4%) createProjectEnvironment at org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │   │   │   │   │   │       ├── … 4 → 3 samples (0.3% → 0.2%) <clinit> at org.jetbrains.kotlin.KtNodeTypes
+│       │   │   │   │   │   │       │   └── … 1 → 0 samples (0.1% → 0.0%, self 1.3% → 1.9% globally) SymbolTable::do_lookup
+│       │   │   │   │   │   │       └── 10 → 11 samples (0.8%) 4 more callees, led by (0.3% → 0.2%) <init> at org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment
+│       │   │   │   │   │   └── 196 → 195 samples (15.3% → 14.8%) 5 more callees, led by (12.1%) resolveAndCheckFir at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │   │   │   │   └── 84 → 87 samples (6.5% → 6.6%) 4 more callees, led by (4.0% → 4.2%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│       │   │   │   └── 23 → 21 samples (1.8% → 1.6%) 3 more callees, led by (1.2% → 1.3%) phaseBody at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │   │   └── 11 → 13 samples (0.9% → 1.0%) 4 more callees, led by (0.5% → 0.6%) <clinit> at org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │   └── … 6 → 5 samples (0.5% → 0.4%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+│       └── 74 → 72 samples (5.8% → 5.5%) 2 more callees, led by (5.8% → 5.4%) preloadClasses at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+└── 4 → 3 samples (0.3% → 0.2%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

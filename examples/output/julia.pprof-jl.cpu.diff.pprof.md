@@ -12,6 +12,55 @@ Collected 33,701 → 33,383 samples (-318 samples, -0.9%).
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 25,752 → 25,944 samples (76.4% → 77.7%, self 0.9% → 0.7%) [unknown function]
+│   ├── … 16,265 → 16,658 samples (48.3% → 49.9%, self 20.4% → 21.1%) #write#79 at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157
+│   │   ├── 2,127 → 2,294 samples (6.3% → 6.9%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+│   │   ├── 1,905 → 2,016 samples (5.7% → 6.0%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+│   │   │   ├── … 1,661 → 1,781 samples (4.9% → 5.3%) populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}) at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40
+│   │   │   │   ├── 398 → 551 samples (1.2% → 1.7%) setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356
+│   │   │   │   │   ├── 282 → 319 samples (0.8% → 1.0%, self 0.6%, self 1.6% → 1.5% globally) ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol) at 267
+│   │   │   │   │   └── … 47 → 163 samples (0.1% → 0.5%, self 3.3% → 4.3% globally) GenericMemory at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588
+│   │   │   │   └── 1,253 → 1,227 samples (3.7%) 8 more callees, led by (3.5%) getvalue at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187
+│   │   │   └── 115 samples (0.3%) getvalue at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218
+│   │   ├── … 1,710 → 1,667 samples (5.1% → 5.0%, self 20.8% → 20.9% globally) _symbol at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1
+│   │   ├── 1,316 → 1,427 samples (3.9% → 4.3%) write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String) at 340
+│   │   │   └── 1,280 → 1,381 samples (3.8% → 4.1%) var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String) at 340
+│   │   │       ├── … 104 → 124 samples (0.3% → 0.4%) getindex at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:975
+│   │   │       └── 1,044 → 1,125 samples (3.1% → 3.4%) 12 more callees, led by (2.3% → 2.5%) realloc!(::Vector{UInt8}, ::Int64, ::Int64) at 51
+│   │   ├── 1,002 → 969 samples (3.0% → 2.9%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+│   │   │   └── 998 → 966 samples (3.0% → 2.9%, self 4.4% globally) indexed_iterate at 163
+│   │   └── 1,328 → 1,225 samples (3.9% → 3.7%) 20 more callees, led by (1.4% → 1.5%) indexed_iterate at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+│   ├── … 2,399 → 2,281 samples (7.1% → 6.8%) #defaultminimum##0
+│   │   ├── … 1,460 → 1,449 samples (4.3%) foldl_impl at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46
+│   │   │   └── 1,457 → 1,449 samples (4.3%) 2 more callees, led by (0.0% → 4.3%) _foldl_impl at 61
+│   │   └── 871 → 775 samples (2.6% → 2.3%) 6 more callees, led by (1.4% → 1.3%) isassigned at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641
+│   ├── … 2,199 → 2,258 samples (6.5% → 6.8%) foldl_impl at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46
+│   │   ├── 0 → 2,246 samples (0.0% → 6.7%, self 0.0% → 0.6%) _foldl_impl at 61
+│   │   │   ├── 0 → 1,777 samples (0.0% → 5.3%) iterate at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697
+│   │   │   │   ├── … 0 → 1,049 samples (0.0% → 3.1%) _symbol at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1
+│   │   │   │   └── 0 → 719 samples (0.0% → 2.2%) 6 more callees, led by (0.0% → 2.1%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+│   │   │   └── 0 → 145 samples (0.0% → 0.4%, self 0.8% → 0.4% globally) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75
+│   │   └── 2,188 → 0 samples (6.5% → 0.0%, self 0.6% → 0.0%) _foldl_impl at 60
+│   │       ├── 162 → 0 samples (0.5% → 0.0%) MappingRF at 98
+│   │       └── 1,813 → 0 samples (5.4% → 0.0%) 3 more callees, led by (4.9% → 0.0%) iterate at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697
+│   ├── … 1,870 → 1,844 samples (5.5%) parse_workload at ./profile.jl:18
+│   │   └── 1,785 → 1,799 samples (5.3% → 5.4%) 2 more callees, led by (4.0% → 4.2%) read at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30
+│   ├── … 955 → 1,008 samples (2.8% → 3.0%, self 2.7% → 2.9%, self 3.3% globally) (::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})
+│   ├── … 1,091 → 0 samples (3.2% → 0.0%) #write#81 at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl
+│   │   └── 954 → 0 samples (2.8% → 0.0%) 8 more callees, led by (1.6% → 0.0%) isassigned at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641
+│   ├── … 0 → 1,000 samples (0.0% → 3.0%) #write#81 at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:185
+│   │   └── 0 → 941 samples (0.0% → 2.8%) 5 more callees, led by (0.0% → 1.6%) isassigned at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641
+│   └── 680 → 678 samples (2.0%) 11 more callees, led by (0.8% → 0.9%) BottomRF at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:84
+└── 7,943 → 7,436 samples (23.6% → 22.3%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

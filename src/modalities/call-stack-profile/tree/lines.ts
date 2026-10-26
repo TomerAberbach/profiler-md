@@ -1,8 +1,12 @@
-import { formatCount, formatPercent } from '../../../helpers/format.ts'
-import type { FormattingProfileToMdOptions } from '../../../options.ts'
-import { formatProseValue } from '../../measure.ts'
+import {
+  formatArrow,
+  formatCount,
+  formatPercent,
+} from '../../../helpers/format.ts'
+import { formatSourceLocationDiff } from '../../../location.ts'
+import { formatProseValueArrow } from '../../measure.ts'
 import type { AggregatedCallStackProfileFunction } from '../aggregate.ts'
-import { selfValueOf } from '../measure.ts'
+import { shareOf, sideSelfValueOf } from '../measure.ts'
 import type { Measure } from '../measure.ts'
 import {
   frameLocation,
@@ -14,10 +18,23 @@ import {
   isCallTreeNode,
   isFunctionNode,
   keyOf,
+  sidesOf,
   undrawnValueOf,
 } from './node.ts'
-import type { CallTreeNode, CallTreeRoot, NodeFunction } from './node.ts'
-import { forEachRun, runFrom, undrawnBranchesOf } from './state.ts'
+import type {
+  CallTreeNode,
+  CallTreeRoot,
+  NodeFunction,
+  TreeFunction,
+} from './node.ts'
+import {
+  areNegligible,
+  forEachRun,
+  isNegligible,
+  runFrom,
+  summarizedValuesOf,
+  undrawnBranchesOf,
+} from './state.ts'
 import type { DrawnCallTree, Run, UndrawnBranches } from './state.ts'
 
 /** The tree's lines, and the frame notation they use. */
@@ -80,57 +97,40 @@ export const countLines = (
   tree: DrawnCallTree,
   formatted: FormattedCallTree | undefined,
 ): number => {
-  const { root, negligible } = tree
   let lineCount = 0
 
   // `namedAbove` is the function on the line above a line's frame,
   // which the frame's location is shortened against.
   const formatCallees = (
     node: CallTreeRoot,
-    namedAbove: AggregatedCallStackProfileFunction | undefined,
+    namedAbove: TreeFunction | undefined,
     prefix: string,
   ): void => {
-    // Callees' values are positive, so a value left over means a callee went
-    // undrawn, and a count needs no scan of a wide node's callees to find it.
-    // A profile with no value has a negligible value of 0, so the leftover
-    // must also be positive.
-    const summarizedValue = undrawnValueOf(node)
-    const summarized = summarizedValue > 0 && summarizedValue >= negligible
-
+    const summarizedValues = summarizedValuesOf(tree, node)
     if (formatted) {
-      formatCalleeLines(node, namedAbove, prefix, {
-        summarizedValue,
-        summarized,
-        formatted,
-      })
+      formatCalleeLines(node, namedAbove, prefix, summarizedValues, formatted)
       return
     }
     // A count needs no order, and no line's glyph.
     for (const callee of node.drawnCallees) {
       formatBranch(callee, false, namedAbove, prefix)
     }
-    lineCount += Number(summarized)
+    lineCount += Number(summarizedValues !== undefined)
   }
 
   // Formats `node`'s callees' lines in order, then its summary line.
   const formatCalleeLines = (
     node: CallTreeRoot,
-    namedAbove: AggregatedCallStackProfileFunction | undefined,
+    namedAbove: TreeFunction | undefined,
     prefix: string,
-    {
-      summarizedValue,
-      summarized,
-      formatted,
-    }: {
-      summarizedValue: number
-      summarized: boolean
-      formatted: FormattedCallTree
-    },
+    summarizedValues: readonly number[] | undefined,
+    formatted: FormattedCallTree,
   ): void => {
-    const undrawn = summarized ? undrawnBranchesOf(node) : undefined
+    const undrawn =
+      summarizedValues === undefined ? undefined : undrawnBranchesOf(node)
     const lone = undrawn?.count === 1 ? undrawn.hottest : undefined
     const summary = lone === undefined ? undrawn : undefined
-    const lines = calleeLinesOf(node, lone, summarizedValue, tree)
+    const lines = calleeLinesOf(node, lone, tree)
     for (const [index, line] of lines.entries()) {
       const last = index === lines.length - 1 && summary === undefined
       if (line.type === `branch`) {
@@ -142,7 +142,7 @@ export const countLines = (
         glyph(prefix, last) +
           formatLoneCallee(
             line.callee,
-            line.value,
+            summarizedValues!,
             namedAbove,
             tree,
             formatted,
@@ -157,7 +157,7 @@ export const countLines = (
           formatSummary(
             node,
             summary,
-            summarizedValue,
+            summarizedValues!,
             namedAbove,
             tree,
             formatted,
@@ -171,7 +171,7 @@ export const countLines = (
   const formatBranch = (
     callee: CallTreeNode,
     last: boolean,
-    namedAbove: AggregatedCallStackProfileFunction | undefined,
+    namedAbove: TreeFunction | undefined,
     prefix: string,
   ): void => {
     const run = runFrom(callee, tree)
@@ -192,7 +192,7 @@ export const countLines = (
     )
   }
 
-  formatCallees(root, undefined, ``)
+  formatCallees(tree.root, undefined, ``)
   return lineCount
 }
 
@@ -222,7 +222,6 @@ type CalleeLine = {
 const calleeLinesOf = (
   node: CallTreeRoot,
   lone: CallTreeNode | undefined,
-  summarizedValue: number,
   tree: DrawnCallTree,
 ): CalleeLine[] => {
   const lines: CalleeLine[] = node.drawnCallees.map(callee => ({
@@ -231,7 +230,7 @@ const calleeLinesOf = (
     value: runFrom(callee, tree).deepest.value,
   }))
   if (lone !== undefined) {
-    lines.push({ type: `lone`, callee: lone, value: summarizedValue })
+    lines.push({ type: `lone`, callee: lone, value: undrawnValueOf(node) })
   }
   return lines.sort((left, right) => right.value - left.value)
 }
@@ -242,7 +241,7 @@ const calleeLinesOf = (
  */
 const formatFrame = (
   run: Run,
-  namedAbove: AggregatedCallStackProfileFunction | undefined,
+  namedAbove: TreeFunction | undefined,
   tree: DrawnCallTree,
   formatted: FormattedCallTree,
 ): string => {
@@ -253,14 +252,14 @@ const formatFrame = (
   return formatFrameLine(
     {
       func: deepest.func,
-      value: deepest.value,
+      values: sidesOf(deepest, `value`),
       self: formatSelf(
         deepest,
         formatted.selfNoteFrames.get(keyOf(deepest.func)) === deepest,
         tree,
       ),
-      omitsCallers: runOmitsCallers(run, tree.negligible),
-      omitsCallees: deepest.hiddenCalleesValue >= tree.negligible,
+      omitsCallers: runOmitsCallers(run, tree),
+      omitsCallees: !isNegligible(tree, deepest, `hiddenCalleesValue`),
     },
     namedAbove,
     tree,
@@ -269,49 +268,62 @@ const formatFrame = (
 }
 
 /**
- * A frame's line after its glyphs: its value and share with {@link self} beside
- * the share, its name and location, and marks for its omitted callers and
- * callees.
+ * A frame's line after its glyphs: its value on each side and share with
+ * {@link self} beside the share, its name and location, and marks for its
+ * omitted callers and callees.
  */
 const formatFrameLine = (
   {
     func,
-    value,
+    values,
     self,
     omitsCallers,
     omitsCallees,
   }: {
     func: NodeFunction
-    value: number
+    values: readonly number[]
     self: string
     omitsCallers: boolean
     omitsCallees: boolean
   },
-  namedAbove: AggregatedCallStackProfileFunction | undefined,
-  { measure, options }: DrawnCallTree,
+  namedAbove: TreeFunction | undefined,
+  tree: DrawnCallTree,
   formatted: FormattedCallTree,
 ): string => {
   formatted.notation.omitsFrames ||= omitsCallers || omitsCallees
   // Omitted callers are above the frame, so their mark precedes its numbers.
   return (
     (omitsCallers ? `${OMITTED_FRAMES_NAME} ` : ``) +
-    formatMeasured(value, measure, self) +
+    formatMeasured(values, tree.measures, self) +
     nameOf(func, formatted) +
-    formatTreeLocation(func, namedAbove, omitsCallers, options) +
+    formatTreeLocation(func, namedAbove, omitsCallers, tree) +
     (omitsCallees ? ` ${OMITTED_FRAMES_NAME}` : ``)
   )
 }
 
 /**
  * A frame's value and its share of the profile, with {@link self} beside the
- * share, leading the frame's name.
+ * share, leading the frame's name. A diff's line states each side's value and
+ * share.
  */
 const formatMeasured = (
-  value: number,
-  { metric, total }: Measure,
+  values: readonly number[],
+  measures: readonly Measure[],
   self = ``,
+): string => {
+  const { metric } = measures[0]!
+  const stated = formatProseValueArrow(values[0]!, values.at(-1)!, metric)
+  return `${stated} (${formatShares(values, measures)}${self}) `
+}
+
+/** Each side's share of its total, joined by arrows. */
+const formatShares = (
+  values: readonly number[],
+  measures: readonly Measure[],
 ): string =>
-  `${formatProseValue(value, metric)} (${formatPercent(value / total)}${self}) `
+  values
+    .map((value, side) => formatPercent(shareOf(value, measures[side]!)))
+    .reduce(formatArrow)
 
 /**
  * {@link node}'s self value where it is enough to state, and on its function's
@@ -322,23 +334,27 @@ const formatMeasured = (
 const formatSelf = (
   node: CallTreeNode,
   noted: boolean,
-  { negligible, measure }: DrawnCallTree,
+  tree: DrawnCallTree,
 ): string => {
   if (!isFunctionNode(node)) {
     return ``
   }
+  const { measures, sideFunctionsOf } = tree
   let self = ``
+  const selfValues = sidesOf(node, `selfValue`)
   // A frame whose value is all self states it as its value already.
-  const statesSelf =
-    node.selfValue > 0 &&
-    node.selfValue >= negligible &&
-    node.selfValue < node.value
-  if (statesSelf) {
-    self += `, self ${formatPercent(node.selfValue / measure.total)}`
+  if (!areNegligible(tree, selfValues) && node.selfValue < node.value) {
+    self += `, self ${formatShares(selfValues, measures)}`
   }
-  const value = selfValueOf(measure, node.func)
-  if (noted && value >= negligible && value - node.selfValue >= negligible) {
-    self += `, self ${formatPercent(value / measure.total)} globally`
+  if (!noted) {
+    return self
+  }
+  const values = sideFunctionsOf(node.func).map((func, side) =>
+    sideSelfValueOf(measures[side]!, func),
+  )
+  const elsewhere = values.map((value, side) => value - selfValues[side]!)
+  if (!areNegligible(tree, values) && !areNegligible(tree, elsewhere)) {
+    self += `, self ${formatShares(values, measures)} globally`
   }
   return self
 }
@@ -361,39 +377,37 @@ const nameOf = (func: NodeFunction, formatted: FormattedCallTree): string => {
  */
 const runOmitsCallers = (
   { omitted, deepest }: Run,
-  negligible: number,
-): boolean => omitted !== undefined || omitsCallers(deepest, negligible)
+  tree: DrawnCallTree,
+): boolean => omitted !== undefined || omitsCallers(deepest, tree)
 
 /**
  * Whether {@link node}'s line omits callers: when the call stacks skipping
  * frames above it hold enough to state, or all of its value, so the line never
  * states a direct call no stack made.
  */
-const omitsCallers = (
-  { omittedCallersValue, value }: CallTreeNode,
-  negligible: number,
-): boolean =>
-  omittedCallersValue > 0 &&
-  (omittedCallersValue >= negligible || omittedCallersValue === value)
+const omitsCallers = (node: CallTreeNode, tree: DrawnCallTree): boolean =>
+  node.omittedCallersValue > 0 &&
+  (!isNegligible(tree, node, `omittedCallersValue`) ||
+    node.omittedCallersValue === node.value)
 
 /**
  * The line of a lone undrawn callee's frame, after its glyphs, stating
- * {@link value} and that its callees are omitted.
+ * {@link stated} and that its callees are omitted.
  */
 const formatLoneCallee = (
   node: CallTreeNode,
-  stated: number,
-  namedAbove: AggregatedCallStackProfileFunction | undefined,
+  stated: readonly number[],
+  namedAbove: TreeFunction | undefined,
   tree: DrawnCallTree,
   formatted: FormattedCallTree,
 ): string =>
   formatFrameLine(
     {
       func: node.func,
-      value: stated,
+      values: stated,
       self: ``,
-      omitsCallers: omitsCallers(node, tree.negligible),
-      omitsCallees: node.value - node.selfValue >= tree.negligible,
+      omitsCallers: omitsCallers(node, tree),
+      omitsCallees: !isNegligible(tree, node, `value`, node, `selfValue`),
     },
     namedAbove,
     tree,
@@ -408,21 +422,22 @@ const formatLoneCallee = (
 const formatSummary = (
   node: CallTreeRoot,
   { count, hottest }: UndrawnBranches,
-  summarizedValue: number,
-  namedAbove: AggregatedCallStackProfileFunction | undefined,
-  { measure, options, negligible }: DrawnCallTree,
+  summarizedValues: readonly number[],
+  namedAbove: TreeFunction | undefined,
+  tree: DrawnCallTree,
   formatted: FormattedCallTree,
 ): string => {
-  const { func, value } = hottest
+  const { measures } = tree
+  const { func } = hottest
   const branches = formatCount(count, `more ${undrawnNounOf(node)}`)
-  const share = formatPercent(value / measure.total)
+  const share = formatShares(sidesOf(hottest, `value`), measures)
   const location = formatTreeLocation(
     func,
     namedAbove,
-    omitsCallers(hottest, negligible),
-    options,
+    omitsCallers(hottest, tree),
+    tree,
   )
-  return `${formatMeasured(summarizedValue, measure)}${branches}, led by (${share}) ${nameOf(func, formatted)}${location}`
+  return `${formatMeasured(summarizedValues, measures)}${branches}, led by (${share}) ${nameOf(func, formatted)}${location}`
 }
 
 /**
@@ -444,20 +459,39 @@ const undrawnNounOf = (node: CallTreeRoot): string =>
  */
 const formatTreeLocation = (
   func: NodeFunction,
-  namedAbove: AggregatedCallStackProfileFunction | undefined,
+  namedAbove: TreeFunction | undefined,
   omitsCallers: boolean,
-  options: FormattingProfileToMdOptions,
+  { sideFunctionsOf, options }: DrawnCallTree,
 ): string => {
   if (func.type === `placeholder`) {
     return ``
   }
-  const location = frameLocation(
-    func,
-    omitsCallers ? undefined : namedAbove,
-    options,
+  const sides = sideFunctionsOf(func)
+  const aboveSides =
+    omitsCallers || namedAbove === undefined
+      ? undefined
+      : sideFunctionsOf(namedAbove)
+  const shortened = sides.map((sideFunc, side) =>
+    sideFunc === undefined
+      ? undefined
+      : frameLocation(sideFunc, aboveSides?.[side], options),
   )
-  if (location === undefined) {
-    return ``
+  // A function only one side records or locates is located on that side
+  // alone. A side whose location is shortened to nothing is in the source of
+  // the line above, which the other side's full location may differ from.
+  const located = sides.filter(func => func?.location !== undefined).length
+  const present = shortened.filter(location => location !== undefined)
+  if (
+    located < 2 ||
+    shortened.every(location => location === undefined || location.shortened)
+  ) {
+    return present.length === 0
+      ? ``
+      : ` at ${present.map(({ text }) => text).reduce(formatArrow)}`
   }
-  return ` at ${location.text}`
+  const [base, current] = sides as [
+    AggregatedCallStackProfileFunction,
+    AggregatedCallStackProfileFunction,
+  ]
+  return ` at ${formatSourceLocationDiff(base.location, current.location, options)}`
 }

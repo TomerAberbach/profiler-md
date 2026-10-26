@@ -1,9 +1,13 @@
-import { PERCENT_RESOLUTION } from '../../../helpers/format.ts'
 import { countLines } from './lines.ts'
-import { isCallTreeNode, NO_DRAWN_CALLEES, undrawnValueOf } from './node.ts'
+import { isCallTreeNode, NO_DRAWN_CALLEES, sideValuesOf } from './node.ts'
 import type { CallTreeNode, CallTreeRoot, FunctionNode } from './node.ts'
 import type { DrawnCallTree, Run, UndrawnBranches } from './state.ts'
-import { forEachRun, undrawnBranchesOf } from './state.ts'
+import {
+  forEachRun,
+  isBelowResolution,
+  summarizedValuesOf,
+  undrawnBranchesOf,
+} from './state.ts'
 
 /**
  * Draws the largest callee a summary line stands for, in turn, while the tree
@@ -40,11 +44,10 @@ const largestSummarizedCallee = (
   tree: DrawnCallTree,
   excluded: ReadonlySet<CallTreeNode>,
 ): CallTreeNode | undefined => {
-  const resolution = PERCENT_RESOLUTION * tree.measure.total
   let largest: CallTreeNode | undefined
   for (const { hottest } of summarizedBranchesOf(tree)) {
     if (
-      hottest.value >= resolution &&
+      !isBelowResolution(tree, hottest) &&
       !excluded.has(hottest) &&
       (largest === undefined || hottest.value > largest.value)
     ) {
@@ -97,20 +100,15 @@ const loneSummarizedCallees = (tree: DrawnCallTree): CallTreeNode[] =>
  * The undrawn callees of each drawn node with a summary line, in the order a
  * depth-first walk from the root reaches the nodes.
  */
-const summarizedBranchesOf = ({
-  root,
-  negligible,
-}: DrawnCallTree): UndrawnBranches[] => {
+const summarizedBranchesOf = (tree: DrawnCallTree): UndrawnBranches[] => {
   const summarized: UndrawnBranches[] = []
-  const pending: CallTreeRoot[] = [root]
+  const pending: CallTreeRoot[] = [tree.root]
   while (pending.length > 0) {
     const node = pending.pop()!
     pending.push(...node.drawnCallees)
-    if (undrawnValueOf(node) < negligible) {
+    if (summarizedValuesOf(tree, node) === undefined) {
       continue
     }
-    // A profile with no value has a negligible value of 0, so a node may
-    // total nothing.
     const undrawn = undrawnBranchesOf(node)
     if (undrawn !== undefined) {
       summarized.push(undrawn)
@@ -148,10 +146,7 @@ export const drawHottestFunctions = (
     const terminal = hottestNodeOf(nodes)
     // A function whose value is spread too thin for any path to state more
     // than `<0.1%` is left to the rankings, which state it whole.
-    if (
-      terminal !== undefined &&
-      terminal.value >= PERCENT_RESOLUTION * tree.measure.total
-    ) {
+    if (terminal !== undefined && !isBelowResolution(tree, terminal)) {
       drawPathIfItFits(tree, terminal)
     }
   }
@@ -174,7 +169,8 @@ const drawPathIfItFits = (
 }
 
 /**
- * The node holding the most of a function's cost, if it has any.
+ * The node holding the most of a function's cost, or in a diff, the most of its
+ * change, if it has any.
  *
  * Functions are ranked by self value, but the node with the most total value
  * is chosen over the node with the most self value. That node is usually on a
@@ -184,15 +180,40 @@ const drawPathIfItFits = (
  * scores fewer functions drawn and a lower share of self value covered when the
  * node is chosen by self value.
  */
-const hottestNodeOf = (nodes: FunctionNode[]): FunctionNode | undefined =>
-  nodes.length === 0
-    ? undefined
-    : nodes.reduce((hottest, node) =>
-        node.value > hottest.value ||
-        (node.value === hottest.value && node.selfValue > hottest.selfValue)
-          ? node
-          : hottest,
-      )
+const hottestNodeOf = (nodes: FunctionNode[]): FunctionNode | undefined => {
+  let hottest: FunctionNode | undefined
+  let hottestRank: NodeRank | undefined
+  for (const node of nodes) {
+    const rank = rankOf(node)
+    if (
+      hottestRank === undefined ||
+      rank.value > hottestRank.value ||
+      (rank.value === hottestRank.value &&
+        rank.selfValue > hottestRank.selfValue)
+    ) {
+      hottest = node
+      hottestRank = rank
+    }
+  }
+  return hottest
+}
+
+type NodeRank = { value: number; selfValue: number }
+
+/**
+ * What {@link hottestNodeOf} ranks a node by: its values in a profile, and in
+ * a diff, how much each changed between the sides, so a function's path is the
+ * one its change is on.
+ */
+const rankOf = (node: FunctionNode): NodeRank => {
+  const [base, current] = sideValuesOf(node)
+  return current === undefined
+    ? base!
+    : {
+        value: Math.abs(current.value - base!.value),
+        selfValue: Math.abs(current.selfValue - base!.selfValue),
+      }
+}
 
 /**
  * Draws {@link terminal} and its undrawn callers, and returns them, terminal

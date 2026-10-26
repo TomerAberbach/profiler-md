@@ -10,6 +10,55 @@ Held 78.6 MiB (-1.702 KiB, ~0%) over 22,697 → 22,696 allocations (3.55 KiB 
 
 Paths starting with `./` or `../` are relative to `/src/black/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 78.6 MiB (100.0%) _run_tracker at /venv/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 78.6 MiB (100.0%) run_module at <frozen runpy>:201
+        ├── … 74 MiB (94.2%) format_file_contents at ./black/__init__.py:1054 → 1059
+        │   ├── 51.8 MiB (65.9%) format_str at 1189 → 1168
+        │   │   └── 51.8 MiB (65.9%) _format_str_once at 1236 → 1215
+        │   │       ├── 32.4 MiB → 36.4 MiB (41.3% → 46.4%, self 1.3% → <0.1%) visit at ./black/nodes.py:163 → 152
+        │   │       │   ├── … 28.3 MiB (36.0%, self 3.8%, self 3.8% → 6.4% globally) visit_default at ./black/linegen.py:134
+        │   │       │   │   ├── 19.3 MiB → 23.3 MiB (24.5% → 29.6%, self <0.1% → 2.6%) append at ./black/lines.py:63 → 52
+        │   │       │   │   │   ├── 15.2 MiB → 16.2 MiB (19.4% → 20.6%, self 20.6% → 21.9% globally) mark at ./black/brackets.py:70
+        │   │       │   │   │   ├── 3.05 MiB → 4.05 MiB (3.9% → 5.1%) whitespace at ./black/nodes.py:194 → 183
+        │   │       │   │   │   │   ├── 1.01 MiB → 3.01 MiB (1.3% → 3.8%) prev_sibling at ./blib2to3/pytree.py:207 → 196
+        │   │       │   │   │   │   │   └── 1.01 MiB → 3.01 MiB (1.3% → 3.8%, self 4.0% → 6.5% globally) update_sibling_maps at 369 → 358
+        │   │       │   │   │   │   └── 2.04 MiB → 1.04 MiB (2.6% → 1.3%) preceding_leaf at 441 → 436 …
+        │   │       │   │   │   └── 1 MiB (1.3%) prefix at ./blib2to3/pytree.py:480 → 469
+        │   │       │   │   ├── 5 MiB → 2 MiB (6.4% → 2.5%, self 1.3% → 0.0%, self 1.3% globally) generate_comments at ./black/comments.py:52
+        │   │       │   │   │   └── … 4 MiB → 2 MiB (5.1% → 2.5%, self 7.6% → 3.8% globally) changed at ./blib2to3/pytree.py:171 → 160
+        │   │       │   │   └── 1 MiB → 0 B (1.3% → 0.0%) visit_default at ./black/nodes.py:187 → 176
+        │   │       │   ├── … 698 KiB → 2.68 MiB (0.9% → 3.4%) visit_STRING at ./black/linegen.py:413
+        │   │       │   │   ├── 546 KiB → 1.53 MiB (0.7% → 2.0%, self <0.1% → 1.3%) visit_default at 134
+        │   │       │   │   │   └── 546 KiB (0.7%) append at ./black/lines.py:63 → 52 …
+        │   │       │   │   └── 150 KiB → 1.15 MiB (0.2% → 1.5%) 3 more callees, led by (0.1% → 1.4%) is_docstring at ./black/nodes.py:558 → 553
+        │   │       │   └── 2.49 MiB → 5.49 MiB (3.2% → 7.0%) 6 more callees, led by (2.5% → 1.3%) visit_stmt at ./black/linegen.py:199
+        │   │       ├── … 12.1 MiB (15.3%) parse_tokens at ./blib2to3/pgen2/driver.py:114
+        │   │       │   ├── 12 MiB → 10 MiB (15.3% → 12.8%) addtoken at ./blib2to3/pgen2/parse.py:242 → 230
+        │   │       │   │   └── 12 MiB → 10 MiB (15.3% → 12.7%, self 0.0% → 1.3%) _addtoken at 290 → 278
+        │   │       │   │       ├── 5 MiB (6.4%, self 2.5% → 1.3%) pop at 398 → 386
+        │   │       │   │       │   └── 3 MiB → 4 MiB (3.8% → 5.1%) convert at ./blib2to3/pytree.py:486 → 475 …
+        │   │       │   │       ├── 7 MiB → 3 MiB (8.9% → 3.8%) shift at 373 → 361
+        │   │       │   │       │   └── 7 MiB → 3 MiB (8.9% → 3.8%, self 1.3% globally) convert at ./blib2to3/pytree.py:486 → 475
+        │   │       │   │       │       ├── 6 MiB → 3 MiB (7.6% → 3.8%, self 8.9% → 6.4% globally) __new__ at 81 → 70
+        │   │       │   │       │       └── 1 MiB → 0 B (1.3% → 0.0%) __init__ at 400
+        │   │       │   │       └── 0 B → 1 MiB (0.0% → 1.3%) push at 374
+        │   │       │   └── 8.27 KiB → 2.01 MiB (<0.1% → 2.6%) __next__ at 80
+        │   │       │       └── 0 B → 2 MiB (0.0% → 2.5%) generate_tokens at ./blib2to3/pgen2/tokenize.py:554
+        │   │       └── 7.04 MiB → 3.04 MiB (9.0% → 3.9%) 7 more callees, led by (6.4% → 3.8%) transform_line at ./black/linegen.py:601
+        │   └── 22.3 MiB (28.3%) check_stability_and_equivalence at 1037 → 1042
+        │       └── 22.3 MiB (28.3%, self 9.0%) assert_equivalent at 1524 → 1510
+        │           └── 15.2 MiB (19.3%) 2 more callees, led by (11.6%) parse_ast at ./black/parsing.py:129 → 137
+        └── 4.31 MiB (5.5%) _get_module_details at 105
+            └── 4.31 MiB (5.5%) 2 more callees, led by (5.5%) _find_and_load at <frozen importlib._bootstrap>:1167
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1363,6 +1412,55 @@ Leaked 59.9 MiB (-1.702 KiB, ~0%) over 22,502 → 22,501 allocations (2.73 Ki
 | Third-party      |  +0.1% |         +172 B |          0.4% |             237 KiB |             230 |
 
 Paths starting with `./` or `../` are relative to `/src/black/src/`.
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 59.9 MiB (100.0%) _run_tracker at /venv/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 59.9 MiB (100.0%) run_module at <frozen runpy>:201
+        ├── … 55.6 MiB (92.8%) format_file_contents at ./black/__init__.py:1054 → 1059
+        │   ├── 36.1 MiB → 35.1 MiB (60.2% → 58.6%) format_str at 1189 → 1168
+        │   │   └── 36.1 MiB → 35.1 MiB (60.2% → 58.6%) _format_str_once at 1236 → 1215
+        │   │       ├── 17 MiB → 20 MiB (28.4% → 33.4%, self 1.7% → <0.1%) visit at ./black/nodes.py:163 → 152
+        │   │       │   ├── … 14 MiB → 13 MiB (23.4% → 21.7%, self 5.0% → 3.3%, self 5.0% → 6.7% globally) visit_default at ./black/linegen.py:134
+        │   │       │   │   ├── 5 MiB → 9 MiB (8.4% → 15.0%, self <0.1% → 3.3%) append at ./black/lines.py:63 → 52
+        │   │       │   │   │   ├── 3 MiB → 4 MiB (5.0% → 6.7%) whitespace at ./black/nodes.py:194 → 183
+        │   │       │   │   │   │   ├── 1 MiB → 3 MiB (1.7% → 5.0%) prev_sibling at ./blib2to3/pytree.py:207 → 196
+        │   │       │   │   │   │   │   └── 1 MiB → 3 MiB (1.7% → 5.0%, self 5.2% → 8.6% globally) update_sibling_maps at 369 → 358
+        │   │       │   │   │   │   └── 2 MiB → 1 MiB (3.3% → 1.7%) preceding_leaf at 441 → 436 …
+        │   │       │   │   │   ├── 1 MiB → 2 MiB (1.7% → 3.3%) mark at ./black/brackets.py:70
+        │   │       │   │   │   └── 1 MiB (1.7%) prefix at ./blib2to3/pytree.py:480 → 469
+        │   │       │   │   ├── 5 MiB → 2 MiB (8.3% → 3.3%, self 1.7% → 0.0%, self 1.7% globally) generate_comments at ./black/comments.py:52
+        │   │       │   │   │   └── … 4 MiB → 2 MiB (6.7% → 3.3%, self 10.0% → 5.0% globally) changed at ./blib2to3/pytree.py:171 → 160
+        │   │       │   │   └── 1 MiB → 0 B (1.7% → 0.0%) visit_default at ./black/nodes.py:187 → 176
+        │   │       │   └── 2.02 MiB → 7.02 MiB (3.4% → 11.7%) 7 more callees, led by (3.3% → 1.7%) visit_stmt at ./black/linegen.py:199
+        │   │       ├── … 12 MiB (20.1%) parse_tokens at ./blib2to3/pgen2/driver.py:114
+        │   │       │   ├── 12 MiB → 10 MiB (20.0% → 16.7%) addtoken at ./blib2to3/pgen2/parse.py:242 → 230
+        │   │       │   │   └── 12 MiB → 10 MiB (20.0% → 16.7%, self 0.0% → 1.7%) _addtoken at 290 → 278
+        │   │       │   │       ├── 7 MiB → 3 MiB (11.7% → 5.0%) shift at 373 → 361
+        │   │       │   │       │   └── 7 MiB → 3 MiB (11.7% → 5.0%, self 1.7% globally) convert at ./blib2to3/pytree.py:486 → 475
+        │   │       │   │       │       ├── 6 MiB → 3 MiB (10.0% → 5.0%, self 11.7% → 8.3% globally) __new__ at 81 → 70
+        │   │       │   │       │       └── 1 MiB → 0 B (1.7% → 0.0%) __init__ at 400
+        │   │       │   │       └── 5 MiB → 6 MiB (8.3% → 10.0%) 2 more callees, led by (8.3%) pop at 398 → 386
+        │   │       │   └── 8.27 KiB → 2.01 MiB (<0.1% → 3.4%) __next__ at 80
+        │   │       │       └── 0 B → 2 MiB (0.0% → 3.3%) generate_tokens at ./blib2to3/pgen2/tokenize.py:554
+        │   │       └── 7.04 MiB → 3.04 MiB (11.7% → 5.1%) 7 more callees, led by (8.4% → 5.0%) transform_line at ./black/linegen.py:601
+        │   └── 19.5 MiB → 20.5 MiB (32.6% → 34.2%) check_stability_and_equivalence at 1037 → 1042
+        │       ├── … 15.4 MiB (25.7%) visit at ./black/nodes.py:163 → 152
+        │       │   ├── … 14.2 MiB (23.7%, self 27.1% → 28.8% globally) mark at ./black/brackets.py:70
+        │       │   └── 1.15 MiB (1.9%) 2 more callees, led by (1.1%) visit_STRING at ./black/linegen.py:413
+        │       └── 4.01 MiB → 5.01 MiB (6.7% → 8.4%) assert_equivalent at 1524 → 1510 …
+        └── … 4.26 MiB → 4.25 MiB (7.1%) exec_module at <frozen importlib._bootstrap_external>:934
+            ├── 2.55 MiB (4.3%) get_code at 1007 …
+            └── 1.7 MiB (2.8%) _call_with_frames_removed at <frozen importlib._bootstrap>:233
+                ├── … 1 MiB (1.7%, self 0.0% → 1.7%) _parse at /usr/lib/python3.11/re/_parser.py:507
+                │   └── 1 MiB → 0 B (1.7% → 0.0%) __getitem__ at 162
+                └── 686 KiB → 684 KiB (1.1%) 70 more callees, led by (0.2%) <module> at ./black/nodes.py:1
+```
 
 ## Hottest functions
 
