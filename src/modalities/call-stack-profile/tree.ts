@@ -42,7 +42,7 @@ const glyph = (prefix: string, last: boolean): string =>
   prefix + (last ? LAST_BRANCH : BRANCH)
 
 /** The tree's root, which stands for the profile rather than a function. */
-type CallTreeRoot = {
+export type CallTreeRoot = {
   /**
    * The first callee reached, kept apart from the others since most nodes
    * have one callee, so they need no map.
@@ -102,33 +102,34 @@ const HIDDEN_STACKS: PlaceholderFrames = {
 }
 
 /** One {@link NodeFunction}, reached by one path of callers from the root. */
-type CallTreeNode<Func extends NodeFunction = NodeFunction> = CallTreeRoot & {
-  func: Func
-  caller: CallTreeRoot
+export type CallTreeNode<Func extends NodeFunction = NodeFunction> =
+  CallTreeRoot & {
+    func: Func
+    caller: CallTreeRoot
 
-  /** The measure value of every call stack passing through this node. */
-  value: number
+    /** The measure value of every call stack passing through this node. */
+    value: number
 
-  /** The measure value of the call stacks whose leaf frame is this node. */
-  selfValue: number
+    /** The measure value of the call stacks whose leaf frame is this node. */
+    selfValue: number
 
-  /**
-   * The measure value of the call stacks whose frames below this node are all
-   * hidden, which its line states as omitted callees.
-   */
-  hiddenCalleesValue: number
+    /**
+     * The measure value of the call stacks whose frames below this node are all
+     * hidden, which its line states as omitted callees.
+     */
+    hiddenCalleesValue: number
 
-  /**
-   * The measure value of the call stacks that skip frames between its caller
-   * and it, because the entry filter hides them or because the caller was
-   * reached by returning from a recursive call. {@link omitsCallers} decides
-   * whether the node's line omits them.
-   */
-  omittedCallersValue: number
+    /**
+     * The measure value of the call stacks that skip frames between its caller
+     * and it, because the entry filter hides them or because the caller was
+     * reached by returning from a recursive call. {@link omitsCallers} decides
+     * whether the node's line omits them.
+     */
+    omittedCallersValue: number
 
-  /** Whether the node is one of its caller's {@link drawnCallees}. */
-  drawn: boolean
-}
+    /** Whether the node is one of its caller's {@link drawnCallees}. */
+    drawn: boolean
+  }
 
 type FunctionNode = CallTreeNode<AggregatedCallStackProfileFunction>
 
@@ -148,7 +149,7 @@ export const formatCallTree = ({
   options: FormattingProfileToMdOptions
   notation: ShownFrameNotation
 }): RootContent[] => {
-  const formatted = drawCallTree({ profile, measure, options })
+  const { formatted } = drawCallTree({ profile, measure, options })
   if (formatted.lines.length === 0) {
     return []
   }
@@ -161,7 +162,21 @@ export const formatCallTree = ({
   ]
 }
 
-const drawCallTree = ({
+export type CallTree = {
+  root: CallTreeRoot
+  terminals: ReadonlySet<FunctionNode>
+
+  /** The value below which no line accounts for a node's undrawn callees. */
+  negligible: number
+
+  formatted: FormattedCallTree
+}
+
+/**
+ * Builds the profile's call tree and draws its largest branches and the paths
+ * to its hottest functions.
+ */
+export const drawCallTree = ({
   profile,
   measure,
   options,
@@ -169,7 +184,7 @@ const drawCallTree = ({
   profile: AggregatedCallStackProfile
   measure: Measure
   options: FormattingProfileToMdOptions
-}): FormattedCallTree => {
+}): CallTree => {
   const lineBudget = lineBudgetOf(options)
   const hottest = hottestFunctions(profile, measure, options, lineBudget)
   const { root, hiddenStacks, nodesOfHottest } = buildCallTree(
@@ -200,7 +215,12 @@ const drawCallTree = ({
   drawLargestBranches(tree, lineBudget)
   nameLoneCallees(tree, lineBudget)
   expandRuns(tree)
-  return formatCallTreeLines(tree)
+  return {
+    root,
+    terminals: tree.terminals,
+    negligible: tree.negligible,
+    formatted: formatCallTreeLines(tree),
+  }
 }
 
 /** The nodes of the functions whose nodes are collected, indexed by ID. */
@@ -524,7 +544,9 @@ const hottestFunctions = (
  * is chosen over the node with the most self value. That node is usually on a
  * path already drawn, so drawing it costs about one line. The node with the most
  * self value is usually on a branch of its own, which costs a frame line and
- * a summary line, so fewer functions fit the budget.
+ * a summary line, so fewer functions fit the budget. `pnpm evaluate-call-tree`
+ * scores fewer functions drawn and a lower share of self value covered when the
+ * node is chosen by self value.
  */
 const hottestNodeOf = (nodes: FunctionNode[]): FunctionNode | undefined =>
   nodes.length === 0
@@ -568,6 +590,19 @@ const undrawLast = (node: CallTreeNode): void => {
   node.caller.drawnCallees.pop()
 }
 
+/** Every callee of the node, in the order they were reached. */
+export const calleesOf = ({
+  firstCallee,
+  otherCallees,
+}: CallTreeRoot): CallTreeNode[] => {
+  if (firstCallee === undefined) {
+    return []
+  }
+  return otherCallees === undefined
+    ? [firstCallee]
+    : [firstCallee, ...otherCallees.values()]
+}
+
 const isCallTreeNode = (node: CallTreeRoot): node is CallTreeNode =>
   `func` in node
 
@@ -603,7 +638,9 @@ const nameLoneCallees = (tree: DrawnCallTree, lineLimit: number): void => {
  *
  * Drawing the largest branches first states where most of the profile's value
  * goes, which the paths to the hottest functions alone leave in summary lines
- * when no hot function sits in a large branch.
+ * when no hot function sits in a large branch. `pnpm evaluate-call-tree` scores
+ * a smaller largest summary line and the branches' shares read more accurately
+ * than when the paths are drawn alone.
  */
 const drawLargestBranches = (tree: DrawnCallTree, lineLimit: number): void => {
   const overran = new Set<CallTreeNode>()
@@ -773,6 +810,11 @@ type FormattedCallTree = {
   selfNoteFrames: Map<number, CallTreeNode>
 
   notation: ShownFrameNotation
+
+  /** How many lines hide a run of callers. */
+  joinedRuns: number
+
+  summaries: number
 }
 
 const formatCallTreeLines = (tree: DrawnCallTree): FormattedCallTree => {
@@ -780,6 +822,8 @@ const formatCallTreeLines = (tree: DrawnCallTree): FormattedCallTree => {
     lines: [],
     selfNoteFrames: selfNoteFramesOf(tree),
     notation: newShownFrameNotation(),
+    joinedRuns: 0,
+    summaries: 0,
   }
   countLines(tree, formatted)
   return formatted
@@ -915,6 +959,7 @@ const countLines = (
     }
     if (summary !== undefined) {
       lineCount++
+      formatted.summaries++
       formatted.lines.push(
         glyph(prefix, true) +
           formatSummary(
@@ -1001,7 +1046,10 @@ const formatFrame = (
   tree: DrawnCallTree,
   formatted: FormattedCallTree,
 ): string => {
-  const { deepest } = run
+  const { omitted, deepest } = run
+  if (omitted !== undefined) {
+    formatted.joinedRuns++
+  }
   return formatFrameLine(
     {
       func: deepest.func,
@@ -1216,7 +1264,7 @@ const isUndrawnBranch = (node: CallTreeNode): boolean =>
  * The summed value of the callees {@link node} draws no path to, apart from
  * its hidden callees, which its line states as omitted.
  */
-const undrawnValueOf = (node: CallTreeRoot): number => {
+export const undrawnValueOf = (node: CallTreeRoot): number => {
   let drawnValue = 0
   for (const callee of node.drawnCallees) {
     drawnValue += callee.value

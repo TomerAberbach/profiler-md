@@ -179,7 +179,7 @@ export const formatCallStackProfile = (
  * run once per stack frame. Function IDs are unique only within one profile,
  * so the returned options must format only {@link profile}.
  */
-const memoizeShowEntry = (
+export const memoizeShowEntry = (
   profile: AggregatedCallStackProfile,
   options: FormattingProfileToMdOptions,
 ): FormattingProfileToMdOptions => {

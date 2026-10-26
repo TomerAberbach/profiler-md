@@ -6,6 +6,7 @@
     "scripts/*.ts",
     "scripts/helpers/*.ts",
     "scripts/evaluate-diff-matching/*.ts",
+    "scripts/evaluate-call-tree/*.ts",
     "scripts/update-examples/*.ts"
   ],
   "ignoreBinaries": ["vhs", "gifsicle", "jj"]
