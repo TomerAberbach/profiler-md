@@ -377,3 +377,23 @@ heap snapshot from JavaScript and adds it to the **Memory** panel:
 ```js
 console.takeHeapSnapshot()
 ```
+
+## Tips
+
+### Startup
+
+A CPU profile of a Node.js run includes the time spent compiling each module the
+run loads, and stripping types from each TypeScript module. In a short run, this
+time can be a large share of the profile. To exclude it, run the program once
+without profiling to fill the
+[compile cache](https://nodejs.org/api/module.html#module-compile-cache), then
+profile a second run that loads from it:
+
+```sh
+export NODE_COMPILE_CACHE=.node-compile-cache
+node script.ts
+node --cpu-prof script.ts
+```
+
+Give the first run the same arguments as the profiled run, so it loads the same
+modules.
