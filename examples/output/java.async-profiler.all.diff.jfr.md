@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 4,763 samples → 4,620 samples (-143 samples, -3.0%).
+Collected 4,763 → 4,620 samples (-143 samples, -3.0%).
 
 | Category         | Change | Delta |             % |       Samples |
 | ---------------- | -----: | ----: | ------------: | ------------: |
@@ -4068,7 +4068,7 @@ Call stacks with the largest decrease in samples collected in their leaf frame.
 
 # Allocated heap profile diff
 
-Allocated 36.9 GiB → 37.1 GiB (+200.872 MiB, +0.5%) over 75,234 samples → 75,635 samples (514 KiB per sample).
+Allocated 36.9 GiB → 37.1 GiB (+200.872 MiB, +0.5%) over 75,234 → 75,635 samples (514 KiB per sample).
 
 | Category         | Change |        Delta |             % |                Size |         Samples |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | --------------: |
@@ -6049,7 +6049,7 @@ Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 # Lock contention profile diff
 
-Blocked 1.6ms (+0.04ms, +2.8%) over 10 contentions → 16 contentions (160.3µs → 103.0µs per contention).
+Blocked 1.6ms (+0.04ms, +2.8%) over 10 → 16 contentions (160.3µs → 103.0µs per contention).
 
 | Category         | Change |   Delta |              % |        Time | Contentions |
 | ---------------- | -----: | ------: | -------------: | ----------: | ----------: |

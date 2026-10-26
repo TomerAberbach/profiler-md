@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 658 MiB → 612 MiB (-45.499 MiB, -6.9%) over 1,309 samples → 1,218 samples (515 KiB per sample).
+Allocated 658 MiB → 612 MiB (-45.499 MiB, -6.9%) over 1,309 → 1,218 samples (515 KiB per sample).
 
 | Category         | Change |       Delta |             % |              Size |     Samples |
 | ---------------- | -----: | ----------: | ------------: | ----------------: | ----------: |
@@ -2351,7 +2351,7 @@ Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
 # Retained heap profile diff
 
-Retained 8.98 MiB → 9.07 MiB (+93.695 KiB, +1.0%) over 388 objects → 345 objects (23.7 KiB → 26.9 KiB per object).
+Retained 8.98 MiB → 9.07 MiB (+93.695 KiB, +1.0%) over 388 → 345 objects (23.7 KiB → 26.9 KiB per object).
 
 | Category         | Change |        Delta |             % |                Size |   Objects |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | --------: |

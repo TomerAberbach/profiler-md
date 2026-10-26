@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 78 KiB → 106 KiB (+28.513 KiB, +36.6%) over 3,408 allocations → 3,569 allocations (23.4 B → 30.6 B per allocation).
+Allocated 78 KiB → 106 KiB (+28.513 KiB, +36.6%) over 3,408 → 3,569 allocations (23.4 B → 30.6 B per allocation).
 
 | Category | Change |       Delta |      % |             Size |   Allocations |
 | -------- | -----: | ----------: | -----: | ---------------: | ------------: |

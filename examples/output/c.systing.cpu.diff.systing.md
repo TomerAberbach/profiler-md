@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 12s → 20.05s (+8.047s, +67.0%) over 12,009 samples → 20,056 samples (1.0ms per sample).
+Took 12s → 20.05s (+8.047s, +67.0%) over 12,009 → 20,056 samples (1.0ms per sample).
 
 | Category | Change |   Delta |             % |            Time |         Samples |
 | -------- | -----: | ------: | ------------: | --------------: | --------------: |
@@ -1177,7 +1177,7 @@ Call stacks with the largest decrease in time spent in their leaf frame.
 
 # Uninterruptible sleep profile diff
 
-Slept 2 times → 5 times (+3 times, +150.0%).
+Slept 2 → 5 times (+3 times, +150.0%).
 
 | Category |  Change | Delta |      % | Sleeps |
 | -------- | ------: | ----: | -----: | -----: |
@@ -1551,7 +1551,7 @@ Common call stack: `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unkno
 
 # Interruptible sleep profile diff
 
-Slept 215 times → 214 times (-1 time, -0.5%).
+Slept 215 → 214 times (-1 time, -0.5%).
 
 | Category | Change | Delta |      % |    Sleeps |
 | -------- | -----: | ----: | -----: | --------: |

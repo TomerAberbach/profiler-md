@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 1,621 samples → 1,862 samples (+241 samples, +14.9%).
+Collected 1,621 → 1,862 samples (+241 samples, +14.9%).
 
 | Category         | Change | Delta |             % |       Samples |
 | ---------------- | -----: | ----: | ------------: | ------------: |
@@ -1820,7 +1820,7 @@ Call stacks with the largest decrease in samples collected in their leaf frame.
 
 # Allocated heap profile diff
 
-Allocated 37.7 GiB → 37.9 GiB (+253.23 MiB, +0.7%) over 2,340 samples → 4,364 samples (16.5 MiB → 8.9 MiB per sample).
+Allocated 37.7 GiB → 37.9 GiB (+253.23 MiB, +0.7%) over 2,340 → 4,364 samples (16.5 MiB → 8.9 MiB per sample).
 
 | Category         | Change |        Delta |             % |                Size |       Samples |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | ------------: |
@@ -4716,7 +4716,7 @@ Common call stack: `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
 # Lock contention profile diff
 
-Blocked 8.75s → 33.88s (+25.134s, +287.2%) over 75 contentions → 1,237 contentions (116.7ms → 27.4ms per contention).
+Blocked 8.75s → 33.88s (+25.134s, +287.2%) over 75 → 1,237 contentions (116.7ms → 27.4ms per contention).
 
 | Category         |  Change |    Delta |      % |           Time | Contentions |
 | ---------------- | ------: | -------: | -----: | -------------: | ----------: |

@@ -3,6 +3,7 @@ import {
   formatArrow,
   formatChange,
   formatCount,
+  formatCountArrow,
   formatMilliseconds,
   formatMillisecondsDelta,
 } from '../../helpers/format.ts'
@@ -1055,11 +1056,11 @@ const formatDiffSummaryLine = ({
   base,
   current,
 }: AggregatedTraceDiff): string => {
-  const events = `${
-    base.eventCount === current.eventCount
-      ? formatCount(current.eventCount, `event`)
-      : `${formatCount(base.eventCount)} → ${formatCount(current.eventCount, `event`)}`
-  }${formatChange(base.eventCount, current.eventCount, formatCount)}`
+  const events = `${formatCountArrow(
+    base.eventCount,
+    current.eventCount,
+    `event`,
+  )}${formatChange(base.eventCount, current.eventCount, formatCount)}`
   if (base.duration === undefined || current.duration === undefined) {
     return `Recorded ${events}.`
   }

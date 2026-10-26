@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Took 24.50s → 34s (+9.500s, +38.8%) over 245 samples → 340 samples (100.0ms per sample).
+Took 24.50s → 34s (+9.500s, +38.8%) over 245 → 340 samples (100.0ms per sample).
 
 | Category         |  Change |     Delta |             % |            Time |   Samples |
 | ---------------- | ------: | --------: | ------------: | --------------: | --------: |

@@ -55,7 +55,11 @@ import {
   unchangedDiffSentence,
 } from '../format.ts'
 import type { ActiveDiffEntity } from '../format.ts'
-import { formatProseValue, formatProseValueDelta } from '../measure.ts'
+import {
+  formatProseValue,
+  formatProseValueArrow,
+  formatProseValueDelta,
+} from '../measure.ts'
 import type { Metric } from '../metric.ts'
 import type { EntryCategory } from '../registry.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
@@ -973,9 +977,10 @@ const formatDiffSummaryLine = (
     const { metric } = measures[0]!
     const baseCount = base.totalCount
     const currentCount = current.totalCount
-    const counted = `${formatArrow(
-      formatProseValue(baseCount, metric),
-      formatProseValue(currentCount, metric),
+    const counted = `${formatProseValueArrow(
+      baseCount,
+      currentCount,
+      metric,
     )}${formatChange(baseCount, currentCount, magnitude =>
       formatProseValueDelta(magnitude, metric),
     )}`
@@ -985,9 +990,10 @@ const formatDiffSummaryLine = (
   const valueParts = metrics.map(({ metric, baseIndex, currentIndex }) => {
     const baseValue = base.totalValues[baseIndex]!
     const currentValue = current.totalValues[currentIndex]!
-    return `${metric.phrases.pastTenseVerb} ${formatArrow(
-      formatProseValue(baseValue, metric),
-      formatProseValue(currentValue, metric),
+    return `${metric.phrases.pastTenseVerb} ${formatProseValueArrow(
+      baseValue,
+      currentValue,
+      metric,
     )}${formatChange(baseValue, currentValue, magnitude =>
       formatProseValueDelta(magnitude, metric),
     )}`
@@ -1004,9 +1010,10 @@ const formatDiffSummaryLine = (
     return `${totalsSummary}.`
   }
 
-  const counted = formatArrow(
-    formatProseValue(base.totalCount, countMetric),
-    formatProseValue(current.totalCount, countMetric),
+  const counted = formatProseValueArrow(
+    base.totalCount,
+    current.totalCount,
+    countMetric,
   )
   // Only a count of things has a noun for one of them to state a rate per, and
   // sides that both counted none of them have no rate either.

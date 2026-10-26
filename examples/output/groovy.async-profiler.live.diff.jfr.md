@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 11.9 GiB → 11.8 GiB (-111.999 MiB, -0.9%) over 24,369 samples → 24,145 samples (512 KiB per sample).
+Allocated 11.9 GiB → 11.8 GiB (-111.999 MiB, -0.9%) over 24,369 → 24,145 samples (512 KiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |         Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | --------------: |
@@ -2470,7 +2470,7 @@ Common call stack: `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnal
 
 # Retained heap profile diff
 
-Retained 1,009 KiB → 1.41 MiB (+439.468 KiB, +43.6%) over 688 objects → 774 objects (1.47 KiB → 1.87 KiB per object).
+Retained 1,009 KiB → 1.41 MiB (+439.468 KiB, +43.6%) over 688 → 774 objects (1.47 KiB → 1.87 KiB per object).
 
 | Category         |  Change |        Delta |      % |                 Size |   Objects |
 | ---------------- | ------: | -----------: | -----: | -------------------: | --------: |

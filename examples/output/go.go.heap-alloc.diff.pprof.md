@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 1.67 GiB (-2.123 MiB, -0.1%) over 21,825,386 objects → 21,882,354 objects (82.4 B → 82.1 B per object).
+Allocated 1.67 GiB (-2.123 MiB, -0.1%) over 21,825,386 → 21,882,354 objects (82.4 B → 82.1 B per object).
 
 | Category         | Change |      Delta |      % |              Size |                 Objects |
 | ---------------- | -----: | ---------: | -----: | ----------------: | ----------------------: |
@@ -1066,7 +1066,7 @@ Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 # Retained heap profile diff
 
-Retained 2.09 MiB → 1.59 MiB (-516.607 KiB, -24.1%) over 291 objects → 285 objects (7.36 KiB → 5.71 KiB per object).
+Retained 2.09 MiB → 1.59 MiB (-516.607 KiB, -24.1%) over 291 → 285 objects (7.36 KiB → 5.71 KiB per object).
 
 | Category         | Change |        Delta |      % |                Size |   Objects |
 | ---------------- | -----: | -----------: | -----: | ------------------: | --------: |

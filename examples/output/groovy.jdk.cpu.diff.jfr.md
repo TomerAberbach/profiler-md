@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 363 samples → 340 samples (-23 samples, -6.3%).
+Collected 363 → 340 samples (-23 samples, -6.3%).
 
 | Category         | Change | Delta |             % |   Samples |
 | ---------------- | -----: | ----: | ------------: | --------: |
@@ -2014,7 +2014,7 @@ Call stacks with the largest decrease in samples collected in their leaf frame.
 
 # Allocated heap profile diff
 
-Allocated 12 GiB → 11.8 GiB (-211.545 MiB, -1.7%) over 6,450 samples → 6,305 samples (1.9 MiB → 1.91 MiB per sample).
+Allocated 12 GiB → 11.8 GiB (-211.545 MiB, -1.7%) over 6,450 → 6,305 samples (1.9 MiB → 1.91 MiB per sample).
 
 | Category         | Change |        Delta |             % |                Size |       Samples |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | ------------: |
@@ -3473,7 +3473,7 @@ Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 # Retained heap profile diff
 
-Retained 50.2 KiB → 31.5 KiB (-18.71 KiB, -37.2%) over 114 objects → 121 objects (451 B → 267 B per object).
+Retained 50.2 KiB → 31.5 KiB (-18.71 KiB, -37.2%) over 114 → 121 objects (451 B → 267 B per object).
 
 | Category         |  Change |       Delta |             % |                Size |   Objects |
 | ---------------- | ------: | ----------: | ------------: | ------------------: | --------: |

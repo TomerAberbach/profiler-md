@@ -1,6 +1,6 @@
 # Wall time profile diff
 
-Took 3.63s → 4.09s (+464.00ms, +12.8%) over 3,630 samples → 4,094 samples (1.0ms per sample).
+Took 3.63s → 4.09s (+464.00ms, +12.8%) over 3,630 → 4,094 samples (1.0ms per sample).
 
 | Category          | Change |     Delta |             % |            Time |       Samples |
 | ----------------- | -----: | --------: | ------------: | --------------: | ------------: |
@@ -931,7 +931,7 @@ Common call stack: `MAIN.MAIN`
 
 # Allocated heap and entries profile diff
 
-Allocated 10.1 GiB → 11.1 GiB (+1.008 GiB, +10.0%) and recorded 18,616,855 entries → 20,478,505 entries (+1,861,650 entries, +10.0%).
+Allocated 10.1 GiB → 11.1 GiB (+1.008 GiB, +10.0%) and recorded 18,616,855 → 20,478,505 entries (+1,861,650 entries, +10.0%).
 
 | Category          | Change |      Delta |     % |                Size |                 Entries |
 | ----------------- | -----: | ---------: | ----: | ------------------: | ----------------------: |

@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 12.1 GiB → 11.9 GiB (-255.607 MiB, -2.1%) over 24,822 samples → 24,310 samples (512 KiB per sample).
+Allocated 12.1 GiB → 11.9 GiB (-255.607 MiB, -2.1%) over 24,822 → 24,310 samples (512 KiB per sample).
 
 | Category         | Change |        Delta |     % |              Size |         Samples |
 | ---------------- | -----: | -----------: | ----: | ----------------: | --------------: |

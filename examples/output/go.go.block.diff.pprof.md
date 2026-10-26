@@ -1,6 +1,6 @@
 # Contention profile diff
 
-Blocked 1.41s → 1.40s (-3.85ms, -0.3%) over 14 contentions → 12 contentions (101.0ms → 117.5ms per contention).
+Blocked 1.41s → 1.40s (-3.85ms, -0.3%) over 14 → 12 contentions (101.0ms → 117.5ms per contention).
 
 | Category         | Change |   Delta |      % |          Time | Contentions |
 | ---------------- | -----: | ------: | -----: | ------------: | ----------: |

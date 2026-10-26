@@ -1,6 +1,6 @@
 # Allocated native memory profile diff
 
-Allocated 257 MiB → 259 MiB (+2.185 MiB, +0.9%) over 85,604 samples → 88,868 samples (3.07 KiB → 2.98 KiB per sample).
+Allocated 257 MiB → 259 MiB (+2.185 MiB, +0.9%) over 85,604 → 88,868 samples (3.07 KiB → 2.98 KiB per sample).
 
 | Category | Change |      Delta |      % |              Size |         Samples |
 | -------- | -----: | ---------: | -----: | ----------------: | --------------: |
