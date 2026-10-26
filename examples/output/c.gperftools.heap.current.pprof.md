@@ -8,6 +8,36 @@ Allocated 148 MiB over 81 objects (1.83 MiB per object).
 | Ours     | 45.8% | 67.8 MiB |      49 |
 | Unknown  | <0.1% | 2.11 KiB |       6 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 82.8 MiB (55.9%) _start
+│   └── 82.8 MiB (55.9%) __libc_start_main
+│       └── 82.8 MiB (55.9%) (anonymous)
+│           └── 82.8 MiB (55.9%) main
+│               └── 82.8 MiB (55.9%) FIO_compressFilename
+│                   ├── 80 MiB (54.0%) FIO_compressFilename_srcFile at fileio.c
+│                   │   └── 80 MiB (54.0%) ZSTD_compressStream2
+│                   │       └── 80 MiB (54.0%) ZSTD_CCtx_init_compressStream2 at zstd_compress.c
+│                   │           └── 80 MiB (54.0%) ZSTDMT_initCStream_internal
+│                   └── 2.76 MiB (1.9%) FIO_createCResources at fileio.c
+│                       ├── 1.5 MiB (1.0%) AIO_ReadPool_create
+│                       │   └── 1.25 MiB (0.8%, self 0.8%) AIO_IOPool_init at fileio_asyncio.c
+│                       └── 1.26 MiB (0.8%) AIO_WritePool_create
+│                           └── 1.26 MiB (0.8%, self 0.8%, self 1.7% globally) AIO_IOPool_init at fileio_asyncio.c
+└── 65.3 MiB (44.1%) (anonymous)
+    └── … 65.3 MiB (44.1%) POOL_thread at pool.c
+        └── 65.3 MiB (44.1%) ZSTDMT_compressionJob at zstdmt_compress.c
+            ├── 49.2 MiB (33.3%) ZSTD_compressBegin_advanced_internal
+            │   └── 49.2 MiB (33.3%) ZSTD_compressBegin_internal at zstd_compress.c
+            │       └── 49.2 MiB (33.3%) ZSTD_resetCCtx_internal
+            └── 16.1 MiB (10.8%) ZSTDMT_getBuffer
+```
+
 ## Hottest functions
 
 ### Self size
@@ -728,6 +758,16 @@ Retained 1.19 KiB over 4 objects (304 B per object).
 | Category |      % |     Size | Objects |
 | -------- | -----: | -------: | ------: |
 | Unknown  | 100.0% | 1.19 KiB |       4 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1.19 KiB (100.0%) _start
+    └── 1.19 KiB (100.0%) __libc_start_main
+        └── 1.19 KiB (100.0%) (anonymous)
+```
 
 ## Hottest functions
 

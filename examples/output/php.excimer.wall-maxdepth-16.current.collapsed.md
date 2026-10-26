@@ -11,6 +11,55 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 Call stacks missing their outermost callers account for 22.5% of the samples collected.
 
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 2,858 samples (77.3%) run at Symfony\Component\Console\Application
+│   └── 2,845 samples (76.9%) doRun at Composer\Console\Application
+│       ├── … 2,618 samples (70.8%) run at Symfony\Component\Console\Command\Command
+│       │   └── 2,601 samples (70.3%) execute at Composer\Command\DumpAutoloadCommand
+│       │       └── 2,599 samples (70.3%) dump at Composer\Autoload\AutoloadGenerator
+│       │           ├── 2,451 samples (66.3%, self 1.6%) scanPaths at Composer\ClassMapGenerator\ClassMapGenerator
+│       │           │   ├── 2,274 samples (61.5%, self 17.9%) findClasses at Composer\ClassMapGenerator\PhpFileParser
+│       │           │   │   ├── 1,430 samples (38.7%, self 11.5%) clean at Composer\ClassMapGenerator\PhpFileCleaner
+│       │           │   │   │   ├── 804 samples (21.7%, self 2.5%) match
+│       │           │   │   │   │   └── 713 samples (19.3%, self 4.2%) isMatchStrictGroups at Composer\Pcre\Preg
+│       │           │   │   │   │       └── 559 samples (15.1%, self 3.8%) matchStrictGroups
+│       │           │   │   │   │           ├── 285 samples (7.7%, self 3.9%) match
+│       │           │   │   │   │           │   ├── 84 samples (2.3%) checkOffsetCapture
+│       │           │   │   │   │           │   └── 56 samples (1.5%) pregMatch
+│       │           │   │   │   │           └── 133 samples (3.6%) enforceNonNullMatches
+│       │           │   │   │   ├── 177 samples (4.8%) skipString
+│       │           │   │   │   └── 15 samples (0.4%) skipHeredoc
+│       │           │   │   ├── 131 samples (3.5%) matchAllStrictGroups at Composer\Pcre\Preg
+│       │           │   │   │   └── 130 samples (3.5%, self 3.5%, self 4.8% globally) matchAll
+│       │           │   │   └── 50 samples (1.4%, self 1.3%) matchAll at Composer\Pcre\Preg
+│       │           │   ├── 42 samples (1.1%) hasChildren at Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
+│       │           │   │   └── 40 samples (1.1%) hasChildren at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+│       │           │   ├── 36 samples (1.0%) normalizePath
+│       │           │   └── 40 samples (1.1%) 9 more callees, led by (0.2%) current at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+│       │           ├── 113 samples (3.1%) getPathCode
+│       │           │   ├── 67 samples (1.8%) findShortestPath at Composer\Util\Filesystem
+│       │           │   │   ├── 31 samples (0.8%, self 0.5%) normalizePath
+│       │           │   │   └── 20 samples (0.5%) isMatch at Composer\Pcre\Preg
+│       │           │   └── 29 samples (0.8%, self 0.6%, self 1.2% globally) normalizePath at Composer\Util\Filesystem
+│       │           └── 16 samples (0.4%) getStaticFile
+│       └── 206 samples (5.6%, self 5.2%) call at Composer\Util\Silencer
+└── 833 samples (22.5%) truncated
+    ├── … 428 samples (11.6%) guessVersion at Composer\Package\Version\VersionGuesser
+    │   ├── … 249 samples (6.7%, self 15.0% globally) readAndWrite at Symfony\Component\Process\Pipes\UnixPipes
+    │   └── 178 samples (4.8%) 3 more callees, led by (2.4%) guessFossilVersion
+    ├── … 228 samples (6.2%) scanPaths at Composer\ClassMapGenerator\ClassMapGenerator
+    │   ├── … 188 samples (5.1%, self 7.0% globally) pregMatch at Composer\Pcre\Preg
+    │   └── … 40 samples (1.1%) __construct at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+    ├── … 7 samples (0.2%) start at Symfony\Component\Process\Process
+    └── 155 samples (4.2%) 8 more root frames, led by (3.3%) initialize at Composer\Command\BaseCommand
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -497,7 +546,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ## Hottest call stacks
 
-Call stacks with the most samples collected in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `doRun` (`Composer\Console\Application`) ← `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`./profile.php`)
 

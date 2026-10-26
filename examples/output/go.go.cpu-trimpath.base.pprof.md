@@ -6,6 +6,55 @@ Took 3.46s over 346 samples (10.0ms per sample).
 | ---------------- | -----: | ----: | ------: |
 | Standard library | 100.0% | 3.46s |     346 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 1.51s (43.6%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run at github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│   ├── 1.02s (29.5%) encoding/json.Unmarshal at encoding/json/decode.go:102
+│   │   ├── … 550.0ms (15.9%) encoding/json.(*decodeState).objectInterface at encoding/json/decode.go:1078
+│   │   │   ├── … 40.0ms (1.2%) encoding/json.(*decodeState).rescanLiteral at encoding/json/decode.go:322
+│   │   │   └── 510.0ms (14.7%) 4 more callees, led by (5.5%) encoding/json.(*decodeState).valueInterface at encoding/json/decode.go:1035
+│   │   └── 470.0ms (13.6%, self 5.5%) encoding/json.checkValid at encoding/json/scanner.go:33
+│   │       ├── 170.0ms (4.9%) encoding/json.stateInString at 339
+│   │       ├── 40.0ms (1.2%, self 1.7% globally) encoding/json.stateBeginString at 268
+│   │       └── 70.0ms (2.0%) 4 more callees, led by (1.2%) encoding/json.stateBeginValue at 217
+│   └── … 490.0ms (14.2%) encoding/json.(*encodeState).reflectValue at encoding/json/encode.go:366
+│       ├── … 90.0ms (2.6%) encoding/json.stringEncoder at encoding/json/encode.go:610
+│       │   └── 90.0ms (2.6%, self 1.7%, self 2.6% globally) encoding/json.appendString[go.shape.string] at 999
+│       │       └── 30.0ms (0.9%) unicode/utf8.DecodeRuneInString at unicode/utf8/utf8.go:219 …
+│       └── 400.0ms (11.6%) 3 more callees, led by (10.1%) encoding/json.mapEncoder.encode at encoding/json/encode.go:765
+├── 1.16s (33.5%) runtime.systemstack at runtime/asm_arm64.s:353
+│   ├── … 640.0ms (18.5%) runtime.madvise at runtime/sys_darwin.go:224
+│   ├── … 370.0ms (10.7%) runtime.kevent at runtime/sys_darwin.go:438
+│   ├── 120.0ms (3.5%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+│   │   ├── 90.0ms (2.6%) runtime.gcDrainMarkWorkerDedicated at runtime/mgcmark.go:1173
+│   │   │   └── 90.0ms (2.6%) runtime.gcDrain at 1239
+│   │   │       ├── 70.0ms (2.0%) runtime.(*gcControllerState).enlistWorker at runtime/mgcpacer.go:697
+│   │   │       │   ├── … 40.0ms (1.2%, self 3.5% globally) runtime.pthread_cond_signal at runtime/sys_darwin.go:508
+│   │   │       │   └── 30.0ms (0.9%) runtime.preemptone at runtime/proc.go:6866 …
+│   │   │       └── 10.0ms (0.3%) runtime.(*gcWork).balance at runtime/mgcwork.go:356
+│   │   └── … 30.0ms (0.9%, self 2.3% globally) runtime.pthread_kill at runtime/sys_darwin.go:148
+│   └── 10.0ms (0.3%) runtime.gcMarkTermination.func3 at runtime/mgc.go:1500
+├── … 510.0ms (14.7%) runtime.schedule at runtime/proc.go:4135
+│   ├── 480.0ms (13.9%) runtime.findRunnable at 3389
+│   │   ├── 420.0ms (12.1%) runtime.stopm at 2992
+│   │   │   ├── … 380.0ms (11.0%) runtime.pthread_cond_wait at runtime/sys_darwin.go:487
+│   │   │   └── 40.0ms (1.2%) runtime.lock at runtime/lock_spinbit.go:151 …
+│   │   └── 60.0ms (1.7%) 2 more callees, led by (1.4%) runtime.lock at runtime/lock_spinbit.go:151
+│   └── 30.0ms (0.9%) runtime.resetspinning at 4021 …
+├── … 160.0ms (4.6%) runtime.goschedImpl at runtime/proc.go:4307
+│   ├── … 110.0ms (3.2%) runtime.lock2 at runtime/lock_spinbit.go:155
+│   │   ├── 80.0ms (2.3%) runtime.osyield at runtime/os_darwin.go:379
+│   │   │   └── 80.0ms (2.3%, self 5.2% globally) runtime.usleep at runtime/sys_darwin.go:273
+│   │   └── 10.0ms (0.3%) runtime.semasleep at runtime/os_darwin.go:45
+│   └── 50.0ms (1.4%) 2 more callees, led by (0.9%) runtime.wakep at 3212
+└── 120.0ms (3.5%) 2 more root frames, led by (3.2%) runtime.gcBgMarkWorker at runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

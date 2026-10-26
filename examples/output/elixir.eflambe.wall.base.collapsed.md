@@ -8,6 +8,55 @@ Took 28.0ms.
 | Standard library |  5.6% |  1.6ms |
 | Idle             |  2.3% |  0.7ms |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 28.0ms (100.0%) <0.94.0>
+    └── 28.0ms (100.0%) apply/2 at eflambe
+        ├── 21.0ms (75.1%) reduce_range/5 at Enum
+        │   ├── 10.7ms (38.1%) decode!/2 at Jason
+        │   │   └── 10.6ms (37.9%) parse/2 at Jason.Decoder
+        │   │       ├── 7.2ms (25.7%, self 24.3%, self 30.3% globally) string/6
+        │   │       │   └── 0.4ms (1.5%) -string_decode_function/1-fun-0-/1
+        │   │       ├── 1.0ms (3.5%, self 2.3%, self 2.8% globally) object/6
+        │   │       │   └── 0.3ms (1.1%) -key_decode_function/1-fun-0-/1
+        │   │       ├── 0.8ms (3.0%, self 3.0%, self 3.7% globally) string/7
+        │   │       ├── 0.5ms (1.8%, self 1.0%) number/6
+        │   │       │   └── 0.2ms (0.8%) binary_to_integer/1 at erlang
+        │   │       ├── 0.3ms (1.2%, self 1.2%) value/5
+        │   │       ├── 0.3ms (1.1%) key/5
+        │   │       ├── 0.3ms (1.1%) key/6
+        │   │       └── 0.1ms (0.2%) escape/6
+        │   └── … 10.2ms (36.5%, self 1.3%) map_naive/3 at Jason.Encode
+        │       ├── … 9.4ms (33.6%, self 3.1%, self 3.8% globally) map_naive_loop/3 at Jason.Encode
+        │       │   ├── 3.5ms (12.6%, self 12.6%, self 30.2% globally) escape_json_chunk/5
+        │       │   ├── 3.5ms (12.5%, self 0.8%) encode_string/2
+        │       │   │   └── 3.3ms (11.7%) 3 more callees, led by (10.7%) escape_json_chunk/5
+        │       │   ├── 0.4ms (1.6%, self 1.2%, self 1.8% globally) value/3
+        │       │   │   ├── 48.0µs (0.2%) to_list/1 at maps
+        │       │   │   └── 40.0µs (0.1%) integer_to_binary/1 at erlang
+        │       │   ├── 0.3ms (1.0%, self 2.1% globally) escape_json/4
+        │       │   ├── 0.3ms (1.0%, self 1.9% globally) escape_json/3
+        │       │   ├── 0.3ms (1.0%) key/2
+        │       │   └── 0.1ms (0.3%) encode_atom/2
+        │       └── 0.5ms (1.7%) 8 more callees, led by (1.0%) escape_json_chunk/5 at Jason.Encode
+        └── 7.0ms (24.9%) reduce/3 at Enum
+            ├── 4.3ms (15.4%) -run/1-fun-0-/2 at Profile
+            │   └── 4.3ms (15.4%) encode!/2 at Jason
+            │       ├── 1.7ms (6.1%) undefined_function/3 at error_handler
+            │       │   ├── 1.2ms (4.4%) ensure_loaded/1 at code
+            │       │   │   ├── 0.9ms (3.2%, self 3.2%) prepare_loading_1/2 at erlang
+            │       │   │   └── … 0.2ms (0.6%, self 0.5%) archive_split/3 at erl_prim_loader
+            │       │   └── 0.5ms (1.7%) call/1 at code_server
+            │       │       └── 0.5ms (1.7%, self 2.3% globally) sleep
+            │       └── 2.6ms (9.2%) 6 more callees, led by (9.2%) encode/2 at Jason.Encode
+            └── 2.7ms (9.5%) 2 more callees, led by (9.5%) decode!/2 at Jason
+```
+
 ## Hottest functions
 
 ### Self time

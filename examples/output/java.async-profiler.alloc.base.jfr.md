@@ -7,6 +7,55 @@ Allocated 36.8 GiB over 75,115 samples (514 KiB per sample).
 | Standard library | 93.2% | 34.3 GiB |  69,991 |
 | Ours             |  6.8% |  2.5 GiB |   5,124 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 36.6 GiB (99.4%) exec() at java.util.concurrent.RecursiveTask
+│   └── 36.6 GiB (99.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       ├── 28.2 GiB (76.5%) combineResults(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   └── 28.2 GiB (76.5%) combineResults(Map, Map)
+│       │       └── 28.2 GiB (76.5%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │           ├── … 27.9 GiB (75.8%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │           │   ├── 20.9 GiB (56.7%) addAll(Collection) at java.util.ArrayList
+│       │           │   │   ├── 13.4 GiB (36.5%) grow(int)
+│       │           │   │   │   └── 13.4 GiB (36.5%, self 36.5%, self 90.9% globally) copyOf(Object[], int) at java.util.Arrays
+│       │           │   │   └── 7.45 GiB (20.2%) toArray()
+│       │           │   │       └── 7.45 GiB (20.2%, self 20.2%) copyOf(Object[], int) at java.util.Arrays
+│       │           │   └── … 6.92 GiB (18.8%, self 18.8%) copyOf(Object[], int) at java.util.Arrays
+│       │           └── … 174 MiB (0.5%) putVal(int, Object, Object, boolean, boolean) at java.util.HashMap
+│       ├── 7.99 GiB (21.7%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   ├── … 6.3 GiB (17.1%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │   ├── … 5.91 GiB (16.1%, self 0.6%) grow(int) at java.util.ArrayList
+│       │   │   │   └── 5.68 GiB (15.4%, self 15.4%) copyOf(Object[], int) at java.util.Arrays
+│       │   │   └── 311 MiB (0.8%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       ├── 145 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│       │   │       ├── 104 MiB (0.3%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000e001186b38
+│       │   │       │   └── 104 MiB (0.3%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       └── 61.5 MiB (0.2%) resize()
+│       │   └── … 1.69 GiB (4.6%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       ├── 155 MiB (0.4%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       ├── 125 MiB (0.3%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       ├── 72.5 MiB (0.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   └── … 72.5 MiB (0.2%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       ├── … 71.5 MiB (0.2%) add(double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       └── 19.5 MiB (0.1%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│           └── … 19.5 MiB (0.1%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+└── … 176 MiB (0.5%) accept(int) at java.util.stream.IntPipeline$1$1
+    ├── 103 MiB (0.3%) apply(int) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000e0011258d8
+    │   └── 103 MiB (0.3%) lambda$generateData$5(int, int, Random[], int) at org.renaissance.jdk.concurrent.JavaKMeans
+    │       ├── 35 MiB (0.1%) range(int, int) at java.util.stream.IntStream
+    │       │   └── 25 MiB (0.1%) intStream(Spliterator$OfInt, boolean) at java.util.stream.StreamSupport
+    │       ├── … 33 MiB (0.1%) builder(long, IntFunction) at java.util.stream.Nodes
+    │       │   └── … 19 MiB (0.1%) lambda$generateData$4(int) at org.renaissance.jdk.concurrent.JavaKMeans
+    │       └── 24.5 MiB (0.1%) mapToObj(IntFunction) at java.util.stream.IntPipeline
+    │           └── 24.5 MiB (0.1%) mapToObj(IntFunction, int)
+    └── … 67 MiB (0.2%) valueOf(double) at java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size

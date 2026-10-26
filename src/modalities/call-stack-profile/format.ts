@@ -1,4 +1,4 @@
-import type { PhrasingContent, RootContent } from 'mdast'
+import type { RootContent } from 'mdast'
 import {
   capitalizeFirst,
   formatArrow,
@@ -14,10 +14,8 @@ import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import {
   formatSectionGroup,
   heading,
-  inlineCode,
   paragraph,
   phrasing,
-  text,
 } from '../../helpers/markdown.ts'
 import type {
   FormattingProfileToMdOptions,
@@ -73,7 +71,10 @@ import type {
 } from './diff.ts'
 import {
   diffMeasuresOf,
+  firstMeasureWithValue,
   measuresOf,
+  NEGLIGIBLE_SHARE,
+  selfRankedFunctions,
   selfValueOf,
   totalValueOf,
   zeroTotalScope,
@@ -83,13 +84,19 @@ import {
   callStackColumns,
   categoryColumns,
   formatCallStack,
+  formatFrameNotationNote,
   functionColumns,
   HIDDEN_FRAMES,
   lineColumns,
+  newShownFrameNotation,
   TRUNCATED_FRAMES,
-  TRUNCATED_FRAMES_NAME,
 } from './table.ts'
-import type { FunctionMeasureRow, ShownFrame } from './table.ts'
+import type {
+  FunctionMeasureRow,
+  ShownFrame,
+  ShownFrameNotation,
+} from './table.ts'
+import { formatCallTree } from './tree.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
@@ -118,11 +125,15 @@ export const formatCallStackProfile = (
   for (const func of profile.functions) {
     functionsById[func.id] = func
   }
-  return [
-    heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
-    ...formatOverallSummary(profile, measures),
-    ...formatBaseURLNote(options),
-    ...formatTruncatedNote(profile, measures),
+  const notation = newShownFrameNotation()
+  const sections = [
+    ...formatCallTreeSection(
+      profile,
+      measures,
+      sectionOptions,
+      notation,
+      headingLevel + 1,
+    ),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -143,11 +154,20 @@ export const formatCallStackProfile = (
             functionOf: id => functionsById[id]!,
             measure,
             options: sectionOptions,
+            notation,
             headingLevel: sectionHeadingLevel,
           }),
         ]
       },
     ),
+  ]
+  return [
+    heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
+    ...formatOverallSummary(profile, measures),
+    ...formatBaseURLNote(options),
+    ...formatTruncatedNote(profile, measures),
+    ...formatFrameNotationNote(notation),
+    ...sections,
   ]
 }
 
@@ -193,7 +213,7 @@ const formatTruncatedNote = (
   profile: AggregatedCallStackProfile,
   measures: Measure[],
 ): RootContent[] => {
-  const measure = measures.find(({ total }) => total > 0)
+  const measure = firstMeasureWithValue(measures)
   if (measure === undefined) {
     return []
   }
@@ -254,8 +274,22 @@ const truncatedNote = (share: string, metric: Metric): RootContent =>
     `Call stacks missing their outermost callers account for ${share} of the ${metric.phrases.pastParticipleVerbPhrase}.`,
   )
 
-/** The share of the profile below which a value goes unstated. */
-const NEGLIGIBLE_SHARE = 0.005
+const formatCallTreeSection = (
+  profile: AggregatedCallStackProfile,
+  measures: Measure[],
+  options: FormattingProfileToMdOptions,
+  notation: ShownFrameNotation,
+  headingLevel: number,
+): RootContent[] => {
+  const measure = firstMeasureWithValue(measures)
+  if (measure === undefined) {
+    return []
+  }
+  const callTree = formatCallTree({ profile, measure, options, notation })
+  return callTree.length === 0
+    ? []
+    : [heading(headingLevel, `Call tree`), ...callTree]
+}
 
 const formatSummaryLine = (
   {
@@ -392,9 +426,7 @@ const formatHottestSelfFunctions = ({
     selfValueOf(measure, func)
   const countOf = (func: AggregatedCallStackProfileFunction) => func.selfCount
   const ranking = rankEntities({
-    entities: profile.functions.filter(
-      func => options.showEntry(func, profile.context) && valueOf(func) > 0,
-    ),
+    entities: selfRankedFunctions(profile, measure, options),
     categories,
     valueOf,
     topN: options.topN,
@@ -817,6 +849,36 @@ export const formatCallStackProfileDiff = (
     (_, index) => shownByIndex[index],
   )
   const callStacks = matchDiffedCallStacks(diff, shownByIndex)
+  const notation = newShownFrameNotation()
+  const sections = formatMeasureSections(
+    measures,
+    headingLevel + 1,
+    (measure, sectionHeadingLevel) => {
+      if (isZeroDiffTotal(measure)) {
+        return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
+      }
+
+      return [
+        ...formatDiffFunctions({
+          diff,
+          matchLines,
+          matchFunctionIds,
+          shownFunctions,
+          measure,
+          options: sectionOptions,
+          headingLevel: sectionHeadingLevel,
+        }),
+        ...formatDiffCallStacks({
+          callStacks,
+          functions: diff.functions,
+          measure,
+          options: sectionOptions,
+          notation,
+          headingLevel: sectionHeadingLevel,
+        }),
+      ]
+    },
+  )
   return [
     heading(
       headingLevel,
@@ -825,34 +887,8 @@ export const formatCallStackProfileDiff = (
     ...formatDiffSummary(diff, measures),
     ...formatBaseURLNote(options),
     ...formatDiffTruncatedNote(diff, measures),
-    ...formatMeasureSections(
-      measures,
-      headingLevel + 1,
-      (measure, sectionHeadingLevel) => {
-        if (isZeroDiffTotal(measure)) {
-          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
-        }
-
-        return [
-          ...formatDiffFunctions({
-            diff,
-            matchLines,
-            matchFunctionIds,
-            shownFunctions,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-          ...formatDiffCallStacks({
-            callStacks,
-            functions: diff.functions,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
-      },
-    ),
+    ...formatFrameNotationNote(notation),
+    ...sections,
   ]
 }
 
@@ -1380,12 +1416,14 @@ const formatHottestCallStacks = ({
   functionOf,
   measure,
   options,
+  notation,
   headingLevel,
 }: {
   callStacks: ShownCallStack[]
   functionOf: FunctionOf
   measure: Measure
   options: FormattingProfileToMdOptions
+  notation: ShownFrameNotation
   headingLevel: number
 }): RootContent[] => {
   const hottestCallStacks = selectTopN(
@@ -1399,17 +1437,15 @@ const formatHottestCallStacks = ({
 
   const { metric, total } = measure
   const commonCallStack = findCommonCallStack(hottestCallStacks, functionOf)
+  recordCallStackNotation(hottestCallStacks, notation)
   return [
     heading(headingLevel, `Hottest call stacks`),
-    paragraph([
-      text(
-        rankingSentence(
-          `Call stacks`,
-          `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
-        ),
+    paragraph(
+      rankingSentence(
+        `Call stacks`,
+        `${metric.phrases.pastParticipleVerbPhrase} in their leaf frame`,
       ),
-      ...formatCallStackNotes(hottestCallStacks),
-    ]),
+    ),
     ...formatCommonCallStack(commonCallStack, options),
     formatTable(
       callStackColumns(measure, commonCallStack, options),
@@ -1432,12 +1468,14 @@ const formatDiffCallStacks = ({
   functions,
   measure,
   options,
+  notation,
   headingLevel,
 }: {
   callStacks: DiffedCallStack[]
   functions: AggregatedCallStackProfileDiff[`functions`]
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
+  notation: ShownFrameNotation
   headingLevel: number
 }): RootContent[] => {
   const active: ActiveDiffEntity<DiffedCallStack>[] = []
@@ -1469,6 +1507,7 @@ const formatDiffCallStacks = ({
         functions,
         measure,
         options,
+        notation,
         headingLevel: headingLevel + 1,
         title,
         sentence: diffRankingSentence(
@@ -1485,6 +1524,7 @@ const formatDiffCallStackRanking = ({
   functions,
   measure,
   options,
+  notation,
   headingLevel,
   title,
   sentence,
@@ -1493,6 +1533,7 @@ const formatDiffCallStackRanking = ({
   functions: AggregatedCallStackProfileDiff[`functions`]
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
+  notation: ShownFrameNotation
   headingLevel: number
   title: string
   sentence: string
@@ -1524,9 +1565,10 @@ const formatDiffCallStackRanking = ({
       count: callStack.selfCount,
       total: side.total,
     }
+  recordCallStackNotation(diffedCallStacks, notation)
   return [
     heading(headingLevel, title),
-    paragraph([text(sentence), ...formatCallStackNotes(diffedCallStacks)]),
+    paragraph(sentence),
     ...formatCommonCallStack(commonCallStack, options),
     formatDiffTable(
       callStackColumns(measure, commonCallStack, options),
@@ -1733,19 +1775,18 @@ const shownFramesOf = (
   )
 
 /**
- * The notes ending a ranking's opening sentence when it hides any frame or
- * shows a truncated call stack.
+ * Records in {@link notation} whether any of {@link callStacks} hides a frame
+ * or is truncated.
  */
-const formatCallStackNotes = (
+const recordCallStackNotation = (
   callStacks: { key: CallStackKey }[],
-): PhrasingContent[] => [
-  ...(callStacks.some(({ key }) => key.includes(HIDDEN_FRAME_KEY))
-    ? phrasing` ${inlineCode(`…`)} stands for hidden frames.`
-    : []),
-  ...(callStacks.some(({ key }) => isTruncatedKey(key))
-    ? phrasing` ${inlineCode(TRUNCATED_FRAMES_NAME)} stands for missing outermost callers.`
-    : []),
-]
+  notation: ShownFrameNotation,
+): void => {
+  notation.omitsFrames ||= callStacks.some(({ key }) =>
+    key.includes(HIDDEN_FRAME_KEY),
+  )
+  notation.showsTruncated ||= callStacks.some(({ key }) => isTruncatedKey(key))
+}
 
 const formatCommonCallStack = (
   commonCallStack: ShownFrame[],

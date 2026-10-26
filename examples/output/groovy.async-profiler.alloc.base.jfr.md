@@ -7,6 +7,55 @@ Allocated 12.1 GiB over 24,822 samples (512 KiB per sample).
 | Standard library | 99.2% |   12 GiB |  24,635 |
 | Ours             |  0.8% | 93.5 MiB |     187 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 12.1 GiB (99.9%) main(String[]) at org.codenarc.CodeNarc
+    └── 12.1 GiB (99.9%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        ├── … 11.9 GiB (98.2%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000003010a1800
+        │   ├── … 11.8 GiB (97.6%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000000301088800
+        │   │   ├── … 6.83 GiB (56.4%, self 5.2%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │   │   ├── 3.65 GiB (30.1%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        │   │   │   │   └── 3.65 GiB (30.1%) 710 more callees, led by (9.1%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000003017ef000
+        │   │   │   ├── … 2.29 GiB (18.9%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │   │   │   └── 2.27 GiB (18.7%) 6 more callees, led by (10.9%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+        │   │   │   └── … 208 MiB (1.7%) allocateInstance(Object) at java.lang.invoke.DirectMethodHandle
+        │   │   └── … 5 GiB (41.2%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │       ├── 4.12 GiB (34.0%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+        │   │       │   ├── 3.2 GiB (26.4%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+        │   │       │   │   ├── 1.54 GiB (12.7%) setGuards(Object)
+        │   │       │   │   │   ├── 316 MiB (2.5%) guardWithTest(MethodHandle, MethodHandle, MethodHandle) at java.lang.invoke.MethodHandles
+        │   │       │   │   │   │   ├── 220 MiB (1.8%, self 0.8% globally) makeGuardWithTest(MethodHandle, MethodHandle, MethodHandle) at java.lang.invoke.MethodHandleImpl
+        │   │       │   │   │   │   │   ├── 124 MiB (1.0%) profile(MethodHandle)
+        │   │       │   │   │   │   │   │   └── 124 MiB (1.0%, self 3.6% globally) makeBlockInliningWrapper(MethodHandle)
+        │   │       │   │   │   │   │   └── 67 MiB (0.5%) invokeStatic(Object, Object, Object, Object, Object, Object, Object) at java.lang.invoke.DirectMethodHandle$Holder
+        │   │       │   │   │   │   │       └── 67 MiB (0.5%, self 2.3% globally) make(MethodType, LambdaForm, Object, Object, Object, Object) at java.lang.invoke.BoundMethodHandle$Species_LLLL
+        │   │       │   │   │   │   └── 95.5 MiB (0.8%) dropArgumentsToMatch(MethodHandle, int, Class[], int, boolean) …
+        │   │       │   │   │   ├── 254 MiB (2.0%) bindTo(Object) at java.lang.invoke.MethodHandle
+        │   │       │   │   │   │   └── 254 MiB (2.0%) bindArgumentL(int, Object)
+        │   │       │   │   │   │       ├── 196 MiB (1.6%) bindArgumentL(int, Object) at java.lang.invoke.BoundMethodHandle
+        │   │       │   │   │   │       │   └── 167 MiB (1.3%) bindArgumentL(BoundMethodHandle, int, Object) at java.lang.invoke.LambdaFormEditor
+        │   │       │   │   │   │       │       ├── … 58.5 MiB (0.5%, self 3.1% globally) make(MethodType, LambdaForm, Object, Object) at java.lang.invoke.BoundMethodHandle$Species_LL
+        │   │       │   │   │   │       │       └── … 46 MiB (0.4%, self 6.3% globally) makeImpl(Class, Class[], boolean) at java.lang.invoke.MethodType
+        │   │       │   │   │   │       └── … 57.5 MiB (0.5%, self 2.2% globally) make(MethodType, LambdaForm, Object) at java.lang.invoke.BoundMethodHandle$Species_L
+        │   │       │   │   │   └── 1,007 MiB (8.1%) 10 more callees, led by (2.5%) guardWithTest(MethodHandle, MethodHandle) at java.lang.invoke.SwitchPoint
+        │   │       │   │   ├── 841 MiB (6.8%) setHandleForMetaMethod()
+        │   │       │   │   │   └── 786 MiB (6.3%) correctClassForNameAndUnReflectOtherwise(Method)
+        │   │       │   │   │       └── … 712 MiB (5.7%) make(byte, Class, MemberName, Class) at java.lang.invoke.DirectMethodHandle
+        │   │       │   │   │           ├── … 542 MiB (4.4%) fillInStackTrace(int) at java.lang.Throwable
+        │   │       │   │   │           └── 111 MiB (0.9%) 4 more callees, led by (0.4%) preparedLambdaForm(MemberName)
+        │   │       │   │   └── 854 MiB (6.9%) 8 more callees, led by (3.4%) addExceptionHandler()
+        │   │       │   └── 915 MiB (7.4%) 5 more callees, led by (5.8%) asSpreader(Class, int) at java.lang.invoke.MethodHandle
+        │   │       └── 900 MiB (7.3%) 3 more callees, led by (6.9%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        │   └── … 78 MiB (0.6%, self 2.9% globally) newInstance(Class, int) at java.lang.reflect.Array
+        │       └── 50 MiB (0.4%, self 2.8% globally) newArray(Class, int)
+        └── … 209 MiB (1.7%) guard(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000003010aac00 …
+```
+
 ## Hottest functions
 
 ### Self size

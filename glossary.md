@@ -105,19 +105,32 @@ of any modality.
 
 ### Call stacks
 
-| Term                  | Definition                                                                                                                                                        | Aliases to avoid             |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| **Call stack**        | A unique callee-to-caller sequence of functions, aggregating all observations with that exact sequence                                                            | stack                        |
-| **Call tree**         | A format's tree of nodes in which each node stands for the call stack from the root to it                                                                         | —                            |
-| **Frame record**      | A parser's record of one function reference, its name and positions, which observations and functions reference by index                                          | frame universe               |
-| **Stack frame**       | A function's position within a specific call stack                                                                                                                | call frame                   |
-| **Pseudo-frame**      | A profiler-inserted stack entry that is not a function, dropped during normalization                                                                              | scaffolding, wrapper         |
-| **Hidden frame**      | A stack frame whose function the entry filter hides, shown as `…` between shown frames                                                                            | elided frame                 |
-| **Common call stack** | The longest run of root-side callers shared by every complete call stack a ranking shows, printed once above its table                                            | shared suffix, common prefix |
-| **Leaf frame**        | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded                                                             | top frame, bottom frame      |
-| **Root frame**        | The last frame in a call stack (callee-to-caller order); the outermost caller                                                                                     | top frame, bottom frame      |
-| **Frame pair**        | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution                                                                      | edge, call edge              |
-| **Identity key**      | The key a call stack profile or call graph identifies a function by within one input, built from its normalized name and unresolved source reference and position | function key                 |
+| Term                     | Definition                                                                                                                                                        | Aliases to avoid             |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **Call stack**           | A unique callee-to-caller sequence of functions, aggregating all observations with that exact sequence                                                            | stack                        |
+| **Frame record**         | A parser's record of one function reference, its name and positions, which observations and functions reference by index                                          | frame universe               |
+| **Stack frame**          | A function's position within a specific call stack                                                                                                                | call frame                   |
+| **Pseudo-frame**         | A profiler-inserted stack entry that is not a function, dropped during normalization                                                                              | scaffolding, wrapper         |
+| **Hidden frame**         | A stack frame whose function the entry filter hides, which the Markdown omits                                                                                     | —                            |
+| **Omitted frame**        | A stack frame the Markdown leaves out, because the entry filter hides it or a call tree line stands in for it, shown as `…`                                       | elided frame, skipped frame  |
+| **Common call stack**    | The longest run of root-side callers shared by every complete call stack a ranking shows, printed once above its table                                            | shared suffix, common prefix |
+| **Leaf frame**           | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded                                                             | top frame, bottom frame      |
+| **Root frame**           | The last frame in a call stack (callee-to-caller order); the outermost caller                                                                                     | top frame, bottom frame      |
+| **Truncated call stack** | A call stack whose outermost frames the profiler dropped                                                                                                          | —                            |
+| **Frame pair**           | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution                                                                      | edge, call edge              |
+| **Identity key**         | The key a call stack profile or call graph identifies a function by within one input, built from its normalized name and unresolved source reference and position | function key                 |
+
+### Call tree
+
+| Term                   | Definition                                                                                                                             | Aliases to avoid     |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| **Call tree**          | A tree of nodes in which each node stands for the call stack from the root to it, as a format records it or a profile section draws it | —                    |
+| **Call tree node**     | One node of a call tree                                                                                                                | —                    |
+| **Call path**          | The functions from a root frame down to a call tree node, aggregating every call stack that begins with them                           | —                    |
+| **Branch**             | A call tree node and every node below it                                                                                               | subtree              |
+| **Summary line**       | A call tree line that totals a node's undrawn callees and names the largest                                                            | total (for the line) |
+| **Line budget**        | The most lines a call tree draws, two per top N entry                                                                                  | —                    |
+| **Recursion collapse** | The merging of a function's recursive calls on one call path into its outermost call                                                   | collapse (alone)     |
 
 ## Call graph
 
@@ -264,6 +277,15 @@ of any modality.
 - A parsed **input**'s **observations** or **functions** reference **frame
   records** by index. A parser flattens a **call tree** into **call stacks**
 - **Call stacks** that differ only in **hidden frames** merge into one row
+- A **hidden frame** is an **omitted frame**. A **call tree** also omits the
+  callers a line passes over and the frames a **recursion collapse** skips
+- A drawn **call tree** has one line per drawn **call tree node**, at most its
+  **line budget**, and one **summary line** per node with undrawn callees worth
+  stating
+- A **call tree node** stands for exactly one **call path**, and roots exactly
+  one **branch**
+- A **truncated call stack** is drawn under the **call tree**'s `truncated`
+  line, from its outermost recorded frame
 - A **call stack profile** and a **call graph** aggregate **functions** with
   **self** and **total** **values** per **metric**, deriving them from
   **observations** in one and from recorded costs in the other

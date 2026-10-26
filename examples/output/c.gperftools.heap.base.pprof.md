@@ -8,6 +8,36 @@ Allocated 132 MiB over 78 objects (1.69 MiB per object).
 | Native   | 48.7% | 64.3 MiB |      25 |
 | Unknown  | <0.1% | 1.35 KiB |       4 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 66.8 MiB (50.6%) _start
+│   └── 66.8 MiB (50.6%) __libc_start_main
+│       └── 66.8 MiB (50.6%) (anonymous)
+│           └── 66.8 MiB (50.6%) main
+│               └── 66.8 MiB (50.6%) FIO_compressFilename
+│                   ├── 64 MiB (48.5%) FIO_compressFilename_srcFile at fileio.c
+│                   │   └── 64 MiB (48.5%) ZSTD_compressStream2
+│                   │       └── 64 MiB (48.5%) ZSTD_CCtx_init_compressStream2 at zstd_compress.c
+│                   │           └── 64 MiB (48.5%) ZSTDMT_initCStream_internal
+│                   └── 2.76 MiB (2.1%) FIO_createCResources at fileio.c
+│                       ├── 1.5 MiB (1.1%) AIO_ReadPool_create
+│                       │   └── 1.25 MiB (0.9%, self 0.9%) AIO_IOPool_init at fileio_asyncio.c
+│                       └── 1.26 MiB (1.0%) AIO_WritePool_create
+│                           └── 1.26 MiB (1.0%, self 1.0%, self 1.9% globally) AIO_IOPool_init at fileio_asyncio.c
+└── 65.3 MiB (49.4%) (anonymous)
+    └── … 65.3 MiB (49.4%) POOL_thread at pool.c
+        └── 65.3 MiB (49.4%) ZSTDMT_compressionJob at zstdmt_compress.c
+            ├── 49.2 MiB (37.3%) ZSTD_compressBegin_advanced_internal
+            │   └── 49.2 MiB (37.3%) ZSTD_compressBegin_internal at zstd_compress.c
+            │       └── 49.2 MiB (37.3%) ZSTD_resetCCtx_internal
+            └── 16.1 MiB (12.2%) ZSTDMT_getBuffer
+```
+
 ## Hottest functions
 
 ### Self size
@@ -711,6 +741,16 @@ Retained 912 B over 3 objects (304 B per object).
 | Category |      % |  Size | Objects |
 | -------- | -----: | ----: | ------: |
 | Unknown  | 100.0% | 912 B |       3 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 912 B (100.0%) _start
+    └── 912 B (100.0%) __libc_start_main
+        └── 912 B (100.0%) (anonymous)
+```
 
 ## Hottest functions
 

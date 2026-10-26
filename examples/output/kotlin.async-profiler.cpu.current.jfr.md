@@ -10,6 +10,55 @@ Collected 1,315 samples.
 | Standard library |  5.2% |      69 |
 | JIT              |  1.1% |      14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 872 samples (66.3%) Thread::call_run at libjvm.dylib
+│   ├── 783 samples (59.5%) JavaThread::thread_main_inner
+│   │   └── 781 samples (59.4%) CompileBroker::compiler_thread_loop
+│   │       ├── 768 samples (58.4%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 523 samples (39.8%) C2Compiler::compile_method
+│   │       │   │   └── 522 samples (39.7%) Compile::Compile
+│   │       │   │       └── 522 samples (39.7%) 6 more callees, led by (20.3%) Compile::Code_Gen
+│   │       │   ├── … 238 samples (18.1%) Compilation::compile_method at libjvm.dylib
+│   │       │   │   ├── 218 samples (16.6%) Compilation::compile_java_method
+│   │       │   │   │   ├── 84 samples (6.4%) Compilation::build_hir
+│   │       │   │   │   │   ├── … 61 samples (4.6%) GraphBuilder::GraphBuilder at libjvm.dylib
+│   │       │   │   │   │   │   ├── 54 samples (4.1%) GraphBuilder::iterate_all_blocks
+│   │       │   │   │   │   │   │   └── … 53 samples (4.0%) GraphBuilder::iterate_bytecodes_for_block at libjvm.dylib
+│   │       │   │   │   │   │   │       ├── 2 samples (0.2%, self 1.9% globally) tlv_get_addr at libdyld.dylib
+│   │       │   │   │   │   │   │       └── 51 samples (3.9%) 12 more callees, led by (2.6%) GraphBuilder::invoke
+│   │       │   │   │   │   │   └── 4 samples (0.3%) BlockListBuilder::BlockListBuilder
+│   │       │   │   │   │   └── 23 samples (1.7%) 7 more callees, led by (0.8%) GlobalValueNumbering::GlobalValueNumbering
+│   │       │   │   │   └── 134 samples (10.2%) 4 more callees, led by (7.2%) Compilation::emit_lir
+│   │       │   │   └── … 15 samples (1.1%) nmethod::nmethod at libjvm.dylib
+│   │       │   │       ├── … 2 samples (0.2%, self 0.8% globally) _platform_memmove at libsystem_platform.dylib
+│   │       │   │       └── 10 samples (0.8%) 5 more callees, led by (0.2%) CodeBuffer::copy_code_to
+│   │       │   └── … 1 sample (0.1%, self 1.7% globally) SymbolTable::do_lookup at libjvm.dylib
+│   │       └── … 7 samples (0.5%) __psynch_cvwait at libsystem_kernel.dylib
+│   └── 89 samples (6.8%) 3 more callees, led by (6.4%) WorkerThread::run
+├── 435 samples (33.1%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 435 samples (33.1%) run(String[])
+│       ├── … 358 samples (27.2%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 353 samples (26.8%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── … 340 samples (25.9%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   └── 340 samples (25.9%) 3 more callees, led by (24.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       └── 9 samples (0.7%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       └── 73 samples (5.6%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           └── … 73 samples (5.6%) loadAllClassesFromJars(Collection, int, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│               ├── … 58 samples (4.4%) Java_java_util_zip_Inflater_inflateBytesBytes at libzip.dylib
+│               │   ├── 44 samples (3.3%) inflate_fast
+│               │   ├── 12 samples (0.9%) inflate …
+│               │   └── 2 samples (0.2%) jni_GetPrimitiveArrayCritical at libjvm.dylib
+│               │       └── 2 samples (0.2%, self 1.1% globally) pthread_jit_write_protect_np at libsystem_pthread.dylib
+│               └── 10 samples (0.8%) 6 more callees, led by (0.2%) put(Object, Object) at java.util.HashMap
+└── 4 samples (0.3%) break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

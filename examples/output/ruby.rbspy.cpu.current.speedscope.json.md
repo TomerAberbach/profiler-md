@@ -11,6 +11,55 @@ Took 15.77s over 1,555 samples (10.1ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 15.75s (99.9%) <main> at profile.rb
+    ├── … 14.91s (94.6%) ActionDispatch::Static#call at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │   ├── … 14.78s (93.8%) ActiveSupport::Callbacks#run_callbacks at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb
+    │   │   ├── … 13.65s (86.6%) ActionView::Rendering#render_to_body at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/rendering.rb
+    │   │   │   └── … 13.56s (86.0%) ActiveSupport::Notifications.instrument at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb
+    │   │   │       └── … 13.48s (85.5%) Kernel#public_send [c function]
+    │   │   │           ├── 10.50s (66.6%) #<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128 at ./app/views/statuses/index.html.erb
+    │   │   │           │   └── 10.48s (66.5%) Array#each at <internal:array>
+    │   │   │           │       ├── 7.58s (48.1%, self 2.1%) block in _app_views_statuses_index_html_erb__328993190567029661_3128 at ./app/views/statuses/index.html.erb
+    │   │   │           │       │   ├── 5.84s (37.1%) ActionView::Helpers::SanitizeHelper#sanitize at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │   │   │           │       │   │   └── 5.79s (36.7%) Rails::HTML::Concern::ComposedSanitize#sanitize at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │   │   │           │       │   │       ├── … 1.85s (11.8%) Loofah::HtmlFragmentBehavior::ClassMethods#parse at /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │   │   │           │       │   │       │   ├── 1.22s (7.8%, self 0.6%) Nokogiri::XML::DocumentFragment.new at /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
+    │   │   │           │       │   │       │   │   ├── 993.4ms (6.3%, self 0.7%) Nokogiri::HTML5::DocumentFragment#initialize at /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb
+    │   │   │           │       │   │       │   │   │   └── 864.5ms (5.5%, self 4.8%) Nokogiri::Gumbo.fragment [c function]
+    │   │   │           │       │   │       │   │   │       └── 102.0ms (0.6%) Nokogiri::XML::Node#internal_subset [c function] …
+    │   │   │           │       │   │       │   │   └── … 72.9ms (0.5%, self 1.4% globally) block in decorate at /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb
+    │   │   │           │       │   │       │   └── 593.6ms (3.8%, self 2.5%) Nokogiri::HTML4::Document.new [c function]
+    │   │   │           │       │   │       │       └── 192.3ms (1.2%) Loofah::DocumentDecorator#initialize at /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb …
+    │   │   │           │       │   │       └── 3.91s (24.8%) 2 more callees, led by (13.8%) Rails::HTML::Concern::Serializer::UTF8Encode#serialize
+    │   │   │           │       │   └── 1.40s (8.9%) 6 more callees, led by (2.8%) block in define_url_helper at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb
+    │   │   │           │       ├── … 1.28s (8.1%) Module#extend_object [c function]
+    │   │   │           │       ├── … 979.2ms (6.2%, self 0.5%) block in scrub_attributes at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │   │   │           │       │   └── 838.1ms (5.3%, self 0.5%) Rails::HTML::PermitScrubber#scrub_attribute
+    │   │   │           │       │       ├── 592.1ms (3.8%) Loofah::HTML5::Scrub.scrub_uri_attribute at /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │           │       │       │   ├── 180.1ms (1.1%) Loofah::HTML5::Scrub.allowed_uri?
+    │   │   │           │       │       │   │   └── 180.1ms (1.1%, self 2.1% globally) String#gsub [c function]
+    │   │   │           │       │       │   └── 391.6ms (2.5%) 10 more callees, led by (1.0%) String#gsub! [c function]
+    │   │   │           │       │       └── 164.6ms (1.0%) 4 more callees, led by (0.5%) Loofah::HTML5::Scrub.force_correct_attribute_escaping! at /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │           │       └── 518.4ms (3.3%) 4 more callees, led by (1.5%) block in force_correct_attribute_escaping! at /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │           ├── … 2.53s (16.0%) ActiveSupport::NumberHelper#number_to_delimited at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb
+    │   │   │           │   └── 2.52s (16.0%) ActiveSupport::NumberHelper::NumberConverter.convert at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb …
+    │   │   │           └── 411.7ms (2.6%) #<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160 at ./app/views/layouts/application.html.erb …
+    │   │   └── … 968.0ms (6.1%) Rack::Session::Abstract::Persisted#context at /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │   │       ├── … 835.3ms (5.3%) Rack::ETag#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │   │       │   ├── … 604.7ms (3.8%) Digest::Base#<< [c function]
+    │   │       │   └── 230.6ms (1.5%) 3 more callees, led by (1.3%) Rack::TempfileReaper#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │   │       └── 106.4ms (0.7%) ActionDispatch::Session::SessionObject#commit_session at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb …
+    │   └── 80.9ms (0.5%) ActionDispatch::FileHandler#attempt
+    └── 781.0ms (5.0%) 3 more callees, led by (4.8%) Kernel#require_relative [c function]
+```
+
 ## Hottest functions
 
 ### Self time

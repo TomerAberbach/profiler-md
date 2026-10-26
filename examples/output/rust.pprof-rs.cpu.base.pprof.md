@@ -9,6 +9,55 @@ Took 3.73s over 3,734 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-rust-profile/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 3.73s (100.0%) _main
+    └── 3.73s (100.0%) std::rt::lang_start_internal
+        └── 3.73s (100.0%) std::rt::lang_start::{{closure}} at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs
+            └── 3.73s (100.0%) std::sys::backtrace::__rust_begin_short_backtrace at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs
+                └── 3.73s (100.0%) core::ops::function::FnOnce::call_once at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs
+                    └── 3.73s (100.0%) json_bench::main at ./profile.rs
+                        └── 3.73s (100.0%) json_bench::workload
+                            ├── 2.05s (55.1%) serde_json::de::from_str at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │   └── 2.05s (55.1%) serde_json::de::from_trait
+                            │       └── 2.05s (55.1%) serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/value/de.rs
+                            │           └── … 2.05s (55.1%) <&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │               ├── 1.80s (48.4%) <serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/value/de.rs
+                            │               │   ├── 1.10s (29.6%) serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/map.rs
+                            │               │   ├── 676.0ms (18.1%) serde_core::de::MapAccess::next_entry at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
+                            │               │   │   └── 676.0ms (18.1%) serde_core::de::MapAccess::next_entry_seed
+                            │               │   │       ├── 654.0ms (17.5%) <serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │               │   │       │   └── 654.0ms (17.5%, self 23.5% globally) <core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
+                            │               │   │       └── 22.0ms (0.6%) <serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_key_seed at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │               │   │           └── … 7.0ms (0.2%) <serde_json::de::MapKey<R> as serde_core::de::Deserializer>::deserialize_any at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │               │   │               └── 4.0ms (0.1%) <serde_json::read::StrRead as serde_json::read::Read>::parse_str at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/read.rs
+                            │               │   │                   └── 4.0ms (0.1%) serde_json::read::SliceRead::parse_str_bytes
+                            │               │   └── 26.0ms (0.7%) serde_core::de::MapAccess::next_value at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
+                            │               └── 246.0ms (6.6%) <serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_seq at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/value/de.rs
+                            │                   ├── 222.0ms (5.9%) serde_core::de::SeqAccess::next_element at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
+                            │                   │   └── 222.0ms (5.9%) <serde_json::de::SeqAccess<R> as serde_core::de::SeqAccess>::next_element_seed at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs
+                            │                   │       └── 222.0ms (5.9%) <core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
+                            │                   └── … 24.0ms (0.6%) alloc::raw_vec::RawVecInner<A>::grow_amortized at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/raw_vec/mod.rs
+                            ├── 1.55s (41.7%) core::ptr::drop_in_place<serde_json::value::Value> at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs
+                            │   └── … 1.55s (41.7%) core::ptr::drop_in_place<serde_json::map::Map<alloc::string::String,serde_json::value::Value>> at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs
+                            │       └── 1.55s (41.7%) core::ptr::drop_in_place<alloc::collections::btree::map::BTreeMap<alloc::string::String,serde_json::value::Value>>
+                            │           └── 1.55s (41.7%) <alloc::collections::btree::map::BTreeMap<K,V,A> as core::ops::drop::Drop>::drop at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs
+                            │               └── 1.55s (41.7%, self 31.8%) core::mem::drop at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/mod.rs
+                            │                   └── 370.0ms (9.9%) core::ptr::drop_in_place<alloc::collections::btree::map::IntoIter<alloc::string::String,serde_json::value::Value>> at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs
+                            │                       └── 370.0ms (9.9%, self 9.9%) <alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs
+                            └── … 118.0ms (3.2%) serde_json::ser::to_writer at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/ser.rs
+                                └── 118.0ms (3.2%, self 1.1%) serde_json::value::ser::<impl serde_core::ser::Serialize for serde_json::value::Value>::serialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/value/ser.rs
+                                    ├── … 73.0ms (2.0%) serde_core::ser::SerializeMap::serialize_entry at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/ser/mod.rs
+                                    │   ├── … 52.0ms (1.4%, self 1.4%) <serde_json::ser::MapKeySerializer<W,F> as serde_core::ser::Serializer>::serialize_str at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/ser.rs
+                                    │   └── 21.0ms (0.6%) <serde_json::ser::Compound<W,F> as serde_core::ser::SerializeMap>::serialize_value at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/ser.rs
+                                    └── … 3.0ms (0.1%) serde_core::ser::impls::<impl serde_core::ser::Serialize for &T>::serialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/ser/impls.rs
+```
+
 ## Hottest functions
 
 ### Self time

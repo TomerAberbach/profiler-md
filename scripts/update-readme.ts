@@ -15,6 +15,7 @@ import {
 import type { Language } from '../src/cli/languages.ts'
 import { formatToSpec } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
+import { profileToMd } from '../src/index.ts'
 
 const check = process.argv.includes(`--check`)
 
@@ -190,16 +191,22 @@ const languageMembers = (language: Language) => [
 const escapeHtml = (text: string): string =>
   text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)
 
-const examplePath = `examples/output/javascript.node.base.cpuprofile.md`
-const exampleLines = readFileSync(examplePath, `utf8`).split(`\n`)
+// A small top N keeps the excerpt's call tree and tables short.
+const exampleLines = profileToMd(
+  readFileSync(`examples/input/javascript.node.base.cpuprofile`),
+  { baseURL: `auto`, topN: 7 },
+).split(`\n`)
 const hottestIndex = exampleLines.indexOf(`## Hottest functions`)
 const hottestLines = exampleLines.slice(hottestIndex)
-const excerptRowCount = 5
+const firstTableIndex = hottestLines.findIndex(line => line.startsWith(`|`))
 const excerpt = [
   ...exampleLines.slice(0, hottestIndex),
   ...hottestLines.slice(
     0,
-    hottestLines.findIndex(line => line.startsWith(`|`)) + 2 + excerptRowCount,
+    firstTableIndex +
+      hottestLines
+        .slice(firstTableIndex)
+        .findIndex(line => !line.startsWith(`|`)),
   ),
   `…`,
 ].join(`\n`)

@@ -11,6 +11,55 @@ Took 5.74s over 5,742 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 5.30s (92.3%, self 10.6%) (anonymous)
+│   ├── 4.57s (79.7%) profile_main at ./Sources/profile/main.swift:1
+│   │   ├── … 3.67s (64.0%) $s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:137
+│   │   │   ├── … 3.57s (62.3%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:220
+│   │   │   │   ├── 1.32s (23.1%) $s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:248
+│   │   │   │   │   └── 1.32s (23.1%) 17 more callees, led by (8.7%) $s11SwiftParser0B0V23parseBindingDeclaration__2in0A6Syntax015RawVariableDeclG0VAC0J10AttributesV_AA25RecoveryConsumptionHandleVAC0E12ParseContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1451
+│   │   │   │   ├── 1.06s (18.6%) $s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF at 187
+│   │   │   │   │   └── 1.06s (18.5%) $s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58
+│   │   │   │   │       └── 1.06s (18.5%) 12 more callees, led by (9.8%) $s11SwiftParser0B0V20parseReturnStatement12returnHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF at 710
+│   │   │   │   ├── 1s (17.5%) $s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:122
+│   │   │   │   │   └── … 1s (17.5%) $s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:152
+│   │   │   │   │       ├── 932.0ms (16.2%) $s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF at 409
+│   │   │   │   │       │   ├── 371.0ms (6.5%) $s11SwiftParser0B0V20parseUnaryExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF at 571
+│   │   │   │   │       │   │   └── 346.0ms (6.0%) $s11SwiftParser0B0V22parsePostfixExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF at 627
+│   │   │   │   │       │   │       ├── 302.0ms (5.3%) $s11SwiftParser0B0V22parsePrimaryExpression7pattern6flavor0A6Syntax07RawExprH0VAC14PatternContextO_AC0J6FlavorOtF at 1198
+│   │   │   │   │       │   │       │   ├── 206.0ms (3.6%) $s11SwiftParser0B0V25parseIdentifierExpression6flavor0A6Syntax07RawExprG0VAC0I6FlavorO_tF at 1347
+│   │   │   │   │       │   │       │   │   ├── 160.0ms (2.8%) $s11SwiftParser0B0V22parseDeclReferenceExpry0A6Syntax03RawdefG0VAC0D11NameOptionsVF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:70
+│   │   │   │   │       │   │       │   │   │   ├── … 88.0ms (1.5%, self 0.6% globally) $s11SwiftParser0B0V43consumeAnyTokenWithoutAdjustingNestingLevel0A6Syntax03RaweJ0VyF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:382
+│   │   │   │   │       │   │       │   │   │   │   └── … 79.0ms (1.4%, self 2.6% globally) $s11SwiftParser5LexerO6CursorV9nextToken17sourceBufferStart14stateAllocatorAC6LexemeVAE_0A6Syntax07BumpPtrK0CtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:427
+│   │   │   │   │       │   │       │   │   │   │       ├── … 34.0ms (0.6%, self 5.9% globally) $s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:709
+│   │   │   │   │       │   │       │   │   │   │       └── 15.0ms (0.3%, self 3.0% globally) $s11SwiftParser5LexerO6CursorV9lexTrivia33_40499B5A26053AEB2F96A7C76320F673LL4modeAE0F6ResultVAE0F10LexingModeO_tF at 1155
+│   │   │   │   │       │   │       │   │   │   └── 50.0ms (0.9%) 3 more callees, led by (0.7%) $s11SwiftParser0B0V17parseArgLabelListy0A6Syntax020RawDeclNameArgumentsG0VSgAC0iJ7OptionsVF at 98
+│   │   │   │   │       │   │       │   │   └── … 22.0ms (0.4%, self 1.2% globally) $s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm at AbsolutePosition.swift.o
+│   │   │   │   │       │   │       │   └── 95.0ms (1.7%) 6 more callees, led by (0.6%) $s11SwiftParser0B0V25parseIdentifierExpression6flavor0A6Syntax07RawExprG0VAC0I6FlavorO_tF
+│   │   │   │   │       │   │       └── 44.0ms (0.8%) 10 more callees, led by (0.2%) $s11SwiftParser0B0V20parseTupleExpression7pattern0A6Syntax03Rawd4ExprG0VAC14PatternContextO_tF at 1523
+│   │   │   │   │       │   └── 555.0ms (9.7%) 4 more callees, led by (8.5%) $s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF at 756
+│   │   │   │   │       └── 65.0ms (1.1%) 9 more callees, led by (0.4%) $s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF
+│   │   │   │   └── 174.0ms (3.0%) 7 more callees, led by (2.2%) $s11SwiftParser13TokenConsumerPAAE20atStartOfDeclaration12isAtTopLevel13allowInitDecl0M8RecoveryS2b_S2btFAA0B0V_Tg5 at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:55
+│   │   │   └── 97.0ms (1.7%) 9 more callees, led by (0.7%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF
+│   │   └── … 877.0ms (15.3%) $s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VF at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:7059
+│   │       ├── … 222.0ms (3.9%) $s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF at ./Sources/profile/main.swift:8
+│   │       │   ├── 85.0ms (1.5%) $s11SwiftSyntax0B8ProtocolPAAE4kindAA0B4KindOvg at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxProtocol.swift:177
+│   │       │   │   ├── 39.0ms (0.7%) $s11SwiftSyntax0B8ProtocolPAAE3rawAA03RawB0Vvg
+│   │       │   │   │   └── 39.0ms (0.7%, self 0.5%, self 4.0% globally) swift_release
+│   │       │   │   └── … 37.0ms (0.6%, self 0.6%, self 3.8% globally) swift_retain
+│   │       │   └── 129.0ms (2.2%) 5 more callees, led by (0.8%) swift_endAccess
+│   │       └── 633.0ms (11.0%) 81 more callees, led by (4.3%) $s11SwiftSyntax0B0V12layoutBufferAA014ArenaAllocatedD7PointerVyAA0efG0VyAA0B4DataVGSgGvg at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Syntax.swift:128
+│   └── … 107.0ms (1.9%) brk
+├── 113.0ms (2.0%) $ss6HasherV9_finalizeSiyF
+└── 329.0ms (5.7%) 5 more root frames, led by (1.7%) $ss6HasherV5_seedABSi_tcfC
+```
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,43 @@ Took 20.05s over 20,056 samples (1.0ms per sample).
 | Native   |  0.1% | 14.0ms |      14 |
 | Kernel   |  0.1% | 14.0ms |      14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 20.04s (99.9%) unknown (libc.so.6)
+    └── … 20.02s (99.9%) POOL_thread at pool.c
+        └── 20.02s (99.9%) ZSTDMT_compressionJob at zstdmt_compress.c
+            ├── 16.83s (83.9%) ZSTD_compressContinue_internal at zstd_compress.c
+            │   ├── 16.75s (83.5%) ZSTD_buildSeqStore
+            │   │   ├── 16.53s (82.4%, self 10.7%) ZSTD_compressBlock_opt2 at zstd_opt.c
+            │   │   │   ├── 14.35s (71.6%, self 71.4%, self 72.5% globally) ZSTD_btGetAllMatches_noDict_3
+            │   │   │   └── 28.0ms (0.1%) ZSTD_insertAndFindFirstIndexHash3
+            │   │   ├── 136.0ms (0.7%) ZSTD_litLengthPrice at zstd_opt.c
+            │   │   ├── 50.0ms (0.2%) ZSTD_rawLiteralsCost at zstd_opt.c
+            │   │   └── 13.0ms (0.1%) ZSTD_optLdm_processMatchCandidate at zstd_opt.c
+            │   ├── 40.0ms (0.2%) ZSTD_deriveBlockSplitsHelper
+            │   │   └── 40.0ms (0.2%) ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize
+            │   │       └── 33.0ms (0.2%) ZSTD_buildBlockEntropyStats
+            │   │           └── 16.0ms (0.1%) ZSTD_buildSequencesStatistics
+            │   │               └── 12.0ms (0.1%) HIST_count_parallel_wksp at hist.c
+            │   └── 22.0ms (0.1%) ZSTD_splitBlock at zstd_preSplit.c
+            │       └── 17.0ms (0.1%) ZSTD_recordFingerprint_1
+            ├── 2.92s (14.6%) ZSTD_compressBegin_advanced_internal at zstd_compress.c
+            │   └── 2.92s (14.6%) ZSTD_compressBegin_internal
+            │       └── 2.92s (14.6%) ZSTD_loadDictionaryContent
+            │           └── 2.92s (14.6%) ZSTD_updateTree at zstd_opt.c
+            │               └── 2.92s (14.6%) ZSTD_insertBt1
+            └── 265.0ms (1.3%) ZSTD_compressEnd_public at zstd_compress.c
+                └── 265.0ms (1.3%) ZSTD_compressContinue_internal
+                    └── 264.0ms (1.3%) ZSTD_buildSeqStore
+                        └── 261.0ms (1.3%) ZSTD_compressBlock_opt2 at zstd_opt.c
+                            └── 220.0ms (1.1%, self 1.1%) ZSTD_btGetAllMatches_noDict_3
+```
+
 ## Hottest functions
 
 ### Self time
@@ -737,6 +774,55 @@ Slept 5 times.
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |      5 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5 times (100.0%) unknown (libc.so.6)
+    ├── … 4 times (80.0%) __read (libc.so.6)
+    │   └── 4 times (80.0%) el0t_64_sync ([kernel])
+    │       └── 4 times (80.0%) el0t_64_sync_handler ([kernel])
+    │           └── 4 times (80.0%) el0_svc ([kernel])
+    │               └── 4 times (80.0%) do_el0_svc ([kernel])
+    │                   └── 4 times (80.0%) invoke_syscall.constprop.0 ([kernel])
+    │                       └── 4 times (80.0%) __arm64_sys_read ([kernel])
+    │                           └── 4 times (80.0%) ksys_read ([kernel])
+    │                               └── 4 times (80.0%) vfs_read ([kernel])
+    │                                   └── 4 times (80.0%) ovl_read_iter ([kernel])
+    │                                       └── 4 times (80.0%) backing_file_read_iter ([kernel])
+    │                                           └── 4 times (80.0%) vfs_iter_read ([kernel])
+    │                                               └── 4 times (80.0%) do_iter_readv_writev ([kernel])
+    │                                                   └── 4 times (80.0%) ext4_file_read_iter ([kernel])
+    │                                                       └── 4 times (80.0%) generic_file_read_iter ([kernel])
+    │                                                           └── 4 times (80.0%) filemap_read ([kernel])
+    │                                                               └── 4 times (80.0%) copy_page_to_iter ([kernel])
+    │                                                                   └── 4 times (80.0%) __arch_copy_to_user ([kernel])
+    │                                                                       └── 4 times (80.0%) el1h_64_sync ([kernel])
+    │                                                                           └── 4 times (80.0%) el1h_64_sync_handler ([kernel])
+    │                                                                               └── 4 times (80.0%) el1_abort ([kernel])
+    │                                                                                   └── 4 times (80.0%) do_mem_abort ([kernel])
+    │                                                                                       └── 4 times (80.0%) do_translation_fault ([kernel])
+    │                                                                                           └── 4 times (80.0%) do_page_fault ([kernel])
+    │                                                                                               └── 4 times (80.0%) lock_mm_and_find_vma ([kernel])
+    │                                                                                                   └── 4 times (80.0%) down_read_killable ([kernel])
+    │                                                                                                       └── 4 times (80.0%) rwsem_down_read_slowpath ([kernel])
+    │                                                                                                           └── 4 times (80.0%) schedule_preempt_disabled ([kernel])
+    │                                                                                                               └── 4 times (80.0%) schedule ([kernel])
+    │                                                                                                                   └── 4 times (80.0%) __schedule ([kernel])
+    │                                                                                                                       └── 4 times (80.0%) __bpf_trace_sched_switch ([kernel])
+    │                                                                                                                           └── 4 times (80.0%, self 100.0% globally) bpf_trace_run4 ([kernel])
+    └── … 1 time (20.0%) vma_expand ([kernel])
+        └── 1 time (20.0%) __vma_start_write ([kernel])
+            └── 1 time (20.0%) __vma_start_exclude_readers ([kernel])
+                └── 1 time (20.0%) schedule ([kernel])
+                    └── 1 time (20.0%) __schedule ([kernel])
+                        └── 1 time (20.0%) __bpf_trace_sched_switch ([kernel])
+                            └── 1 time (20.0%) bpf_trace_run4 ([kernel])
+```
+
 ## Hottest functions
 
 ### Self sleeps
@@ -1112,6 +1198,47 @@ Slept 214 times.
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |    214 |
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 168 times (78.5%) unknown (libc.so.6)
+│   └── … 168 times (78.5%) el0t_64_sync ([kernel])
+│       └── 168 times (78.5%) el0t_64_sync_handler ([kernel])
+│           └── 168 times (78.5%) el0_svc ([kernel])
+│               └── 168 times (78.5%) do_el0_svc ([kernel])
+│                   └── 168 times (78.5%) invoke_syscall.constprop.0 ([kernel])
+│                       └── 168 times (78.5%) __arm64_sys_futex ([kernel])
+│                           └── 168 times (78.5%) do_futex ([kernel])
+│                               └── 168 times (78.5%) futex_wait ([kernel])
+│                                   └── 168 times (78.5%) __futex_wait ([kernel])
+│                                       └── 168 times (78.5%) futex_do_wait ([kernel])
+│                                           └── 168 times (78.5%) schedule ([kernel])
+│                                               └── 168 times (78.5%) __schedule ([kernel])
+│                                                   └── 168 times (78.5%) __bpf_trace_sched_switch ([kernel])
+│                                                       └── 168 times (78.5%, self 100.0% globally) bpf_trace_run4 ([kernel])
+└── 46 times (21.5%) _start (zstd)
+    └── 46 times (21.5%) __libc_start_main (libc.so.6)
+        └── 46 times (21.5%) unknown (libc.so.6)
+            └── … 46 times (21.5%) el0t_64_sync ([kernel])
+                └── 46 times (21.5%) el0t_64_sync_handler ([kernel])
+                    └── 46 times (21.5%) el0_svc ([kernel])
+                        └── 46 times (21.5%) do_el0_svc ([kernel])
+                            └── 46 times (21.5%) invoke_syscall.constprop.0 ([kernel])
+                                └── 46 times (21.5%) __arm64_sys_futex ([kernel])
+                                    └── 46 times (21.5%) do_futex ([kernel])
+                                        └── 46 times (21.5%) futex_wait ([kernel])
+                                            └── 46 times (21.5%) __futex_wait ([kernel])
+                                                └── 46 times (21.5%) futex_do_wait ([kernel])
+                                                    └── 46 times (21.5%) schedule ([kernel])
+                                                        └── 46 times (21.5%) __schedule ([kernel])
+                                                            └── 46 times (21.5%) __bpf_trace_sched_switch ([kernel])
+                                                                └── 46 times (21.5%) bpf_trace_run4 ([kernel])
+```
 
 ## Hottest functions
 

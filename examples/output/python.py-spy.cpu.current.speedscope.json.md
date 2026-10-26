@@ -9,6 +9,55 @@ Took 2s over 200 samples (10.0ms per sample).
 | Unknown          |  3.5% |  70.0ms |       7 |
 | Ours             |  0.5% |  10.0ms |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.93s (96.5%) _run_module_as_main at <frozen runpy>
+│   ├── … 1.91s (95.5%) format_file_contents at /venv/lib/python3.11/site-packages/black/__init__.py
+│   │   ├── 1.22s (61.0%) format_str
+│   │   │   └── 1.22s (61.0%) _format_str_once
+│   │   │       ├── 500.0ms (25.0%, self 1.5%) visit at /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   ├── … 280.0ms (14.0%, self 2.0%) visit_default at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 80.0ms (4.0%, self 3.0%, self 5.5% globally) generate_comments at /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   │   │   └── … 10.0ms (0.5%, self 2.0% globally) changed at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │   └── 160.0ms (8.0%) 2 more callees, led by (7.5%) append at /venv/lib/python3.11/site-packages/black/lines.py
+│   │   │       │   └── 190.0ms (9.5%) 7 more callees, led by (4.5%) visit_STRING at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       ├── … 450.0ms (22.5%, self 2.5%, self 3.5% globally) parse_tokens at /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py
+│   │   │       │   ├── 340.0ms (17.0%) addtoken at /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │   │       │   │   └── 340.0ms (17.0%, self 5.0%, self 9.0% globally) _addtoken
+│   │   │       │   │       ├── 100.0ms (5.0%) push
+│   │   │       │   │       ├── 80.0ms (4.0%) pop …
+│   │   │       │   │       └── 60.0ms (3.0%) shift
+│   │   │       │   │           └── 60.0ms (3.0%, self 1.0%, self 2.0% globally) convert at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │               └── 30.0ms (1.5%, self 4.0% globally) __new__
+│   │   │       │   └── 60.0ms (3.0%) __next__
+│   │   │       │       └── 60.0ms (3.0%, self 5.5% globally) generate_tokens at /venv/lib/python3.11/site-packages/blib2to3/pgen2/tokenize.py
+│   │   │       ├── 70.0ms (3.5%) detect_target_versions
+│   │   │       │   └── 70.0ms (3.5%, self 3.0%) get_features_used
+│   │   │       └── 200.0ms (10.0%) 3 more callees, led by (7.0%) transform_line at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   └── 690.0ms (34.5%) check_stability_and_equivalence
+│   │       ├── 500.0ms (25.0%) assert_stable
+│   │       │   └── 500.0ms (25.0%) _format_str_once
+│   │       │       ├── 230.0ms (11.5%) visit at /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │   ├── … 160.0ms (8.0%) visit_default at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │   │   ├── 90.0ms (4.5%, self 1.5% globally) append at /venv/lib/python3.11/site-packages/black/lines.py
+│   │       │       │   │   │   ├── 60.0ms (3.0%, self 1.5%, self 3.0% globally) mark at /venv/lib/python3.11/site-packages/black/brackets.py
+│   │       │       │   │   │   │   └── 20.0ms (1.0%) maybe_increment_for_loop_variable
+│   │       │       │   │   │   └── 30.0ms (1.5%) whitespace at /venv/lib/python3.11/site-packages/black/nodes.py …
+│   │       │       │   │   └── 60.0ms (3.0%) generate_comments at /venv/lib/python3.11/site-packages/black/comments.py …
+│   │       │       │   └── 70.0ms (3.5%) 4 more callees, led by (1.0%) visit_stmt at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       └── 270.0ms (13.5%) 5 more callees, led by (10.5%) lib2to3_parse at /venv/lib/python3.11/site-packages/black/parsing.py
+│   │       └── 190.0ms (9.5%) assert_equivalent
+│   │           ├── … 100.0ms (5.0%) parse at /usr/lib/python3.11/ast.py
+│   │           └── 80.0ms (4.0%, self 3.5%) _stringify_ast at /venv/lib/python3.11/site-packages/black/parsing.py
+│   └── … 10.0ms (0.5%) get_data at <frozen importlib._bootstrap_external>
+└── 70.0ms (3.5%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

@@ -53,6 +53,7 @@ modalities
   | Measure        | What ranks the rows                                  | `Self time`, `Retained size`, `Elapsed time`                       |
   | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`                               |
   | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`, `Attribute values`           |
+  | View           | The form the section shows the whole profile in      | `Call tree`                                                        |
 
 - Open an entity section with a definition of its rows only where its heading
   uses a term the reader has not met (`Longest async spans`). State what the

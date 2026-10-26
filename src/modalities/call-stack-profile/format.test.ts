@@ -39,7 +39,7 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
  * The note explaining the ellipsis, shown only when a displayed call stack
  * contains a hidden frame.
  */
-const ELLIPSIS_NOTE = `\`…\` stands for hidden frames.`
+const ELLIPSIS_NOTE = `\`…\` stands for omitted frames.`
 
 describe(`formatCallStackProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
@@ -389,7 +389,6 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
     ])
-    expect(md).not.toContain(ELLIPSIS_NOTE)
   })
 
   test(`shows all functions with a warning when showEntry would hide every one`, () => {

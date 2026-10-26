@@ -10,6 +10,55 @@ Took 5.95s over 5,954 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 5.95s (100.0%) 0x16900 at ./binary
+    ├── 4.17s (70.0%) 0x15964
+    │   ├── 1.70s (28.6%) 0x6503c
+    │   │   ├── … 1.60s (27.0%) 0x78ff4 at ./binary
+    │   │   │   ├── 904.9ms (15.2%) 0x61a90
+    │   │   │   │   ├── 135.1ms (2.3%) 0x7197c
+    │   │   │   │   │   ├── 92.1ms (1.5%) 0x79dc4
+    │   │   │   │   │   │   ├── 5.0ms (0.1%, self 0.9% globally) 0x70918
+    │   │   │   │   │   │   └── 86.1ms (1.4%) 21 more callees, led by (0.8%) 0x6f75c
+    │   │   │   │   │   └── 26.0ms (0.4%) 0x79e10
+    │   │   │   │   └── 769.8ms (12.9%) 25 more callees, led by (8.0%) 0x71d44
+    │   │   │   └── 704.7ms (11.8%) 45 more callees, led by (2.6%) 0x60c90
+    │   │   └── 94.1ms (1.6%) 17 more callees, led by (0.6%) 0x782ec
+    │   ├── 1.63s (27.5%) 0x6639c
+    │   │   └── … 1.62s (27.2%) 0x5eff4 at ./binary
+    │   │       ├── … 1.06s (17.9%) 0x672f0 at ./binary
+    │   │       │   ├── 272.3ms (4.6%) 0x61f50
+    │   │       │   │   ├── 11.0ms (0.2%) 0x6a110
+    │   │       │   │   │   └── 5.0ms (0.1%, self 0.9% globally) 0x7b36c
+    │   │       │   │   └── 261.3ms (4.4%) 23 more callees, led by (3.1%) 0x6a0c8
+    │   │       │   └── 793.8ms (13.3%) 63 more callees, led by (2.4%) 0x5ebe0
+    │   │       └── 557.6ms (9.4%) 17 more callees, led by (7.6%) 0x672d4 at ./binary
+    │   └── 830.8ms (13.9%) 26 more callees, led by (9.3%) 0x5eff4
+    ├── 620.6ms (10.4%) 0x150ac
+    │   └── 620.6ms (10.4%) 11 more callees, led by (5.1%) 0x8f8ec
+    ├── 573.6ms (9.6%) 0x14f10
+    │   ├── 48.0ms (0.8%) 0x6f844
+    │   ├── 45.0ms (0.8%, self 3.1% globally) 0x70014
+    │   ├── 33.0ms (0.6%, self 2.0% globally) 0x70050
+    │   ├── 28.0ms (0.5%) 0x6f834
+    │   ├── 19.0ms (0.3%, self 1.4% globally) 0x70034
+    │   ├── 18.0ms (0.3%, self 0.9% globally) 0x70040
+    │   ├── 13.0ms (0.2%, self 1.0% globally) 0x700cc
+    │   ├── 11.0ms (0.2%, self 0.8% globally) 0x70028
+    │   ├── 9.0ms (0.2%, self 0.9% globally) 0x70020
+    │   ├── 8.0ms (0.1%, self 0.8% globally) 0x7009c
+    │   ├── 6.0ms (0.1%, self 0.9% globally) 0x70090
+    │   └── 327.3ms (5.5%) 86 more callees, led by (0.6%) 0x6f850
+    ├── … 179.2ms (3.0%, self 6.2% globally) 0x9a704 at ./binary
+    └── 396.4ms (6.7%) 29 more callees, led by (1.5%) 0x14e90
+```
+
 ## Hottest functions
 
 ### Self time

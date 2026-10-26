@@ -11,6 +11,8 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 Call stacks missing their outermost callers account for 23.0% → 22.5% of the time spent.
 
+`truncated` stands for missing outermost callers.
+
 ## Hottest functions
 
 ### Self time
@@ -1797,7 +1799,7 @@ Common call stack: `Composer\Console\Application::doRun` (`./composer/src/Compos
 
 ### Improvements
 
-Call stacks with the largest decrease in time spent in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest decrease in time spent in their leaf frame.
 
 Common call stack: `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`) ← `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`) ← `(anonymous)` (`./profile.php`)
 

@@ -1,6 +1,11 @@
-import type { PhrasingContent } from 'mdast'
+import type { PhrasingContent, RootContent } from 'mdast'
 import { capitalizeFirst } from '../../helpers/format.ts'
-import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
+import {
+  inlineCode,
+  paragraph,
+  phrasing,
+  text,
+} from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
 import {
   formatPosition,
@@ -94,6 +99,41 @@ export const TRUNCATED_FRAMES = { type: `truncated` } as const
  */
 export const TRUNCATED_FRAMES_NAME = `truncated`
 
+/** How a call stack or call tree shows the frames it omits. */
+export const OMITTED_FRAMES_NAME = `…`
+
+/**
+ * Whether the call stacks and the call tree a profile section shows use
+ * {@link OMITTED_FRAMES_NAME} and {@link TRUNCATED_FRAMES_NAME}, which
+ * {@link formatFrameNotationNote} explains.
+ */
+export type ShownFrameNotation = {
+  omitsFrames: boolean
+  showsTruncated: boolean
+}
+
+export const newShownFrameNotation = (): ShownFrameNotation => ({
+  omitsFrames: false,
+  showsTruncated: false,
+})
+
+/** The note explaining the frame notation {@link notation} records. */
+export const formatFrameNotationNote = ({
+  omitsFrames,
+  showsTruncated,
+}: ShownFrameNotation): RootContent[] => {
+  const notes: PhrasingContent[] = [
+    ...(omitsFrames
+      ? phrasing`${inlineCode(OMITTED_FRAMES_NAME)} stands for omitted frames.`
+      : []),
+    ...(omitsFrames && showsTruncated ? [text(` `)] : []),
+    ...(showsTruncated
+      ? phrasing`${inlineCode(TRUNCATED_FRAMES_NAME)} stands for missing outermost callers.`
+      : []),
+  ]
+  return notes.length === 0 ? [] : [paragraph(notes)]
+}
+
 /**
  * The {@link measureColumns} followed by a `Call stack` column, with
  * {@link commonCallStack} trimmed off the frames of each row that is not
@@ -132,7 +172,7 @@ export const formatCallStack = (
   return frames.flatMap((frame, index) => {
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]
     if (frame.type === `hidden`) {
-      parts.push(text(`…`))
+      parts.push(text(OMITTED_FRAMES_NAME))
       return parts
     }
     if (frame.type === `truncated`) {
@@ -159,22 +199,38 @@ const formatFrameLocation = (
   previousFunction: AggregatedCallStackProfileFunction | undefined,
   options: FormattingProfileToMdOptions,
 ): PhrasingContent[] => {
-  if (!frame.location) {
+  const location = frameLocation(frame, previousFunction, options)
+  if (location === undefined) {
     return []
+  }
+  return location.shortened
+    ? [text(` (${location.text})`)]
+    : [...phrasing` (${inlineCode(location.text)})`]
+}
+
+/**
+ * {@link func}'s location, or its line and column alone when
+ * {@link previousFunction} is in the same source.
+ */
+export const frameLocation = (
+  func: AggregatedCallStackProfileFunction,
+  previousFunction: AggregatedCallStackProfileFunction | undefined,
+  options: FormattingProfileToMdOptions,
+): { text: string; shortened: boolean } | undefined => {
+  const { location } = func
+  if (!location) {
+    return undefined
   }
 
   const { location: previousLocation } = previousFunction ?? {}
-  if (
-    !previousLocation ||
-    !isSameSourceReference(frame.location, previousLocation)
-  ) {
-    return [
-      ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
-    ]
+  if (!previousLocation || !isSameSourceReference(location, previousLocation)) {
+    return { text: formatSourceLocation(location, options), shortened: false }
   }
 
-  const position = formatPosition(frame.location)
-  return position === undefined ? [] : [text(` (${position})`)]
+  const position = formatPosition(location)
+  return position === undefined
+    ? undefined
+    : { text: position, shortened: true }
 }
 
 type MeasureRow = {

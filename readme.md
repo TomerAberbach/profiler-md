@@ -63,19 +63,44 @@ Took 2.51s over 2,563 samples (982.2µs per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2.29s (91.2%) (anonymous) at ./cpuprofile-run.mjs
+│   └── 2.28s (90.8%) typeCheckProject at ./tsc-workload.mjs:3:33
+│       ├── … 1.77s (70.4%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37
+│       │   ├── … 1.61s (64.1%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33
+│       │   │   └── 1.61s (64.1%) 3 more callees, led by (32.5%) checkDeferredNodes at 87179:30
+│       │   └── … 146.0ms (5.8%, self 0.8%) bind at ./node_modules/typescript/lib/typescript.js:46600:16
+│       │       └── 125.3ms (5.0%) 6 more callees, led by (3.1%) bindWorker at ./node_modules/typescript/lib/typescript.js:46663:22
+│       ├── 389.5ms (15.5%) createProgram at ./node_modules/typescript/lib/typescript.js:122262:23
+│       │   └── 389.5ms (15.5%) 7 more callees, led by (12.9%) forEach at 2365:17
+│       └── … 99.2ms (3.9%) (anonymous) at node:internal/modules/cjs/loader:1731:37
+│           ├── 86.5ms (3.4%) wrapSafe at 1671:18
+│           └── 12.7ms (0.5%) (anonymous) at ./node_modules/typescript/lib/typescript.js:1:1 …
+├── 187.7ms (7.5%) (garbage collector)
+└── 35.1ms (1.4%) 24 more root frames, led by (0.2%) recursiveTypeRelatedTo at ./node_modules/typescript/lib/typescript.js:67063:36
+```
+
 ## Hottest functions
 
 ### Self time
 
 Functions with the most time spent within the function body, excluding callees.
 
-|    % |    Time | Samples | Function                               | Location                                               |
-| ---: | ------: | ------: | -------------------------------------- | ------------------------------------------------------ |
-| 7.5% | 187.7ms |     153 | `(garbage collector)`                  | `<unknown>`                                            |
-| 3.4% |  86.5ms |      69 | `wrapSafe`                             | `node:internal/modules/cjs/loader:1671:18`             |
-| 2.7% |  69.0ms |      65 | `recursiveTypeRelatedTo`               | `./node_modules/typescript/lib/typescript.js:67063:36` |
-| 1.9% |  48.8ms |      52 | `instantiateTypeWorker`                | `./node_modules/typescript/lib/typescript.js:65023:33` |
-| 1.5% |  38.9ms |      33 | `checkTypeRelatedTo`                   | `./node_modules/typescript/lib/typescript.js:66185:30` |
+|    % |    Time | Samples | Function                     | Location                                               |
+| ---: | ------: | ------: | ---------------------------- | ------------------------------------------------------ |
+| 7.5% | 187.7ms |     153 | `(garbage collector)`        | `<unknown>`                                            |
+| 3.4% |  86.5ms |      69 | `wrapSafe`                   | `node:internal/modules/cjs/loader:1671:18`             |
+| 2.7% |  69.0ms |      65 | `recursiveTypeRelatedTo`     | `./node_modules/typescript/lib/typescript.js:67063:36` |
+| 1.9% |  48.8ms |      52 | `instantiateTypeWorker`      | `./node_modules/typescript/lib/typescript.js:65023:33` |
+| 1.5% |  38.9ms |      33 | `checkTypeRelatedTo`         | `./node_modules/typescript/lib/typescript.js:66185:30` |
+| 1.4% |  34.3ms |      43 | `isRelatedTo`                | `./node_modules/typescript/lib/typescript.js:66493:25` |
+| 1.2% |  29.6ms |      27 | `getObjectTypeInstantiation` | `./node_modules/typescript/lib/typescript.js:64785:38` |
 …
 ```
 

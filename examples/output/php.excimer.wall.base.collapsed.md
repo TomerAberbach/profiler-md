@@ -9,6 +9,55 @@ Collected 4,164 samples.
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-workload/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 4,157 samples (99.8%) run at Symfony\Component\Console\Application
+    ├── 3,990 samples (95.8%) doRun at Composer\Console\Application
+    │   ├── … 3,692 samples (88.7%) run at Symfony\Component\Console\Command\Command
+    │   │   ├── 2,944 samples (70.7%) execute at Composer\Command\DumpAutoloadCommand
+    │   │   │   └── 2,944 samples (70.7%) dump at Composer\Autoload\AutoloadGenerator
+    │   │   │       ├── 2,784 samples (66.9%, self 1.8%) scanPaths at Composer\ClassMapGenerator\ClassMapGenerator
+    │   │   │       │   ├── 2,520 samples (60.5%, self 15.8%) findClasses at Composer\ClassMapGenerator\PhpFileParser
+    │   │   │       │   │   ├── 1,660 samples (39.9%, self 10.4%) clean at Composer\ClassMapGenerator\PhpFileCleaner
+    │   │   │       │   │   │   ├── 989 samples (23.8%, self 2.6%) match
+    │   │   │       │   │   │   │   └── 882 samples (21.2%, self 3.3%) isMatchStrictGroups at Composer\Pcre\Preg
+    │   │   │       │   │   │   │       └── 743 samples (17.8%, self 3.3%) matchStrictGroups
+    │   │   │       │   │   │   │           ├── 467 samples (11.2%, self 3.4%) match
+    │   │   │       │   │   │   │           │   ├── 252 samples (6.1%, self 6.6% globally) pregMatch
+    │   │   │       │   │   │   │           │   └── 75 samples (1.8%) checkOffsetCapture
+    │   │   │       │   │   │   │           └── 138 samples (3.3%) enforceNonNullMatches
+    │   │   │       │   │   │   ├── 203 samples (4.9%, self 4.9%) skipString
+    │   │   │       │   │   │   └── 19 samples (0.5%) skipHeredoc
+    │   │   │       │   │   ├── 158 samples (3.8%) matchAllStrictGroups at Composer\Pcre\Preg
+    │   │   │       │   │   │   └── 155 samples (3.7%, self 3.7%, self 4.5% globally) matchAll
+    │   │   │       │   │   └── 42 samples (1.0%, self 0.8%) matchAll at Composer\Pcre\Preg
+    │   │   │       │   ├── 55 samples (1.3%) hasChildren at Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
+    │   │   │       │   │   └── 55 samples (1.3%) hasChildren at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+    │   │   │       │   ├── … 51 samples (1.2%) __construct at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+    │   │   │       │   └── 77 samples (1.8%) 10 more callees, led by (0.9%) normalizePath
+    │   │   │       ├── 112 samples (2.7%) getPathCode
+    │   │   │       │   ├── 35 samples (0.8%) normalizePath at Composer\Util\Filesystem
+    │   │   │       │   └── 67 samples (1.6%) 2 more callees, led by (1.6%) findShortestPath at Composer\Util\Filesystem
+    │   │   │       └── 22 samples (0.5%) getStaticFile
+    │   │   └── … 748 samples (18.0%) createComposer at Composer\Factory
+    │   │       ├── 710 samples (17.1%) load at Composer\Package\Loader\RootPackageLoader
+    │   │       │   └── 705 samples (16.9%) guessVersion at Composer\Package\Version\VersionGuesser
+    │   │       │       ├── 458 samples (11.0%) guessGitVersion
+    │   │       │       │   ├── … 299 samples (7.2%) run at Symfony\Component\Process\Process
+    │   │       │       │   │   ├── … 277 samples (6.7%, self 15.5% globally) readAndWrite at Symfony\Component\Process\Pipes\UnixPipes
+    │   │       │       │   │   └── 18 samples (0.4%, self 0.9% globally) start
+    │   │       │       │   └── 154 samples (3.7%) 3 more callees, led by (3.5%) versionFromGitTags
+    │   │       │       └── 247 samples (5.9%) 3 more callees, led by (3.0%) guessFossilVersion
+    │   │       └── … 4 samples (0.1%) loadSchema at JsonSchema\Uri\UriRetriever
+    │   └── 279 samples (6.7%, self 6.3%) call at Composer\Util\Silencer
+    └── … 161 samples (3.9%) readFromProcess at Symfony\Component\Console\Terminal
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -10,6 +10,55 @@ Took 4.04s over 4,043 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 4.04s (100.0%, self 17.1%) (anonymous)
+    ├── 3.20s (79.3%) main at /out/profile.f90:6
+    │   └── 3.20s (79.3%) MAIN__ at 5
+    │       ├── … 3.13s (77.6%, self 0.5%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10882
+    │       │   ├── … 1.09s (27.0%, self 0.6%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+    │       │   │   ├── 780.0ms (19.3%, self 1.9%) __json_value_module_MOD_parse_string at 11052
+    │       │   │   │   ├── 617.0ms (15.3%, self 51.7% globally) __json_value_module_MOD_pop_char.part.0 at 11318
+    │       │   │   │   ├── 19.0ms (0.5%) __json_string_utilities_MOD_unescape_string at ./json_string_utilities.F90:483
+    │       │   │   │   └── 67.0ms (1.7%) 6 more callees, led by (1.1%) _gfortran_string_scan
+    │       │   │   ├── 129.0ms (3.2%) __json_value_module_MOD_pop_char.part.0 at 11318
+    │       │   │   ├── 55.0ms (1.4%) __json_value_module_MOD_parse_for_chars at 11145
+    │       │   │   │   └── 48.0ms (1.2%) __json_value_module_MOD_pop_char.part.0 at 11318
+    │       │   │   └── 106.0ms (2.6%) 9 more callees, led by (0.7%) _gfortran_string_len_trim
+    │       │   ├── … 816.0ms (20.2%, self 1.9%, self 3.8% globally) __json_value_module_MOD_parse_string at ./json_value_module.F90:11052
+    │       │   │   ├── 608.0ms (15.0%) __json_value_module_MOD_pop_char.part.0 at 11318
+    │       │   │   └── 130.0ms (3.2%) 7 more callees, led by (1.9%) _gfortran_string_scan
+    │       │   ├── … 582.0ms (14.4%) __json_value_module_MOD_pop_char.part.0 at ./json_value_module.F90:11318
+    │       │   ├── … 130.0ms (3.2%, self 7.0% globally) _gfortran_string_scan
+    │       │   ├── … 122.0ms (3.0%) __json_value_module_MOD_parse_number at ./json_value_module.F90:11192
+    │       │   │   ├── 57.0ms (1.4%) __json_value_module_MOD_pop_char.part.0 at 11318
+    │       │   │   └── 49.0ms (1.2%) __json_value_module_MOD_string_to_int at 8074
+    │       │   │       ├── 6.0ms (0.1%) _gfortran_st_write_done
+    │       │   │       └── 43.0ms (1.1%) 14 more callees, led by (0.2%) __json_string_utilities_MOD_string_to_integer at ./json_string_utilities.F90:116
+    │       │   ├── … 78.0ms (1.9%, self 3.2% globally) _gfortran_string_len_trim
+    │       │   ├── … 56.0ms (1.4%, self 3.0% globally) cfree
+    │       │   ├── … 56.0ms (1.4%, self 2.2% globally) _init
+    │       │   ├── … 45.0ms (1.1%, self 3.4% globally) __libc_malloc
+    │       │   ├── … 20.0ms (0.5%, self 1.4% globally) __libc_realloc
+    │       │   ├── … 10.0ms (0.2%) __json_value_module_MOD_json_value_add_member at ./json_value_module.F90:3394
+    │       │   └── 110.0ms (2.7%) 6 more callees, led by (2.1%) __json_value_module_MOD_parse_array at ./json_value_module.F90:10987
+    │       └── 53.0ms (1.3%) __json_file_module_MOD_json_file_destroy at ./json_file_module.F90:769
+    │           └── 53.0ms (1.3%) __json_value_module_MOD_json_value_destroy at ./json_value_module.F90:2237
+    │               ├── … 18.0ms (0.4%) cfree
+    │               └── … 17.0ms (0.4%) __json_value_module_MOD_destroy_json_data at ./json_value_module.F90:1387
+    ├── … 44.0ms (1.1%) __read
+    ├── … 17.0ms (0.4%) __open
+    ├── … 11.0ms (0.3%) calloc
+    ├── … 10.0ms (0.2%) __pthread_mutex_lock
+    ├── … 7.0ms (0.2%) __ctype_toupper_loc
+    └── 56.0ms (1.4%) 10 more callees, led by (0.4%) cfree
+```
+
 ## Hottest functions
 
 ### Self time

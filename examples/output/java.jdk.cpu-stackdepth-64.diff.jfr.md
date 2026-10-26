@@ -9,6 +9,8 @@ Collected 1,353 samples → 1,324 samples (-29 samples, -2.1%).
 
 Call stacks missing their outermost callers account for 25.9% → 29.2% of the samples collected.
 
+`truncated` stands for missing outermost callers.
+
 ## Hottest functions
 
 ### Self samples
@@ -1715,7 +1717,7 @@ Callees with the largest change in contribution to each function's total samples
 
 ### Regressions
 
-Call stacks with the largest increase in samples collected in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest increase in samples collected in their leaf frame.
 
 Common call stack: `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -1780,6 +1782,8 @@ Allocated 37.4 GiB → 37.2 GiB (-208.995 MiB, -0.5%) over 1,920 samples → 
 | Unknown          |  -4.1% |        -88 B | <0.1% | 2.11 KiB → 2.02 KiB |         2 → 1 |
 
 Call stacks missing their outermost callers account for 7.5% → 5.7% of the bytes allocated.
+
+`truncated` stands for missing outermost callers.
 
 ## Hottest functions
 
@@ -3679,7 +3683,7 @@ Callees with the largest change in contribution to each function's total size. I
 
 ### Regressions
 
-Call stacks with the largest increase in bytes allocated in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest increase in bytes allocated in their leaf frame.
 
 Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -3708,7 +3712,7 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 ### Improvements
 
-Call stacks with the largest decrease in bytes allocated in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -4745,6 +4749,8 @@ Blocked 7.38s → 7.64s (+262.17ms, +3.6%) over 83 contentions → 80 contention
 | ---------------- | -----: | --------: | -----: | ------------: | ----------: |
 | Standard library |  +3.6% | +262.17ms | 100.0% | 7.38s → 7.64s |     83 → 80 |
 
+`truncated` stands for missing outermost callers.
+
 ## Hottest functions
 
 ### Self time
@@ -5432,7 +5438,7 @@ Call stacks with the largest increase in time blocked in their leaf frame.
 
 ### Improvements
 
-Call stacks with the largest decrease in time blocked in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest decrease in time blocked in their leaf frame.
 
 |  Change |    Delta |            % |         Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------: | -------: | -----------: | -----------: | ----------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

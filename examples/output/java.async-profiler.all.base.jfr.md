@@ -10,6 +10,55 @@ Collected 4,763 samples.
 | JIT              |  1.4% |      65 |
 | Compiler         |  1.2% |      57 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,473 samples (93.9%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,473 samples (93.9%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 4,242 samples (89.1%) doExec() at java.util.concurrent.ForkJoinTask
+│       │   ├── … 4,193 samples (88.0%) exec() at java.util.concurrent.RecursiveTask
+│       │   │   └── 4,191 samples (88.0%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,786 samples (37.5%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,336 samples (28.0%, self 8.5%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 880 samples (18.5%, self 18.2%) distance(Double[], Double[])
+│       │   │       │   │   └── 52 samples (1.1%) 6 more callees, led by (0.9%) get(int) at java.util.ArrayList
+│       │   │       │   └── … 450 samples (9.4%, self 2.3%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 147 samples (3.1%, self 2.5%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │       │   └── 19 samples (0.4%) hash(Object)
+│       │   │       │       ├── 140 samples (2.9%) add(Object) at java.util.ArrayList
+│       │   │       │       │   └── 137 samples (2.9%, self 1.3%) add(Object, Object[], int)
+│       │   │       │       │       └── 75 samples (1.6%) grow() …
+│       │   │       │       └── 53 samples (1.1%) 4 more callees, led by (1.0%) get(int) at java.util.ArrayList
+│       │   │       ├── 1,517 samples (31.8%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,517 samples (31.8%, self 9.2%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 986 samples (20.7%, self 19.0%) accumulate(Double[], double[])
+│       │   │       │       │   └── 81 samples (1.7%) doubleValue() at java.lang.Double
+│       │   │       │       └── 90 samples (1.9%) get(int) at java.util.ArrayList
+│       │   │       │           └── 88 samples (1.8%, self 3.3% globally) elementData(int)
+│       │   │       ├── 424 samples (8.9%) join() at java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 418 samples (8.8%) awaitDone(int, long)
+│       │   │       │       ├── … 351 samples (7.4%, self 12.3% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │   │       │       └── 38 samples (0.8%, self 0.6%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean) at java.util.concurrent.ForkJoinPool
+│       │   │       ├── … 414 samples (8.7%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │       │   ├── 321 samples (6.7%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001188000
+│       │   │       │   │   └── 321 samples (6.7%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │   │       ├── … 113 samples (2.4%) copyOf(Object[], int) at java.util.Arrays
+│       │   │       │   │       │   ├── 79 samples (1.7%) arrayof_jint_disjoint_arraycopy
+│       │   │       │   │       │   │   └── 71 samples (1.5%, self 4.3% globally) forward_copy_longs
+│       │   │       │   │       │   └── 34 samples (0.7%) _new_array_Java …
+│       │   │       │   │       └── 208 samples (4.4%) 2 more callees, led by (4.3%) addAll(Collection) at java.util.ArrayList
+│       │   │       │   ├── 38 samples (0.8%) zero_blocks
+│       │   │       │   └── 48 samples (1.0%) 2 more callees, led by (1.0%) arrayof_jint_disjoint_arraycopy
+│       │   │       └── 7 samples (0.1%) fork() at java.util.concurrent.ForkJoinTask
+│       │   └── … 36 samples (0.8%) __psynch_cvsignal at libsystem_kernel.dylib
+│       └── 222 samples (4.7%) awaitWork(ForkJoinPool$WorkQueue) …
+└── 290 samples (6.1%) 6 more root frames, led by (5.1%) thread_start at libsystem_pthread.dylib
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -2234,6 +2283,55 @@ Allocated 36.9 GiB over 75,234 samples (514 KiB per sample).
 | Standard library | 93.2% | 34.4 GiB |  70,131 |
 | Ours             |  6.8% | 2.49 GiB |   5,103 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 36.7 GiB (99.4%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 36.7 GiB (99.4%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── 36.7 GiB (99.4%) scan(ForkJoinPool$WorkQueue, int, int)
+│           └── 36.7 GiB (99.4%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue
+│               └── 36.7 GiB (99.4%) doExec() at java.util.concurrent.ForkJoinTask
+│                   └── … 36.7 GiB (99.4%) exec() at java.util.concurrent.RecursiveTask
+│                       └── 36.7 GiB (99.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                           ├── … 28.2 GiB (76.4%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│                           │   └── … 27.9 GiB (75.7%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001188000
+│                           │       └── 27.9 GiB (75.7%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│                           │           ├── 20.8 GiB (56.3%) addAll(Collection) at java.util.ArrayList
+│                           │           │   ├── 13.5 GiB (36.5%) grow(int)
+│                           │           │   │   └── 13.5 GiB (36.5%, self 36.5%, self 91.1% globally) copyOf(Object[], int) at java.util.Arrays
+│                           │           │   └── 7.29 GiB (19.8%) toArray()
+│                           │           │       └── 7.29 GiB (19.8%, self 19.8%) copyOf(Object[], int) at java.util.Arrays
+│                           │           └── … 7.06 GiB (19.1%, self 19.1%) copyOf(Object[], int) at java.util.Arrays
+│                           ├── 8.08 GiB (21.9%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   ├── … 6.41 GiB (17.4%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   │   ├── … 6.02 GiB (16.3%, self 0.6%) grow(int) at java.util.ArrayList
+│                           │   │   │   └── 5.78 GiB (15.7%, self 15.7%) copyOf(Object[], int) at java.util.Arrays
+│                           │   │   └── 297 MiB (0.8%) computeIfAbsent(Object, Function) at java.util.HashMap
+│                           │   │       ├── 135 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│                           │   │       ├── 105 MiB (0.3%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007001186b38
+│                           │   │       │   └── 105 MiB (0.3%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   │       └── 57 MiB (0.2%) resize()
+│                           │   └── … 1.67 GiB (4.5%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           ├── 152 MiB (0.4%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                           ├── 122 MiB (0.3%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           ├── 71.5 MiB (0.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                           │   └── … 71.5 MiB (0.2%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                           └── … 67 MiB (0.2%) add(double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+└── … 168 MiB (0.4%) accept(int) at java.util.stream.IntPipeline$1$1
+    ├── 108 MiB (0.3%) apply(int) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011258d8
+    │   └── 108 MiB (0.3%) lambda$generateData$5(int, int, Random[], int) at org.renaissance.jdk.concurrent.JavaKMeans
+    │       ├── 37 MiB (0.1%) range(int, int) at java.util.stream.IntStream
+    │       │   └── 26.5 MiB (0.1%) intStream(Spliterator$OfInt, boolean) at java.util.stream.StreamSupport
+    │       ├── … 34.5 MiB (0.1%) builder(long, IntFunction) at java.util.stream.Nodes
+    │       └── 26.5 MiB (0.1%) mapToObj(IntFunction) at java.util.stream.IntPipeline
+    │           └── 26.5 MiB (0.1%) mapToObj(IntFunction, int)
+    └── … 54 MiB (0.1%) valueOf(double) at java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size
@@ -3395,6 +3493,48 @@ Blocked 1.6ms over 10 contentions (160.3µs per contention).
 | Category         |      % |  Time | Contentions |
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.6ms |          10 |
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.2ms (76.7%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 1.2ms (76.7%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── 1.2ms (76.7%) scan(ForkJoinPool$WorkQueue, int, int)
+│           └── 1.2ms (76.7%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue
+│               └── 1.2ms (76.7%) doExec() at java.util.concurrent.ForkJoinTask
+│                   └── … 1.2ms (76.7%) exec() at java.util.concurrent.RecursiveTask
+│                       └── 1.2ms (76.7%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                           └── 1.2ms (76.7%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                               └── … 1.2ms (76.7%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                                   └── 1.2ms (76.7%) average(List)
+│                                       └── 1.2ms (76.7%) loadClass(String) at java.lang.ClassLoader
+│                                           └── 1.2ms (76.7%) loadClass(String, boolean)
+└── 0.4ms (23.3%) run() at java.lang.Thread
+    └── 0.4ms (23.3%) runWith(Object, Runnable)
+        └── 0.4ms (23.3%) run() at org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68
+            └── 0.4ms (23.3%) lambda$createScratchDirectory$1(Path) at org.renaissance.core.DirUtils
+                └── 0.4ms (23.3%) deleteRecursively(Path)
+                    └── 0.4ms (23.3%) deleteRecursively(Path, boolean)
+                        ├── 0.2ms (14.8%) loadClass(String) at java.lang.ClassLoader
+                        │   └── 0.2ms (14.8%) loadClass(String, boolean) at jdk.internal.loader.ClassLoaders$AppClassLoader
+                        │       └── 0.2ms (14.8%) loadClass(String, boolean) at jdk.internal.loader.BuiltinClassLoader
+                        │           └── 0.2ms (14.8%) loadClassOrNull(String, boolean)
+                        └── 0.1ms (8.5%) walkFileTree(Path, FileVisitor) at java.nio.file.Files
+                            └── 0.1ms (8.5%, self 1.4%) walkFileTree(Path, Set, int, FileVisitor)
+                                └── 0.1ms (7.0%) walk(Path) at java.nio.file.FileTreeWalker
+                                    └── 0.1ms (7.0%) visit(Path, boolean, boolean)
+                                        ├── 0.1ms (5.5%) newDirectoryStream(Path) at java.nio.file.Files
+                                        │   └── 0.1ms (5.5%) newDirectoryStream(Path, DirectoryStream$Filter) at sun.nio.fs.UnixFileSystemProvider
+                                        │       └── 0.1ms (5.5%, self 1.4%) <init>(UnixPath, long, DirectoryStream$Filter) at sun.nio.fs.UnixDirectoryStream
+                                        │           └── 0.1ms (4.0%) <init>(boolean) at java.util.concurrent.locks.ReentrantReadWriteLock
+                                        └── 24.2µs (1.5%) <init>(Path, Object, DirectoryStream) at java.nio.file.FileTreeWalker$DirectoryNode
+                                            └── 24.2µs (1.5%) iterator() at sun.nio.fs.UnixDirectoryStream
+                                                └── 24.2µs (1.5%) iterator(DirectoryStream)
+```
 
 ## Hottest functions
 

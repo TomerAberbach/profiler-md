@@ -10,6 +10,55 @@ Collected 1,335 samples.
 | Standard library |  4.6% |      61 |
 | JIT              |  1.1% |      15 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 899 samples (67.3%) Thread::call_run()
+│   ├── 835 samples (62.5%) JavaThread::thread_main_inner()
+│   │   └── 833 samples (62.4%) CompileBroker::compiler_thread_loop()
+│   │       ├── 813 samples (60.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 568 samples (42.5%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 568 samples (42.5%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 291 samples (21.8%) Compile::Code_Gen()
+│   │       │   │       │   ├── 162 samples (12.1%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 14 samples (1.0%) PhaseLive::compute(unsigned int)
+│   │       │   │       │   │   │   ├── 5 samples (0.4%) PhaseLive::add_liveout(Block_List&, Block*, IndexSet*, VectorSet&)
+│   │       │   │       │   │   │   └── 2 samples (0.1%, self 1.7% globally) tlv_get_addr
+│   │       │   │       │   │   └── 147 samples (11.0%) 22 more callees, led by (2.6%) PhaseChaitin::Split(unsigned int, ResourceArea*)
+│   │       │   │       │   └── 129 samples (9.7%) 7 more callees, led by (4.0%) Matcher::match()
+│   │       │   │       └── 277 samples (20.7%) 8 more callees, led by (14.7%) Compile::Optimize()
+│   │       │   └── 245 samples (18.4%) 5 more callees, led by (17.6%) Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       └── … 13 samples (1.0%) __psynch_cvwait
+│   └── 64 samples (4.8%) 4 more callees, led by (4.3%) WorkerThread::run()
+├── 426 samples (31.9%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 426 samples (31.9%) run(String[])
+│       ├── … 348 samples (26.1%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 342 samples (25.6%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── … 330 samples (24.7%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   ├── 307 samples (23.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │   │   └── 307 samples (23.0%) phaseBody(PipelineContext, PipelineArtifact)
+│       │       │   │       ├── 218 samples (16.3%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │   │       │   └── 218 samples (16.3%) executePhase(ConfigurationPipelineArtifact)
+│       │       │   │       │       ├── 23 samples (1.7%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│       │       │   │       │       │   └── 22 samples (1.6%) createProjectEnvironment(CompilerConfiguration, Disposable, EnvironmentConfigFiles) at org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │   │       │       │       ├── … 4 samples (0.3%) <clinit>() at org.jetbrains.kotlin.KtNodeTypes
+│       │       │   │       │       │       │   └── … 1 sample (0.1%, self 1.7% globally) InstanceKlass::find_method_index(Array<Method*> const*, Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::StaticLookupMode, Klass::PrivateLookupMode)
+│       │       │   │       │       │       └── 12 samples (0.9%) 4 more callees, led by (0.3%) <init>(Disposable, KotlinCoreApplicationEnvironment, CompilerConfiguration) at org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment
+│       │       │   │       │       └── 195 samples (14.6%) 4 more callees, led by (12.0%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       │   │       └── 89 samples (6.7%) 3 more callees, led by (4.2%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│       │       │   └── 23 samples (1.7%) 2 more callees, led by (1.4%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │       └── 8 samples (0.6%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       └── … 68 samples (5.1%) read(byte[], int, int) at java.util.zip.ZipInputStream
+│           └── … 62 samples (4.6%) Java_java_util_zip_Inflater_inflateBytesBytes
+│               ├── 50 samples (3.7%) inflate_fast
+│               └── 12 samples (0.9%) 2 more callees, led by (0.7%) inflate
+└── 9 samples (0.7%) 3 more root frames, led by (0.5%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

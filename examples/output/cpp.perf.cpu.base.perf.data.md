@@ -10,6 +10,55 @@ Took 501.5ms over 501 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 501.5ms (100.0%) 0x27744 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    ├── 407.4ms (81.2%) 0x1ab4 at ./binary
+    │   ├── 340.3ms (67.9%) 0x12150
+    │   │   ├── 318.3ms (63.5%) 0x11cd0
+    │   │   │   ├── 225.2ms (44.9%) 0x11b44
+    │   │   │   │   ├── 86.1ms (17.2%) 0x112e0
+    │   │   │   │   │   ├── 47.0ms (9.4%) 0x10f78
+    │   │   │   │   │   │   ├── 9.0ms (1.8%) 0x137f80 at /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+    │   │   │   │   │   │   └── 38.0ms (7.6%) 19 more callees, led by (1.6%) 0xf6bc
+    │   │   │   │   │   └── 39.0ms (7.8%) 10 more callees, led by (5.2%) 0x10f48
+    │   │   │   │   ├── 9.0ms (1.8%) 0xc86c
+    │   │   │   │   │   ├── 4.0ms (0.8%, self 1.6% globally) 0x75f4
+    │   │   │   │   │   └── 3.0ms (0.6%) 0x7624
+    │   │   │   │   ├── 7.0ms (1.4%) 0xe5a4
+    │   │   │   │   └── 123.1ms (24.6%) 61 more callees, led by (2.0%) 0xc9c4
+    │   │   │   ├── 66.1ms (13.2%) 0x11b08
+    │   │   │   │   ├── 12.0ms (2.4%) 0x4c30
+    │   │   │   │   └── 53.1ms (10.6%) 16 more callees, led by (1.6%) 0x4dbc
+    │   │   │   └── 27.0ms (5.4%) 11 more callees, led by (1.0%) 0x11a44
+    │   │   ├── 8.0ms (1.6%) 0x11ec0
+    │   │   │   ├── 5.0ms (1.0%, self 1.6% globally) 0x5424
+    │   │   │   └── 1.0ms (0.2%) 0x10260
+    │   │   └── 14.0ms (2.8%) 7 more callees, led by (0.8%) 0x11eb8
+    │   ├── 29.0ms (5.8%) 0x12108
+    │   │   ├── 7.0ms (1.4%) 0x137f20 at /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+    │   │   ├── 6.0ms (1.2%, self 2.2% globally) 0x9d100 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   │   └── 16.0ms (3.2%) 4 more callees, led by (2.4%) 0x50d8
+    │   ├── 17.0ms (3.4%) 0x12140
+    │   │   ├── 4.0ms (0.8%, self 2.0% globally) 0x5464
+    │   │   └── 12.0ms (2.4%) 6 more callees, led by (0.8%) 0x53e4
+    │   ├── 7.0ms (1.4%) 0x120b0
+    │   └── 14.0ms (2.8%) 5 more callees, led by (0.8%) 0x120bc
+    ├── 57.1ms (11.4%) 0x1a6c at ./binary
+    │   ├── 33.0ms (6.6%) 0x12150
+    │   │   ├── 30.0ms (6.0%) 0x11ec0
+    │   │   │   ├── 11.0ms (2.2%, self 2.8% globally) 0x9e6c0 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   │   │   └── 19.0ms (3.8%) 15 more callees, led by (0.4%) 0x51e8
+    │   │   └── 1.0ms (0.2%) 0x51c4
+    │   └── 24.0ms (4.8%) 7 more callees, led by (3.0%) 0x12108
+    └── 37.0ms (7.4%) 9 more callees, led by (2.8%) 0x1b18 at ./binary
+```
+
 ## Hottest functions
 
 ### Self time

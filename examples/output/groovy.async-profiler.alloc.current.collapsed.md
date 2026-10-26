@@ -7,6 +7,55 @@ Collected 783 samples.
 | Standard library | 99.6% |     780 |
 | Ours             |  0.4% |       3 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 758 samples (96.8%) main at org.codenarc.CodeNarc
+│   └── 757 samples (96.7%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│       ├── … 642 samples (82.0%) invoke at java.lang.invoke.LambdaForm$MH.0x00000004010a1800
+│       │   └── … 640 samples (81.7%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000000401088800
+│       │       ├── … 625 samples (79.8%, self 0.8%, self 1.3% globally) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │       │   ├── 581 samples (74.2%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │       │   │   ├── … 440 samples (56.2%) guardWithCatch at java.lang.invoke.LambdaForm$MH.0x00000004010aa000
+│       │       │   │   │   ├── … 429 samples (54.8%) buildAST at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│       │       │   │   │   │   ├── 411 samples (52.5%) buildAST at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   │   │   ├── 386 samples (49.3%) buildCST
+│       │       │   │   │   │   │   │   └── … 386 samples (49.3%) compilationUnit at org.apache.groovy.parser.antlr4.GroovyParser
+│       │       │   │   │   │   │   │       └── 386 samples (49.3%) 4 more callees, led by (48.3%) scriptStatements
+│       │       │   │   │   │   │   └── 25 samples (3.2%) visit …
+│       │       │   │   │   │   ├── 12 samples (1.5%) <init> at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   │   │   ├── … 2 samples (0.3%, self 1.4% globally) <init> at java.util.zip.InflaterInputStream
+│       │       │   │   │   │   │   └── 8 samples (1.0%) 4 more callees, led by (0.4%) createCharStream
+│       │       │   │   │   │   └── … 5 samples (0.6%, self 7.4% globally) copyOf at java.util.Arrays
+│       │       │   │   │   └── 11 samples (1.4%) invokeInterface at java.lang.invoke.LambdaForm$DMH.0x0000000401094c00 …
+│       │       │   │   ├── … 7 samples (0.9%, self 1.3% globally) compile at java.util.regex.Pattern
+│       │       │   │   │   └── 5 samples (0.6%) 2 more callees, led by (0.5%) expr at java.util.regex.Pattern
+│       │       │   │   ├── … 4 samples (0.5%, self 1.9% globally) optimize at java.util.regex.Pattern$BnM
+│       │       │   │   ├── … 1 sample (0.1%, self 0.8% globally) makeImpl at java.lang.invoke.MethodType
+│       │       │   │   └── 126 samples (16.1%) 27 more callees, led by (6.8%) invoke at java.lang.invoke.LambdaForm$MH.0x00000004010abc00
+│       │       │   ├── … 4 samples (0.5%) allocateInstance at java.lang.invoke.DirectMethodHandle
+│       │       │   └── 34 samples (4.3%) 2 more callees, led by (4.2%) doWithCallSite
+│       │       └── … 15 samples (1.9%) selectMethod at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       ├── … 70 samples (8.9%) invoke at java.lang.invoke.LambdaForm$MH.0x000000040108e000
+│       │   ├── … 3 samples (0.4%, self 1.8% globally) newInstance at java.lang.reflect.Array
+│       │   └── 67 samples (8.6%) 2 more callees, led by (8.3%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000000401088800
+│       ├── … 22 samples (2.8%) invoke at java.lang.invoke.LambdaForm$MH.0x00000004010d8800
+│       │   └── … 22 samples (2.8%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000000401088800
+│       │       ├── … 11 samples (1.4%) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       │       └── … 10 samples (1.3%) setCallSiteTarget at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │           ├── … 4 samples (0.5%, self 2.4% globally) fillInStackTrace at java.lang.Throwable
+│       │           └── 6 samples (0.8%) 3 more callees, led by (0.5%) setGuards
+│       └── 23 samples (2.9%) 4 more callees, led by (1.0%) invoke at java.lang.invoke.LambdaForm$MH.0x0000000401200000
+├── … 20 samples (2.6%) getDefaultMetaClass at groovy.lang.GroovyObjectSupport
+│   ├── 18 samples (2.3%) <clinit> at org.codehaus.groovy.runtime.InvokerHelper …
+│   └── … 1 sample (0.1%, self 1.0% globally) enlarge at jdk.internal.org.objectweb.asm.ByteVector
+└── 5 samples (0.6%) 2 more root frames, led by (0.5%) checkAndLoadMain at sun.launcher.LauncherHelper
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -8,6 +8,55 @@ Blocked 155.8ms over 5,028 contentions (31.0µs per contention).
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 68.5ms (43.9%) runtime.morestack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457
+│   └── 68.5ms (43.9%) runtime.newstack at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026
+│       └── 68.5ms (43.9%) runtime.gopreempt_m at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361
+│           └── 68.5ms (43.9%) runtime.goschedImpl at 4307
+│               ├── 47.1ms (30.3%) runtime.schedule at 4135
+│               │   ├── 46.0ms (29.5%) runtime.findRunnable at 3389
+│               │   │   ├── 38.5ms (24.7%) runtime.runSafePointFn at 2232
+│               │   │   │   └── 38.5ms (24.7%, self 89.6% globally) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               │   │   ├── 5.5ms (3.5%) runtime.gcstopm at 3296
+│               │   │   │   ├── 3.7ms (2.4%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               │   │   │   └── 1.7ms (1.1%) runtime.stopm at 2992
+│               │   │   │       └── 1.1ms (0.7%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               │   │   └── 1.9ms (1.2%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               │   └── … 1.0ms (0.7%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               ├── 18.9ms (12.2%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│               └── 2.4ms (1.5%) runtime.wakep at 3212
+│                   └── 2.3ms (1.5%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 53.6ms (34.4%) runtime.gcBgMarkWorker at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+│   └── 53.4ms (34.3%) runtime.gcMarkDone at 1015
+│       ├── … 30.8ms (19.8%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│       ├── … 18.8ms (12.0%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│       └── … 3.8ms (2.4%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 16.2ms (10.4%) runtime._LostContendedRuntimeLock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741
+├── 12.9ms (8.3%) runtime.mcall at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:302
+│   └── 12.4ms (8.0%) runtime.park_m at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4253
+│       └── 12.4ms (8.0%) runtime.schedule at 4135
+│           ├── 10.6ms (6.8%) runtime.findRunnable at 3389
+│           │   ├── 7.3ms (4.7%) runtime.runSafePointFn at 2232
+│           │   │   └── 7.3ms (4.7%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│           │   ├── 2.4ms (1.6%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│           │   └── 0.5ms (0.3%) runtime.stopm at 2992
+│           └── … 1.5ms (0.9%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 3.6ms (2.3%) main.workload.func1 at ./profile.go:25
+│   ├── … 2.1ms (1.3%) encoding/json.(*decodeState).objectInterface at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078
+│   │   ├── … 1.3ms (0.8%) runtime.mapassign_faststr at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/maps/runtime_faststr.go:263
+│   │   │   └── 0.7ms (0.4%) internal/runtime/maps.(*table).rehash at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/maps/table.go:1145
+│   │   └── 0.6ms (0.4%) encoding/json.(*decodeState).valueInterface at 1035
+│   └── … 1.0ms (0.7%) encoding/json.mapEncoder.encode at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+│       └── 0.5ms (0.3%) runtime.makeslice at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/slice.go:102
+└── … 0.8ms (0.5%) runtime.unlock at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+```
+
 ## Hottest functions
 
 ### Self time

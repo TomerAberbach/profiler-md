@@ -10,6 +10,55 @@ Allocated 236 MiB over 1,160,835 objects (213 B per object).
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 142 MiB (60.2%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10882
+│   ├── … 86.9 MiB (36.8%, self 0.8%, self 2.0% globally) __json_value_module_MOD_parse_number at ./json_value_module.F90:11192
+│   │   └── 85 MiB (36.0%) __json_value_module_MOD_string_to_int at 8074
+│   │       └── 85 MiB (36.0%) __json_string_utilities_MOD_string_to_integer at ./json_string_utilities.F90:116
+│   │           └── 84.9 MiB (36.0%, self 35.9%, self 70.8% globally) (anonymous)
+│   ├── … 22.6 MiB (9.6%) __json_value_module_MOD_parse_array at ./json_value_module.F90:10987
+│   │   └── … 21.2 MiB (9.0%, self 9.0%) (anonymous)
+│   ├── … 15.6 MiB (6.6%, self 18.8% globally) __json_value_module_MOD_parse_string at ./json_value_module.F90:11052
+│   ├── … 8.88 MiB (3.8%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+│   │   └── 8.09 MiB (3.4%, self 3.3%) __json_value_module_MOD_parse_string at 11052
+│   └── … 7.2 MiB (3.0%, self 6.2% globally) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+├── … 46.7 MiB (19.8%, self 10.8%) (anonymous)
+│   └── 21.3 MiB (9.0%) main at /out/profile.f90:6
+│       └── 21.3 MiB (9.0%) MAIN__ at 5
+│           ├── 21 MiB (8.9%) __json_file_module_MOD_json_file_load at ./json_file_module.F90:842
+│           │   └── 21 MiB (8.9%) __json_value_module_MOD_json_parse_file at ./json_value_module.F90:9714
+│           │       └── 21 MiB (8.9%) __json_value_module_MOD_parse_object at 10882
+│           │           ├── … 8.69 MiB (3.7%) __json_value_module_MOD_parse_string at ./json_value_module.F90:11052
+│           │           ├── … 6.57 MiB (2.8%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+│           │           │   └── 5.91 MiB (2.5%, self 2.3%) __json_value_module_MOD_parse_string at 11052
+│           │           │       └── 567 KiB (0.2%) __json_string_utilities_MOD_unescape_string at ./json_string_utilities.F90:483
+│           │           └── 5.33 MiB (2.3%) 4 more callees, led by (1.7%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+│           └── 281 KiB (0.1%) __json_file_module_MOD_json_file_get_string at ./json_file_module.F90:1837
+│               └── 281 KiB (0.1%) __json_value_module_MOD_json_get_string_by_path at ./json_get_scalar_by_path.inc:9182
+│                   └── 270 KiB (0.1%) __json_value_module_MOD_json_get_string at ./json_value_module.F90:9078
+├── 10 MiB (4.2%, self 3.2%) (anonymous)
+│   └── 2.49 MiB (1.1%) 2 more callees, led by (1.1%) main at /out/profile.f90:6
+├── 9.53 MiB (4.0%) __json_value_module_MOD_parse_array at ./json_value_module.F90:10987
+│   └── … 7.8 MiB (3.3%, self 3.3%) (anonymous)
+├── 9.04 MiB (3.8%) __json_value_module_MOD_json_parse_file at ./json_value_module.F90:9714
+│   └── 9.04 MiB (3.8%) __json_value_module_MOD_parse_object at 10882
+│       ├── … 7.61 MiB (3.2%) (anonymous)
+│       └── … 737 KiB (0.3%) __json_value_module_MOD_parse_string at ./json_value_module.F90:11052
+├── … 7.41 MiB (3.1%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10882
+│   ├── … 6.05 MiB (2.6%) __json_value_module_MOD_parse_number at ./json_value_module.F90:11192
+│   │   └── 5.82 MiB (2.5%) 2 more callees, led by (2.5%) __json_value_module_MOD_string_to_int at 8074
+│   └── … 496 KiB (0.2%) __json_value_module_MOD_parse_string at ./json_value_module.F90:11052
+├── … 5.87 MiB (2.5%) __json_string_utilities_MOD_string_to_integer at ./json_string_utilities.F90:116
+│   └── 5.86 MiB (2.5%, self 2.5%) (anonymous)
+└── 4.19 MiB (1.8%) 2 more root frames, led by (0.9%) __libc_start_main
+```
+
 ## Hottest functions
 
 ### Self size
@@ -736,6 +785,55 @@ Retained 894 KiB over 14,825 objects (61.8 B per object).
 | Native   | <0.1% |    18 B |       1 |
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 418 KiB (46.7%, self 4.5%, self 7.2% globally) __json_value_module_MOD_parse_object at ./json_value_module.F90:10882
+│   ├── … 321 KiB (35.9%, self 68.3% globally) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+│   ├── … 34.1 KiB (3.8%, self 3.8%, self 8.7% globally) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+│   ├── … 16.3 KiB (1.8%) __json_value_module_MOD_parse_array at ./json_value_module.F90:10987
+│   │   └── 15.3 KiB (1.7%) __json_value_module_MOD_json_value_create at 2204
+│   ├── … 3.4 KiB (0.4%) __json_value_module_MOD_to_logical at ./json_value_module.F90:10659
+│   └── … 2.8 KiB (0.3%) __json_value_module_MOD_parse_number at ./json_value_module.F90:11192
+│       └── 2.8 KiB (0.3%) __json_value_module_MOD_to_integer at 10690
+├── 350 KiB (39.1%) _start
+│   └── 350 KiB (39.1%) __libc_start_main
+│       └── 350 KiB (39.1%, self 14.5%) (anonymous)
+│           └── 220 KiB (24.6%) main at /out/profile.f90:6
+│               └── 220 KiB (24.6%) MAIN__ at 5
+│                   └── 220 KiB (24.6%) __json_file_module_MOD_json_file_load at ./json_file_module.F90:842
+│                       └── 220 KiB (24.6%) __json_value_module_MOD_json_parse_file at ./json_value_module.F90:9714
+│                           └── 220 KiB (24.6%, self 1.9%) __json_value_module_MOD_parse_object at 10882
+│                               ├── … 170 KiB (19.0%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+│                               ├── … 27.3 KiB (3.1%, self 3.0%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+│                               └── 4.38 KiB (0.5%) __json_value_module_MOD_parse_array at 10987
+├── 32.6 KiB (3.6%) __libc_start_main
+│   └── 32.6 KiB (3.6%) (anonymous)
+│       └── 32.6 KiB (3.6%) main at /out/profile.f90:6
+│           └── 32.6 KiB (3.6%) MAIN__ at 5
+│               └── 32.6 KiB (3.6%) __json_file_module_MOD_json_file_load at ./json_file_module.F90:842
+│                   └── 32.6 KiB (3.6%) __json_value_module_MOD_json_parse_file at ./json_value_module.F90:9714
+│                       └── 32.6 KiB (3.6%) __json_value_module_MOD_parse_object at 10882
+│                           ├── … 20.7 KiB (2.3%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+│                           └── … 10.5 KiB (1.2%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10117
+├── … 20 KiB (2.2%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10882
+│   └── … 15.6 KiB (1.7%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+├── 16.5 KiB (1.8%) MAIN__ at /out/profile.f90:5
+│   └── 16.5 KiB (1.8%) __json_file_module_MOD_json_file_load at ./json_file_module.F90:842
+│       └── 16.5 KiB (1.8%) __json_value_module_MOD_json_parse_file at ./json_value_module.F90:9714
+│           └── 16.5 KiB (1.8%) __json_value_module_MOD_parse_object at 10882
+│               ├── … 9.08 KiB (1.0%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+│               └── … 3.95 KiB (0.4%) __json_value_module_MOD_parse_array at ./json_value_module.F90:10987
+├── … 12.6 KiB (1.4%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+├── … 12.3 KiB (1.4%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+├── … 11.9 KiB (1.3%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+└── … 11.8 KiB (1.3%) __json_value_module_MOD_json_value_create at ./json_value_module.F90:2204
+```
 
 ## Hottest functions
 

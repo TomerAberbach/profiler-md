@@ -8,6 +8,55 @@ Allocated 809 MiB over 242,715 objects (3.41 KiB per object).
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 774 MiB (95.6%) profile.main at ./profile.zig:12
+│   ├── … 500 MiB (61.8%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
+│   │   ├── 412 MiB (50.9%) zig.Ast.Render.renderMember at 141
+│   │   │   ├── … 188 MiB (23.2%) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   ├── … 37.1 MiB (4.6%) zig.Ast.Render.AutoIndentingStream.writeAll at /opt/zig/lib/std/zig/Ast/Render.zig:3496
+│   │   │   │   │   └── … 33.6 MiB (4.1%) heap.CAllocator.alignedAlloc at /opt/zig/lib/std/heap.zig:157
+│   │   │   │   ├── … 35.4 MiB (4.4%) zig.Ast.Render.finishRenderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1967
+│   │   │   │   │   ├── 26.7 MiB (3.3%) zig.Ast.Render.renderVarDecl at 1122
+│   │   │   │   │   │   └── 26.7 MiB (3.3%) zig.Ast.Render.renderVarDeclWithoutFixups at 1140
+│   │   │   │   │   │       └── 26.7 MiB (3.3%) 3 more callees, led by (1.8%) zig.Ast.Render.renderIdentifier at 2926
+│   │   │   │   │   └── 8.68 MiB (1.1%) 5 more callees, led by (1.0%) zig.Ast.Render.renderToken at 2844
+│   │   │   │   └── 114 MiB (14.1%) 21 more callees, led by (3.0%) zig.Ast.Render.renderToken at /opt/zig/lib/std/zig/Ast/Render.zig:2844
+│   │   │   ├── … 103 MiB (12.8%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1122
+│   │   │   │   └── 103 MiB (12.8%) zig.Ast.Render.renderVarDeclWithoutFixups at 1140
+│   │   │   │       ├── 81.8 MiB (10.1%) zig.Ast.Render.renderExpression at 314
+│   │   │   │       │   ├── … 46.2 MiB (5.7%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2067
+│   │   │   │       │   │   └── 46.2 MiB (5.7%) 8 more callees, led by (3.1%) mem.Allocator.alloc__anon_24457 at /opt/zig/lib/std/mem/Allocator.zig:180
+│   │   │   │       │   └── 35.6 MiB (4.4%) 12 more callees, led by (1.7%) zig.Ast.Render.renderStructInit at /opt/zig/lib/std/zig/Ast/Render.zig:1995
+│   │   │   │       └── 21.6 MiB (2.7%) 4 more callees, led by (1.8%) zig.Ast.Render.renderToken at 2844
+│   │   │   ├── … 76.8 MiB (9.5%) zig.Ast.Render.AutoIndentingStream.writeAll at /opt/zig/lib/std/zig/Ast/Render.zig:3496
+│   │   │   │   ├── … 71.4 MiB (8.8%) heap.CAllocator.alignedAlloc at /opt/zig/lib/std/heap.zig:157
+│   │   │   │   └── 5.44 MiB (0.7%) zig.Ast.Render.AutoIndentingStream.applyIndent at 3671 …
+│   │   │   └── … 42.5 MiB (5.3%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1473
+│   │   │       ├── 29.1 MiB (3.6%) zig.Ast.Render.renderIdentifier at 2926
+│   │   │       │   └── 29.1 MiB (3.6%) zig.Ast.Render.renderToken at 2844
+│   │   │       │       └── 29.1 MiB (3.6%) 2 more callees, led by (2.8%) zig.Ast.Render.AutoIndentingStream.writeAll at 3496
+│   │   │       └── 13.4 MiB (1.7%) 7 more callees, led by (0.7%) zig.Ast.Render.renderIdentifierComma at 2812
+│   │   └── 88.1 MiB (10.9%) zig.Ast.Render.renderExpression at 314
+│   │       ├── … 31 MiB (3.8%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2067
+│   │       │   └── 31 MiB (3.8%) 8 more callees, led by (3.2%) zig.Ast.Render.AutoIndentingStream.writeAll at 3496
+│   │       └── 57.1 MiB (7.0%) 16 more callees, led by (2.3%) zig.Ast.Render.renderStructInit at /opt/zig/lib/std/zig/Ast/Render.zig:1995
+│   ├── … 206 MiB (25.4%, self 100.0% globally) heap.CAllocator.alignedAlloc at /opt/zig/lib/std/heap.zig:157
+│   └── … 67.2 MiB (8.3%) zig.Parse.parseContainerMembers at /opt/zig/lib/std/zig/Parse.zig:235
+│       ├── … 42.3 MiB (5.2%) zig.Parse.expectTopLevelDeclRecoverable at /opt/zig/lib/std/zig/Parse.zig:658
+│       │   └── 42.3 MiB (5.2%) zig.Parse.expectTopLevelDecl at 593
+│       │       ├── 29.4 MiB (3.6%) zig.Parse.parseBlock at 2079
+│       │       │   └── 29.4 MiB (3.6%) 3 more callees, led by (2.2%) zig.Parse.expectStatementRecoverable at /opt/zig/lib/std/zig/Parse.zig:1120
+│       │       └── 12.9 MiB (1.6%) 2 more callees, led by (0.9%) zig.Parse.parseGlobalVarDecl at 834
+│       └── 24.9 MiB (3.1%) 5 more callees, led by (2.6%) zig.Parse.expectTestDeclRecoverable at 578
+└── 35.5 MiB (4.4%) 27 more root frames, led by (1.4%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self size

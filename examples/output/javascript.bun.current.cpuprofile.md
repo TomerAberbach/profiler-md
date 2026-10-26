@@ -10,6 +10,55 @@ Took 5.65s over 4,196 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 5.64s (99.8%) typeCheckProject at ./tsc-workload.mjs:3:33
+    ├── … 4.45s (78.8%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
+    │   ├── … 4.17s (73.8%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:88583:33
+    │   │   ├── 2.34s (41.4%) checkDeferredNodes at 88492:30
+    │   │   │   └── 2.34s (41.4%) forEach
+    │   │   │       └── 2.30s (40.8%) checkDeferredNode at ./node_modules/typescript/lib/typescript.js:88499:29
+    │   │   │           └── 2.30s (40.7%) checkFunctionExpressionOrObjectLiteralMethodDeferred at 81135:64
+    │   │   │               ├── 2.26s (40.1%) checkSourceElement at 88199:30
+    │   │   │               │   └── … 2.26s (40.1%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
+    │   │   │               │       ├── 1.19s (21.2%) checkVariableDeclaration at 85396:36
+    │   │   │               │       │   └── 1.19s (21.2%) 2 more callees, led by (21.2%) checkVariableLikeDeclaration at 85202:40
+    │   │   │               │       ├── … 635.5ms (11.2%) checkExpressionWorker at ./node_modules/typescript/lib/typescript.js:82811:33
+    │   │   │               │       │   ├── 138.8ms (2.5%) checkPropertyAccessExpression at 77069:41
+    │   │   │               │       │   │   └── 126.6ms (2.2%) checkPropertyAccessExpressionOrQualifiedName at 77201:56
+    │   │   │               │       │   │       ├── 91.2ms (1.6%) getPropertyOfType at 61994:29
+    │   │   │               │       │   │       │   └── 63.1ms (1.1%, self 0.6% globally) getReducedApparentType at 61750:34
+    │   │   │               │       │   │       │       ├── 47.6ms (0.8%) getReducedType at 61933:26 …
+    │   │   │               │       │   │       │       └── 11.5ms (0.2%) getApparentType at 61745:27
+    │   │   │               │       │   │       │           └── 4.1ms (0.1%, self 2.7% globally) getObjectFlags at 21225:24
+    │   │   │               │       │   │       └── 9.1ms (0.2%) getFlowTypeOfAccessExpression at 77335:41
+    │   │   │               │       │   └── 494.6ms (8.7%) 12 more callees, led by (6.4%) checkCallExpression at 79584:31
+    │   │   │               │       └── 419.6ms (7.4%) 19 more callees, led by (4.8%) checkTypeReferenceNode at 83518:34
+    │   │   │               └── 24.5ms (0.4%) getReturnTypeOfSignature at 62462:36
+    │   │   └── 1.82s (32.3%) forEach at 2378:17
+    │   │       ├── … 1.77s (31.4%) checkSourceElement at ./node_modules/typescript/lib/typescript.js:88199:30
+    │   │       │   └── … 1.77s (31.4%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
+    │   │       │       ├── 522.0ms (9.2%) checkTypeReferenceNode at 83518:34
+    │   │       │       │   └── 520.8ms (9.2%) checkTypeReferenceOrImport at 83529:38
+    │   │       │       │       ├── … 465.4ms (8.2%) checkTypeArgumentConstraints at ./node_modules/typescript/lib/typescript.js:83481:40
+    │   │       │       │       │   ├── 278.7ms (4.9%) checkTypeAssignableTo at 66493:33
+    │   │       │       │       │   │   └── 278.7ms (4.9%, self 4.1% globally) checkTypeRelatedTo at 67445:30
+    │   │       │       │       │   │       └── … 260.6ms (4.6%) isRelatedTo at ./node_modules/typescript/lib/typescript.js:67753:25 …
+    │   │       │       │       │   └── 186.7ms (3.3%) 2 more callees, led by (3.3%) getEffectiveTypeArguments2 at 83478:38
+    │   │       │       │       └── 54.2ms (1.0%) getTypeFromTypeNode at 65779:31 …
+    │   │       │       └── 1.24s (22.1%) 30 more callees, led by (9.7%) checkVariableDeclaration at 85396:36
+    │   │       └── … 26.0ms (0.5%) checkParameter at ./node_modules/typescript/lib/typescript.js:82969:26
+    │   └── 278.9ms (4.9%) 2 more callees, led by (4.9%) getTypeChecker at 124848:26
+    ├── … 292.6ms (5.2%, self 4.6%) anonymous
+    │   └── 33.7ms (0.6%) (anonymous) at ./node_modules/typescript/lib/typescript.js:1:10 …
+    └── 891.7ms (15.8%) 3 more callees, led by (15.0%) createProgram at ./node_modules/typescript/lib/typescript.js:123840:23
+```
+
 ## Hottest functions
 
 ### Self time
@@ -1558,7 +1607,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most time spent in their leaf frame. `…` stands for hidden frames.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs:3:33`) ← … ← `evaluate` ← `moduleEvaluation` ← `moduleEvaluation` ← `loadAndEvaluateModule` ← `(anonymous)` ← `processTicksAndRejections`
 

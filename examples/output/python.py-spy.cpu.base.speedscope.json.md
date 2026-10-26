@@ -9,6 +9,55 @@ Took 1.84s over 184 samples (10.0ms per sample).
 | Ours             |  2.7% | 50.0ms |       5 |
 | Unknown          |  2.7% | 50.0ms |       5 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.79s (97.3%) _run_module_as_main at <frozen runpy>
+│   ├── … 1.78s (96.7%) format_file_contents at /venv/lib/python3.11/site-packages/black/__init__.py
+│   │   ├── 1.09s (59.2%) format_str
+│   │   │   └── 1.09s (59.2%) _format_str_once
+│   │   │       ├── … 440.0ms (23.9%, self 1.1% globally) parse_tokens at /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py
+│   │   │       │   ├── 310.0ms (16.8%, self 0.5%) addtoken at /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │   │       │   │   └── 300.0ms (16.3%, self 5.4%, self 7.6% globally) _addtoken
+│   │   │       │   │       ├── 130.0ms (7.1%, self 1.6%) pop
+│   │   │       │   │       │   └── 100.0ms (5.4%, self 0.5%, self 3.8% globally) convert at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │       │       └── 90.0ms (4.9%, self 5.4% globally) __new__
+│   │   │       │   │       └── 70.0ms (3.8%) 2 more callees, led by (2.2%) shift
+│   │   │       │   └── 130.0ms (7.1%) __next__
+│   │   │       │       └── 130.0ms (7.1%, self 5.4%, self 9.2% globally) generate_tokens at /venv/lib/python3.11/site-packages/blib2to3/pgen2/tokenize.py
+│   │   │       │           └── 30.0ms (1.6%) 2 more callees, led by (1.1%) is_fstring_start
+│   │   │       ├── 400.0ms (21.7%, self 1.1%, self 2.2% globally) visit at /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   ├── … 280.0ms (15.2%, self 0.5%, self 1.6% globally) visit_default at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 150.0ms (8.2%, self 1.1%) append at /venv/lib/python3.11/site-packages/black/lines.py
+│   │   │       │   │   │   ├── 90.0ms (4.9%, self 2.2%, self 3.3% globally) mark at /venv/lib/python3.11/site-packages/black/brackets.py
+│   │   │       │   │   │   │   └── 50.0ms (2.7%) is_split_before_delimiter
+│   │   │       │   │   │   └── 40.0ms (2.2%) whitespace at /venv/lib/python3.11/site-packages/black/nodes.py …
+│   │   │       │   │   └── 120.0ms (6.5%, self 5.4%, self 7.1% globally) generate_comments at /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   │       └── 20.0ms (1.1%) normalize_trailing_prefix …
+│   │   │       │   ├── … 30.0ms (1.6%, self 3.3% globally) normalize_trailing_prefix at /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   └── 70.0ms (3.8%) 4 more callees, led by (1.1%) visit_stmt at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       ├── 180.0ms (9.8%, self 1.6% globally) transform_line at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   ├── 50.0ms (2.7%) _hugging_power_ops_line_to_string
+│   │   │       │   │   └── 50.0ms (2.7%, self 0.5%, self 2.2% globally) hug_power_op at /venv/lib/python3.11/site-packages/black/trans.py
+│   │   │       │   │       └── 40.0ms (2.2%) clone at /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │           └── 40.0ms (2.2%, self 3.3% globally) __init__
+│   │   │       │   └── 130.0ms (7.1%) 3 more callees, led by (4.9%) run_transformer at /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       └── 70.0ms (3.8%) 4 more callees, led by (1.1%) detect_target_versions
+│   │   └── 690.0ms (37.5%) check_stability_and_equivalence
+│   │       ├── 500.0ms (27.2%) assert_stable
+│   │       │   └── 500.0ms (27.2%, self 2.2%) _format_str_once
+│   │       │       └── 460.0ms (25.0%) 7 more callees, led by (10.3%) lib2to3_parse at /venv/lib/python3.11/site-packages/black/parsing.py
+│   │       └── 190.0ms (10.3%, self 1.1%) assert_equivalent
+│   │           ├── 90.0ms (4.9%) _stringify_ast at /venv/lib/python3.11/site-packages/black/parsing.py …
+│   │           └── … 80.0ms (4.3%) parse at /usr/lib/python3.11/ast.py
+│   └── … 10.0ms (0.5%) __enter__ at <frozen importlib._bootstrap>
+└── 50.0ms (2.7%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

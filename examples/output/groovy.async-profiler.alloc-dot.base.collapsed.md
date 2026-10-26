@@ -7,6 +7,55 @@ Collected 794 samples.
 | Standard library | 99.9% |     793 |
 | Ours             |  0.1% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 774 samples (97.5%) main at org.codenarc.CodeNarc
+│   └── 771 samples (97.1%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│       ├── … 671 samples (84.5%) invoke at java.lang.invoke.LambdaForm$MH.0x000000d0010a9400
+│       │   └── … 670 samples (84.4%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       │       ├── … 643 samples (81.0%, self 0.5%, self 1.1% globally) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │       │   ├── 605 samples (76.2%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │       │   │   ├── … 470 samples (59.2%) guardWithCatch at java.lang.invoke.LambdaForm$MH.0x000000d0010abc00
+│       │       │   │   │   ├── … 454 samples (57.2%) buildAST at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│       │       │   │   │   │   ├── 433 samples (54.5%) buildAST at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   │   │   ├── … 400 samples (50.4%) classDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│       │       │   │   │   │   │   │   └── 400 samples (50.4%) 2 more callees, led by (49.6%) classBody at org.apache.groovy.parser.antlr4.GroovyParser
+│       │       │   │   │   │   │   └── 31 samples (3.9%) visit …
+│       │       │   │   │   │   └── 20 samples (2.5%) 2 more callees, led by (2.0%) <init> at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   └── 15 samples (1.9%) 4 more callees, led by (1.3%) invokeInterface at java.lang.invoke.LambdaForm$DMH.0x000000d001093000
+│       │       │   │   ├── … 47 samples (5.9%) invokeVirtual at java.lang.invoke.LambdaForm$DMH.0x000000d001092800
+│       │       │   │   │   └── … 42 samples (5.3%) doFindClasses at org.codehaus.groovy.vmplugin.v9.Java9
+│       │       │   │   │       └── 40 samples (5.0%) find at org.codehaus.groovy.vmplugin.v9.ClassFinder
+│       │       │   │   │           └── … 37 samples (4.7%) walkFileTree at java.nio.file.Files
+│       │       │   │   │               ├── … 13 samples (1.6%) visitFile at org.codehaus.groovy.vmplugin.v9.ClassFinder$1
+│       │       │   │   │               │   └── … 11 samples (1.4%) split at java.lang.String
+│       │       │   │   │               │       ├── … 6 samples (0.8%, self 1.6% globally) compile at java.util.regex.Pattern
+│       │       │   │   │               │       └── … 2 samples (0.3%, self 2.0% globally) copyOfRangeByte at java.util.Arrays
+│       │       │   │   │               └── 24 samples (3.0%) 2 more callees, led by (2.8%) next at java.nio.file.FileTreeWalker
+│       │       │   │   ├── … 8 samples (1.0%) compile at java.util.regex.Pattern
+│       │       │   │   │   └── … 4 samples (0.5%, self 1.4% globally) optimize at java.util.regex.Pattern$BnM
+│       │       │   │   └── 77 samples (9.7%) 30 more callees, led by (2.8%) newInvokeSpecial at java.lang.invoke.DirectMethodHandle$Holder
+│       │       │   └── 34 samples (4.3%) doWithCallSite
+│       │       │       └── 34 samples (4.3%) apply at org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000d00108c578 …
+│       │       └── … 27 samples (3.4%) selectMethod at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       ├── … 25 samples (3.1%) invoke at java.lang.invoke.LambdaForm$MH.0x000000d0010d8c00
+│       │   └── … 25 samples (3.1%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x000000d001088800
+│       │       ├── … 16 samples (2.0%) setCallSiteTarget at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │       │   ├── … 4 samples (0.5%, self 3.3% globally) fillInStackTrace at java.lang.Throwable
+│       │       │   └── 9 samples (1.1%) 2 more callees, led by (0.8%) setGuards
+│       │       └── 8 samples (1.0%) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       ├── … 6 samples (0.8%) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   ├── 4 samples (0.5%) doWithCallSite …
+│       │   └── … 1 sample (0.1%, self 1.9% globally) newInstance at java.lang.reflect.Array
+│       └── 69 samples (8.7%) 5 more callees, led by (6.5%) invoke at java.lang.invoke.LambdaForm$MH.0x000000d001092000
+└── 20 samples (2.5%) 2 more root frames, led by (2.3%) <clinit> at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

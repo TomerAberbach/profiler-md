@@ -9,6 +9,55 @@ Collected 1,353 samples.
 
 Call stacks missing their outermost callers account for 25.9% of the samples collected.
 
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 989 samples (73.1%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   ├── 596 samples (44.1%, self 1.1%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   ├── … 428 samples (31.6%, self 11.8%, self 13.7% globally) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   │   └── 269 samples (19.9%, self 29.2% globally) distance(Double[], Double[])
+│   │   └── … 153 samples (11.3%, self 6.4%, self 7.7% globally) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 45 samples (3.3%, self 3.2%, self 4.1% globally) computeIfAbsent(Object, Function) at java.util.HashMap
+│   │       │   └── 2 samples (0.1%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000801204b38
+│   │       └── … 21 samples (1.6%, self 2.7% globally) copyOf(Object[], int) at java.util.Arrays
+│   ├── 356 samples (26.3%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │   └── … 356 samples (26.3%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       └── 353 samples (26.1%, self 36.9% globally) accumulate(Double[], double[])
+│   ├── 20 samples (1.5%) join() at java.util.concurrent.ForkJoinTask
+│   │   └── 20 samples (1.5%) awaitDone(int, long)
+│   │       ├── 14 samples (1.0%, self 0.8%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean) at java.util.concurrent.ForkJoinPool
+│   │       │   └── 3 samples (0.2%) tryCompensate(long, boolean)
+│   │       └── 2 samples (0.1%) park() at java.util.concurrent.locks.LockSupport
+│   │           └── 2 samples (0.1%) park(boolean, long) at jdk.internal.misc.Unsafe
+│   └── … 13 samples (1.0%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│       ├── … 6 samples (0.4%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       └── 6 samples (0.4%) <init>(Map) at java.util.HashMap
+│           └── 5 samples (0.4%) putMapEntries(Map, boolean)
+│               ├── 2 samples (0.1%) putVal(int, Object, Object, boolean, boolean)
+│               └── … 2 samples (0.1%) <init>(HashMap) at java.util.HashMap$HashIterator
+├── 350 samples (25.9%) truncated
+│   ├── … 129 samples (9.5%) tryRemoveAndExec(ForkJoinTask, boolean) at java.util.concurrent.ForkJoinPool$WorkQueue
+│   │   └── … 129 samples (9.5%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 105 samples (7.8%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   ├── … 97 samples (7.2%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │   └── 97 samples (7.2%) distance(Double[], Double[])
+│   │       │   └── … 8 samples (0.6%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask …
+│   │       └── 24 samples (1.8%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │           └── … 24 samples (1.8%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask …
+│   ├── … 52 samples (3.8%) accumulate(Double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── 165 samples (12.2%) 12 more root frames, led by (3.2%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+└── 11 samples (0.8%) main(String[]) at org.renaissance.core.Launcher
+    └── 11 samples (0.8%) launchHarnessClass(String, String[])
+        ├── 10 samples (0.7%) loadAndInvokeHarnessClass(ModuleLoader, String, String[])
+        │   ├── … 4 samples (0.3%) accept(Object) at java.util.stream.ReduceOps$3ReducingSink
+        │   └── … 1 sample (0.1%) inflateBytesBytes(long, byte[], int, int, byte[], int, int) at java.util.zip.Inflater
+        └── … 1 sample (0.1%) compress(char[], int, byte[], int, int) at java.lang.StringUTF16
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -1026,7 +1075,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ## Hottest call stacks
 
-Call stacks with the most samples collected in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the most samples collected in their leaf frame.
 
 Common call stack: `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)
 
@@ -1064,6 +1113,55 @@ Allocated 37.4 GiB over 1,920 samples (19.9 MiB per sample).
 | Unknown          | <0.1% | 2.11 KiB |       2 |
 
 Call stacks missing their outermost callers account for 7.5% of the bytes allocated.
+
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 34.3 GiB (91.9%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   ├── … 29.7 GiB (79.6%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│   │   ├── … 29.4 GiB (78.6%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│   │   │   ├── 20.9 GiB (55.9%) addAll(Collection) at java.util.ArrayList
+│   │   │   │   ├── 12.4 GiB (33.2%) grow(int)
+│   │   │   │   │   └── 12.4 GiB (33.2%, self 33.1%, self 91.9% globally) copyOf(Object[], int) at java.util.Arrays
+│   │   │   │   └── 8.48 GiB (22.7%) toArray()
+│   │   │   │       └── 8.48 GiB (22.7%, self 22.7%) copyOf(Object[], int) at java.util.Arrays
+│   │   │   └── … 8.41 GiB (22.5%, self 22.5%) copyOf(Object[], int) at java.util.Arrays
+│   │   └── 246 MiB (0.6%) <init>(Map) at java.util.HashMap
+│   │       └── 246 MiB (0.6%) putMapEntries(Map, boolean) …
+│   ├── 4.41 GiB (11.8%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   ├── … 3.32 GiB (8.9%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   │   ├── … 2.87 GiB (7.7%) copyOf(Object[], int) at java.util.Arrays
+│   │   │   └── 367 MiB (1.0%) computeIfAbsent(Object, Function) at java.util.HashMap
+│   │   │       ├── 227 MiB (0.6%, self 1.2% globally) resize()
+│   │   │       └── 112 MiB (0.3%) newNode(int, Object, Object, HashMap$Node)
+│   │   └── … 1.09 GiB (2.9%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   ├── 78.7 MiB (0.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│   │   └── … 78.7 MiB (0.2%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│   ├── 39 MiB (0.1%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   ├── 39 MiB (0.1%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── … 21.2 MiB (0.1%) add(double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+├── 2.81 GiB (7.5%) truncated
+│   ├── … 591 MiB (1.5%) addAll(Collection) at java.util.ArrayList
+│   │   ├── 314 MiB (0.8%) toArray()
+│   │   │   └── 314 MiB (0.8%) copyOf(Object[], int) at java.util.Arrays
+│   │   └── 277 MiB (0.7%) grow(int)
+│   │       └── 277 MiB (0.7%) copyOf(Object[], int) at java.util.Arrays
+│   ├── … 498 MiB (1.3%) copyOf(Object[], int) at java.util.Arrays
+│   ├── … 453 MiB (1.2%) copyOf(Object[], int) at java.util.Arrays
+│   ├── … 343 MiB (0.9%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │   ├── … 258 MiB (0.7%) copyOf(Object[], int) at java.util.Arrays
+│   │   └── … 40.9 MiB (0.1%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   ├── … 304 MiB (0.8%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│   ├── 267 MiB (0.7%) scan(ForkJoinPool$WorkQueue, int, int) at java.util.concurrent.ForkJoinPool
+│   │   └── 267 MiB (0.7%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue …
+│   └── 309 MiB (0.8%) 4 more root frames, led by (0.6%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+├── … 159 MiB (0.4%) read(InputStream, String) at java.util.jar.Manifest
+└── … 20.8 MiB (0.1%) initTable() at java.util.concurrent.ConcurrentHashMap
+```
 
 ## Hottest functions
 
@@ -2122,6 +2220,55 @@ Retained 4.09 MiB over 14 objects (299 KiB per object).
 | Standard library | 100.0% | 4.08 MiB |      12 |
 | Ours             |  <0.1% |     80 B |       2 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2.12 MiB (51.9%) main(String[]) at org.renaissance.core.Launcher
+│   └── 2.12 MiB (51.9%) launchHarnessClass(String, String[])
+│       └── 2.12 MiB (51.9%) loadAndInvokeHarnessClass(ModuleLoader, String, String[])
+│           └── 2.12 MiB (51.9%) invoke(Object, Object[]) at java.lang.reflect.Method
+│               └── 2.12 MiB (51.9%) invoke(Object, Object[]) at jdk.internal.reflect.DirectMethodHandleAccessor
+│                   └── 2.12 MiB (51.9%) invokeImpl(Object, Object[])
+│                       └── 2.12 MiB (51.9%) invokeExact_MT(Object, Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│                           └── 2.12 MiB (51.9%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801082400
+│                               └── 2.12 MiB (51.9%) invokeStatic(Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000000801001c00
+│                                   └── 2.12 MiB (51.9%) main(String[]) at org.renaissance.harness.RenaissanceSuite
+│                                       ├── 2.06 MiB (50.5%) main(String[]) at org.renaissance.harness.RenaissanceSuite$
+│                                       │   └── 2.06 MiB (50.4%) runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)
+│                                       │       └── 2.06 MiB (50.4%) foreach(Function1) at scala.collection.immutable.List
+│                                       │           └── 2.06 MiB (50.4%) apply(Object) at scala.runtime.function.JProcedure1
+│                                       │               └── … 2.06 MiB (50.4%) applyVoid(Object) at org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000000801198798
+│                                       │                   └── 2.06 MiB (50.4%) runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor) at org.renaissance.harness.RenaissanceSuite$
+│                                       │                       └── 2.06 MiB (50.4%) executeBenchmark() at org.renaissance.harness.ExecutionDriver
+│                                       │                           └── 2.06 MiB (50.4%) setUpBeforeAll(BenchmarkContext) at org.renaissance.jdk.concurrent.FjKmeans
+│                                       │                               └── 2.06 MiB (50.4%) generateData(int, int, int) at org.renaissance.jdk.concurrent.JavaKMeans
+│                                       │                                   └── 2.06 MiB (50.4%) collect(Collector) at java.util.stream.ReferencePipeline
+│                                       │                                       └── 2.06 MiB (50.4%) evaluate(TerminalOp) at java.util.stream.AbstractPipeline
+│                                       │                                           └── 2.06 MiB (50.4%) evaluateSequential(PipelineHelper, Spliterator) at java.util.stream.ReduceOps$ReduceOp
+│                                       │                                               └── 2.06 MiB (50.4%) wrapAndCopyInto(Sink, Spliterator) at java.util.stream.AbstractPipeline
+│                                       │                                                   └── 2.06 MiB (50.4%) copyInto(Sink, Spliterator)
+│                                       │                                                       └── 2.06 MiB (50.4%) forEachRemaining(Consumer) at java.util.Spliterator$OfInt
+│                                       │                                                           └── 2.06 MiB (50.4%) forEachRemaining(IntConsumer) at java.util.stream.Streams$RangeIntSpliterator
+│                                       │                                                               └── 2.06 MiB (50.4%) accept(int) at java.util.stream.IntPipeline$1$1
+│                                       │                                                                   └── 2.06 MiB (50.4%) accept(Object) at java.util.stream.ReduceOps$3ReducingSink
+│                                       │                                                                       └── 2.06 MiB (50.4%) accept(Object, Object) at java.util.stream.Collectors$$Lambda.0x00000008010c40c8
+│                                       │                                                                           └── 2.06 MiB (50.4%) add(Object) at java.util.ArrayList
+│                                       │                                                                               └── 2.06 MiB (50.4%) add(Object, Object[], int)
+│                                       │                                                                                   └── 2.06 MiB (50.4%) grow()
+│                                       │                                                                                       └── 2.06 MiB (50.4%) grow(int)
+│                                       │                                                                                           └── 2.06 MiB (50.4%, self 92.5% globally) copyOf(Object[], int) at java.util.Arrays
+│                                       └── … 58.8 KiB (1.4%) initCEN(int, ZipCoder) at java.util.zip.ZipFile$Source
+├── … 1.72 MiB (42.0%) addAll(Collection) at java.util.ArrayList
+│   └── 1.72 MiB (42.0%) grow(int)
+│       └── 1.72 MiB (42.0%) copyOf(Object[], int) at java.util.Arrays
+└── … 256 KiB (6.1%) putVal(Object, Object, boolean) at java.util.concurrent.ConcurrentHashMap
+    └── 256 KiB (6.1%) initTable()
+```
+
 ## Hottest functions
 
 ### Self size
@@ -2646,6 +2793,55 @@ Blocked 7.38s over 83 contentions (89.0ms per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 7.38s |          83 |
 
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 5.79s (78.4%) main(String[]) at org.renaissance.core.Launcher
+│   └── 5.79s (78.4%) launchHarnessClass(String, String[])
+│       └── 5.79s (78.4%) loadAndInvokeHarnessClass(ModuleLoader, String, String[])
+│           └── 5.79s (78.4%) invoke(Object, Object[]) at java.lang.reflect.Method
+│               └── 5.79s (78.4%) invoke(Object, Object[]) at jdk.internal.reflect.DirectMethodHandleAccessor
+│                   └── 5.79s (78.4%) invokeImpl(Object, Object[])
+│                       └── 5.79s (78.4%) invokeExact_MT(Object, Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│                           └── 5.79s (78.4%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801082400
+│                               └── 5.79s (78.4%) invokeStatic(Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000000801001c00
+│                                   └── 5.79s (78.4%) main(String[]) at org.renaissance.harness.RenaissanceSuite
+│                                       └── 5.79s (78.4%) main(String[]) at org.renaissance.harness.RenaissanceSuite$
+│                                           └── 5.79s (78.4%) runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)
+│                                               └── 5.79s (78.4%) foreach(Function1) at scala.collection.immutable.List
+│                                                   └── 5.79s (78.4%) apply(Object) at scala.runtime.function.JProcedure1
+│                                                       └── … 5.79s (78.4%) applyVoid(Object) at org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000000801198798
+│                                                           └── 5.79s (78.4%) runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor) at org.renaissance.harness.RenaissanceSuite$
+│                                                               └── 5.79s (78.4%) executeBenchmark() at org.renaissance.harness.ExecutionDriver
+│                                                                   └── 5.79s (78.4%) executeOperation(int)
+│                                                                       └── 5.79s (78.4%) run(BenchmarkContext) at org.renaissance.jdk.concurrent.FjKmeans
+│                                                                           └── 5.79s (78.4%) map(Function1) at scala.collection.immutable.Range
+│                                                                               └── 5.79s (78.4%) apply(Object) at org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000008011f6c70
+│                                                                                   └── 5.79s (78.4%) $anonfun$adapted$1(Object) at org.renaissance.jdk.concurrent.FjKmeans
+│                                                                                       └── 5.79s (78.4%) $anonfun$1(int)
+│                                                                                           └── 5.79s (78.4%) run(int, List, int) at org.renaissance.jdk.concurrent.JavaKMeans
+│                                                                                               └── 5.79s (78.4%) get() at java.util.concurrent.ForkJoinTask
+│                                                                                                   └── 5.79s (78.4%) awaitDone(int, long)
+│                                                                                                       └── 5.79s (78.4%) park() at java.util.concurrent.locks.LockSupport
+│                                                                                                           └── 5.79s (78.4%, self 100.0% globally) park(boolean, long) at jdk.internal.misc.Unsafe
+└── 1.57s (21.3%) run() at java.util.concurrent.ForkJoinWorkerThread
+    └── 1.57s (21.3%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+        ├── 1.43s (19.5%) awaitWork(ForkJoinPool$WorkQueue)
+        │   ├── 1.16s (15.8%) park() at java.util.concurrent.locks.LockSupport
+        │   │   └── 1.16s (15.8%) park(boolean, long) at jdk.internal.misc.Unsafe
+        │   └── 271.8ms (3.7%) parkUntil(long) at java.util.concurrent.locks.LockSupport
+        │       └── 271.8ms (3.7%) park(boolean, long) at jdk.internal.misc.Unsafe
+        └── … 136.6ms (1.9%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+            └── 136.6ms (1.9%) join() at java.util.concurrent.ForkJoinTask
+                └── 136.6ms (1.9%) awaitDone(int, long)
+                    └── 136.6ms (1.9%) park() at java.util.concurrent.locks.LockSupport
+                        └── 136.6ms (1.9%) park(boolean, long) at jdk.internal.misc.Unsafe
+```
+
 ## Hottest functions
 
 ### Self time
@@ -3124,7 +3320,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most time blocked in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the most time blocked in their leaf frame.
 
 |     % |    Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | ------: | ----------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

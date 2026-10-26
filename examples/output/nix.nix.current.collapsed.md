@@ -11,6 +11,55 @@ Collected 974 samples.
 
 Paths starting with `./` or `../` are relative to `/nix/store/lxg1pnrmz21ljinmjza552wh8l7byj0q-source/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 758 samples (77.8%, self 0.7%, self 4.1% globally) (anonymous)
+│   ├── … 521 samples (53.5%) (anonymous) at ./lib/attrsets.nix:1193:85
+│   │   └── … 521 samples (53.5%) primop addErrorContext at ./lib/modules.nix:1147:15
+│   │       ├── … 276 samples (28.3%) primop getAttr at «nix-internal»/derivation-internal.nix:50:17
+│   │       │   ├── … 12 samples (1.2%, self 0.9%) filter at ./nixos/modules/misc/documentation.nix:126:13
+│   │       │   ├── … 8 samples (0.8%) primop derivationStrict:pandoc-3.7.0.2 at «nix-internal»/derivation-internal.nix:37:12
+│   │       │   │   └── 6 samples (0.6%, self 7.3% globally) (anonymous) at ./pkgs/stdenv/generic/make-derivation.nix:631:18
+│   │       │   ├── … 3 samples (0.3%) primop derivationStrict:python3.13-wheel-0.46.1 at «nix-internal»/derivation-internal.nix:37:12
+│   │       │   │   └── 3 samples (0.3%, self 6.9% globally) (anonymous) at ./pkgs/stdenv/generic/make-derivation.nix:563:18
+│   │       │   └── 247 samples (25.4%) 177 more callees, led by (2.0%) primop derivationStrict:system-path at 37:12
+│   │       ├── 95 samples (9.8%) primop all at 1253:17
+│   │       │   └── … 90 samples (9.2%) primop getAttr at «nix-internal»/derivation-internal.nix:50:17
+│   │       │       ├── … 17 samples (1.7%, self 1.6%, self 2.7% globally) mkCrate at ./pkgs/build-support/rust/import-cargo-lock.nix:156:5
+│   │       │       ├── … 9 samples (0.9%) primop derivationStrict:gst-plugins-bad-1.26.11 at «nix-internal»/derivation-internal.nix:37:12
+│   │       │       │   └── 7 samples (0.7%, self 14.0% globally) (anonymous) at ./pkgs/stdenv/generic/make-derivation.nix:582:18
+│   │       │       └── 63 samples (6.5%) 52 more callees, led by (0.5%) primop derivationStrict:pipewire-1.6.5 at «nix-internal»/derivation-internal.nix:37:12
+│   │       ├── 53 samples (5.4%) primop any at 1209:14
+│   │       │   ├── 32 samples (3.3%) (anonymous) at 1204:24 …
+│   │       │   └── 21 samples (2.2%) (anonymous) at 1209:19
+│   │       │       └── 20 samples (2.1%) primop getAttr at «nix-internal»/derivation-internal.nix:50:17
+│   │       │           ├── 1 sample (0.1%) primop derivationStrict:shadow-4.19.4 at 37:12
+│   │       │           │   └── 1 sample (0.1%, self 3.7% globally) makeCMakeFlags at ./pkgs/stdenv/generic/make-derivation.nix:970:24
+│   │       │           └── 19 samples (2.0%) 18 more callees, led by (0.2%) primop derivationStrict:openssh-10.3p1 at 37:12
+│   │       └── 96 samples (9.9%) 7 more callees, led by (8.0%) primop addErrorContext at 1227:11
+│   ├── … 130 samples (13.3%) primop addErrorContext at ./lib/modules.nix:1147:15
+│   │   ├── … 78 samples (8.0%) dischargeProperties at ./lib/modules.nix:1200:80
+│   │   │   └── 78 samples (8.0%) 6 more callees, led by (3.3%) primop getAttr at «nix-internal»/derivation-internal.nix:50:17
+│   │   └── 51 samples (5.2%) 2 more callees, led by (5.1%) primop mapAttrs at ./lib/types.nix:1025:21
+│   ├── … 2 samples (0.2%, self 2.3% globally) primop functionArgs at ./lib/trivial.nix:1109:86
+│   └── 97 samples (10.0%) 12 more callees, led by (4.2%) optional at ./nixos/modules/system/boot/systemd/tmpfiles.nix:218:15
+├── 143 samples (14.7%) primop derivationStrict:nixos-system-profiler-26.11pre-git at «nix-internal»/derivation-internal.nix:37:12
+│   ├── 117 samples (12.0%) primop getAttr at 50:17
+│   │   ├── … 38 samples (3.9%) primop addErrorContext at ./lib/modules.nix:1147:15
+│   │   │   ├── 29 samples (3.0%, self 3.5% globally) mergeEqualOption at 1254:11
+│   │   │   └── 9 samples (0.9%) 4 more callees, led by (0.5%) primop any at 1209:14
+│   │   └── 76 samples (7.8%) 36 more callees, led by (2.6%) primop derivationStrict:system-units at «nix-internal»/derivation-internal.nix:37:12
+│   └── 26 samples (2.7%) 2 more callees, led by (2.6%) (anonymous) at ./nixos/modules/system/activation/top-level.nix:43:7
+└── 72 samples (7.4%) primop seq at ./lib/modules.nix:402:18
+    ├── … 28 samples (2.9%) applyModuleArgs at ./lib/modules.nix:705:56
+    └── 40 samples (4.1%) 2 more callees, led by (3.9%) primop concatLists at 944:11
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -5,6 +5,7 @@ import { convertBytesToMd } from '../../formats/testing.ts'
 import { diffProfiles } from '../../index.ts'
 import {
   callStackTables,
+  callTreeLines,
   selfSamplesTables,
 } from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
@@ -169,6 +170,24 @@ describe(`truncation`, () => {
       normalizeProfileToMdOptions({ baseURL: `/var/www` }),
     )
 
+  test(`draws the stacks Excimer truncated under a line of their own`, () => {
+    const md = convertLines([
+      `/var/www/index.php;App\\Report::render;pad_rows 3`,
+      `excimer_truncated;App\\Report::render;pad_rows 1`,
+    ])
+
+    expect(callTreeLines(md)).toEqual([
+      [
+        `├── 3 samples (75.0%) (anonymous) at ./index.php`,
+        `│   └── 3 samples (75.0%) render at App\\Report`,
+        `│       └── 3 samples (75.0%, self 100.0% globally) pad_rows`,
+        `└── 1 sample (25.0%) truncated`,
+        `    └── 1 sample (25.0%) render at App\\Report`,
+        `        └── 1 sample (25.0%) pad_rows`,
+      ],
+    ])
+  })
+
   test(`states the share of the stacks Excimer truncated and marks them`, () => {
     const md = convertLines([
       `/var/www/index.php;App\\Report::render;pad_rows 3`,
@@ -179,9 +198,10 @@ describe(`truncation`, () => {
       `Collected 4 samples.`,
       `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
       `Call stacks missing their outermost callers account for 25.0% of the samples collected.`,
+      `\`truncated\` stands for missing outermost callers.`,
     ])
     expect(openingParagraphs(md, `Hottest call stacks`)).toEqual([
-      `Call stacks with the most samples collected in their leaf frame. \`truncated\` stands for missing outermost callers.`,
+      `Call stacks with the most samples collected in their leaf frame.`,
     ])
     expect(callStackTables(md)).toEqual([
       [
@@ -299,6 +319,7 @@ describe(`truncation`, () => {
       `Collected 4 samples.`,
       `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
       `Call stacks missing their outermost callers account for 0.0% → 25.0% of the samples collected.`,
+      `\`truncated\` stands for missing outermost callers.`,
     ])
   })
 

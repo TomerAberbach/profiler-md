@@ -6,6 +6,14 @@ Recorded 13 thread creations.
 | -------- | -----: | ---------------: |
 | Unknown  | 100.0% |               13 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 13 thread creations (100.0%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self thread creations

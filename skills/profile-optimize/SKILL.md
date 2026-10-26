@@ -17,6 +17,8 @@ Focus: $ARGUMENTS
    `profiler-md --help <language>` for profiling instructions
 2. Capture a baseline: generate a profile, convert it with
    `profiler-md path/to/profile`, and read the full report, focusing on:
+   - Call tree: how the profile's share divides from the outermost callers down,
+     which shows the branch to follow before any single function
    - Hottest functions: self % shows where time is spent or memory is allocated,
      rather than passed through
    - Hottest call stacks: the call path to the hot functions

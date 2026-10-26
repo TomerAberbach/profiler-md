@@ -12,6 +12,55 @@ Collected 1,366 samples.
 | Garbage collector |  0.1% |       1 |
 | Unknown           |  0.1% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 918 samples (67.2%) Thread::call_run()
+│   ├── 836 samples (61.2%) JavaThread::thread_main_inner()
+│   │   └── 835 samples (61.1%) CompileBroker::compiler_thread_loop()
+│   │       ├── 822 samples (60.2%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 578 samples (42.3%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 577 samples (42.2%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       └── 577 samples (42.2%) 7 more callees, led by (20.9%) Compile::Code_Gen()
+│   │       │   ├── … 235 samples (17.2%) Compilation::compile_method()
+│   │       │   │   ├── 217 samples (15.9%) Compilation::compile_java_method()
+│   │       │   │   │   ├── 71 samples (5.2%) Compilation::build_hir()
+│   │       │   │   │   │   ├── … 51 samples (3.7%) GraphBuilder::iterate_bytecodes_for_block(int)
+│   │       │   │   │   │   │   ├── 38 samples (2.8%) GraphBuilder::invoke(Bytecodes::Code)
+│   │       │   │   │   │   │   │   ├── 23 samples (1.7%) GraphBuilder::try_inline(ciMethod*, bool, bool, Bytecodes::Code, Instruction*)
+│   │       │   │   │   │   │   │   │   └── 23 samples (1.7%) GraphBuilder::try_inline_full(ciMethod*, bool, bool, Bytecodes::Code, Instruction*)
+│   │       │   │   │   │   │   │   │       ├── 2 samples (0.1%, self 1.9% globally) tlv_get_addr
+│   │       │   │   │   │   │   │   │       ├── … 1 sample (0.1%, self 1.0% globally) _platform_memset
+│   │       │   │   │   │   │   │   │       └── 14 samples (1.0%) 4 more callees, led by (0.7%) ciMethod::ensure_method_data()
+│   │       │   │   │   │   │   │   └── 14 samples (1.0%) 5 more callees, led by (0.7%) ciBytecodeStream::get_method(bool&, ciSignature**)
+│   │       │   │   │   │   │   └── 13 samples (1.0%) 5 more callees, led by (0.3%) BlockBegin::try_merge(ValueStack*, bool)
+│   │       │   │   │   │   └── 15 samples (1.1%) 6 more callees, led by (0.4%) GlobalValueNumbering::GlobalValueNumbering(IR*)
+│   │       │   │   │   └── 145 samples (10.6%) 5 more callees, led by (7.2%) Compilation::emit_lir()
+│   │       │   │   └── 18 samples (1.3%) 2 more callees, led by (1.2%) ciEnv::register_method(ciMethod*, int, CodeOffsets*, int, CodeBuffer*, int, OopMapSet*, ExceptionHandlerTable*, ImplicitExceptionTable*, AbstractCompiler*, bool, bool, bool, int, RTMState)
+│   │       │   └── 2 samples (0.1%) ciEnv::get_method_from_handle(Method*)
+│   │       └── … 6 samples (0.4%) __psynch_cvwait
+│   ├── … 3 samples (0.2%) sys_icache_invalidate
+│   └── 73 samples (5.3%) 3 more callees, led by (5.2%) WorkerThread::run()
+├── 439 samples (32.1%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 439 samples (32.1%) run(String[])
+│       ├── … 355 samples (26.0%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 351 samples (25.7%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── … 337 samples (24.7%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   └── 337 samples (24.7%) 3 more callees, led by (22.9%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       └── 9 samples (0.7%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       └── 78 samples (5.7%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           └── … 78 samples (5.7%) loadAllClassesFromJars(Collection, int, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│               ├── … 65 samples (4.8%) Java_java_util_zip_Inflater_inflateBytesBytes
+│               │   ├── 53 samples (3.9%) inflate_fast
+│               │   └── 11 samples (0.8%) inflate
+│               └── 2 samples (0.1%) put(Object, Object) at java.util.HashMap
+└── 6 samples (0.4%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

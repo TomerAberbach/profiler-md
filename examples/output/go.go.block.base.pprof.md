@@ -8,6 +8,19 @@ Blocked 1.41s over 14 contentions (101.0ms per contention).
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1.41s (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+    └── 1.41s (100.0%) main.main at ./profile.go:61
+        ├── 1.26s (89.7%) main.workload at 16
+        │   └── 1.26s (89.7%) sync.(*WaitGroup).Wait at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160
+        └── 145.1ms (10.3%) runtime/pprof.StopCPUProfile at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950
+            └── 145.1ms (10.3%) runtime.chanrecv1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508
+```
+
 ## Hottest functions
 
 ### Self time

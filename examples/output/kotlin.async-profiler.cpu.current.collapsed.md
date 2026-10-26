@@ -11,6 +11,55 @@ Collected 1,305 samples.
 | JIT               |  1.5% |      19 |
 | Garbage collector |  0.1% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 867 samples (66.4%) Thread::call_run
+│   ├── 812 samples (62.2%) JavaThread::thread_main_inner
+│   │   └── 812 samples (62.2%) CompileBroker::compiler_thread_loop
+│   │       ├── 799 samples (61.2%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 558 samples (42.8%) C2Compiler::compile_method
+│   │       │   │   └── 556 samples (42.6%) Compile::Compile
+│   │       │   │       ├── 280 samples (21.5%) Compile::Code_Gen
+│   │       │   │       │   ├── 154 samples (11.8%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 27 samples (2.1%, self 1.3%) PhaseChaitin::Split
+│   │       │   │       │   │   │   └── 4 samples (0.3%) Node::rematerialize
+│   │       │   │       │   │   ├── 22 samples (1.7%, self 0.8%) PhaseChaitin::build_ifg_physical
+│   │       │   │       │   │   │   ├── 3 samples (0.2%, self 2.2% globally) tlv_get_addr
+│   │       │   │       │   │   │   └── 2 samples (0.2%) MachNode::rematerialize
+│   │       │   │       │   │   ├── 20 samples (1.5%, self 1.1%) PhaseChaitin::gather_lrg_masks
+│   │       │   │       │   │   └── 83 samples (6.4%) 19 more callees, led by (1.7%) PhaseChaitin::post_allocate_copy_removal
+│   │       │   │       │   └── 126 samples (9.7%) 4 more callees, led by (4.2%) Matcher::match
+│   │       │   │       └── 276 samples (21.1%) 9 more callees, led by (15.7%) Compile::Optimize
+│   │       │   └── 241 samples (18.5%) 6 more callees, led by (17.7%) Compiler::compile_method
+│   │       └── … 9 samples (0.7%) __psynch_cvwait
+│   └── 55 samples (4.2%) 3 more callees, led by (4.0%) WorkerThread::run
+├── 423 samples (32.4%) main at org.jetbrains.kotlin.preloading.Preloader
+│   └── 423 samples (32.4%) run
+│       ├── … 347 samples (26.6%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │   ├── … 338 samples (25.9%) exec at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   │   ├── … 321 samples (24.6%) invoke at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │   │   │   ├── 300 samples (23.0%) phaseBody at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │   │   │   │   ├── … 25 samples (1.9%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFir2IrPipelinePhase
+│       │   │   │   │   │   └── … 24 samples (1.8%) convertToIrAndActualizeForJvm-_I1IR-w at org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │   │   │   │   │       ├── 22 samples (1.7%) convertToIrAndActualize-MT2kVtw$default at org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt …
+│       │   │   │   │   │       └── … 1 sample (0.1%, self 1.7% globally) SymbolTable::do_lookup
+│       │   │   │   │   └── 275 samples (21.1%) 5 more callees, led by (16.6%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │   │   │   └── 21 samples (1.6%) 3 more callees, led by (1.2%) phaseBody at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │   │   └── 13 samples (1.0%) 3 more callees, led by (0.6%) <clinit> at org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │   └── … 4 samples (0.3%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000007001234000
+│       └── … 68 samples (5.2%) read at java.util.zip.InflaterInputStream
+│           └── … 66 samples (5.1%) Java_java_util_zip_Inflater_inflateBytesBytes
+│               ├── 46 samples (3.5%) inflate_fast
+│               └── 16 samples (1.2%) inflate
+│                   └── 9 samples (0.7%) inflate_table
+└── 14 samples (1.1%) 3 more root frames, led by (0.8%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

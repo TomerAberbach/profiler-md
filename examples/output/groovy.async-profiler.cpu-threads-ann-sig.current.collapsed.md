@@ -9,6 +9,55 @@ Collected 630 samples.
 | Standard library | 14.0% |      88 |
 | JIT              |  1.0% |       6 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 476 samples (75.6%) Thread::call_run()
+│   ├── 448 samples (71.1%) JavaThread::thread_main_inner()
+│   │   └── 447 samples (71.0%) CompileBroker::compiler_thread_loop()
+│   │       ├── 443 samples (70.3%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 359 samples (57.0%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 359 samples (57.0%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 172 samples (27.3%) Compile::Code_Gen()
+│   │       │   │       │   ├── 101 samples (16.0%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 24 samples (3.8%, self 2.5%) PhaseChaitin::build_ifg_physical(ResourceArea*)
+│   │       │   │       │   │   │   ├── 2 samples (0.3%, self 1.3% globally) IndexSetIterator::advance_and_next()
+│   │       │   │       │   │   │   └── 6 samples (1.0%) 4 more callees, led by (0.3%) PhaseChaitin::compute_initial_block_pressure(Block*, IndexSet*, PhaseChaitin::Pressure&, PhaseChaitin::Pressure&, double)
+│   │       │   │       │   │   ├── 12 samples (1.9%, self 1.3%) PhaseChaitin::gather_lrg_masks(bool)
+│   │       │   │       │   │   │   └── 2 samples (0.3%, self 2.5% globally) tlv_get_addr
+│   │       │   │       │   │   ├── 10 samples (1.6%, self 1.1%) PhaseChaitin::Split(unsigned int, ResourceArea*)
+│   │       │   │       │   │   ├── 8 samples (1.3%) PhaseLive::compute(unsigned int)
+│   │       │   │       │   │   │   └── 5 samples (0.8%) PhaseLive::add_liveout(Block_List&, Block*, IndexSet*, VectorSet&)
+│   │       │   │       │   │   │       └── 2 samples (0.3%) tlv_get_addr
+│   │       │   │       │   │   └── 47 samples (7.5%) 16 more callees, led by (1.7%) PhaseChaitin::post_allocate_copy_removal()
+│   │       │   │       │   └── 71 samples (11.3%) 5 more callees, led by (4.3%) Matcher::match()
+│   │       │   │       ├── 143 samples (22.7%) Compile::Optimize()
+│   │       │   │       │   ├── 40 samples (6.3%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   ├── 33 samples (5.2%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   │   └── 33 samples (5.2%) PhaseIdealLoop::build_and_optimize()
+│   │       │   │       │   │   │       ├── 13 samples (2.1%, self 0.8%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│   │       │   │       │   │   │       │   └── 8 samples (1.3%) 3 more callees, led by (1.0%) PhaseIdealLoop::build_loop_late_post_work(Node*, bool)
+│   │       │   │       │   │   │       ├── 6 samples (1.0%, self 1.6% globally) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)
+│   │       │   │       │   │   │       └── 14 samples (2.2%) 8 more callees, led by (0.8%) IdealLoopTree::loop_predication(PhaseIdealLoop*)
+│   │       │   │       │   │   └── 7 samples (1.1%) PhaseIterGVN::optimize() …
+│   │       │   │       │   └── 103 samples (16.3%) 15 more callees, led by (7.6%) Compile::optimize_loops(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       └── 44 samples (7.0%) 3 more callees, led by (5.9%) ParseGenerator::generate(JVMState*)
+│   │       │   └── 84 samples (13.3%) 6 more callees, led by (12.1%) Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       └── 4 samples (0.6%) CompileQueue::get(CompilerThread*) …
+│   └── 27 samples (4.3%) WorkerThread::run()
+│       ├── 5 samples (0.8%) semaphore_wait_trap
+│       └── 22 samples (3.5%) 3 more callees, led by (2.1%) G1EvacuateRegionsBaseTask::work(unsigned int)
+├── … 135 samples (21.4%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x000000a801088800
+│   ├── … 124 samples (19.7%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   └── 124 samples (19.7%) 3 more callees, led by (16.2%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   └── 11 samples (1.7%) 2 more callees, led by (1.6%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+└── 15 samples (2.4%) 3 more root frames, led by (2.1%) <clinit>() at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

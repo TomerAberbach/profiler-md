@@ -11,6 +11,55 @@ Collected 4,436 samples.
 | JIT               |  1.0% |      44 |
 | Garbage collector | <0.1% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,187 samples (94.4%) run at java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,187 samples (94.4%) runWorker at java.util.concurrent.ForkJoinPool
+│       ├── … 3,880 samples (87.5%) doExec at java.util.concurrent.ForkJoinTask
+│       │   ├── … 3,842 samples (86.6%) exec at java.util.concurrent.RecursiveTask
+│       │   │   └── 3,839 samples (86.5%) compute at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,572 samples (35.4%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,150 samples (25.9%, self 7.4%) findNearestCentroid at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 777 samples (17.5%, self 17.4%) distance
+│       │   │       │   │   └── 45 samples (1.0%) 2 more callees, led by (0.9%) get at java.util.ArrayList
+│       │   │       │   └── … 422 samples (9.5%, self 1.9%) collectClusters at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 159 samples (3.6%, self 3.0%) computeIfAbsent at java.util.HashMap
+│       │   │       │       │   └── 25 samples (0.6%) hash
+│       │   │       │       ├── 110 samples (2.5%, self 1.1%) add at java.util.ArrayList
+│       │   │       │       │   └── … 63 samples (1.4%, self 0.6%) grow at java.util.ArrayList
+│       │   │       │       │       └── … 16 samples (0.4%) zero_blocks
+│       │   │       │       └── 63 samples (1.4%) get at java.util.ArrayList
+│       │   │       │           ├── 36 samples (0.8%) elementData
+│       │   │       │           └── 26 samples (0.6%) checkIndex at java.util.Objects
+│       │   │       ├── 1,561 samples (35.2%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,560 samples (35.2%, self 10.3%) vectorSum at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 1,027 samples (23.2%, self 20.7%) accumulate
+│       │   │       │       │   └── 107 samples (2.4%) doubleValue at java.lang.Double
+│       │   │       │       └── 78 samples (1.8%) get at java.util.ArrayList
+│       │   │       │           └── 77 samples (1.7%, self 3.4% globally) elementData
+│       │   │       ├── 354 samples (8.0%) join at java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 353 samples (8.0%) awaitDone
+│       │   │       │       ├── … 310 samples (7.0%, self 14.0% globally) __psynch_cvwait
+│       │   │       │       └── 27 samples (0.6%) helpJoin at java.util.concurrent.ForkJoinPool
+│       │   │       ├── … 309 samples (7.0%) merge at java.util.HashMap
+│       │   │       │   ├── 225 samples (5.1%) apply at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a8011a7490
+│       │   │       │   │   └── 224 samples (5.0%) lambda$merge$6 at org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │   │       ├── 152 samples (3.4%) addAll at java.util.ArrayList …
+│       │   │       │   │       └── … 62 samples (1.4%) arrayof_jint_disjoint_arraycopy
+│       │   │       │   │           └── 59 samples (1.3%, self 4.6% globally) forward_copy_longs
+│       │   │       │   ├── 54 samples (1.2%) arrayof_jint_disjoint_arraycopy …
+│       │   │       │   └── 23 samples (0.5%) zero_blocks
+│       │   │       └── 6 samples (0.1%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │   └── … 29 samples (0.7%) __psynch_cvsignal
+│       └── 296 samples (6.7%) awaitWork …
+└── 249 samples (5.6%) 7 more root frames, led by (4.4%) thread_start
+```
+
 ## Hottest functions
 
 ### Self samples
