@@ -211,12 +211,23 @@ const excerpt = [
   `…`,
 ].join(`\n`)
 
+// The outer fence must be longer than every fence inside the excerpt, or the
+// first inner fence closes it
+const fenceLength = (markdown: string): number =>
+  Math.max(
+    3,
+    ...[...markdown.matchAll(/^ {0,3}`{3,}/gmu)].map(
+      ([fence]) => fence.trimStart().length + 1,
+    ),
+  )
+const excerptFence = `\``.repeat(fenceLength(excerpt))
+
 const original = readFileSync(`readme.md`, `utf8`)
 let readme = original
 
 readme = readme.replace(
   /<!-- EXAMPLE_OUTPUT START -->[\S\s]*?<!-- EXAMPLE_OUTPUT END -->/u,
-  `<!-- EXAMPLE_OUTPUT START -->\n\n\`\`\`md\n${excerpt}\n\`\`\`\n\n<!-- EXAMPLE_OUTPUT END -->`,
+  `<!-- EXAMPLE_OUTPUT START -->\n\n${excerptFence}md\n${excerpt}\n${excerptFence}\n\n<!-- EXAMPLE_OUTPUT END -->`,
 )
 
 readme = readme.replace(
