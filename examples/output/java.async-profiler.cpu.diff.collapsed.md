@@ -7,8 +7,8 @@ Collected 4,682 samples → 4,436 samples (-246 samples, -5.3%).
 | Ours              |  -3.8% |  -101 | 57.4% → 58.3% | 2,688 → 2,587 |
 | Native            |  -7.7% |   -94 | 26.0% → 25.3% | 1,216 → 1,122 |
 | Standard library  |  -5.9% |   -39 | 14.2% → 14.1% |     665 → 626 |
-| Compiler          | +14.3% |    +7 |   1.0% → 1.3% |       49 → 56 |
 | JIT               | -31.3% |   -20 |   1.4% → 1.0% |       64 → 44 |
+| Compiler          | +14.3% |    +7 |   1.0% → 1.3% |       49 → 56 |
 | Garbage collector |    new |    +1 |  0.0% → <0.1% |         0 → 1 |
 
 ## Hottest functions

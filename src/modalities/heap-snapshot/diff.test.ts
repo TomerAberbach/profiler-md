@@ -579,7 +579,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   test(`reports a category present on one side only as new or removed`, () => {
     const base = makeAggregatedHeapSnapshot({
       heldSize: 200,
-      nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
+      nodeCategoryToStats: new Map([
+        [`object`, { size: 150, nodeCount: 2 }],
+        [`array`, { size: 50, nodeCount: 1 }],
+      ]),
     })
     const current = makeAggregatedHeapSnapshot({
       heldSize: 50,
@@ -602,10 +605,59 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Category: `Object`,
           Change: `removed`,
-          Delta: `-200 B`,
-          '%': `100.0% → 0.0%`,
-          Size: `200 B → 0 B`,
+          Delta: `-150 B`,
+          '%': `75.0% → 0.0%`,
+          Size: `150 B → 0 B`,
           Nodes: `2 → 0`,
+        },
+        {
+          Category: `Array`,
+          Change: `removed`,
+          Delta: `-50 B`,
+          '%': `25.0% → 0.0%`,
+          Size: `50 B → 0 B`,
+          Nodes: `1 → 0`,
+        },
+      ],
+    ])
+  })
+
+  test(`sorts categories by their larger side's share`, () => {
+    const base = makeAggregatedHeapSnapshot({
+      heldSize: 200,
+      nodeCategoryToStats: new Map([
+        [`object`, { size: 180, nodeCount: 9 }],
+        [`string`, { size: 20, nodeCount: 1 }],
+      ]),
+    })
+    const current = makeAggregatedHeapSnapshot({
+      heldSize: 50,
+      nodeCategoryToStats: new Map([
+        [`string`, { size: 40, nodeCount: 2 }],
+        [`object`, { size: 10, nodeCount: 1 }],
+      ]),
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
+
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `Object`,
+          Change: `-94.4%`,
+          Delta: `-170 B`,
+          '%': `90.0% → 20.0%`,
+          Size: `180 B → 10 B`,
+          Nodes: `9 → 1`,
+        },
+        {
+          Category: `String`,
+          Change: `+100.0%`,
+          Delta: `+20 B`,
+          '%': `10.0% → 80.0%`,
+          Size: `20 B → 40 B`,
+          Nodes: `1 → 2`,
         },
       ],
     ])

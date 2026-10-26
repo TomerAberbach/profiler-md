@@ -7,8 +7,8 @@ Collected 2,725 samples → 2,696 samples (-29 samples, -1.1%).
 | Native           |  -1.6% |   -42 | 94.5% → 94.0% | 2,576 → 2,534 |
 | Compiler         |  +9.7% |   +10 |   3.8% → 4.2% |     103 → 113 |
 | Ours             | +25.9% |    +7 |   1.0% → 1.3% |       27 → 34 |
-| Unknown          | -12.5% |    -1 |          0.3% |         8 → 7 |
 | Standard library | -25.0% |    -2 |   0.3% → 0.2% |         8 → 6 |
+| Unknown          | -12.5% |    -1 |          0.3% |         8 → 7 |
 | JIT              | -33.3% |    -1 |          0.1% |         3 → 2 |
 
 ## Hottest functions

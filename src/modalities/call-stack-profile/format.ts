@@ -26,6 +26,7 @@ import type {
 import {
   formatRankingTables,
   rankEntities,
+  sortDiffCategories,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -63,7 +64,6 @@ import { formatDiffTable, formatTable } from '../table.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileCallStack,
-  AggregatedCallStackProfileCategoryMetrics,
   AggregatedCallStackProfileFunction,
   AggregatedCallStackProfileLineMetrics,
 } from './aggregate.ts'
@@ -1015,21 +1015,18 @@ const formatDiffCategoryTable = (
 
   const metrics = diff.metrics.map(({ metric }) => metric)
   const primaryMeasure = measures[0]!
-  const categoryValue = (
-    metrics: AggregatedCallStackProfileCategoryMetrics | undefined,
-  ): number =>
-    metrics === undefined
-      ? 0
-      : primaryMeasure.current.valueOf(metrics.values, metrics.count)
-  const categories = [...diff.categoryToMetrics].sort(
-    ([, left], [, right]) =>
-      categoryValue(right.current) - categoryValue(left.current),
-  )
-
   const baseIndices = diff.metrics.map(metric => metric.baseIndex)
   const currentIndices = diff.metrics.map(metric => metric.currentIndex)
   const baseTotal = primaryMeasure.base.total
   const currentTotal = primaryMeasure.current.total
+  const categories = sortDiffCategories(diff.categoryToMetrics, [
+    {
+      valueOf: ({ values, count }, side) =>
+        primaryMeasure[side].valueOf(values, count),
+      baseTotal,
+      currentTotal,
+    },
+  ])
   return [
     formatDiffTable(
       categoryColumns(metrics, diff.countMetric),

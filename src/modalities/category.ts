@@ -2,6 +2,7 @@ import type { RootContent } from 'mdast'
 import { formatPercent } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatSectionGroup, heading, paragraph } from '../helpers/markdown.ts'
+import type { Diff } from './diff.ts'
 import { formatCategory, isRepeatedByCategory } from './format.ts'
 import type { EntryCategory } from './registry.ts'
 
@@ -269,14 +270,65 @@ const largerSideShares = <Category extends string>({
   for (const [category, [baseValue, currentValue]] of categoryToValues) {
     categoryToShare.set(
       category,
-      Math.max(
-        shareOf(baseValue, baseTotal),
-        shareOf(currentValue, currentTotal),
-      ),
+      largerShare(baseValue, baseTotal, currentValue, currentTotal),
     )
   }
   return categoryToShare
 }
+
+/** A measure that orders a diff's categories, and each side's total of it. */
+export type DiffCategoryMeasure<Stats> = {
+  valueOf: (stats: Stats, side: keyof Diff<Stats>) => number
+  baseTotal: number
+  currentTotal: number
+}
+
+/**
+ * Sorts a diff's categories by the larger of the two parts of its side's total
+ * each accounts for, as {@link subsectionDiffCategories} qualifies categories,
+ * so a category that shrank or vanished sorts by its base side. Each measure
+ * after the first breaks ties of the ones before it.
+ */
+export const sortDiffCategories = <Category, Stats>(
+  categoryToStats: Map<Category, Diff<Stats>>,
+  measures: readonly DiffCategoryMeasure<Stats>[],
+): [Category, Diff<Stats>][] =>
+  [...categoryToStats]
+    .map(entry => ({
+      entry,
+      shares: measures.map(({ valueOf, baseTotal, currentTotal }) => {
+        const { base, current } = entry[1]
+        return largerShare(
+          base === undefined ? 0 : valueOf(base, `base`),
+          baseTotal,
+          current === undefined ? 0 : valueOf(current, `current`),
+          currentTotal,
+        )
+      }),
+    }))
+    .sort((left, right) => compareSharesDescending(left.shares, right.shares))
+    .map(({ entry }) => entry)
+
+const compareSharesDescending = (
+  left: readonly number[],
+  right: readonly number[],
+): number => {
+  for (let index = 0; index < left.length; index++) {
+    const difference = right[index]! - left[index]!
+    if (difference !== 0) {
+      return difference
+    }
+  }
+  return 0
+}
+
+const largerShare = (
+  baseValue: number,
+  baseTotal: number,
+  currentValue: number,
+  currentTotal: number,
+): number =>
+  Math.max(shareOf(baseValue, baseTotal), shareOf(currentValue, currentTotal))
 
 // A side where every entry's value is zero has no shares, which leaves that
 // side out of the comparison rather than dividing by zero.

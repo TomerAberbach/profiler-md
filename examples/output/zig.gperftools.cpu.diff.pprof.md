@@ -5,8 +5,8 @@ Took 5.28s → 5.88s (+601.00ms, +11.4%) over 5,287 samples → 5,888 samples (1
 | Category         | Change |     Delta |             % |             Time |       Samples |
 | ---------------- | -----: | --------: | ------------: | ---------------: | ------------: |
 | Standard library | +18.5% | +900.00ms | 92.2% → 98.1% |    4.87s → 5.77s | 4,876 → 5,776 |
-| Native           | +13.3% |  +10.00ms |          1.4% |  75.0ms → 85.0ms |       75 → 85 |
 | Unknown          | -92.0% | -309.00ms |   6.4% → 0.5% | 336.0ms → 27.0ms |      336 → 27 |
+| Native           | +13.3% |  +10.00ms |          1.4% |  75.0ms → 85.0ms |       75 → 85 |
 
 Paths starting with `./` or `../` are relative to `/out/`.
 

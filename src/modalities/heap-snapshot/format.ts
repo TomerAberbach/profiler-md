@@ -21,6 +21,7 @@ import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
+  sortDiffCategories,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -247,12 +248,11 @@ const formatDiffCategoryTable = (
     return []
   }
 
-  const categories = [...nodeCategoryToStats].sort(
-    ([, left], [, right]) =>
-      (right.current?.size ?? 0) - (left.current?.size ?? 0),
-  )
   const baseTotal = base.heldSize
   const currentTotal = current.heldSize
+  const categories = sortDiffCategories(nodeCategoryToStats, [
+    { valueOf: ({ size }) => size, baseTotal, currentTotal },
+  ])
   return [
     formatDiffTable(
       categoryColumns,

@@ -4,8 +4,8 @@ Collected 164 samples → 121 samples (-43 samples, -26.2%).
 
 | Category         | Change | Delta |             % | Samples |
 | ---------------- | -----: | ----: | ------------: | ------: |
-| Standard library | -14.1% |   -10 | 43.3% → 50.4% | 71 → 61 |
 | Ours             | -35.5% |   -33 | 56.7% → 49.6% | 93 → 60 |
+| Standard library | -14.1% |   -10 | 43.3% → 50.4% | 71 → 61 |
 
 ## Hottest functions
 
