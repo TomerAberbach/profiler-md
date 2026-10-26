@@ -27,17 +27,14 @@ import {
 } from '../category.ts'
 import type { Diff, EntryDiff } from '../diff.ts'
 import {
-  diffRankings,
-  diffRankingSentence,
   formatBaseURLNote,
-  formatDiffRankingSections,
+  formatDiffMeasureSections,
   rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
   shownDiffEntities,
-  unchangedDiffSentence,
 } from '../format.ts'
 import type { DiffCategoryRanking } from '../format.ts'
 import { BYTES_METRIC } from '../metrics.ts'
@@ -485,21 +482,10 @@ const STRINGS_PROSE: RankingProse = {
   description: `bytes`,
 }
 
-/**
- * A ranking's heading, followed by its ranking sentence. A diff states its
- * sentence above each of its rankings instead, or, where no entity differed,
- * a note saying so here.
- */
-const formatRankingHeader = (
-  prose: RankingProse,
-  state: `ranking` | `diff` | `unchanged-diff`,
-): RootContent[] => [
+/** A ranking's heading, followed by its ranking sentence. */
+const formatRankingHeader = (prose: RankingProse): RootContent[] => [
   heading(prose.headingLevel, prose.title),
-  ...(state === `ranking`
-    ? [paragraph(rankingSentence(prose.plural, prose.description))]
-    : state === `unchanged-diff`
-      ? [paragraph(unchangedDiffSentence(prose.singular, prose.description))]
-      : []),
+  paragraph(rankingSentence(prose.plural, prose.description)),
 ]
 
 /**
@@ -573,7 +559,7 @@ const formatLargestSizeConstructors = ({
   )
 
   return [
-    ...formatRankingHeader(prose, `ranking`),
+    ...formatRankingHeader(prose),
     ...formatRankingTables({
       ranking,
       formatEntityTable: entities =>
@@ -720,7 +706,7 @@ const formatLargestFunctions = ({
 
   const pathOf = new RetainerPaths(options).pathOfNodeIn(snapshot)
   return [
-    ...formatRankingHeader(FUNCTIONS_PROSE, `ranking`),
+    ...formatRankingHeader(FUNCTIONS_PROSE),
     formatTable(
       functionColumns(hasLocation, options),
       largestFunctions.map(fn => ({
@@ -812,7 +798,7 @@ const formatLargestStrings = ({
     string => string.name !== undefined,
   )
   return [
-    ...formatRankingHeader(STRINGS_PROSE, `ranking`),
+    ...formatRankingHeader(STRINGS_PROSE),
     ...formatRankingTables({
       ranking,
       formatEntityTable: entities =>
@@ -986,7 +972,6 @@ const formatDiffSizeConstructors = ({
 
   return formatDiffEntitySections({
     prose,
-    headingLevel: 4,
     columns: constructorColumns(hasLocation, options),
     hasActive,
     increases,
@@ -1088,7 +1073,6 @@ const formatDiffFunctions = ({
 
   return formatDiffEntitySections({
     prose: FUNCTIONS_PROSE,
-    headingLevel: 3,
     columns: functionColumns(hasLocation, options),
     hasActive,
     increases,
@@ -1261,7 +1245,6 @@ const formatDiffStrings = ({
 
   return formatDiffEntitySections({
     prose: STRINGS_PROSE,
-    headingLevel: 3,
     // Diffed strings are matched by value, so they always have a value.
     columns: stringColumns(true),
     hasActive,
@@ -1285,25 +1268,16 @@ const nodeRowOf = (
 })
 
 /**
- * Formats the increase and decrease subsections of one diffed entity table.
+ * Formats one diffed entity ranking under its {@link RankingProse}.
  *
  * Every heap snapshot ranking measures bytes, so a decrease is an improvement
  * in all of them.
  */
 const formatDiffEntitySections = <Entity, Row>({
   prose,
-  headingLevel,
-  columns,
-  hasActive,
-  increases,
-  decreases,
-  categoryRankings = [],
-  minCategoryShare,
-  rowOf,
-  detailSections = [],
+  ...args
 }: {
   prose: RankingProse
-  headingLevel: number
   columns: Table<Row>
   hasActive: boolean
   increases: Entity[]
@@ -1313,42 +1287,16 @@ const formatDiffEntitySections = <Entity, Row>({
   rowOf: (entity: Entity) => Diff<Row>
   /** The sections breaking down the entities the rankings show. */
   detailSections?: RootContent[]
-}): RootContent[] => {
-  const sections = diffRankings(BYTES_METRIC.improvement).flatMap(
-    ({ change, title: subtitle }) =>
-      formatDiffRankingSections({
-        headingLevel,
-        subtitle,
-        sentence: diffRankingSentence(prose.plural, change, prose.description),
-        columns,
-        entities: change === `increase` ? increases : decreases,
-        categoryRankings,
-        selfValueNoun: `self size`,
-        minCategoryShare,
-        entitiesOf: categoryRanking =>
-          change === `increase`
-            ? categoryRanking.increases
-            : categoryRanking.decreases,
-        rowOf,
-      }),
-  )
-
-  // With active entities but no change, keep the section and let the header note
-  // it didn't differ. With nothing active (the section a non-diff snapshot
-  // would have omitted), omit it.
-  if (sections.length === 0 && !hasActive) {
-    return []
-  }
-
-  return [
-    ...formatRankingHeader(
-      prose,
-      sections.length === 0 ? `unchanged-diff` : `diff`,
-    ),
-    ...sections,
-    ...detailSections,
-  ]
-}
+}): RootContent[] =>
+  formatDiffMeasureSections({
+    ...args,
+    headingLevel: prose.headingLevel,
+    title: prose.title,
+    description: prose.description,
+    entities: { singular: prose.singular, plural: prose.plural },
+    improvement: BYTES_METRIC.improvement,
+    selfValueNoun: `self size`,
+  })
 
 type NamedEntity = {
   name: string

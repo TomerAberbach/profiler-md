@@ -38,10 +38,10 @@ import type {
   LineMatcher,
 } from '../diff.ts'
 import {
-  diffRankings,
   diffRankingSentence,
   formatBaseURLNote,
   formatDiffMeasureSections,
+  formatDiffPartitionSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
@@ -1449,15 +1449,20 @@ const formatDiffCallStacks = ({
       active.push({ entity: callStack, baseValue, currentValue })
     }
   }
-  if (active.length === 0) {
-    return []
-  }
 
   const { metric } = measure
   const verbPhrase = metric.phrases.pastParticipleVerbPhrase
   const changes = rankDiffEntities(active, options.topN)
-  const sections = diffRankings(metric.improvement).flatMap(
-    ({ change, title }) =>
+  return formatDiffPartitionSections({
+    headingLevel,
+    title: `Hottest call stacks`,
+    improvement: metric.improvement,
+    hasActive: active.length > 0,
+    unchangedSentence: unchangedDiffSentence(
+      `call stack`,
+      `${verbPhrase} in its leaf frame`,
+    ),
+    formatPartition: ({ change, title }) =>
       formatDiffCallStackRanking({
         callStacks:
           change === `increase` ? changes.increases : changes.decreases,
@@ -1472,20 +1477,7 @@ const formatDiffCallStacks = ({
           `${verbPhrase} in their leaf frame`,
         ),
       }),
-  )
-  return [
-    heading(headingLevel, `Hottest call stacks`),
-    ...(sections.length === 0
-      ? [
-          paragraph(
-            unchangedDiffSentence(
-              `call stack`,
-              `${verbPhrase} in its leaf frame`,
-            ),
-          ),
-        ]
-      : sections),
-  ]
+  })
 }
 
 const formatDiffCallStackRanking = ({

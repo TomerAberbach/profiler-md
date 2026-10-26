@@ -323,12 +323,8 @@ export const selectLargestChanges = <Item>(
 
 /**
  * The increase and decrease subsections for the entities' values of one
- * measure, under a {@link title} heading, followed by {@link detailSections}
- * breaking down the entities they show.
- *
- * When nothing differed but {@link hasActive} entities exist on either side,
- * the section stays, with a "did not differ" note. When no entities are
- * active (the section a non-diff input would have omitted), it is omitted.
+ * measure, each a table and its category subsections, as
+ * {@link formatDiffPartitionSections} lays them out.
  */
 export const formatDiffMeasureSections = <Entity, Row>({
   headingLevel,
@@ -364,9 +360,15 @@ export const formatDiffMeasureSections = <Entity, Row>({
 
   /** The noun for the ranked entities. */
   entities: EntityNoun
-}): RootContent[] => {
-  const sections = diffRankings(improvement).flatMap(
-    ({ change, title: subtitle }) =>
+}): RootContent[] =>
+  formatDiffPartitionSections({
+    headingLevel,
+    title,
+    improvement,
+    hasActive,
+    unchangedSentence: unchangedDiffSentence(entities.singular, description),
+    detailSections,
+    formatPartition: ({ change, title: subtitle }) =>
       formatDiffRankingSections({
         headingLevel: headingLevel + 1,
         subtitle,
@@ -378,15 +380,40 @@ export const formatDiffMeasureSections = <Entity, Row>({
         minCategoryShare,
         rowOf,
       }),
-  )
+  })
 
+/**
+ * The partitions {@link formatPartition} formats for each of a measure's
+ * {@link diffRankings}, under a {@link title} heading, followed by
+ * {@link detailSections}.
+ *
+ * When no partition has rows but {@link hasActive} entities exist on either
+ * side, the section stays, with {@link unchangedSentence}. When no entities are
+ * active (the section a non-diff input would have omitted), it is omitted.
+ */
+export const formatDiffPartitionSections = ({
+  headingLevel,
+  title,
+  improvement,
+  hasActive,
+  unchangedSentence,
+  detailSections = [],
+  formatPartition,
+}: {
+  headingLevel: number
+  title: string
+  improvement: MetricImprovement
+  hasActive: boolean
+  unchangedSentence: string
+  detailSections?: RootContent[]
+  formatPartition: (ranking: DiffRanking) => RootContent[]
+}): RootContent[] => {
+  const sections = diffRankings(improvement).flatMap(formatPartition)
   if (sections.length === 0) {
     if (!hasActive) {
       return []
     }
-    sections.push(
-      paragraph(unchangedDiffSentence(entities.singular, description)),
-    )
+    sections.push(paragraph(unchangedSentence))
   }
 
   return formatSectionGroup(
@@ -403,7 +430,7 @@ export const FUNCTION_NOUN: EntityNoun = {
   plural: `Functions`,
 }
 
-export const formatDiffRankingSections = <Entity, Row>({
+const formatDiffRankingSections = <Entity, Row>({
   headingLevel,
   subtitle,
   sentence,
@@ -557,7 +584,7 @@ export type DiffChange = `increase` | `decrease`
  * A heading names the change itself wherever that direction is unknown, so
  * the output never calls a change an improvement it cannot measure as one.
  */
-export const diffRankings = (
+const diffRankings = (
   improvement: MetricImprovement,
 ): [DiffRanking, DiffRanking] => {
   switch (improvement) {
