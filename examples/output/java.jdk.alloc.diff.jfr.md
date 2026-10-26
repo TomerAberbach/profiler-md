@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 1,962 samples → 1,569 samples (-393 samples, -20.0%).
+Collected 1,962 → 1,569 samples (-393 samples, -20.0%).
 
 | Category         | Change | Delta |             % |       Samples |
 | ---------------- | -----: | ----: | ------------: | ------------: |
@@ -1786,7 +1786,7 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 # Allocated heap profile diff
 
-Allocated 38 GiB → 37.3 GiB (-690.775 MiB, -1.8%) over 4,052 samples → 2,371 samples (9.6 MiB → 16.1 MiB per sample).
+Allocated 38 GiB → 37.3 GiB (-690.775 MiB, -1.8%) over 4,052 → 2,371 samples (9.6 MiB → 16.1 MiB per sample).
 
 | Category         | Change |        Delta |             % |                Size |       Samples |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | ------------: |
@@ -3739,7 +3739,7 @@ Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 # Retained heap profile diff
 
-Retained 2.31 MiB → 2.81 MiB (+511.078 KiB, +21.6%) over 8 objects → 14 objects (296 KiB → 205 KiB per object).
+Retained 2.31 MiB → 2.81 MiB (+511.078 KiB, +21.6%) over 8 → 14 objects (296 KiB → 205 KiB per object).
 
 | Category         |  Change |        Delta |            % |                Size | Objects |
 | ---------------- | ------: | -----------: | -----------: | ------------------: | ------: |
@@ -4531,7 +4531,7 @@ Common call stack: `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
 # Lock contention profile diff
 
-Blocked 38.36s → 9.92s (-28.437s, -74.1%) over 1,707 contentions → 126 contentions (22.5ms → 78.8ms per contention).
+Blocked 38.36s → 9.92s (-28.437s, -74.1%) over 1,707 → 126 contentions (22.5ms → 78.8ms per contention).
 
 | Category         | Change |    Delta |      % |           Time | Contentions |
 | ---------------- | -----: | -------: | -----: | -------------: | ----------: |

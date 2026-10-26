@@ -6,6 +6,19 @@ import prettyMilliseconds from 'pretty-ms'
 export const formatCount = (count: number, unit?: string): string =>
   count.toLocaleString(`en-US`) + (unit ? ` ${plur(unit, count)}` : ``)
 
+/**
+ * A base and a current count joined by an arrow, with {@link unit} stated once
+ * after the current count, or the count alone when they are equal.
+ */
+export const formatCountArrow = (
+  base: number,
+  current: number,
+  unit: string,
+): string =>
+  base === current
+    ? formatCount(current, unit)
+    : `${formatCount(base)} → ${formatCount(current, unit)}`
+
 export const formatMicroseconds = (microseconds: number): string =>
   formatMicrosecondsToDigits(microseconds, 1)
 

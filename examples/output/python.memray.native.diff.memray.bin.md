@@ -1,6 +1,6 @@
 # Peak memory profile diff
 
-Held 78.6 MiB (-1.702 KiB, ~0%) over 22,697 allocations → 22,696 allocations (3.55 KiB per allocation).
+Held 78.6 MiB (-1.702 KiB, ~0%) over 22,697 → 22,696 allocations (3.55 KiB per allocation).
 
 | Category         | Change |          Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | -------------: | ------------: | ------------------: | --------------: |
@@ -1354,7 +1354,7 @@ Common call stack: `run_module` (`<frozen runpy>:201`) ← `_run_tracker` (`/ven
 
 # Leaked memory profile diff
 
-Leaked 59.9 MiB (-1.702 KiB, ~0%) over 22,502 allocations → 22,501 allocations (2.73 KiB per allocation).
+Leaked 59.9 MiB (-1.702 KiB, ~0%) over 22,502 → 22,501 allocations (2.73 KiB per allocation).
 
 | Category         | Change |          Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | -------------: | ------------: | ------------------: | --------------: |

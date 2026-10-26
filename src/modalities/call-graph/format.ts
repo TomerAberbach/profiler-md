@@ -1,7 +1,6 @@
 import type { RootContent } from 'mdast'
 import {
   capitalizeFirst,
-  formatArrow,
   formatChange,
   formatConjunction,
 } from '../../helpers/format.ts'
@@ -39,7 +38,11 @@ import {
   showDiffEntity,
   shownDiffEntities,
 } from '../format.ts'
-import { formatProseValue, formatProseValueDelta } from '../measure.ts'
+import {
+  formatProseValue,
+  formatProseValueArrow,
+  formatProseValueDelta,
+} from '../measure.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
 import type { EntryCategory } from '../registry.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
@@ -516,9 +519,10 @@ const formatDiffSummaryLine = (diff: AggregatedCallGraphDiff): string =>
       diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
         const baseValue = diff.base.totalValues[baseIndex]!
         const currentValue = diff.current.totalValues[currentIndex]!
-        return `${metric.phrases.pastTenseVerb} ${formatArrow(
-          formatProseValue(baseValue, metric),
-          formatProseValue(currentValue, metric),
+        return `${metric.phrases.pastTenseVerb} ${formatProseValueArrow(
+          baseValue,
+          currentValue,
+          metric,
         )}${formatChange(baseValue, currentValue, magnitude =>
           formatProseValueDelta(magnitude, metric),
         )}`

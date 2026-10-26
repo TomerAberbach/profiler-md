@@ -1,6 +1,6 @@
 # Peak memory profile diff
 
-Held 78.6 MiB (-1.702 KiB, ~0%) over 22,707 allocations → 22,706 allocations (3.54 KiB per allocation).
+Held 78.6 MiB (-1.702 KiB, ~0%) over 22,707 → 22,706 allocations (3.54 KiB per allocation).
 
 | Category         | Change |          Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | -------------: | ------------: | ------------------: | --------------: |
@@ -1434,7 +1434,7 @@ Common call stack: `format_file_contents` (`./black/__init__.py:1059`) ← `form
 
 # Leaked memory profile diff
 
-Leaked 58.9 MiB → 55.9 MiB (-3.001 MiB, -5.1%) over 22,506 allocations → 22,502 allocations (2.68 KiB → 2.55 KiB per allocation).
+Leaked 58.9 MiB → 55.9 MiB (-3.001 MiB, -5.1%) over 22,506 → 22,502 allocations (2.68 KiB → 2.55 KiB per allocation).
 
 | Category         | Change |      Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | ---------: | ------------: | ------------------: | --------------: |

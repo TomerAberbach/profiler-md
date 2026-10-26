@@ -1067,7 +1067,7 @@ describe(`formatCallStackProfileDiff`, () => {
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(summaryLines(md)).toEqual([
-      `Allocated 0\u00A0B → 512\u00A0B (+512\u00A0B, new) over 0 objects → 2 objects (— → 256\u00A0B per object).`,
+      `Allocated 0\u00A0B → 512\u00A0B (+512\u00A0B, new) over 0 → 2 objects (— → 256\u00A0B per object).`,
     ])
   })
 

@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 6,401 samples → 5,155 samples (-1,246 samples, -19.5%).
+Collected 6,401 → 5,155 samples (-1,246 samples, -19.5%).
 
 | Category          | Change | Delta |             % |       Samples |
 | ----------------- | -----: | ----: | ------------: | ------------: |
@@ -4781,7 +4781,7 @@ Common call stack: `Thread::call_run` (`libjvm.dylib`) ← `thread_native_entry`
 
 # Allocated heap profile diff
 
-Allocated 11.8 GiB → 11.9 GiB (+156.284 MiB, +1.3%) over 24,098 samples → 24,409 samples (512 KiB per sample).
+Allocated 11.8 GiB → 11.9 GiB (+156.284 MiB, +1.3%) over 24,098 → 24,409 samples (512 KiB per sample).
 
 | Category         | Change |        Delta |     % |                Size |         Samples |
 | ---------------- | -----: | -----------: | ----: | ------------------: | --------------: |
@@ -6199,7 +6199,7 @@ Common call stack: `execute()` (`org.codenarc.CodeNarcRunner`) ← `invokeVirtua
 
 # Lock contention profile diff
 
-Blocked 3.1ms (+0.03ms, +1.0%) over 46 contentions → 43 contentions (67.3µs → 72.7µs per contention).
+Blocked 3.1ms (+0.03ms, +1.0%) over 46 → 43 contentions (67.3µs → 72.7µs per contention).
 
 | Category         | Change |   Delta |      % |  Time | Contentions |
 | ---------------- | -----: | ------: | -----: | ----: | ----------: |

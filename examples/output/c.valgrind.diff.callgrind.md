@@ -1,6 +1,6 @@
 # Instruction profile diff
 
-Recorded 39,558,155 instructions → 40,514,776 instructions (+956,621 instructions, +2.4%).
+Recorded 39,558,155 → 40,514,776 instructions (+956,621 instructions, +2.4%).
 
 | Category | Change |    Delta |      % |            Instructions |
 | -------- | -----: | -------: | -----: | ----------------------: |

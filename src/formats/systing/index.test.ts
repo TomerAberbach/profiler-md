@@ -505,9 +505,7 @@ describe(`convert`, () => {
     )
 
     expect(profileTitles(md)).toEqual([`Interruptible sleep profile diff`])
-    expect(summaryLines(md)).toEqual([
-      `Slept 4 times → 6 times (+2 times, +50.0%).`,
-    ])
+    expect(summaryLines(md)).toEqual([`Slept 4 → 6 times (+2 times, +50.0%).`])
   })
 
   test(`rejects a diff of the two sleep kinds, naming both`, () => {

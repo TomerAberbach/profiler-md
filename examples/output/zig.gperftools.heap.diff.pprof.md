@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 809 MiB → 1.56 GiB (+791.943 MiB, +97.8%) over 242,715 objects → 240,915 objects (3.41 KiB → 6.81 KiB per object).
+Allocated 809 MiB → 1.56 GiB (+791.943 MiB, +97.8%) over 242,715 → 240,915 objects (3.41 KiB → 6.81 KiB per object).
 
 | Category         | Change |        Delta |      % |               Size |           Objects |
 | ---------------- | -----: | -----------: | -----: | -----------------: | ----------------: |

@@ -1315,7 +1315,7 @@ Common call stack: `_format_str_once` (`./black/__init__.py:1215`) ← `format_s
 
 # Leaked memory profile diff
 
-Leaked 57.1 MiB → 58.1 MiB (+1,023.001 KiB, +1.8%) over 22,698 allocations → 22,699 allocations (2.58 KiB → 2.62 KiB per allocation).
+Leaked 57.1 MiB → 58.1 MiB (+1,023.001 KiB, +1.8%) over 22,698 → 22,699 allocations (2.58 KiB → 2.62 KiB per allocation).
 
 | Category         | Change |          Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | -------------: | ------------: | ------------------: | --------------: |

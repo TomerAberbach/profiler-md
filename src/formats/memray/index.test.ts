@@ -1050,8 +1050,8 @@ describe(`convert`, () => {
       `Leaked memory profile diff`,
     ])
     expect(summaryLines(md)).toEqual([
-      `Held 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
-      `Leaked 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
+      `Held 29\u00A0B over 1 → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
+      `Leaked 29\u00A0B over 1 → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
     ])
     expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([])
     expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])

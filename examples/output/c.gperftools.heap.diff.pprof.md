@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 132 MiB → 148 MiB (+16.003 MiB, +12.1%) over 78 objects → 81 objects (1.69 MiB → 1.83 MiB per object).
+Allocated 132 MiB → 148 MiB (+16.003 MiB, +12.1%) over 78 → 81 objects (1.69 MiB → 1.83 MiB per object).
 
 | Category | Change |       Delta |             % |                Size | Objects |
 | -------- | -----: | ----------: | ------------: | ------------------: | ------: |
@@ -488,7 +488,7 @@ Common call stack: `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`
 
 # Retained heap profile diff
 
-Retained 912 B → 1.19 KiB (+304 B, +33.3%) over 3 objects → 4 objects (304 B per object).
+Retained 912 B → 1.19 KiB (+304 B, +33.3%) over 3 → 4 objects (304 B per object).
 
 | Category | Change |  Delta |      % |             Size | Objects |
 | -------- | -----: | -----: | -----: | ---------------: | ------: |

@@ -1,6 +1,6 @@
 # Wall time profile diff
 
-Took 3.59s → 3.51s (-77.00ms, -2.1%) over 3,592 samples → 3,515 samples (1.0ms per sample).
+Took 3.59s → 3.51s (-77.00ms, -2.1%) over 3,592 → 3,515 samples (1.0ms per sample).
 
 | Category          | Change |    Delta |             % |            Time |       Samples |
 | ----------------- | -----: | -------: | ------------: | --------------: | ------------: |

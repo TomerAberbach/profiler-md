@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 1,266 samples → 974 samples (-292 samples, -23.1%).
+Collected 1,266 → 974 samples (-292 samples, -23.1%).
 
 | Category         | Change | Delta |             % |     Samples |
 | ---------------- | -----: | ----: | ------------: | ----------: |

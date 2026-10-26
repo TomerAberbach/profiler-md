@@ -1,6 +1,6 @@
 # Lock contention profile diff
 
-Blocked 1.6ms → 8.0ms (+6.36ms, +393.5%) over 11 contentions → 9 contentions (146.9µs → 886.1µs per contention).
+Blocked 1.6ms → 8.0ms (+6.36ms, +393.5%) over 11 → 9 contentions (146.9µs → 886.1µs per contention).
 
 | Category         |  Change |   Delta |              % |          Time | Contentions |
 | ---------------- | ------: | ------: | -------------: | ------------: | ----------: |

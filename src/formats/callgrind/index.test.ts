@@ -1263,7 +1263,7 @@ describe(`convert`, () => {
 
     expect(profileTitles(md)).toEqual([`Instruction profile diff`])
     expect(summaryLines(md)).toEqual([
-      `Recorded 300 instructions → 380 instructions (+80 instructions, +26.7%).`,
+      `Recorded 300 → 380 instructions (+80 instructions, +26.7%).`,
     ])
     expect(rankingTables(md, `Self instructions`, `Regressions`)).toEqual([
       [

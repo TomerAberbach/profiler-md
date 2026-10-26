@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 1,425 samples → 1,268 samples (-157 samples, -11.0%).
+Collected 1,425 → 1,268 samples (-157 samples, -11.0%).
 
 | Category         | Change | Delta |             % |       Samples |
 | ---------------- | -----: | ----: | ------------: | ------------: |
@@ -1908,7 +1908,7 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 # Allocated heap profile diff
 
-Allocated 37.8 GiB → 38 GiB (+235.708 MiB, +0.6%) over 2,340 samples → 2,486 samples (16.5 MiB → 15.7 MiB per sample).
+Allocated 37.8 GiB → 38 GiB (+235.708 MiB, +0.6%) over 2,340 → 2,486 samples (16.5 MiB → 15.7 MiB per sample).
 
 | Category         | Change |        Delta |             % |                Size |       Samples |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | ------------: |
@@ -3908,7 +3908,7 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 # Retained heap profile diff
 
-Retained 2.31 MiB → 2.56 MiB (+254.32 KiB, +10.7%) over 9 objects → 14 objects (263 KiB → 187 KiB per object).
+Retained 2.31 MiB → 2.56 MiB (+254.32 KiB, +10.7%) over 9 → 14 objects (263 KiB → 187 KiB per object).
 
 | Category         | Change |        Delta |            % |                Size | Objects |
 | ---------------- | -----: | -----------: | -----------: | ------------------: | ------: |
@@ -4787,7 +4787,7 @@ Call stacks with the largest decrease in bytes retained in their leaf frame.
 
 # Lock contention profile diff
 
-Blocked 9.78s → 11.85s (+2.071s, +21.2%) over 89 contentions → 204 contentions (109.9ms → 58.1ms per contention).
+Blocked 9.78s → 11.85s (+2.071s, +21.2%) over 89 → 204 contentions (109.9ms → 58.1ms per contention).
 
 | Category         | Change |   Delta |      % |           Time | Contentions |
 | ---------------- | -----: | ------: | -----: | -------------: | ----------: |

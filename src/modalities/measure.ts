@@ -1,8 +1,10 @@
 import {
   capitalizeFirst,
+  formatArrow,
   formatBytes,
   formatBytesDelta,
   formatCount,
+  formatCountArrow,
   formatMilliseconds,
   formatMillisecondsDelta,
 } from '../helpers/format.ts'
@@ -48,6 +50,19 @@ export const formatProseValue = (value: number, metric: Metric): string =>
   metric.type === `count`
     ? formatCount(value, metric.proseUnit)
     : formatValue(value, metric)
+
+/**
+ * A diff's base and current values in prose, joined by an arrow. A count
+ * states its unit once, after the current count.
+ */
+export const formatProseValueArrow = (
+  base: number,
+  current: number,
+  metric: Metric,
+): string =>
+  metric.type === `count`
+    ? formatCountArrow(base, current, metric.proseUnit)
+    : formatArrow(formatValue(base, metric), formatValue(current, metric))
 
 /** The delta-precision counterpart to {@link formatProseValue}. */
 export const formatProseValueDelta = (value: number, metric: Metric): string =>

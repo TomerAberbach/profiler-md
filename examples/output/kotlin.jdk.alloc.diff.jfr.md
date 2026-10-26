@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 112 samples → 146 samples (+34 samples, +30.4%).
+Collected 112 → 146 samples (+34 samples, +30.4%).
 
 | Category         | Change | Delta |             % | Samples |
 | ---------------- | -----: | ----: | ------------: | ------: |
@@ -2108,7 +2108,7 @@ Common call stack: `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler
 
 # Allocated heap profile diff
 
-Allocated 684 MiB (-46.187 KiB, ~0%) over 864 samples → 992 samples (811 KiB → 706 KiB per sample).
+Allocated 684 MiB (-46.187 KiB, ~0%) over 864 → 992 samples (811 KiB → 706 KiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |   Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | --------: |
@@ -4552,7 +4552,7 @@ Call stacks with the largest decrease in bytes allocated in their leaf frame.
 
 # Retained heap profile diff
 
-Retained 19.3 MiB → 17.3 MiB (-2.016 MiB, -10.5%) over 200 objects → 197 objects (98.7 KiB → 89.7 KiB per object).
+Retained 19.3 MiB → 17.3 MiB (-2.016 MiB, -10.5%) over 200 → 197 objects (98.7 KiB → 89.7 KiB per object).
 
 | Category         | Change |        Delta |             % |                Size |   Objects |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | --------: |

@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 135 samples → 396 samples (+261 samples, +193.3%).
+Collected 135 → 396 samples (+261 samples, +193.3%).
 
 | Category         |  Change | Delta |             % |  Samples |
 | ---------------- | ------: | ----: | ------------: | -------: |
@@ -2197,7 +2197,7 @@ Common call stack: `exec(MessageCollector, Services, CommonCompilerArguments)` (
 
 # Allocated heap profile diff
 
-Allocated 684 MiB (-45 KiB, ~0%) over 882 samples → 1,407 samples (794 KiB → 498 KiB per sample).
+Allocated 684 MiB (-45 KiB, ~0%) over 882 → 1,407 samples (794 KiB → 498 KiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |     Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | ----------: |
@@ -4644,7 +4644,7 @@ Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
 # Retained heap profile diff
 
-Retained 19 MiB → 19.1 MiB (+60.421 KiB, +0.3%) over 210 objects → 192 objects (92.7 KiB → 102 KiB per object).
+Retained 19 MiB → 19.1 MiB (+60.421 KiB, +0.3%) over 210 → 192 objects (92.7 KiB → 102 KiB per object).
 
 | Category         | Change |        Delta |             % |                Size |   Objects |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | --------: |
@@ -6246,7 +6246,7 @@ Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
 # Lock contention profile diff
 
-Blocked 506.9ms → 2.25s (+1.750s, +345.4%) over 2 contentions → 4 contentions (253.4ms → 564.4ms per contention).
+Blocked 506.9ms → 2.25s (+1.750s, +345.4%) over 2 → 4 contentions (253.4ms → 564.4ms per contention).
 
 | Category         |  Change |   Delta |      % |            Time | Contentions |
 | ---------------- | ------: | ------: | -----: | --------------: | ----------: |

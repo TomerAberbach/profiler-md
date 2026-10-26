@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 569 samples → 675 samples (+106 samples, +18.6%).
+Collected 569 → 675 samples (+106 samples, +18.6%).
 
 | Category         | Change | Delta |             % |   Samples |
 | ---------------- | -----: | ----: | ------------: | --------: |
@@ -2157,7 +2157,7 @@ Call stacks with the largest decrease in samples collected in their leaf frame.
 
 # Allocated heap profile diff
 
-Allocated 12.1 GiB → 12 GiB (-78.161 MiB, -0.6%) over 6,617 samples → 6,235 samples (1.87 MiB → 1.97 MiB per sample).
+Allocated 12.1 GiB → 12 GiB (-78.161 MiB, -0.6%) over 6,617 → 6,235 samples (1.87 MiB → 1.97 MiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |       Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | ------------: |
@@ -3427,7 +3427,7 @@ Common call stack: `execute(String[])` (`org.codenarc.CodeNarc`) ← `invokeVirt
 
 # Retained heap profile diff
 
-Retained 85.1 KiB → 150 KiB (+64.445 KiB, +75.8%) over 120 objects → 115 objects (726 B → 1.3 KiB per object).
+Retained 85.1 KiB → 150 KiB (+64.445 KiB, +75.8%) over 120 → 115 objects (726 B → 1.3 KiB per object).
 
 | Category         | Change |       Delta |            % |               Size |   Objects |
 | ---------------- | -----: | ----------: | -----------: | -----------------: | --------: |

@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Collected 461 samples → 334 samples (-127 samples, -27.5%).
+Collected 461 → 334 samples (-127 samples, -27.5%).
 
 | Category         | Change | Delta |             % |   Samples |
 | ---------------- | -----: | ----: | ------------: | --------: |
@@ -2067,7 +2067,7 @@ Call stacks with the largest decrease in samples collected in their leaf frame.
 
 # Allocated heap profile diff
 
-Allocated 11.8 GiB (-8.523 MiB, -0.1%) over 6,303 samples → 6,245 samples (1.92 MiB → 1.94 MiB per sample).
+Allocated 11.8 GiB (-8.523 MiB, -0.1%) over 6,303 → 6,245 samples (1.92 MiB → 1.94 MiB per sample).
 
 | Category         | Change |       Delta |             % |               Size |       Samples |
 | ---------------- | -----: | ----------: | ------------: | -----------------: | ------------: |
@@ -3402,7 +3402,7 @@ Common call stack: `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH`) �
 
 # Retained heap profile diff
 
-Retained 12.8 KiB → 17.7 KiB (+4.867 KiB, +38.0%) over 115 objects → 122 objects (114 B → 148 B per object).
+Retained 12.8 KiB → 17.7 KiB (+4.867 KiB, +38.0%) over 115 → 122 objects (114 B → 148 B per object).
 
 | Category         | Change |      Delta |              % |                Size |   Objects |
 | ---------------- | -----: | ---------: | -------------: | ------------------: | --------: |

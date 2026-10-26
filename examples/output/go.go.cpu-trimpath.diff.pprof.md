@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 3.46s → 3.44s (-20.00ms, -0.6%) over 346 samples → 344 samples (10.0ms per sample).
+Took 3.46s → 3.44s (-20.00ms, -0.6%) over 346 → 344 samples (10.0ms per sample).
 
 | Category          | Change |    Delta |              % |          Time |   Samples |
 | ----------------- | -----: | -------: | -------------: | ------------: | --------: |
