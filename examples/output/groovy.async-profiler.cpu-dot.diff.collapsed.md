@@ -12,6 +12,55 @@ Collected 5,955 → 6,026 samples (+71 samples, +1.2%).
 | Unknown           |  -50.0% |    -3 |  0.1% → <0.1% |         6 → 3 |
 | Garbage collector | +400.0% |    +4 |  <0.1% → 0.1% |         1 → 5 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 3,680 → 3,723 samples (61.8%) Thread::call_run
+│   ├── … 3,329 → 3,341 samples (55.9% → 55.4%) CompileBroker::invoke_compiler_on_method
+│   │   ├── 2,690 → 2,707 samples (45.2% → 44.9%) C2Compiler::compile_method
+│   │   │   └── 2,687 → 2,703 samples (45.1% → 44.9%) Compile::Compile
+│   │   │       ├── 1,275 → 1,291 samples (21.4%) Compile::Code_Gen
+│   │   │       │   ├── 740 → 751 samples (12.4% → 12.5%) PhaseChaitin::Register_Allocate
+│   │   │       │   │   ├── 103 → 108 samples (1.7% → 1.8%, self 1.0% → 0.7%) PhaseChaitin::build_ifg_physical
+│   │   │       │   │   │   └── 46 → 63 samples (0.8% → 1.0%) 24 more callees, led by (0.2%) PhaseChaitin::remove_bound_register_from_interfering_live_ranges
+│   │   │       │   │   ├── 38 → 57 samples (0.6% → 0.9%, self 0.6% → 0.9%) PhaseAggressiveCoalesce::insert_copies
+│   │   │       │   │   ├── … 10 → 3 samples (0.2% → <0.1%, self 1.0% → 0.8% globally) IndexSetIterator::advance_and_next
+│   │   │       │   │   └── 572 → 575 samples (9.6% → 9.5%) 60 more callees, led by (3.0% → 3.1%) PhaseChaitin::Split
+│   │   │       │   └── 535 → 540 samples (9.0%) 11 more callees, led by (3.6% → 3.5%) Matcher::match
+│   │   │       ├── 1,031 → 1,066 samples (17.3% → 17.7%) Compile::Optimize
+│   │   │       │   ├── 293 → 287 samples (4.9% → 4.8%) PhaseIdealLoop::optimize
+│   │   │       │   │   ├── 215 → 210 samples (3.6% → 3.5%) PhaseIdealLoop::PhaseIdealLoop
+│   │   │       │   │   │   └── 215 → 210 samples (3.6% → 3.5%) PhaseIdealLoop::build_and_optimize
+│   │   │       │   │   │       ├── 5 → 1 sample (0.1% → <0.1%) MultiNode::is_CFG
+│   │   │       │   │   │       └── 210 → 209 samples (3.5%) 33 more callees, led by (1.2% → 1.3%) PhaseIdealLoop::build_loop_late
+│   │   │       │   │   └── 78 → 77 samples (1.3%) 3 more callees, led by (1.3% → 1.2%) PhaseIterGVN::optimize
+│   │   │       │   └── 738 → 779 samples (12.4% → 12.9%) 21 more callees, led by (3.4% → 3.3%) Compile::optimize_loops
+│   │   │       └── 380 → 346 samples (6.4% → 5.7%) 10 more callees, led by (5.7% → 5.2%) ParseGenerator::generate
+│   │   └── 627 → 625 samples (10.5% → 10.4%) Compiler::compile_method
+│   │       └── 627 → 625 samples (10.5% → 10.4%) 2 more callees, led by (10.5% → 10.3%) Compilation::Compilation
+│   └── 307 → 337 samples (5.2% → 5.6%) WorkerThread::run
+│       ├── 158 → 148 samples (2.7% → 2.5%) G1EvacuateRegionsBaseTask::work
+│       │   ├── … 80 → 46 samples (1.3% → 0.8%) G1ParScanThreadState::trim_queue_to_threshold
+│       │   │   └── 47 → 34 samples (0.8% → 0.6%) G1ParScanThreadState::do_copy_to_survivor_space
+│       │   └── … 12 → 35 samples (0.2% → 0.6%) G1ParScanThreadState::do_copy_to_survivor_space
+│       └── 149 → 189 samples (2.5% → 3.1%) 9 more callees, led by (1.1%) G1CMConcurrentMarkingTask::work
+├── 2,238 → 2,261 samples (37.6% → 37.5%) main at org.codenarc.CodeNarc
+│   └── 2,237 → 2,259 samples (37.6% → 37.5%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│       ├── … 2,189 → 2,215 samples (36.8%, self 2.5% → 2.8%) invoke at java.lang.invoke.LambdaForm$MH
+│       │   ├── … 988 → 1,036 samples (16.6% → 17.2%, self 0.4% → 0.5%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+│       │   │   └── 963 → 1,004 samples (16.2% → 16.7%) 14 more callees, led by (7.8% → 8.2%) selectMethod at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   ├── … 104 → 76 samples (1.7% → 1.3%, self 0.7% → 0.4%) invokeStatic at java.lang.invoke.DirectMethodHandle$Holder
+│       │   │   └── 62 → 50 samples (1.0% → 0.8%) 36 more callees, led by (0.1% → 0.2%) isSameMetaClass at org.codehaus.groovy.vmplugin.v8.IndyGuardsFiltersAndSignatures
+│       │   ├── 13 → 6 samples (0.2% → 0.1%) invokeBasic at java.lang.invoke.MethodHandle
+│       │   └── 936 → 928 samples (15.7% → 15.4%) 29 more callees, led by (5.4% → 5.5%) invokeVirtual at java.lang.invoke.LambdaForm$DMH
+│       └── … 46 → 42 samples (0.8% → 0.7%) guard at java.lang.invoke.LambdaForm$MH …
+└── 12 samples (0.2%) <clinit> at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -8,6 +8,55 @@ Collected 1,434 → 1,596 samples (+162 samples, +11.3%).
 | Garbage collector | +48.1% |   +75 | 10.9% → 14.5% |     156 → 231 |
 | Standard library  | +19.0% |    +8 |   2.9% → 3.1% |       42 → 50 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── … 1,433 → 1,594 samples (99.9%) pytest_pyfunc_call at python.py
+    ├── … 180 → 203 samples (12.6% → 12.7%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   ├── … 136 → 163 samples (9.5% → 10.2%) ConjectureRunner.cached_test_function at engine.py
+    │   │   └── … 135 → 163 samples (9.4% → 10.2%, self 0.9% → 1.2% globally) StateForActualGivenExecution._execute_once_for_engine at core.py
+    │   │       ├── … 22 → 50 samples (1.5% → 3.1%, self 5.6% → 4.6% globally) StackSummary._extract_from_extended_frame_gen at traceback.py
+    │   │       │   └── 19 → 41 samples (1.3% → 2.6%, self 0.8% → 1.4% globally) _walk_tb_with_full_positions
+    │   │       │       └── 19 → 39 samples (1.3% → 2.4%, self 58.3% → 56.1% globally) _get_code_position
+    │   │       └── 105 → 111 samples (7.3% → 7.0%) 6 more callees, led by (2.2% → 2.6%) InterestingOrigin.from_exception at escalation.py
+    │   └── 38 → 34 samples (2.6% → 2.1%) 4 more callees, led by (2.3% → 1.8%) Shrinker.minimize_individual_choices
+    ├── … 125 → 127 samples (8.7% → 8.0%) Shrinker.shrink at shrinker.py
+    │   ├── … 117 → 119 samples (8.2% → 7.5%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   │   └── 117 → 119 samples (8.2% → 7.5%) 6 more callees, led by (4.4% → 3.6%) Shrinker.try_trivial_spans
+    │   └── 8 samples (0.6% → 0.5%) Shrinker.initial_coarse_reduction …
+    ├── … 106 → 148 samples (7.4% → 9.3%) given.<locals>.run_test_as_given.<locals>.wrapped_test at core.py
+    │   ├── 84 → 115 samples (5.9% → 7.2%) StateForActualGivenExecution.run_engine
+    │   │   ├── 55 → 80 samples (3.8% → 5.0%) ConjectureRunner.run at engine.py
+    │   │   │   └── 55 → 80 samples (3.8% → 5.0%) ConjectureRunner._run
+    │   │   │       ├── 29 → 44 samples (2.0% → 2.8%) ConjectureRunner.generate_new_test_cases …
+    │   │   │       └── … 24 → 35 samples (1.7% → 2.2%) StateForActualGivenExecution._execute_once_for_engine at core.py
+    │   │   │           ├── 8 samples (0.6% → 0.5%, self 1.2% → 1.5% globally) extract_tb at traceback.py
+    │   │   │           │   └── 8 → 7 samples (0.6% → 0.4%) StackSummary._extract_from_extended_frame_gen
+    │   │   │           │       └── 2 → 0 samples (0.1% → 0.0%, self 2.4% → 2.8% globally) checkcache at <frozen linecache>
+    │   │   │           └── 16 → 27 samples (1.1% → 1.7%) 4 more callees, led by (0.3% → 0.9%) InterestingOrigin.from_exception at escalation.py
+    │   │   └── 29 → 35 samples (2.0% → 2.2%) 4 more callees, led by (1.4% → 1.8%) get_trimmed_traceback at escalation.py
+    │   └── 22 → 33 samples (1.5% → 2.1%) get_trimmed_traceback at escalation.py …
+    ├── … 101 → 111 samples (7.0%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   ├── … 97 → 102 samples (6.8% → 6.4%) Shrinker.run at common.py
+    │   │   └── 97 → 102 samples (6.8% → 6.4%) 2 more callees, led by (5.3% → 5.0%) Integer.short_circuit at integer.py
+    │   └── 2 → 4 samples (0.1% → 0.3%) Shrinker.try_trivial_spans
+    ├── 116 → 78 samples (8.1% → 4.9%) accept.<locals>.test_dictionary at test_shrink_quality.py
+    │   └── 116 → 78 samples (8.1% → 4.9%) flaky.<locals>.accept.<locals>.inner at utils.py …
+    ├── … 48 → 121 samples (3.3% → 7.6%) StateForActualGivenExecution.run_engine at core.py
+    │   ├── … 0 → 61 samples (0.0% → 3.8%, self 10.9% → 14.5% globally) (garbage collector)
+    │   └── 45 → 59 samples (3.1% → 3.7%) 3 more callees, led by (2.8% → 3.5%) ConjectureRunner.run at engine.py
+    ├── … 61 → 62 samples (4.3% → 3.9%) StateForActualGivenExecution._execute_once_for_engine at core.py
+    │   ├── 12 → 5 samples (0.8% → 0.3%, self 0.2% → 0.5% globally) format_exception at escalation.py
+    │   │   └── 11 → 5 samples (0.8% → 0.3%, self 1.5% → 0.8% globally) format_exception at traceback.py
+    │   │       └── 7 → 5 samples (0.5% → 0.3%, self 0.8% → 0.2% globally) TracebackException.format
+    │   └── 49 → 57 samples (3.4% → 3.6%) 5 more callees, led by (1.0% → 1.1%) extract_tb at traceback.py
+    └── 681 → 730 samples (47.5% → 45.7%) 57 more callees, led by (5.0% → 4.6%) accept.<locals>.test_lowering_together_mixed at test_shrink_quality.py
+```
+
 ## Hottest functions
 
 ### Self samples

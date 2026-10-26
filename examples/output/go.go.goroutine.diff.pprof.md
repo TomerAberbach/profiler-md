@@ -8,6 +8,10 @@ Recorded 1 goroutine.
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+## Call tree
+
+No call path differed in goroutines recorded.
+
 ## Hottest functions
 
 ### Self goroutines

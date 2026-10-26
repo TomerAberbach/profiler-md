@@ -8,6 +8,55 @@ Collected 935 → 1,156 samples (+221 samples, +23.6%).
 | Garbage collector | +51.4% |  +148 | 30.8% → 37.7% | 288 → 436 |
 | Standard library  |   0.0% |     0 |   1.3% → 1.0% |        12 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 935 → 1,156 samples (100.0%) _run_module_as_main at <frozen runpy>
+    └── 935 → 1,156 samples (100.0%) _run_code
+        ├── … 909 → 1,133 samples (97.2% → 98.0%) format_file_contents at __init__.py
+        │   ├── 471 → 573 samples (50.4% → 49.6%) check_stability_and_equivalence
+        │   │   ├── 400 → 489 samples (42.8% → 42.3%) assert_stable
+        │   │   │   └── 398 → 484 samples (42.6% → 41.9%) _format_str_once
+        │   │   │       ├── … 291 → 383 samples (31.1% → 33.1%, self 2.0% → 1.5%) Driver.parse_tokens at driver.py
+        │   │   │       │   ├── 254 → 354 samples (27.2% → 30.6%, self 0.6% → 0.3%) Parser.addtoken at parse.py
+        │   │   │       │   │   └── 245 → 346 samples (26.2% → 29.9%, self 4.6% → 3.9%, self 14.7% → 15.3% globally) Parser._addtoken
+        │   │   │       │   │       ├── 178 → 282 samples (19.0% → 24.4%, self 30.8% → 37.7% globally) (garbage collector)
+        │   │   │       │   │       ├── 11 → 6 samples (1.2% → 0.5%, self 0.6% → 0.2%, self 2.0% → 1.1% globally) Parser.pop
+        │   │   │       │   │       │   └── 5 → 4 samples (0.5% → 0.3%) convert at pytree.py
+        │   │   │       │   │       └── 13 samples (1.4% → 1.1%) 2 more callees, led by (1.0% → 0.9%) Parser.shift
+        │   │   │       │   └── 18 → 12 samples (1.9% → 1.0%) 5 more callees, led by (1.6% → 0.9%) TokenProxy.__next__
+        │   │   │       ├── 43 → 52 samples (4.6% → 4.5%, self 1.4% → 1.0%) Visitor.visit at nodes.py
+        │   │   │       │   ├── … 6 samples (0.6% → 0.5%) LineGenerator.visit_stmt at linegen.py
+        │   │   │       │   │   └── 6 samples (0.6% → 0.5%, self 0.1% → 0.5%, self 1.0% → 0.8% globally) normalize_invisible_parens
+        │   │   │       │   │       └── 5 → 0 samples (0.5% → 0.0%) wrap_in_parentheses at nodes.py
+        │   │   │       │   └── 24 → 35 samples (2.6% → 3.0%) 7 more callees, led by (1.9% → 2.2%) LineGenerator.visit_default at linegen.py
+        │   │   │       ├── 7 → 2 samples (0.7% → 0.2%, self 0.5% → 0.0%, self 1.1% → 0.3% globally) EmptyLineTracker.maybe_empty_lines at lines.py
+        │   │   │       ├── 6 → 3 samples (0.6% → 0.3%) normalize_fmt_off at comments.py
+        │   │   │       │   └── 6 → 3 samples (0.6% → 0.3%, self 1.6% → 1.0% globally) convert_one_fmt_off_pair
+        │   │   │       └── 47 → 42 samples (5.0% → 3.6%) 3 more callees, led by (3.3% → 2.8%) detect_target_versions
+        │   │   └── 67 → 79 samples (7.2% → 6.8%, self 1.0%) assert_equivalent
+        │   │       ├── … 37 → 48 samples (4.0% → 4.2%) parse at ast.py
+        │   │       └── 18 → 16 samples (1.9% → 1.4%, self 1.5% → 1.0%) _stringify_ast at parsing.py
+        │   └── 438 → 560 samples (46.8% → 48.4%, self 0.5%) format_str
+        │       └── 433 → 554 samples (46.3% → 47.9%, self 0.2% → 0.9%) _format_str_once
+        │           ├── … 203 → 274 samples (21.7% → 23.7%, self 4.2% → 4.1%, self 6.2% → 5.5% globally) Driver.parse_tokens at driver.py
+        │           │   └── 164 → 227 samples (17.5% → 19.6%) 6 more callees, led by (15.5% → 15.8%) Parser.addtoken at parse.py
+        │           ├── 83 → 65 samples (8.9% → 5.6%, self 2.2% → 1.2%, self 3.6% → 2.2% globally) Visitor.visit at nodes.py
+        │           │   ├── … 28 → 29 samples (3.0% → 2.5%, self 1.0% → 0.4%) LineGenerator.visit_default at linegen.py
+        │           │   │   ├── 14 → 17 samples (1.5%, self 1.0% → 0.4%, self 2.4% → 1.1% globally) Line.append at lines.py
+        │           │   │   │   └── 2 → 8 samples (0.2% → 0.7%) whitespace at nodes.py
+        │           │   │   └── 4 → 5 samples (0.4%) generate_comments at comments.py
+        │           │   └── 34 → 22 samples (3.6% → 1.9%) 8 more callees, led by (1.8% → 0.8%) LineGenerator.visit_stmt at linegen.py
+        │           ├── 57 → 69 samples (6.1% → 6.0%) detect_target_versions
+        │           │   └── 57 → 69 samples (6.1% → 6.0%, self 9.4% → 8.7% globally) get_features_used
+        │           └── 87 → 136 samples (9.3% → 11.8%) 5 more callees, led by (6.4% → 9.0%) transform_line at linegen.py
+        └── 26 → 23 samples (2.8% → 2.0%) run_module …
+```
+
 ## Hottest functions
 
 ### Self samples

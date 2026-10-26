@@ -1,7 +1,15 @@
+import { PERCENT_RESOLUTION } from '../../../helpers/format.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
+import { NEGLIGIBLE_SHARE, shareOf } from '../measure.ts'
 import type { Measure } from '../measure.ts'
-import { isFunctionNode } from './node.ts'
-import type { CallTreeNode, CallTreeRoot, FunctionNode } from './node.ts'
+import type { CallTreeInput } from './build.ts'
+import { isFunctionNode, sideUndrawnValuesOf, sideValueOf } from './node.ts'
+import type {
+  CallTreeNode,
+  CallTreeRoot,
+  FunctionNode,
+  SideValues,
+} from './node.ts'
 
 /** The tree's drawn frames, and what they are drawn against. */
 export type DrawnCallTree = {
@@ -13,12 +21,71 @@ export type DrawnCallTree = {
   /** The frames a run would omit that have a line of their own instead. */
   named: Set<CallTreeNode>
 
-  /** The value below which no line accounts for a node's undrawn callees. */
-  negligible: number
-
   lineBudget: number
-  measure: Measure
+
+  /** @see {@link CallTreeInput.measures} */
+  measures: readonly Measure[]
+
+  sideFunctionsOf: CallTreeInput[`sideFunctionsOf`]
   options: FormattingProfileToMdOptions
+}
+
+/**
+ * Whether {@link node}'s {@link field}, less {@link minus}'s
+ * {@link minusField} if given, is less than {@link NEGLIGIBLE_SHARE} of its
+ * side's total on every side, so no line states it.
+ */
+export const isNegligible = (
+  { measures }: DrawnCallTree,
+  node: CallTreeNode,
+  field: keyof SideValues,
+  minus?: CallTreeNode,
+  minusField = field,
+): boolean => {
+  for (let side = 0; side < measures.length; side++) {
+    let value = sideValueOf(node, side, field)
+    if (minus !== undefined) {
+      value -= sideValueOf(minus, side, minusField)
+    }
+    if (shareOf(value, measures[side]!) >= NEGLIGIBLE_SHARE) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * Whether {@link values}, one per side of the tree, are each less than
+ * {@link NEGLIGIBLE_SHARE} of their side's total, so no line states them.
+ */
+export const areNegligible = (
+  { measures }: DrawnCallTree,
+  values: readonly number[],
+): boolean =>
+  values.every(
+    (value, side) => shareOf(value, measures[side]!) < NEGLIGIBLE_SHARE,
+  )
+
+/** Whether a line stating {@link node}'s value would state `<0.1%` on every side. */
+export const isBelowResolution = (
+  { measures }: DrawnCallTree,
+  node: CallTreeNode,
+): boolean =>
+  measures.every(
+    (measure, side) =>
+      shareOf(sideValueOf(node, side, `value`), measure) < PERCENT_RESOLUTION,
+  )
+
+/**
+ * {@link node}'s undrawn callees' value on each side, where a summary line or a
+ * lone callee's line states it, or nothing where it is negligible.
+ */
+export const summarizedValuesOf = (
+  tree: DrawnCallTree,
+  node: CallTreeRoot,
+): number[] | undefined => {
+  const values = sideUndrawnValuesOf(node)
+  return areNegligible(tree, values) ? undefined : values
 }
 
 /** Calls {@link visit} with each of the tree's runs. */
@@ -55,22 +122,20 @@ export type Run = {
  * or leads to more than one drawn callee, or before the run leaves enough
  * undrawn to state.
  */
-export const runFrom = (
-  node: CallTreeNode,
-  { terminals, named, negligible }: DrawnCallTree,
-): Run => {
+export const runFrom = (node: CallTreeNode, tree: DrawnCallTree): Run => {
+  const { terminals, named } = tree
   const passed: CallTreeNode[] = []
   let deepest = node
   while (
     isFunctionNode(deepest) &&
     !terminals.has(deepest) &&
     !named.has(deepest) &&
-    deepest.selfValue < negligible &&
+    isNegligible(tree, deepest, `selfValue`) &&
     deepest.drawnCallees.length === 1 &&
     // Each frame's undrawn callees may be too small to state, but the line
     // states only the deepest frame's value, so what the run leaves undrawn
     // must be too small to state in total.
-    node.value - deepest.drawnCallees[0]!.value < negligible
+    isNegligible(tree, node, `value`, deepest.drawnCallees[0])
   ) {
     passed.push(deepest)
     deepest = deepest.drawnCallees[0]!

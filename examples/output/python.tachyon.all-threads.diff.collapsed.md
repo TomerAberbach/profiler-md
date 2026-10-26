@@ -8,6 +8,55 @@ Collected 972 → 1,136 samples (+164 samples, +16.9%).
 | Garbage collector | +32.5% |  +106 | 33.5% → 38.0% | 326 → 432 |
 | Standard library  |  +7.7% |    +1 |   1.3% → 1.2% |   13 → 14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 972 → 1,136 samples (100.0%) _run_module_as_main at <frozen runpy>
+    └── 972 → 1,136 samples (100.0%) _run_code
+        ├── … 945 → 1,107 samples (97.2% → 97.4%) format_file_contents at __init__.py
+        │   ├── 487 → 576 samples (50.1% → 50.7%, self 0.5% → 0.4%) check_stability_and_equivalence
+        │   │   ├── 412 → 506 samples (42.4% → 44.5%) assert_stable
+        │   │   │   └── 409 → 504 samples (42.1% → 44.4%) _format_str_once
+        │   │   │       ├── … 305 → 385 samples (31.4% → 33.9%, self 1.3% → 1.2%) Driver.parse_tokens at driver.py
+        │   │   │       │   ├── 274 → 363 samples (28.2% → 32.0%, self 0.6% → 0.7%) Parser.addtoken at parse.py
+        │   │   │       │   │   ├── 262 → 352 samples (27.0% → 31.0%, self 5.0% → 4.6%) Parser._addtoken
+        │   │   │       │   │   │   ├── 198 → 276 samples (20.4% → 24.3%, self 33.5% → 38.0% globally) (garbage collector)
+        │   │   │       │   │   │   ├── 7 → 10 samples (0.7% → 0.9%, self 0.5% → 0.3%) Parser.pop
+        │   │   │       │   │   │   │   └── 2 → 7 samples (0.2% → 0.6%) convert at pytree.py
+        │   │   │       │   │   │   └── 8 → 14 samples (0.8% → 1.2%) 2 more callees, led by (0.7% → 1.1%) Parser.shift
+        │   │   │       │   │   └── 4 → 3 samples (0.4% → 0.3%) generate_tokens at tokenize.py
+        │   │   │       │   └── 18 → 8 samples (1.9% → 0.7%) 3 more callees, led by (1.7% → 0.6%) TokenProxy.__next__
+        │   │   │       ├── 14 → 18 samples (1.4% → 1.6%) transform_line at linegen.py
+        │   │   │       │   ├── … 0 → 7 samples (0.0% → 0.6%) Leaf.prefix at pytree.py
+        │   │   │       │   └── 3 samples (0.3%) run_transformer
+        │   │   │       ├── 0 → 8 samples (0.0% → 0.7%, self 0.4% → 0.9% globally) EmptyLineTracker.maybe_empty_lines at lines.py
+        │   │   │       └── 88 → 92 samples (9.1% → 8.1%) 5 more callees, led by (4.7% → 4.8%) Visitor.visit at nodes.py
+        │   │   └── 70 → 65 samples (7.2% → 5.7%, self 0.6% → 0.4%) assert_equivalent
+        │   │       ├── … 38 → 47 samples (3.9% → 4.1%) parse at ast.py
+        │   │       └── 24 → 8 samples (2.5% → 0.7%, self 1.9% → 0.6%) _stringify_ast at parsing.py
+        │   │           └── 6 → 1 sample (0.6% → 0.1%) _stringify_ast_with_new_parent
+        │   └── 458 → 531 samples (47.1% → 46.7%, self 0.5%) format_str
+        │       └── 453 → 525 samples (46.6% → 46.2%, self 0.6% → 0.4%) _format_str_once
+        │           ├── … 199 → 246 samples (20.5% → 21.7%, self 2.7% → 3.3%, self 4.0% → 4.6% globally) Driver.parse_tokens at driver.py
+        │           │   ├── 153 → 183 samples (15.7% → 16.1%, self 0.9% → 0.8%, self 1.5% globally) Parser.addtoken at parse.py
+        │           │   │   ├── 138 → 164 samples (14.2% → 14.4%, self 10.2% → 9.3%, self 15.7% → 14.3% globally) Parser._addtoken
+        │           │   │   │   ├── 11 → 30 samples (1.1% → 2.6%, self 0.6% → 2.0%, self 1.1% → 2.3% globally) Parser.pop
+        │           │   │   │   │   └── 5 → 6 samples (0.5%, self 0.3% → 1.1% globally) convert at pytree.py
+        │           │   │   │   └── 28 samples (2.9% → 2.5%) 3 more callees, led by (1.5% → 1.3%) Parser.shift
+        │           │   │   └── 6 → 7 samples (0.6%, self 2.9% → 2.4% globally) generate_tokens at tokenize.py
+        │           │   └── 20 → 25 samples (2.1% → 2.2%) 6 more callees, led by (1.3% → 1.4%) TokenProxy.__next__
+        │           ├── 88 → 84 samples (9.1% → 7.4%, self 1.9% → 1.5%, self 2.5% → 2.6% globally) Visitor.visit at nodes.py
+        │           │   ├── … 0 → 2 samples (0.0% → 0.2%, self 2.2% → 1.1% globally) Line.append at lines.py
+        │           │   └── 70 → 63 samples (7.2% → 5.5%) 9 more callees, led by (3.2% → 2.2%) LineGenerator.visit_default at linegen.py
+        │           ├── 3 → 7 samples (0.3% → 0.6%, self 0.1% → 0.5%) LinesBlock.all_lines at lines.py
+        │           └── 156 → 184 samples (16.0% → 16.2%) 5 more callees, led by (7.8% → 8.7%) transform_line at linegen.py
+        └── 27 → 25 samples (2.8% → 2.2%) run_module …
+```
+
 ## Hottest functions
 
 ### Self samples

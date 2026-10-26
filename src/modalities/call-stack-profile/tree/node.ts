@@ -1,4 +1,3 @@
-import type { AggregatedCallStackProfileFunction } from '../aggregate.ts'
 import type { ShownFrameNotation } from '../table.ts'
 
 /** The tree's root, which stands for the profile rather than a function. */
@@ -20,14 +19,37 @@ export type CallTreeRoot = {
    * {@link NO_DRAWN_CALLEES} until one is drawn.
    */
   drawnCallees: CallTreeNode[]
+
+  /**
+   * In a diff's tree, the node's values on each side, indexed like the tree's
+   * measures. The node's own values weigh both sides for drawing.
+   */
+  sideValues: SideValues[] | undefined
 }
+
+/**
+ * A diff tree node's values on one side, each the side's measure value of what
+ * the {@link CallTreeNode} field of the same name weighs.
+ */
+export type SideValues = {
+  value: number
+  selfValue: number
+  calleesValue: number
+  hiddenCalleesValue: number
+  omittedCallersValue: number
+}
+
+/**
+ * A function a node stands for: a profile's function, or a diff's function
+ * diff with its index as its ID.
+ */
+export type TreeFunction = { type: `function`; id: number; name: string }
 
 /** The drawn callees every node shares until its first is drawn. */
 export const NO_DRAWN_CALLEES: CallTreeNode[] = Object.freeze([]) as never
 
 /** What a node stands for: a function, or frames no function stands for. */
-export type NodeFunction =
-  AggregatedCallStackProfileFunction | PlaceholderFrames
+export type NodeFunction = TreeFunction | PlaceholderFrames
 
 /**
  * Frames a node stands for that are no function, which its line names with
@@ -49,10 +71,16 @@ export type CallTreeNode<Func extends NodeFunction = NodeFunction> =
     func: Func
     caller: CallTreeRoot
 
-    /** The measure value of every call stack passing through this node. */
+    /**
+     * The measure value of every call stack passing through this node, or in a
+     * diff's tree, the sum of its shares of each side's total.
+     */
     value: number
 
-    /** The measure value of the call stacks whose leaf frame is this node. */
+    /**
+     * The measure value of the call stacks whose leaf frame is this node,
+     * weighed like {@link value}.
+     */
     selfValue: number
 
     /**
@@ -73,7 +101,7 @@ export type CallTreeNode<Func extends NodeFunction = NodeFunction> =
     drawn: boolean
   }
 
-export type FunctionNode = CallTreeNode<AggregatedCallStackProfileFunction>
+export type FunctionNode = CallTreeNode<TreeFunction>
 
 /**
  * The key a caller's node for {@link func} is stored under: a function's ID,
@@ -84,6 +112,36 @@ export const keyOf = (func: NodeFunction): number =>
 
 export const isFunctionNode = (node: CallTreeNode): node is FunctionNode =>
   node.func.type === `function`
+
+/** {@link node}'s values on each side of its tree. */
+export const sideValuesOf = (node: CallTreeNode): readonly SideValues[] =>
+  node.sideValues ?? [node]
+
+/** {@link node}'s {@link field} on {@link side} of its tree. */
+export const sideValueOf = (
+  node: CallTreeNode,
+  side: number,
+  field: keyof SideValues,
+): number => (node.sideValues?.[side] ?? node)[field]
+
+/** {@link node}'s {@link field} on each side of its tree. */
+export const sidesOf = (
+  node: CallTreeNode,
+  field: keyof SideValues,
+): number[] => sideValuesOf(node).map(values => values[field])
+
+/**
+ * The summed value of the callees {@link node} draws no path to on each side,
+ * apart from its hidden callees.
+ */
+export const sideUndrawnValuesOf = (node: CallTreeRoot): number[] =>
+  (node.sideValues ?? [node]).map(({ calleesValue }, side) => {
+    let drawnValue = 0
+    for (const callee of node.drawnCallees) {
+      drawnValue += sideValueOf(callee, side, `value`)
+    }
+    return calleesValue - drawnValue
+  })
 
 /** Every callee of the node, in the order they were reached. */
 export const calleesOf = ({

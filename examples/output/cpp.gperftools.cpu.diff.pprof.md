@@ -11,6 +11,55 @@ Took 792.0ms → 598.0ms (-194.00ms, -24.5%) over 792 → 598 samples (1.0ms per
 
 Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── … 792.0ms → 598.0ms (100.0%, self 8.0% → 10.4%) (anonymous)
+    ├── 715.0ms → 523.0ms (90.3% → 87.5%) main at /out/profile.cpp:8
+    │   ├── 696.0ms → 0ms (87.9% → 0.0%) fmt::v11::format at ./format.h:4198
+    │   │   └── 693.0ms → 0ms (87.5% → 0.0%) fmt::v11::vformat[abi:cxx11] at ./format-inl.h:1442
+    │   │       ├── 648.0ms → 0ms (81.8% → 0.0%) fmt::v11::detail::vformat_to at 1452
+    │   │       │   └── 647.0ms → 0ms (81.7% → 0.0%, self 3.9% → 0.0%) fmt::v11::detail::parse_format_string at ./base.h:1630
+    │   │       │       ├── 568.0ms → 0ms (71.7% → 0.0%, self 3.0% → 0.0%) fmt::v11::detail::parse_replacement_field at 1583
+    │   │       │       │   ├── 486.0ms → 0ms (61.4% → 0.0%, self 2.7% → 0.0%) fmt::v11::detail::format_handler::on_format_specs at ./format.h:3613
+    │   │       │       │   │   ├── 194.0ms → 0ms (24.5% → 0.0%, self 1.6% → 0.0%, self 2.7% → 0.0% globally) fmt::v11::basic_format_arg::visit at ./base.h:2516
+    │   │       │       │   │   │   └── 181.0ms → 0ms (22.9% → 0.0%) fmt::v11::detail::arg_formatter::operator() at ./format.h:3498 …
+    │   │       │       │   │   ├── 103.0ms → 0ms (13.0% → 0.0%, self 6.6% → 0.0%) fmt::v11::detail::parse_format_specs at ./base.h:1445
+    │   │       │       │   │   │   └── 51.0ms → 0ms (6.4% → 0.0%) 6 more callees, led by (2.7% → 0.0%) fmt::v11::detail::parse_width at 1417
+    │   │       │       │   │   └── 168.0ms → 0ms (21.2% → 0.0%) 8 more callees, led by (10.6% → 0.0%) fmt::v11::detail::write at 2114
+    │   │       │       │   └── 58.0ms → 0ms (7.3% → 0.0%) 4 more callees, led by (6.3% → 0.0%) fmt::v11::detail::format_handler::on_replacement_field at ./format.h:3609
+    │   │       │       └── 47.0ms → 0ms (5.9% → 0.0%) fmt::v11::detail::format_handler::on_text at ./format.h:3593
+    │   │       │           ├── 39.0ms → 0ms (4.9% → 0.0%, self 1.5% → 0.0%, self 2.8% → 0.0% globally) fmt::v11::detail::copy_noinline at 534
+    │   │       │           │   └── 27.0ms → 0ms (3.4% → 0.0%) fmt::v11::detail::copy at ./base.h:2041
+    │   │       │           │       └── 27.0ms → 0ms (3.4% → 0.0%, self 2.5% → 0.0%, self 9.7% → 0.0% globally) fmt::v11::detail::buffer::append at 1829
+    │   │       │           │           └── 7.0ms → 0ms (0.9% → 0.0%, self 2.1% → 0.0% globally) fmt::v11::detail::buffer::try_reserve at 1812
+    │   │       │           └── 5.0ms → 0ms (0.6% → 0.0%) fmt::v11::context::out at ./base.h:2690
+    │   │       └── 42.0ms → 0ms (5.3% → 0.0%) 4 more callees, led by (3.3% → 0.0%) fmt::v11::to_string at ./format.h:882
+    │   ├── 0ms → 520.0ms (0.0% → 87.0%) fmt::v12::format at ./format.h:4335
+    │   │   ├── 0ms → 517.0ms (0.0% → 86.5%) fmt::v12::vformat[abi:cxx11] at ./format-inl.h:1446
+    │   │   │   ├── 0ms → 487.0ms (0.0% → 81.4%) fmt::v12::detail::vformat_to at 1456
+    │   │   │   │   └── 0ms → 487.0ms (0.0% → 81.4%, self 0.0% → 4.2%) fmt::v12::detail::parse_format_string at ./base.h:1646
+    │   │   │   │       ├── 0ms → 417.0ms (0.0% → 69.7%, self 0.0% → 2.5%) fmt::v12::detail::parse_replacement_field at 1599
+    │   │   │   │       │   ├── 0ms → 368.0ms (0.0% → 61.5%, self 0.0% → 1.2%) fmt::v12::detail::format_handler::on_format_specs at ./format.h:3772
+    │   │   │   │       │   │   ├── 0ms → 73.0ms (0.0% → 12.2%, self 0.0% → 6.9%) fmt::v12::detail::parse_format_specs at ./base.h:1461
+    │   │   │   │       │   │   │   └── 0ms → 32.0ms (0.0% → 5.4%) 6 more callees, led by (0.0% → 2.0%) fmt::v12::detail::parse_width at 1433
+    │   │   │   │       │   │   └── 0ms → 288.0ms (0.0% → 48.2%) 9 more callees, led by (0.0% → 18.6%) fmt::v12::detail::write at 3434
+    │   │   │   │       │   └── 0ms → 34.0ms (0.0% → 5.7%) 2 more callees, led by (0.0% → 4.7%) fmt::v12::detail::format_handler::on_replacement_field at ./format.h:3768
+    │   │   │   │       └── 0ms → 43.0ms (0.0% → 7.2%) fmt::v12::detail::format_handler::on_text at ./format.h:3752
+    │   │   │   │           └── 0ms → 42.0ms (0.0% → 7.0%, self 0.0% → 3.3%, self 0.0% → 4.7% globally) fmt::v12::detail::copy_noinline at 568
+    │   │   │   │               └── 0ms → 22.0ms (0.0% → 3.7%) fmt::v12::detail::copy at ./base.h:2068
+    │   │   │   │                   └── 0ms → 22.0ms (0.0% → 3.7%, self 0.0% → 2.8%, self 0.0% → 8.2% globally) fmt::v12::detail::buffer::append at 1845
+    │   │   │   │                       └── 0ms → 5.0ms (0.0% → 0.8%, self 0.0% → 2.3% globally) fmt::v12::detail::buffer::try_reserve at 1828
+    │   │   │   └── 0ms → 28.0ms (0.0% → 4.7%) 4 more callees, led by (0.0% → 2.2%) fmt::v12::to_string at ./format.h:910
+    │   │   └── 0ms → 2.0ms (0.0% → 0.3%) fmt::v12::detail::value::value at ./base.h:2220
+    │   └── 18.0ms → 2.0ms (2.3% → 0.3%) std::__cxx11::basic_string::~basic_string at /usr/include/c++/12/bits/basic_string.h:794 …
+    └── 12.0ms (1.5% → 2.0%) operator delete
+```
+
 ## Hottest functions
 
 ### Self time

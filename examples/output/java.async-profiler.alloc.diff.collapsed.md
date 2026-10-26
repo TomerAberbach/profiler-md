@@ -7,6 +7,55 @@ Collected 75,385 → 75,888 samples (+503 samples, +0.7%).
 | Standard library |  +0.4% |  +250 | 93.2% → 92.9% | 70,236 → 70,486 |
 | Ours             |  +4.9% |  +253 |   6.8% → 7.1% |   5,149 → 5,402 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 75,000 → 75,439 samples (99.5% → 99.4%) compute at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   ├── 57,634 → 57,247 samples (76.5% → 75.4%) combineResults at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   └── … 57,634 → 57,247 samples (76.5% → 75.4%) merge at org.renaissance.jdk.concurrent.JavaKMeans
+│   │       ├── … 57,120 → 56,755 samples (75.8% → 74.8%) lambda$merge$6 at org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │   ├── 42,623 → 42,303 samples (56.5% → 55.7%) addAll at java.util.ArrayList
+│   │       │   │   ├── 27,622 → 27,060 samples (36.6% → 35.7%) grow
+│   │       │   │   │   └── 27,622 → 27,060 samples (36.6% → 35.7%, self 91.1% → 90.7% globally) copyOf at java.util.Arrays
+│   │       │   │   └── 15,001 → 15,243 samples (19.9% → 20.1%) toArray
+│   │       │   │       └── 15,001 → 15,243 samples (19.9% → 20.1%) copyOf at java.util.Arrays
+│   │       │   └── 14,254 → 14,246 samples (18.9% → 18.8%) <init> at java.util.ArrayList
+│   │       │       └── 14,254 → 14,246 samples (18.9% → 18.8%) toArray
+│   │       │           └── 14,254 → 14,246 samples (18.9% → 18.8%) copyOf at java.util.Arrays
+│   │       └── … 268 → 252 samples (0.4% → 0.3%) newNode at java.util.HashMap
+│   ├── 16,425 → 17,003 samples (21.8% → 22.4%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   ├── … 13,001 → 13,476 samples (17.2% → 17.8%) collectClusters at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   │   ├── 12,187 → 12,717 samples (16.2% → 16.8%) add at java.util.ArrayList
+│   │   │   │   └── … 12,187 → 12,717 samples (16.2% → 16.8%, self 0.6%) grow at java.util.ArrayList
+│   │   │   │       └── … 11,744 → 12,268 samples (15.6% → 16.2%) copyOf at java.util.Arrays
+│   │   │   └── 628 → 599 samples (0.8%) computeIfAbsent at java.util.HashMap
+│   │   │       ├── 210 → 196 samples (0.3%) apply at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000070011a3940
+│   │   │       │   └── 210 → 196 samples (0.3%) lambda$collectClusters$0 at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │   │       └── 138 → 121 samples (0.2%) resize
+│   │   └── … 3,424 → 3,527 samples (4.5% → 4.6%) findNearestCentroid at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   ├── 317 → 379 samples (0.4% → 0.5%) createSubtask at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   ├── 241 → 327 samples (0.3% → 0.4%) createSubtask at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   ├── 177 → 200 samples (0.2% → 0.3%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │   └── … 177 → 200 samples (0.2% → 0.3%) vectorSum at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   ├── 146 → 198 samples (0.2% → 0.3%) combineResults at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │   └── … 146 → 198 samples (0.2% → 0.3%) add at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── 33 → 41 samples (<0.1% → 0.1%) computeDirectly at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       └── … 33 → 41 samples (<0.1% → 0.1%) computeClusterAverages at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+└── … 328 → 372 samples (0.4% → 0.5%) evaluate at java.util.stream.AbstractPipeline
+    ├── … 128 → 152 samples (0.2%) lambda$generateData$5 at org.renaissance.jdk.concurrent.JavaKMeans
+    │   ├── 69 → 75 samples (0.1%) range at java.util.stream.IntStream
+    │   │   └── 44 → 58 samples (0.1%) intStream at java.util.stream.StreamSupport
+    │   └── 44 → 55 samples (0.1%) mapToObj at java.util.stream.IntPipeline
+    ├── … 116 → 138 samples (0.2%) valueOf at java.lang.Double
+    └── … 55 → 58 samples (0.1%) makeNodeBuilder at java.util.stream.ReferencePipeline
+        └── 55 → 58 samples (0.1%) builder at java.util.stream.Nodes
+            └── … 38 → 33 samples (0.1% → <0.1%) lambda$generateData$4 at org.renaissance.jdk.concurrent.JavaKMeans
+```
+
 ## Hottest functions
 
 ### Self samples

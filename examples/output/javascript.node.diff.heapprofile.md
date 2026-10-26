@@ -9,6 +9,55 @@ Allocated 21.8 MiB → 26.2 MiB (+4.407 MiB, +20.2%) over 28 → 36 samples (
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 21.8 MiB → 25.2 MiB (100.0% → 96.2%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   ├── … 12.3 MiB → 16.2 MiB (56.4% → 61.7%) (anonymous) at node:internal/modules/cjs/loader:1878:37
+│   │   ├── … 8.27 MiB → 8.37 MiB (37.9% → 31.9%) readFileSync at node:fs:433:22
+│   │   └── 4.03 MiB → 7.81 MiB (18.5% → 29.8%) (anonymous) at 1731:37
+│   │       ├── 2 MiB → 4.13 MiB (9.2% → 15.7%, self 2.3% → 1.9%) (anonymous) at ./node_modules/typescript/lib/typescript.js:1:1
+│   │       │   └── 1.5 MiB → 3.63 MiB (6.9% → 13.8%, self 0.0% → 9.8%) (anonymous) at 16:15
+│   │       │       ├── 1 MiB → 0 B (4.6% → 0.0%) diag at 9336:14
+│   │       │       ├── 0 B → 576 KiB (0.0% → 2.1%) __export at 22:16
+│   │       │       └── 512 KiB (2.3% → 1.9%) 2 more callees, led by (2.3% → 0.0%) createNodeFactory at 23135:27
+│   │       └── 2.03 MiB → 3.68 MiB (9.3% → 14.1%) wrapSafe at 1671:18
+│   ├── … 4.51 MiB → 6.02 MiB (20.7% → 23.0%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37
+│   │   ├── … 3.51 MiB → 4 MiB (16.1% → 15.3%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33
+│   │   │   ├── 2.51 MiB → 2 MiB (11.5% → 7.6%) forEach at 2365:17 → 2378:17
+│   │   │   │   ├── … 2.51 MiB → 1.5 MiB (11.5% → 5.7%) checkSourceElement at ./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30
+│   │   │   │   │   └── … 2.51 MiB → 1.5 MiB (11.5% → 5.7%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36
+│   │   │   │   │       ├── … 1.51 MiB → 512 KiB (6.9% → 1.9%) typeToString at ./node_modules/typescript/lib/typescript.js:53002:24 → 54239:24
+│   │   │   │   │       │   ├── … 518 KiB → 0 B (2.3% → 0.0%) typeToTypeNodeWorker at ./node_modules/typescript/lib/typescript.js:53183:34
+│   │   │   │   │       │   └── 1 MiB → 512 KiB (4.6% → 1.9%) 2 more callees, led by (2.3% → 1.9%) (anonymous) at 3504:10 → 3517:10
+│   │   │   │   │       └── 1 MiB (4.6% → 3.8%) 4 more callees, led by (2.3% → 0.0%) checkIndexedAccessType at 82349:34
+│   │   │   │   └── … 0 B → 512 KiB (0.0% → 1.9%) sameMap at ./node_modules/typescript/lib/typescript.js:2595:17
+│   │   │   └── 1 MiB → 2 MiB (4.6% → 7.6%) 2 more callees, led by (4.6% → 5.7%) checkDeferredNodes at 87179:30 → 88492:30
+│   │   └── 1 MiB → 2.02 MiB (4.6% → 7.7%, self 2.3% → 3.9%) getTypeChecker at 123266:26 → 124848:26
+│   │       └── … 513 KiB → 1.01 MiB (2.3% → 3.8%) bind at ./node_modules/typescript/lib/typescript.js:46600:16 → 47793:16
+│   │           ├── 513 KiB (2.3% → 1.9%) bindContainer at 45136:25 → 46329:25 …
+│   │           └── … 0 B → 518 KiB (0.0% → 1.9%) createSymbol at ./node_modules/typescript/lib/typescript.js:46101:24
+│   ├── 4.51 MiB → 3.01 MiB (20.7% → 11.5%) createProgram at ./node_modules/typescript/lib/typescript.js:122262:23 → 123840:23
+│   │   ├── 4.51 MiB → 2.01 MiB (20.7% → 7.7%) forEach at 2365:17 → 2378:17
+│   │   │   ├── … 3.51 MiB → 2.01 MiB (16.1% → 7.7%) findSourceFileWorker at ./node_modules/typescript/lib/typescript.js:123984:32 → 125566:32
+│   │   │   │   ├── … 1 MiB → 2.01 MiB (4.6% → 7.7%) parseSourceFileWorker at ./node_modules/typescript/lib/typescript.js:31659:33 → 32711:33
+│   │   │   │   │   ├── 513 KiB → 2.01 MiB (2.3% → 7.7%) parseList at 32618:21 → 33673:21
+│   │   │   │   │   │   ├── … 513 KiB → 519 KiB (2.3% → 1.9%) parseListElement at ./node_modules/typescript/lib/typescript.js:32639:28 → 33694:28
+│   │   │   │   │   │   │   ├── 513 KiB → 0 B (2.3% → 0.0%) parseStatement at 35924:26 → 36979:26 …
+│   │   │   │   │   │   │   └── … 0 B → 519 KiB (0.0% → 1.9%) doJSDocScan at ./node_modules/typescript/lib/typescript.js:37253:27 → 38308:27
+│   │   │   │   │   │   └── 0 B → 1.5 MiB (0.0% → 5.7%) 3 more callees, led by (0.0% → 1.9%) parseStatement at ./node_modules/typescript/lib/typescript.js:35924:26 → 36979:26
+│   │   │   │   │   └── … 514 KiB → 0 B (2.3% → 0.0%) exec
+│   │   │   │   └── 2.5 MiB → 0 B (11.5% → 0.0%) 4 more callees, led by (4.6% → 0.0%) processImportedModules at 124378:34 → 125960:34
+│   │   │   └── 1 MiB → 0 B (4.6% → 0.0%) 2 more callees, led by (2.3% → 0.0%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124200:35
+│   │   └── 0 B → 1 MiB (0.0% → 3.8%) 2 more callees, led by (0.0% → 1.9%) resolveTypeReferenceDirectiveNamesReusingOldState at 122897:61 → 124476:61
+│   └── … 512 KiB → 0 B (2.3% → 0.0%) getSubPatternFromSpec at ./node_modules/typescript/lib/typescript.js:21110:31
+└── 0 B → 1 MiB (0.0% → 3.8%) 2 more root frames, led by (0.0% → 1.9%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:86895:36 → 88208:36
+```
+
 ## Hottest functions
 
 ### Self size

@@ -11,6 +11,55 @@ Took 15.74s → 15.77s (+21.05ms, +0.1%) over 1,555 samples (10.1ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 15.74s → 15.75s (100.0% → 99.9%) <main> at profile.rb
+    ├── … 14.88s → 14.91s (94.5% → 94.6%) ActionDispatch::Static#call at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │   ├── … 14.78s (93.9% → 93.8%) ActiveSupport::Callbacks#run_callbacks at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb
+    │   │   ├── … 13.37s → 13.70s (84.9% → 86.9%) AbstractController::Rendering#render at /usr/local/bundle/gems/actionpack-8.1.4/lib/abstract_controller/rendering.rb
+    │   │   │   └── … 13.24s → 13.60s (84.1% → 86.3%) ActionView::TemplateRenderer#render at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb
+    │   │   │       └── … 13.19s → 13.56s (83.8% → 86.0%) ActiveSupport::Notifications.instrument at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb
+    │   │   │           └── … 13.13s → 13.48s (83.4% → 85.5%) Kernel#public_send [c function]
+    │   │   │               ├── 9.26s → 10.50s (58.8% → 66.6%) #<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128 at ./app/views/statuses/index.html.erb
+    │   │   │               │   └── 9.23s → 10.48s (58.7% → 66.5%) Array#each at <internal:array>
+    │   │   │               │       ├── 7.05s → 7.58s (44.8% → 48.1%, self 1.5% → 2.1%) block in _app_views_statuses_index_html_erb__328993190567029661_3128 at ./app/views/statuses/index.html.erb
+    │   │   │               │       │   ├── 5.84s (37.1%) ActionView::Helpers::SanitizeHelper#sanitize at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │   │   │               │       │   │   └── 5.81s → 5.79s (36.9% → 36.7%) Rails::HTML::Concern::ComposedSanitize#sanitize at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │   │   │               │       │   │       └── 5.81s → 5.78s (36.9% → 36.7%) 3 more callees, led by (12.0% → 13.8%) Rails::HTML::Concern::Serializer::UTF8Encode#serialize
+    │   │   │               │       │   └── 979.8ms → 1.40s (6.2% → 8.9%) 6 more callees, led by (2.2% → 2.6%) ActionView::Helpers::UrlHelper#link_to at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb
+    │   │   │               │       ├── … 709.7ms → 1.28s (4.5% → 8.1%) Module#extend_object [c function]
+    │   │   │               │       └── 1.36s → 1.49s (8.7% → 9.5%) 5 more callees, led by (4.3% → 6.2%) block in scrub_attributes at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │   │   │               ├── … 3.30s → 2.53s (21.0% → 16.0%) ActiveSupport::NumberHelper#number_to_delimited at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb
+    │   │   │               │   └── 3.28s → 2.52s (20.9% → 16.0%) ActiveSupport::NumberHelper::NumberConverter.convert at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb
+    │   │   │               │       ├── 3.26s → 2.37s (20.8% → 15.1%) ActiveSupport::NumberHelper::NumberConverter#execute
+    │   │   │               │       │   ├── 3.18s → 2.28s (20.2% → 14.5%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb
+    │   │   │               │       │   │   ├── 3.10s → 2.22s (19.7% → 14.1%, self 0.1% → 1.2%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts
+    │   │   │               │       │   │   │   ├── 2.75s → 1.84s (17.5% → 11.7%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern
+    │   │   │               │       │   │   │   │   └── 2.74s → 1.83s (17.4% → 11.6%) ActiveSupport::NumberHelper::NumberConverter#options at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb
+    │   │   │               │       │   │   │   │       └── 2.71s → 1.76s (17.2% → 11.2%) ActiveSupport::NumberHelper::NumberConverter#format_options
+    │   │   │               │       │   │   │   │           ├── 2.53s → 1.54s (16.1% → 9.8%, self 9.5% → 1.3%) ActiveSupport::NumberHelper::NumberConverter#i18n_format_options
+    │   │   │               │       │   │   │   │           │   └── 1.04s → 1.34s (6.6% → 8.5%) 3 more callees, led by (6.4% → 7.8%) I18n::Base#translate at /usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb
+    │   │   │               │       │   │   │   │           └── 165.2ms → 212.5ms (1.0% → 1.3%) 2 more callees, led by (0.7% → 0.9%) ActiveSupport::NumberHelper::NumberConverter#default_format_options
+    │   │   │               │       │   │   │   ├── 181.0ms → 40.8ms (1.1% → 0.3%) String#split [c function]
+    │   │   │               │       │   │   │   └── 151.9ms → 145.7ms (1.0% → 0.9%) 5 more callees, led by (0.8% → 0.0%) String#gsub! [c function]
+    │   │   │               │       │   │   └── 52.4ms → 40.2ms (0.3%, self 0.7% → 1.1% globally) Array#join [c function]
+    │   │   │               │       │   └── 71.6ms → 63.1ms (0.5% → 0.4%) ActiveSupport::NumberHelper::NumberConverter#valid_bigdecimal
+    │   │   │               │       └── … 0ms → 103.7ms (0.0% → 0.7%) Hash#transform_keys [c function]
+    │   │   │               └── 546.9ms → 411.7ms (3.5% → 2.6%) #<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160 at ./app/views/layouts/application.html.erb …
+    │   │   └── … 1.35s → 968.0ms (8.6% → 6.1%) Rack::Session::Abstract::Persisted#context at /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │   │       ├── … 1.17s → 835.3ms (7.5% → 5.3%) Rack::ETag#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │   │       │   ├── … 922.5ms → 604.7ms (5.9% → 3.8%) Digest::Base#<< [c function]
+    │   │       │   └── 222.7ms → 230.6ms (1.4% → 1.5%) 3 more callees, led by (1.4% → 1.3%) Rack::TempfileReaper#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │   │       └── 169.8ms → 106.4ms (1.1% → 0.7%) 2 more callees, led by (1.0% → 0.7%) ActionDispatch::Session::SessionObject#commit_session at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb
+    │   └── 58.7ms → 80.9ms (0.4% → 0.5%) ActionDispatch::FileHandler#attempt
+    └── 805.2ms → 781.0ms (5.1% → 5.0%) 4 more callees, led by (4.6% → 4.8%) Kernel#require_relative [c function]
+```
+
 ## Hottest functions
 
 ### Self time

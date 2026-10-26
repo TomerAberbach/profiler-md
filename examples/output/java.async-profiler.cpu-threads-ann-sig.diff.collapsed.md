@@ -11,6 +11,55 @@ Collected 4,779 → 5,299 samples (+520 samples, +10.9%).
 | JIT              | -24.2% |   -15 |   1.3% → 0.9% |       62 → 47 |
 | Unknown          |    new |    +1 |  0.0% → <0.1% |         0 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 4,497 → 5,020 samples (94.1% → 94.7%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,497 → 5,020 samples (94.1% → 94.7%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 4,241 → 4,405 samples (88.7% → 83.1%) doExec() at java.util.concurrent.ForkJoinTask
+│       │   ├── … 4,183 → 4,366 samples (87.5% → 82.4%) exec() at java.util.concurrent.RecursiveTask
+│       │   │   └── 4,182 → 4,364 samples (87.5% → 82.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,825 → 1,688 samples (38.2% → 31.9%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,381 → 1,264 samples (28.9% → 23.9%, self 8.5% → 7.0%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 904 → 836 samples (18.9% → 15.8%, self 18.7% → 15.6%) distance(Double[], Double[])
+│       │   │       │   │   ├── 9 → 0 samples (0.2% → 0.0%, self 1.3% → 0.8% globally) zero_blocks
+│       │   │       │   │   └── 60 → 58 samples (1.3% → 1.1%) 3 more callees, led by (1.2% → 1.0%) get(int) at java.util.ArrayList
+│       │   │       │   └── … 443 → 424 samples (9.3% → 8.0%, self 2.7% → 2.1%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 151 → 160 samples (3.2% → 3.0%, self 2.6% → 2.5%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │       │   └── 24 samples (0.5%) hash(Object)
+│       │   │       │       └── 164 → 153 samples (3.4% → 2.9%) 4 more callees, led by (2.4% → 2.0%) add(Object) at java.util.ArrayList
+│       │   │       ├── 1,540 → 1,747 samples (32.2% → 33.0%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,538 → 1,747 samples (32.2% → 33.0%, self 8.4% → 11.4%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 1,063 → 1,059 samples (22.2% → 20.0%, self 20.4% → 17.9%) accumulate(Double[], double[])
+│       │   │       │       │   └── 88 → 109 samples (1.8% → 2.1%) doubleValue() at java.lang.Double
+│       │   │       │       └── 75 → 83 samples (1.6%) 2 more callees, led by (1.6% → 1.5%) get(int) at java.util.ArrayList
+│       │   │       ├── … 286 → 308 samples (6.0% → 5.8%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │       │   ├── 36 → 52 samples (0.8% → 1.0%) arrayof_jint_disjoint_arraycopy
+│       │   │       │   │   └── 35 → 47 samples (0.7% → 0.9%, self 3.9% → 3.8% globally) forward_copy_longs
+│       │   │       │   └── 242 → 249 samples (5.1% → 4.7%) 2 more callees, led by (4.5% → 4.1%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7248
+│       │   │       └── 507 → 605 samples (10.6% → 11.4%) 12 more callees, led by (10.0% → 10.9%) join() at java.util.concurrent.ForkJoinTask
+│       │   └── … 43 → 28 samples (0.9% → 0.5%) __psynch_cvsignal
+│       └── 246 → 601 samples (5.1% → 11.3%) awaitWork(ForkJoinPool$WorkQueue)
+│           ├── … 225 → 563 samples (4.7% → 10.6%, self 13.9% → 21.3% globally) __psynch_cvwait
+│           └── 12 → 27 samples (0.3% → 0.5%) 2 more callees, led by (0.2% → 0.5%) parkUntil(long) at java.util.concurrent.locks.LockSupport
+├── … 236 → 228 samples (4.9% → 4.3%) Thread::call_run()
+│   ├── 124 → 114 samples (2.6% → 2.2%) WorkerThread::run()
+│   │   ├── 52 → 48 samples (1.1% → 0.9%) G1FullGCMarkTask::work(unsigned int)
+│   │   │   └── 52 → 48 samples (1.1% → 0.9%) G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)
+│   │   │       ├── 21 → 15 samples (0.4% → 0.3%) void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)
+│   │   │       │   └── 19 → 11 samples (0.4% → 0.2%) G1FullGCMarker::mark_object(oopDesc*)
+│   │   │       └── 31 → 33 samples (0.6%) 5 more callees, led by (0.6% → 0.5%) G1FullGCMarker::follow_marking_stacks()
+│   │   ├── 20 → 13 samples (0.4% → 0.2%) semaphore_wait_trap
+│   │   └── … 19 → 9 samples (0.4% → 0.2%) G1ParScanThreadState::trim_queue_to_threshold(unsigned int)
+│   │       └── 9 → 0 samples (0.2% → 0.0%) G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)
+│   └── 112 → 114 samples (2.3% → 2.2%) 4 more callees, led by (2.1% → 1.8%) JavaThread::thread_main_inner()
+└── 46 → 50 samples (1.0% → 0.9%) 6 more root frames, led by (0.8%) main(String[]) at org.renaissance.core.Launcher
+```
+
 ## Hottest functions
 
 ### Self samples

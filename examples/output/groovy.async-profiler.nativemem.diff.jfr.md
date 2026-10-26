@@ -6,6 +6,55 @@ Allocated 1.06 GiB → 1.09 GiB (+24.771 MiB, +2.3%) over 169,813 → 169,581
 | -------- | -----: | ----------: | -----: | ------------------: | ----------------: |
 | Native   |  +2.3% | +24.771 MiB | 100.0% | 1.06 GiB → 1.09 GiB | 169,813 → 169,581 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 1.04 GiB → 1.07 GiB (98.0% → 98.1%) CompileBroker::invoke_compiler_on_method at libjvm.dylib
+│   ├── 1.03 GiB → 1.06 GiB (97.1% → 97.2%) C2Compiler::compile_method
+│   │   └── 1.03 GiB → 1.06 GiB (97.1% → 97.2%) Compile::Compile
+│   │       ├── 605 MiB → 623 MiB (55.6% → 56.0%) Compile::Optimize
+│   │       │   ├── … 276 MiB → 285 MiB (25.4% → 25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 192 MiB → 195 MiB (17.6%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── 18.7 MiB → 20.2 MiB (1.7% → 1.8%) IdealLoopTree::loop_predication
+│   │       │   │   │   └── … 18.7 MiB → 20.2 MiB (1.7% → 1.8%) PhaseIdealLoop::loop_predication_impl at libjvm.dylib
+│   │       │   │   │       └── 18.7 MiB → 20.2 MiB (1.7% → 1.8%) 6 more callees, led by (1.0%) PhaseIdealLoop::loop_predication_impl_helper
+│   │       │   │   ├── … 18.9 MiB → 19.8 MiB (1.7% → 1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 18.7 MiB → 19.6 MiB (1.7% → 1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 28.3 MiB → 29.9 MiB (2.6% → 2.7%) 9 more callees, led by (0.9%) Arena::grow
+│   │       │   ├── … 276 MiB → 284 MiB (25.4% → 25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 194 MiB → 197 MiB (17.8% → 17.7%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 19.6 MiB → 19.9 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 19.5 MiB → 19.8 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 15 MiB → 16.3 MiB (1.4% → 1.5%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 28.5 MiB → 31 MiB (2.6% → 2.8%) 10 more callees, led by (1.0% → 1.1%) IdealLoopTree::loop_predication
+│   │       │   └── 46.3 MiB → 47.5 MiB (4.3%) 15 more callees, led by (0.9% → 1.0%) PhaseCCP::do_transform
+│   │       ├── 422 MiB → 429 MiB (38.8% → 38.5%) Compile::Code_Gen
+│   │       │   ├── 327 MiB → 332 MiB (30.0% → 29.9%) PhaseChaitin::Register_Allocate
+│   │       │   │   ├── … 233 MiB → 236 MiB (21.4% → 21.2%, self 100.0% globally) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 77.4 MiB → 80.2 MiB (7.1% → 7.2%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 15.9 MiB → 15.3 MiB (1.5% → 1.4%) 11 more callees, led by (0.8%) PhaseChaitin::Split
+│   │       │   ├── 74.7 MiB → 76.2 MiB (6.9% → 6.8%) Matcher::match
+│   │       │   │   ├── 45.2 MiB → 45.5 MiB (4.2% → 4.1%) Matcher::xform
+│   │       │   │   │   ├── … 25.7 MiB → 26.2 MiB (2.4%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   │   ├── 12.9 MiB → 12.7 MiB (1.2% → 1.1%) Matcher::match_tree
+│   │       │   │   │   │   └── 12.9 MiB → 12.7 MiB (1.2% → 1.1%) 4 more callees, led by (0.8%) Matcher::ReduceInst
+│   │       │   │   │   └── 6.63 MiB → 6.69 MiB (0.6%) 6 more callees, led by (0.5%) Node::out_grow
+│   │       │   │   ├── … 19.6 MiB → 20.3 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 9.91 MiB → 10.3 MiB (0.9%) 3 more callees, led by (0.7%) Node_Array::grow
+│   │       │   └── 21 MiB → 20.2 MiB (1.9% → 1.8%) 6 more callees, led by (0.8%) PhaseCFG::do_global_code_motion
+│   │       ├── … 17 MiB → 18.4 MiB (1.6% → 1.7%) Parse::do_one_block at libjvm.dylib
+│   │       │   └── 17 MiB → 18.4 MiB (1.6% → 1.7%) 19 more callees, led by (0.4% → 0.5%) Parse::do_field_access
+│   │       └── 9.46 MiB → 9.43 MiB (0.9% → 0.8%) 10 more callees, led by (0.6%) PhaseRemoveUseless::PhaseRemoveUseless
+│   └── 10.3 MiB → 9.4 MiB (0.9% → 0.8%) 5 more callees, led by (0.9% → 0.8%) Compiler::compile_method
+├── … 13.3 MiB → 13.6 MiB (1.2%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH
+│   └── 13.3 MiB → 13.6 MiB (1.2%) 29 more callees, led by (0.3%) invokeVirtual(Object, Object, int) at java.lang.invoke.LambdaForm$DMH
+└── 4.54 MiB → 4.36 MiB (0.4%) <clinit>() at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self size

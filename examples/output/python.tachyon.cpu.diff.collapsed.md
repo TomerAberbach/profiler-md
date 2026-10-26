@@ -8,6 +8,55 @@ Collected 958 → 1,202 samples (+244 samples, +25.5%).
 | Garbage collector | +48.0% |  +145 | 31.5% → 37.2% | 302 → 447 |
 | Standard library  | +41.7% |    +5 |   1.3% → 1.4% |   12 → 17 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 958 → 1,202 samples (100.0%) _run_module_as_main at <frozen runpy>
+    └── 958 → 1,202 samples (100.0%) _run_code
+        ├── … 925 → 1,160 samples (96.6% → 96.5%) format_file_contents at __init__.py
+        │   ├── 450 → 611 samples (47.0% → 50.8%, self 0.5%) check_stability_and_equivalence
+        │   │   ├── 374 → 521 samples (39.0% → 43.3%) assert_stable
+        │   │   │   └── 372 → 518 samples (38.8% → 43.1%) _format_str_once
+        │   │   │       ├── … 293 → 399 samples (30.6% → 33.2%, self 2.2% → 0.9%, self 5.1% → 3.2% globally) Driver.parse_tokens at driver.py
+        │   │   │       │   ├── 259 → 367 samples (27.0% → 30.5%, self 0.6% → 0.4%, self 1.4% → 1.2% globally) Parser.addtoken at parse.py
+        │   │   │       │   │   ├── 246 → 353 samples (25.7% → 29.4%, self 4.1% → 4.8%, self 17.6% → 14.1% globally) Parser._addtoken
+        │   │   │       │   │   │   ├── 191 → 280 samples (19.9% → 23.3%, self 0.8% → 1.2% globally) Parser.shift
+        │   │   │       │   │   │   │   └── 188 → 278 samples (19.6% → 23.1%) convert at pytree.py
+        │   │   │       │   │   │   │       └── 185 → 275 samples (19.3% → 22.9%, self 31.5% → 37.2% globally) (garbage collector)
+        │   │   │       │   │   │   └── 16 → 15 samples (1.7% → 1.2%) 3 more callees, led by (1.4% → 0.8%) Parser.pop
+        │   │   │       │   │   ├── 6 → 5 samples (0.6% → 0.4%, self 3.2% → 2.3% globally) generate_tokens at tokenize.py
+        │   │   │       │   │   └── 1 → 4 samples (0.1% → 0.3%) Parser.classify
+        │   │   │       │   └── 13 → 21 samples (1.4% → 1.7%) 4 more callees, led by (1.4% → 1.3%) TokenProxy.__next__
+        │   │   │       ├── 27 → 42 samples (2.8% → 3.5%) detect_target_versions
+        │   │   │       │   └── 27 → 42 samples (2.8% → 3.5%, self 9.3% → 9.7% globally) get_features_used
+        │   │   │       └── 52 → 73 samples (5.4% → 6.1%) 5 more callees, led by (3.8% → 3.5%) Visitor.visit at nodes.py
+        │   │   └── 71 → 84 samples (7.4% → 7.0%, self 0.7% → 1.0%) assert_equivalent
+        │   │       ├── … 38 → 48 samples (4.0%) parse at ast.py
+        │   │       └── 22 → 19 samples (2.3% → 1.6%, self 2.0% → 1.3%) _stringify_ast at parsing.py
+        │   └── 475 → 549 samples (49.6% → 45.7%) format_str
+        │       └── 471 → 543 samples (49.2% → 45.2%, self 0.6% → 0.3%) _format_str_once
+        │           ├── 82 → 166 samples (8.6% → 13.8%, self 1.6% → 1.2%, self 2.1% → 1.7% globally) Visitor.visit at nodes.py
+        │           │   ├── … 37 → 120 samples (3.9% → 10.0%, self 0.4% → 0.7%) LineGenerator.visit_default at linegen.py
+        │           │   │   ├── 20 → 97 samples (2.1% → 8.1%, self 1.4% → 1.9%, self 2.3% → 2.7% globally) Line.append at lines.py
+        │           │   │   │   ├── 1 → 9 samples (0.1% → 0.7%) whitespace at nodes.py
+        │           │   │   │   └── 6 → 65 samples (0.6% → 5.4%) 2 more callees, led by (0.0% → 4.9%) Leaf.prefix at pytree.py
+        │           │   │   └── 13 → 15 samples (1.4% → 1.2%) 5 more callees, led by (0.6% → 0.5%) generate_comments at comments.py
+        │           │   ├── … 4 → 11 samples (0.4% → 0.9%) LineGenerator.visit_simple_stmt at linegen.py
+        │           │   │   └── 0 → 6 samples (0.0% → 0.5%) LineGenerator.visit_default
+        │           │   │       └── 0 → 3 samples (0.0% → 0.2%) Visitor.visit_default at nodes.py
+        │           │   ├── … 6 → 5 samples (0.6% → 0.4%) LineGenerator.visit_stmt at linegen.py
+        │           │   │   └── 6 → 3 samples (0.6% → 0.2%, self 0.5% → 0.2%, self 1.0% → 0.3% globally) normalize_invisible_parens
+        │           │   └── 20 → 15 samples (2.1% → 1.2%) 7 more callees, led by (1.7% → 0.6%) LineGenerator.visit_power at linegen.py
+        │           ├── 13 → 3 samples (1.4% → 0.2%) normalize_fmt_off at comments.py
+        │           │   └── 13 → 3 samples (1.4% → 0.2%, self 1.1% → 0.2%) convert_one_fmt_off_pair
+        │           └── 370 samples (38.6% → 30.8%) 6 more callees, led by (22.8% → 19.3%) lib2to3_parse at parsing.py
+        └── 31 → 41 samples (3.2% → 3.4%) run_module …
+```
+
 ## Hottest functions
 
 ### Self samples

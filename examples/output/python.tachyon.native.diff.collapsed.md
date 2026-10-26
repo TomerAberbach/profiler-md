@@ -8,6 +8,55 @@ Collected 897 → 1,049 samples (+152 samples, +16.9%).
 | Garbage collector | +27.0% |   +76 | 31.3% → 34.0% | 281 → 357 |
 | Standard library  | +23.1% |    +3 |   1.4% → 1.5% |   13 → 16 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 897 → 1,049 samples (100.0%) (native)
+    ├── … 730 → 848 samples (81.4% → 80.8%) format_file_contents at __init__.py
+    │   ├── 395 → 456 samples (44.0% → 43.5%, self 0.6% → 0.5%) check_stability_and_equivalence
+    │   │   ├── 344 → 398 samples (38.4% → 37.9%) assert_stable
+    │   │   │   └── 342 → 396 samples (38.1% → 37.8%) _format_str_once
+    │   │   │       ├── … 251 → 308 samples (28.0% → 29.4%, self 1.3% → 1.2%) Driver.parse_tokens at driver.py
+    │   │   │       │   └── 239 → 294 samples (26.6% → 28.0%) Parser.addtoken at parse.py
+    │   │   │       │       └── 235 → 288 samples (26.2% → 27.5%, self 4.8% → 4.5%) Parser._addtoken
+    │   │   │       │           ├── 178 → 228 samples (19.8% → 21.7%, self 31.3% → 34.0% globally) (garbage collector)
+    │   │   │       │           └── 14 → 13 samples (1.6% → 1.2%) 3 more callees, led by (0.7%) Parser.shift
+    │   │   │       └── 88 → 86 samples (9.8% → 8.2%) 6 more callees, led by (4.0% → 3.9%) Visitor.visit at nodes.py
+    │   │   └── 46 → 53 samples (5.1%, self 0.7%) assert_equivalent
+    │   │       └── … 37 → 42 samples (4.1% → 4.0%) parse at ast.py
+    │   └── 335 → 392 samples (37.3% → 37.4%) format_str
+    │       └── 331 → 387 samples (36.9%, self 0.7% → 0.1%) _format_str_once
+    │           ├── … 160 → 203 samples (17.8% → 19.4%, self 2.9% → 3.9%, self 4.2% → 5.1% globally) Driver.parse_tokens at driver.py
+    │           │   ├── 130 → 155 samples (14.5% → 14.8%, self 1.1% → 1.0%) Parser.addtoken at parse.py
+    │           │   │   └── 120 → 141 samples (13.4%, self 9.8% → 10.1%, self 15.1% → 15.2% globally) Parser._addtoken
+    │           │   │       ├── 15 → 9 samples (1.7% → 0.9%, self 1.4% → 0.8%, self 2.0% → 1.0% globally) Parser.pop
+    │           │   │       └── 17 → 26 samples (1.9% → 2.5%) 3 more callees, led by (0.8% → 1.3%) Parser.shift
+    │           │   └── 4 → 7 samples (0.4% → 0.7%) (garbage collector)
+    │           ├── 76 → 89 samples (8.5%, self 2.0%, self 3.1% globally) Visitor.visit at nodes.py
+    │           │   ├── … 29 → 33 samples (3.2% → 3.1%, self 0.7% → 0.5%) LineGenerator.visit_default at linegen.py
+    │           │   │   ├── 18 → 22 samples (2.0% → 2.1%, self 1.2% → 0.8%, self 2.0% → 1.2% globally) Line.append at lines.py
+    │           │   │   │   └── 7 → 14 samples (0.8% → 1.3%) 3 more callees, led by (0.4% → 0.9%) BracketTracker.mark at brackets.py
+    │           │   │   └── 4 samples (0.4%) generate_comments at comments.py
+    │           │   ├── … 11 → 16 samples (1.2% → 1.5%) LineGenerator.visit_stmt at linegen.py
+    │           │   │   └── 10 → 14 samples (1.1% → 1.3%, self 0.6% → 1.0%) normalize_invisible_parens
+    │           │   │       └── 4 → 3 samples (0.4% → 0.3%) wrap_in_parentheses at nodes.py
+    │           │   └── 18 → 19 samples (2.0% → 1.8%) 8 more callees, led by (0.6% → 0.8%) LineGenerator.visit_power at linegen.py
+    │           ├── 53 → 64 samples (5.9% → 6.1%) detect_target_versions
+    │           │   └── 53 → 64 samples (5.9% → 6.1%, self 9.3% → 8.9% globally) get_features_used
+    │           └── 35 → 30 samples (3.9% → 2.9%) 4 more callees, led by (1.7% → 1.2%) transform_line at linegen.py
+    ├── … 18 → 34 samples (2.0% → 3.2%, self 1.7% → 2.5%) _stringify_ast at parsing.py
+    │   └── … 3 → 8 samples (0.3% → 0.8%) _stringify_ast_with_new_parent at parsing.py
+    ├── … 15 samples (1.7% → 1.4%) _find_and_load at <frozen importlib._bootstrap>
+    │   └── 15 samples (1.7% → 1.4%) _find_and_load_unlocked
+    │       └── … 7 → 10 samples (0.8% → 1.0%) SourceLoader.get_code at <frozen importlib._bootstrap_external>
+    │           └── 4 → 9 samples (0.4% → 0.9%, self 0.2% → 0.9%) _compile_bytecode
+    └── 132 → 151 samples (14.7% → 14.4%) 34 more callees, led by (4.6% → 4.4%) hug_power_op at trans.py
+```
+
 ## Hottest functions
 
 ### Self samples

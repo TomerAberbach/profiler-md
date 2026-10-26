@@ -9,6 +9,55 @@ Took 24.50s → 34s (+9.500s, +38.8%) over 245 → 340 samples (100.0ms per samp
 | Native           | +157.1% |   +1.100s |   2.9% → 5.3% | 700.0ms → 1.80s |    7 → 18 |
 | Ours             | +233.3% | +700.00ms |   1.2% → 2.9% |    300.0ms → 1s |    3 → 10 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 0ms → 34s (0.0% → 100.0%) 0x7fb1e8c1d24a at /usr/lib/x86_64-linux-gnu/libc.so.6
+│   ├── 0ms → 33.70s (0.0% → 99.1%) _run_module_as_main at <frozen runpy>
+│   │   ├── … 0ms → 31.90s (0.0% → 93.8%) CPyDef_black___main at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│   │   │   └── … 0ms → 31.80s (0.0% → 93.5%) CPyDef_black___format_file_contents at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│   │   │       ├── 0ms → 22.20s (0.0% → 65.3%) CPyDef_black___format_str
+│   │   │       │   └── 0ms → 22.20s (0.0% → 65.3%) CPyDef_black____format_str_once
+│   │   │       │       ├── … 0ms → 9.30s (0.0% → 27.4%, self 0.0% → 3.2%, self 5.3% → 4.7% globally) CPyDef_driver___Driver___parse_tokens at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│   │   │       │       │   ├── 0ms → 5s (0.0% → 14.7%) CPyDef_parse___Parser___addtoken
+│   │   │       │       │   │   ├── 0ms → 4.80s (0.0% → 14.1%, self 0.0% → 4.1%, self 7.3% → 5.3% globally) CPyDef_parse___Parser____addtoken
+│   │   │       │       │   │   │   ├── 0ms → 1.70s (0.0% → 5.0%, self 0.0% → 4.7%, self 2.9% → 5.0% globally) CPyDef_parse___Parser___push
+│   │   │       │       │   │   │   └── 0ms → 1.70s (0.0% → 5.0%) 3 more callees, led by (0.0% → 2.6%) CPyDef_parse___Parser___pop
+│   │   │       │       │   │   └── 0ms → 200.0ms (0.0% → 0.6%) CPyDef_parse___Parser___classify
+│   │   │       │       │   ├── 0ms → 2.80s (0.0% → 8.2%) CPyDef_driver___TokenProxy_____next__
+│   │   │       │       │   │   └── 0ms → 2.80s (0.0% → 8.2%, self 0.0% → 6.5%, self 6.9% → 7.1% globally) CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__
+│   │   │       │       │   │       └── 0ms → 600.0ms (0.0% → 1.8%) 4 more callees, led by (0.0% → 0.6%) CPyTagged_StealAsObject
+│   │   │       │       │   └── 0ms → 400.0ms (0.0% → 1.2%) 3 more callees, led by (0.0% → 0.6%) CPyDef_driver___Driver____partially_consume_prefix
+│   │   │       │       ├── 0ms → 2.60s (0.0% → 7.6%, self 0.8% → 1.2% globally) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+│   │   │       │       │   ├── 0ms → 500.0ms (0.0% → 1.5%, self 0.0% → 0.9%, self 0.4% → 1.5% globally) CPyDef_lines___Line___contains_implicit_multiline_string_with_comments
+│   │   │       │       │   │   └── 0ms → 100.0ms (0.0% → 0.3%) 0x7fb1e808f9e0
+│   │   │       │       │   └── 0ms → 2s (0.0% → 5.9%) 4 more callees, led by (0.0% → 2.9%) CPyDef_linegen___run_transformer at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│   │   │       │       ├── 0ms → 600.0ms (0.0% → 1.8%) CPyDef_lines___LinesBlock___all_lines
+│   │   │       │       │   └── 0ms → 500.0ms (0.0% → 1.5%, self 1.2% → 2.9% globally) __init__ at <string>
+│   │   │       │       └── 0ms → 9.70s (0.0% → 28.5%) 6 more callees, led by (0.0% → 21.8%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+│   │   │       └── 0ms → 9.60s (0.0% → 28.2%) CPyDef_black___check_stability_and_equivalence
+│   │   │           ├── 0ms → 6.50s (0.0% → 19.1%) CPyDef_black___assert_stable …
+│   │   │           └── 0ms → 3.10s (0.0% → 9.1%) CPyDef_black___assert_equivalent
+│   │   │               ├── … 0ms → 1.20s (0.0% → 3.5%, self 0.0% → 3.2%, self 1.2% → 3.2% globally) parse at /usr/lib/python3.11/ast.py
+│   │   │               └── 0ms → 1.80s (0.0% → 5.3%) 2 more callees, led by (0.0% → 5.0%) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__
+│   │   └── 0ms → 1.70s (0.0% → 5.0%) _get_module_details …
+│   └── 0ms → 300.0ms (0.0% → 0.9%) _find_and_load at <frozen importlib._bootstrap> …
+└── 24.50s → 0ms (100.0% → 0.0%) 0x7ff2a7b2e24a at /usr/lib/x86_64-linux-gnu/libc.so.6
+    ├── 24.10s → 0ms (98.4% → 0.0%) _run_module_as_main at <frozen runpy>
+    │   ├── … 23.30s → 0ms (95.1% → 0.0%) CPyDef_black___format_file_contents at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   ├── 13.70s → 0ms (55.9% → 0.0%) CPyDef_black___format_str
+    │   │   │   └── 13.70s → 0ms (55.9% → 0.0%) CPyDef_black____format_str_once
+    │   │   │       └── 13.60s → 0ms (55.5% → 0.0%) 7 more callees, led by (22.9% → 0.0%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+    │   │   └── 9.60s → 0ms (39.2% → 0.0%) CPyDef_black___check_stability_and_equivalence
+    │   │       └── 9.60s → 0ms (39.2% → 0.0%) 2 more callees, led by (31.0% → 0.0%) CPyDef_black___assert_stable
+    │   └── 800.0ms → 0ms (3.3% → 0.0%) _get_module_details …
+    └── 300.0ms → 0ms (1.2% → 0.0%, self 0.8% → 0.0%) pytree___Node_clear at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+```
+
 ## Hottest functions
 
 ### Self time

@@ -12,6 +12,55 @@ Collected 6,010 → 6,091 samples (+81 samples, +1.3%).
 | Unknown           | -33.3% |    -1 |         <0.1% |         3 → 2 |
 | Garbage collector |   0.0% |     0 |         <0.1% |             1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 3,706 → 3,769 samples (61.7% → 61.9%) Thread::call_run
+│   ├── 3,447 → 3,424 samples (57.4% → 56.2%) JavaThread::thread_main_inner
+│   │   └── 3,442 → 3,420 samples (57.3% → 56.1%) CompileBroker::compiler_thread_loop
+│   │       ├── 3,421 → 3,362 samples (56.9% → 55.2%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 2,811 → 2,728 samples (46.8% → 44.8%) C2Compiler::compile_method
+│   │       │   │   └── 2,807 → 2,726 samples (46.7% → 44.8%) Compile::Compile
+│   │       │   │       ├── 1,304 → 1,277 samples (21.7% → 21.0%) Compile::Code_Gen
+│   │       │   │       │   ├── 752 → 697 samples (12.5% → 11.4%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 67 → 74 samples (1.1% → 1.2%, self 0.2% → 0.5%) PhaseLive::compute
+│   │       │   │       │   │   │   └── 42 → 33 samples (0.7% → 0.5%) PhaseLive::add_liveout
+│   │       │   │       │   │   └── 682 → 621 samples (11.3% → 10.2%) 65 more callees, led by (2.8% → 2.7%) PhaseChaitin::Split
+│   │       │   │       │   └── 552 → 580 samples (9.2% → 9.5%) 13 more callees, led by (3.8% → 3.9%) Matcher::match
+│   │       │   │       ├── 1,132 → 1,067 samples (18.8% → 17.5%) Compile::Optimize
+│   │       │   │       │   ├── 317 → 306 samples (5.3% → 5.0%) PhaseIdealLoop::optimize
+│   │       │   │       │   │   ├── 68 → 66 samples (1.1%) PhaseIterGVN::optimize
+│   │       │   │       │   │   │   └── 68 → 59 samples (1.1% → 1.0%) PhaseIterGVN::transform_old
+│   │       │   │       │   │   │       ├── … 31 → 15 samples (0.5% → 0.2%, self 2.1% → 1.5% globally) Node::dominates
+│   │       │   │       │   │   │       └── 36 → 40 samples (0.6% → 0.7%) 31 more callees, led by (0.1%) RegionNode::Ideal
+│   │       │   │       │   │   └── 249 → 240 samples (4.1% → 3.9%) 2 more callees, led by (4.1% → 3.9%) PhaseIdealLoop::PhaseIdealLoop
+│   │       │   │       │   ├── … 221 → 198 samples (3.7% → 3.3%) PhaseIdealLoop::build_and_optimize
+│   │       │   │       │   │   ├── 76 → 57 samples (1.3% → 0.9%) PhaseIdealLoop::build_loop_late
+│   │       │   │       │   │   │   └── 58 → 41 samples (1.0% → 0.7%) PhaseIdealLoop::build_loop_late_post_work
+│   │       │   │       │   │   │       └── 32 → 11 samples (0.5% → 0.2%) PhaseIdealLoop::get_late_ctrl_with_anti_dep
+│   │       │   │       │   │   │           └── 19 → 7 samples (0.3% → 0.1%) PhaseIdealLoop::is_dominator
+│   │       │   │       │   │   ├── 24 → 17 samples (0.4% → 0.3%) PhaseIdealLoop::build_loop_early
+│   │       │   │       │   │   └── 120 → 122 samples (2.0%) 34 more callees, led by (0.7% → 0.8%) PhaseIdealLoop::split_if_with_blocks
+│   │       │   │       │   └── 580 → 543 samples (9.7% → 8.9%) 21 more callees, led by (3.5% → 3.1%) PhaseIterGVN::optimize
+│   │       │   │       └── 371 → 382 samples (6.2% → 6.3%) 14 more callees, led by (5.4% → 5.5%) ParseGenerator::generate
+│   │       │   └── 610 → 634 samples (10.1% → 10.4%) 7 more callees, led by (10.0% → 10.2%) Compiler::compile_method
+│   │       └── … 19 → 56 samples (0.3% → 0.9%) PlatformMonitor::wait
+│   │           ├── 16 → 52 samples (0.3% → 0.9%) __psynch_cvwait
+│   │           └── … 2 → 4 samples (<0.1% → 0.1%, self 0.4% → 0.7% globally) __psynch_mutexwait
+│   └── 259 → 345 samples (4.3% → 5.7%) 5 more callees, led by (4.1% → 5.4%) WorkerThread::run
+├── 2,250 → 2,268 samples (37.4% → 37.2%) main at org.codenarc.CodeNarc
+│   └── 2,248 → 2,267 samples (37.4% → 37.2%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│       ├── … 2,206 → 2,208 samples (36.7% → 36.3%, self 2.9% → 2.5%) invoke at java.lang.invoke.LambdaForm$MH
+│       │   └── 2,030 → 2,053 samples (33.8% → 33.7%) 34 more callees, led by (16.5% → 16.8%) invokeStatic at java.lang.invoke.LambdaForm$DMH
+│       └── … 22 → 33 samples (0.4% → 0.5%) invoke at java.lang.invoke.LambdaForm$MH
+│           └── 13 → 9 samples (0.2% → 0.1%) invokeVirtual at java.lang.invoke.LambdaForm$DMH
+└── 53 → 54 samples (0.9%) 15 more root frames, led by (0.2%) [unknown]
+```
+
 ## Hottest functions
 
 ### Self samples

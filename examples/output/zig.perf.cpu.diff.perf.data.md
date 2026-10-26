@@ -10,6 +10,55 @@ Took 5.24s → 5.95s (+715.72ms, +13.6%) over 5,239 → 5,954 samples (1.0ms per
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 5.24s → 0ms (100.0% → 0.0%) 0x1130c at ./binary
+│   ├── 3.90s → 0ms (74.4% → 0.0%) 0x10144
+│   │   ├── 1.60s → 0ms (30.6% → 0.0%) 0x44b48
+│   │   │   ├── … 1.50s → 0ms (28.7% → 0.0%) 0x4aa18 at ./binary
+│   │   │   │   └── 1.50s → 0ms (28.7% → 0.0%) 52 more callees, led by (15.7% → 0.0%) 0x383d0
+│   │   │   └── 103.1ms → 0ms (2.0% → 0.0%) 17 more callees, led by (0.8% → 0.0%) 0x4a1ac
+│   │   ├── 1.51s → 0ms (28.9% → 0.0%) 0x45be0
+│   │   │   └── … 1.51s → 0ms (28.9% → 0.0%) 0x368f8 at ./binary
+│   │   │       └── 1.51s → 0ms (28.9% → 0.0%) 25 more callees, led by (11.6% → 0.0%) 0x6449c at ./binary
+│   │   └── 779.8ms → 0ms (14.9% → 0.0%) 19 more callees, led by (10.4% → 0.0%) 0x368f8
+│   ├── 521.5ms → 0ms (9.9% → 0.0%) 0xf660
+│   │   ├── 33.0ms → 0ms (0.6% → 0.0%, self 2.8% → 0.0% globally) 0x1392c
+│   │   ├── 32.0ms → 0ms (0.6% → 0.0%, self 3.9% → 0.0% globally) 0x138f0
+│   │   ├── 20.0ms → 0ms (0.4% → 0.0%, self 2.4% → 0.0% globally) 0x13910
+│   │   ├── 17.0ms → 0ms (0.3% → 0.0%, self 1.3% → 0.0% globally) 0x138fc
+│   │   ├── 15.0ms → 0ms (0.3% → 0.0%, self 1.4% → 0.0% globally) 0x1391c
+│   │   ├── 15.0ms → 0ms (0.3% → 0.0%, self 1.2% → 0.0% globally) 0x13904
+│   │   ├── 11.0ms → 0ms (0.2% → 0.0%, self 1.4% → 0.0% globally) 0x1396c
+│   │   ├── 8.0ms → 0ms (0.2% → 0.0%, self 1.2% → 0.0% globally) 0x139b0
+│   │   └── 363.4ms → 0ms (6.9% → 0.0%) 91 more callees, led by (0.6% → 0.0%) 0x131a4
+│   ├── 67.1ms → 0ms (1.3% → 0.0%) 0xf68c
+│   │   ├── 27.0ms → 0ms (0.5% → 0.0%, self 2.3% → 0.2% globally) 0x9d200 at /usr/lib/aarch64-linux-gnu/libc.so.6
+│   │   └── 11.0ms → 0ms (0.2% → 0.0%) 0x11f14
+│   └── 751.8ms → 0ms (14.3% → 0.0%) 37 more callees, led by (9.6% → 0.0%) 0xf7d4
+└── … 0ms → 5.95s (0.0% → 100.0%) 0x16900 at ./binary
+    ├── 0ms → 4.17s (0.0% → 70.0%) 0x15964
+    │   ├── 0ms → 1.70s (0.0% → 28.6%) 0x6503c
+    │   │   └── 0ms → 1.70s (0.0% → 28.6%) 18 more callees, led by (0.0% → 27.0%) 0x78ff4 at ./binary
+    │   ├── 0ms → 1.63s (0.0% → 27.5%) 0x6639c
+    │   │   └── … 0ms → 1.62s (0.0% → 27.2%) 0x5eff4 at ./binary
+    │   │       └── 0ms → 1.62s (0.0% → 27.2%) 18 more callees, led by (0.0% → 17.9%) 0x672f0 at ./binary
+    │   └── 0ms → 830.8ms (0.0% → 13.9%) 26 more callees, led by (0.0% → 9.3%) 0x5eff4
+    ├── 0ms → 573.6ms (0.0% → 9.6%) 0x14f10
+    │   ├── 0ms → 45.0ms (0.0% → 0.8%, self 0.0% → 3.1% globally) 0x70014
+    │   ├── 0ms → 33.0ms (0.0% → 0.6%, self 0.0% → 2.0% globally) 0x70050
+    │   ├── 0ms → 19.0ms (0.0% → 0.3%, self 0.0% → 1.4% globally) 0x70034
+    │   ├── 0ms → 13.0ms (0.0% → 0.2%, self 0.0% → 1.0% globally) 0x700cc
+    │   └── 0ms → 455.5ms (0.0% → 7.6%) 93 more callees, led by (0.0% → 0.8%) 0x6f844
+    ├── … 0ms → 179.2ms (0.0% → 3.0%, self 0.0% → 6.2% globally) 0x9a704 at ./binary
+    └── 0ms → 1.01s (0.0% → 17.1%) 30 more callees, led by (0.0% → 10.4%) 0x150ac
+```
+
 ## Hottest functions
 
 ### Self time

@@ -7,6 +7,55 @@ Blocked 1.6ms → 8.0ms (+6.36ms, +393.5%) over 11 → 9 contentions (146.9µs �
 | Standard library | +388.0% | +6.27ms | 100.0% → 98.9% | 1.6ms → 7.9ms |      11 → 8 |
 | Ours             |     new | +0.09ms |    0.0% → 1.1% |   0ms → 0.1ms |       0 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 1.0ms → 7.7ms (64.9% → 96.2%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 1.0ms → 7.7ms (64.9% → 96.2%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── 1.0ms → 7.7ms (64.9% → 96.2%) scan(ForkJoinPool$WorkQueue, int, int)
+│           └── 1.0ms → 7.7ms (64.9% → 96.2%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue
+│               └── 1.0ms → 7.7ms (64.9% → 96.2%) doExec() at java.util.concurrent.ForkJoinTask
+│                   └── … 1.0ms → 7.7ms (64.9% → 96.2%) exec() at java.util.concurrent.RecursiveTask
+│                       └── 1.0ms → 7.7ms (64.9% → 96.2%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                           └── 1.0ms → 7.7ms (64.9% → 96.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                               └── … 1.0ms → 7.7ms (64.9% → 96.2%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                                   └── 1.0ms → 7.7ms (64.9% → 96.2%, self 0.0% → 1.1%) average(List)
+│                                       └── 1.0ms → 7.6ms (64.9% → 95.1%) loadClass(String) at java.lang.ClassLoader
+│                                           └── 1.0ms → 7.6ms (64.9% → 95.1%) loadClass(String, boolean)
+└── 0.6ms → 0.3ms (35.1% → 3.8%) run() at java.lang.Thread
+    └── 0.6ms → 0.3ms (35.1% → 3.8%) runWith(Object, Runnable)
+        └── 0.6ms → 0.3ms (35.1% → 3.8%) run() at org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68
+            └── 0.6ms → 0.3ms (35.1% → 3.8%) lambda$createScratchDirectory$1(Path) at org.renaissance.core.DirUtils
+                └── 0.6ms → 0.3ms (35.1% → 3.8%) deleteRecursively(Path)
+                    └── 0.6ms → 0.3ms (35.1% → 3.8%) deleteRecursively(Path, boolean)
+                        ├── 0.4ms → 0.2ms (22.5% → 2.8%) loadClass(String) at java.lang.ClassLoader
+                        │   └── 0.4ms → 0.2ms (22.5% → 2.8%) loadClass(String, boolean) at jdk.internal.loader.ClassLoaders$AppClassLoader
+                        │       └── 0.4ms → 0.2ms (22.5% → 2.8%) loadClass(String, boolean) at jdk.internal.loader.BuiltinClassLoader
+                        │           └── 0.4ms → 0.2ms (22.5% → 2.8%, self 24.4% → 2.8% globally) loadClassOrNull(String, boolean)
+                        └── 0.2ms → 0.1ms (12.6% → 1.1%) walkFileTree(Path, FileVisitor) at java.nio.file.Files
+                            ├── 0.2ms → 0.1ms (11.5% → 1.1%, self 3.6% → 0.6%) walkFileTree(Path, Set, int, FileVisitor)
+                            │   ├── 0.1ms → 36.5µs (5.9% → 0.5%) walk(Path) at java.nio.file.FileTreeWalker
+                            │   │   └── 0.1ms → 36.5µs (5.9% → 0.5%) visit(Path, boolean, boolean)
+                            │   │       ├── 0.1ms → 36.5µs (4.5% → 0.5%) newDirectoryStream(Path) at java.nio.file.Files
+                            │   │       │   └── 0.1ms → 36.5µs (4.5% → 0.5%) newDirectoryStream(Path, DirectoryStream$Filter) at sun.nio.fs.UnixFileSystemProvider
+                            │   │       │       └── 0.1ms → 36.5µs (4.5% → 0.5%) <init>(UnixPath, long, DirectoryStream$Filter) at sun.nio.fs.UnixDirectoryStream
+                            │   │       │           └── 0.1ms → 36.5µs (4.5% → 0.5%, self 4.5% → 0.4%) <init>(boolean) at java.util.concurrent.locks.ReentrantReadWriteLock
+                            │   │       │               └── 0ms → 5.1µs (0.0% → 0.1%) <init>() at java.util.concurrent.locks.ReentrantReadWriteLock$FairSync
+                            │   │       │                   └── 0ms → 5.1µs (0.0% → 0.1%) <init>() at java.util.concurrent.locks.ReentrantReadWriteLock$Sync
+                            │   │       └── … 23.7µs → 0ms (1.5% → 0.0%) iterator(DirectoryStream) at sun.nio.fs.UnixDirectoryStream
+                            │   └── 30.3µs → 0ms (1.9% → 0.0%) visitFile(Object, BasicFileAttributes) at org.renaissance.core.DirUtils$1
+                            │       └── 30.3µs → 0ms (1.9% → 0.0%) visitFile(Path, BasicFileAttributes)
+                            │           └── 30.3µs → 0ms (1.9% → 0.0%) loadClass(String) at java.lang.ClassLoader
+                            │               └── 30.3µs → 0ms (1.9% → 0.0%) loadClass(String, boolean) at jdk.internal.loader.ClassLoaders$AppClassLoader
+                            │                   └── 30.3µs → 0ms (1.9% → 0.0%) loadClass(String, boolean) at jdk.internal.loader.BuiltinClassLoader
+                            │                       └── 30.3µs → 0ms (1.9% → 0.0%) loadClassOrNull(String, boolean)
+                            └── … 18.1µs → 0ms (1.1% → 0.0%) getDeclaredMethods0(boolean) at java.lang.Class
+```
+
 ## Hottest functions
 
 ### Self time

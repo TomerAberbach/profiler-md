@@ -13,6 +13,55 @@ Took 4.21s → 4.22s (+9.33ms, +0.2%) over 3,361 → 3,379 samples (1.3ms per sa
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 4s (95.0% → 94.7%) (anonymous) at ./run.mjs:1:1
+│   └── 4s → 3.99s (95.0% → 94.6%) globalThis.buildAndRetainDom at ./workload.mjs:1:32
+│       ├── 3.72s → 3.71s (88.3% → 87.9%) chartLayouts at 116:24
+│       │   ├── 2.13s (50.7% → 50.6%) h at ./node_modules/d3/dist/d3.min.js:2:235607 → 2:235656
+│       │   │   └── 2.13s (50.5%, self 2.1% → 1.9%) (anonymous) at 2:235702 → 2:235751
+│       │   │       ├── 1.24s → 1.21s (29.6% → 28.8%, self 11.6% → 11.0%) f at 2:233452 → 2:233501
+│       │   │       │   ├── 604.0ms → 621.2ms (14.3% → 14.7%, self 0.5% → 0.9%, self 0.8% → 1.7% globally) Fc.visit at 2:105700 → 2:105681
+│       │   │       │   │   └── 583.9ms → 581.2ms (13.8% → 13.7%, self 14.5% → 14.3% globally) h at 2:233884 → 2:233933
+│       │   │       │   ├── 82.2ms → 66.0ms (1.9% → 1.6%, self 1.0%, self 1.6% → 1.5% globally) Fc.visitAfter at 2:106068 → 2:106049
+│       │   │       │   │   └── 41.9ms → 25.8ms (1.0% → 0.6%) l at 2:233647 → 2:233696
+│       │   │       │   └── 70.0ms → 66.8ms (1.7% → 1.6%) 3 more callees, led by (1.6% → 1.5%) $c at 2:102069 → 2:102050
+│       │   │       ├── 761.3ms → 803.3ms (18.0% → 19.0%, self 8.2% → 8.0%) a at 2:231005 → 2:231054
+│       │   │       │   ├── 60.1ms → 84.3ms (1.4% → 2.0%) $c at 2:102069 → 2:102050
+│       │   │       │   │   └── 54.0ms → 74.3ms (1.3% → 1.8%, self 1.2% → 1.6%, self 2.5% → 2.8% globally) Fc.addAll at 2:103106 → 2:103087
+│       │   │       │   ├── 50.5ms → 59.2ms (1.2% → 1.4%, self 0.7% → 0.5%) Fc.visitAfter at 2:106068 → 2:106049
+│       │   │       │   │   └── 22.8ms → 37.9ms (0.5% → 0.9%) u at 2:231470 → 2:231519
+│       │   │       │   └── 303.9ms → 320.6ms (7.2% → 7.6%) 2 more callees, led by (7.2% → 7.5%) Fc.visit at 2:105700 → 2:105681
+│       │   │       └── 16.6ms → 12.4ms (0.4% → 0.3%) l at 2:232102 → 2:232151
+│       │   ├── 1.27s → 1.28s (30.3%) d at ./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550
+│       │   │   ├── … 1.05s → 1.06s (24.9% → 25.2%, self 22.3% → 23.0%) (anonymous) at ./node_modules/d3/dist/d3.min.js:2:77113
+│       │   │   │   └── 110.4ms → 92.2ms (2.6% → 2.2%, self 2.4% → 1.8%) p at 2:77577 → 2:77576
+│       │   │   ├── 52.8ms → 38.8ms (1.3% → 0.9%) J at 2:8205
+│       │   │   └── 160.4ms → 165.2ms (3.8% → 3.9%) 2 more callees, led by (3.7% → 3.8%) h at 2:223150 → 2:223199
+│       │   ├── 179.5ms → 154.5ms (4.3% → 3.7%) attr at ./node_modules/d3/dist/d3.min.js:2:25709
+│       │   │   ├── 105.3ms → 91.4ms (2.5% → 2.2%) each at 2:25558
+│       │   │   │   └── 92.6ms → 81.8ms (2.2% → 1.9%, self 1.0% → 0.9%, self 2.8% → 2.2% globally) (anonymous) at 2:18176
+│       │   │   │       └── 49.7ms → 44.1ms (1.2% → 1.0%) 2 more callees, led by (1.2% → 1.0%) a at 2:244444 → 2:244493
+│       │   │   └── 69.2ms → 60.6ms (1.6% → 1.4%) 3 more callees, led by (1.5% → 1.3%) (anonymous) at 2:18176
+│       │   └── 118.1ms → 129.8ms (2.8% → 3.1%) 22 more callees, led by (1.0% → 1.1%) join at ./node_modules/d3/dist/d3.min.js:2:24162
+│       ├── 129.5ms → 125.8ms (3.1% → 3.0%) call at ./node_modules/d3/dist/d3.min.js:2:25192
+│       │   ├── 66.5ms → 75.4ms (1.6% → 1.8%) h at 2:12208
+│       │   │   ├── 23.7ms → 40.3ms (0.6% → 1.0%) attr at 2:25709
+│       │   │   │   ├── 10.2ms → 17.7ms (0.2% → 0.4%) each at 2:25558
+│       │   │   │   │   └── 5.1ms → 12.6ms (0.1% → 0.3%) (anonymous) at 2:18042
+│       │   │   │   └── 11.0ms → 16.4ms (0.3% → 0.4%, self 0.9% → 1.2% globally) (anonymous) at 2:18042
+│       │   │   └── 41.6ms → 30.0ms (1.0% → 0.7%) 12 more callees, led by (0.2% → 0.3%) append at 2:26726
+│       │   └── … 22.7ms → 19.0ms (0.5% → 0.4%) (anonymous) at ./workload.mjs:205:13
+│       └── 150.7ms → 155.0ms (3.6% → 3.7%) 13 more callees, led by (1.5% → 1.3%) chartBreakdowns at 39:27
+├── 115.7ms → 137.6ms (2.7% → 3.3%) (garbage collector)
+└── 93.4ms → 87.6ms (2.2% → 2.1%) 14 more root frames, led by (1.0% → 0.9%) (program)
+```
+
 ## Hottest functions
 
 ### Self time

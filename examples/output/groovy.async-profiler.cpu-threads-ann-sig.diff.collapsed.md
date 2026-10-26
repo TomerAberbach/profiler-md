@@ -10,6 +10,55 @@ Collected 613 → 630 samples (+17 samples, +2.8%).
 | JIT               | +100.0% |    +3 |   0.5% → 1.0% |     3 → 6 |
 | Garbage collector | removed |    -1 |   0.2% → 0.0% |     1 → 0 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 460 → 476 samples (75.0% → 75.6%) Thread::call_run()
+│   ├── 445 → 448 samples (72.6% → 71.1%) JavaThread::thread_main_inner()
+│   │   └── 444 → 447 samples (72.4% → 71.0%) CompileBroker::compiler_thread_loop()
+│   │       ├── 441 → 443 samples (71.9% → 70.3%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 358 → 359 samples (58.4% → 57.0%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 358 → 359 samples (58.4% → 57.0%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 183 → 172 samples (29.9% → 27.3%) Compile::Code_Gen()
+│   │       │   │       │   ├── 104 → 101 samples (17.0% → 16.0%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 21 → 24 samples (3.4% → 3.8%, self 1.5% → 2.5%) PhaseChaitin::build_ifg_physical(ResourceArea*)
+│   │       │   │       │   │   │   └── 12 → 8 samples (2.0% → 1.3%) 9 more callees, led by (0.5% → 0.3%) IndexSetIterator::advance_and_next()
+│   │       │   │       │   │   ├── 18 → 10 samples (2.9% → 1.6%, self 2.1% → 1.1%) PhaseChaitin::Split(unsigned int, ResourceArea*)
+│   │       │   │       │   │   │   └── 5 → 3 samples (0.8% → 0.5%) 5 more callees, led by (0.2% → 0.5%) PhaseChaitin::split_DEF(Node*, Block*, int, unsigned int, Node**, Node**, GrowableArray<unsigned int>, int)
+│   │       │   │       │   │   ├── 8 samples (1.3%) PhaseLive::compute(unsigned int)
+│   │       │   │       │   │   │   └── 6 → 5 samples (1.0% → 0.8%, self 1.0% → 0.2%) PhaseLive::add_liveout(Block_List&, Block*, IndexSet*, VectorSet&)
+│   │       │   │       │   │   │       ├── 0 → 2 samples (0.0% → 0.3%, self 1.1% → 2.5% globally) tlv_get_addr
+│   │       │   │       │   │   │       └── 0 → 2 samples (0.0% → 0.3%, self 0.8% → 1.3% globally) IndexSetIterator::advance_and_next()
+│   │       │   │       │   │   └── 57 → 59 samples (9.3% → 9.4%) 24 more callees, led by (1.8% → 1.9%) PhaseChaitin::gather_lrg_masks(bool)
+│   │       │   │       │   └── 79 → 71 samples (12.9% → 11.3%) 6 more callees, led by (4.9% → 3.8%) PhaseCFG::do_global_code_motion()
+│   │       │   │       ├── 135 → 143 samples (22.0% → 22.7%) Compile::Optimize()
+│   │       │   │       │   ├── 44 → 40 samples (7.2% → 6.3%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   ├── 37 → 33 samples (6.0% → 5.2%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   │   └── 37 → 33 samples (6.0% → 5.2%) PhaseIdealLoop::build_and_optimize()
+│   │       │   │       │   │   │       ├── 12 → 13 samples (2.0% → 2.1%, self 0.3% → 0.8%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│   │       │   │       │   │   │       │   └── 10 → 6 samples (1.6% → 1.0%, self 0.7% → 0.2%, self 2.0% → 0.6% globally) PhaseIdealLoop::build_loop_late_post_work(Node*, bool)
+│   │       │   │       │   │   │       │       └── 6 → 5 samples (1.0% → 0.8%) 4 more callees, led by (0.5% → 0.2%) PhaseIdealLoop::compute_lca_of_uses(Node*, Node*, bool)
+│   │       │   │       │   │   │       └── 25 → 20 samples (4.1% → 3.2%) 11 more callees, led by (1.0%) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)
+│   │       │   │       │   │   └── 7 samples (1.1%) PhaseIterGVN::optimize() …
+│   │       │   │       │   └── 91 → 103 samples (14.8% → 16.3%) 17 more callees, led by (7.3% → 7.6%) Compile::optimize_loops(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       └── 40 → 44 samples (6.5% → 7.0%) 6 more callees, led by (5.2% → 5.9%) ParseGenerator::generate(JVMState*)
+│   │       │   └── 83 → 84 samples (13.5% → 13.3%) 7 more callees, led by (12.9% → 12.1%) Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       └── 3 → 4 samples (0.5% → 0.6%) CompileQueue::get(CompilerThread*) …
+│   └── 13 → 27 samples (2.1% → 4.3%) WorkerThread::run()
+│       ├── 2 → 5 samples (0.3% → 0.8%) semaphore_wait_trap
+│       └── 11 → 22 samples (1.8% → 3.5%) 4 more callees, led by (1.3% → 1.1%) G1ParallelCleaningTask::work(unsigned int)
+├── 139 → 138 samples (22.7% → 21.9%) main(String[]) at org.codenarc.CodeNarc
+│   ├── 135 samples (22.0% → 21.4%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   │   └── … 135 samples (22.0% → 21.4%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH
+│   │       └── 135 samples (22.0% → 21.4%) 16 more callees, led by (6.7% → 7.5%) invokeVirtual(Object, Object, int) at java.lang.invoke.LambdaForm$DMH
+│   └── 2 samples (0.3%) linkToCallSite(Object, Object) at java.lang.invoke.Invokers$Holder
+└── 13 → 15 samples (2.1% → 2.4%) 3 more root frames, led by (2.0% → 2.1%) <clinit>() at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

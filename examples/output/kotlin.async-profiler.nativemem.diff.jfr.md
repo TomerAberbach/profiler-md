@@ -6,6 +6,55 @@ Allocated 1.6 GiB → 1.62 GiB (+15.399 MiB, +0.9%) over 621,888 → 611,917 
 | -------- | -----: | ----------: | -----: | -----------------: | ----------------: |
 | Native   |  +0.9% | +15.399 MiB | 100.0% | 1.6 GiB → 1.62 GiB | 621,888 → 611,917 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 1.4 GiB → 1.41 GiB (87.2% → 87.3%) CompileBroker::invoke_compiler_on_method at libjvm.dylib
+│   ├── 1.37 GiB → 1.38 GiB (85.3% → 85.6%) C2Compiler::compile_method
+│   │   └── 1.37 GiB → 1.38 GiB (85.3% → 85.6%) Compile::Compile
+│   │       ├── 739 MiB → 747 MiB (45.0% → 45.1%) Compile::Optimize
+│   │       │   ├── … 369 MiB → 367 MiB (22.5% → 22.2%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 254 MiB → 253 MiB (15.5% → 15.3%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 116 MiB → 114 MiB (7.0% → 6.9%) 15 more callees, led by (1.5%) Node_Array::grow
+│   │       │   ├── … 295 MiB → 301 MiB (18.0% → 18.2%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 208 MiB → 213 MiB (12.7% → 12.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 86.8 MiB → 88.4 MiB (5.3%) 12 more callees, led by (1.3%) Node_Array::grow
+│   │       │   └── 68.2 MiB → 71.5 MiB (4.2% → 4.3%) 15 more callees, led by (0.9%) PhaseCCP::do_transform
+│   │       ├── 609 MiB → 620 MiB (37.1% → 37.4%) Compile::Code_Gen
+│   │       │   ├── 470 MiB → 473 MiB (28.6% → 28.5%) PhaseChaitin::Register_Allocate
+│   │       │   │   ├── … 335 MiB (20.4% → 20.2%, self 99.8% globally) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 114 MiB → 118 MiB (6.9% → 7.1%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 20.2 MiB → 19.9 MiB (1.2%) 9 more callees, led by (0.5% → 0.6%) PhaseChaitin::Split
+│   │       │   ├── 111 MiB → 116 MiB (6.8% → 7.0%) Matcher::match
+│   │       │   │   ├── 66.8 MiB → 70.6 MiB (4.1% → 4.3%) Matcher::xform
+│   │       │   │   │   ├── … 38.3 MiB (2.3%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   │   └── 28.4 MiB → 32.3 MiB (1.7% → 1.9%) 7 more callees, led by (1.0% → 1.2%) Matcher::match_tree
+│   │       │   │   └── 44.3 MiB → 45.5 MiB (2.7%) 4 more callees, led by (1.8%) Matcher::find_shared
+│   │       │   └── 28.3 MiB → 31.5 MiB (1.7% → 1.9%) 9 more callees, led by (0.7% → 0.8%) PhaseCFG::do_global_code_motion
+│   │       ├── … 30.3 MiB → 27.8 MiB (1.8% → 1.7%) Parse::do_one_block at libjvm.dylib
+│   │       │   └── 30.3 MiB → 27.8 MiB (1.8% → 1.7%) 16 more callees, led by (0.4% → 0.5%) Parse::do_call
+│   │       └── 11.3 MiB → 11 MiB (0.7%) PhaseRemoveUseless::PhaseRemoveUseless
+│   │           └── 11.3 MiB → 11 MiB (0.7%) Compile::identify_useful_nodes …
+│   └── 31.6 MiB → 28.8 MiB (1.9% → 1.7%) 6 more callees, led by (1.9% → 1.7%) Compiler::compile_method
+└── 202 MiB (12.3% → 12.2%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+    └── 202 MiB (12.3% → 12.2%) run(String[])
+        ├── … 132 MiB (8.0%) exec(MessageCollector, Services, CommonCompilerArguments) at org.jetbrains.kotlin.cli.common.CLICompiler
+        │   └── … 121 MiB → 122 MiB (7.4% → 7.3%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+        │       └── 116 MiB (7.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+        │           └── 116 MiB (7.0%) phaseBody(PipelineContext, PipelineArtifact)
+        │               ├── 83.7 MiB → 83.8 MiB (5.1%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+        │               │   └── 83.7 MiB → 83.8 MiB (5.1%) executePhase(ConfigurationPipelineArtifact)
+        │               │       ├── 37.8 MiB → 38 MiB (2.3%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+        │               │       │   └── 37.8 MiB → 38 MiB (2.3%) 6 more callees, led by (2.0%) runResolution(FirSession, List) at org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+        │               │       └── 45.9 MiB → 45.8 MiB (2.8%) 23 more callees, led by (1.2%) prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1)
+        │               └── 31.8 MiB (1.9%) 5 more callees, led by (0.8%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+        └── … 60.5 MiB (3.7%) malloc_hook at libasyncProfiler.dylib
+```
+
 ## Hottest functions
 
 ### Self size

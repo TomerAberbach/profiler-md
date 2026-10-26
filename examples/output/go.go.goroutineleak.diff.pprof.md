@@ -8,6 +8,10 @@ Recorded 3 leaked goroutines.
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/inputs/assets/go/`.
 
+## Call tree
+
+No call path differed in leaked goroutines recorded.
+
 ## Hottest functions
 
 ### Self leaked goroutines

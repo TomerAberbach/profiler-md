@@ -8,6 +8,55 @@ Allocated 78 KiB → 106 KiB (+28.513 KiB, +36.6%) over 3,408 → 3,569 alloc
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── … 78 KiB → 106 KiB (100.0%) #write#58 at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38
+    ├── 56.2 KiB → 80.8 KiB (72.1% → 75.8%) write at 147
+    │   ├── … 56.2 KiB → 3.83 KiB (72.1% → 3.6%) #write#79 at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157
+    │   │   ├── 14.5 KiB → 0 B (18.7% → 0.0%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │   │   │   ├── … 7.88 KiB → 0 B (10.1% → 0.0%) ijl_gc_small_alloc at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │   │   │   │   └── 7.88 KiB → 0 B (10.1% → 0.0%) maybe_record_alloc_to_profile at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   │   └── 6.67 KiB → 0 B (8.6% → 0.0%) 2 more callees, led by (5.7% → 0.0%) arg_tuple at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/builtins.c:948
+    │   │   ├── 8.2 KiB → 0 B (10.5% → 0.0%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+    │   │   │   └── 8.2 KiB → 0 B (10.5% → 0.0%) 3 more callees, led by (6.6% → 0.0%) getvalue at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:214
+    │   │   ├── 4.46 KiB → 3.83 KiB (5.7% → 3.6%) write at 181
+    │   │   │   └── … 4.13 KiB → 3.83 KiB (5.3% → 3.6%) #write#81 at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl
+    │   │   │       └── 4.13 KiB → 3.83 KiB (5.3% → 3.6%) 8 more callees, led by (3.1% → 1.1%) isassigned at 1641
+    │   │   └── 29 KiB → 0 B (37.2% → 0.0%) 14 more callees, led by (7.6% → 0.0%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │   └── … 0 B → 76.9 KiB (0.0% → 72.2%) #write#79 at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73
+    │       ├── 0 B → 25 KiB (0.0% → 23.5%) write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String) at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340
+    │       │   ├── … 0 B → 19.5 KiB (0.0% → 18.3%, self 100.0% globally) maybe_record_alloc_to_profile at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │       │   └── 0 B → 5.53 KiB (0.0% → 5.2%) ijl_gc_small_alloc at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │       │       └── 0 B → 5.53 KiB (0.0% → 5.2%) maybe_record_alloc_to_profile at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │       ├── 0 B → 15.7 KiB (0.0% → 14.7%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │       │   └── 0 B → 15.7 KiB (0.0% → 14.7%) 3 more callees, led by (0.0% → 8.6%) ijl_gc_small_alloc at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │       └── 0 B → 36.2 KiB (0.0% → 34.0%) 15 more callees, led by (0.0% → 6.9%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    └── 21.8 KiB → 25.7 KiB (27.9% → 24.2%) defaultminimum at 12
+        ├── … 19.9 KiB → 23.4 KiB (25.5% → 21.9%) foldl_impl at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46
+        │   ├── 16.8 KiB → 0 B (21.5% → 0.0%) _foldl_impl at 61
+        │   │   ├── 11.1 KiB → 0 B (14.3% → 0.0%) iterate at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697
+        │   │   │   ├── … 10.4 KiB → 0 B (13.3% → 0.0%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+        │   │   │   │   ├── … 6.5 KiB → 0 B (8.3% → 0.0%) setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356
+        │   │   │   │   │   └── 6.5 KiB → 0 B (8.3% → 0.0%) 2 more callees, led by (5.7% → 0.0%) _setindex! at 339
+        │   │   │   │   └── 3.58 KiB → 0 B (4.6% → 0.0%) 3 more callees, led by (3.5% → 0.0%) getvalue at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218
+        │   │   │   └── 768 B → 0 B (1.0% → 0.0%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75 …
+        │   │   └── 5.66 KiB → 0 B (7.3% → 0.0%) 3 more callees, led by (4.6% → 0.0%) ijl_gc_small_alloc at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+        │   ├── 0 B → 18.4 KiB (0.0% → 17.2%) _foldl_impl at 54
+        │   │   ├── 0 B → 12.1 KiB (0.0% → 11.4%) iterate at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697
+        │   │   │   ├── 0 B → 11.1 KiB (0.0% → 10.4%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+        │   │   │   │   └── 0 B → 11.1 KiB (0.0% → 10.4%) 4 more callees, led by (0.0% → 6.6%) getvalue at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:214
+        │   │   │   └── 0 B → 1 KiB (0.0% → 0.9%) iterate at /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75 …
+        │   │   └── 0 B → 6.24 KiB (0.0% → 5.9%) 3 more callees, led by (0.0% → 3.4%) ijl_gc_small_alloc at /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+        │   └── … 2.98 KiB → 4.75 KiB (3.8% → 4.5%) #defaultminimum##0 at none
+        │       └── 2.98 KiB → 4.75 KiB (3.8% → 4.5%) 2 more callees, led by (1.9% → 2.4%) isassigned at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641
+        └── … 1.92 KiB → 2.36 KiB (2.5% → 2.2%) isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}) at /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127 …
+```
+
 ## Hottest functions
 
 ### Self size

@@ -8,6 +8,55 @@ Collected 301 → 269 samples (-32 samples, -10.6%).
 | Ours             | -36.4% |    -8 |   7.3% → 5.2% |   22 → 14 |
 | Standard library | -83.3% |    -5 |   2.0% → 0.4% |     6 → 1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── 301 → 0 samples (100.0% → 0.0%) 0x7f3b306b724a at libc.so.6
+│   └── 300 → 0 samples (99.7% → 0.0%) _run_module_as_main at <frozen runpy>
+│       ├── … 290 → 0 samples (96.3% → 0.0%) CPyDef_black___reformat_one at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│       │   └── 289 → 0 samples (96.0% → 0.0%) CPyDef_black___format_file_in_place
+│       │       └── 289 → 0 samples (96.0% → 0.0%) CPyDef_black___format_file_contents
+│       │           ├── 188 → 0 samples (62.5% → 0.0%) CPyDef_black___format_str
+│       │           │   └── 188 → 0 samples (62.5% → 0.0%) CPyDef_black____format_str_once
+│       │           │       ├── 71 → 0 samples (23.6% → 0.0%, self 6.0% → 0.0%, self 6.6% → 4.5% globally) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+│       │           │       │   ├── … 32 → 0 samples (10.6% → 0.0%, self 1.0% → 0.0%, self 2.0% → 0.7% globally) CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│       │           │       │   │   ├── 12 → 0 samples (4.0% → 0.0%, self 0.7% → 0.0%, self 1.0% → 1.5% globally) CPyDef_lines___Line___append
+│       │           │       │   │   │   ├── 7 → 0 samples (2.3% → 0.0%, self 0.7% → 0.0%, self 1.7% → 0.4% globally) CPyDef_nodes___whitespace
+│       │           │       │   │   │   │   └── 5 → 0 samples (1.7% → 0.0%) 4 more callees, led by (0.7% → 0.0%) CPyDef_pytree___Base___prev_sibling
+│       │           │       │   │   │   └── 2 → 0 samples (0.7% → 0.0%, self 0.3% → 1.1% globally) CPyDef_brackets___BracketTracker___mark
+│       │           │       │   │   │       └── 2 → 0 samples (0.7% → 0.0%) CPyDef_brackets___is_split_before_delimiter
+│       │           │       │   │   ├── 9 → 0 samples (3.0% → 0.0%, self 2.0% → 0.0%, self 3.3% → 0.7% globally) CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__
+│       │           │       │   │   │   └── 3 → 0 samples (1.0% → 0.0%) CPyDef_comments___normalize_trailing_prefix …
+│       │           │       │   │   └── 8 → 0 samples (2.7% → 0.0%) 3 more callees, led by (2.0% → 0.0%) CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__
+│       │           │       │   └── 21 → 0 samples (7.0% → 0.0%) 10 more callees, led by (1.7% → 0.0%) CPyDef_linegen___visit_DEDENT_LineGenerator_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│       │           │       ├── 22 → 0 samples (7.3% → 0.0%, self 0.7% → 0.0%) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+│       │           │       │   ├── 6 → 0 samples (2.0% → 0.0%, self 0.3% → 1.1% globally) CPyDef_linegen____hugging_power_ops_line_to_string
+│       │           │       │   │   └── 4 → 0 samples (1.3% → 0.0%) CPyDef_trans___hug_power_op_gen_____mypyc_generator_helper__
+│       │           │       │   │       └── 3 → 0 samples (1.0% → 0.0%, self 2.3% → 0.7% globally) CPy_AddTraceback
+│       │           │       │   └── 14 → 0 samples (4.7% → 0.0%) 5 more callees, led by (2.0% → 0.0%) CPyDef_linegen___run_transformer
+│       │           │       └── 95 → 0 samples (31.6% → 0.0%) 6 more callees, led by (23.6% → 0.0%) CPyDef_parsing___lib2to3_parse
+│       │           └── 101 → 0 samples (33.6% → 0.0%) CPyDef_black___check_stability_and_equivalence
+│       │               ├── 71 → 0 samples (23.6% → 0.0%) CPyDef_black___assert_stable …
+│       │               └── 30 → 0 samples (10.0% → 0.0%) CPyDef_black___assert_equivalent
+│       │                   ├── 19 → 0 samples (6.3% → 0.0%, self 3.0% → 0.0%, self 3.0% → 1.5% globally) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__
+│       │                   │   └── 10 → 0 samples (3.3% → 0.0%) 7 more callees, led by (0.7% → 0.0%) CPyDef_parsing____stringify_ast_with_new_parent_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│       │                   └── … 10 → 0 samples (3.3% → 0.0%, self 3.0% → 0.0%, self 3.0% → 2.2% globally) parse at ast.py
+│       └── 9 → 0 samples (3.0% → 0.0%) _get_module_details …
+└── 0 → 269 samples (0.0% → 100.0%, self 0.0% → 0.7%) 0x7faf691d024a at libc.so.6
+    ├── 0 → 265 samples (0.0% → 98.5%) _run_module_as_main at <frozen runpy>
+    │   ├── … 0 → 254 samples (0.0% → 94.4%) CPyDef_black___format_file_contents at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   ├── 0 → 170 samples (0.0% → 63.2%) CPyDef_black___format_str
+    │   │   │   └── 0 → 170 samples (0.0% → 63.2%) CPyDef_black____format_str_once
+    │   │   │       └── 0 → 169 samples (0.0% → 62.8%) 8 more callees, led by (0.0% → 25.7%) CPyDef_parsing___lib2to3_parse
+    │   │   └── 0 → 84 samples (0.0% → 31.2%) CPyDef_black___check_stability_and_equivalence …
+    │   └── 0 → 11 samples (0.0% → 4.1%) _get_module_details …
+    └── 0 → 1 sample (0.0% → 0.4%) _find_and_load at <frozen importlib._bootstrap>
+```
+
 ## Hottest functions
 
 ### Self samples

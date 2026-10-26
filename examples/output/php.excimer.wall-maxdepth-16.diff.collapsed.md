@@ -11,7 +11,54 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 Call stacks missing their outermost callers account for 23.0% → 22.5% of the samples collected.
 
-`truncated` stands for missing outermost callers.
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+├── … 3,011 → 2,858 samples (76.8% → 77.3%) run at Symfony\Component\Console\Application
+│   ├── 2,837 → 2,845 samples (72.3% → 76.9%) doRun at Composer\Console\Application
+│   │   ├── … 2,572 → 2,618 samples (65.6% → 70.8%) run at Symfony\Component\Console\Command\Command
+│   │   │   ├── 2,552 → 2,601 samples (65.1% → 70.3%) execute at Composer\Command\DumpAutoloadCommand
+│   │   │   │   └── 2,552 → 2,599 samples (65.1% → 70.3%) dump at Composer\Autoload\AutoloadGenerator
+│   │   │   │       ├── 2,407 → 2,451 samples (61.4% → 66.3%, self 1.6%) scanPaths at Composer\ClassMapGenerator\ClassMapGenerator
+│   │   │   │       │   ├── 2,226 → 2,274 samples (56.8% → 61.5%, self 16.1% → 17.9%) findClasses at Composer\ClassMapGenerator\PhpFileParser
+│   │   │   │       │   │   ├── 1,433 → 1,430 samples (36.5% → 38.7%, self 10.8% → 11.5%) clean at Composer\ClassMapGenerator\PhpFileCleaner
+│   │   │   │       │   │   │   ├── 793 → 804 samples (20.2% → 21.7%, self 2.5%) match
+│   │   │   │       │   │   │   │   └── 694 → 713 samples (17.7% → 19.3%, self 3.3% → 4.2%) isMatchStrictGroups at Composer\Pcre\Preg
+│   │   │   │       │   │   │   │       └── 563 → 559 samples (14.4% → 15.1%) matchStrictGroups …
+│   │   │   │       │   │   │   ├── 197 → 177 samples (5.0% → 4.8%, self 5.0% → 4.8%) skipString
+│   │   │   │       │   │   │   └── 10 → 15 samples (0.3% → 0.4%) skipHeredoc
+│   │   │   │       │   │   ├── 121 → 131 samples (3.1% → 3.5%) matchAllStrictGroups at Composer\Pcre\Preg
+│   │   │   │       │   │   │   └── 117 → 130 samples (3.0% → 3.5%, self 2.9% → 3.5%, self 4.0% → 4.8% globally) matchAll
+│   │   │   │       │   │   └── 42 → 50 samples (1.1% → 1.4%, self 1.1% → 1.3%) matchAll at Composer\Pcre\Preg
+│   │   │   │       │   ├── 21 → 36 samples (0.5% → 1.0%) normalizePath
+│   │   │   │       │   └── 96 → 82 samples (2.4% → 2.2%) 16 more callees, led by (1.1%) hasChildren at Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
+│   │   │   │       ├── 113 samples (2.9% → 3.1%) getPathCode
+│   │   │   │       │   ├── 80 → 67 samples (2.0% → 1.8%) findShortestPath at Composer\Util\Filesystem
+│   │   │   │       │   │   ├── 42 → 31 samples (1.1% → 0.8%, self 0.5%, self 0.8% → 1.2% globally) normalizePath
+│   │   │   │       │   │   │   └── 12 → 2 samples (0.3% → 0.1%) replaceCallback at Composer\Pcre\Preg
+│   │   │   │       │   │   └── 20 samples (0.5%) isMatch at Composer\Pcre\Preg
+│   │   │   │       │   └── 25 → 29 samples (0.6% → 0.8%, self 0.3% → 0.6%) normalizePath at Composer\Util\Filesystem
+│   │   │   │       └── 20 → 16 samples (0.5% → 0.4%) getStaticFile
+│   │   │   └── … 2 → 0 samples (0.1% → 0.0%) getListeners at Composer\EventDispatcher\EventDispatcher
+│   │   └── 243 → 206 samples (6.2% → 5.6%, self 5.9% → 5.2%) call at Composer\Util\Silencer
+│   │       ├── 0 → 10 samples (0.0% → 0.3%) (anonymous) at ./composer/src/Composer/Console/Application.php:349
+│   │       └── 10 → 0 samples (0.3% → 0.0%) (anonymous) at ./composer/src/Composer/Console/Application.php:353
+│   └── … 169 → 7 samples (4.3% → 0.2%) readFromProcess at Symfony\Component\Console\Terminal
+└── 903 → 833 samples (23.0% → 22.5%) truncated
+    ├── … 444 → 428 samples (11.3% → 11.6%) guessVersion at Composer\Package\Version\VersionGuesser
+    │   ├── … 256 → 249 samples (6.5% → 6.7%, self 14.7% → 15.0% globally) readAndWrite at Symfony\Component\Process\Pipes\UnixPipes
+    │   └── 187 → 178 samples (4.8%) 3 more callees, led by (2.4%) guessFossilVersion
+    ├── … 253 → 228 samples (6.5% → 6.2%) scanPaths at Composer\ClassMapGenerator\ClassMapGenerator
+    │   ├── … 201 → 188 samples (5.1%, self 3.8% → 4.2% globally) match at Composer\Pcre\Preg
+    │   │   └── 201 → 188 samples (5.1%, self 7.3% → 7.0% globally) pregMatch
+    │   └── … 51 → 40 samples (1.3% → 1.1%) __construct at Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+    ├── … 8 → 2 samples (0.2% → 0.1%, self 0.9% → 0.5% globally) start at Symfony\Component\Process\Process
+    └── 189 → 167 samples (4.8% → 4.5%) 10 more root frames, led by (3.3%) initialize at Composer\Command\BaseCommand
+```
 
 ## Hottest functions
 

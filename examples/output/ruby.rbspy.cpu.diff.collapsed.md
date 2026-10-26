@@ -11,6 +11,55 @@ Collected 1,555 samples.
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest and most changed functions.
+
+```
+└── 1,554 → 1,553 samples (99.9%) <main> at ./profile.rb
+    ├── … 1,468 → 1,471 samples (94.4% → 94.6%) ActionDispatch::Static#call at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │   ├── … 1,457 → 1,456 samples (93.7% → 93.6%) ActiveSupport::Callbacks#run_callbacks at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb
+    │   │   ├── … 1,311 → 1,339 samples (84.3% → 86.1%) AbstractController::Rendering#render at /usr/local/bundle/gems/actionpack-8.1.4/lib/abstract_controller/rendering.rb
+    │   │   │   └── … 1,299 → 1,329 samples (83.5% → 85.5%) ActionView::TemplateRenderer#render at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/renderer/template_renderer.rb
+    │   │   │       └── … 1,294 → 1,325 samples (83.2% → 85.2%) ActiveSupport::Notifications.instrument at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb
+    │   │   │           ├── … 1,288 → 1,316 samples (82.8% → 84.6%) Kernel#public_send [c function]
+    │   │   │           │   ├── 910 → 1,031 samples (58.5% → 66.3%) #<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128
+    │   │   │           │   │   └── 908 → 1,029 samples (58.4% → 66.2%) Array#each
+    │   │   │           │   │       ├── 696 → 747 samples (44.8% → 48.0%, self 1.5% → 2.2%) block in _app_views_statuses_index_html_erb__328993190567029661_3128
+    │   │   │           │   │       │   ├── 574 → 573 samples (36.9% → 36.8%) ActionView::Helpers::SanitizeHelper#sanitize at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │   │   │           │   │       │   │   └── 571 → 568 samples (36.7% → 36.5%) Rails::HTML::Concern::ComposedSanitize#sanitize at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │   │   │           │   │       │   │       └── 571 → 567 samples (36.7% → 36.5%) 3 more callees, led by (12.0% → 13.8%) Rails::HTML::Concern::Serializer::UTF8Encode#serialize
+    │   │   │           │   │       │   └── 98 → 140 samples (6.3% → 9.0%) 6 more callees, led by (2.3% → 2.6%) ActionView::Helpers::UrlHelper#link_to at /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/url_helper.rb
+    │   │   │           │   │       ├── … 70 → 125 samples (4.5% → 8.0%) Module#extend_object [c function]
+    │   │   │           │   │       └── 133 → 147 samples (8.6% → 9.5%) 5 more callees, led by (4.2% → 6.2%) block in scrub_attributes at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │   │   │           │   ├── … 323 → 242 samples (20.8% → 15.6%) ActiveSupport::NumberHelper#number_to_delimited at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb
+    │   │   │           │   │   └── 322 → 241 samples (20.7% → 15.5%) ActiveSupport::NumberHelper::NumberConverter.convert at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb
+    │   │   │           │   │       ├── 320 → 227 samples (20.6% → 14.6%) ActiveSupport::NumberHelper::NumberConverter#execute
+    │   │   │           │   │       │   ├── 312 → 218 samples (20.1% → 14.0%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_to_delimited_converter.rb
+    │   │   │           │   │       │   │   ├── 304 → 212 samples (19.5% → 13.6%, self 0.1% → 1.2%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts
+    │   │   │           │   │       │   │   │   ├── 269 → 175 samples (17.3% → 11.3%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#delimiter_pattern
+    │   │   │           │   │       │   │   │   │   └── 268 → 174 samples (17.2% → 11.2%) ActiveSupport::NumberHelper::NumberConverter#options at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb
+    │   │   │           │   │       │   │   │   │       └── 265 → 167 samples (17.0% → 10.7%) ActiveSupport::NumberHelper::NumberConverter#format_options
+    │   │   │           │   │       │   │   │   │           ├── 248 → 147 samples (15.9% → 9.5%, self 9.5% → 1.3%) ActiveSupport::NumberHelper::NumberConverter#i18n_format_options
+    │   │   │           │   │       │   │   │   │           │   └── 100 → 127 samples (6.4% → 8.2%) 3 more callees, led by (6.2% → 7.5%) I18n::Base#translate at /usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb
+    │   │   │           │   │       │   │   │   │           └── 16 → 20 samples (1.0% → 1.3%) 2 more callees, led by (0.6% → 0.8%) ActiveSupport::NumberHelper::NumberConverter#default_format_options
+    │   │   │           │   │       │   │   │   └── 33 → 18 samples (2.1% → 1.2%) 6 more callees, led by (1.2% → 0.3%) String#split [c function]
+    │   │   │           │   │       │   │   └── 5 → 4 samples (0.3%, self 0.6% → 1.1% globally) Array#join [c function]
+    │   │   │           │   │       │   └── 7 → 6 samples (0.5% → 0.4%) ActiveSupport::NumberHelper::NumberConverter#valid_bigdecimal
+    │   │   │           │   │       └── … 0 → 10 samples (0.0% → 0.6%) Hash#transform_keys [c function]
+    │   │   │           │   └── 52 → 39 samples (3.3% → 2.5%) #<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160 …
+    │   │   │           └── 5 samples (0.3%) ActiveSupport::Notifications::Instrumenter#instrument at /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications/instrumenter.rb
+    │   │   └── … 139 → 105 samples (8.9% → 6.8%) Rack::Session::Abstract::Persisted#context at /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │   │       ├── … 120 → 91 samples (7.7% → 5.9%) Rack::ETag#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │   │       │   ├── … 94 → 67 samples (6.0% → 4.3%) Digest::Base#<< [c function]
+    │   │       │   └── 23 → 24 samples (1.5%) 3 more callees, led by (1.5% → 1.4%) Rack::TempfileReaper#call at /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │   │       └── 18 → 12 samples (1.2% → 0.8%) 2 more callees, led by (1.1% → 0.8%) ActionDispatch::Session::SessionObject#commit_session at /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb
+    │   └── 7 → 10 samples (0.5% → 0.6%) ActionDispatch::FileHandler#attempt …
+    └── 79 → 76 samples (5.1% → 4.9%) 4 more callees, led by (4.6% → 4.7%) Kernel#require_relative [c function]
+```
+
 ## Hottest functions
 
 ### Self samples

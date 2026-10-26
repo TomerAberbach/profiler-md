@@ -5,6 +5,7 @@ import {
   formatBytesDelta,
   formatChange,
   formatCount,
+  formatCountArrow,
 } from '../../helpers/format.ts'
 import { MaxHeap, selectTopN } from '../../helpers/heap.ts'
 import {
@@ -229,13 +230,11 @@ const formatDiffSummaryLine = ({
     base.heldSize,
     current.heldSize,
     formatBytesDelta,
-  )} over ${formatArrow(
-    formatCount(base.nodeCount),
-    formatCount(current.nodeCount),
-  )} nodes and ${formatArrow(
-    formatCount(base.edgeCount),
-    formatCount(current.edgeCount),
-  )} edges.`
+  )} over ${formatCountArrow(
+    base.nodeCount,
+    current.nodeCount,
+    `node`,
+  )} and ${formatCountArrow(base.edgeCount, current.edgeCount, `edge`)}.`
 
 const formatDiffCategoryTable = (
   diff: AggregatedHeapSnapshotDiff,
