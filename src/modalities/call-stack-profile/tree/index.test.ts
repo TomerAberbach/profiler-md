@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { mdastToMarkdown } from '../../helpers/markdown.ts'
-import { resolveProfileToMdOptions } from '../../options.ts'
-import type { ProfileToMdOptions } from '../../options.ts'
-import { expectLogs } from '../../testing.ts'
-import { countMetricOf } from '../metric.ts'
-import { BYTES_METRIC, MICROSECONDS_METRIC } from '../metrics.ts'
-import { formatCallStackProfile } from './format.ts'
-import { callTreeLines, makeAggregatedCallStackProfile } from './testing.ts'
+import { mdastToMarkdown } from '../../../helpers/markdown.ts'
+import { resolveProfileToMdOptions } from '../../../options.ts'
+import type { ProfileToMdOptions } from '../../../options.ts'
+import { expectLogs } from '../../../testing.ts'
+import { countMetricOf } from '../../metric.ts'
+import { BYTES_METRIC, MICROSECONDS_METRIC } from '../../metrics.ts'
+import { formatCallStackProfile } from '../format.ts'
+import { callTreeLines, makeAggregatedCallStackProfile } from '../testing.ts'
 
 const markdownUnder = (
   options: ProfileToMdOptions,

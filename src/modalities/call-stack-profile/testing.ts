@@ -15,7 +15,7 @@ import type { StackFrame } from '../stack-frame.ts'
 import { CallStackProfileAggregator } from './aggregate.ts'
 import type { AggregatedCallStackProfile } from './aggregate.ts'
 import { NEGLIGIBLE_SHARE } from './measure.ts'
-import { lineBudgetOf } from './tree.ts'
+import { lineBudgetOf } from './tree/index.ts'
 
 export const makeAggregatedCallStackProfile = (
   metrics: Metric[],
