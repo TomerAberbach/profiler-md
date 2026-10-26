@@ -799,7 +799,7 @@ const formatDiffFunctionLines = ({
 /** The Callers and Callees sections of a total ranking. */
 const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
   const hasCallCounts =
-    graphHasCallCounts(args.diff.base) || graphHasCallCounts(args.diff.current)
+    graphHasCallCounts(args.diff.base) && graphHasCallCounts(args.diff.current)
   return [CALLER_ARCS, CALLEE_ARCS].flatMap(arcs =>
     formatSectionGroup(
       [
