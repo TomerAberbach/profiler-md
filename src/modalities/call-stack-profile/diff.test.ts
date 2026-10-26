@@ -1834,6 +1834,50 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
     )
   })
 
+  test.each([
+    { side: `base`, hiddenLine: 1 },
+    { side: `current`, hiddenLine: 5 },
+  ])(
+    `pairs a call stack whose frame the filter hides on the $side side only`,
+    ({ hiddenLine }) => {
+      const options = resolveProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry =>
+          entry.name !== `middle` || entry.location?.line !== hiddenLine,
+      })
+
+      const md = formatDiff(
+        [
+          makeFunction(`leaf`, 4, { stack: [0, 1, 2] }),
+          makeFunction(`middle`, 0),
+          makeFunction(`parent`, 0),
+        ],
+        [
+          makeFunction(`leaf`, 6, { stack: [0, 1, 2] }),
+          makeFunction(`middle`, 0, { line: 5 }),
+          makeFunction(`parent`, 0),
+        ],
+        options,
+      )
+
+      expect(rankingTables(md, `Hottest call stacks`, `Regressions`)).toEqual([
+        [
+          {
+            Change: `+50.0%`,
+            Delta: `+2.00µs`,
+            '%': `100.0%`,
+            Time: `4.0µs → 6.0µs`,
+            Samples: `4 → 6`,
+            'Call stack': `leaf (./src/leaf.ts:1) ← middle (./src/middle.ts:5) ← parent (./src/parent.ts:1)`,
+          },
+        ],
+      ])
+      expect(rankingTables(md, `Hottest call stacks`, `Improvements`)).toEqual(
+        [],
+      )
+    },
+  )
+
   test(`takes the common call stack's locations from the current side`, () => {
     const md = formatDiff(
       [

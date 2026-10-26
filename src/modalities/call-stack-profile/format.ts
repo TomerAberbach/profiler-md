@@ -810,7 +810,13 @@ export const formatCallStackProfileDiff = (
       diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
     entities: `function`,
   })
-  const callStacks = matchDiffedCallStacks(diff, sectionOptions)
+  const shownByIndex = diff.functions.map(func =>
+    showDiffEntity(func, diff, sectionOptions.showEntry),
+  )
+  const shownFunctions = diff.functions.filter(
+    (_, index) => shownByIndex[index],
+  )
+  const callStacks = matchDiffedCallStacks(diff, shownByIndex)
   return [
     heading(
       headingLevel,
@@ -832,6 +838,7 @@ export const formatCallStackProfileDiff = (
             diff,
             matchLines,
             matchFunctionIds,
+            shownFunctions,
             measure,
             options: sectionOptions,
             headingLevel: sectionHeadingLevel,
@@ -861,18 +868,23 @@ type DiffedCallStack = Diff<ShownCallStack> & { key: CallStackKey }
 /**
  * Merges each side's call stacks by their shown frames, and pairs them across
  * the sides by the functions their frames are, as the diff paired functions.
+ *
+ * A frame shows on both sides when its function shows on either side
+ * ({@link shownByIndex}, indexed like the diff's functions), so a call stack's
+ * key is the same on both sides.
  */
 const matchDiffedCallStacks = (
   diff: AggregatedCallStackProfileDiff,
-  options: FormattingProfileToMdOptions,
+  shownByIndex: boolean[],
 ): DiffedCallStack[] => {
   const idToIndex = functionIdIndexes(diff.functions)
   const keys = newCallStackKeyInterner()
   const mergeSide = (side: keyof Diff<unknown>) => {
     const sideIdToIndex = idToIndex[side]
+    const shownById = sideShownById(diff, side, sideIdToIndex, shownByIndex)
     return mergeShownCallStacks(
       diff[side],
-      memoizeShowEntry(diff[side], options).showEntry,
+      func => shownById[func.id] === 1,
       keys,
       func => sideIdToIndex[func.id]!,
     )
@@ -884,6 +896,29 @@ const matchDiffedCallStacks = (
     base: baseCallStacks[index],
     current: currentCallStacks[index],
   }))
+}
+
+/**
+ * Whether {@link shownByIndex} shows each of {@link side}'s functions, as 1 or
+ * 0 by function ID.
+ */
+const sideShownById = (
+  diff: AggregatedCallStackProfileDiff,
+  side: keyof Diff<unknown>,
+  sideIdToIndex: number[],
+  shownByIndex: boolean[],
+): Uint8Array => {
+  const shownById = new Uint8Array(sideIdToIndex.length)
+  for (const { id } of diff[side].functions) {
+    const index = sideIdToIndex[id]
+    if (index === undefined) {
+      throw new Error(
+        `diffed a ${side} function that no function diff pairs, got: ${id}`,
+      )
+    }
+    shownById[id] = shownByIndex[index]! ? 1 : 0
+  }
+  return shownById
 }
 
 const formatDiffSummary = (
@@ -1020,6 +1055,7 @@ const formatDiffFunctions = ({
   diff,
   matchLines,
   matchFunctionIds,
+  shownFunctions,
   measure,
   options,
   headingLevel,
@@ -1027,15 +1063,16 @@ const formatDiffFunctions = ({
   diff: AggregatedCallStackProfileDiff
   matchLines: LineMatcher<AggregatedCallStackProfileLineMetrics>
   matchFunctionIds: FunctionIdMatcher
+
+  /** The diff's functions the entry filter shows. */
+  shownFunctions: AggregatedCallStackProfileFunctionDiff[]
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
   // Resolved once for both rankings, as in `formatHottestFunctions`.
   const categories = subsectionDiffCategories({
-    entries: diff.functions.filter(func =>
-      showDiffEntity(func, diff, options.showEntry),
-    ),
+    entries: shownFunctions,
     baseSelfValueOf: func =>
       func.base === undefined ? 0 : selfValueOf(measure.base, func.base),
     currentSelfValueOf: func =>
