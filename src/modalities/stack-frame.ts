@@ -119,13 +119,14 @@ export class StackFrameTable {
   }
 
   readonly #frames: StackFrame[]
-  readonly #functions: StackFrameFunction[] = []
+  readonly #functions: StackFrameFunctions
 
   #detected = false
   #functionTable: StackFrameFunctionTable | undefined
 
   private constructor(frames: StackFrame[]) {
     this.#frames = frames
+    this.#functions = new StackFrameFunctions(frames, `definition`)
   }
 
   /** Adds the raw frames to {@link detector}, once, until decided. */
@@ -137,18 +138,9 @@ export class StackFrameTable {
 
     const { length } = this.#frames
     for (let index = 0; !detector.decided && index < length; index++) {
-      const { name, location } = this.#getOrCreateFunction(index)
+      const { name, location } = this.#functions.get(index)!
       detector.add({ name, location })
     }
-  }
-
-  #getOrCreateFunction(index: number): StackFrameFunction {
-    let func = this.#functions[index]
-    if (!func) {
-      func = parseStackFrameFunction(this.#frames[index]!)
-      this.#functions[index] = func
-    }
-    return func
   }
 
   /**
@@ -185,11 +177,9 @@ export class StackFrameFunctionTable {
    */
   readonly #frames: (StackFrame | null)[]
 
-  readonly #functions: StackFrameFunction[] = []
+  readonly #functions: StackFrameFunctions
 
   #linelessFunctionKeys: Set<string> | undefined
-
-  readonly #identity: FunctionIdentity
 
   /** Whether the raw frame at an index is the origin's truncation marker. */
   readonly #isTruncationMarker: (index: number) => boolean
@@ -200,22 +190,13 @@ export class StackFrameFunctionTable {
     isTruncationMarker: (index: number) => boolean = () => false,
   ) {
     this.#frames = frames
-    this.#identity = identity
+    this.#functions = new StackFrameFunctions(frames, identity)
     this.#isTruncationMarker = isTruncationMarker
   }
 
   /** Returns the frame's function, or `undefined` for a dropped frame. */
   public function(index: number): StackFrameFunction | undefined {
-    let func = this.#functions[index]
-    if (!func) {
-      const frame = this.#frames[index]
-      if (!frame) {
-        return undefined
-      }
-      func = parseStackFrameFunction(frame, this.#identity)
-      this.#functions[index] = func
-    }
-    return func
+    return this.#functions.get(index)
   }
 
   /** The identity keys of the table's functions with no definition line. */
@@ -249,15 +230,69 @@ export const parseStackFrameFunction = (
   frame: StackFrame,
   identity: FunctionIdentity = `definition`,
 ): StackFrameFunction => {
-  const identifying =
-    identity === `call-site` ? frame.callSite : frame.definition
-  return {
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    name: frame.name || `(anonymous)`,
-    location: makeSourceLocation(identifying, identifying?.position),
-    key: functionIdentityKey(frame.name, identifying),
+  const identifying = identifyingReference(frame, identity)
+  return makeStackFrameFunction(
+    frame,
+    identifying,
+    functionIdentityKey(frame.name, identifying),
+  )
+}
+
+/**
+ * Each frame's function, memoized per frame index. Frames sharing an identity
+ * key resolve to one function, so each distinct location is resolved once.
+ */
+class StackFrameFunctions {
+  readonly #frames: readonly (StackFrame | null)[]
+  readonly #identity: FunctionIdentity
+  readonly #functions: StackFrameFunction[] = []
+  readonly #keyToFunction = new Map<string, StackFrameFunction>()
+
+  public constructor(
+    frames: readonly (StackFrame | null)[],
+    identity: FunctionIdentity,
+  ) {
+    this.#frames = frames
+    this.#identity = identity
+  }
+
+  /** Returns the frame's function, or `undefined` for a dropped frame. */
+  public get(index: number): StackFrameFunction | undefined {
+    let func = this.#functions[index]
+    if (!func) {
+      const frame = this.#frames[index]
+      if (!frame) {
+        return undefined
+      }
+      const identifying = identifyingReference(frame, this.#identity)
+      const key = functionIdentityKey(frame.name, identifying)
+      func = this.#keyToFunction.get(key)
+      if (!func) {
+        func = makeStackFrameFunction(frame, identifying, key)
+        this.#keyToFunction.set(key, func)
+      }
+      this.#functions[index] = func
+    }
+    return func
   }
 }
+
+const identifyingReference = (
+  frame: StackFrame,
+  identity: FunctionIdentity,
+): StackFrame[`definition`] =>
+  identity === `call-site` ? frame.callSite : frame.definition
+
+const makeStackFrameFunction = (
+  frame: StackFrame,
+  identifying: StackFrame[`definition`],
+  key: string,
+): StackFrameFunction => ({
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  name: frame.name || `(anonymous)`,
+  location: makeSourceLocation(identifying, identifying?.position),
+  key,
+})
 
 /**
  * Resolves each frame's function to the aggregated function it adds to. A diff
