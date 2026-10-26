@@ -89,6 +89,8 @@ $ARGUMENTS
    - Where the pairing runs: in `<modality>/diff.ts` when the pairing is
      independent of which entities the filter shows, or in `format.ts` over the
      shown entities when it depends on them
+   - Whether `pnpm evaluate-diff-matching` must score the pairing (see "Scoring
+     the pairing")
    - Which notes the feature's text can require, and the diff wording of its
      sentences (see "Wording")
 
@@ -155,9 +157,12 @@ $ARGUMENTS
     If one did, the refactor in step 4 changed non-diff behavior. Find the
     change with `jj diff`, restore the non-diff output, and return to step 5
 
-12. Add a `glossary.md` entry for any term the feature introduces
+12. If step 3 decided the pairing needs scoring, add it to
+    `scripts/evaluate-diff-matching/` (see "Scoring the pairing")
 
-13. Run `pnpm check`. If `check-demo` fails, run `pnpm update-demo`, which
+13. Add a `glossary.md` entry for any term the feature introduces
+
+14. Run `pnpm check`. If `check-demo` fails, run `pnpm update-demo`, which
     requires `vhs` and `gifsicle`. If `check-diff-matching` fails, the change
     altered which entities pair, though no step of this skill requires that.
     Find the edit responsible and revert it
@@ -183,6 +188,39 @@ heading.
   `base% → current%`, each a share of that side's entity value
 - Omit a section a non-diff input would omit. In a section with rows on either
   side but no change, print `unchangedDiffSentence` in place of the partitions
+
+# Scoring the pairing
+
+`pnpm evaluate-diff-matching` scores each pairing decision a diff makes from
+evidence of its own: functions by match key and position, executing lines by
+position, and a heap snapshot's retainer groups by retainer path. It leaves out
+a pairing that follows from another scored pairing, because its errors are that
+pairing's errors, weighted differently.
+
+- Score the pairing when a row pairs by evidence beyond its entity's diff: a
+  position (`lineMatcher`), a path, or a key built from the rows' own fields. A
+  row of this kind can pair wrong while every entity pairs right
+- Skip it when a row pairs through the entity diff or `functionIdMatcher`, as
+  `Callers`, `Callees`, `Hottest call stacks`, and the call tree do. Such a row
+  pairs wrong only when one of its functions did, which the `functions` tables
+  already count
+
+To score a pairing:
+
+- Export the pairing from `src/modalities/<modality>/diff.ts` or
+  `src/modalities/diff.ts`, and call it from the script, so the script scores
+  the code the diff runs (e.g. `matchRetainerGroups` in
+  `scripts/evaluate-diff-matching/retainer-groups.ts`)
+- Find each base row's counterpart by mapping its positions through the ground
+  truth's `PositionMap` and `SourceReferenceMap` in `position.ts`, and add a
+  table per kind of ground truth: same code, version change, and synthetic edits
+  (`groupTables` in `index.ts`). Leave a row unscored when a position it is
+  keyed by has no known counterpart
+- Apply the synthetic edits to the rows' positions too, and score only the rows
+  with a position in the edited source reference
+- Weight each row by its share of its input's total, so a mistake on a large row
+  counts for more
+- Describe the new tables in the module comment of `index.ts`
 
 # Wording
 
