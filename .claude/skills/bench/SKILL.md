@@ -55,11 +55,14 @@ directory).
    revert it
 6. Capture a new profile with `pnpm bench --save current.cpuprofile $ARGUMENTS`,
    and diff it with `node src/cli/index.ts base.cpuprofile current.cpuprofile`
-   - Keep the change only if the total time drops by more than the noise floor
-     (see "Measurement") and the targeted functions account for the drop.
-     Otherwise revert and return to step 3
-   - If the diff is too noisy to judge, collect more data (see "Measurement")
-     and diff again
+   - Keep the change only if the targeted functions' total time drops by more
+     than their noise floor (see "Measurement"), and no other function's time
+     rises by the amount they dropped. Otherwise revert and return to step 3
+   - Ignore the profile's total time. Its noise floor includes the variation of
+     every function, so a drop smaller than that floor is indistinguishable from
+     noise even when every run repeats the drop
+   - If the drop is close to the targeted functions' noise floor, collect more
+     data (see "Measurement") and diff again
 7. If the goal is unmet and a clear bottleneck remains, make
    `current.cpuprofile` the new baseline and return to step 2. If no small
    change removes the remaining cost, follow "Redesigns"
@@ -77,9 +80,10 @@ directory).
   machine load, caches, and garbage collection. A profile diff instead
   attributes each change in time to functions, so it shows whether the code
   change removed the targeted cost
-- Two runs of the same code differ by several percent. Before judging the first
-  change, capture a second baseline and diff the two to measure the noise floor
-  for this input
+- Two runs of the same code differ by several percent, in the total and in each
+  function. Before judging the first change, capture a second baseline and diff
+  the two. A function's noise floor is how much its time differs between the
+  baselines
 - `scripts/bench` fixes the sampling interval, so when a profile has too little
   data to trust, profile a larger input of the same format. Recapture the
   baseline on it, so both sides of the diff convert the same input
