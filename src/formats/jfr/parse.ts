@@ -1523,10 +1523,9 @@ type UnreadableRecordReason =
 class UnreadableRecordError extends Error {
   public readonly reason: UnreadableRecordReason
 
-  public constructor(reason: UnreadableRecordReason) {
-    super(reason)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'UnreadableRecordError'
+  public constructor(reason: UnreadableRecordReason, options?: ErrorOptions) {
+    super(reason, options)
+    this.name = `UnreadableRecordError`
     this.reason = reason
   }
 }

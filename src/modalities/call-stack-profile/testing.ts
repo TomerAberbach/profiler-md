@@ -105,10 +105,9 @@ const makeDefinition = ({
   if (url) {
     return { type: `file`, urlOrPath: url, position }
   }
-  if (logicalName) {
-    return { type: `logical`, name: logicalName, position }
-  }
-  return undefined
+  return logicalName
+    ? { type: `logical`, name: logicalName, position }
+    : undefined
 }
 
 /**
@@ -230,7 +229,7 @@ const treeViolations = (lines: string[]): string[] => {
     let depth = 0
     while (
       text.startsWith(`│   `, depth * GLYPH_LENGTH) ||
-      text.startsWith(`    `, depth * GLYPH_LENGTH)
+      text.startsWith(` `.repeat(4), depth * GLYPH_LENGTH)
     ) {
       depth++
     }
@@ -247,7 +246,9 @@ const treeViolations = (lines: string[]): string[] => {
     }
     ancestors.length = depth
     for (const [level, ancestor] of ancestors.entries()) {
-      if (text.startsWith(`    `, level * GLYPH_LENGTH) !== ancestor.last) {
+      if (
+        text.startsWith(` `.repeat(4), level * GLYPH_LENGTH) !== ancestor.last
+      ) {
         violations.push(
           `line ${index + 1} has a glyph at level ${level} that disagrees with line ${ancestor.index + 1}`,
         )

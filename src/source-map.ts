@@ -357,10 +357,9 @@ const describeGeneratedFile = (
   if (relativeSource && !baseURL) {
     return `${described}, whose sources are relative paths and stay unmapped without a base URL`
   }
-  if (unmappedPositions.size > 0) {
-    return `${described}, which has no mapping for ${formatCount(unmappedPositions.size, `position`)} such as ${[...unmappedPositions].slice(0, MAX_LISTED_POSITIONS).join(`, `)}`
-  }
-  return described
+  return unmappedPositions.size > 0
+    ? `${described}, which has no mapping for ${formatCount(unmappedPositions.size, `position`)} such as ${[...unmappedPositions].slice(0, MAX_LISTED_POSITIONS).join(`, `)}`
+    : described
 }
 
 const MAX_LISTED_POSITIONS = 3

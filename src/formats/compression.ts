@@ -129,10 +129,9 @@ export const decompressIdentified = (
   if (isGzip(bytes)) {
     return { data: decompressGzip(bytes), compressed: true }
   }
-  if (isLz4Frame(bytes)) {
-    return { data: decompressLz4(bytes), compressed: true }
-  }
-  return { data: bytes, compressed: false }
+  return isLz4Frame(bytes)
+    ? { data: decompressLz4(bytes), compressed: true }
+    : { data: bytes, compressed: false }
 }
 
 /**
@@ -152,10 +151,9 @@ const decompressIdentifiedAsync = async (
     if (isGzip(head)) {
       return { data: decompressGzipStream(data.stream()), compressed: true }
     }
-    if (isLz4Frame(head)) {
-      return { data: decompressLz4Stream(data.stream()), compressed: true }
-    }
-    return { data, compressed: false }
+    return isLz4Frame(head)
+      ? { data: decompressLz4Stream(data.stream()), compressed: true }
+      : { data, compressed: false }
   }
 
   const { head, chunks } = await peekStream(data, MAGIC_LENGTH)
@@ -163,10 +161,9 @@ const decompressIdentifiedAsync = async (
   if (isGzip(head)) {
     return { data: decompressGzipStream(stream), compressed: true }
   }
-  if (isLz4Frame(head)) {
-    return { data: decompressLz4Stream(stream), compressed: true }
-  }
-  return { data: stream, compressed: false }
+  return isLz4Frame(head)
+    ? { data: decompressLz4Stream(stream), compressed: true }
+    : { data: stream, compressed: false }
 }
 
 /**

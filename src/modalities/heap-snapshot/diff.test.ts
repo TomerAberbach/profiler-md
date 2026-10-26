@@ -59,8 +59,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -90,7 +90,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `new`,
@@ -102,7 +102,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([])
   })
 
   test(`matches constructors whose definition shifted between builds`, () => {
@@ -132,7 +132,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -145,7 +145,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([])
   })
 
   test(`merges and matches constructors whose names differ by a per-run address`, () => {
@@ -185,7 +185,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, options)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -197,7 +197,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([])
   })
 
   test(`matches functions by name and file despite differing line and column`, () => {
@@ -225,22 +225,26 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `+200.0%`,
-          Delta: `+200 B`,
-          '%': `156.3% → 234.4%`,
-          Retained: `100 B → 300 B`,
-          Instances: `1`,
-          Paths: `1`,
-          Name: `myFn`,
-          Location: `./src/a.ts:5:10 → 25:3`,
-          'Example path': `(unknown) ← (GC root)`,
-        },
+        [
+          {
+            Change: `+200.0%`,
+            Delta: `+200 B`,
+            '%': `156.3% → 234.4%`,
+            Retained: `100 B → 300 B`,
+            Instances: `1`,
+            Paths: `1`,
+            Name: `myFn`,
+            Location: `./src/a.ts:5:10 → 25:3`,
+            'Example path': `(unknown) ← (GC root)`,
+          },
+        ],
       ],
-    ])
-    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([])
+    )
+    expect(
+      rankingTables(md, `Largest functions`, `Improvements`),
+    ).toStrictEqual([])
   })
 
   test(`keys each side's functions under that snapshot's own context`, () => {
@@ -276,7 +280,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
     diffAggregatedHeapSnapshots(base, current, options)
 
-    expect(observedKeyings).toEqual(
+    expect(observedKeyings).toStrictEqual(
       new Set([
         `baseFn as v8-heap-snapshot from node`,
         `currentFn as jsc-heap-snapshot from safari`,
@@ -309,22 +313,26 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `new`,
-          Delta: `+100 B`,
-          '%': `0.0% → 156.3%`,
-          Retained: `0 B → 100 B`,
-          Instances: `0 → 1`,
-          Paths: `0 → 1`,
-          Name: `myFn`,
-          Location: `./src/b.ts:5:10`,
-          'Example path': `(unknown) ← (GC root)`,
-        },
+        [
+          {
+            Change: `new`,
+            Delta: `+100 B`,
+            '%': `0.0% → 156.3%`,
+            Retained: `0 B → 100 B`,
+            Instances: `0 → 1`,
+            Paths: `0 → 1`,
+            Name: `myFn`,
+            Location: `./src/b.ts:5:10`,
+            'Example path': `(unknown) ← (GC root)`,
+          },
+        ],
       ],
-    ])
-    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([
+    )
+    expect(
+      rankingTables(md, `Largest functions`, `Improvements`),
+    ).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -365,8 +373,12 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
+      [],
+    )
+    expect(
+      rankingTables(md, `Largest functions`, `Improvements`),
+    ).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -410,7 +422,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `-70.0%`,
@@ -443,7 +455,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `-25.0%`,
@@ -489,7 +501,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       const diff = diffAggregatedHeapSnapshots(base, current, options)
       const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
-      expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+      expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([
         [
           {
             Change: `-70.0%`,
@@ -527,21 +539,25 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `+100.0%`,
-          Delta: `+100 B`,
-          '%': `156.3%`,
-          Retained: `100 B → 200 B`,
-          Instances: `1`,
-          Paths: `1`,
-          Name: `myFn`,
-          'Example path': `(unknown) ← (GC root)`,
-        },
+        [
+          {
+            Change: `+100.0%`,
+            Delta: `+100 B`,
+            '%': `156.3%`,
+            Retained: `100 B → 200 B`,
+            Instances: `1`,
+            Paths: `1`,
+            Name: `myFn`,
+            'Example path': `(unknown) ← (GC root)`,
+          },
+        ],
       ],
-    ])
-    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([])
+    )
+    expect(
+      rankingTables(md, `Largest functions`, `Improvements`),
+    ).toStrictEqual([])
   })
 
   test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
@@ -561,8 +577,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest strings`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Largest strings`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Largest strings`, `Regressions`)).toStrictEqual(
+      [],
+    )
+    expect(rankingTables(md, `Largest strings`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `-37.5%`,
@@ -592,7 +610,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `String`,
@@ -641,7 +659,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Object`,
@@ -714,7 +732,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
       ),
     )
     const tables = selfSizeRetainerPathTables(md, `Foo`)
-    expect(retainedSizeRetainerPathTables(md, `Foo`)).toEqual(tables)
+    expect(retainedSizeRetainerPathTables(md, `Foo`)).toStrictEqual(tables)
     return tables
   }
 
@@ -731,7 +749,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           { size: 40, steps: [propertyStep(`c`, `Holder`)] },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+500.0%`,
@@ -772,7 +790,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           { size: 60, steps: [stepAt(180)] },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -815,7 +833,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           { size: 30, steps: pathTo(100) },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -858,7 +876,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           { size: 30, steps: pathTo(80) },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -896,7 +914,7 @@ describe(`formatHeapSnapshotDiff instances`, () => {
           },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1074,7 +1092,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         expect(paragraphsUnderTitle(md).includes(SEVERAL_PATHS_NOTE)).toBe(
           hasSeveralPathsNote,
         )
-        expect(openingParagraphs(md, `Retained nodes`)).toEqual([opening])
+        expect(openingParagraphs(md, `Retained nodes`)).toStrictEqual([opening])
       },
     )
   })
@@ -1101,7 +1119,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           ],
         },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1139,7 +1157,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           instanceSteps: [[propertyStep(`fn`, `Window`)]],
         },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1172,7 +1190,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         { retainedSize: 100, nodes: elementsOf(2) },
         { retainedSize: 200, nodes: elementsOf(5) },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+150.0%`,
@@ -1212,7 +1230,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           ],
         },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1278,7 +1296,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
       options,
     )
 
-    expect(tables).toEqual([
+    expect(tables).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1319,7 +1337,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           ],
         },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1362,7 +1380,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         },
         options,
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1393,7 +1411,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
           nestsInstances: true,
         },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1426,7 +1444,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         { retainedSize: 100, nodes: [{ name: `Buf`, size: 10, steps }] },
         { retainedSize: 200, nodes: [{ name: `Buf`, size: 30, steps }] },
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -1449,7 +1467,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         },
         undefined,
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -1469,7 +1487,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
         retainedSize: 200,
         nodes: [{ name: `Buf`, size: 10, steps: [fnStep(`p`)] }],
       }),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `new`,

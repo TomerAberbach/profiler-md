@@ -176,14 +176,14 @@ export const languages: ReadonlyMap<string, Language> = new Map(
 )
 
 export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(
-  [...languages.entries()].flatMap(
+  [...languages].flatMap(
     ([primaryId, { aliases }]) =>
       aliases?.map(({ id }) => [id, primaryId]) ?? [],
   ),
 )
 
 export const languageExtensionToPrimary: ReadonlyMap<string, string> = new Map(
-  [...languages.entries()].flatMap(
+  [...languages].flatMap(
     ([primaryId, { extensions }]) =>
       extensions?.map(extension => [extension, primaryId] as const) ?? [],
   ),

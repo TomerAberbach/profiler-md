@@ -353,9 +353,12 @@ const unresolvedCategoryOf = (
 ): UnresolvedHeapSnapshotNodeCategory => {
   const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
   const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
-  return classNameIndex === stringClassNameIndex
-    ? { category: `string` }
-    : { category: categorizeNode(nodes[nodeIndex + NODE_FLAGS_OFFSET]!) }
+  return {
+    category:
+      classNameIndex === stringClassNameIndex
+        ? `string`
+        : categorizeNode(nodes[nodeIndex + NODE_FLAGS_OFFSET]!),
+  }
 }
 
 /**

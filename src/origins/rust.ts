@@ -32,7 +32,7 @@ const CARGO_BUILD_HASH_REGEX =
  * strips the versions, their functions share a match key.
  */
 const CARGO_REGISTRY_VERSION_REGEX =
-  /(?<prefix>\/registry\/src\/[^/]+\/[A-Za-z][\w-]*?)-\d+\.\d+\.\d+[^/]*(?=\/)/u
+  /(?<prefix>\/registry\/src\/[^/]+\/[A-Za-z][\w-]*?)-\d+\.\d+\.\d[^/]*(?=\/)/u
 
 export const RUST_LOCATION_MATCH_RULES: readonly EntryMatchRule[] = [
   [RUSTC_HASH_REGEX, `$<prefix>rustc`],

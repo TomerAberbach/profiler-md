@@ -197,7 +197,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -208,7 +208,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `funcB`)).toEqual([
+    expect(callersTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -287,12 +287,12 @@ describe(`convert`, () => {
           .filter(row => row.Function === `(anonymous)`)
           .map(row => row.Location),
       ),
-    ).toEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
+    ).toStrictEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
     expect(
       totalSizeTables(md).map(
         table => table.filter(row => row.Function === `(anonymous)`).length,
       ),
-    ).toEqual([2])
+    ).toStrictEqual([2])
   })
 
   test(`deduplicates total size for recursive functions`, () => {
@@ -336,7 +336,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(totalSizeTables(md)).toEqual([
+    expect(totalSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -406,7 +406,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Ours`, '%': `71.4%`, Size: `1.22 KiB`, Samples: `2` },
         { Category: `Third-party`, '%': `28.6%`, Size: `500 B`, Samples: `1` },
@@ -473,7 +473,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Garbage collector`,
@@ -549,7 +549,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Native`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
         {
@@ -579,7 +579,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeTables(defaultOutput)).toEqual([
+    expect(selfSizeTables(defaultOutput)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -622,7 +622,7 @@ describe(`options`, () => {
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([expect.not.arrayContaining([`funcB`])])
+    ).toStrictEqual([expect.not.arrayContaining([`funcB`])])
     expect(callersTables(md, `funcC`)).toHaveLength(0)
   })
 
@@ -636,8 +636,8 @@ describe(`options`, () => {
       }),
     )
 
-    expect(selfSizeTables(md).map(table => table.length)).toEqual([2])
-    expect(totalSizeTables(md).map(table => table.length)).toEqual([2])
+    expect(selfSizeTables(md).map(table => table.length)).toStrictEqual([2])
+    expect(totalSizeTables(md).map(table => table.length)).toStrictEqual([2])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
@@ -651,7 +651,7 @@ describe(`options`, () => {
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([
+    ).toStrictEqual([
       [
         expect.stringMatching(/^\//u),
         expect.stringMatching(/^\//u),
@@ -674,7 +674,7 @@ describe(`options`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
         { Category: `Ours`, '%': `16.7%`, Size: `100 B`, Samples: `1` },

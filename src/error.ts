@@ -11,8 +11,7 @@
 export class ProfilerMdError extends Error {
   public constructor(message: string, options?: ErrorOptions) {
     super(message, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'ProfilerMdError'
+    this.name = `ProfilerMdError`
   }
 }
 

@@ -46,7 +46,7 @@ describe(`normalizeStackFrame`, () => {
   test(`splits the trailing (file:line) into a location and executing line`, () => {
     expect(
       normalizeStackFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
-    ).toEqual({
+    ).toStrictEqual({
       name: `parse`,
       definition: { type: `file`, urlOrPath: `black/parsing.py` },
       executing: { line: 42 },
@@ -59,7 +59,7 @@ describe(`normalizeStackFrame`, () => {
         { name: `<module> (<frozen importlib._bootstrap>:1080)` },
         `collapsed`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `<module>`,
       definition: { type: `file`, urlOrPath: `<frozen importlib._bootstrap>` },
       executing: { line: 1080 },
@@ -69,7 +69,7 @@ describe(`normalizeStackFrame`, () => {
   test(`drops the placeholder path of a native frame it could not symbolicate`, () => {
     expect(
       normalizeStackFrame({ name: `0x7f3a1b2c (?)` }, `collapsed`),
-    ).toEqual({ name: `0x7f3a1b2c` })
+    ).toStrictEqual({ name: `0x7f3a1b2c` })
   })
 
   test(`keeps the module path of a native frame without a line`, () => {
@@ -78,7 +78,7 @@ describe(`normalizeStackFrame`, () => {
         { name: `PyObject_Call (/usr/lib/libpython3.12.so.1.0)` },
         `collapsed`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `PyObject_Call`,
       definition: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
     })
@@ -97,7 +97,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `speedscope`,
       ),
-    ).toEqual({ name: `0x7f3a1b2c` })
+    ).toStrictEqual({ name: `0x7f3a1b2c` })
   })
 
   test(`drops the placeholder line 0 of a speedscope native frame`, () => {
@@ -113,14 +113,14 @@ describe(`normalizeStackFrame`, () => {
         },
         `speedscope`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `PyObject_Call`,
       definition: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
     })
   })
 
   test(`leaves a thread frame unchanged`, () => {
-    expect(normalizeStackFrame({ name: `tid:7` }, `collapsed`)).toEqual({
+    expect(normalizeStackFrame({ name: `tid:7` }, `collapsed`)).toStrictEqual({
       name: `tid:7`,
     })
   })
@@ -140,7 +140,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `speedscope`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `parse`,
       definition: { type: `file`, urlOrPath: `black/parsing.py` },
       executing: { line: 42 },

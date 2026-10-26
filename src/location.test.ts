@@ -191,7 +191,7 @@ test.each([
   [`/project/src/a?.ts`],
   [`/project/src/%41.ts`],
   [`/project/src/100%.ts`],
-  [`/project/src/a\\b.ts`],
+  [String.raw`/project/src/a\b.ts`],
   [`/project/src/a\tb.ts`],
 ])(`file path %j with URL syntax formats verbatim`, path => {
   expect(formatPath({ path, baseURL: null })).toBe(path)
@@ -207,11 +207,19 @@ test(`file path under a baseURL containing URL syntax formats relative to it`, (
 })
 
 test.each([
-  [`C:\\project\\src\\a.cs`, `C:\\project`, `./src/a.cs`],
+  [String.raw`C:\project\src\a.cs`, String.raw`C:\project`, `./src/a.cs`],
   [`C:/project/src/a.cs`, `C:\\project\\`, `./src/a.cs`],
-  [`C:\\Windows\\System32\\ntdll.dll`, null, `C:/Windows/System32/ntdll.dll`],
-  [`\\\\server\\share\\project\\a.cs`, `\\\\server\\share\\project`, `./a.cs`],
-  [`\\\\server\\share\\a.cs`, null, `//server/share/a.cs`],
+  [
+    String.raw`C:\Windows\System32\ntdll.dll`,
+    null,
+    `C:/Windows/System32/ntdll.dll`,
+  ],
+  [
+    String.raw`\\server\share\project\a.cs`,
+    String.raw`\\server\share\project`,
+    `./a.cs`,
+  ],
+  [String.raw`\\server\share\a.cs`, null, `//server/share/a.cs`],
 ])(
   `Windows path %s with baseURL %s formats as %s`,
   (path, baseURL, expected) => {

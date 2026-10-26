@@ -55,7 +55,9 @@ describe(`normalizeStackFrame`, () => {
   const { normalizeStackFrame } = asyncProfilerOriginSpec
 
   test(`turns the slashed class into a dotted location`, () => {
-    expect(normalizeStackFrame({ name: `java/util/HashMap.put` })).toEqual({
+    expect(
+      normalizeStackFrame({ name: `java/util/HashMap.put` }),
+    ).toStrictEqual({
       name: `put`,
       definition: { type: `logical`, name: `java.util.HashMap` },
     })
@@ -64,14 +66,14 @@ describe(`normalizeStackFrame`, () => {
   test(`handles a nested class and an <init> method`, () => {
     expect(
       normalizeStackFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `valueOf`,
       definition: { type: `logical`, name: `java.lang.System$Logger$Level` },
     })
   })
 
   test(`leaves a native (no-slash) frame location-less`, () => {
-    expect(normalizeStackFrame({ name: `Parker::park` })).toEqual({
+    expect(normalizeStackFrame({ name: `Parker::park` })).toStrictEqual({
       name: `Parker::park`,
     })
   })
@@ -138,7 +140,7 @@ describe(`normalizeStackFrame`, () => {
         expected: { method: `put`, className: `java.util.HashMap` },
       },
     ])(`locates the $name method frame`, ({ name, expected }) => {
-      expect(normalizeStackFrame({ name })).toEqual({
+      expect(normalizeStackFrame({ name })).toStrictEqual({
         name: expected.method,
         definition: { type: `logical`, name: expected.className },
       })
@@ -147,7 +149,7 @@ describe(`normalizeStackFrame`, () => {
     test.each([`tiny_malloc_from_free_list.cold.4`, `Main.main`])(
       `leaves the %s frame location-less because it lacks a package`,
       name => {
-        expect(normalizeStackFrame({ name })).toEqual({ name })
+        expect(normalizeStackFrame({ name })).toStrictEqual({ name })
       },
     )
   })
@@ -157,7 +159,7 @@ describe(`normalizeStackFrame`, () => {
     suffix => {
       expect(
         normalizeStackFrame({ name: `java/util/HashMap.put${suffix}` }),
-      ).toEqual({
+      ).toStrictEqual({
         name: `put`,
         definition: { type: `logical`, name: `java.util.HashMap` },
       })
@@ -169,7 +171,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `java/lang/reflect/Method.invoke(Ljava/lang/Object|[Ljava/lang/Object|)Ljava/lang/Object|_[0]`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `invoke(Object, Object[])`,
       definition: { type: `logical`, name: `java.lang.reflect.Method` },
     })
@@ -178,7 +180,7 @@ describe(`normalizeStackFrame`, () => {
   test(`strips the annotation from a native frame without locating it`, () => {
     expect(
       normalizeStackFrame({ name: `Parker::park(bool, long)_[j]` }),
-    ).toEqual({ name: `Parker::park(bool, long)` })
+    ).toStrictEqual({ name: `Parker::park(bool, long)` })
   })
 })
 

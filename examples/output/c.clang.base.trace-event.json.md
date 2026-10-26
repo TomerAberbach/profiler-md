@@ -722,7 +722,7 @@ Instances of each span with the most time.
 
 |    % |   Time |   Start | Attributes                                |
 | ---: | -----: | ------: | ----------------------------------------- |
-| 5.6% | 10.8ms | 291.6ms | `detail=(ZSTD_resetCCtx_internal)`        |
+| 5.6% | 10.8ms | 291.7ms | `detail=(ZSTD_resetCCtx_internal)`        |
 | 4.5% |  8.6ms | 282.5ms | `detail=(ZSTD_reset_matchState)`          |
 | 4.1% |  7.9ms | 397.8ms | `detail=(ZSTD_compressContinue_internal)` |
 | 3.7% |  7.1ms | 390.6ms | `detail=(ZSTD_compress_frameChunk)`       |
@@ -752,7 +752,7 @@ Instances of each span with the most time.
 | 6.0% | 10.4ms | 692.9ms | `detail=ZSTD_resetCCtx_internal`        |
 | 5.8% | 10.2ms | 605.1ms | `detail=ZSTD_compressContinue_internal` |
 | 3.7% |  6.4ms | 703.3ms | `detail=ZSTD_reset_matchState`          |
-| 3.5% |  6.2ms | 664.9ms | `detail=ZSTD_compressStream2`           |
+| 3.5% |  6.2ms | 665.0ms | `detail=ZSTD_compressStream2`           |
 | 3.3% |  5.9ms | 619.6ms | `detail=ZSTD_compressBegin_internal`    |
 
 ##### `CGSCCToFunctionPassAdaptor`
@@ -797,7 +797,7 @@ Instances of each span with the most time.
 
 |     % |  Time |   Start | Attributes                            |
 | ----: | ----: | ------: | ------------------------------------- |
-| 14.3% | 2.3ms | 121.3ms | `detail=ZSTD_CCtxParams_setParameter` |
+| 14.3% | 2.3ms | 121.4ms | `detail=ZSTD_CCtxParams_setParameter` |
 |  8.1% | 1.3ms |  25.9ms | `detail=vhsub_s16`                    |
 |  7.6% | 1.2ms |  42.3ms | `detail=vshl_s16`                     |
 |  7.5% | 1.2ms | 132.7ms | `detail=ZSTD_resetCCtx_internal`      |

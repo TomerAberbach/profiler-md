@@ -22,10 +22,9 @@ export const tachyonOriginSpec = {
       return null
     }
     const label = input.name && SPECIAL_FRAME_LABELS.get(input.name)
-    if (label) {
-      return { ...input, name: label }
-    }
-    return dropUnresolvedLine(normalizePackedStackFrame(input))
+    return label
+      ? { ...input, name: label }
+      : dropUnresolvedLine(normalizePackedStackFrame(input))
   },
 } as const satisfies OriginSpec
 
@@ -52,7 +51,7 @@ const THREAD_FRAME = /^tid:\d+$/u
  * leave `file` as the bare drive letter.
  */
 const TACHYON_FRAME =
-  /^(?<file>(?:[A-Za-z]:[\\/])?[^;]+?):(?<func>.+):(?<line>-?\d+)$/u
+  /^(?<file>(?:[A-Za-z]:[\\/])?[^:;]+):(?<func>.+):(?<line>-?\d+)$/u
 
 const normalizePackedStackFrame = packedLocationNormalizer(TACHYON_FRAME)
 

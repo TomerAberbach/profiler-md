@@ -66,7 +66,7 @@ Functions with the most wall time spent within the function body, excluding call
 |     % |  Time | Function                             | Location          |
 | ----: | ----: | ------------------------------------ | ----------------- |
 | 30.4% | 8.5ms | `string/6`                           | `Jason.Decoder`   |
-| 30.3% | 8.4ms | `escape_json_chunk/5`                | `Jason.Encode`    |
+| 30.3% | 8.5ms | `escape_json_chunk/5`                | `Jason.Encode`    |
 |  3.9% | 1.1ms | `map_naive_loop/3`                   | `Jason.Encode`    |
 |  3.7% | 1.0ms | `string/7`                           | `Jason.Decoder`   |
 |  3.1% | 0.9ms | `prepare_loading_1/2`                | `erlang`          |
@@ -95,7 +95,7 @@ Categories accounting for at least 1.0% of self time.
 |     % |  Time | Function                             | Location          |
 | ----: | ----: | ------------------------------------ | ----------------- |
 | 30.4% | 8.5ms | `string/6`                           | `Jason.Decoder`   |
-| 30.3% | 8.4ms | `escape_json_chunk/5`                | `Jason.Encode`    |
+| 30.3% | 8.5ms | `escape_json_chunk/5`                | `Jason.Encode`    |
 |  3.9% | 1.1ms | `map_naive_loop/3`                   | `Jason.Encode`    |
 |  3.7% | 1.0ms | `string/7`                           | `Jason.Decoder`   |
 |  2.9% | 0.8ms | `object/6`                           | `Jason.Decoder`   |

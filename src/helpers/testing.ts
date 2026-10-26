@@ -211,7 +211,7 @@ export const rowsFromTable = (table: MdastTable): Row[] => {
     for (const [i, cell] of row.children.entries()) {
       const key = headers[i]
       if (key !== undefined) {
-        record[key] = nodeText(cell).trim().replaceAll(`\u00A0`, ` `)
+        record[key] = nodeText(cell).trim().replaceAll(`\u{A0}`, ` `)
       }
     }
     return record
@@ -239,10 +239,7 @@ export const nodesUnderHeadingIn = (
       }
     }
   }
-  if (start !== -1) {
-    return nodes.slice(start)
-  }
-  return []
+  return start === -1 ? [] : nodes.slice(start)
 }
 
 /** Finds the first table after index `from`, stopping at the next heading. */

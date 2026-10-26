@@ -199,7 +199,7 @@ export const countLines = (
 const BRANCH = `├── `
 const LAST_BRANCH = `└── `
 const VERTICAL = `│   `
-const BLANK = `    `
+const BLANK = ` `.repeat(4)
 
 const glyph = (prefix: string, last: boolean): string =>
   prefix + (last ? LAST_BRANCH : BRANCH)

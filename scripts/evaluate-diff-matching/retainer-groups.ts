@@ -152,7 +152,7 @@ export const evaluateRetainerGroups = <Group extends RetainerGroup>(
     const nodeKey = locatedKey(node, context, options, maps)
     return nodeKey === undefined || nodeKey === null
       ? nodeKey
-      : `${node.category}\0${nodeKey}\x02${path}`
+      : `${node.category}\0${nodeKey}\u{2}${path}`
   }
 
   for (const [index, { current }] of input.sets.entries()) {
@@ -221,7 +221,7 @@ const pathKey = (
     }
     keys.push(`${retainerEdgeMatchKey(edge, context)}\0${key}`)
   }
-  return keys.join(`\x01`)
+  return keys.join(`\u{1}`)
 }
 
 /**

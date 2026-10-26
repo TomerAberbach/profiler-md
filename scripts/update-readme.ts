@@ -126,7 +126,7 @@ const variantLinks = (group: VariantGroup): string =>
   variants
     .flatMap(variant => {
       const filename = group.variants.get(variant)
-      return filename ? [anchor(variant, `examples/output/${filename}`)] : []
+      return filename ? anchor(variant, `examples/output/${filename}`) : []
     })
     .join(`&nbsp;·&nbsp;`)
 
@@ -145,7 +145,7 @@ const languageGrid = (): string => {
 const gridColumnCount = 4
 const gridCellWidth = `${100 / gridColumnCount}%`
 
-const languageEntries = [...languages.entries()]
+const languageEntries = [...languages]
 
 const gridRow = (entries: [string, Language][]): string => {
   const cells = entries.map(gridCell)
@@ -226,22 +226,22 @@ const original = readFileSync(`readme.md`, `utf8`)
 let readme = original
 
 readme = readme.replace(
-  /<!-- EXAMPLE_OUTPUT START -->[\S\s]*?<!-- EXAMPLE_OUTPUT END -->/u,
+  /<!-- EXAMPLE_OUTPUT START -->[\s\S]*?<!-- EXAMPLE_OUTPUT END -->/u,
   `<!-- EXAMPLE_OUTPUT START -->\n\n${excerptFence}md\n${excerpt}\n${excerptFence}\n\n<!-- EXAMPLE_OUTPUT END -->`,
 )
 
 readme = readme.replace(
-  /<!-- CLI_EXAMPLES START -->[\S\s]*?<!-- CLI_EXAMPLES END -->/u,
+  /<!-- CLI_EXAMPLES START -->[\s\S]*?<!-- CLI_EXAMPLES END -->/u,
   `<!-- CLI_EXAMPLES START -->\n\n\`\`\`sh\n${formatUsageExamples()}\`\`\`\n\n<!-- CLI_EXAMPLES END -->`,
 )
 
 readme = readme.replace(
-  /<!-- CLI_HELP START -->[\S\s]*?<!-- CLI_HELP END -->/u,
+  /<!-- CLI_HELP START -->[\s\S]*?<!-- CLI_HELP END -->/u,
   `<!-- CLI_HELP START -->\n\n\`\`\`sh\n$ profiler-md --help\n${help.trimEnd()}\n\`\`\`\n\n<!-- CLI_HELP END -->`,
 )
 
 readme = readme.replace(
-  /<!-- LANGUAGE_MATRIX START -->[\S\s]*?<!-- LANGUAGE_MATRIX END -->/u,
+  /<!-- LANGUAGE_MATRIX START -->[\s\S]*?<!-- LANGUAGE_MATRIX END -->/u,
   `<!-- LANGUAGE_MATRIX START -->\n\n${languageMatrix()}\n\n<!-- LANGUAGE_MATRIX END -->`,
 )
 

@@ -64,7 +64,7 @@ export const asyncProfilerOriginSpec = {
  * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`, or the id alone for a thread
  * without a name, e.g. `[tid=16387]`.
  */
-const THREAD_FRAME = /^\[(?:.* |)tid=\d+\]$/u
+const THREAD_FRAME = /^\[(?:.* )?tid=\d+\]$/u
 
 /**
  * Whether a collapsed frame is the class an allocation, lock, or park event ends
@@ -88,7 +88,7 @@ const CLASS_FRAME_SUFFIX = /_\[[ik]\]$/u
 const IDENTIFIER_REST = String.raw`[\p{L}\p{N}_$]*`
 const IDENTIFIER = String.raw`[\p{L}_$]${IDENTIFIER_REST}`
 const PACKAGE_PATH = String.raw`(?:${IDENTIFIER}\.)+`
-const HIDDEN_CLASS_ADDRESS = String.raw`0x[0-9a-f]+`
+const HIDDEN_CLASS_ADDRESS = `0x[0-9a-f]+`
 
 /** A dotted array type name, e.g. `byte[]` or `java.lang.Object[][]`. */
 const ARRAY_CLASS = new RegExp(
@@ -122,10 +122,9 @@ const splitMethodDescriptor = (
   name: string,
 ): [method: string, descriptor: string] => {
   const open = name.indexOf(`(`)
-  if (open === -1) {
-    return [name, ``]
-  }
-  return [name.slice(0, open), name.slice(open).replaceAll(`|`, `;`)]
+  return open === -1
+    ? [name, ``]
+    : [name.slice(0, open), name.slice(open).replaceAll(`|`, `;`)]
 }
 
 /**

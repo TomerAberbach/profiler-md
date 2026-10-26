@@ -138,10 +138,9 @@ const pprofOriginHint = (
   }
   // A Go `threadcreate` profile's stacks are unsymbolized thread-spawn sites
   // containing none of Go's frame markers.
-  if (profile.sampleType.some(({ type }) => string(type) === `threadcreate`)) {
-    return `go`
-  }
-  return undefined
+  return profile.sampleType.some(({ type }) => string(type) === `threadcreate`)
+    ? `go`
+    : undefined
 }
 
 /** Gperftools' own internal function names in a legacy profile's frame filters. */

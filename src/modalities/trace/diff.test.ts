@@ -41,7 +41,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 2 → 3 events (+1, +50.0%) over 100.0ms → 150.0ms (+50.00ms, +50.0%).`,
     ])
   })
@@ -52,7 +52,7 @@ describe(`summary`, () => {
       makeAggregatedTrace([span(`a`, { start: 0, duration: 100 })]),
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 1 event.`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 1 event.`])
   })
 
   test(`diffs each category and each thread`, () => {
@@ -83,7 +83,7 @@ describe(`summary`, () => {
       ),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         {
           Category: `Script`,
@@ -103,7 +103,7 @@ describe(`summary`, () => {
         },
       ],
     ])
-    expect(tablesAt(md, [`Threads`])).toEqual([
+    expect(tablesAt(md, [`Threads`])).toStrictEqual([
       [
         {
           Thread: `main`,
@@ -137,7 +137,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         {
           Category: `I/O`,
@@ -171,7 +171,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         {
           Category: `I/O`,
@@ -213,7 +213,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         {
           Category: `I/O`,
@@ -253,7 +253,7 @@ describe(`longest spans`, () => {
     ])
 
   test(`ranks each time measure, then the count`, () => {
-    expect(headings(traceDiffMd(base(), current()), 3)).toEqual([
+    expect(headings(traceDiffMd(base(), current()), 3)).toStrictEqual([
       `# Trace diff`,
       `## Longest thread spans`,
       `### Self time`,
@@ -265,7 +265,7 @@ describe(`longest spans`, () => {
   test(`ranks self time regressions and improvements, with new and removed spans`, () => {
     const md = traceDiffMd(base(), current())
 
-    expect(spanRanking(md, `Self time`, `Regressions`)).toEqual([
+    expect(spanRanking(md, `Self time`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+75.0%`,
@@ -289,7 +289,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Self time`, `Improvements`)).toEqual([
+    expect(spanRanking(md, `Self time`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `-20.0%`,
@@ -318,7 +318,7 @@ describe(`longest spans`, () => {
   test(`ranks total time with each side's mean and longest`, () => {
     const md = traceDiffMd(base(), current())
 
-    expect(spanRanking(md, `Total time`, `Regressions`)).toEqual([
+    expect(spanRanking(md, `Total time`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+75.0%`,
@@ -352,7 +352,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Total time`, `Improvements`)).toEqual([
+    expect(spanRanking(md, `Total time`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -381,7 +381,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(spanRanking(md, `Count`, `Regressions`)).toEqual([
+    expect(spanRanking(md, `Count`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -392,7 +392,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Count`, `Improvements`)).toEqual([
+    expect(spanRanking(md, `Count`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -415,14 +415,14 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace diff`,
       `## Longest thread spans`,
       `### Total time`,
       `### Total CPU time`,
       `### Count`,
     ])
-    expect(spanRanking(md, `Total CPU time`, `Regressions`)).toEqual([
+    expect(spanRanking(md, `Total CPU time`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+200.0%`,
@@ -446,7 +446,7 @@ describe(`longest spans`, () => {
       makeAggregatedTrace([span(`work`, { start: 0, duration: 110 })]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace diff`,
       `## Longest thread spans`,
       `### Total time`,
@@ -466,7 +466,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace diff`,
       `## Longest thread spans`,
       `### Total time`,
@@ -475,7 +475,7 @@ describe(`longest spans`, () => {
       `### Elapsed time`,
       `### Count`,
     ])
-    expect(spanRanking(md, `Total time`, `Regressions`)).toEqual([
+    expect(spanRanking(md, `Total time`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -491,7 +491,7 @@ describe(`longest spans`, () => {
     ])
     expect(
       tablesAt(md, [`Longest async spans`, `Elapsed time`, `Improvements`]),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `-60.0%`,
@@ -511,11 +511,11 @@ describe(`longest spans`, () => {
       makeAggregatedTrace([span(`a`, { start: 0, duration: 10 })])
     const md = traceDiffMd(trace(), trace())
 
-    expect(summaryLines(md)).toEqual([`Recorded 1 event over 10.0ms.`])
-    expect(openingParagraphs(md, `Total time`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 1 event over 10.0ms.`])
+    expect(openingParagraphs(md, `Total time`)).toStrictEqual([
       `No thread span differed in time.`,
     ])
-    expect(openingParagraphs(md, `Count`)).toEqual([
+    expect(openingParagraphs(md, `Count`)).toStrictEqual([
       `No thread span differed in occurrences recorded.`,
     ])
   })
@@ -535,7 +535,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Attribute values`)).toEqual({
+    expect(spanBreakdown(md, `Attribute values`)).toStrictEqual({
       load: [
         [
           {
@@ -563,7 +563,7 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Attribute amounts`)).toEqual({
+    expect(spanBreakdown(md, `Attribute amounts`)).toStrictEqual({
       load: [
         [
           {
@@ -593,7 +593,7 @@ describe(`span breakdowns`, () => {
       resolveProfileToMdOptions({ topN: 4 }),
     )
 
-    expect(spanBreakdown(md, `Attribute amounts`)).toEqual({
+    expect(spanBreakdown(md, `Attribute amounts`)).toStrictEqual({
       load: [
         [
           {
@@ -620,7 +620,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Attribute values`)).toEqual({
+    expect(spanBreakdown(md, `Attribute values`)).toStrictEqual({
       job: [
         [
           {
@@ -658,7 +658,7 @@ describe(`span breakdowns`, () => {
       ),
     )
 
-    expect(spanBreakdown(md, `Threads`)).toEqual({
+    expect(spanBreakdown(md, `Threads`)).toStrictEqual({
       job: [
         [
           {
@@ -694,7 +694,7 @@ describe(`span breakdowns`, () => {
       ),
     )
 
-    expect(spanBreakdown(md, `Threads`)).toEqual({})
+    expect(spanBreakdown(md, `Threads`)).toStrictEqual({})
   })
 
   test(`parents and children show the change in each nested span's share`, () => {
@@ -711,7 +711,7 @@ describe(`span breakdowns`, () => {
 
     expect(
       tablesBySubheading(md, [`Longest thread spans`, `Self time`, `Parents`]),
-    ).toEqual({
+    ).toStrictEqual({
       step: [
         [
           {
@@ -727,7 +727,7 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Parents`)).toEqual({
+    expect(spanBreakdown(md, `Parents`)).toStrictEqual({
       step: [
         [
           {
@@ -744,7 +744,7 @@ describe(`span breakdowns`, () => {
       ],
     })
     // The root's total time did not change, so no ranking shows it.
-    expect(spanBreakdown(md, `Children`)).toEqual({})
+    expect(spanBreakdown(md, `Children`)).toStrictEqual({})
   })
 
   test(`children break down a span whose total time changed`, () => {
@@ -760,7 +760,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Children`)).toEqual({
+    expect(spanBreakdown(md, `Children`)).toStrictEqual({
       root: [
         [
           {
@@ -807,7 +807,7 @@ describe(`most frequent instants`, () => {
     )
 
     const section = [`Most frequent instants`, `Count`]
-    expect(tablesAt(md, [...section, `Regressions`, `Other`])).toEqual([
+    expect(tablesAt(md, [...section, `Regressions`, `Other`])).toStrictEqual([
       [
         {
           Change: `+150.0%`,
@@ -818,7 +818,7 @@ describe(`most frequent instants`, () => {
         },
       ],
     ])
-    expect(tablesAt(md, [...section, `Improvements`, `Other`])).toEqual([
+    expect(tablesAt(md, [...section, `Improvements`, `Other`])).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -829,7 +829,9 @@ describe(`most frequent instants`, () => {
         },
       ],
     ])
-    expect(tablesBySubheading(md, [...section, `Attribute values`])).toEqual({
+    expect(
+      tablesBySubheading(md, [...section, `Attribute values`]),
+    ).toStrictEqual({
       deopt: [
         [
           {
@@ -859,7 +861,7 @@ describe(`gauges`, () => {
       ]),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -884,7 +886,7 @@ describe(`gauges`, () => {
       makeAggregatedTrace([reading(`load`, 7, { metric: requests })]),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `load`,
@@ -926,7 +928,7 @@ describe(`gauges`, () => {
       ),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `worker / heap`,
@@ -961,7 +963,7 @@ describe(`gauges`, () => {
       resolveProfileToMdOptions({ topN: 1 }),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `stack`,

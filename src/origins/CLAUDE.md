@@ -31,7 +31,7 @@ origins
   side lacks, which it has nothing to pair by
 - Drop a pseudo-frame (`[tid=16387]`) in `normalizeStackFrame`, never by
   matching it
-- `src/origins/index.test.ts` fails when an unpaired base key and an unpaired
+- `src/origins/inputs.test.ts` fails when an unpaired base key and an unpaired
   current key differ only by an address or a hex ID. It cannot tell a decimal ID
   from a compiler's numbering, so read a new input's unpaired rows for one
 

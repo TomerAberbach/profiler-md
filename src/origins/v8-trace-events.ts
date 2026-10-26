@@ -29,10 +29,7 @@ export const v8TraceEventCategory = ({
   if (name === `V8.DeoptimizeCode`) {
     return `compilation`
   }
-  if (declaredCategories?.includes(`v8.execute`)) {
-    return `script`
-  }
-  return undefined
+  return declaredCategories?.includes(`v8.execute`) ? `script` : undefined
 }
 
 const V8_GC_CATEGORY = `disabled-by-default-v8.gc`

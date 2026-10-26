@@ -216,10 +216,10 @@ export const makeJfr = ({
       pool.byte(truncated ? 1 : 0)
     }
     pool.varint(frames.length + (overlongStackTraces.includes(index) ? 1 : 0))
-    for (const { method, line } of frames) {
+    for (const { method, line = 0xff_ff_ff_ff } of frames) {
       pool.varint(method + 1) // Method key
       // Line number, or -1 (as an unsigned 32-bit int) when unknown.
-      pool.varint(line ?? 0xff_ff_ff_ff)
+      pool.varint(line)
       if (unrecognizedFrameLayout) {
         pool.varint(0) // Empty `tags` array
       }
@@ -230,7 +230,13 @@ export const makeJfr = ({
   // trailing unreadable field (from `unreadableEventTypes`) carries no body
   // bytes: the parser throws on it before reading and skips to the event's end.
   const eventWriters: ByteWriter[] = []
-  for (const { type, stack, value, objectSize, samples } of events) {
+  for (const {
+    type,
+    stack,
+    value = 0,
+    objectSize = 0,
+    samples = 1,
+  } of events) {
     const body = new ByteWriter()
     switch (type) {
       case `cpu`:
@@ -239,45 +245,45 @@ export const makeJfr = ({
         break
       case `wallclock`:
         body.varint(stack + 1)
-        body.varint(samples ?? 1)
+        body.varint(samples)
         eventWriters.push(sizedEvent(WALL_CLOCK_SAMPLE, body))
         break
       case `alloc`:
         body.varint(stack + 1)
-        body.varint(value ?? 0)
+        body.varint(value)
         eventWriters.push(sizedEvent(OBJECT_ALLOCATION_SAMPLE, body))
         break
       case `alloc-tlab`:
         body.varint(stack + 1)
-        body.varint(objectSize ?? 0)
-        body.varint(value ?? 0)
+        body.varint(objectSize)
+        body.varint(value)
         eventWriters.push(sizedEvent(OBJECT_ALLOCATION_IN_NEW_TLAB, body))
         break
       case `nativemem`:
         body.varint(stack + 1)
         body.varint(0) // Allocation address, read generically and ignored
-        body.varint(value ?? 0)
+        body.varint(value)
         eventWriters.push(sizedEvent(MALLOC, body))
         break
       case `live`:
         body.varint(stack + 1)
         if (!eventTypesWithoutValueField.includes(`live`)) {
-          body.varint(value ?? 0)
+          body.varint(value)
         }
         eventWriters.push(sizedEvent(OLD_OBJECT_SAMPLE, body))
         break
       case `liveobject`:
         body.varint(stack + 1)
-        body.varint(value ?? 0)
+        body.varint(value)
         eventWriters.push(sizedEvent(LIVE_OBJECT, body))
         break
       case `lock`:
-        body.varint(value ?? 0)
+        body.varint(value)
         body.varint(stack + 1)
         eventWriters.push(sizedEvent(JAVA_MONITOR_ENTER, body))
         break
       case `nativelock`:
-        body.varint(value ?? 0)
+        body.varint(value)
         body.varint(stack + 1)
         eventWriters.push(sizedEvent(NATIVE_LOCK, body))
         break

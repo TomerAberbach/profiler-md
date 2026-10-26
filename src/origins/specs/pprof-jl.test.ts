@@ -24,6 +24,8 @@ describe(`normalizeStackFrame`, () => {
   const { normalizeStackFrame } = pprofJlOriginSpec
 
   test(`drops the allocation profiler's Alloc: pseudo-frame`, () => {
+    // `{UInt8}` is a Julia type parameter.
+    // eslint-disable-next-line unicorn/no-incorrect-template-string-interpolation
     expect(normalizeStackFrame({ name: `Alloc: Vector{UInt8}` })).toBeNull()
   })
 
@@ -37,7 +39,7 @@ describe(`normalizeStackFrame`, () => {
           position: { line: 18 },
         },
       }),
-    ).toEqual({ name: `#defaultminimum##0` })
+    ).toStrictEqual({ name: `#defaultminimum##0` })
   })
 
   test(`leaves a regular frame unchanged`, () => {
@@ -105,7 +107,7 @@ describe(`matchEntry`, () => {
           `file:///home/alice/.julia/packages/JSON3/jSAdy/src/read.jl`,
         ),
       ),
-    ).toEqual({
+    ).toStrictEqual({
       location: `file:///home/alice/.julia/packages/JSON3/src/read.jl`,
     })
   })

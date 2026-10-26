@@ -37,7 +37,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 |  +32.9% |  +59.02ms |   3.3% → 4.3% | 179.5ms → 238.5ms |         30 → 23 |  6.0ms → 10.4ms | 16.8ms → 29.9ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |   +6.6% |  +51.61ms | 14.4% → 14.9% | 782.2ms → 833.8ms |   1,391 → 1,413 |           0.6ms |   4.7ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
 |  +11.2% |  +22.90ms |   3.8% → 4.1% | 204.8ms → 227.7ms |             348 |   0.6ms → 0.7ms |   1.5ms → 1.7ms | `V8.GC_SCAVENGER_SCAVENGE`                     |
-|   +7.6% |  +17.86ms |   4.3% → 4.5% | 235.6ms → 253.5ms |         82 → 88 |           2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
+|   +7.6% |  +17.87ms |   4.3% → 4.5% | 235.6ms → 253.5ms |         82 → 88 |           2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
 |   +2.8% |  +10.25ms |          6.7% | 365.4ms → 375.7ms |       379 → 388 |           1.0ms |   7.4ms → 7.3ms | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`            |
 |  +15.7% |   +9.97ms |   1.2% → 1.3% |   63.5ms → 73.4ms |   2,730 → 2,757 | 23.2µs → 26.6µs |   0.3ms → 0.9ms | `V8.HandleInterrupts`                          |
 |  +26.3% |   +7.20ms |   0.5% → 0.6% |   27.3ms → 34.5ms |          7 → 15 |   3.9ms → 2.3ms |  9.4ms → 14.6ms | `V8.GC_MC_BACKGROUND_SWEEPING`                 |
@@ -70,7 +70,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 |  +12.5% | +61.50ms |   9.1% → 9.9% | 492.5ms → 554.0ms |     195 → 201 |  2.5ms → 2.8ms |  8.6ms → 13.4ms | `V8.GC_BACKGROUND_UNPARK`                       |
 |  +32.9% | +59.02ms |   3.3% → 4.3% | 179.5ms → 238.5ms |       30 → 23 | 6.0ms → 10.4ms | 16.8ms → 29.9ms | `V8.GC_MC_BACKGROUND_MARKING`                   |
 |   +6.6% | +51.61ms | 14.4% → 14.9% | 782.2ms → 833.8ms | 1,391 → 1,413 |          0.6ms |   4.7ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL`  |
-|   +7.6% | +17.86ms |   4.3% → 4.5% | 235.6ms → 253.5ms |       82 → 88 |          2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                    |
+|   +7.6% | +17.87ms |   4.3% → 4.5% | 235.6ms → 253.5ms |       82 → 88 |          2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                    |
 |  +26.3% |  +7.20ms |   0.5% → 0.6% |   27.3ms → 34.5ms |        7 → 15 |  3.9ms → 2.3ms |  9.4ms → 14.6ms | `V8.GC_MC_BACKGROUND_SWEEPING`                  |
 | +113.5% |  +0.43ms |         <0.1% |     0.4ms → 0.8ms |       42 → 43 | 9.0µs → 18.7µs |   0.1ms → 0.3ms | `V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP`     |
 |   +8.0% |  +0.11ms |         <0.1% |     1.3ms → 1.4ms |       27 → 26 | 49.4µs → 0.1ms |           0.2ms | `V8.GCDeoptMarkedAllocationSites`               |
@@ -143,7 +143,7 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 |  -7.4% |  -0.02ms |       <0.1% |           0.3ms |           350 |   0.9µs → 0.8µs |   8.0µs → 5.0µs | `V8.GC_HEAP_DUMP_STATISTICS`                           |
 |  -4.1% |  -0.02ms |       <0.1% |   0.5ms → 0.4ms |           348 |           1.3µs |   8.0µs → 7.0µs | `V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS`                  |
 | -47.2% |  -0.02ms |       <0.1% | 36.0µs → 19.0µs |         3 → 1 | 12.0µs → 19.0µs | 17.0µs → 19.0µs | `V8.GC_MC_BACKGROUND_EVACUATE_COPY`                    |
-|  -2.6% |  -0.01ms |       <0.1% |           0.6ms |           348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
+|  -2.6% |  -0.02ms |       <0.1% |           0.6ms |           348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
 
 ##### Garbage collection
 
@@ -168,7 +168,7 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 |  -3.0% | -0.04ms | <0.1% |   1.5ms → 1.4ms | 667 → 613 |   2.2µs → 2.3µs | 13.0µs → 17.0µs | `V8.GCIncrementalMarking`                              |
 |  -7.4% | -0.02ms | <0.1% |           0.3ms |       350 |   0.9µs → 0.8µs |   8.0µs → 5.0µs | `V8.GC_HEAP_DUMP_STATISTICS`                           |
 |  -4.1% | -0.02ms | <0.1% |   0.5ms → 0.4ms |       348 |           1.3µs |   8.0µs → 7.0µs | `V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS`                  |
-|  -2.6% | -0.01ms | <0.1% |           0.6ms |       348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
+|  -2.6% | -0.02ms | <0.1% |           0.6ms |       348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
 | -40.9% | -0.01ms | <0.1% | 22.0µs → 13.0µs |         2 |  11.0µs → 6.5µs |  14.0µs → 7.0µs | `V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL`                  |
 | -69.2% | -0.01ms | <0.1% |  13.0µs → 4.0µs |         2 |   6.5µs → 2.0µs |  11.0µs → 2.0µs | `V8.GC_MC_SWEEP_START_JOBS`                            |
 |  -6.8% | -0.01ms | <0.1% |           0.1ms |         2 |  0.1ms → 48.0µs |           0.1ms | `V8.GC_MC_FINISH`                                      |
@@ -457,7 +457,7 @@ Parent spans with the largest change in contribution to each span's self time.
 | -----: | ------: | ------------: | -------------: | -----: | --------------: | --------------: | --------------------------------------------- |
 | -87.7% | -0.36ms | 58.7% → 15.0% |  0.4ms → 0.1ms | 18 → 3 | 22.9µs → 17.0µs | 34.0µs → 27.0µs | `LiveObjectVisitor::VisitMarkedObjectsNoFail` |
 | -65.0% | -0.07ms | 14.2% → 10.3% | 0.1ms → 35.0µs |  3 → 1 | 33.3µs → 35.0µs | 45.0µs → 35.0µs | `LiveObjectVisitor::VisitMarkedObjects`       |
-| +39.6% | +0.05ms | 19.7% → 57.1% |  0.1ms → 0.2ms |      4 | 34.8µs → 48.5µs |   0.1ms → 0.2ms | `V8.GC_MARK_COMPACTOR`                        |
+| +39.6% | +0.06ms | 19.7% → 57.1% |  0.1ms → 0.2ms |      4 | 34.8µs → 48.5µs |   0.1ms → 0.2ms | `V8.GC_MARK_COMPACTOR`                        |
 | +15.4% | +0.01ms |  7.4% → 17.6% |          0.1ms |  3 → 4 | 17.3µs → 15.0µs | 32.0µs → 25.0µs | `V8.HandleInterrupts`                         |
 
 ##### `V8.GC_MC_INCREMENTAL`
@@ -533,7 +533,7 @@ Parent spans with the largest change in contribution to each span's self time.
 
 | Change |   Delta |      % |  Time | Count |          Mean |             Max | Parent                     |
 | -----: | ------: | -----: | ----: | ----: | ------------: | --------------: | -------------------------- |
-|  -2.6% | -0.01ms | 100.0% | 0.6ms |   348 | 1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE` |
+|  -2.6% | -0.02ms | 100.0% | 0.6ms |   348 | 1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE` |
 
 ##### `Major concurrent marking rescheduled`
 
@@ -631,7 +631,7 @@ Thread spans with the largest increase in time, including child spans. Categorie
 |  +5.6% |  +37.31ms | 12.3% → 12.5% | 664.7ms → 702.0ms |             348 |   1.9ms → 2.0ms |   8.6ms → 8.5ms | `V8.GCScavenger`                               |
 |  +5.6% |  +36.54ms | 12.1% → 12.4% | 656.6ms → 693.2ms |             348 |   1.9ms → 2.0ms |   8.6ms → 8.5ms | `V8.GC_SCAVENGER`                              |
 |  +5.6% |  +35.85ms | 11.9% → 12.2% | 645.9ms → 681.8ms |             348 |   1.9ms → 2.0ms |   8.5ms → 8.4ms | `V8.GC_SCAVENGER_SCAVENGE`                     |
-|  +7.6% |  +17.86ms |   4.3% → 4.5% | 235.6ms → 253.5ms |         82 → 88 |           2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
+|  +7.6% |  +17.87ms |   4.3% → 4.5% | 235.6ms → 253.5ms |         82 → 88 |           2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
 | +12.1% |  +10.38ms |   1.6% → 1.7% |   85.9ms → 96.3ms |   2,718 → 2,735 | 31.6µs → 35.2µs |   8.5ms → 5.5ms | `V8.StackGuard`                                |
 |  +2.8% |  +10.25ms |          6.7% | 365.4ms → 375.7ms |       379 → 388 |           1.0ms |   7.4ms → 7.3ms | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`            |
 | +13.2% |  +10.08ms |   1.4% → 1.5% |   76.4ms → 86.4ms |   2,730 → 2,757 | 28.0µs → 31.4µs |   8.5ms → 5.5ms | `V8.HandleInterrupts`                          |
@@ -661,7 +661,7 @@ Thread spans with the largest increase in time, including child spans. Categorie
 |  +12.5% | +61.50ms |   9.1% → 9.9% | 492.5ms → 554.0ms |     195 → 201 |  2.5ms → 2.8ms |  8.6ms → 13.4ms | `V8.GC_BACKGROUND_UNPARK`                      |
 |  +32.9% | +59.03ms |   3.3% → 4.3% | 179.5ms → 238.5ms |       30 → 23 | 6.0ms → 10.4ms | 16.8ms → 29.9ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |   +6.6% | +51.61ms | 14.4% → 14.9% | 782.2ms → 833.8ms | 1,391 → 1,413 |          0.6ms |   4.7ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
-|   +7.6% | +17.86ms |   4.3% → 4.5% | 235.6ms → 253.5ms |       82 → 88 |          2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
+|   +7.6% | +17.87ms |   4.3% → 4.5% | 235.6ms → 253.5ms |       82 → 88 |          2.9ms |   8.6ms → 7.6ms | `V8.GC_BACKGROUND_SAFEPOINT`                   |
 |  +26.3% |  +7.20ms |   0.5% → 0.6% |   27.3ms → 34.5ms |        7 → 15 |  3.9ms → 2.3ms |  9.4ms → 14.6ms | `V8.GC_MC_BACKGROUND_SWEEPING`                 |
 | +113.5% |  +0.43ms |         <0.1% |     0.4ms → 0.8ms |       42 → 43 | 9.0µs → 18.7µs |   0.1ms → 0.3ms | `V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP`    |
 | +420.8% |  +0.22ms |         <0.1% |     0.1ms → 0.3ms |         2 → 1 | 26.5µs → 0.3ms |  30.0µs → 0.3ms | `V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS` |
@@ -765,7 +765,7 @@ Thread spans with the largest decrease in time, including child spans. Categorie
 |  -6.9% | -0.05ms |       <0.1% |   0.7ms → 0.6ms |         2 |           0.3ms |   0.6ms → 0.5ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN`         |
 |  -7.4% | -0.02ms |       <0.1% |           0.3ms |       350 |   0.9µs → 0.8µs |   8.0µs → 5.0µs | `V8.GC_HEAP_DUMP_STATISTICS`                           |
 |  -3.5% | -0.02ms |       <0.1% |           0.6ms |       348 |           1.7µs | 13.0µs → 10.0µs | `V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS`                  |
-|  -2.6% | -0.01ms |       <0.1% |           0.6ms |       348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
+|  -2.6% | -0.02ms |       <0.1% |           0.6ms |       348 |   1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS` |
 | -11.6% | -0.01ms |       <0.1% |           0.1ms |         2 |           0.1ms |           0.1ms | `V8.GC_MC_FINISH`                                      |
 | -69.2% | -0.01ms |       <0.1% |  13.0µs → 4.0µs |         2 |   6.5µs → 2.0µs |  11.0µs → 2.0µs | `V8.GC_MC_SWEEP_START_JOBS`                            |
 | -24.1% | -0.01ms |       <0.1% | 29.0µs → 22.0µs |         4 |   7.3µs → 5.5µs |   9.0µs → 7.0µs | `V8.GC_MC_MARK_EMBEDDER_PROLOGUE`                      |
@@ -837,7 +837,7 @@ Threads with the largest change in contribution to each span's total time.
 
 | Change |   Delta |             % |          Time |   Count |  Mean |           Max | Thread                 |
 | -----: | ------: | ------------: | ------------: | ------: | ----: | ------------: | ---------------------- |
-|  -9.3% | -0.58ms | 71.5% → 69.1% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms | 0.2ms → 0.1ms | `JavaScriptMainThread` |
+|  -9.3% | -0.58ms | 71.5% → 69.1% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms |         0.2ms | `JavaScriptMainThread` |
 |  +1.8% | +0.04ms | 28.5% → 30.9% |         2.5ms | 27 → 24 | 0.1ms | 0.1ms → 0.2ms | `PlatformWorkerThread` |
 
 ##### `FullEvacuator::RawEvacuatePage`
@@ -1095,7 +1095,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |   Delta |             % |          Time |   Count |  Mean |           Max | Parent                              |
 | -----: | ------: | ------------: | ------------: | ------: | ----: | ------------: | ----------------------------------- |
-|  -9.3% | -0.58ms | 71.5% → 69.1% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms | 0.2ms → 0.1ms | `V8.GC_MC_EVACUATE_COPY_PARALLEL`   |
+|  -9.3% | -0.58ms | 71.5% → 69.1% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms |         0.2ms | `V8.GC_MC_EVACUATE_COPY_PARALLEL`   |
 |  +1.8% | +0.04ms | 28.5% → 30.9% |         2.5ms | 27 → 24 | 0.1ms | 0.1ms → 0.2ms | `V8.GC_MC_BACKGROUND_EVACUATE_COPY` |
 
 ##### `MarkCompactCollector::EvacuatePagesInParallel`
@@ -1138,7 +1138,7 @@ Parent spans with the largest change in contribution to each span's total time.
 | -----: | ------: | ------------: | -------------: | -----: | --------------: | --------------: | --------------------------------------------- |
 | -87.7% | -0.36ms | 58.5% → 14.9% |  0.4ms → 0.1ms | 18 → 3 | 22.9µs → 17.0µs | 34.0µs → 27.0µs | `LiveObjectVisitor::VisitMarkedObjectsNoFail` |
 | -65.0% | -0.07ms | 14.2% → 10.2% | 0.1ms → 35.0µs |  3 → 1 | 33.3µs → 35.0µs | 45.0µs → 35.0µs | `LiveObjectVisitor::VisitMarkedObjects`       |
-| +39.0% | +0.05ms | 20.0% → 57.3% |  0.1ms → 0.2ms |      4 | 35.3µs → 49.0µs |   0.1ms → 0.2ms | `V8.GC_MARK_COMPACTOR`                        |
+| +39.0% | +0.06ms | 20.0% → 57.3% |  0.1ms → 0.2ms |      4 | 35.3µs → 49.0µs |   0.1ms → 0.2ms | `V8.GC_MARK_COMPACTOR`                        |
 | +15.4% | +0.01ms |  7.4% → 17.5% |          0.1ms |  3 → 4 | 17.3µs → 15.0µs | 32.0µs → 25.0µs | `V8.HandleInterrupts`                         |
 
 ##### `V8.GC_MC_INCREMENTAL`
@@ -1237,7 +1237,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |   Delta |      % |  Time | Count |          Mean |             Max | Parent                     |
 | -----: | ------: | -----: | ----: | ----: | ------------: | --------------: | -------------------------- |
-|  -2.6% | -0.01ms | 100.0% | 0.6ms |   348 | 1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE` |
+|  -2.6% | -0.02ms | 100.0% | 0.6ms |   348 | 1.7µs → 1.6µs | 25.0µs → 13.0µs | `V8.GC_SCAVENGER_SCAVENGE` |
 
 ##### `V8.GC_MC_FINISH`
 
@@ -1424,9 +1424,9 @@ Child spans with the largest change in contribution to each span's total time.
 
 ##### `V8.GC_MC_EVACUATE_COPY_PARALLEL`
 
-| Change |   Delta |     % |          Time |   Count |  Mean |           Max | Child                     |
-| -----: | ------: | ----: | ------------: | ------: | ----: | ------------: | ------------------------- |
-|  -9.3% | -0.58ms | 99.2% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms | 0.2ms → 0.1ms | `Evacuator::EvacuatePage` |
+| Change |   Delta |     % |          Time |   Count |  Mean |   Max | Child                     |
+| -----: | ------: | ----: | ------------: | ------: | ----: | ----: | ------------------------- |
+|  -9.3% | -0.58ms | 99.2% | 6.3ms → 5.7ms | 69 → 60 | 0.1ms | 0.2ms | `Evacuator::EvacuatePage` |
 
 ##### `Evacuator::EvacuatePage`
 
@@ -1623,10 +1623,10 @@ Thread spans with the largest increase in time on a CPU, excluding child spans. 
 |  +54.7% |  +0.18ms |       <0.1% |     0.3ms → 0.5ms |         2 |   0.2ms → 0.3ms |   0.3ms → 0.4ms | `V8.GC_MC_INCREMENTAL_START`                     |
 |  +25.9% |  +0.15ms |       <0.1% |     0.6ms → 0.7ms |         2 |   0.3ms → 0.4ms |   0.3ms → 0.4ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS_TO_NEW_ROOTS` |
 | +130.4% |  +0.13ms |       <0.1% |     0.1ms → 0.2ms |         2 |           0.1ms |   0.1ms → 0.2ms | `V8.GC_MC_EVACUATE_PROLOGUE`                     |
-|  +33.9% |  +0.11ms |       <0.1% |     0.3ms → 0.5ms |         2 |           0.2ms |   0.2ms → 0.3ms | `V8.GC_MC_MARK`                                  |
-|  +49.7% |  +0.07ms |       <0.1% |             0.2ms |         2 |           0.1ms |   0.1ms → 0.2ms | `V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL_JOIN`       |
+|  +33.9% |  +0.12ms |       <0.1% |     0.3ms → 0.5ms |         2 |           0.2ms |   0.2ms → 0.3ms | `V8.GC_MC_MARK`                                  |
+|  +49.7% |  +0.08ms |       <0.1% |             0.2ms |         2 |           0.1ms |   0.1ms → 0.2ms | `V8.GC_MC_MARK_FULL_CLOSURE_PARALLEL_JOIN`       |
 |  +35.3% |  +0.06ms |       <0.1% |             0.2ms |         2 |           0.1ms |   0.1ms → 0.2ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN`   |
-|  +15.7% |  +0.04ms |       <0.1% |             0.3ms |       350 |   0.8µs → 0.9µs |  4.0µs → 17.0µs | `V8.GC_HEAP_EXTERNAL_EPILOGUE`                   |
+|  +15.7% |  +0.05ms |       <0.1% |             0.3ms |       350 |   0.8µs → 0.9µs |  4.0µs → 17.0µs | `V8.GC_HEAP_EXTERNAL_EPILOGUE`                   |
 |   +6.3% |  +0.04ms |       <0.1% |     0.6ms → 0.7ms |         2 |           0.3ms |           0.4ms | `V8.GC_MC_CLEAR_STRING_TABLE`                    |
 
 ##### I/O
@@ -1646,14 +1646,14 @@ Thread spans with the largest decrease in time on a CPU, excluding child spans. 
 | Change |   Delta |           % |        CPU time |         Count |            Mean |             Max | Span                                           |
 | -----: | ------: | ----------: | --------------: | ------------: | --------------: | --------------: | ---------------------------------------------- |
 | -42.9% | -7.11ms | 0.3% → 0.2% |  16.6ms → 9.5ms | 1,122 → 1,125 |  14.8µs → 8.4µs |   4.9ms → 3.8ms | `fs.sync.read`                                 |
-|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.1ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`                                 |
+|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.2ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`                                 |
 | -52.1% | -0.37ms |       <0.1% |   0.7ms → 0.3ms |       28 → 12 | 25.2µs → 28.2µs |   0.1ms → 0.2ms | `V8.GC_MC_SWEEP`                               |
 |  -7.6% | -0.36ms |        0.1% |   4.7ms → 4.4ms |     667 → 613 |           7.1µs |   0.1ms → 0.2ms | `V8.GC_MC_INCREMENTAL`                         |
 |  -5.3% | -0.13ms |       <0.1% |   2.5ms → 2.4ms | 1,122 → 1,125 |   2.2µs → 2.1µs | 23.0µs → 15.0µs | `fs.sync.close`                                |
 |  -1.5% | -0.12ms |        0.1% |   7.6ms → 7.5ms |       91 → 82 |           0.1ms |   0.2ms → 0.1ms | `LiveObjectVisitor::VisitMarkedObjectsNoFail`  |
 | -53.1% | -0.11ms |       <0.1% |   0.2ms → 0.1ms |         5 → 2 | 41.4µs → 48.5µs |           0.1ms | `LiveObjectVisitor::VisitMarkedObjects`        |
 |  -6.0% | -0.10ms |       <0.1% |   1.6ms → 1.5ms |             1 |   1.6ms → 1.5ms |   1.6ms → 1.5ms | `V8.DeserializeIsolate`                        |
-|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |   0.2ms → 0.1ms | `fs.sync.readdir`                              |
+|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |           0.2ms | `fs.sync.readdir`                              |
 |  -2.0% | -0.04ms |       <0.1% |           1.9ms |             1 |           1.9ms |           1.9ms | `V8.DeserializeContext`                        |
 | -20.1% | -0.03ms |       <0.1% |   0.2ms → 0.1ms |       96 → 84 |   1.8µs → 1.6µs |   9.0µs → 6.0µs | `Evacuator::EvacuatePage`                      |
 | -57.8% | -0.03ms |       <0.1% | 45.0µs → 19.0µs |         3 → 1 | 15.0µs → 19.0µs | 22.0µs → 19.0µs | `V8.GC_MC_BACKGROUND_EVACUATE_COPY`            |
@@ -1707,9 +1707,9 @@ Thread spans with the largest decrease in time on a CPU, excluding child spans. 
 | Change |   Delta |           % |        CPU time |         Count |            Mean |             Max | Span              |
 | -----: | ------: | ----------: | --------------: | ------------: | --------------: | --------------: | ----------------- |
 | -42.9% | -7.11ms | 0.3% → 0.2% |  16.6ms → 9.5ms | 1,122 → 1,125 |  14.8µs → 8.4µs |   4.9ms → 3.8ms | `fs.sync.read`    |
-|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.1ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`    |
+|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.2ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`    |
 |  -5.3% | -0.13ms |       <0.1% |   2.5ms → 2.4ms | 1,122 → 1,125 |   2.2µs → 2.1µs | 23.0µs → 15.0µs | `fs.sync.close`   |
-|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |   0.2ms → 0.1ms | `fs.sync.readdir` |
+|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |           0.2ms | `fs.sync.readdir` |
 
 ### Total CPU time
 
@@ -1819,7 +1819,7 @@ Thread spans with the largest decrease in time on a CPU, including child spans. 
 |  -8.4% | -0.54ms |        0.1% |   6.4ms → 5.9ms |             2 |   3.2ms → 2.9ms |   5.5ms → 3.2ms | `V8.GC_MC_EVACUATE_COPY`                        |
 |  -5.5% | -0.48ms | 0.2% → 0.1% |   8.7ms → 8.2ms |       96 → 84 |           0.1ms |           0.2ms | `Evacuator::EvacuatePage`                       |
 |  -5.2% | -0.45ms | 0.2% → 0.1% |   8.5ms → 8.1ms |       96 → 84 |           0.1ms |           0.2ms | `FullEvacuator::RawEvacuatePage`                |
-|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.1ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`                                  |
+|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.2ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`                                  |
 | -51.8% | -0.37ms |       <0.1% |   0.7ms → 0.3ms |       28 → 12 | 25.3µs → 28.4µs |   0.1ms → 0.2ms | `V8.GC_MC_SWEEP`                                |
 |  -4.0% | -0.34ms | 0.2% → 0.1% |   8.4ms → 8.1ms |             4 |   2.1ms → 2.0ms |   6.5ms → 4.0ms | `V8.GC_MC_EVACUATE`                             |
 |  -5.6% | -0.34ms |        0.1% |   6.0ms → 5.6ms |     667 → 613 |   9.0µs → 9.2µs |   0.1ms → 0.2ms | `V8.GC_MC_INCREMENTAL`                          |
@@ -1829,7 +1829,7 @@ Thread spans with the largest decrease in time on a CPU, including child spans. 
 | -29.2% | -0.15ms |       <0.1% |   0.5ms → 0.4ms |             2 |   0.3ms → 0.2ms |   0.5ms → 0.3ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS_PARALLEL`    |
 |  -5.3% | -0.13ms |       <0.1% |   2.5ms → 2.4ms | 1,122 → 1,125 |   2.2µs → 2.1µs | 23.0µs → 15.0µs | `fs.sync.close`                                 |
 |  -6.0% | -0.10ms |       <0.1% |   1.6ms → 1.5ms |             1 |   1.6ms → 1.5ms |   1.6ms → 1.5ms | `V8.DeserializeIsolate`                         |
-|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |   0.2ms → 0.1ms | `fs.sync.readdir`                               |
+|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |           0.2ms | `fs.sync.readdir`                               |
 | -13.4% | -0.09ms |       <0.1% |   0.7ms → 0.6ms |             2 |           0.3ms |   0.6ms → 0.5ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS_SLOTS_MAIN`  |
 |  -2.0% | -0.04ms |       <0.1% |           1.9ms |             1 |           1.9ms |           1.9ms | `V8.DeserializeContext`                         |
 |  -8.5% | -0.01ms |       <0.1% |           0.1ms |             2 |           0.1ms |           0.1ms | `V8.GC_MC_FINISH`                               |
@@ -1878,9 +1878,9 @@ Thread spans with the largest decrease in time on a CPU, including child spans. 
 | Change |   Delta |           % |        CPU time |         Count |            Mean |             Max | Span              |
 | -----: | ------: | ----------: | --------------: | ------------: | --------------: | --------------: | ----------------- |
 | -42.9% | -7.11ms | 0.3% → 0.2% |  16.6ms → 9.5ms | 1,122 → 1,125 |  14.8µs → 8.4µs |   4.9ms → 3.8ms | `fs.sync.read`    |
-|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.1ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`    |
+|  -1.6% | -0.38ms |        0.4% | 23.5ms → 23.2ms | 1,122 → 1,125 | 21.0µs → 20.6µs |           0.1ms | `fs.sync.open`    |
 |  -5.3% | -0.13ms |       <0.1% |   2.5ms → 2.4ms | 1,122 → 1,125 |   2.2µs → 2.1µs | 23.0µs → 15.0µs | `fs.sync.close`   |
-|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |   0.2ms → 0.1ms | `fs.sync.readdir` |
+|  -8.3% | -0.09ms |       <0.1% |           1.1ms |            21 |           0.1ms |           0.2ms | `fs.sync.readdir` |
 
 ### Count
 

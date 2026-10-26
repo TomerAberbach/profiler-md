@@ -432,6 +432,9 @@ const TEXT_CATEGORIES = new Set<EntryCategory>([
 const normalizeLogLevel = (logLevel: LogLevel): LogLevel => {
   if (!LOG_LEVELS.includes(logLevel)) {
     throw new ProfilerMdError(
+      // A caller without types may pass a symbol, which a template literal
+      // throws on.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
       `logLevel must be one of ${LOG_LEVELS.join(`, `)}, got: ${String(logLevel)}`,
     )
   }

@@ -165,7 +165,7 @@ describe(`convert`, () => {
   test(`ranks classes by the bytes their instances hold`, () => {
     const md = convert(holderGraph)
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Array`, '%': `71.4%`, Size: `80 B`, Nodes: `2` },
         { Category: `Object`, '%': `21.4%`, Size: `24 B`, Nodes: `2` },
@@ -179,7 +179,7 @@ describe(`convert`, () => {
   test(`names an instance by its class and an array by its element type`, () => {
     const md = convert(holderGraph)
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         { '%': `57.1%`, Size: `64 B`, Instances: `1`, Constructor: `byte[]` },
         {
@@ -219,7 +219,7 @@ describe(`convert`, () => {
   test(`retains what a class's instances keep reachable`, () => {
     const md = convert(holderGraph)
 
-    expect(retainedSizeTables(md)).toEqual([
+    expect(retainedSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -263,7 +263,7 @@ describe(`convert`, () => {
       retainerPaths(md, `com.example.Entry`),
       // The array's own instances match the heading too, since its name
       // contains the element class's.
-    ).toEqual([
+    ).toStrictEqual([
       [`com.example.Entry[] ←.elements– com.example.Holder`],
       [
         `com.example.Entry ←[1]– com.example.Entry[] ←.elements– com.example.Holder`,
@@ -305,7 +305,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(retainerPaths(md, `com.example.Held`)).toEqual([
+    expect(retainerPaths(md, `com.example.Held`)).toStrictEqual([
       [
         `com.example.Held ←.own– com.example.Derived`,
         `com.example.Held ←.inherited– com.example.Derived`,
@@ -333,7 +333,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(retainerPaths(md, `com.example.Entry`)).toEqual([
+    expect(retainerPaths(md, `com.example.Entry`)).toStrictEqual([
       [
         `com.example.Entry ←[0]– java.lang.Object[] ←.INSTANCES– class com.example.Registry`,
       ],
@@ -375,7 +375,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(retainerPaths(md, `com.example.Held`)).toEqual([
+    expect(retainerPaths(md, `com.example.Held`)).toStrictEqual([
       [
         `com.example.Held ←.held– com.example.Entry ←[0]– java.lang.Object[] ←.INSTANCES– class com.example.Registry`,
       ],
@@ -393,7 +393,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         { '%': `100.0%`, Size: `16 B`, Instances: `1`, Constructor: `int[]` },
         {
@@ -438,7 +438,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(retainerPaths(md, `com.example.Holder`)).toEqual([
+    expect(retainerPaths(md, `com.example.Holder`)).toStrictEqual([
       [`com.example.Holder ← (GC root)`],
     ])
   })
@@ -463,7 +463,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -494,13 +494,13 @@ describe(`convert`, () => {
   })
 
   test(`streaming a dump converts it the same way`, async () => {
-    expect(
-      await convertToMdAsync(
+    await expect(
+      convertToMdAsync(
         hprofFormatSpec,
         streamOf(holderGraph),
         normalizeProfileToMdOptions(),
       ),
-    ).toBe(convert(holderGraph))
+    ).resolves.toBe(convert(holderGraph))
   })
 })
 

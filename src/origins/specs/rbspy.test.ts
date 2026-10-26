@@ -49,7 +49,7 @@ describe(`normalizeStackFrame`, () => {
   test(`splits a method's trailing file:line off the name`, () => {
     expect(
       normalizeStackFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
-    ).toEqual({
+    ).toStrictEqual({
       name: `parse`,
       definition: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
       executing: { line: 12 },
@@ -64,7 +64,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `collapsed`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `<module:AST>`,
       definition: {
         type: `file`,
@@ -80,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
         { name: `(unknown) [c function] - (unknown)` },
         `collapsed`,
       ),
-    ).toEqual({ name: `(unknown) [c function]` })
+    ).toStrictEqual({ name: `(unknown) [c function]` })
   })
 
   test(`drops the placeholder absolute path but keeps the executing line`, () => {
@@ -89,7 +89,7 @@ describe(`normalizeStackFrame`, () => {
         { name: `<internal:gem_prelude> - unknown:16` },
         `collapsed`,
       ),
-    ).toEqual({ name: `<internal:gem_prelude>`, executing: { line: 16 } })
+    ).toStrictEqual({ name: `<internal:gem_prelude>`, executing: { line: 16 } })
   })
 
   test(`drops a placeholder path a located format reports separately`, () => {
@@ -101,7 +101,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `pprof`,
       ),
-    ).toEqual({ name: `(unknown) [c function]` })
+    ).toStrictEqual({ name: `(unknown) [c function]` })
   })
 
   test(`drops a placeholder speedscope path`, () => {
@@ -113,7 +113,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `speedscope`,
       ),
-    ).toEqual({ name: `(unknown) [c function]` })
+    ).toStrictEqual({ name: `(unknown) [c function]` })
   })
 
   test(`keeps an internal Ruby source path`, () => {
@@ -125,7 +125,7 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`leaves a frame without a separator unchanged`, () => {
-    expect(normalizeStackFrame({ name: `<main>` }, `collapsed`)).toEqual({
+    expect(normalizeStackFrame({ name: `<main>` }, `collapsed`)).toStrictEqual({
       name: `<main>`,
     })
   })
@@ -145,7 +145,7 @@ describe(`normalizeStackFrame`, () => {
         },
         `speedscope`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       name: `parse`,
       definition: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
       executing: { line: 12 },
@@ -226,7 +226,7 @@ describe(`matchEntry`, () => {
   ])(`strips the heap address of %s`, (_description, name, expected) => {
     expect(
       matchEntryForOrigin(located(name, `/app/lib/foo.rb`), `rbspy`),
-    ).toEqual({ name: expected })
+    ).toStrictEqual({ name: expected })
   })
 
   test.each([
@@ -253,7 +253,7 @@ describe(`matchEntry`, () => {
   ])(
     `strips the hash and object id of a compiled template with %s`,
     (_description, name, expected) => {
-      expect(matchEntryForOrigin(named(name), `rbspy`)).toEqual({
+      expect(matchEntryForOrigin(named(name), `rbspy`)).toStrictEqual({
         name: expected,
       })
     },
@@ -281,7 +281,7 @@ describe(`matchEntry`, () => {
       `/usr/local/lib/ruby/gems/3.4.0/gems/rack/lib/rack.rb`,
     ],
   ])(`strips the version of %s`, (_description, path, expected) => {
-    expect(matchEntryForOrigin(located(`call`, path), `rbspy`)).toEqual({
+    expect(matchEntryForOrigin(located(`call`, path), `rbspy`)).toStrictEqual({
       location: expected,
     })
   })

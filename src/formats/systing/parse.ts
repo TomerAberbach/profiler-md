@@ -258,7 +258,7 @@ const parseSystingHeader = (line: string): SystingHeader => {
 
   const header = json as SystingHeader
   const version = header.systing_profile_export
-  if (!Number.isInteger(version)) {
+  if (!Number.isSafeInteger(version)) {
     throw new FormatParseError(
       `header is missing the systing_profile_export version`,
     )
@@ -327,10 +327,7 @@ const cpuMetric = (header: SystingHeader): Metric | undefined => {
   if (header.sample_event === `cpu-clock`) {
     return NANOSECONDS_METRIC
   }
-  if (header.sample_event === `cpu-cycles`) {
-    return CPU_CYCLES_METRIC
-  }
-  return undefined
+  return header.sample_event === `cpu-cycles` ? CPU_CYCLES_METRIC : undefined
 }
 
 /**

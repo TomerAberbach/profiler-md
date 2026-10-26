@@ -119,5 +119,5 @@ const describeEntry = ({
 
 export const makeContext = (
   format: Format,
-  origin: Origin | undefined,
-): UnresolvedProfileToMdContext => ({ format, origin: origin ?? null })
+  origin: Origin | null = null,
+): UnresolvedProfileToMdContext => ({ format, origin })

@@ -253,7 +253,7 @@ describe(`matchEntry`, () => {
         relativeEntry(`github.com/spf13/cobra.(*Command).Execute`, path),
         `go`,
       ),
-    ).toEqual({ location: expected })
+    ).toStrictEqual({ location: expected })
   })
 
   test(`leaves a standard library source unchanged`, () => {

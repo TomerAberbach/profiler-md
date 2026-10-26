@@ -121,16 +121,14 @@ export const toUndetectedFormatError = (
     })
   }
 
-  if (jsonError !== undefined) {
-    return new FormatDetectError(
-      `could not detect the profile format, the input reads as JSON but is invalid JSON`,
-      [],
-      { cause: jsonError },
-    )
-  }
-
-  return new FormatDetectError(
-    `could not detect the profile format, expected one of: ${formats.join(`, `)}`,
-    [],
-  )
+  return jsonError === undefined
+    ? new FormatDetectError(
+        `could not detect the profile format, expected one of: ${formats.join(`, `)}`,
+        [],
+      )
+    : new FormatDetectError(
+        `could not detect the profile format, the input reads as JSON but is invalid JSON`,
+        [],
+        { cause: jsonError },
+      )
 }

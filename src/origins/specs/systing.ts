@@ -58,10 +58,7 @@ const labelModuleCategory = ({
   if (label === `gvisor:runtime`) {
     return `kernel`
   }
-  if (label.startsWith(`jit:`)) {
-    return `jit`
-  }
-  return undefined
+  return label.startsWith(`jit:`) ? `jit` : undefined
 }
 
 /** A frame name ending in a bracketed label module, e.g. `… ([kernel])`. */
@@ -89,7 +86,7 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
       return {
         name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
         definition: { type: `file`, urlOrPath: file! },
-        executing: line === undefined ? undefined : { line: Number(line) },
+        ...(line === undefined ? {} : { executing: { line: Number(line) } }),
       }
     }
     // No source info: keep systing's own `name (module)` form, minus
@@ -107,7 +104,7 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
     return {
       name: func!,
       definition: { type: `file`, urlOrPath: file! },
-      executing: line === undefined ? undefined : { line: Number(line) },
+      ...(line === undefined ? {} : { executing: { line: Number(line) } }),
     }
   }
 

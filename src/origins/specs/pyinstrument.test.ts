@@ -116,7 +116,7 @@ describe(`normalizeStackFrame`, () => {
           position: { line: 0 },
         },
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `compile`,
       definition: { type: `file`, urlOrPath: `<built-in>` },
     })

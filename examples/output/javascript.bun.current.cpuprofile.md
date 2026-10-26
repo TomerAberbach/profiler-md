@@ -555,7 +555,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 |     % |   Time | Samples | Caller              | Location                                               |
 | ----: | -----: | ------: | ------------------- | ------------------------------------------------------ |
 | 51.7% | 18.2ms |      14 | `resolveEntityName` | `./node_modules/typescript/lib/typescript.js:52866:29` |
-| 48.3% | 16.9ms |      12 | `getResolvedSymbol` | `./node_modules/typescript/lib/typescript.js:71910:29` |
+| 48.3% | 17.0ms |      12 | `getResolvedSymbol` | `./node_modules/typescript/lib/typescript.js:71910:29` |
 
 ##### `getReducedApparentType` (`./node_modules/typescript/lib/typescript.js:61750:34`)
 
@@ -1224,7 +1224,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |     % |  Time | Samples | Caller                            | Location                                               |
 | ----: | ----: | ------: | --------------------------------- | ------------------------------------------------------ |
 | 75.8% | 3.6ms |       3 | `getClassLikeDeclarationOfSymbol` | `./node_modules/typescript/lib/typescript.js:21221:41` |
-| 24.2% | 1.1ms |       1 | `getDeclaredTypeOfTypeAlias`      | `./node_modules/typescript/lib/typescript.js:60102:38` |
+| 24.2% | 1.2ms |       1 | `getDeclaredTypeOfTypeAlias`      | `./node_modules/typescript/lib/typescript.js:60102:38` |
 
 ##### `/(?:\/\/)|(?:^|\/)\.\.?(?:$|\/)/` (`<unknown>`)
 

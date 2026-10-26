@@ -505,7 +505,7 @@ Threads with the largest contribution to each span's total time.
 
 |     % |  Time | Count |  Mean |   Max | Thread                 |
 | ----: | ----: | ----: | ----: | ----: | ---------------------- |
-| 69.1% | 5.7ms |    60 | 0.1ms | 0.1ms | `JavaScriptMainThread` |
+| 69.1% | 5.7ms |    60 | 0.1ms | 0.2ms | `JavaScriptMainThread` |
 | 30.9% | 2.5ms |    24 | 0.1ms | 0.2ms | `PlatformWorkerThread` |
 
 ##### `FullEvacuator::RawEvacuatePage`
@@ -648,7 +648,7 @@ Parent spans with the largest contribution to each span's total time.
 
 |     % |  Time | Count |  Mean |   Max | Parent                              |
 | ----: | ----: | ----: | ----: | ----: | ----------------------------------- |
-| 69.1% | 5.7ms |    60 | 0.1ms | 0.1ms | `V8.GC_MC_EVACUATE_COPY_PARALLEL`   |
+| 69.1% | 5.7ms |    60 | 0.1ms | 0.2ms | `V8.GC_MC_EVACUATE_COPY_PARALLEL`   |
 | 30.9% | 2.5ms |    24 | 0.1ms | 0.2ms | `V8.GC_MC_BACKGROUND_EVACUATE_COPY` |
 
 ##### `V8.GC_MC_EVACUATE`
@@ -965,7 +965,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |  Time | Count |  Mean |   Max | Child                     |
 | ----: | ----: | ----: | ----: | ----: | ------------------------- |
-| 99.2% | 5.7ms |    60 | 0.1ms | 0.1ms | `Evacuator::EvacuatePage` |
+| 99.2% | 5.7ms |    60 | 0.1ms | 0.2ms | `Evacuator::EvacuatePage` |
 
 ##### `V8.GC_MC_BACKGROUND_EVACUATE_COPY`
 
@@ -1216,7 +1216,7 @@ Instances of each span with the most time.
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
 | 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
-| 1.8% | 0.1ms |    0.1ms | 337.8ms | `JavaScriptMainThread` |
+| 1.8% | 0.2ms |    0.2ms | 337.8ms | `JavaScriptMainThread` |
 | 1.8% | 0.1ms |    0.1ms |   1.68s | `PlatformWorkerThread` |
 | 1.7% | 0.1ms |    0.1ms | 338.5ms | `JavaScriptMainThread` |
 
@@ -1274,7 +1274,7 @@ Instances of each span with the most time.
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 2.5% | 0.2ms |    0.2ms | 1.67s | `JavaScriptMainThread` |
-| 2.1% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
+| 2.1% | 0.2ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 | 1.9% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 | 1.3% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 | 1.2% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
@@ -1455,7 +1455,7 @@ Thread spans with the most time on a CPU, excluding child spans.
 |  0.6% |   34.4ms |     15 |  2.3ms | 14.6ms | `V8.GC_MC_BACKGROUND_SWEEPING`                 |
 |  0.6% |   31.3ms | 10,115 |  3.1µs |  0.1ms | `fs.sync.stat`                                 |
 |  0.4% |   23.7ms |    348 |  0.1ms |  0.2ms | `V8.GC_SCAVENGER_SCAVENGE_ROOTS`               |
-|  0.4% |   23.1ms |  1,125 | 20.6µs |  0.1ms | `fs.sync.open`                                 |
+|  0.4% |   23.2ms |  1,125 | 20.6µs |  0.1ms | `fs.sync.open`                                 |
 |  0.3% |   17.6ms |    348 |  0.1ms |  0.1ms | `MinorGC`                                      |
 |  0.2% |   13.2ms |  1,540 |  8.6µs |  0.1ms | `V8.DeoptimizeCode`                            |
 |  0.2% |   10.2ms |  2,735 |  3.7µs | 40.0µs | `V8.StackGuard`                                |
@@ -1551,7 +1551,7 @@ Thread spans with the most time on a CPU, including child spans.
 |  0.6% |   34.4ms |     15 |  2.3ms | 14.6ms | `V8.GC_MC_BACKGROUND_SWEEPING`                 |
 |  0.6% |   31.3ms | 10,115 |  3.1µs |  0.1ms | `fs.sync.stat`                                 |
 |  0.4% |   23.7ms |    348 |  0.1ms |  0.2ms | `V8.GC_SCAVENGER_SCAVENGE_ROOTS`               |
-|  0.4% |   23.1ms |  1,125 | 20.6µs |  0.1ms | `fs.sync.open`                                 |
+|  0.4% |   23.2ms |  1,125 | 20.6µs |  0.1ms | `fs.sync.open`                                 |
 |  0.2% |   13.2ms |  1,540 | 13.8µs |  0.1ms | `V8.DeoptimizeCode`                            |
 |  0.2% |   10.7ms |      2 |  5.4ms |  5.5ms | `V8.GCHandleGCRequest`                         |
 |  0.2% |   10.7ms |      2 |  5.3ms |  5.4ms | `MajorGC`                                      |

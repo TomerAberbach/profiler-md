@@ -77,7 +77,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -113,7 +113,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -176,7 +176,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -220,7 +220,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -276,7 +276,7 @@ describe(`formatCallStackProfile`, () => {
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(md).toContain(`Common call stack: \`funcC\` (\`./src/c.ts\`)`)
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -329,7 +329,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -379,7 +379,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -411,7 +411,7 @@ describe(`formatCallStackProfile`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every function, so all functions are shown`,
     ])
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -513,7 +513,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -546,7 +546,7 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -606,7 +606,7 @@ describe(`formatCallStackProfile`, () => {
         formatCallStackProfile(makeMixedProfile(), defaultOptions),
       )
 
-      expect(rankingTable(md, `Self time`)).toEqual([
+      expect(rankingTable(md, `Self time`)).toStrictEqual([
         {
           '%': `60.5%`,
           Time: `0.6ms`,
@@ -629,7 +629,7 @@ describe(`formatCallStackProfile`, () => {
           Location: `<unknown>`,
         },
       ])
-      expect(categorySubsectionTables(md, `Self time`)).toEqual({
+      expect(categorySubsectionTables(md, `Self time`)).toStrictEqual({
         Ours: [
           {
             '%': `60.5%`,
@@ -658,10 +658,9 @@ describe(`formatCallStackProfile`, () => {
         formatCallStackProfile(makeMixedProfile(), defaultOptions),
       )
 
-      expect(Object.keys(categorySubsectionTables(md, `Self time`))).toEqual([
-        `Ours`,
-        `Third-party`,
-      ])
+      expect(
+        Object.keys(categorySubsectionTables(md, `Self time`)),
+      ).toStrictEqual([`Ours`, `Third-party`])
       expect(md).toContain(`nativeCall`)
     })
 
@@ -675,7 +674,7 @@ describe(`formatCallStackProfile`, () => {
 
       // The overall ranking shows `ourFunc` alone, so `libFunc` reaches the
       // output through its category's subsection and must be broken down too.
-      expect(selfTimeTables(md)).toEqual([
+      expect(selfTimeTables(md)).toStrictEqual([
         [
           {
             '%': `60.5%`,
@@ -686,7 +685,7 @@ describe(`formatCallStackProfile`, () => {
           },
         ],
       ])
-      expect(callersTables(md, `libFunc`)).toEqual([
+      expect(callersTables(md, `libFunc`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -721,7 +720,7 @@ describe(`formatCallStackProfile`, () => {
       const md = format()
 
       // Only `a` called `mid` when it was the leaf.
-      expect(callersTables(md, `mid`)).toEqual([
+      expect(callersTables(md, `mid`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -732,7 +731,7 @@ describe(`formatCallStackProfile`, () => {
           },
         ],
       ])
-      expect(totalCallersTables(md, `mid`)).toEqual([
+      expect(totalCallersTables(md, `mid`)).toStrictEqual([
         [
           {
             '%': `83.3%`,
@@ -757,7 +756,7 @@ describe(`formatCallStackProfile`, () => {
           showEntry: entry => entry.name !== `b`,
         }),
       )
-      expect(totalCallersTables(filteredMd, `mid`)).toEqual([
+      expect(totalCallersTables(filteredMd, `mid`)).toStrictEqual([
         [
           {
             '%': `83.3%`,
@@ -787,7 +786,7 @@ describe(`formatCallStackProfile`, () => {
 
       // Both of the call stacks with `rec` calling itself also have `main`
       // calling it, so each counts under both callers.
-      expect(totalCallersTables(md, `rec`)).toEqual([
+      expect(totalCallersTables(md, `rec`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -825,7 +824,7 @@ describe(`formatCallStackProfile`, () => {
       )
 
       expect(rankingTable(md, `Self time`)).toBeUndefined()
-      expect(categorySubsectionTables(md, `Self time`)).toEqual({
+      expect(categorySubsectionTables(md, `Self time`)).toStrictEqual({
         Ours: [
           {
             '%': `100.0%`,
@@ -849,11 +848,9 @@ describe(`formatCallStackProfile`, () => {
         ),
       )
 
-      expect(Object.keys(categorySubsectionTables(md, `Self time`))).toEqual([
-        `Ours`,
-        `Third-party`,
-        `Native`,
-      ])
+      expect(
+        Object.keys(categorySubsectionTables(md, `Self time`)),
+      ).toStrictEqual([`Ours`, `Third-party`, `Native`])
     })
   })
 
@@ -874,10 +871,10 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(summaryLines(md)).toEqual([
-      `Allocated 8\u00A0MiB over 4 entries (2\u00A0MiB per entry).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Allocated 8\u{A0}MiB over 4 entries (2\u{A0}MiB per entry).`,
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Size: `8 MiB`, Entries: `4` }],
     ])
   })
@@ -899,9 +896,9 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(profileTitles(md)).toEqual([`Goroutine profile`])
-    expect(summaryLines(md)).toEqual([`Recorded 3 goroutines.`])
-    expect(categoryTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Goroutine profile`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 3 goroutines.`])
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Goroutines: `3` }],
     ])
   })
@@ -923,11 +920,11 @@ describe(`formatCallStackProfile`, () => {
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
-    expect(summaryLines(md)).toEqual([`Took 0.3ms.`])
-    expect(categoryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Took 0.3ms.`])
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Time: `0.3ms` }],
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1006,7 +1003,7 @@ describe(`formatCallStackProfileDiff`, () => {
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
-    expect(profileTitles(md)).toEqual([`CPU profile diff`])
+    expect(profileTitles(md)).toStrictEqual([`CPU profile diff`])
   })
 
   test(`includes base and current summary lines`, () => {
@@ -1066,8 +1063,8 @@ describe(`formatCallStackProfileDiff`, () => {
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
-    expect(summaryLines(md)).toEqual([
-      `Allocated 0\u00A0B → 512\u00A0B (+512\u00A0B, new) over 0 → 2 objects (— → 256\u00A0B per object).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Allocated 0\u{A0}B → 512\u{A0}B (+512\u{A0}B, new) over 0 → 2 objects (— → 256\u{A0}B per object).`,
     ])
   })
 
@@ -1098,7 +1095,7 @@ describe(`formatCallStackProfileDiff`, () => {
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Ours`,
@@ -1143,7 +1140,7 @@ describe(`formatCallStackProfileDiff`, () => {
     )
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Third-party`,
@@ -1242,16 +1239,16 @@ describe(`formatCallStackProfileDiff`, () => {
       },
     ]
 
-    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self time`, `Regressions`)).toStrictEqual([
       expectedRegressions,
     ])
-    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self time`, `Improvements`)).toStrictEqual([
       expectedImprovements,
     ])
-    expect(rankingTables(md, `Total time`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Total time`, `Regressions`)).toStrictEqual([
       expectedRegressions,
     ])
-    expect(rankingTables(md, `Total time`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Total time`, `Improvements`)).toStrictEqual([
       expectedImprovements,
     ])
   })
@@ -1261,7 +1258,7 @@ describe(`formatCallStackProfileDiff`, () => {
       parseMetric({ name: `weight`, unit: `weight` }),
     )
 
-    expect(rankingTables(md, `Self weight`, `Increases`)).toEqual([
+    expect(rankingTables(md, `Self weight`, `Increases`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1274,7 +1271,7 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self weight`, `Decreases`)).toEqual([
+    expect(rankingTables(md, `Self weight`, `Decreases`)).toStrictEqual([
       [
         {
           Change: `-66.7%`,
@@ -1287,8 +1284,8 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self weight`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Self weight`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self weight`, `Regressions`)).toStrictEqual([])
+    expect(rankingTables(md, `Self weight`, `Improvements`)).toStrictEqual([])
     expect(md).toContain(
       `Functions with the largest increase in weight recorded within the function body, excluding callees.`,
     )
@@ -1306,7 +1303,7 @@ describe(`formatCallStackProfileDiff`, () => {
       }),
     )
 
-    expect(rankingTables(md, `Self request`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self request`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `-66.7%`,
@@ -1319,7 +1316,7 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self request`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self request`, `Improvements`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1391,7 +1388,7 @@ describe(`formatCallStackProfileDiff`, () => {
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
-    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self time`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1413,7 +1410,7 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self time`, `Improvements`)).toStrictEqual([])
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
@@ -1439,15 +1436,15 @@ describe(`formatCallStackProfileDiff`, () => {
 
     // The unchanged total reads as a measurement, so it omits the change suffix
     // a zero delta would otherwise produce.
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 0.1ms over 5 samples (20.0µs per sample).`,
     ])
 
     // The sections are still formatted, with a note in place of empty tables so
     // the output doesn't look broken.
     expect(md).toMatch(/^## Hottest functions$/mu)
-    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self time`, `Regressions`)).toStrictEqual([])
+    expect(rankingTables(md, `Self time`, `Improvements`)).toStrictEqual([])
     expect(md).toContain(
       `No function differed in time spent within the function body, excluding callees.`,
     )
@@ -1455,7 +1452,7 @@ describe(`formatCallStackProfileDiff`, () => {
       `No function differed in time spent within the function and its callees.`,
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Ours`,
@@ -1510,7 +1507,9 @@ describe(`formatCallStackProfileDiff`, () => {
         formatCallStackProfileDiff(diff, defaultOptions),
       )
 
-      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self time`, `Regressions`),
+      ).toStrictEqual({
         Ours: [
           {
             '%': `100.0%`,
@@ -1597,7 +1596,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
-    expect(rankingTables(md, `Self time`, `Regressions`)).not.toEqual([])
+    expect(rankingTables(md, `Self time`, `Regressions`)).not.toStrictEqual([])
     expect(md).toContain(
       `No function differed in bytes allocated within the function body, excluding callees.`,
     )
@@ -1631,7 +1630,7 @@ describe(`formatCallStackProfileDiff`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every function, so all functions are shown`,
     ])
-    expect(rankingTables(md, `Self time`, `Regressions`)).not.toEqual([])
+    expect(rankingTables(md, `Self time`, `Regressions`)).not.toStrictEqual([])
   })
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {
@@ -1756,7 +1755,9 @@ describe(`formatCallStackProfileDiff`, () => {
     test(`splits each ranking into a subsection per qualifying category`, () => {
       const md = diffMixedProfiles([60, 39, 1], [30, 70, 1])
 
-      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self time`, `Regressions`),
+      ).toStrictEqual({
         'Third-party': [
           {
             '%': `39.0% → 69.3%`,
@@ -1769,7 +1770,9 @@ describe(`formatCallStackProfileDiff`, () => {
           },
         ],
       })
-      expect(categoryRankingTables(md, `Self time`, `Improvements`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self time`, `Improvements`),
+      ).toStrictEqual({
         Ours: [
           {
             '%': `60.0% → 29.7%`,
@@ -1787,7 +1790,7 @@ describe(`formatCallStackProfileDiff`, () => {
     test(`ranks a diff's entries above their category subsections`, () => {
       const md = diffMixedProfiles([60, 39, 1], [30, 70, 10])
 
-      expect(diffRankingTable(md, `Self time`, `Regressions`)).toEqual([
+      expect(diffRankingTable(md, `Self time`, `Regressions`)).toStrictEqual([
         {
           '%': `39.0% → 63.6%`,
           Change: `+79.5%`,
@@ -1809,7 +1812,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ])
       expect(
         Object.keys(categoryRankingTables(md, `Self time`, `Regressions`)),
-      ).toEqual([`Third-party`, `Native`])
+      ).toStrictEqual([`Third-party`, `Native`])
     })
 
     test(`admits a category by its larger side`, () => {
@@ -1819,14 +1822,16 @@ describe(`formatCallStackProfileDiff`, () => {
 
       expect(
         Object.keys(categoryRankingTables(md, `Self time`, `Improvements`)),
-      ).toEqual([`Third-party`])
+      ).toStrictEqual([`Third-party`])
     })
 
     test(`splits a ranking whose entries all fall in one category`, () => {
       const md = diffMixedProfiles([100, 0, 0], [50, 0, 0])
 
       expect(diffRankingTable(md, `Self time`, `Improvements`)).toBeUndefined()
-      expect(categoryRankingTables(md, `Self time`, `Improvements`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self time`, `Improvements`),
+      ).toStrictEqual({
         Ours: [
           {
             '%': `100.0%`,
@@ -1884,7 +1889,9 @@ describe(`formatCallStackProfileDiff`, () => {
         ),
       )
 
-      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({})
+      expect(
+        categoryRankingTables(md, `Self time`, `Regressions`),
+      ).toStrictEqual({})
     })
   })
 })

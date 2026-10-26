@@ -99,7 +99,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `{closure:/var/www/includes/Hooks.php(42)}`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       definition: {
         type: `file`,
         urlOrPath: `/var/www/includes/Hooks.php`,
@@ -116,7 +116,7 @@ describe(`normalizeStackFrame`, () => {
         name: `{closure:/var/www/includes/Hooks.php(42)}`,
         definition: { type: `file`, urlOrPath: `/var/www/includes/Hooks.php` },
       }),
-    ).toEqual({
+    ).toStrictEqual({
       definition: {
         type: `file`,
         urlOrPath: `/var/www/includes/Hooks.php`,
@@ -126,27 +126,31 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`a file-scope frame becomes its file`, () => {
-    expect(normalizeStackFrame({ name: `/var/www/index.php` })).toEqual({
+    expect(normalizeStackFrame({ name: `/var/www/index.php` })).toStrictEqual({
       definition: { type: `file`, urlOrPath: `/var/www/index.php` },
     })
   })
 
   test(`a method's declaring class becomes its location`, () => {
-    expect(normalizeStackFrame({ name: `MediaWiki\\Setup::run` })).toEqual({
+    expect(
+      normalizeStackFrame({ name: String.raw`MediaWiki\Setup::run` }),
+    ).toStrictEqual({
       name: `run`,
-      definition: { type: `logical`, name: `MediaWiki\\Setup` },
+      definition: { type: `logical`, name: String.raw`MediaWiki\Setup` },
     })
   })
 
   test(`a namespaced function's namespace becomes its location`, () => {
-    expect(normalizeStackFrame({ name: `App\\Report\\pad_rows` })).toEqual({
+    expect(
+      normalizeStackFrame({ name: String.raw`App\Report\pad_rows` }),
+    ).toStrictEqual({
       name: `pad_rows`,
-      definition: { type: `logical`, name: `App\\Report` },
+      definition: { type: `logical`, name: String.raw`App\Report` },
     })
   })
 
   test(`a global function keeps its name and stays location-less`, () => {
-    expect(normalizeStackFrame({ name: `wfArrayToCgi` })).toEqual({
+    expect(normalizeStackFrame({ name: `wfArrayToCgi` })).toStrictEqual({
       name: `wfArrayToCgi`,
     })
   })
@@ -155,10 +159,10 @@ describe(`normalizeStackFrame`, () => {
   // name.
   test(`a located method keeps its declaring class in its name`, () => {
     const frame = {
-      name: `MediaWiki\\Setup::run`,
+      name: String.raw`MediaWiki\Setup::run`,
       definition: { type: `file`, urlOrPath: `/var/www/includes/Setup.php` },
     } as const
-    expect(normalizeStackFrame(frame)).toEqual(frame)
+    expect(normalizeStackFrame(frame)).toStrictEqual(frame)
   })
 })
 
@@ -172,17 +176,17 @@ describe(`truncation`, () => {
 
   test(`draws the stacks Excimer truncated under a line of their own`, () => {
     const md = convertLines([
-      `/var/www/index.php;App\\Report::render;pad_rows 3`,
-      `excimer_truncated;App\\Report::render;pad_rows 1`,
+      String.raw`/var/www/index.php;App\Report::render;pad_rows 3`,
+      String.raw`excimer_truncated;App\Report::render;pad_rows 1`,
     ])
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `├── 3 samples (75.0%) (anonymous) at ./index.php`,
-        `│   └── 3 samples (75.0%) render at App\\Report`,
+        String.raw`│   └── 3 samples (75.0%) render at App\Report`,
         `│       └── 3 samples (75.0%, self 100.0% globally) pad_rows`,
         `└── 1 sample (25.0%) truncated`,
-        `    └── 1 sample (25.0%) render at App\\Report`,
+        String.raw`    └── 1 sample (25.0%) render at App\Report`,
         `        └── 1 sample (25.0%) pad_rows`,
       ],
     ])
@@ -190,52 +194,52 @@ describe(`truncation`, () => {
 
   test(`states the share of the stacks Excimer truncated and marks them`, () => {
     const md = convertLines([
-      `/var/www/index.php;App\\Report::render;pad_rows 3`,
-      `excimer_truncated;App\\Report::render;pad_rows 1`,
+      String.raw`/var/www/index.php;App\Report::render;pad_rows 3`,
+      String.raw`excimer_truncated;App\Report::render;pad_rows 1`,
     ])
 
-    expect(paragraphsUnderTitle(md)).toEqual([
+    expect(paragraphsUnderTitle(md)).toStrictEqual([
       `Collected 4 samples.`,
       `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
       `Call stacks missing their outermost callers account for 25.0% of the samples collected.`,
       `\`truncated\` stands for missing outermost callers.`,
     ])
-    expect(openingParagraphs(md, `Hottest call stacks`)).toEqual([
+    expect(openingParagraphs(md, `Hottest call stacks`)).toStrictEqual([
       `Call stacks with the most samples collected in their leaf frame.`,
     ])
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
           Samples: `3`,
-          'Call stack': `pad_rows ← render (App\\Report) ← (anonymous) (./index.php)`,
+          'Call stack': String.raw`pad_rows ← render (App\Report) ← (anonymous) (./index.php)`,
         },
         {
           '%': `25.0%`,
           Samples: `1`,
-          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
+          'Call stack': String.raw`pad_rows ← render (App\Report) ← truncated`,
         },
       ],
     ])
   })
   test(`keeps a truncated call stack's callers out of the common call stack`, () => {
     const md = convertLines([
-      `/var/www/index.php;App\\Report::render;pad_rows 3`,
-      `/var/www/index.php;App\\Report::render;format_cell 2`,
-      `excimer_truncated;App\\Report::render;pad_rows 1`,
+      String.raw`/var/www/index.php;App\Report::render;pad_rows 3`,
+      String.raw`/var/www/index.php;App\Report::render;format_cell 2`,
+      String.raw`excimer_truncated;App\Report::render;pad_rows 1`,
     ])
 
     expect(md).toContain(
       `Common call stack: \`render\` (\`App\\Report\`) ← \`(anonymous)\` (\`./index.php\`)`,
     )
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         { '%': `50.0%`, Samples: `3`, 'Call stack': `pad_rows` },
         { '%': `33.3%`, Samples: `2`, 'Call stack': `format_cell` },
         {
           '%': `16.7%`,
           Samples: `1`,
-          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
+          'Call stack': String.raw`pad_rows ← render (App\Report) ← truncated`,
         },
       ],
     ])
@@ -243,22 +247,22 @@ describe(`truncation`, () => {
 
   test(`finds no common call stack among truncated call stacks`, () => {
     const md = convertLines([
-      `excimer_truncated;App\\Report::render;pad_rows 3`,
-      `excimer_truncated;App\\Report::render;format_cell 1`,
+      String.raw`excimer_truncated;App\Report::render;pad_rows 3`,
+      String.raw`excimer_truncated;App\Report::render;format_cell 1`,
     ])
 
     expect(md).not.toContain(`Common call stack`)
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
           Samples: `3`,
-          'Call stack': `pad_rows ← render (App\\Report) ← truncated`,
+          'Call stack': String.raw`pad_rows ← render (App\Report) ← truncated`,
         },
         {
           '%': `25.0%`,
           Samples: `1`,
-          'Call stack': `format_cell ← render (App\\Report) ← truncated`,
+          'Call stack': String.raw`format_cell ← render (App\Report) ← truncated`,
         },
       ],
     ])
@@ -267,7 +271,7 @@ describe(`truncation`, () => {
   test(`shows a truncated call stack of one frame`, () => {
     const md = convertLines([`excimer_truncated;pad_rows 1`])
 
-    expect(callStackTables(md)).toEqual([
+    expect(callStackTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -281,8 +285,8 @@ describe(`truncation`, () => {
   test(`keeps a marker with no frame below it as a frame`, () => {
     const md = convertLines([`excimer_truncated 2`, `/var/www/index.php;run 1`])
 
-    expect(summaryLines(md)).toEqual([`Collected 3 samples.`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 3 samples.`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -299,15 +303,15 @@ describe(`truncation`, () => {
     const md = diffProfiles(
       {
         data: makeCollapsed([
-          `/var/www/index.php;App\\Report::render;pad_rows 4`,
+          String.raw`/var/www/index.php;App\Report::render;pad_rows 4`,
         ]),
         format: `collapsed`,
         origin: `excimer`,
       },
       {
         data: makeCollapsed([
-          `/var/www/index.php;App\\Report::render;pad_rows 3`,
-          `excimer_truncated;App\\Report::render;pad_rows 1`,
+          String.raw`/var/www/index.php;App\Report::render;pad_rows 3`,
+          String.raw`excimer_truncated;App\Report::render;pad_rows 1`,
         ]),
         format: `collapsed`,
         origin: `excimer`,
@@ -315,7 +319,7 @@ describe(`truncation`, () => {
       { baseURL: `/var/www` },
     )
 
-    expect(paragraphsUnderTitle(md)).toEqual([
+    expect(paragraphsUnderTitle(md)).toStrictEqual([
       `Collected 4 samples.`,
       `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
       `Call stacks missing their outermost callers account for 0.0% → 25.0% of the samples collected.`,
@@ -325,7 +329,7 @@ describe(`truncation`, () => {
 
   test(`states no share in a diff where neither side truncated`, () => {
     const data = makeCollapsed([
-      `/var/www/index.php;App\\Report::render;pad_rows 4`,
+      String.raw`/var/www/index.php;App\Report::render;pad_rows 4`,
     ])
 
     const md = diffProfiles(
@@ -334,7 +338,7 @@ describe(`truncation`, () => {
       { baseURL: `/var/www` },
     )
 
-    expect(paragraphsUnderTitle(md)).toEqual([
+    expect(paragraphsUnderTitle(md)).toStrictEqual([
       `Collected 4 samples.`,
       `Paths starting with \`./\` or \`../\` are relative to \`/var/www/\`.`,
     ])
@@ -365,9 +369,9 @@ describe(`categorizeEntry`, () => {
   // declaring class or namespace rather than a file is still the program's own
   // code.
   test(`a class-located frame is ours`, () => {
-    expect(categorizeEntry(logicalEntry(`run`, `MediaWiki\\Setup`))).toBe(
-      `ours`,
-    )
+    expect(
+      categorizeEntry(logicalEntry(`run`, String.raw`MediaWiki\Setup`)),
+    ).toBe(`ours`)
   })
 
   // Excimer records no compiled code, so a global function whose file the

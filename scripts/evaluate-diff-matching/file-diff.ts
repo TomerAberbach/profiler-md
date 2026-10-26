@@ -110,7 +110,7 @@ const characterLines = (text: string): string => {
   const units = new Array<string>(text.length)
   for (let index = 0; index < text.length; index++) {
     const unit = text.charAt(index)
-    units[index] = unit === `\n` ? `\\n` : unit
+    units[index] = unit === `\n` ? String.raw`\n` : unit
   }
   return `${units.join(`\n`)}\n`
 }

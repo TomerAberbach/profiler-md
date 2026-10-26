@@ -124,10 +124,7 @@ const exporterOriginHint = (
   if (exporter.startsWith(`py-spy@`)) {
     return `py-spy`
   }
-  if (exporter.startsWith(`rbspy@`)) {
-    return `rbspy`
-  }
-  return undefined
+  return exporter.startsWith(`rbspy@`) ? `rbspy` : undefined
 }
 
 // The `line`/`col` are read as the function's definition position, matching
@@ -277,11 +274,10 @@ function* eventedObservations(
       )
     }
 
+    yield* emitLeafSelfTime(event.at)
     if (event.type === `O`) {
-      yield* emitLeafSelfTime(event.at)
       stack.push({ frame: event.frame, lastCalleeClosed: event.at })
     } else {
-      yield* emitLeafSelfTime(event.at)
       stack.pop()
       if (stack.length > 0) {
         stack.at(-1)!.lastCalleeClosed = event.at
@@ -291,4 +287,4 @@ function* eventedObservations(
 }
 
 const isFrameIndex = (frame: number, frameCount: number): boolean =>
-  Number.isInteger(frame) && frame >= 0 && frame < frameCount
+  Number.isSafeInteger(frame) && frame >= 0 && frame < frameCount

@@ -135,7 +135,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
-    expect(diff.functions.map(fn => [!!fn.base, !!fn.current])).toEqual(
+    expect(diff.functions.map(fn => [!!fn.base, !!fn.current])).toStrictEqual(
       expect.arrayContaining([
         [true, false],
         [false, true],
@@ -392,7 +392,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         base: func.base?.selfCount,
         current: func.current?.selfCount,
       })),
-    ).toEqual(
+    ).toStrictEqual(
       expect.arrayContaining([
         { base: 5, current: undefined },
         { base: undefined, current: 10 },
@@ -409,7 +409,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [method(87, 322), method(1013, 50)],
         [method(87, 333), method(1013, 60)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -445,7 +445,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
     expect(
       pairingTables([method(36, 5514)], [method(36, 5680), method(35, 12)]),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -532,7 +532,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
           Ours: [
             {
               Change: `+2100.0%`,
-              Delta: `+0.10ms`,
+              Delta: `+0.11ms`,
               '%': `4.7% → 90.2%`,
               Time: `5.0µs → 0.1ms`,
               Samples: `5 → 110`,
@@ -598,7 +598,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
           closure(moved[2]!, 3),
         ],
       ),
-    ).toEqual(expected)
+    ).toStrictEqual(expected)
   })
 
   const A_JS = `file:///project/src/a.js`
@@ -690,31 +690,27 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         ],
         [inA(`a`, 15, 2), inA(`(anonymous)`, currentLine, 5), inA(`b`, 35, 2)],
       ),
-    ).toEqual(expected)
+    ).toStrictEqual(expected)
   })
 
   test(`does not pair a same-key function by the offset of a logical source that shares its file's ID`, () => {
     // A file reference resolves to `A_JS`, the ID the logical source has.
-    const inLogical = (name: string, line: number, count: number) => ({
-      ...sampledFunc(name, ``, { line, count }),
+    const inLogical = (name: string, line: number) => ({
+      ...sampledFunc(name, ``, { line, count: 2 }),
       logicalName: A_JS,
     })
 
     expect(
       pairingTables(
         [
-          inLogical(`a`, 10, 2),
+          inLogical(`a`, 10),
           inA(`(anonymous)`, 20, 3),
-          inLogical(`b`, 30, 2),
+          inLogical(`b`, 30),
           inA(`(anonymous)`, 40, 1),
         ],
-        [
-          inLogical(`a`, 15, 2),
-          inA(`(anonymous)`, 25, 5),
-          inLogical(`b`, 35, 2),
-        ],
+        [inLogical(`a`, 15), inA(`(anonymous)`, 25, 5), inLogical(`b`, 35)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -768,7 +764,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [closure(100, 7), closure(200, 3)],
         [closure(50, 2), closure(140, 9), closure(240, 4)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -817,7 +813,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [closure(10, 5, 7), closure(20, 5, 3), closure(30, 5, 1)],
         [closure(10, 5, 8), closure(20, 9, 4), closure(30, 5, 2)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -923,7 +919,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [free(4, 18), free(2, 14), free(1, 10)],
         ZIG_CONTEXT,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         'Standard library': [
           {
@@ -975,7 +971,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [free(1, 10, 110), free(1, 25, 7), free(1, 30, 3)],
         ZIG_CONTEXT,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         'Standard library': [
           {
@@ -1045,7 +1041,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [free(1, 10, 110), free(3, 20, 7)],
         ZIG_CONTEXT,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         'Standard library': [
           {
@@ -1084,7 +1080,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [method(187, 3052), method(200, 37)],
         [method(187, 3048), method(undefined, 40)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -1126,7 +1122,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         [method(10, 100), method(Number.NaN, 5)],
         [method(10, 110), method(20, 7)],
       ),
-    ).toEqual({
+    ).toStrictEqual({
       regressions: {
         Ours: [
           {
@@ -1305,7 +1301,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
           { line: 25, count: 3 },
         ]),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+60.0%`,
@@ -1335,7 +1331,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
           { line: 20, count: 4 },
         ]),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1363,7 +1359,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
         [at(`funcA`, [111, 112, 113], 2), at(`funcB`, [210], 6)],
         `funcB`,
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1393,7 +1389,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
           { line: 112, count: 4 },
         ]),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -1425,7 +1421,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
           { line: 23, count: 6 },
         ]),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `new`,
@@ -1483,7 +1479,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
           { line: 19, count: 2 },
         ]),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1545,7 +1541,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
   const md = formatDiff()
 
   test(`pairs each function's callers across the sides`, () => {
-    expect(callersTables(md, `leaf`)).toEqual([
+    expect(callersTables(md, `leaf`)).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1579,7 +1575,9 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
   })
 
   test(`pairs call stacks across the sides by their functions`, () => {
-    expect(rankingTables(md, `Hottest call stacks`, `Regressions`)).toEqual([
+    expect(
+      rankingTables(md, `Hottest call stacks`, `Regressions`),
+    ).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1599,7 +1597,9 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Hottest call stacks`, `Improvements`)).toEqual([
+    expect(
+      rankingTables(md, `Hottest call stacks`, `Improvements`),
+    ).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -1614,7 +1614,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
   })
 
   test(`pairs each function's callees across the sides`, () => {
-    expect(calleesTables(md, `parent`)).toEqual([
+    expect(calleesTables(md, `parent`)).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1627,7 +1627,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
         },
       ],
     ])
-    expect(calleesTables(md, `other`)).toEqual([
+    expect(calleesTables(md, `other`)).toStrictEqual([
       [
         {
           Change: `new`,
@@ -1640,7 +1640,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
         },
       ],
     ])
-    expect(calleesTables(md, `gone`)).toEqual([
+    expect(calleesTables(md, `gone`)).toStrictEqual([
       [
         {
           Change: `removed`,
@@ -1663,7 +1663,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
       }),
     )
 
-    expect(callersTables(md, `leaf`)).toEqual([
+    expect(callersTables(md, `leaf`)).toStrictEqual([
       [
         {
           Change: `+50.0%`,
@@ -1741,8 +1741,8 @@ describe(`formatCallStackProfileDiff callers of a total`, () => {
     const md = formatDiff()
 
     // `mid` is never the leaf, so no caller has any of its self time.
-    expect(callersTables(md, `mid`)).toEqual([])
-    expect(totalCallersTables(md, `mid`)).toEqual([
+    expect(callersTables(md, `mid`)).toStrictEqual([])
+    expect(totalCallersTables(md, `mid`)).toStrictEqual([
       [
         changed,
         {
@@ -1767,7 +1767,7 @@ describe(`formatCallStackProfileDiff callers of a total`, () => {
       }),
     )
 
-    expect(totalCallersTables(md, `mid`)).toEqual([[changed, removed]])
+    expect(totalCallersTables(md, `mid`)).toStrictEqual([[changed, removed]])
   })
 })
 
@@ -1865,7 +1865,9 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
         options,
       )
 
-      expect(rankingTables(md, `Hottest call stacks`, `Regressions`)).toEqual([
+      expect(
+        rankingTables(md, `Hottest call stacks`, `Regressions`),
+      ).toStrictEqual([
         [
           {
             Change: `+50.0%`,
@@ -1877,9 +1879,9 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
           },
         ],
       ])
-      expect(rankingTables(md, `Hottest call stacks`, `Improvements`)).toEqual(
-        [],
-      )
+      expect(
+        rankingTables(md, `Hottest call stacks`, `Improvements`),
+      ).toStrictEqual([])
     },
   )
 
@@ -1975,7 +1977,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       ],
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 4.0µs → 5.0µs (100.0%) main at ./src/main.ts:1 → 2`,
         `    ├── 4.0µs (100.0% → 80.0%) leaf at ./src/leaf.ts:1 → 7`,
@@ -1998,7 +2000,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       ],
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 6.0µs → 7.0µs (100.0%) main at ./src/main.ts:1`,
         `    └── 6.0µs → 7.0µs (100.0%, self 33.3% → 14.3%) mid at ./src/mid.ts:1`,
@@ -2038,7 +2040,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       options,
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 4.0µs → 6.0µs (100.0%) main at ./src/main.ts:1`,
         `    └── … 4.0µs → 6.0µs (100.0%) leaf at ./src/leaf.ts:1`,
@@ -2073,7 +2075,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
         options,
       )
 
-      expect(callTreeLines(md)).toEqual([
+      expect(callTreeLines(md)).toStrictEqual([
         [
           `└── 4.0µs → 6.0µs (100.0%) main at ./src/main.ts:1`,
           `    └── 4.0µs → 6.0µs (100.0%) middle at ./src/middle.ts:1 → 5`,
@@ -2100,7 +2102,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       resolveProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 6.0µs → 9.0µs (100.0%) main at ./src/main.ts:1`,
         `    └── 6.0µs → 9.0µs (100.0%) 3 more callees, led by (33.3% → 55.6%) b at ./src/b.ts:1`,
@@ -2130,7 +2132,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       resolveProfileToMdOptions({ baseURL: `/project`, topN: 2 }),
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 0.1ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 1.0µs → 10.0µs (1.0% → 9.2%) b at ./src/b.ts:1`,
@@ -2154,7 +2156,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       ],
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 10.0ms (100.0%) main at ./src/main.ts:1`,
         `    └── 10.0ms (100.0%) big at ./src/big.ts:1`,
@@ -2183,7 +2185,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
       options,
     )
 
-    expect(callTreeLines(md)).toEqual([
+    expect(callTreeLines(md)).toStrictEqual([
       [
         `└── 4.0µs → 6.0µs (100.0%) outer at ./src/outer.ts:1`,
         `    └── 4.0µs → 6.0µs (100.0%) inner at ./src/outer.ts → ./src/inner.ts:3`,

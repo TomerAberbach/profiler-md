@@ -25,43 +25,43 @@ const splitLines = (text: string): string[] =>
 
 describe(`decodeUtf8Lines`, () => {
   test(`yields newline-delimited lines`, () => {
-    expect(lines(`a\nbb\nccc`)).toEqual([`a`, `bb`, `ccc`])
+    expect(lines(`a\nbb\nccc`)).toStrictEqual([`a`, `bb`, `ccc`])
   })
 
   test(`strips a trailing carriage return`, () => {
-    expect(lines(`a\r\nb\r\nc`)).toEqual([`a`, `b`, `c`])
+    expect(lines(`a\r\nb\r\nc`)).toStrictEqual([`a`, `b`, `c`])
   })
 
   test(`yields a trailing empty line when input ends with a newline`, () => {
-    expect(lines(`a\nb\n`)).toEqual([`a`, `b`, ``])
+    expect(lines(`a\nb\n`)).toStrictEqual([`a`, `b`, ``])
   })
 
   test(`yields a single empty line for empty input`, () => {
-    expect(lines(``)).toEqual([``])
+    expect(lines(``)).toStrictEqual([``])
   })
 
   test.prop([text, fc.integer({ min: 1 })])(
     `roundtrips text through encode, chunked decode, and concat for any chunk size`,
     (text, chunkSize) => {
-      expect(lines(text, chunkSize)).toEqual(splitLines(text))
+      expect(lines(text, chunkSize)).toStrictEqual(splitLines(text))
     },
   )
 
   test(`decodes a multi-byte sequence split across a chunk boundary`, () => {
     // `→` is 3 bytes, so a chunk size of 2 cuts it apart
-    expect(lines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
+    expect(lines(`a→b\n→`, 2)).toStrictEqual([`a→b`, `→`])
   })
 
   test(`replaces invalid UTF-8, keeping the surrounding text`, () => {
-    expect([...decodeUtf8Lines(new Uint8Array([0x61, 0xff, 0x62]))]).toEqual([
-      `a\uFFFDb`,
-    ])
+    expect([
+      ...decodeUtf8Lines(new Uint8Array([0x61, 0xff, 0x62])),
+    ]).toStrictEqual([`a\u{FFFD}b`])
   })
 
   test(`replaces a truncated trailing sequence`, () => {
     // The first two bytes of `→` with the third missing.
-    expect([...decodeUtf8Lines(new Uint8Array([0xe2, 0x86]))]).toEqual([
-      `\uFFFD`,
+    expect([...decodeUtf8Lines(new Uint8Array([0xe2, 0x86]))]).toStrictEqual([
+      `\u{FFFD}`,
     ])
   })
 })
@@ -75,51 +75,69 @@ const asyncTextLines = (
 }
 
 const asyncLines = async (chunks: Uint8Array[]): Promise<string[]> => {
-  const lines: string[] = []
-  for await (const line of decodeUtf8LinesAsync(streamOf(...chunks))) {
-    lines.push(line)
-  }
+  const lines: string[] = await Array.fromAsync(
+    decodeUtf8LinesAsync(streamOf(...chunks)),
+  )
   return lines
 }
 
 describe(`decodeUtf8LinesAsync`, () => {
   test(`yields newline-delimited lines`, async () => {
-    expect(await asyncTextLines(`a\nbb\nccc`)).toEqual([`a`, `bb`, `ccc`])
+    await expect(asyncTextLines(`a\nbb\nccc`)).resolves.toStrictEqual([
+      `a`,
+      `bb`,
+      `ccc`,
+    ])
   })
 
   test(`strips a trailing carriage return`, async () => {
-    expect(await asyncTextLines(`a\r\nb\r\nc`)).toEqual([`a`, `b`, `c`])
+    await expect(asyncTextLines(`a\r\nb\r\nc`)).resolves.toStrictEqual([
+      `a`,
+      `b`,
+      `c`,
+    ])
   })
 
   test(`yields a trailing empty line when input ends with a newline`, async () => {
-    expect(await asyncTextLines(`a\nb\n`)).toEqual([`a`, `b`, ``])
+    await expect(asyncTextLines(`a\nb\n`)).resolves.toStrictEqual([
+      `a`,
+      `b`,
+      ``,
+    ])
   })
 
   test(`yields a single empty line for empty input`, async () => {
-    expect(await asyncTextLines(``)).toEqual([``])
+    await expect(asyncTextLines(``)).resolves.toStrictEqual([``])
   })
 
   test.prop([text, fc.integer({ min: 1 })])(
     `roundtrips text through encode, chunked stream decode, and concat for any chunk size`,
     async (text, chunkSize) => {
-      expect(await asyncTextLines(text, chunkSize)).toEqual(splitLines(text))
+      await expect(asyncTextLines(text, chunkSize)).resolves.toStrictEqual(
+        splitLines(text),
+      )
     },
   )
 
   test(`decodes a multi-byte sequence split across a stream chunk boundary`, async () => {
     // `→` is 3 bytes, so a chunk size of 2 cuts it across two stream chunks
-    expect(await asyncTextLines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
+    await expect(asyncTextLines(`a→b\n→`, 2)).resolves.toStrictEqual([
+      `a→b`,
+      `→`,
+    ])
   })
 
   test(`replaces invalid UTF-8, keeping the surrounding text`, async () => {
-    expect(await asyncLines([new Uint8Array([0x61, 0xff, 0x62])])).toEqual([
-      `a\uFFFDb`,
-    ])
+    await expect(
+      asyncLines([new Uint8Array([0x61, 0xff, 0x62])]),
+    ).resolves.toStrictEqual([`a\u{FFFD}b`])
   })
 
   test(`replaces a truncated trailing sequence`, async () => {
     // The first two bytes of `→` with the third missing.
-    expect(await asyncLines([new Uint8Array([0xe2, 0x86])])).toEqual([`\uFFFD`])
+    await expect(
+      asyncLines([new Uint8Array([0xe2, 0x86])]),
+    ).resolves.toStrictEqual([`\u{FFFD}`])
   })
 })
 
@@ -161,11 +179,11 @@ const bytes = (...values: number[]): Uint8Array => new Uint8Array(values)
 
 describe(`ByteQueue`, () => {
   test(`length sums the pushed parts`, () => {
-    expect(queueOf(bytes(1, 2), bytes(3)).length).toBe(3)
+    expect(queueOf(bytes(1, 2), bytes(3))).toHaveLength(3)
   })
 
   test(`push ignores empty parts`, () => {
-    expect(queueOf(bytes(), bytes(1), bytes()).length).toBe(1)
+    expect(queueOf(bytes(), bytes(1), bytes())).toHaveLength(1)
   })
 
   test(`uint32 reads a big-endian uint32 spanning part boundaries`, () => {
@@ -213,10 +231,10 @@ describe(`ByteQueue`, () => {
 
   test(`take removes and returns the first bytes, splitting a part`, () => {
     const queue = queueOf(bytes(1, 2, 3, 4))
-    expect([...queue.take(2)]).toEqual([1, 2])
-    expect(queue.length).toBe(2)
-    expect([...queue.take(2)]).toEqual([3, 4])
-    expect(queue.length).toBe(0)
+    expect([...queue.take(2)]).toStrictEqual([1, 2])
+    expect(queue).toHaveLength(2)
+    expect([...queue.take(2)]).toStrictEqual([3, 4])
+    expect(queue).toHaveLength(0)
   })
 
   test(`take returns a view of a part that holds the whole chunk`, () => {
@@ -224,13 +242,13 @@ describe(`ByteQueue`, () => {
     const queue = queueOf(part)
     expect(queue.take(2).buffer).toBe(part.buffer)
     expect(queue.take(1).buffer).toBe(part.buffer)
-    expect(queue.length).toBe(0)
+    expect(queue).toHaveLength(0)
   })
 
   test(`take drains across multiple parts`, () => {
     const queue = queueOf(bytes(1), bytes(2, 3), bytes(4))
-    expect([...queue.take(4)]).toEqual([1, 2, 3, 4])
-    expect(queue.length).toBe(0)
+    expect([...queue.take(4)]).toStrictEqual([1, 2, 3, 4])
+    expect(queue).toHaveLength(0)
   })
 
   test.prop([fc.uint8Array({ minLength: 1 }), fc.integer({ min: 1 })])(
@@ -241,7 +259,7 @@ describe(`ByteQueue`, () => {
       while (queue.length > 0) {
         taken.push(...queue.take(Math.min(partSize, queue.length)))
       }
-      expect(taken).toEqual([...data])
+      expect(taken).toStrictEqual([...data])
     },
   )
 

@@ -77,8 +77,8 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 
 |  Change |    Delta |            % |              Time |     Count |              Mean |               Max | Span                                   |
 | ------: | -------: | -----------: | ----------------: | --------: | ----------------: | ----------------: | -------------------------------------- |
-|  -28.6% | -11.49ms |  0.4% → 0.3% |   40.2ms → 28.7ms |         2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`                        |
-|   -5.9% |  -5.95ms |  1.0% → 0.9% |  100.3ms → 94.4ms |         2 |   50.2ms → 47.2ms |   71.9ms → 65.5ms | `GlobalOptPass`                        |
+|  -28.6% | -11.50ms |  0.4% → 0.3% |   40.2ms → 28.7ms |         2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`                        |
+|   -5.9% |  -5.96ms |  1.0% → 0.9% |  100.3ms → 94.4ms |         2 |   50.2ms → 47.2ms |   71.9ms → 65.5ms | `GlobalOptPass`                        |
 |   -6.8% |  -5.78ms |  0.9% → 0.8% |   85.5ms → 79.7ms |         1 |   85.5ms → 79.7ms |   85.5ms → 79.7ms | `IPSCCPPass`                           |
 |   -1.1% |  -4.53ms |  4.3% → 4.1% | 414.1ms → 409.6ms |         1 | 414.1ms → 409.6ms | 414.1ms → 409.6ms | `OptModule`                            |
 |   -2.2% |  -3.84ms |  1.8% → 1.7% | 173.7ms → 169.9ms | 143 → 145 |             1.2ms |     5.6ms → 5.0ms | `ParseClass`                           |
@@ -88,13 +88,13 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 |   -0.5% |  -1.50ms |  3.4% → 3.3% | 330.3ms → 328.8ms |         6 |   55.0ms → 54.8ms | 117.5ms → 119.0ms | `ModuleToFunctionPassAdaptor`          |
 |   -1.7% |  -1.00ms |         0.6% |   59.3ms → 58.3ms |        48 |             1.2ms |             4.5ms | `MemorySSAAnalysis`                    |
 |   -2.5% |  -0.98ms |         0.4% |   39.6ms → 38.6ms |   35 → 36 |             1.1ms |     3.7ms → 3.5ms | `JumpThreadingPass`                    |
-| removed |  -0.97ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 |       1.0ms → 0ms |       1.0ms → 0ms | `LoopDeletionPass`                     |
+| removed |  -0.98ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 |       1.0ms → 0ms |       1.0ms → 0ms | `LoopDeletionPass`                     |
 |  -18.1% |  -0.96ms | 0.1% → <0.1% |     5.3ms → 4.3ms |         1 |     5.3ms → 4.3ms |     5.3ms → 4.3ms | `GlobalsAA`                            |
 |  -16.5% |  -0.77ms |        <0.1% |     4.7ms → 3.9ms |         3 |     1.6ms → 1.3ms |     2.0ms → 1.5ms | `InstSimplifyPass`                     |
 |   -6.3% |  -0.73ms |         0.1% |   11.5ms → 10.7ms |        14 |             0.8ms |     1.2ms → 1.1ms | `BranchProbabilityAnalysis`            |
 |   -1.5% |  -0.72ms |         0.5% |   49.0ms → 48.3ms |   46 → 47 |     1.1ms → 1.0ms |     3.4ms → 2.4ms | `SimplifyCFGPass`                      |
 |  -49.8% |  -0.62ms |        <0.1% |     1.3ms → 0.6ms |     2 → 1 |             0.6ms |     0.7ms → 0.6ms | `IndVarSimplifyPass`                   |
-|  -17.4% |  -0.55ms |        <0.1% |     3.2ms → 2.6ms |         1 |     3.2ms → 2.6ms |     3.2ms → 2.6ms | `RecomputeGlobalsAAPass`               |
+|  -17.4% |  -0.56ms |        <0.1% |     3.2ms → 2.6ms |         1 |     3.2ms → 2.6ms |     3.2ms → 2.6ms | `RecomputeGlobalsAAPass`               |
 | removed |  -0.53ms | <0.1% → 0.0% |       0.5ms → 0ms |     1 → 0 |       0.5ms → 0ms |       0.5ms → 0ms | `EliminateAvailableExternallyPass`     |
 |   -5.4% |  -0.51ms |         0.1% |     9.3ms → 8.8ms |   21 → 22 |             0.4ms |     3.6ms → 3.3ms | `MemCpyOptPass`                        |
 
@@ -102,8 +102,8 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 
 |  Change |    Delta |            % |              Time |   Count |              Mean |               Max | Span                                |
 | ------: | -------: | -----------: | ----------------: | ------: | ----------------: | ----------------: | ----------------------------------- |
-|  -28.6% | -11.49ms |  0.4% → 0.3% |   40.2ms → 28.7ms |       2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`                     |
-|   -5.9% |  -5.95ms |  1.0% → 0.9% |  100.3ms → 94.4ms |       2 |   50.2ms → 47.2ms |   71.9ms → 65.5ms | `GlobalOptPass`                     |
+|  -28.6% | -11.50ms |  0.4% → 0.3% |   40.2ms → 28.7ms |       2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`                     |
+|   -5.9% |  -5.96ms |  1.0% → 0.9% |  100.3ms → 94.4ms |       2 |   50.2ms → 47.2ms |   71.9ms → 65.5ms | `GlobalOptPass`                     |
 |   -6.8% |  -5.78ms |  0.9% → 0.8% |   85.5ms → 79.7ms |       1 |   85.5ms → 79.7ms |   85.5ms → 79.7ms | `IPSCCPPass`                        |
 |   -1.1% |  -4.53ms |  4.3% → 4.1% | 414.1ms → 409.6ms |       1 | 414.1ms → 409.6ms | 414.1ms → 409.6ms | `OptModule`                         |
 |  -12.5% |  -2.18ms |         0.2% |   17.4ms → 15.2ms | 19 → 16 |     0.9ms → 1.0ms |     2.5ms → 2.3ms | `SROAPass`                          |
@@ -111,17 +111,17 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 |   -0.5% |  -1.50ms |  3.4% → 3.3% | 330.3ms → 328.8ms |       6 |   55.0ms → 54.8ms | 117.5ms → 119.0ms | `ModuleToFunctionPassAdaptor`       |
 |   -1.7% |  -1.00ms |         0.6% |   59.3ms → 58.3ms |      48 |             1.2ms |             4.5ms | `MemorySSAAnalysis`                 |
 |   -2.5% |  -0.98ms |         0.4% |   39.6ms → 38.6ms | 35 → 36 |             1.1ms |     3.7ms → 3.5ms | `JumpThreadingPass`                 |
-| removed |  -0.97ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 |       1.0ms → 0ms |       1.0ms → 0ms | `LoopDeletionPass`                  |
+| removed |  -0.98ms | <0.1% → 0.0% |       1.0ms → 0ms |   1 → 0 |       1.0ms → 0ms |       1.0ms → 0ms | `LoopDeletionPass`                  |
 |  -18.1% |  -0.96ms | 0.1% → <0.1% |     5.3ms → 4.3ms |       1 |     5.3ms → 4.3ms |     5.3ms → 4.3ms | `GlobalsAA`                         |
 |  -16.5% |  -0.77ms |        <0.1% |     4.7ms → 3.9ms |       3 |     1.6ms → 1.3ms |     2.0ms → 1.5ms | `InstSimplifyPass`                  |
 |   -6.3% |  -0.73ms |         0.1% |   11.5ms → 10.7ms |      14 |             0.8ms |     1.2ms → 1.1ms | `BranchProbabilityAnalysis`         |
 |   -1.5% |  -0.72ms |         0.5% |   49.0ms → 48.3ms | 46 → 47 |     1.1ms → 1.0ms |     3.4ms → 2.4ms | `SimplifyCFGPass`                   |
 |  -49.8% |  -0.62ms |        <0.1% |     1.3ms → 0.6ms |   2 → 1 |             0.6ms |     0.7ms → 0.6ms | `IndVarSimplifyPass`                |
-|  -17.4% |  -0.55ms |        <0.1% |     3.2ms → 2.6ms |       1 |     3.2ms → 2.6ms |     3.2ms → 2.6ms | `RecomputeGlobalsAAPass`            |
+|  -17.4% |  -0.56ms |        <0.1% |     3.2ms → 2.6ms |       1 |     3.2ms → 2.6ms |     3.2ms → 2.6ms | `RecomputeGlobalsAAPass`            |
 | removed |  -0.53ms | <0.1% → 0.0% |       0.5ms → 0ms |   1 → 0 |       0.5ms → 0ms |       0.5ms → 0ms | `EliminateAvailableExternallyPass`  |
 |   -5.4% |  -0.51ms |         0.1% |     9.3ms → 8.8ms | 21 → 22 |             0.4ms |     3.6ms → 3.3ms | `MemCpyOptPass`                     |
 |   -6.2% |  -0.50ms |         0.1% |     8.1ms → 7.6ms |       1 |     8.1ms → 7.6ms |     8.1ms → 7.6ms | `ReversePostOrderFunctionAttrsPass` |
-|   -4.9% |  -0.47ms |         0.1% |     9.7ms → 9.2ms |       2 |     4.9ms → 4.6ms |     6.6ms → 6.5ms | `LazyCallGraphAnalysis`             |
+|   -4.9% |  -0.48ms |         0.1% |     9.7ms → 9.2ms |       2 |     4.9ms → 4.6ms |     6.6ms → 6.5ms | `LazyCallGraphAnalysis`             |
 
 ##### Parsing
 
@@ -141,14 +141,14 @@ Parent spans with the largest change in contribution to each span's self time.
 | +18.6% | +124.09ms | 65.4% → 66.6% | 666.9ms → 791.0ms | 1,233 → 1,350 | 0.5ms → 0.6ms | 11.8ms → 15.7ms | `InstantiateFunction`          |
 | +11.7% |  +39.24ms | 32.9% → 31.5% | 335.2ms → 374.4ms |     408 → 461 |         0.8ms | 13.3ms → 12.4ms | `PerformPendingInstantiations` |
 | +84.8% |   +5.75ms |   0.7% → 1.1% |    6.8ms → 12.5ms |       43 → 46 | 0.2ms → 0.3ms |   0.6ms → 5.4ms | `InstantiateClass`             |
-|  -9.2% |   -0.72ms |   0.8% → 0.6% |     7.8ms → 7.1ms |             7 | 1.1ms → 1.0ms |   2.6ms → 1.7ms | `ParseClass`                   |
+|  -9.2% |   -0.73ms |   0.8% → 0.6% |     7.9ms → 7.1ms |             7 | 1.1ms → 1.0ms |   2.6ms → 1.7ms | `ParseClass`                   |
 |  -0.5% |   -0.01ms |   0.3% → 0.2% |             2.6ms |         5 → 4 | 0.5ms → 0.7ms |   0.8ms → 1.1ms | `ParseFunctionDefinition`      |
 
 ##### `PassManager<Function>`
 
 | Change |    Delta |             % |              Time |     Count |          Mean |             Max | Parent                        |
 | -----: | -------: | ------------: | ----------------: | --------: | ------------: | --------------: | ----------------------------- |
-| +10.1% | +76.42ms | 76.0% → 75.6% | 755.9ms → 832.4ms | 593 → 641 |         1.3ms |   4.9ms → 5.4ms | `CGSCCToFunctionPassAdaptor`  |
+| +10.1% | +76.43ms | 76.0% → 75.6% | 755.9ms → 832.4ms | 593 → 641 |         1.3ms |   4.9ms → 5.4ms | `CGSCCToFunctionPassAdaptor`  |
 | +12.8% | +30.46ms | 23.9% → 24.4% | 238.1ms → 268.5ms | 204 → 225 |         1.2ms |   3.1ms → 4.2ms | `ModuleToFunctionPassAdaptor` |
 | +86.7% |  +0.01ms |         <0.1% |   15.0µs → 28.0µs |     2 → 3 | 7.5µs → 9.3µs | 13.0µs → 14.0µs | `FunctionToLoopPassAdaptor`   |
 
@@ -225,7 +225,7 @@ Parent spans with the largest change in contribution to each span's self time.
 | ------: | ------: | ------------: | ----------------: | --------: | ------------: | -------------: | ------------------------- |
 |   +5.8% | +6.95ms | 35.6% → 37.3% | 119.9ms → 126.9ms | 148 → 170 | 0.8ms → 0.7ms | 12.3ms → 5.0ms | `InstantiateFunction`     |
 |  -15.7% | -3.77ms |   7.1% → 6.0% |   24.0ms → 20.3ms |   35 → 30 |         0.7ms |  1.9ms → 1.7ms | `ParseFunctionDefinition` |
-| +294.4% | +2.45ms |   0.2% → 1.0% |     0.8ms → 3.3ms |     2 → 3 | 0.4ms → 1.1ms |  0.5ms → 2.4ms | `Frontend`                |
+| +294.4% | +2.46ms |   0.2% → 1.0% |     0.8ms → 3.3ms |     2 → 3 | 0.4ms → 1.1ms |  0.5ms → 2.4ms | `Frontend`                |
 |   -7.1% | -1.94ms |   8.1% → 7.4% |   27.1ms → 25.2ms |   40 → 38 |         0.7ms |  1.2ms → 1.5ms | `ParseClass`              |
 |   +0.5% | +0.82ms | 48.7% → 48.4% | 164.0ms → 164.8ms | 195 → 210 |         0.8ms |  5.1ms → 2.4ms | `InstantiateClass`        |
 
@@ -270,13 +270,13 @@ Parent spans with the largest change in contribution to each span's self time.
 
 | Change |    Delta |      % |            Time | Count |            Mean |             Max | Parent      |
 | -----: | -------: | -----: | --------------: | ----: | --------------: | --------------: | ----------- |
-| -28.6% | -11.49ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `Optimizer` |
+| -28.6% | -11.50ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `Optimizer` |
 
 ##### `GlobalOptPass`
 
 | Change |   Delta |      % |             Time | Count |            Mean |             Max | Parent      |
 | -----: | ------: | -----: | ---------------: | ----: | --------------: | --------------: | ----------- |
-|  -5.9% | -5.95ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `Optimizer` |
+|  -5.9% | -5.96ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `Optimizer` |
 
 ##### `IPSCCPPass`
 
@@ -341,7 +341,7 @@ Parent spans with the largest change in contribution to each span's self time.
 
 |  Change |   Delta |             % |        Time | Count |        Mean |         Max | Parent                                                                                |
 | ------: | ------: | ------------: | ----------: | ----: | ----------: | ----------: | ------------------------------------------------------------------------------------- |
-| removed | -0.97ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>` |
+| removed | -0.98ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>` |
 
 ##### `GlobalsAA`
 
@@ -377,7 +377,7 @@ Parent spans with the largest change in contribution to each span's self time.
 
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Parent      |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ----------- |
-| -17.4% | -0.55ms | 100.0% | 3.2ms → 2.6ms |     1 | 3.2ms → 2.6ms | 3.2ms → 2.6ms | `Optimizer` |
+| -17.4% | -0.56ms | 100.0% | 3.2ms → 2.6ms |     1 | 3.2ms → 2.6ms | 3.2ms → 2.6ms | `Optimizer` |
 
 ##### `EliminateAvailableExternallyPass`
 
@@ -402,7 +402,7 @@ Parent spans with the largest change in contribution to each span's self time.
 | Change |   Delta |             % |          Time | Count |          Mean |           Max | Parent                                                    |
 | -----: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------------------------------------------------------- |
 | -11.1% | -0.34ms | 31.7% → 29.6% | 3.1ms → 2.7ms |     1 | 3.1ms → 2.7ms | 3.1ms → 2.7ms | `ReversePostOrderFunctionAttrsPass`                       |
-|  -2.0% | -0.13ms | 68.3% → 70.4% | 6.6ms → 6.5ms |     1 | 6.6ms → 6.5ms | 6.6ms → 6.5ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
+|  -2.0% | -0.14ms | 68.3% → 70.4% | 6.6ms → 6.5ms |     1 | 6.6ms → 6.5ms | 6.6ms → 6.5ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
 
 ### Total time
 
@@ -414,14 +414,14 @@ Thread spans with the largest increase in time, including child spans. Categorie
 | -----: | --------: | ------------: | ----------------: | ------------: | ----------------: | ----------------: | --------------------------------------------------------------------------------------------- |
 |  +4.5% | +433.34ms |        100.0% |    9.61s → 10.04s |             1 |    9.61s → 10.04s |    9.61s → 10.04s | `ExecuteCompiler`                                                                             |
 |  +8.1% | +232.95ms | 30.1% → 31.1% |     2.89s → 3.12s |             2 |     1.44s → 1.56s |     2.69s → 2.90s | `Frontend`                                                                                    |
-|  +3.0% | +198.35ms | 69.7% → 68.7% |     6.70s → 6.90s |             1 |     6.70s → 6.90s |     6.70s → 6.90s | `Backend`                                                                                     |
+|  +3.0% | +198.36ms | 69.7% → 68.7% |     6.70s → 6.90s |             1 |     6.70s → 6.90s |     6.70s → 6.90s | `Backend`                                                                                     |
 | +14.1% | +183.13ms | 13.5% → 14.8% |     1.30s → 1.48s |             1 |     1.30s → 1.48s |     1.30s → 1.48s | `PerformPendingInstantiations`                                                                |
 | +14.8% | +182.07ms | 12.8% → 14.1% |     1.23s → 1.41s | 1,696 → 1,868 |     2.7ms → 2.9ms |   34.0ms → 36.8ms | `InstantiateFunction`                                                                         |
 |  +4.6% | +169.50ms |         38.5% |     3.70s → 3.87s |             1 |     3.70s → 3.87s |     3.70s → 3.87s | `Optimizer`                                                                                   |
-|  +5.9% | +149.38ms | 26.4% → 26.7% |     2.53s → 2.68s |             1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`                                                                    |
+|  +5.9% | +149.39ms | 26.4% → 26.7% |     2.53s → 2.68s |             1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`                                                                    |
 |  +6.0% | +149.17ms | 26.0% → 26.3% |     2.49s → 2.64s |             1 |     2.49s → 2.64s |     2.49s → 2.64s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
 |  +6.9% | +128.35ms | 19.3% → 19.7% |     1.85s → 1.97s |     799 → 869 |             2.3ms | 113.2ms → 110.2ms | `PassManager<Function>`                                                                       |
-|  +6.3% | +118.98ms | 19.6% → 20.0% |        1.88s → 2s |     759 → 821 |     2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                                                       |
+|  +6.3% | +118.99ms | 19.6% → 20.0% |        1.88s → 2s |     759 → 821 |     2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                                                       |
 |  +6.3% | +118.49ms | 19.6% → 19.9% |     1.88s → 1.99s |     758 → 821 |     2.5ms → 2.4ms | 137.9ms → 134.4ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
 |  +6.5% |  +92.22ms | 14.7% → 14.9% |     1.40s → 1.50s |     594 → 643 |     2.4ms → 2.3ms | 114.3ms → 112.0ms | `CGSCCToFunctionPassAdaptor`                                                                  |
 |  +4.6% |  +35.62ms |          8.1% | 781.7ms → 817.4ms |             6 | 130.3ms → 136.2ms | 515.2ms → 553.1ms | `ModuleToFunctionPassAdaptor`                                                                 |
@@ -439,14 +439,14 @@ Thread spans with the largest increase in time, including child spans. Categorie
 | -----: | --------: | ------------: | ----------------: | ------------: | ----------------: | ----------------: | --------------------------------------------------------------------------------------------- |
 |  +4.5% | +433.34ms |        100.0% |    9.61s → 10.04s |             1 |    9.61s → 10.04s |    9.61s → 10.04s | `ExecuteCompiler`                                                                             |
 |  +8.1% | +232.95ms | 30.1% → 31.1% |     2.89s → 3.12s |             2 |     1.44s → 1.56s |     2.69s → 2.90s | `Frontend`                                                                                    |
-|  +3.0% | +198.35ms | 69.7% → 68.7% |     6.70s → 6.90s |             1 |     6.70s → 6.90s |     6.70s → 6.90s | `Backend`                                                                                     |
+|  +3.0% | +198.36ms | 69.7% → 68.7% |     6.70s → 6.90s |             1 |     6.70s → 6.90s |     6.70s → 6.90s | `Backend`                                                                                     |
 | +14.1% | +183.13ms | 13.5% → 14.8% |     1.30s → 1.48s |             1 |     1.30s → 1.48s |     1.30s → 1.48s | `PerformPendingInstantiations`                                                                |
 | +14.8% | +182.07ms | 12.8% → 14.1% |     1.23s → 1.41s | 1,696 → 1,868 |     2.7ms → 2.9ms |   34.0ms → 36.8ms | `InstantiateFunction`                                                                         |
 |  +4.6% | +169.50ms |         38.5% |     3.70s → 3.87s |             1 |     3.70s → 3.87s |     3.70s → 3.87s | `Optimizer`                                                                                   |
-|  +5.9% | +149.38ms | 26.4% → 26.7% |     2.53s → 2.68s |             1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`                                                                    |
+|  +5.9% | +149.39ms | 26.4% → 26.7% |     2.53s → 2.68s |             1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`                                                                    |
 |  +6.0% | +149.17ms | 26.0% → 26.3% |     2.49s → 2.64s |             1 |     2.49s → 2.64s |     2.49s → 2.64s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
 |  +6.9% | +128.35ms | 19.3% → 19.7% |     1.85s → 1.97s |     799 → 869 |             2.3ms | 113.2ms → 110.2ms | `PassManager<Function>`                                                                       |
-|  +6.3% | +118.98ms | 19.6% → 20.0% |        1.88s → 2s |     759 → 821 |     2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                                                       |
+|  +6.3% | +118.99ms | 19.6% → 20.0% |        1.88s → 2s |     759 → 821 |     2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                                                       |
 |  +6.3% | +118.49ms | 19.6% → 19.9% |     1.88s → 1.99s |     758 → 821 |     2.5ms → 2.4ms | 137.9ms → 134.4ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
 |  +6.5% |  +92.22ms | 14.7% → 14.9% |     1.40s → 1.50s |     594 → 643 |     2.4ms → 2.3ms | 114.3ms → 112.0ms | `CGSCCToFunctionPassAdaptor`                                                                  |
 |  +4.6% |  +35.62ms |          8.1% | 781.7ms → 817.4ms |             6 | 130.3ms → 136.2ms | 515.2ms → 553.1ms | `ModuleToFunctionPassAdaptor`                                                                 |
@@ -471,21 +471,21 @@ Thread spans with the largest decrease in time, including child spans. Categorie
 
 |  Change |    Delta |            % |              Time |     Count |            Mean |             Max | Span                                                                                |
 | ------: | -------: | -----------: | ----------------: | --------: | --------------: | --------------: | ----------------------------------------------------------------------------------- |
-|  -28.6% | -11.49ms |  0.4% → 0.3% |   40.2ms → 28.7ms |         2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `GlobalDCEPass`                                                                     |
+|  -28.6% | -11.50ms |  0.4% → 0.3% |   40.2ms → 28.7ms |         2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `GlobalDCEPass`                                                                     |
 |   -2.9% |  -7.94ms |  2.8% → 2.6% | 273.1ms → 265.2ms | 143 → 145 |   1.9ms → 1.8ms | 11.3ms → 10.3ms | `ParseClass`                                                                        |
 |   -7.4% |  -6.39ms |  0.9% → 0.8% |   86.1ms → 79.7ms |         1 | 86.1ms → 79.7ms | 86.1ms → 79.7ms | `IPSCCPPass`                                                                        |
-|   -5.9% |  -5.95ms |  1.0% → 0.9% |  100.3ms → 94.4ms |         2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `GlobalOptPass`                                                                     |
+|   -5.9% |  -5.96ms |  1.0% → 0.9% |  100.3ms → 94.4ms |         2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `GlobalOptPass`                                                                     |
 |   -8.8% |  -1.81ms |         0.2% |   20.5ms → 18.7ms |   15 → 14 |   1.4ms → 1.3ms |   4.1ms → 4.3ms | `CorrelatedValuePropagationPass`                                                    |
 |   -5.1% |  -1.02ms |         0.2% |   20.2ms → 19.2ms |   19 → 16 |   1.1ms → 1.2ms |   2.5ms → 2.3ms | `SROAPass`                                                                          |
 |   -1.7% |  -1.00ms |         0.6% |   59.3ms → 58.3ms |        48 |           1.2ms |           4.5ms | `MemorySSAAnalysis`                                                                 |
 |   -2.5% |  -0.98ms |         0.4% |   39.6ms → 38.6ms |   35 → 36 |           1.1ms |   3.7ms → 3.5ms | `JumpThreadingPass`                                                                 |
-| removed |  -0.97ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 |     1.0ms → 0ms |     1.0ms → 0ms | `LoopDeletionPass`                                                                  |
+| removed |  -0.98ms | <0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 |     1.0ms → 0ms |     1.0ms → 0ms | `LoopDeletionPass`                                                                  |
 |   -7.5% |  -0.84ms |         0.1% |   11.2ms → 10.3ms |         1 | 11.2ms → 10.3ms | 11.2ms → 10.3ms | `ReversePostOrderFunctionAttrsPass`                                                 |
 |  -16.5% |  -0.77ms |        <0.1% |     4.7ms → 3.9ms |         3 |   1.6ms → 1.3ms |   2.0ms → 1.5ms | `InstSimplifyPass`                                                                  |
 |  -49.8% |  -0.62ms |        <0.1% |     1.3ms → 0.6ms |     2 → 1 |           0.6ms |   0.7ms → 0.6ms | `IndVarSimplifyPass`                                                                |
 |   -3.9% |  -0.56ms |         0.1% |   14.4ms → 13.8ms |        14 |           1.0ms |   1.9ms → 2.0ms | `BranchProbabilityAnalysis`                                                         |
 | removed |  -0.53ms | <0.1% → 0.0% |       0.5ms → 0ms |     1 → 0 |     0.5ms → 0ms |     0.5ms → 0ms | `EliminateAvailableExternallyPass`                                                  |
-|   -4.9% |  -0.47ms |         0.1% |     9.7ms → 9.2ms |         2 |   4.9ms → 4.6ms |   6.6ms → 6.5ms | `LazyCallGraphAnalysis`                                                             |
+|   -4.9% |  -0.48ms |         0.1% |     9.7ms → 9.2ms |         2 |   4.9ms → 4.6ms |   6.6ms → 6.5ms | `LazyCallGraphAnalysis`                                                             |
 |   -7.3% |  -0.46ms |         0.1% |     6.3ms → 5.8ms |         5 |   1.3ms → 1.2ms |   2.8ms → 2.2ms | `ReassociatePass`                                                                   |
 |  -31.8% |  -0.44ms |        <0.1% |     1.4ms → 1.0ms |     2 → 1 |   0.7ms → 1.0ms |   0.8ms → 1.0ms | `AAManager`                                                                         |
 |  -31.7% |  -0.44ms |        <0.1% |     1.4ms → 0.9ms |     2 → 1 |   0.7ms → 0.9ms |   0.8ms → 0.9ms | `BasicAA`                                                                           |
@@ -496,20 +496,20 @@ Thread spans with the largest decrease in time, including child spans. Categorie
 
 |  Change |    Delta |            % |             Time |   Count |            Mean |             Max | Span                                                                                |
 | ------: | -------: | -----------: | ---------------: | ------: | --------------: | --------------: | ----------------------------------------------------------------------------------- |
-|  -28.6% | -11.49ms |  0.4% → 0.3% |  40.2ms → 28.7ms |       2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `GlobalDCEPass`                                                                     |
+|  -28.6% | -11.50ms |  0.4% → 0.3% |  40.2ms → 28.7ms |       2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `GlobalDCEPass`                                                                     |
 |   -7.4% |  -6.39ms |  0.9% → 0.8% |  86.1ms → 79.7ms |       1 | 86.1ms → 79.7ms | 86.1ms → 79.7ms | `IPSCCPPass`                                                                        |
-|   -5.9% |  -5.95ms |  1.0% → 0.9% | 100.3ms → 94.4ms |       2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `GlobalOptPass`                                                                     |
+|   -5.9% |  -5.96ms |  1.0% → 0.9% | 100.3ms → 94.4ms |       2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `GlobalOptPass`                                                                     |
 |   -8.8% |  -1.81ms |         0.2% |  20.5ms → 18.7ms | 15 → 14 |   1.4ms → 1.3ms |   4.1ms → 4.3ms | `CorrelatedValuePropagationPass`                                                    |
 |   -5.1% |  -1.02ms |         0.2% |  20.2ms → 19.2ms | 19 → 16 |   1.1ms → 1.2ms |   2.5ms → 2.3ms | `SROAPass`                                                                          |
 |   -1.7% |  -1.00ms |         0.6% |  59.3ms → 58.3ms |      48 |           1.2ms |           4.5ms | `MemorySSAAnalysis`                                                                 |
 |   -2.5% |  -0.98ms |         0.4% |  39.6ms → 38.6ms | 35 → 36 |           1.1ms |   3.7ms → 3.5ms | `JumpThreadingPass`                                                                 |
-| removed |  -0.97ms | <0.1% → 0.0% |      1.0ms → 0ms |   1 → 0 |     1.0ms → 0ms |     1.0ms → 0ms | `LoopDeletionPass`                                                                  |
+| removed |  -0.98ms | <0.1% → 0.0% |      1.0ms → 0ms |   1 → 0 |     1.0ms → 0ms |     1.0ms → 0ms | `LoopDeletionPass`                                                                  |
 |   -7.5% |  -0.84ms |         0.1% |  11.2ms → 10.3ms |       1 | 11.2ms → 10.3ms | 11.2ms → 10.3ms | `ReversePostOrderFunctionAttrsPass`                                                 |
 |  -16.5% |  -0.77ms |        <0.1% |    4.7ms → 3.9ms |       3 |   1.6ms → 1.3ms |   2.0ms → 1.5ms | `InstSimplifyPass`                                                                  |
 |  -49.8% |  -0.62ms |        <0.1% |    1.3ms → 0.6ms |   2 → 1 |           0.6ms |   0.7ms → 0.6ms | `IndVarSimplifyPass`                                                                |
 |   -3.9% |  -0.56ms |         0.1% |  14.4ms → 13.8ms |      14 |           1.0ms |   1.9ms → 2.0ms | `BranchProbabilityAnalysis`                                                         |
 | removed |  -0.53ms | <0.1% → 0.0% |      0.5ms → 0ms |   1 → 0 |     0.5ms → 0ms |     0.5ms → 0ms | `EliminateAvailableExternallyPass`                                                  |
-|   -4.9% |  -0.47ms |         0.1% |    9.7ms → 9.2ms |       2 |   4.9ms → 4.6ms |   6.6ms → 6.5ms | `LazyCallGraphAnalysis`                                                             |
+|   -4.9% |  -0.48ms |         0.1% |    9.7ms → 9.2ms |       2 |   4.9ms → 4.6ms |   6.6ms → 6.5ms | `LazyCallGraphAnalysis`                                                             |
 |   -7.3% |  -0.46ms |         0.1% |    6.3ms → 5.8ms |       5 |   1.3ms → 1.2ms |   2.8ms → 2.2ms | `ReassociatePass`                                                                   |
 |  -31.8% |  -0.44ms |        <0.1% |    1.4ms → 1.0ms |   2 → 1 |   0.7ms → 1.0ms |   0.8ms → 1.0ms | `AAManager`                                                                         |
 |  -31.7% |  -0.44ms |        <0.1% |    1.4ms → 0.9ms |   2 → 1 |   0.7ms → 0.9ms |   0.8ms → 0.9ms | `BasicAA`                                                                           |
@@ -541,7 +541,7 @@ Attribute values with the largest change in contribution to each span's total ti
 
 | Change |     Delta |      % |          Time | Count |          Mean |           Max | Attribute | Value      |
 | -----: | --------: | -----: | ------------: | ----: | ------------: | ------------: | --------- | ---------- |
-|  +5.9% | +149.38ms | 100.0% | 2.53s → 2.68s |     1 | 2.53s → 2.68s | 2.53s → 2.68s | `detail`  | `[module]` |
+|  +5.9% | +149.39ms | 100.0% | 2.53s → 2.68s |     1 | 2.53s → 2.68s | 2.53s → 2.68s | `detail`  | `[module]` |
 
 ##### `ModuleToPostOrderCGSCCPassAdaptor`
 
@@ -612,7 +612,7 @@ Attribute values with the largest change in contribution to each span's total ti
 |     new | +39.79ms | 0.0% → 1.5% | 0ms → 39.8ms | 0 → 4 |  0ms → 9.9ms | 0ms → 25.4ms | `detail`  | `_ZN3fmt3v126detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi`                                                                                                         |
 | removed | -38.50ms | 1.5% → 0.0% | 38.5ms → 0ms | 3 → 0 | 12.8ms → 0ms | 26.0ms → 0ms | `detail`  | `_ZN3fmt3v116detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi`                                                                                                         |
 |     new | +25.93ms | 0.0% → 1.0% | 0ms → 25.9ms | 0 → 3 |  0ms → 8.6ms | 0ms → 20.4ms | `detail`  | `_ZN35format_test_debug_presentation_Test8TestBodyEv`                                                                                                                             |
-| removed | -14.80ms | 0.6% → 0.0% | 14.8ms → 0ms | 3 → 0 |  4.9ms → 0ms | 13.1ms → 0ms | `detail`  | `_ZN3fmt3v116formatIJNS0_6detail9named_argIciEES4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_EEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS0_7fstringIJDpT_EE1tEDpOSC_` |
+| removed | -14.81ms | 0.6% → 0.0% | 14.8ms → 0ms | 3 → 0 |  4.9ms → 0ms | 13.1ms → 0ms | `detail`  | `_ZN3fmt3v116formatIJNS0_6detail9named_argIciEES4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_S4_EEENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEENS0_7fstringIJDpT_EE1tEDpOSC_` |
 |     new | +13.81ms | 0.0% → 0.5% | 0ms → 13.8ms | 0 → 1 | 0ms → 13.8ms | 0ms → 13.8ms | `detail`  | `_ZN3fmt3v126detail11write_fixedIcNS1_14digit_groupingIcEENS0_14basic_appenderIcEENS1_9dragonbox10decimal_fpIdEEEET1_SA_RKT2_iT_RKNS0_12format_specsENS0_4signENS0_10locale_refE` |
 
 ##### `OptModule`
@@ -657,7 +657,7 @@ Attribute values with the largest change in contribution to each span's total ti
 | -----: | -------: | ------------: | ----------------: | --------: | ------------: | ----------------: | --------- | ------------------------------- |
 |  +1.8% | +14.29ms | 51.1% → 51.8% | 774.1ms → 788.3ms | 256 → 262 |         3.0ms | 103.8ms → 102.1ms | `detail`  | `AArch64 Instruction Selection` |
 | +18.6% |  +7.12ms |   2.5% → 3.0% |   38.4ms → 45.5ms |   33 → 39 |         1.2ms |     7.9ms → 9.1ms | `detail`  | `Loop Pass Manager`             |
-| +21.8% |  +6.89ms |   2.1% → 2.5% |   31.6ms → 38.5ms |   27 → 30 | 1.2ms → 1.3ms |     5.5ms → 6.2ms | `detail`  | `Memory SSA`                    |
+| +21.8% |  +6.89ms |   2.1% → 2.5% |   31.7ms → 38.5ms |   27 → 30 | 1.2ms → 1.3ms |     5.5ms → 6.2ms | `detail`  | `Memory SSA`                    |
 |  +4.9% |  +4.70ms |   6.4% → 6.6% |  96.4ms → 101.1ms |   50 → 52 |         1.9ms |   14.8ms → 14.9ms | `detail`  | `CodeGen Prepare`               |
 |  -9.3% |  -4.61ms |   3.3% → 3.0% |   49.7ms → 45.0ms |   27 → 26 | 1.8ms → 1.7ms |     9.8ms → 8.7ms | `detail`  | `Register Coalescer`            |
 
@@ -668,21 +668,21 @@ Attribute values with the largest change in contribution to each span's total ti
 | removed | -2.96ms | 1.2% → 0.0% |     3.0ms → 0ms | 2 → 0 |     1.5ms → 0ms |     2.4ms → 0ms | `detail`  | `(_ZN3fmt3v116detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi)` |
 |     new | +2.82ms | 0.0% → 1.1% |     0ms → 2.8ms | 0 → 1 |     0ms → 2.8ms |     0ms → 2.8ms | `detail`  | `(_ZN35format_test_debug_presentation_Test8TestBodyEv)`                     |
 |     new | +2.78ms | 0.0% → 1.1% |     0ms → 2.8ms | 0 → 2 |     0ms → 1.4ms |     0ms → 2.1ms | `detail`  | `(_ZN3fmt3v126detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi)` |
-|  +17.9% | +2.41ms | 5.7% → 6.4% | 13.5ms → 15.9ms |     1 | 13.5ms → 15.9ms | 13.5ms → 15.9ms | `detail`  | `(_ZN26format_test_precision_Test8TestBodyEv)`                              |
+|  +17.9% | +2.42ms | 5.7% → 6.4% | 13.5ms → 15.9ms |     1 | 13.5ms → 15.9ms | 13.5ms → 15.9ms | `detail`  | `(_ZN26format_test_precision_Test8TestBodyEv)`                              |
 |   -8.1% | -1.69ms | 8.8% → 7.8% | 21.0ms → 19.3ms |     1 | 21.0ms → 19.3ms | 21.0ms → 19.3ms | `detail`  | `(_GLOBAL__sub_I_format_test.cc)`                                           |
 
 ##### `GlobalDCEPass`
 
 | Change |    Delta |      % |            Time | Count |            Mean |             Max | Attribute | Value      |
 | -----: | -------: | -----: | --------------: | ----: | --------------: | --------------: | --------- | ---------- |
-| -28.6% | -11.49ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `detail`  | `[module]` |
+| -28.6% | -11.50ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `detail`  | `[module]` |
 
 ##### `ParseClass`
 
 |  Change |   Delta |           % |            Time | Count |          Mean |            Max | Attribute | Value                          |
 | ------: | ------: | ----------: | --------------: | ----: | ------------: | -------------: | --------- | ------------------------------ |
 | removed | -2.79ms | 1.0% → 0.0% |     2.8ms → 0ms | 1 → 0 |   2.8ms → 0ms |    2.8ms → 0ms | `detail`  | `std::basic_ostream`           |
-|  +18.5% | +2.77ms | 5.5% → 6.7% | 15.0ms → 17.8ms | 5 → 6 |         3.0ms | 8.4ms → 10.2ms | `detail`  | `fmt::formatter`               |
+|  +18.5% | +2.78ms | 5.5% → 6.7% | 15.0ms → 17.8ms | 5 → 6 |         3.0ms | 8.4ms → 10.2ms | `detail`  | `fmt::formatter`               |
 |  +34.1% | +2.19ms | 2.3% → 3.2% |   6.4ms → 8.6ms |     1 | 6.4ms → 8.6ms |  6.4ms → 8.6ms | `detail`  | `testing::Test`                |
 | +235.8% | +2.13ms | 0.3% → 1.1% |   0.9ms → 3.0ms |     1 | 0.9ms → 3.0ms |  0.9ms → 3.0ms | `detail`  | `testing::internal::MutexBase` |
 |  +37.6% | +2.00ms | 1.9% → 2.8% |   5.3ms → 7.3ms |     1 | 5.3ms → 7.3ms |  5.3ms → 7.3ms | `detail`  | `std::chrono::system_clock`    |
@@ -697,7 +697,7 @@ Attribute values with the largest change in contribution to each span's total ti
 
 | Change |   Delta |      % |             Time | Count |            Mean |             Max | Attribute | Value      |
 | -----: | ------: | -----: | ---------------: | ----: | --------------: | --------------: | --------- | ---------- |
-|  -5.9% | -5.95ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `detail`  | `[module]` |
+|  -5.9% | -5.96ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `detail`  | `[module]` |
 
 ##### `CorrelatedValuePropagationPass`
 
@@ -705,7 +705,7 @@ Attribute values with the largest change in contribution to each span's total ti
 | ------: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------- | ------------------------------------------------------------------------- |
 | removed | -1.21ms |   5.9% → 0.0% |   1.2ms → 0ms | 2 → 0 |   0.6ms → 0ms |   0.7ms → 0ms | `detail`  | `_ZN3fmt3v116detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi` |
 |     new | +1.11ms |   0.0% → 5.9% |   0ms → 1.1ms | 0 → 2 |   0ms → 0.6ms |   0ms → 0.6ms | `detail`  | `_ZN3fmt3v126detail13format_dragonENS1_8basic_fpIoEEjiRNS1_6bufferIcEERi` |
-|  -25.9% | -0.56ms |  10.5% → 8.5% | 2.1ms → 1.6ms |     2 | 1.1ms → 0.8ms | 1.3ms → 0.9ms | `detail`  | `_ZN30format_test_runtime_width_Test8TestBodyEv`                          |
+|  -25.9% | -0.56ms |  10.5% → 8.5% | 2.2ms → 1.6ms |     2 | 1.1ms → 0.8ms | 1.3ms → 0.9ms | `detail`  | `_ZN30format_test_runtime_width_Test8TestBodyEv`                          |
 | removed | -0.51ms |   2.5% → 0.0% |   0.5ms → 0ms | 1 → 0 |   0.5ms → 0ms |   0.5ms → 0ms | `detail`  | `_ZN22format_test_width_Test8TestBodyEv`                                  |
 |  -14.5% | -0.41ms | 13.9% → 13.0% | 2.8ms → 2.4ms |     2 | 1.4ms → 1.2ms | 1.7ms → 1.3ms | `detail`  | `_ZN34format_test_runtime_precision_Test8TestBodyEv`                      |
 
@@ -743,7 +743,7 @@ Attribute values with the largest change in contribution to each span's total ti
 
 |  Change |   Delta |             % |        Time | Count |        Mean |         Max | Attribute | Value                                                                                                                                            |
 | ------: | ------: | ------------: | ----------: | ----: | ----------: | ----------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| removed | -0.97ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `detail`  | `loop %<unnamed loop> in function _ZN3fmt3v116detail9write_intIcNS0_14basic_appenderIcEEjEET0_S5_NS1_13write_int_argIT1_EERKNS0_12format_specsE` |
+| removed | -0.98ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `detail`  | `loop %<unnamed loop> in function _ZN3fmt3v116detail9write_intIcNS0_14basic_appenderIcEEjEET0_S5_NS1_13write_int_argIT1_EERKNS0_12format_specsE` |
 
 ##### `ReversePostOrderFunctionAttrsPass`
 
@@ -756,7 +756,7 @@ Attribute values with the largest change in contribution to each span's total ti
 | Change |   Delta |             % |          Time | Count |          Mean |           Max | Attribute | Value                                                |
 | -----: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------- | ---------------------------------------------------- |
 | -24.5% | -0.49ms | 43.1% → 38.9% | 2.0ms → 1.5ms |     1 | 2.0ms → 1.5ms | 2.0ms → 1.5ms | `detail`  | `_ZN26format_test_precision_Test8TestBodyEv`         |
-| -12.3% | -0.20ms | 35.6% → 37.4% | 1.7ms → 1.5ms |     1 | 1.7ms → 1.5ms | 1.7ms → 1.5ms | `detail`  | `_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| -12.3% | -0.21ms | 35.6% → 37.4% | 1.7ms → 1.5ms |     1 | 1.7ms → 1.5ms | 1.7ms → 1.5ms | `detail`  | `_ZN34format_test_runtime_precision_Test8TestBodyEv` |
 |  -7.2% | -0.07ms | 21.3% → 23.6% | 1.0ms → 0.9ms |     1 | 1.0ms → 0.9ms | 1.0ms → 0.9ms | `detail`  | `_GLOBAL__sub_I_format_test.cc`                      |
 
 ##### `IndVarSimplifyPass`
@@ -787,13 +787,13 @@ Attribute values with the largest change in contribution to each span's total ti
 
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Attribute | Value      |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | --------- | ---------- |
-|  -4.9% | -0.47ms | 100.0% | 9.7ms → 9.2ms |     2 | 4.9ms → 4.6ms | 6.6ms → 6.5ms | `detail`  | `[module]` |
+|  -4.9% | -0.48ms | 100.0% | 9.7ms → 9.2ms |     2 | 4.9ms → 4.6ms | 6.6ms → 6.5ms | `detail`  | `[module]` |
 
 ##### `ReassociatePass`
 
 | Change |   Delta |             % |          Time | Count |          Mean |           Max | Attribute | Value                                                |
 | -----: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------- | ---------------------------------------------------- |
-| -20.8% | -0.57ms | 44.1% → 37.7% | 2.8ms → 2.2ms |     1 | 2.8ms → 2.2ms | 2.8ms → 2.2ms | `detail`  | `_GLOBAL__sub_I_format_test.cc`                      |
+| -20.8% | -0.58ms | 44.1% → 37.7% | 2.8ms → 2.2ms |     1 | 2.8ms → 2.2ms | 2.8ms → 2.2ms | `detail`  | `_GLOBAL__sub_I_format_test.cc`                      |
 | +11.8% | +0.13ms | 17.4% → 21.0% | 1.1ms → 1.2ms |     1 | 1.1ms → 1.2ms | 1.1ms → 1.2ms | `detail`  | `_ZN26format_test_precision_Test8TestBodyEv`         |
 |  -1.2% | -0.01ms | 16.1% → 17.2% |         1.0ms |     1 |         1.0ms |         1.0ms | `detail`  | `_ZN34format_test_runtime_precision_Test8TestBodyEv` |
 |  -0.1% | -1.00µs | 10.9% → 11.7% |         0.7ms |     1 |         0.7ms |         0.7ms | `detail`  | `_ZN26format_test_hash_flag_Test8TestBodyEv`         |
@@ -849,7 +849,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |      % |          Time | Count |          Mean |           Max | Parent            |
 | -----: | --------: | -----: | ------------: | ----: | ------------: | ------------: | ----------------- |
-|  +3.0% | +198.35ms | 100.0% | 6.70s → 6.90s |     1 | 6.70s → 6.90s | 6.70s → 6.90s | `ExecuteCompiler` |
+|  +3.0% | +198.36ms | 100.0% | 6.70s → 6.90s |     1 | 6.70s → 6.90s | 6.70s → 6.90s | `ExecuteCompiler` |
 
 ##### `PerformPendingInstantiations`
 
@@ -877,7 +877,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |      % |          Time | Count |          Mean |           Max | Parent      |
 | -----: | --------: | -----: | ------------: | ----: | ------------: | ------------: | ----------- |
-|  +5.9% | +149.38ms | 100.0% | 2.53s → 2.68s |     1 | 2.53s → 2.68s | 2.53s → 2.68s | `Optimizer` |
+|  +5.9% | +149.39ms | 100.0% | 2.53s → 2.68s |     1 | 2.53s → 2.68s | 2.53s → 2.68s | `Optimizer` |
 
 ##### `ModuleToPostOrderCGSCCPassAdaptor`
 
@@ -897,7 +897,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |      % |       Time |     Count |          Mean |               Max | Parent                              |
 | -----: | --------: | -----: | ---------: | --------: | ------------: | ----------------: | ----------------------------------- |
-|  +6.3% | +118.98ms | 100.0% | 1.88s → 2s | 759 → 821 | 2.5ms → 2.4ms | 138.0ms → 134.6ms | `ModuleToPostOrderCGSCCPassAdaptor` |
+|  +6.3% | +118.99ms | 100.0% | 1.88s → 2s | 759 → 821 | 2.5ms → 2.4ms | 138.0ms → 134.6ms | `ModuleToPostOrderCGSCCPassAdaptor` |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
@@ -982,7 +982,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |    Delta |      % |            Time | Count |            Mean |             Max | Parent      |
 | -----: | -------: | -----: | --------------: | ----: | --------------: | --------------: | ----------- |
-| -28.6% | -11.49ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `Optimizer` |
+| -28.6% | -11.50ms | 100.0% | 40.2ms → 28.7ms |     2 | 20.1ms → 14.3ms | 25.3ms → 16.8ms | `Optimizer` |
 
 ##### `ParseClass`
 
@@ -1001,7 +1001,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |   Delta |      % |             Time | Count |            Mean |             Max | Parent      |
 | -----: | ------: | -----: | ---------------: | ----: | --------------: | --------------: | ----------- |
-|  -5.9% | -5.95ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `Optimizer` |
+|  -5.9% | -5.96ms | 100.0% | 100.3ms → 94.4ms |     2 | 50.2ms → 47.2ms | 71.9ms → 65.5ms | `Optimizer` |
 
 ##### `CorrelatedValuePropagationPass`
 
@@ -1033,7 +1033,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 |  Change |   Delta |             % |        Time | Count |        Mean |         Max | Parent                                                                                |
 | ------: | ------: | ------------: | ----------: | ----: | ----------: | ----------: | ------------------------------------------------------------------------------------- |
-| removed | -0.97ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>` |
+| removed | -0.98ms | 100.0% → 0.0% | 1.0ms → 0ms | 1 → 0 | 1.0ms → 0ms | 1.0ms → 0ms | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>` |
 
 ##### `ReversePostOrderFunctionAttrsPass`
 
@@ -1070,7 +1070,7 @@ Parent spans with the largest change in contribution to each span's total time.
 | Change |   Delta |             % |          Time | Count |          Mean |           Max | Parent                                                    |
 | -----: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------------------------------------------------------- |
 | -11.1% | -0.34ms | 31.7% → 29.6% | 3.1ms → 2.7ms |     1 | 3.1ms → 2.7ms | 3.1ms → 2.7ms | `ReversePostOrderFunctionAttrsPass`                       |
-|  -2.0% | -0.13ms | 68.3% → 70.4% | 6.6ms → 6.5ms |     1 | 6.6ms → 6.5ms | 6.6ms → 6.5ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
+|  -2.0% | -0.14ms | 68.3% → 70.4% | 6.6ms → 6.5ms |     1 | 6.6ms → 6.5ms | 6.6ms → 6.5ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
 
 ##### `ReassociatePass`
 
@@ -1117,7 +1117,7 @@ Child spans with the largest change in contribution to each span's total time.
 | Change |     Delta |             % |          Time | Count |          Mean |           Max | Child      |
 | -----: | --------: | ------------: | ------------: | ----: | ------------: | ------------: | ---------- |
 |  +8.1% | +232.95ms | 30.1% → 31.1% | 2.89s → 3.12s |     2 | 1.44s → 1.56s | 2.69s → 2.90s | `Frontend` |
-|  +3.0% | +198.35ms | 69.7% → 68.7% | 6.70s → 6.90s |     1 | 6.70s → 6.90s | 6.70s → 6.90s | `Backend`  |
+|  +3.0% | +198.36ms | 69.7% → 68.7% | 6.70s → 6.90s |     1 | 6.70s → 6.90s | 6.70s → 6.90s | `Backend`  |
 
 ##### `Frontend`
 
@@ -1153,9 +1153,9 @@ Child spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |             % |              Time | Count |              Mean |               Max | Child                         |
 | -----: | --------: | ------------: | ----------------: | ----: | ----------------: | ----------------: | ----------------------------- |
-|  +5.9% | +149.38ms | 68.4% → 69.3% |     2.53s → 2.68s |     1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`    |
+|  +5.9% | +149.39ms | 68.4% → 69.3% |     2.53s → 2.68s |     1 |     2.53s → 2.68s |     2.53s → 2.68s | `ModuleInlinerWrapperPass`    |
 |  +4.6% |  +35.11ms |         20.8% | 771.1ms → 806.2ms |     4 | 192.8ms → 201.6ms | 515.2ms → 553.1ms | `ModuleToFunctionPassAdaptor` |
-| -28.6% |  -11.49ms |   1.1% → 0.7% |   40.2ms → 28.7ms |     2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`               |
+| -28.6% |  -11.50ms |   1.1% → 0.7% |   40.2ms → 28.7ms |     2 |   20.1ms → 14.3ms |   25.3ms → 16.8ms | `GlobalDCEPass`               |
 |  -7.4% |   -6.39ms |   2.3% → 2.1% |   86.1ms → 79.7ms |     1 |   86.1ms → 79.7ms |   86.1ms → 79.7ms | `IPSCCPPass`                  |
 | +19.9% |   +5.97ms |   0.8% → 0.9% |   30.0ms → 35.9ms |     1 |   30.0ms → 35.9ms |   30.0ms → 35.9ms | `DeadArgumentEliminationPass` |
 
@@ -1171,7 +1171,7 @@ Child spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |             % |          Time |     Count |          Mean |               Max | Child                                                     |
 | -----: | --------: | ------------: | ------------: | --------: | ------------: | ----------------: | --------------------------------------------------------- |
-|  +6.3% | +118.98ms | 75.6% → 75.8% |    1.88s → 2s | 759 → 821 | 2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                   |
+|  +6.3% | +118.99ms | 75.6% → 75.8% |    1.88s → 2s | 759 → 821 | 2.5ms → 2.4ms | 138.0ms → 134.6ms | `DevirtSCCRepeatedPass`                                   |
 |  -2.0% |   -0.13ms |   0.3% → 0.2% | 6.6ms → 6.5ms |         1 | 6.6ms → 6.5ms |     6.6ms → 6.5ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
 
 ##### `PassManager<Function>`
@@ -1180,9 +1180,9 @@ Child spans with the largest change in contribution to each span's total time.
 | -----: | ------: | ------------: | ----------------: | --------: | ------------: | --------------: | --------------------------- |
 |  +7.2% | +7.20ms |          5.4% |  99.6ms → 106.8ms |   56 → 59 |         1.8ms | 10.7ms → 11.4ms | `GVNPass`                   |
 |  +1.1% | +3.52ms | 17.1% → 16.2% | 316.5ms → 320.0ms | 250 → 251 |         1.3ms |   9.0ms → 8.2ms | `InstCombinePass`           |
-|  +4.1% | +2.73ms |   3.6% → 3.5% |   66.7ms → 69.4ms |   42 → 48 | 1.6ms → 1.4ms | 16.6ms → 16.5ms | `DSEPass`                   |
+|  +4.1% | +2.74ms |   3.6% → 3.5% |   66.7ms → 69.4ms |   42 → 48 | 1.6ms → 1.4ms | 16.6ms → 16.5ms | `DSEPass`                   |
 |  +5.6% | +2.47ms |          2.4% |   44.3ms → 46.8ms |        36 | 1.2ms → 1.3ms |   4.6ms → 5.5ms | `FunctionToLoopPassAdaptor` |
-|  +8.9% | +1.95ms |          1.2% |   22.0ms → 23.9ms |   17 → 20 | 1.3ms → 1.2ms |   4.3ms → 4.9ms | `ADCEPass`                  |
+|  +8.9% | +1.96ms |          1.2% |   22.0ms → 23.9ms |   17 → 20 | 1.3ms → 1.2ms |   4.3ms → 4.9ms | `ADCEPass`                  |
 
 ##### `DevirtSCCRepeatedPass`
 

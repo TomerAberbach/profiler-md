@@ -109,7 +109,7 @@ describe(`matchEntry`, () => {
         ),
         `jdk`,
       ),
-    ).toEqual({ location: `JavaKMeans$$Lambda` })
+    ).toStrictEqual({ location: `JavaKMeans$$Lambda` })
   })
 
   test(`strips a hidden class's runtime address from a heap dump's name`, () => {
@@ -118,7 +118,7 @@ describe(`matchEntry`, () => {
         logicalEntry(`JavaKMeans$$Lambda+0x000000b801205218`),
         `jdk`,
       ),
-    ).toEqual({ name: `JavaKMeans$$Lambda` })
+    ).toStrictEqual({ name: `JavaKMeans$$Lambda` })
   })
 
   test.each([
@@ -141,7 +141,7 @@ describe(`matchEntry`, () => {
 
       const match = matchEntryForOrigin(entry, `jdk`)
 
-      expect(match).toEqual({ location: expected })
+      expect(match).toStrictEqual({ location: expected })
     },
   )
 
@@ -154,12 +154,12 @@ describe(`matchEntry`, () => {
         ),
         `jdk`,
       ),
-    ).toEqual({ location: `jansi-2.4.0-libjansi.jnilib` })
+    ).toStrictEqual({ location: `jansi-2.4.0-libjansi.jnilib` })
   })
 
   test(`strips an adapter runtime address from the name`, () => {
     expect(
       matchEntryForOrigin(logicalEntry(`I2C/C2I adapters(0xba)`), `jdk`),
-    ).toEqual({ name: `I2C/C2I adapters` })
+    ).toStrictEqual({ name: `I2C/C2I adapters` })
   })
 })

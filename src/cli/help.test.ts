@@ -80,7 +80,7 @@ test.each([80, 120])(`getHelpText fits every line in %d columns`, columns => {
     .split(`\n`)
     .filter(line => line.length > columns)
 
-  expect(longLines).toEqual([])
+  expect(longLines).toStrictEqual([])
 })
 
 test(`getHelpText opens with the description, synopsis, and examples`, () => {
@@ -138,13 +138,13 @@ test(`getSections keeps every option in a titled section`, () => {
       .filter(section => section.title === undefined)
       .flatMap(section => section.entries)
       .filter(entry => entry.term.type === `option`),
-  ).toEqual([])
+  ).toStrictEqual([])
   expect(
     sections
       .filter(section => section.title !== undefined)
       .flatMap(section => section.entries)
       .flatMap(entry => (entry.term.type === `option` ? entry.term.names : [])),
-  ).toEqual(expect.arrayContaining([`--version`, `--completion`]))
+  ).toStrictEqual(expect.arrayContaining([`--version`, `--completion`]))
 })
 
 test(`getBriefHelpText has the examples and points at the full help`, () => {
@@ -157,5 +157,5 @@ test(`getBriefHelpText has the examples and points at the full help`, () => {
   expect(brief).toContain(`\nExamples:\n`)
   expect(brief).not.toContain(`\nOutput:\n`)
   expect(brief).toContain(`Run \`profiler-md --help\` for every flag`)
-  expect(brief.split(`\n`).filter(line => line.length > 80)).toEqual([])
+  expect(brief.split(`\n`).filter(line => line.length > 80)).toStrictEqual([])
 })

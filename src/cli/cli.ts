@@ -40,6 +40,8 @@ export type RegexCategory = readonly [RegExp, FunctionCategory]
 const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
   mode: `sync`,
   metavar: `REGEX=CATEGORY`,
+  // The regex `new RegExp(``)` builds, which matches anything.
+  // eslint-disable-next-line regexp/no-empty-group
   placeholder: [/(?:)/u, `ours`],
   parse: input => {
     const index = input.lastIndexOf(`=`)
@@ -76,6 +78,8 @@ export type RegexReplacement = readonly [RegExp, string]
 const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   mode: `sync`,
   metavar: `REGEX=REPLACEMENT`,
+  // The regex `new RegExp(``)` builds, which matches anything.
+  // eslint-disable-next-line regexp/no-empty-group
   placeholder: [/(?:)/u, ``],
   parse: input => {
     const index = input.indexOf(`=`)
@@ -287,7 +291,7 @@ const diffingFlags = object(`Diffing`, {
   ),
 })
 
-const languageIds = [...languages.entries()].flatMap(([id, { aliases }]) => [
+const languageIds = [...languages].flatMap(([id, { aliases }]) => [
   id,
   ...(aliases?.map(alias => alias.id) ?? []),
 ])

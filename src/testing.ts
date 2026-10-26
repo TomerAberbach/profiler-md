@@ -83,7 +83,7 @@ export const openingParagraphs = (md: string, heading: string): string[] => {
     return node.type === `heading` &&
       nodeText(node) === heading &&
       next?.type === `paragraph`
-      ? [mdastToMarkdown([next]).trimEnd()]
+      ? mdastToMarkdown([next]).trimEnd()
       : []
   })
 }

@@ -71,7 +71,7 @@ describe(`nativeMatchEntry on Zig names`, () => {
     (_description, name, expected) => {
       expect(
         nativeMatchEntry(relativeEntry(name, `/opt/zig/lib/std/mem.zig`)),
-      ).toEqual({ name: expected })
+      ).toStrictEqual({ name: expected })
     },
   )
 

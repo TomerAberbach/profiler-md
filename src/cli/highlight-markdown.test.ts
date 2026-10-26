@@ -14,7 +14,7 @@ import type { HighlightMarkdownOptions } from './highlight-markdown.ts'
 
 beforeAll(async () => {
   vi.stubEnv(`FORCE_COLOR`, `3`)
-  await highlight(`warmup`, highlightMarkdownOptions)
+  await highlight(`warmup`)
   vi.unstubAllEnvs()
 })
 
@@ -24,22 +24,19 @@ describe(`ANSI rendering`, () => {
   beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
 
   test(`plain text is wrapped in foreground color tags`, async () => {
-    const highlighted = await highlight(`hello`, highlightMarkdownOptions)
+    const highlighted = await highlight(`hello`)
 
     expect(highlighted).toMatch(/<fg:\d+,\d+,\d+>hello<\/fg>/u)
   })
 
   test(`two input lines produce exactly one newline in output`, async () => {
-    const highlighted = await highlight(
-      `line one\nline two`,
-      highlightMarkdownOptions,
-    )
+    const highlighted = await highlight(`line one\nline two`)
 
     expect(highlighted.split(`\n`)).toHaveLength(2)
   })
 
   test(`empty string produces empty output`, async () => {
-    const highlighted = await highlight(``, highlightMarkdownOptions)
+    const highlighted = await highlight(``)
 
     expect(highlighted).toBe(``)
   })
@@ -49,7 +46,7 @@ describe(`markdown syntax highlighting`, () => {
   beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
 
   test(`headings are highlighted`, async () => {
-    const highlighted = await highlight(`# Hello`, highlightMarkdownOptions)
+    const highlighted = await highlight(`# Hello`)
 
     expect(highlighted).toMatchInlineSnapshot(
       `"<bold><fg:122,101,53>#</fg></bold><bold><fg:219,188,127> Hello</fg></bold>"`,
@@ -57,10 +54,7 @@ describe(`markdown syntax highlighting`, () => {
   })
 
   test(`inline code is highlighted`, async () => {
-    const highlighted = await highlight(
-      `some \`code\` here`,
-      highlightMarkdownOptions,
-    )
+    const highlighted = await highlight(`some \`code\` here`)
 
     expect(highlighted).toMatchInlineSnapshot(
       `"<fg:211,198,170>some </fg><fg:219,188,127>\`</fg><fg:203,157,104>code</fg><fg:219,188,127>\`</fg><fg:211,198,170> here</fg>"`,
@@ -68,13 +62,13 @@ describe(`markdown syntax highlighting`, () => {
   })
 
   test(`bold text applies bold style`, async () => {
-    const highlighted = await highlight(`**text**`, highlightMarkdownOptions)
+    const highlighted = await highlight(`**text**`)
 
     expect(highlighted).toMatch(/^<bold>.*text.*<\/bold>$/u)
   })
 
   test(`italic text applies italic style`, async () => {
-    const highlighted = await highlight(`*text*`, highlightMarkdownOptions)
+    const highlighted = await highlight(`*text*`)
 
     expect(highlighted).toMatch(/^<italic>.*text.*<\/italic>$/u)
   })
@@ -90,7 +84,7 @@ describe(`heat intensity`, () => {
       `| foo  | bar   |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
   })
@@ -105,7 +99,7 @@ describe(`heat intensity`, () => {
       `| \`low\`  | 10%  | b.ts     |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     // Heading has no heat.
     expect(maxRed(highlighted, 0)).toBe(defaultHeadingRed)
@@ -132,7 +126,7 @@ describe(`heat intensity`, () => {
     test(`H5 with matching backtick name and (location) is heat-tinted`, async () => {
       const markdown = `${baseMarkdown}\n##### \`high\` (a.ts)`
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       // H5 heading inherits intensity 1 from the table.
       expect(maxRed(highlighted, 6)).toBe(246)
@@ -141,7 +135,7 @@ describe(`heat intensity`, () => {
     test(`H5 without inline code gets no intensity`, async () => {
       const markdown = `${baseMarkdown}\n##### Plain heading (a.ts)`
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
     })
@@ -149,7 +143,7 @@ describe(`heat intensity`, () => {
     test(`H5 with inline code but missing parens gets no intensity`, async () => {
       const markdown = `${baseMarkdown}\n##### \`high\` a.ts`
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
     })
@@ -157,7 +151,7 @@ describe(`heat intensity`, () => {
     test(`H5 with inline code not in table gets no intensity`, async () => {
       const markdown = `${baseMarkdown}\n##### \`missing\` (x.ts)`
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
     })
@@ -180,7 +174,7 @@ describe(`heat intensity`, () => {
       `| y     | 10%  |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     // 100% row.
     expect(maxRed(highlighted, 10)).toBe(240)
@@ -202,7 +196,7 @@ describe(`heat intensity`, () => {
         `##### \`func\` (a.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 8)).toBe(defaultHeadingRed)
     })
@@ -220,7 +214,7 @@ describe(`heat intensity`, () => {
         `##### \`func\` (a.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 8)).toBe(defaultHeadingRed)
     })
@@ -238,7 +232,7 @@ describe(`heat intensity`, () => {
         `##### \`func\` (a.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 8)).toBe(defaultHeadingRed)
     })
@@ -260,7 +254,7 @@ describe(`heat intensity`, () => {
         `##### \`func\` (a.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 12)).toBe(246)
     })
@@ -288,7 +282,7 @@ describe(`heat intensity`, () => {
         `##### \`func\` (a.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 18)).toBe(defaultHeadingRed)
     })
@@ -308,7 +302,7 @@ describe(`heat intensity`, () => {
         `##### \`second\` (b.ts)`,
       ].join(`\n`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, 10)).toBe(246)
     })
@@ -323,7 +317,7 @@ describe(`heat intensity`, () => {
       `| foo  | 80%  |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 4)).toBe(241)
   })
@@ -337,7 +331,7 @@ describe(`heat intensity`, () => {
       `| foo  | abc% | a.ts     |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
   })
@@ -351,7 +345,7 @@ describe(`heat intensity`, () => {
       `| foo  | 0%  | a.ts     |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
   })
@@ -365,7 +359,7 @@ describe(`heat intensity`, () => {
       `| foo  | 3.5% | a.ts     |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 4)).toBe(217)
   })
@@ -388,7 +382,6 @@ describe(`diff table intensity`, () => {
   test(`header and separator rows are untinted`, async () => {
     const highlighted = await highlight(
       diffTable([`| +50.0%  |   +1ms  | 0.2% → 0.3% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 0)).toBe(defaultRowRed)
@@ -402,7 +395,6 @@ describe(`diff table intensity`, () => {
         `| +100.0% |  +16ms  | 1.6% → 3.2% |`,
         `| +100.0% |   +4ms  | 0.4% → 0.8% |`,
       ]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 2)).toBe(215)
@@ -415,7 +407,6 @@ describe(`diff table intensity`, () => {
         `| -50.0%  |  -16ms  | 3.2% → 1.6% |`,
         `| -50.0%  |   -4ms  | 0.8% → 0.4% |`,
       ]),
-      highlightMarkdownOptions,
     )
 
     expect(maxGreen(highlighted, 2)).toBe(203)
@@ -426,7 +417,6 @@ describe(`diff table intensity`, () => {
     // -250ms of a 500ms total: half the profile improved.
     const highlighted = await highlight(
       diffTable([`| -50.0%  | -250ms  | 100.0% → 50.0% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxGreen(highlighted, 2)).toBe(228)
@@ -438,7 +428,6 @@ describe(`diff table intensity`, () => {
         `| new     |   +4ms  | 0.0% → 0.4% |`,
         `| removed |  -16ms  | 1.6% → 0.0% |`,
       ]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 2)).toBe(213)
@@ -448,7 +437,6 @@ describe(`diff table intensity`, () => {
   test(`a single-value % cell provides the base share`, async () => {
     const highlighted = await highlight(
       diffTable([`| -3.4%   | -44.00ms | 99.5%      |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxGreen(highlighted, 2)).toBe(206)
@@ -467,7 +455,6 @@ describe(`diff table intensity`, () => {
           `| +100.0% | ${larger} | 25.0% → 50.0% |`,
           `| +100.0% | ${smaller} | 6.3% → 12.5% |`,
         ]),
-        highlightMarkdownOptions,
       )
 
       expect(maxRed(highlighted, 2)).toBe(228)
@@ -481,7 +468,6 @@ describe(`diff table intensity`, () => {
         `| +100.0% |  +16ms  | 1.6% → 3.2% |`,
         `| —       |   0ms   | 0.8% → 0.8% |`,
       ]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 3)).toBe(defaultRowRed)
@@ -491,7 +477,6 @@ describe(`diff table intensity`, () => {
   test(`table with only unchanged rows is untinted`, async () => {
     const highlighted = await highlight(
       diffTable([`| —       |   0ms   | 0.8% → 0.8% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
@@ -503,7 +488,6 @@ describe(`diff table intensity`, () => {
     // total estimate.
     const highlighted = await highlight(
       diffTable([`| new     |   +1ms  | 0.0% → <0.1% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
@@ -518,7 +502,6 @@ describe(`diff table intensity`, () => {
     // regressions, and a regression is red however its delta is signed.
     const highlighted = await highlight(
       rankingSection(`Regressions`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 4)).toBe(215)
@@ -527,7 +510,6 @@ describe(`diff table intensity`, () => {
   test(`an increase under Improvements is green-tinted`, async () => {
     const highlighted = await highlight(
       rankingSection(`Improvements`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
-      highlightMarkdownOptions,
     )
 
     expect(maxGreen(highlighted, 4)).toBe(203)
@@ -541,7 +523,6 @@ describe(`diff table intensity`, () => {
         rankingSection(`Increases`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
         rankingSection(`Decreases`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
       ].join(`\n\n`),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
@@ -559,7 +540,6 @@ describe(`diff table intensity`, () => {
         ``,
         rankingSection(`Increases`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
       ].join(`\n`),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
@@ -577,7 +557,6 @@ describe(`diff table intensity`, () => {
         ``,
         rankingSection(`Regressions`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
       ].join(`\n`),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 4)).toBe(215)
@@ -598,7 +577,6 @@ describe(`diff table intensity`, () => {
         ``,
         rankingSection(`Regressions`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
       ].join(`\n`),
-      highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 4)).toBe(215)
@@ -614,7 +592,6 @@ describe(`diff table intensity`, () => {
         ``,
         `No function differed in time spent.`,
       ].join(`\n`),
-      highlightMarkdownOptions,
     )
 
     expect(maxGreen(highlighted, 4)).toBe(203)
@@ -641,7 +618,7 @@ describe(`diff table intensity`, () => {
       `| new    | +10ms | 0.0% → 100.0% | \`a.ts:6\` |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 14)).toBe(maxRed(highlighted, 6))
   })
@@ -657,7 +634,7 @@ describe(`diff table intensity`, () => {
       `##### \`func\` (a.ts)`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
   })
@@ -675,7 +652,7 @@ describe(`Markdown escaping resilience`, () => {
       `| \`a\\|b\` | 100% | \`x.ts\` |`,
     ].join(`\n`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, 4)).toBe(246)
   })
@@ -683,7 +660,7 @@ describe(`Markdown escaping resilience`, () => {
   test(`H5 with raw pipe matches a table name cell with an escaped pipe`, async () => {
     const markdown = functionDocument(`a|b`, `x.ts`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
   })
@@ -691,7 +668,7 @@ describe(`Markdown escaping resilience`, () => {
   test(`H5 with a code span location matches a code span Location cell`, async () => {
     const markdown = functionDocument(`f`, `a.ts`)
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
   })
@@ -706,7 +683,7 @@ describe(`Markdown escaping resilience`, () => {
       ),
     ])
 
-    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+    const highlighted = await highlight(markdown)
 
     const rowIndex = markdown
       .split(`\n`)
@@ -722,7 +699,7 @@ describe(`Markdown escaping resilience`, () => {
     async ({ name }) => {
       const markdown = functionDocument(name, `x.ts`)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
     },
@@ -759,20 +736,18 @@ describe(`Markdown escaping resilience`, () => {
     async (name, location) => {
       const markdown = functionDocument(name, location)
 
-      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+      const highlighted = await highlight(markdown)
 
       expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
     },
   )
 })
 
-const highlight = async (
-  markdown: string,
-  options: HighlightMarkdownOptions,
-): Promise<string> => formatAnsi(await highlightMarkdown(markdown, options))
+const highlight = async (markdown: string): Promise<string> =>
+  formatAnsi(await highlightMarkdown(markdown, highlightMarkdownOptions))
 
 const formatAnsi = (output: string): string =>
-  output.replaceAll(/\x1B\[(?<code>[\d;]+)m/gu, (_, code: string) => {
+  output.replaceAll(/\u{1B}\[(?<code>[\d;]+)m/gu, (_, code: string) => {
     const parts = code.split(`;`)
     if (parts[0] === `38` && parts[1] === `2`) {
       const rgb = `${parts[2]},${parts[3]},${parts[4]}`

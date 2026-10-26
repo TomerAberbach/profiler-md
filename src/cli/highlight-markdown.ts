@@ -348,7 +348,7 @@ const visitDiffTable = (
   }
 
   const rows = diffRows.flatMap(({ lineIndex, delta }) =>
-    delta === 0 ? [] : [{ lineIndex, relativeDelta: delta / total }],
+    delta === 0 ? [] : { lineIndex, relativeDelta: delta / total },
   )
   if (regressionSign === null) {
     holdRows(unranked, rows, lineToIntensity)
@@ -591,10 +591,9 @@ const totalCandidate = (
   }
 
   const changeFraction = parsePercent(change)
-  if (!changeFraction || !basePercent) {
-    return null
-  }
-  return { percent: basePercent, value: Math.abs(delta / changeFraction) }
+  return !changeFraction || !basePercent
+    ? null
+    : { percent: basePercent, value: Math.abs(delta / changeFraction) }
 }
 
 /**

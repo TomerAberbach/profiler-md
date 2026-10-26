@@ -36,7 +36,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Private.CoreLib!System.AppContext.Setup(wchar**,wchar**,int32)`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `Setup(wchar**, wchar**, int32)`,
       definition: { type: `logical`, name: `System.AppContext` },
     })
@@ -47,7 +47,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `system.private.corelib!System.AppContext.Setup(wchar**,wchar**,int32)`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `Setup(wchar**, wchar**, int32)`,
       definition: { type: `logical`, name: `System.AppContext` },
     })
@@ -58,7 +58,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Private.CoreLib!System.String.Concat(class System.String,class System.String)`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `Concat(String, String)`,
       definition: { type: `logical`, name: `System.String` },
     })
@@ -69,7 +69,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Private.CoreLib!System.Threading.Tasks.Task.Wait(int32,value class System.Threading.CancellationToken)`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `Wait(int32, CancellationToken)`,
       definition: { type: `logical`, name: `System.Threading.Tasks.Task` },
     })
@@ -80,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Private.CoreLib!System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon].FindValue(!0)`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `FindValue(!0)`,
       definition: {
         type: `logical`,
@@ -94,7 +94,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Private.CoreLib!System.Diagnostics.Tracing.NativeRuntimeEventSource..ctor()`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `.ctor()`,
       definition: {
         type: `logical`,
@@ -108,7 +108,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `System.Console!System.Console.<get_Out>g__EnsureInitialized|26_0()`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `<get_Out>g__EnsureInitialized|26_0()`,
       definition: { type: `logical`, name: `System.Console` },
     })
@@ -137,7 +137,7 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`falls back to the lowercased assembly for a type-less function`, () => {
-    expect(normalizeStackFrame({ name: `Profile!main()` })).toEqual({
+    expect(normalizeStackFrame({ name: `Profile!main()` })).toStrictEqual({
       name: `main()`,
       definition: { type: `logical`, name: `profile` },
     })
@@ -210,7 +210,7 @@ describe(`matchEntry`, () => {
         ),
         `dotnet-trace`,
       ),
-    ).toEqual({ name: `Regex2_Scan(pMT, pMT<wchar>)` })
+    ).toStrictEqual({ name: `Regex2_Scan(pMT, pMT<wchar>)` })
   })
 
   test(`an entry without an address has no entry match`, () => {

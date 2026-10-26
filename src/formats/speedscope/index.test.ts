@@ -91,7 +91,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `85.7%`,
@@ -109,7 +109,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -156,8 +156,8 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(summaryLines(md)).toEqual([`Took 15.0ms.`])
-    expect(selfTimeTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Took 15.0ms.`])
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -197,8 +197,11 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([[`funcA`], [`funcB`]])
-    expect(profileTitles(md)).toEqual([`Sampling profile`, `Sampling profile`])
+    ).toStrictEqual([[`funcA`], [`funcB`]])
+    expect(profileTitles(md)).toStrictEqual([
+      `Sampling profile`,
+      `Sampling profile`,
+    ])
   })
 
   test.each([
@@ -258,7 +261,7 @@ describe(`convert`, () => {
     )
 
     // The stdlib marker frame ranks alongside the project's own function.
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -276,7 +279,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `_addtoken`)).toEqual([
+    expect(linesTables(md, `_addtoken`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -319,7 +322,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -337,7 +340,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `_addtoken`)).toEqual([])
+    expect(linesTables(md, `_addtoken`)).toStrictEqual([])
   })
 
   test(`zero-weight samples still count as samples`, () => {
@@ -361,7 +364,7 @@ describe(`convert`, () => {
 
     // The zero-weight sample counts, so the count agrees with other
     // views of the same recording.
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       expect.stringContaining(`30.0ms over 3 samples`),
     ])
   })
@@ -390,7 +393,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -422,9 +425,9 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md).map(table => table.map(row => row.Time))).toEqual(
-      [[`1.0ms`]],
-    )
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Time)),
+    ).toStrictEqual([[`1.0ms`]])
   })
 
   test(`empty-stack samples keep their weight`, () => {
@@ -448,7 +451,7 @@ describe(`convert`, () => {
 
     // Empty-stack samples keep their time (100ms + 100ms), attributed to the
     // shared anonymous function, so the total matches the recording.
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       expect.stringContaining(`250.0ms over 3 samples`),
     ])
   })
@@ -469,7 +472,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`<unknown>`]])
+    ).toStrictEqual([[`<unknown>`]])
   })
 
   test(`null line and column are dropped from a located frame`, () => {
@@ -493,7 +496,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`/app/lib/foo.rb`]])
+    ).toStrictEqual([[`/app/lib/foo.rb`]])
   })
 
   test(`dotnet-trace pseudo-frames are dropped; self time lands on the sampled methods`, () => {
@@ -529,7 +532,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -554,7 +557,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -604,11 +607,13 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(profileTitles(md)).toEqual([`Heap profile`])
-    expect(summaryLines(md)).toEqual([expect.stringContaining(`Allocated`)])
-    expect(selfSizeTables(md).map(table => table.map(row => row.Size))).toEqual(
-      [[`1 KiB`, `512 B`]],
-    )
+    expect(profileTitles(md)).toStrictEqual([`Heap profile`])
+    expect(summaryLines(md)).toStrictEqual([
+      expect.stringContaining(`Allocated`),
+    ])
+    expect(
+      selfSizeTables(md).map(table => table.map(row => row.Size)),
+    ).toStrictEqual([[`1 KiB`, `512 B`]])
   })
 
   test(`none unit falls back to custom metric`, () => {
@@ -627,8 +632,8 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(profileTitles(md)).toEqual([`Count profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Count profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 42 occurrences over 1 sample (42 occurrences per sample).`,
     ])
   })
@@ -661,7 +666,7 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([expect.not.arrayContaining([`work`])])
+    ).toStrictEqual([expect.not.arrayContaining([`work`])])
     expect(callersTables(md, `work`)).toHaveLength(0)
   })
 
@@ -675,8 +680,8 @@ describe(`options`, () => {
       }),
     )
 
-    expect(selfTimeTables(md).map(table => table.length)).toEqual([1])
-    expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
+    expect(selfTimeTables(md).map(table => table.length)).toStrictEqual([1])
+    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([1])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
@@ -690,7 +695,9 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
+    ).toStrictEqual([
+      [expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)],
+    ])
   })
 
   test(`categorizeFunctions overrides the detected categories`, () => {
@@ -706,7 +713,7 @@ describe(`options`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
         { Category: `Ours`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
@@ -735,7 +742,7 @@ describe(`malformed profiles`, () => {
       frames,
     })
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 1 sample (2.0ms per sample).`,
     ])
     expectLogs([
@@ -755,7 +762,7 @@ describe(`malformed profiles`, () => {
       frames,
     })
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 1 sample (2.0ms per sample).`,
     ])
     expectLogs([

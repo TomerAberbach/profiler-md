@@ -38,7 +38,7 @@ export const syntheticFrameCategory = ({
 }
 
 /** A whole-name `(label)` of plain words, e.g. `(garbage collector)`. */
-const SYNTHETIC_FRAME_LABEL = /^\((?<label>[A-Za-z][A-Za-z0-9 _-]*)\)$/u
+const SYNTHETIC_FRAME_LABEL = /^\((?<label>[A-Za-z][\w -]*)\)$/u
 
 /**
  * The category each `(label)` frame name names: the runtime activities an

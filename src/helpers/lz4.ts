@@ -131,10 +131,9 @@ class Lz4FrameDecoder {
     if (this.#frame === undefined) {
       return this.#readFrameHeader()
     }
-    if (this.#block === undefined) {
-      return this.#readBlockHeader(this.#frame)
-    }
-    return this.#readBlock(this.#frame, this.#block)
+    return this.#block === undefined
+      ? this.#readBlockHeader(this.#frame)
+      : this.#readBlock(this.#frame, this.#block)
   }
 
   #readFrameHeader(): boolean {

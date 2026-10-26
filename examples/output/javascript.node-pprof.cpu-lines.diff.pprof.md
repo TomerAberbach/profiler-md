@@ -850,7 +850,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 |  Change |    Delta |             % |            Time | Samples | Caller                          | Location                                                          |
 | ------: | -------: | ------------: | --------------: | ------: | ------------------------------- | ----------------------------------------------------------------- |
-|  -39.1% | -20.15ms | 74.5% → 59.5% | 51.5ms → 31.3ms | 41 → 25 | `recursiveTypeRelatedTo`        | `./node_modules/typescript/lib/typescript.js`                     |
+|  -39.1% | -20.15ms | 74.5% → 59.5% | 51.5ms → 31.4ms | 41 → 25 | `recursiveTypeRelatedTo`        | `./node_modules/typescript/lib/typescript.js`                     |
 | removed |  -2.51ms |   3.6% → 0.0% |     2.5ms → 0ms |   2 → 0 | `(anonymous)`                   | `./node_modules/typescript/lib/typescript.js:68777:30 → 70037:30` |
 |  +18.0% |  +2.49ms | 20.0% → 31.0% | 13.8ms → 16.3ms | 11 → 13 | `invokeOnce`                    | `./node_modules/typescript/lib/typescript.js`                     |
 |     new |  +1.25ms |   0.0% → 2.4% |     0ms → 1.3ms |   0 → 1 | `inferFromTypes`                | `./node_modules/typescript/lib/typescript.js`                     |
@@ -1319,7 +1319,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | -------: | ------------: | --------------: | ------------: | ------------------------------------ | --------------------------------------------- |
 |  +5.1% | +91.20ms | 25.8% → 26.8% |   1.78s → 1.87s | 1,424 → 1,499 | `checkExpression`                    | `./node_modules/typescript/lib/typescript.js` |
 |  +0.1% |  +5.25ms | 88.9% → 87.8% |   6.15s → 6.16s | 4,901 → 4,913 | `resolveCall`                        | `./node_modules/typescript/lib/typescript.js` |
-| -13.9% |  -5.07ms |   0.5% → 0.4% | 36.4ms → 31.3ms |       29 → 25 | `getSignaturesOfType`                | `./node_modules/typescript/lib/typescript.js` |
+| -13.9% |  -5.07ms |   0.5% → 0.4% | 36.4ms → 31.4ms |       29 → 25 | `getSignaturesOfType`                | `./node_modules/typescript/lib/typescript.js` |
 | -44.5% |  -5.03ms |   0.2% → 0.1% |  11.3ms → 6.3ms |         9 → 5 | `isGenericFunctionReturningFunction` | `./node_modules/typescript/lib/typescript.js` |
 | -75.0% |  -3.77ms |  0.1% → <0.1% |   5.0ms → 1.3ms |         4 → 1 | `isUntypedFunctionCall`              | `./node_modules/typescript/lib/typescript.js` |
 

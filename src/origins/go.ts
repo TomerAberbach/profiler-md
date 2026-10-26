@@ -12,7 +12,7 @@ import type { EntryMatchRule } from './spec.ts'
  * key, because a build selects one version of each module path and a new major
  * version changes the module path (`/v2`).
  */
-const MODULE_VERSION_REGEX = /@v\d+\.\d+\.\d+[^/]*(?=\/)/u
+const MODULE_VERSION_REGEX = /@v\d+\.\d+\.\d[^/]*(?=\/)/u
 
 export const GO_LOCATION_MATCH_RULES: readonly EntryMatchRule[] = [
   [MODULE_VERSION_REGEX, ``],

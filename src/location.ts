@@ -105,11 +105,9 @@ export const makeSourceLocation = (
       : source.name
         ? { type: `logical` as const, name: source.name }
         : undefined
-  if (!sourceReference) {
-    return undefined
-  }
-
-  return sourceReferenceToSourceLocation(sourceReference, position)
+  return sourceReference
+    ? sourceReferenceToSourceLocation(sourceReference, position)
+    : undefined
 }
 
 /**
@@ -232,6 +230,8 @@ export const filePathURL = (path: string): URL => {
  * restores them.
  */
 const escapeFilePath = (path: string): string =>
+  // `search` ignores the global regex's `lastIndex`, which `test` advances.
+  // eslint-disable-next-line unicorn/prefer-regexp-test
   path.search(FILE_PATH_URL_SYNTAX) === -1
     ? path
     : path.replaceAll(FILE_PATH_URL_SYNTAX, encodeURIComponent)
@@ -500,11 +500,9 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
   // Opaque origins (file:, webpack:, wasm:, etc.) all report `null`. Compare
   // host instead; file: URLs have empty hosts, so equal-protocol file: pairs
   // match, and webpack:// URLs match when their "host" (the bundle name) does.
-  if (url1.origin === `null`) {
-    return url1.host === url2.host
-  }
-
-  return url1.origin === url2.origin
+  return url1.origin === `null`
+    ? url1.host === url2.host
+    : url1.origin === url2.origin
 }
 
 /**

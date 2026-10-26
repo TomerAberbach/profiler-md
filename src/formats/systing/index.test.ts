@@ -157,11 +157,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -179,7 +179,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -199,7 +199,7 @@ describe(`convert`, () => {
     ])
     // The packed [file:line] is the executing line, feeding the per-line
     // breakdown rather than the function's identity.
-    expect(linesTables(md, `work`)).toEqual([
+    expect(linesTables(md, `work`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -236,7 +236,7 @@ describe(`convert`, () => {
 
     // GVisor's Sentry is a userspace kernel, so its frame counts in the kernel
     // row. Equal shares keep first-sample order.
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Kernel`,
@@ -278,7 +278,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -289,7 +289,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(calleesTables(md, `serve`)).toEqual([
+    expect(calleesTables(md, `serve`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -317,17 +317,17 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
       `CPU profile`,
       `Uninterruptible sleep profile`,
       `Interruptible sleep profile`,
     ])
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 6.0ms over 6 samples (1.0ms per sample).`,
       `Slept 2 times.`,
       `Slept 5 times.`,
     ])
-    expect(selfSleepsTables(md)).toEqual([
+    expect(selfSleepsTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -345,7 +345,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalSleepsTables(md)).toEqual([
+    expect(totalSleepsTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -383,8 +383,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU cycles profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU cycles profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 2,000,000 cycles over 2 samples (1,000,000 cycles per sample).`,
     ])
   })
@@ -407,11 +407,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
       `CPU profile`,
       `Uninterruptible sleep profile`,
     ])
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
       `Slept 3 times.`,
     ])
@@ -430,7 +430,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
     ])
     expectLogs([
@@ -461,8 +461,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
     ])
     expectLogs([
@@ -487,8 +487,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`Interruptible sleep profile`])
-    expect(summaryLines(md)).toEqual([`Slept 4 times.`])
+    expect(profileTitles(md)).toStrictEqual([`Interruptible sleep profile`])
+    expect(summaryLines(md)).toStrictEqual([`Slept 4 times.`])
   })
 
   test(`a sleep diff names the sleeps it counts`, () => {
@@ -504,8 +504,12 @@ describe(`convert`, () => {
       { baseURL: `/`, showEntry: () => true },
     )
 
-    expect(profileTitles(md)).toEqual([`Interruptible sleep profile diff`])
-    expect(summaryLines(md)).toEqual([`Slept 4 → 6 times (+2 times, +50.0%).`])
+    expect(profileTitles(md)).toStrictEqual([
+      `Interruptible sleep profile diff`,
+    ])
+    expect(summaryLines(md)).toStrictEqual([
+      `Slept 4 → 6 times (+2 times, +50.0%).`,
+    ])
   })
 
   test(`rejects a diff of the two sleep kinds, naming both`, () => {
@@ -542,8 +546,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(summaryLines(md)).toEqual([`Collected 3 samples.`])
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 3 samples.`])
   })
 
   test(`duplicate sample tallies for one triple sum`, () => {
@@ -558,7 +562,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 5.0ms over 5 samples (1.0ms per sample).`,
     ])
   })
@@ -581,6 +585,6 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(streamed).toEqual(buffered)
+    expect(streamed).toStrictEqual(buffered)
   })
 })

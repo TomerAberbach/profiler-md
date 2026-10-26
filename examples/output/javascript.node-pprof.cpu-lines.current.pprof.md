@@ -457,7 +457,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |     % |   Time | Samples | Caller                                     | Location                                      |
 | ----: | -----: | ------: | ------------------------------------------ | --------------------------------------------- |
-| 30.5% | 31.3ms |      25 | `getTypeOfVariableOrParameterOrProperty`   | `./node_modules/typescript/lib/typescript.js` |
+| 30.5% | 31.4ms |      25 | `getTypeOfVariableOrParameterOrProperty`   | `./node_modules/typescript/lib/typescript.js` |
 | 25.6% | 26.3ms |      21 | `getResolvedMembersOrExportsOfSymbol`      | `./node_modules/typescript/lib/typescript.js` |
 | 20.7% | 21.3ms |      17 | `instantiateSymbol`                        | `./node_modules/typescript/lib/typescript.js` |
 |  3.7% |  3.8ms |       3 | `getTypeOfFuncClassEnumModule`             | `./node_modules/typescript/lib/typescript.js` |

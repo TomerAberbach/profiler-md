@@ -116,7 +116,7 @@ describe(`parse`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
     ])
     expectLogs([
@@ -144,12 +144,12 @@ describe(`convert`, () => {
   test(`attributes each tick to the cost-centre stack it sampled`, () => {
     const md = convertBytesToMd(ghcEventlogFormatSpec, eventlog(), options())
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 5.0ms over 5 samples (1.0ms per sample).`,
     ])
     // The module qualifies the label, and the parser splits GHC's source span
     // into the binding's location.
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -181,7 +181,7 @@ describe(`convert`, () => {
   test(`categorizes the collector's ticks apart from the program's`, () => {
     const md = convertBytesToMd(ghcEventlogFormatSpec, eventlog(), options())
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Ours`,
@@ -206,8 +206,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 2 samples.`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 2 samples.`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -234,6 +234,6 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(streamed).toEqual(buffered)
+    expect(streamed).toStrictEqual(buffered)
   })
 })

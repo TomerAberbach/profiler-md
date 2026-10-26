@@ -40,7 +40,7 @@ Call paths to the hottest and most changed functions.
             ├── 4.3ms → 4.2ms (15.4% → 15.2%) -run/1-fun-0-/2 at Profile
             │   └── 4.3ms → 4.2ms (15.4% → 15.2%) encode!/2 at Jason
             │       ├── 2.6ms (9.2%) encode/2 at Jason.Encode
-            │       │   └── 2.5ms (9.1%) map_naive/3
+            │       │   └── 2.6ms (9.1%) map_naive/3
             │       │       └── … 2.3ms (8.4%, self 0.8%) map_naive_loop/3 at Jason.Encode
             │       │           └── 2.1ms (7.6%) 9 more callees, led by (3.2%) escape_json_chunk/5
             │       └── 1.7ms (6.1% → 5.9%) undefined_function/3 at error_handler
@@ -115,8 +115,8 @@ Callers with the largest change in contribution to each function's self time. In
 
 | Change |   Delta |            % |         Time | Caller             | Location       |
 | -----: | ------: | -----------: | -----------: | ------------------ | -------------- |
-|    new | +0.34ms | 0.0% → 65.7% |  0ms → 0.3ms | `map_naive_loop/3` | `Jason.Encode` |
-|    new | +0.14ms | 0.0% → 27.6% |  0ms → 0.1ms | `encode_string/2`  | `Jason.Encode` |
+|    new | +0.35ms | 0.0% → 65.7% |  0ms → 0.3ms | `map_naive_loop/3` | `Jason.Encode` |
+|    new | +0.15ms | 0.0% → 27.6% |  0ms → 0.1ms | `encode_string/2`  | `Jason.Encode` |
 |    new | +0.04ms |  0.0% → 6.7% | 0ms → 35.0µs | `map_naive/3`      | `Jason.Encode` |
 
 ##### `map_naive/3` (`Jason.Encode`)
@@ -135,8 +135,8 @@ Callers with the largest change in contribution to each function's self time. In
 
 |  Change |   Delta |            % |         Time | Caller             | Location       |
 | ------: | ------: | -----------: | -----------: | ------------------ | -------------- |
-| removed | -0.34ms | 65.7% → 0.0% |  0.3ms → 0ms | `map_naive_loop/3` | `Jason.Encode` |
-| removed | -0.14ms | 27.6% → 0.0% |  0.1ms → 0ms | `encode_string/2`  | `Jason.Encode` |
+| removed | -0.35ms | 65.7% → 0.0% |  0.3ms → 0ms | `map_naive_loop/3` | `Jason.Encode` |
+| removed | -0.15ms | 27.6% → 0.0% |  0.1ms → 0ms | `encode_string/2`  | `Jason.Encode` |
 | removed | -0.04ms |  6.7% → 0.0% | 35.0µs → 0ms | `map_naive/3`      | `Jason.Encode` |
 
 ##### `sleep` (`<unknown>`)
@@ -201,7 +201,7 @@ Functions with the largest decrease in wall time spent within the function and i
 |  Change |   Delta |             % |            Time | Function                   | Location          |
 | ------: | ------: | ------------: | --------------: | -------------------------- | ----------------- |
 | removed | -0.53ms |   1.9% → 0.0% |     0.5ms → 0ms | `escape_json/3`            | `Jason.Encode`    |
-|   -6.1% | -0.07ms |   4.4% → 4.2% |           1.2ms | `ensure_loaded/1`          | `code`            |
+|   -6.1% | -0.08ms |   4.4% → 4.2% |           1.2ms | `ensure_loaded/1`          | `code`            |
 |   -0.9% | -0.06ms | 24.9% → 24.7% |   7.0ms → 6.9ms | `reduce/3`                 | `Enum`            |
 |   -0.2% | -0.06ms |        100.0% | 28.0ms → 27.9ms | `apply/2`                  | `eflambe`         |
 |   -0.2% | -0.06ms |        100.0% | 28.0ms → 27.9ms | `<0.94.0>`                 | `<unknown>`       |
@@ -240,7 +240,7 @@ Functions with the largest decrease in wall time spent within the function and i
 
 | Change |   Delta |             % |            Time | Function                   | Location  |
 | -----: | ------: | ------------: | --------------: | -------------------------- | --------- |
-|  -6.1% | -0.07ms |   4.4% → 4.2% |           1.2ms | `ensure_loaded/1`          | `code`    |
+|  -6.1% | -0.08ms |   4.4% → 4.2% |           1.2ms | `ensure_loaded/1`          | `code`    |
 |  -0.9% | -0.06ms | 24.9% → 24.7% |   7.0ms → 6.9ms | `reduce/3`                 | `Enum`    |
 |  -0.2% | -0.06ms |        100.0% | 28.0ms → 27.9ms | `apply/2`                  | `eflambe` |
 | -15.8% | -0.04ms |   0.8% → 0.7% |           0.2ms | `ensure_prepare_loading/3` | `code`    |
@@ -261,8 +261,8 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |            % |         Time | Caller             | Location       |
 | -----: | ------: | -----------: | -----------: | ------------------ | -------------- |
-|    new | +0.34ms | 0.0% → 65.7% |  0ms → 0.3ms | `map_naive_loop/3` | `Jason.Encode` |
-|    new | +0.14ms | 0.0% → 27.6% |  0ms → 0.1ms | `encode_string/2`  | `Jason.Encode` |
+|    new | +0.35ms | 0.0% → 65.7% |  0ms → 0.3ms | `map_naive_loop/3` | `Jason.Encode` |
+|    new | +0.15ms | 0.0% → 27.6% |  0ms → 0.1ms | `encode_string/2`  | `Jason.Encode` |
 |    new | +0.04ms |  0.0% → 6.7% | 0ms → 35.0µs | `map_naive/3`      | `Jason.Encode` |
 
 ##### `call/1` (`code_server`)
@@ -324,15 +324,15 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |            % |         Time | Caller             | Location       |
 | ------: | ------: | -----------: | -----------: | ------------------ | -------------- |
-| removed | -0.34ms | 65.7% → 0.0% |  0.3ms → 0ms | `map_naive_loop/3` | `Jason.Encode` |
-| removed | -0.14ms | 27.6% → 0.0% |  0.1ms → 0ms | `encode_string/2`  | `Jason.Encode` |
+| removed | -0.35ms | 65.7% → 0.0% |  0.3ms → 0ms | `map_naive_loop/3` | `Jason.Encode` |
+| removed | -0.15ms | 27.6% → 0.0% |  0.1ms → 0ms | `encode_string/2`  | `Jason.Encode` |
 | removed | -0.04ms |  6.7% → 0.0% | 35.0µs → 0ms | `map_naive/3`      | `Jason.Encode` |
 
 ##### `ensure_loaded/1` (`code`)
 
 | Change |   Delta |      % |  Time | Caller                 | Location        |
 | -----: | ------: | -----: | ----: | ---------------------- | --------------- |
-|  -6.1% | -0.07ms | 100.0% | 1.2ms | `undefined_function/3` | `error_handler` |
+|  -6.1% | -0.08ms | 100.0% | 1.2ms | `undefined_function/3` | `error_handler` |
 
 ##### `reduce/3` (`Enum`)
 
@@ -476,8 +476,8 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |           % |         Time | Callee                | Location       |
 | ------: | ------: | ----------: | -----------: | --------------------- | -------------- |
-| removed | -0.34ms | 2.8% → 0.0% |  0.3ms → 0ms | `escape_json/3`       | `Jason.Encode` |
-|     new | +0.34ms | 0.0% → 2.8% |  0ms → 0.3ms | `escape_json/1`       | `Jason.Encode` |
+| removed | -0.35ms | 2.8% → 0.0% |  0.3ms → 0ms | `escape_json/3`       | `Jason.Encode` |
+|     new | +0.35ms | 0.0% → 2.8% |  0ms → 0.3ms | `escape_json/1`       | `Jason.Encode` |
 | removed | -0.03ms | 0.2% → 0.0% | 31.0µs → 0ms | `sleep`               | `<unknown>`    |
 |     ~0% | +2.00µs |       35.1% |        4.4ms | `escape_json_chunk/5` | `Jason.Encode` |
 |   +0.4% | +2.00µs |        4.5% |        0.6ms | `value/3`             | `Jason.Encode` |
@@ -524,7 +524,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |  Time | Callee            | Location      |
 | -----: | ------: | ------------: | ----: | ----------------- | ------------- |
-|  -6.1% | -0.07ms | 72.0% → 70.2% | 1.2ms | `ensure_loaded/1` | `code`        |
+|  -6.1% | -0.08ms | 72.0% → 70.2% | 1.2ms | `ensure_loaded/1` | `code`        |
 |  +2.3% | +0.01ms | 27.6% → 29.3% | 0.5ms | `call/1`          | `code_server` |
 
 ##### `-run/1-fun-0-/2` (`Profile`)

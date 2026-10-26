@@ -334,6 +334,7 @@ const applyReplacements = (
   for (const rule of flagRules.rules) {
     const [regex, replacement] = rule
     // `search` ignores the global regex's `lastIndex`, which `test` advances.
+    // eslint-disable-next-line unicorn/prefer-regexp-test
     if (flagRules.wouldRecordMatch(rule) && value.search(regex) !== -1) {
       flagRules.recordMatch(rule)
     }

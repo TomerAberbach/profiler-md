@@ -139,7 +139,7 @@ describe(`parse`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -267,11 +267,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -282,7 +282,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -316,7 +316,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -347,7 +347,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -391,7 +391,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Ours`, '%': `25.0%`, Time: `1.0ms`, Samples: `1` },
         { Category: `Native`, '%': `25.0%`, Time: `1.0ms`, Samples: `1` },
@@ -439,8 +439,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU profile`, `Page fault profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
+      `CPU profile`,
+      `Page fault profile`,
+    ])
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 1 sample (2.0ms per sample).`,
       `Recorded 7 page faults over 1 sample (7 page faults per sample).`,
     ])
@@ -472,7 +475,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -521,7 +524,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `33.3%`,
@@ -593,7 +596,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -644,7 +647,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -679,7 +682,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -705,7 +708,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -748,7 +751,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -766,7 +769,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Kernel`, '%': `100.0%`, Time: `2.0ms`, Samples: `2` }],
     ])
   })
@@ -791,8 +794,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU cycles profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU cycles profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 1,000 cycles over 1 sample (1,000 cycles per sample).`,
     ])
   })
@@ -809,7 +812,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -820,7 +823,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `JIT`, '%': `100.0%`, Time: `1.0ms`, Samples: `1` }],
     ])
   })
@@ -856,7 +859,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 2.0ms over 1 sample (2.0ms per sample).`,
       `Recorded 7 page faults over 1 sample (7 page faults per sample).`,
     ])
@@ -876,8 +879,8 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`CPU cycles profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`CPU cycles profile`])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 1,000 cycles over 1 sample (1,000 cycles per sample).`,
     ])
   })
@@ -896,7 +899,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`Kmem:kmalloc profile`])
+    expect(profileTitles(md)).toStrictEqual([`Kmem:kmalloc profile`])
   })
 
   test(`the streaming parse reads what the whole-file parse does`, async () => {
@@ -904,13 +907,9 @@ describe(`convert`, () => {
       records: [workloadMapping, sampleRecord({ callchain: [0x40_12_34] })],
     })
 
-    expect(
-      await convertToMdAsync(
-        perfFormatSpec,
-        streamOf(...chunk(bytes, 7)),
-        options(),
-      ),
-    ).toBe(convertBytesToMd(perfFormatSpec, bytes, options()))
+    await expect(
+      convertToMdAsync(perfFormatSpec, streamOf(...chunk(bytes, 7)), options()),
+    ).resolves.toBe(convertBytesToMd(perfFormatSpec, bytes, options()))
   })
 })
 
@@ -956,7 +955,7 @@ describe(`malformed recordings`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 1.0ms over 1 sample (1.0ms per sample).`,
     ])
     expectLogs([
@@ -991,7 +990,7 @@ describe(`malformed recordings`, () => {
         options(),
       )
 
-      expect(summaryLines(md)).toEqual([
+      expect(summaryLines(md)).toStrictEqual([
         `Took 2.0ms over 2 samples (1.0ms per sample).`,
       ])
     },
@@ -1010,7 +1009,7 @@ describe(`malformed recordings`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 1.0ms over 1 sample (1.0ms per sample).`,
     ])
     expectLogs([...originLogs, `warn: skipped 4 bytes after the last record`])

@@ -82,7 +82,7 @@ describe(`call tree`, () => {
           executing(`slow`, `main.ts`, 30, 3, [2, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 4.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 3.0ms (75.0%) slow at 30`,
@@ -106,7 +106,7 @@ describe(`call tree`, () => {
           executing(`other`, `other.ts`, 7, 1, [5, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 99.0ms (99.0%) mid1 at 10`,
@@ -133,7 +133,7 @@ describe(`call tree`, () => {
           executing(`other`, `other.ts`, 7, 1, [5, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── … 99.0ms (99.0%) mid3 at ./src/main.ts:12`,
@@ -167,7 +167,7 @@ describe(`call tree`, () => {
           executing(`small`, `small.ts`, 7, 10, [12, 11, 10, 9, 8, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── … 90.0ms (90.0%) a6 at ./src/main.ts:15`,
@@ -192,7 +192,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 99, [2, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%, self 1.0%) main at ./src/main.ts:1`,
         `    └── 99.0ms (99.0%) mid at 10`,
@@ -213,7 +213,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 99, [2, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%, self 1.0%) main at ./src/main.ts:1`,
         `    └── … 99.0ms (99.0%) leaf at ./src/leaf.ts:5`,
@@ -235,7 +235,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 40, [4, 2, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 60.0ms (60.0%) parse at 10`,
@@ -261,7 +261,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 30, [5, 2, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 70.0ms (70.0%) parse at 10`,
@@ -292,7 +292,7 @@ describe(`call tree`, () => {
           })),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 1s (100.0%) main at ./src/main.ts:1`,
         `    ├── 970.0ms (97.0%) mid at 10`,
@@ -330,7 +330,7 @@ describe(`call tree`, () => {
     const trees = treesUnder({ topN: 2 }, [MICROSECONDS_METRIC], functions)
 
     // Each branch left out stands for the callee it leads to as well.
-    expect(trees).toEqual([
+    expect(trees).toStrictEqual([
       [
         `└── 40.10s (100.0%) main at ./src/main.ts:1`,
         `    ├── 300.0ms (0.7%, self 0.7%) each199 at 299`,
@@ -356,7 +356,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 10, [6, 3, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 100.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── … 90.0ms (90.0%, self 100.0% globally) leaf at ./src/leaf.ts:5`,
@@ -385,7 +385,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `main.ts`, 5, 1, [4, 3, 2, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 2.0ms (100.0%, self 50.0%) main at ./src/main.ts:1`,
         `    └── … 1.0ms (50.0%) leaf at ./src/main.ts:5`,
@@ -405,7 +405,7 @@ describe(`call tree`, () => {
           { ...executing(`deep`, `deep.ts`, 7, 1, [3, 1]), truncated: true },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `├── 3.0ms (75.0%) main at ./src/main.ts:1`,
         `│   └── 3.0ms (75.0%) leaf at ./src/leaf.ts:5`,
@@ -432,7 +432,7 @@ describe(`call tree`, () => {
       ],
     )
 
-    expect(callTreeLines(markdown)).toEqual([
+    expect(callTreeLines(markdown)).toStrictEqual([
       [
         `└── 5.0ms (100.0%) truncated`,
         `    ├── 3.0ms (60.0%) a at ./src/main.ts:1`,
@@ -465,7 +465,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 2, [4, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 4.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 2.0ms (50.0%) a at 2`,
@@ -476,7 +476,7 @@ describe(`call tree`, () => {
   })
 
   test(`draws a lone undrawn callee as its frame among its siblings, omitting its callees`, () => {
-    expect(treesUnder({ topN: 2 }, ...WIDE_BESIDE_HOT)).toEqual([
+    expect(treesUnder({ topN: 2 }, ...WIDE_BESIDE_HOT)).toStrictEqual([
       [
         `└── 12.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 6.0ms (50.0%) wide at 20 …`,
@@ -517,7 +517,7 @@ describe(`call tree`, () => {
           ),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 1s (100.0%) main at ./src/main.ts:1`,
         `    ├── 500.0ms (49.9%) hot at 2`,
@@ -541,7 +541,7 @@ describe(`call tree`, () => {
           executing(`other`, `other.ts`, 7, 1, [4, 2, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 6.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 5.0ms (83.3%) parse at 2`,
@@ -570,7 +570,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 1, [5, 1, 2, 3, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 7.0ms (100.0%) main at ./src/main.ts:1`,
         `    └── 7.0ms (100.0%) parse at 2`,
@@ -592,7 +592,7 @@ describe(`call tree`, () => {
           executing(`leaf`, `leaf.ts`, 5, 1, [3, 1, 2, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 1.0ms (100.0%) main at ./src/main.ts:1`,
         `    └── 1.0ms (100.0%) mid1 at 2`,
@@ -621,7 +621,7 @@ describe(`call tree`, () => {
           executing(`aside4`, `aside.ts`, 4, 4, [9, 4, 3, 2, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── … 992.0ms (99.6%) mid2 at ./src/main.ts:3`,
         `    └── 988.0ms (99.2%) mid3 at 4`,
@@ -648,7 +648,7 @@ describe(`call tree`, () => {
           ),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 10s (100.0%) main at ./src/main.ts:1`,
         `    └── 9.96s (99.6%) hot at ./src/hot.ts:1`,
@@ -670,7 +670,7 @@ describe(`call tree`, () => {
           ),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 10s (100.0%) main at ./src/main.ts:1`,
         `    ├── 9.92s (99.2%) hot at ./src/hot.ts:1`,
@@ -701,7 +701,7 @@ describe(`call tree`, () => {
           ),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 90.0ms (100.0%) main at ./src/main.ts:1`,
         `    ├── 60.0ms (66.7%) wide at 2`,
@@ -721,7 +721,7 @@ describe(`call tree`, () => {
         [MICROSECONDS_METRIC],
         [executing(`first\nsecond`, `only.ts`, 1, 1)],
       ),
-    ).toEqual([[`└── 1.0ms (100.0%) first second at ./src/only.ts:1`]])
+    ).toStrictEqual([[`└── 1.0ms (100.0%) first second at ./src/only.ts:1`]])
   })
 
   test(`names the unit of a count beside each value`, () => {
@@ -740,7 +740,7 @@ describe(`call tree`, () => {
         undefined,
         countMetricOf(`goroutine`, { improvement: `decrease` }),
       ),
-    ).toEqual([[`└── 2 goroutines (100.0%) only at ./src/only.ts:1`]])
+    ).toStrictEqual([[`└── 2 goroutines (100.0%) only at ./src/only.ts:1`]])
   })
 
   test(`draws every function when the entry filter would hide them all`, () => {
@@ -753,7 +753,9 @@ describe(`call tree`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every function, so all functions are shown`,
     ])
-    expect(trees).toEqual([[`└── 1.0ms (100.0%) only at ./src/only.ts:1`]])
+    expect(trees).toStrictEqual([
+      [`└── 1.0ms (100.0%) only at ./src/only.ts:1`],
+    ])
   })
 
   test(`counts a function's direct call and its call after a recursion collapse as one branch`, () => {
@@ -774,7 +776,7 @@ describe(`call tree`, () => {
           executing(`extra`, `extra.ts`, 9, 1, [6, 1, 0]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `└── 58.0ms (100.0%) main at ./src/main.ts:1`,
         `    └── 58.0ms (100.0%, self 86.2%) parse at 2`,
@@ -794,7 +796,9 @@ describe(`call tree`, () => {
           executing(`lib`, `lib.ts`, 5, 99, [1, 0]),
         ],
       ),
-    ).toEqual([[`└── 100.0ms (100.0%, self 1.0%) main at ./src/main.ts:1 …`]])
+    ).toStrictEqual([
+      [`└── 100.0ms (100.0%, self 1.0%) main at ./src/main.ts:1 …`],
+    ])
   })
 
   test(`draws the call stacks the entry filter hides whole on a line of their own`, () => {
@@ -809,7 +813,7 @@ describe(`call tree`, () => {
           executing(`lib2`, `lib.ts`, 6, 30, [1, 2]),
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [`├── 70.0ms (70.0%) main at ./src/main.ts:1`, `└── 30.0ms (30.0%) …`],
     ])
   })
@@ -827,7 +831,7 @@ describe(`call tree`, () => {
       ],
     )
 
-    expect(callTreeLines(markdown)).toEqual([
+    expect(callTreeLines(markdown)).toStrictEqual([
       [
         `├── 90.0ms (90.0%) main at ./src/main.ts:1`,
         `└── 10.0ms (10.0%) truncated …`,
@@ -850,10 +854,10 @@ describe(`call tree`, () => {
           },
         ],
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
-        `└── 2\u00A0KiB (100.0%) main at ./src/main.ts:1`,
-        `    └── 2\u00A0KiB (100.0%) leaf at ./src/leaf.ts:5`,
+        `└── 2\u{A0}KiB (100.0%) main at ./src/main.ts:1`,
+        `    └── 2\u{A0}KiB (100.0%) leaf at ./src/leaf.ts:5`,
       ],
     ])
   })
@@ -861,6 +865,6 @@ describe(`call tree`, () => {
   test(`shows the one frame of a profile with no nested call stacks`, () => {
     expect(
       treesOf([MICROSECONDS_METRIC], [executing(`only`, `only.ts`, 1, 1)]),
-    ).toEqual([[`└── 1.0ms (100.0%) only at ./src/only.ts:1`]])
+    ).toStrictEqual([[`└── 1.0ms (100.0%) only at ./src/only.ts:1`]])
   })
 })

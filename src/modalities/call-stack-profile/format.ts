@@ -287,13 +287,12 @@ const formatCallTreeSection = (
   headingLevel: number,
 ): RootContent[] => {
   const measure = firstMeasureWithValue(measures)
-  if (measure === undefined) {
-    return []
-  }
-  return callTreeSection(
-    formatCallTree({ profile, measure, options, notation }),
-    headingLevel,
-  )
+  return measure === undefined
+    ? []
+    : callTreeSection(
+        formatCallTree({ profile, measure, options, notation }),
+        headingLevel,
+      )
 }
 
 /** The diffing counterpart to {@link formatCallTreeSection}. */
@@ -306,13 +305,12 @@ const formatDiffCallTreeSection = (
   headingLevel: number,
 ): RootContent[] => {
   const measure = measures.find(measure => !isZeroDiffTotal(measure))
-  if (measure === undefined) {
-    return []
-  }
-  return callTreeSection(
-    formatDiffCallTree({ diff, shownByIndex, measure, options, notation }),
-    headingLevel,
-  )
+  return measure === undefined
+    ? []
+    : callTreeSection(
+        formatDiffCallTree({ diff, shownByIndex, measure, options, notation }),
+        headingLevel,
+      )
 }
 
 /** {@link callTree} under its heading, or nothing when it draws no path. */
@@ -1054,14 +1052,10 @@ const formatDiffSummaryLine = (
   )
   // Only a count of things has a noun for one of them to state a rate per, and
   // sides that both counted none of them have no rate either.
-  if (
-    countMetric.type !== `count` ||
+  return countMetric.type !== `count` ||
     (base.totalCount === 0 && current.totalCount === 0)
-  ) {
-    return `${totalsSummary} over ${counted}.`
-  }
-
-  return `${totalsSummary} over ${counted} (${formatConjunction(rateParts)} per ${countMetric.proseUnit}).`
+    ? `${totalsSummary} over ${counted}.`
+    : `${totalsSummary} over ${counted} (${formatConjunction(rateParts)} per ${countMetric.proseUnit}).`
 }
 
 /**

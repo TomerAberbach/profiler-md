@@ -36,14 +36,14 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 2 events over 30.0ms.`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 2 events over 30.0ms.`])
   })
 
   test(`states no duration for a trace that times nothing`, () => {
     const md = traceMd(makeAggregatedTrace([span(`a`, { duration: 10 })]))
 
-    expect(summaryLines(md)).toEqual([`Recorded 1 event.`])
-    expect(summaryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 1 event.`])
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, Time: `10.0ms`, Count: `1` }],
     ])
   })
@@ -61,7 +61,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         { Category: `Script`, '%': `75.0%`, Time: `75.0ms`, Count: `2` },
         {
@@ -83,7 +83,7 @@ describe(`summary`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         { Category: `Script`, Count: `2` },
         { Category: `I/O`, Count: `1` },
@@ -103,10 +103,10 @@ describe(`summary`, () => {
       ),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `216.7%`, Time: `130.0ms`, Count: `3` }],
     ])
-    expect(tablesAt(md, [`Threads`])).toEqual([
+    expect(tablesAt(md, [`Threads`])).toStrictEqual([
       [
         { Thread: `worker`, '%': `116.7%`, Time: `70.0ms`, Count: `2` },
         { Thread: `main`, '%': `100.0%`, Time: `60.0ms`, Count: `1` },
@@ -126,7 +126,7 @@ describe(`summary`, () => {
       resolveProfileToMdOptions({ topN: 1 }),
     )
 
-    expect(tablesAt(md, [`Threads`])).toEqual([
+    expect(tablesAt(md, [`Threads`])).toStrictEqual([
       [{ '%': `100.0%`, Time: `60.0ms`, Count: `1`, Thread: `main` }],
     ])
   })
@@ -138,7 +138,7 @@ describe(`summary`, () => {
       }),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `100.0%`, Time: `60.0ms`, Count: `1` }],
     ])
   })
@@ -153,13 +153,13 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest thread spans`,
       `### Self time`,
       `### Total time`,
     ])
-    expect(spanRanking(md, `Self time`)).toEqual([
+    expect(spanRanking(md, `Self time`)).toStrictEqual([
       [
         {
           '%': `70.0%`,
@@ -179,7 +179,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -219,7 +219,7 @@ describe(`longest spans`, () => {
       ),
     )
 
-    expect(categorySubsectionTables(md, `Self time`)).toEqual({
+    expect(categorySubsectionTables(md, `Self time`)).toStrictEqual({
       Compilation: [
         {
           '%': `60.0%`,
@@ -249,7 +249,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
@@ -265,7 +265,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(spanRanking(md, `Self time`)).toEqual([
+    expect(spanRanking(md, `Self time`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -277,7 +277,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -299,7 +299,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(spanRanking(md, `Self time`)).toEqual([
+    expect(spanRanking(md, `Self time`)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -321,11 +321,11 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 2 events over 10.0ms.`])
-    expect(summaryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 2 events over 10.0ms.`])
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `100.0%`, Time: `10.0ms`, Count: `2` }],
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -347,7 +347,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest thread spans`,
       `### Self time`,
@@ -355,7 +355,7 @@ describe(`longest spans`, () => {
       `### Self CPU time`,
       `### Total CPU time`,
     ])
-    expect(spanRanking(md, `Self CPU time`)).toEqual([
+    expect(spanRanking(md, `Self CPU time`)).toStrictEqual([
       [
         {
           '%': `40.0%`,
@@ -375,7 +375,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(spanRanking(md, `Total CPU time`)).toEqual([
+    expect(spanRanking(md, `Total CPU time`)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -407,30 +407,30 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
       `## Longest async spans`,
       `### Elapsed time`,
     ])
-    expect(openingParagraphs(md, `Longest thread spans`)).toEqual([
+    expect(openingParagraphs(md, `Longest thread spans`)).toStrictEqual([
       `Spans recorded on one thread. A span's time includes time its thread spent waiting.`,
     ])
-    expect(openingParagraphs(md, `Longest async spans`)).toEqual([
+    expect(openingParagraphs(md, `Longest async spans`)).toStrictEqual([
       `Spans of operations that stay pending while threads do other work. Async spans overlap one another, so their times can sum to more than the trace's duration.`,
     ])
-    expect(openingParagraphs(md, `Total time`)).toEqual([
+    expect(openingParagraphs(md, `Total time`)).toStrictEqual([
       `Thread spans with the most time.`,
     ])
-    expect(openingParagraphs(md, `Elapsed time`)).toEqual([
+    expect(openingParagraphs(md, `Elapsed time`)).toStrictEqual([
       `Async spans with the most time elapsed from start to end.`,
     ])
     // An async span's time is no thread's, so it adds to no category's time.
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `66.7%`, Time: `60.0ms`, Count: `4` }],
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `55.6%`,
@@ -450,7 +450,7 @@ describe(`longest spans`, () => {
         },
       ],
     ])
-    expect(rankingTable(md, `Elapsed time`)).toEqual([
+    expect(rankingTable(md, `Elapsed time`)).toStrictEqual([
       {
         Time: `160.0ms`,
         Count: `2`,
@@ -470,14 +470,14 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
       `## Longest async spans`,
       `### Elapsed time`,
     ])
-    expect(openingParagraphs(md, `Total time`)).toEqual([
+    expect(openingParagraphs(md, `Total time`)).toStrictEqual([
       `Thread spans with the most time.`,
     ])
   })
@@ -504,7 +504,7 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         {
           Category: `Garbage collection pause`,
@@ -530,12 +530,12 @@ describe(`longest spans`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Longest async spans`,
       `### Elapsed time`,
     ])
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `0.0%`, Time: `0ms`, Count: `2` }],
     ])
   })
@@ -550,7 +550,7 @@ describe(`longest spans`, () => {
       resolveProfileToMdOptions({ topN: 2 }),
     )
 
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -589,7 +589,7 @@ describe(`longest spans`, () => {
       Max: `99.0ms`,
       Span: `run`,
     }
-    expect(rankingTable(md, `Total time`)).toEqual([
+    expect(rankingTable(md, `Total time`)).toStrictEqual([
       run,
       {
         '%': `1.0%`,
@@ -600,7 +600,7 @@ describe(`longest spans`, () => {
         Span: `read`,
       },
     ])
-    expect(categorySubsectionTables(md, `Total time`)).toEqual({
+    expect(categorySubsectionTables(md, `Total time`)).toStrictEqual({
       Script: [run],
     })
   })
@@ -625,7 +625,7 @@ describe(`span breakdowns`, () => {
       resolveProfileToMdOptions({ topN: 8 }),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toStrictEqual({
       load: [
         [
           {
@@ -658,7 +658,7 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Total time`, `Attribute amounts`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Attribute amounts`)).toStrictEqual({
       load: [
         [
           {
@@ -690,7 +690,7 @@ describe(`span breakdowns`, () => {
       resolveProfileToMdOptions({ topN: 4 }),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toStrictEqual({
       load: [
         [
           {
@@ -705,7 +705,7 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Total time`, `Attribute amounts`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Attribute amounts`)).toStrictEqual({
       load: [
         [
           {
@@ -731,7 +731,7 @@ describe(`span breakdowns`, () => {
       resolveProfileToMdOptions({ topN: 4 }),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Attribute values`)).toStrictEqual({
       load: [
         [
           {
@@ -761,7 +761,7 @@ describe(`span breakdowns`, () => {
       ),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Threads`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Threads`)).toStrictEqual({
       job: [
         [
           {
@@ -795,7 +795,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Self time`, `Parents`)).toEqual({
+    expect(spanBreakdown(md, `Self time`, `Parents`)).toStrictEqual({
       first: [
         [
           {
@@ -829,8 +829,8 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Self time`, `Children`)).toEqual({})
-    expect(spanBreakdown(md, `Total time`, `Parents`)).toEqual({
+    expect(spanBreakdown(md, `Self time`, `Children`)).toStrictEqual({})
+    expect(spanBreakdown(md, `Total time`, `Parents`)).toStrictEqual({
       first: [
         [
           {
@@ -864,7 +864,7 @@ describe(`span breakdowns`, () => {
         ],
       ],
     })
-    expect(spanBreakdown(md, `Total time`, `Children`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Children`)).toStrictEqual({
       root: [
         [
           {
@@ -924,7 +924,7 @@ describe(`span breakdowns`, () => {
       resolveProfileToMdOptions({ topN: 12 }),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toStrictEqual({
       query: [
         [
           {
@@ -961,7 +961,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toStrictEqual({
       work: [
         [
           { '%': `75.0%`, Time: `30.0ms`, 'CPU time': `10.0ms`, Start: `0ms` },
@@ -980,7 +980,7 @@ describe(`span breakdowns`, () => {
       ]),
     )
 
-    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toEqual({
+    expect(spanBreakdown(md, `Total time`, `Longest instances`)).toStrictEqual({
       twice: [
         [
           { '%': `64.3%`, Time: `9.0ms` },
@@ -1002,14 +1002,14 @@ describe(`most frequent instants`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([
+    expect(headings(md, 3)).toStrictEqual([
       `# Trace`,
       `## Most frequent instants`,
       `### Count`,
     ])
     expect(
       tablesAt(md, [`Most frequent instants`, `Count`, `Categories`, `Other`]),
-    ).toEqual([
+    ).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -1029,7 +1029,7 @@ describe(`most frequent instants`, () => {
         `Count`,
         `Attribute values`,
       ]),
-    ).toEqual({
+    ).toStrictEqual({
       deopt: [
         [
           {
@@ -1063,7 +1063,7 @@ describe(`most frequent instants`, () => {
 
     expect(
       tablesBySubheading(md, [`Most frequent instants`, `Count`, `Threads`]),
-    ).toEqual({
+    ).toStrictEqual({
       tick: [
         [
           {
@@ -1092,9 +1092,9 @@ describe(`gauges`, () => {
       ]),
     )
 
-    expect(headings(md, 3)).toEqual([`# Trace`, `## Gauges`])
-    expect(summaryLines(md)).toEqual([`Recorded 0 events over 40.0ms.`])
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(headings(md, 3)).toStrictEqual([`# Trace`, `## Gauges`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 0 events over 40.0ms.`])
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -1120,7 +1120,7 @@ describe(`gauges`, () => {
       resolveProfileToMdOptions({ topN: 1 }),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -1148,7 +1148,7 @@ describe(`gauges`, () => {
       }),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `main / Heap used before collection`,
@@ -1195,7 +1195,7 @@ describe(`gauges`, () => {
       makeAggregatedTrace([reading(`heap`, 30), reading(`heap`, 10)]),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -1223,7 +1223,7 @@ describe(`gauges`, () => {
 
     // The level is unknown before the first reading, and holds from each
     // reading until the next.
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -1249,7 +1249,7 @@ describe(`gauges`, () => {
       ]),
     )
 
-    expect(tablesAt(md, [`Gauges`])).toEqual([
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
       [
         {
           Gauge: `heap`,
@@ -1289,10 +1289,10 @@ describe(`entry filter`, () => {
       resolveProfileToMdOptions({ showEntry: ({ name }) => name !== `hidden` }),
     )
 
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `100.0%`, Time: `40.0ms`, Count: `2` }],
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `25.0%`,
@@ -1315,7 +1315,7 @@ describe(`entry filter`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every event, so all events are shown`,
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -1345,7 +1345,7 @@ describe(`entry filter`, () => {
     expectLogs([
       `info: default entry filter ignored because it hides every event, so all events are shown`,
     ])
-    expect(spanRanking(md, `Total time`)).toEqual([
+    expect(spanRanking(md, `Total time`)).toStrictEqual([
       [
         {
           '%': `100.0%`,

@@ -72,17 +72,19 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   - Assert on the Markdown output, not on intermediate data structures, using
     the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
     `src/modalities/call-stack-profile/testing.ts`)
-  - Fully assert on Markdown tables with `toEqual` and complete expected rows.
-    NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
-    individual cells, which would miss extra tables, rows, or cells
+  - Fully assert on Markdown tables with `toStrictEqual` and complete expected
+    rows. NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or
+    assert on individual cells, which would miss extra tables, rows, or cells
 - A parameterized test over the committed `examples/input/` files must run in
   the input-processing vitest projects, or every conversion runs one at a time
-  in a single worker: add its test file to `inputProcessingFiles` in
-  `vitest.config.ts`, and take its inputs from `injectedInputs()` in
-  `src/formats/testing.ts` rather than the input directory, since a format's
-  inputs span several size-balanced projects. Register the file's
-  input-independent tests only when `injectedFormat()` returns `undefined` (the
-  `unit` project)
+  in a single worker: put it in its directory's `inputs.test.ts`, listed in
+  `inputProcessingFiles` in `vitest.config.ts`, and take its inputs from
+  `injectedInputs()` in `src/formats/testing.ts` rather than the input
+  directory, since a format's inputs span several size-balanced projects. Put
+  input-independent tests in another file, which the `unit` project runs once
+- A project can receive none of the inputs a test takes, so register an input
+  test with `test.each` or `describe.each` at the top level. NEVER wrap one in a
+  `describe`, because vitest fails a suite that registers no tests
 
 ## Glossary
 
@@ -265,7 +267,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   the position in `StackFrame.callSite` and declares
   `OriginSpec.functionIdentity: 'call-site'`. Functions are then keyed and
   located by call site
-- `src/origins/index.test.ts` bounds, per origin over the committed inputs, the
+- `src/origins/inputs.test.ts` bounds, per origin over the committed inputs, the
   share of a function's executing lines that are before its definition line, so
   a slot misfiled wholesale fails the test. PProf.jl is exempt, because Julia
   attributes macro-expanded code to the macro's own lines

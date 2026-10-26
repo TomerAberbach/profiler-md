@@ -4,14 +4,10 @@ export const matchesSpeedscope = (json: unknown): boolean => {
   }
 
   const object = json as Record<string, unknown>
-  if (
+  return !(
     object.$schema !== `https://www.speedscope.app/file-format-schema.json` ||
     !Array.isArray(object.profiles) ||
     typeof object.shared !== `object` ||
     object.shared === null
-  ) {
-    return false
-  }
-
-  return true
+  )
 }

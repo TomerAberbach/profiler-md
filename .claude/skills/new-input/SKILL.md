@@ -94,7 +94,7 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
    pair as a diff. Sanity-check the output against the workload
 
 5. Run the `aggregated examples` test
-   (`pnpm test src/origins/index.test.ts --project '<format>*'` per format):
+   (`pnpm test src/origins/inputs.test.ts --project '<format>*'` per format):
    every committed input must resolve to the origin in its filename. NEVER
    commit an input that resolves elsewhere: give the origin a marker entry or a
    parser origin hint, or make the workload realistic enough to contain the
