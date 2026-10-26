@@ -47,7 +47,7 @@
 
 <!-- EXAMPLE_OUTPUT START -->
 
-```md
+````md
 # CPU profile
 
 Took 2.51s over 2,563 samples (982.2µs per sample).
@@ -102,7 +102,7 @@ Functions with the most time spent within the function body, excluding callees.
 | 1.4% |  34.3ms |      43 | `isRelatedTo`                | `./node_modules/typescript/lib/typescript.js:66493:25` |
 | 1.2% |  29.6ms |      27 | `getObjectTypeInstantiation` | `./node_modules/typescript/lib/typescript.js:64785:38` |
 …
-```
+````
 
 <!-- EXAMPLE_OUTPUT END -->
 
