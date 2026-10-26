@@ -47,11 +47,11 @@ import {
   calleesOf,
   drawCallTree,
   undrawnValueOf,
-} from '../../src/modalities/call-stack-profile/tree.ts'
+} from '../../src/modalities/call-stack-profile/tree/index.ts'
 import type {
   CallTree,
   CallTreeRoot,
-} from '../../src/modalities/call-stack-profile/tree.ts'
+} from '../../src/modalities/call-stack-profile/tree/index.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import { formatTable, ratio } from '../helpers/table.ts'

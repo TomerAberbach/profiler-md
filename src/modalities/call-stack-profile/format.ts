@@ -96,7 +96,7 @@ import type {
   ShownFrame,
   ShownFrameNotation,
 } from './table.ts'
-import { formatCallTree } from './tree.ts'
+import { formatCallTree } from './tree/index.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
