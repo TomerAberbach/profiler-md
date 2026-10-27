@@ -101,17 +101,11 @@ export const parseJSCHeapSnapshot = (
 /**
  * Maps node identifiers to node ordinals. Edges reference nodes by identifier,
  * and identifiers are not ordinals: nodes appear in traversal order while
- * identifiers reflect allocation order.
+ * identifiers reflect allocation order, counted across every snapshot the
+ * process took, so the array is sparse.
  */
-const computeIdToOrdinal = (nodes: number[], nodeCount: number): Int32Array => {
-  let maxId = 0
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const id = nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_ID_OFFSET]!
-    if (id > maxId) {
-      maxId = id
-    }
-  }
-  const idToOrdinal = new Int32Array(maxId + 1).fill(-1)
+const computeIdToOrdinal = (nodes: number[], nodeCount: number): number[] => {
+  const idToOrdinal: number[] = []
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     idToOrdinal[nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_ID_OFFSET]!] =
       nodeOrdinal
@@ -121,7 +115,7 @@ const computeIdToOrdinal = (nodes: number[], nodeCount: number): Int32Array => {
 
 const computeNodeAdjacencyGraph = (
   edges: number[],
-  idToOrdinal: Int32Array,
+  idToOrdinal: number[],
   nodeCount: number,
   rawEdgeCount: number,
 ): NodeAdjacencyGraph => {
@@ -165,7 +159,7 @@ const computeNodeAdjacencyGraph = (
  */
 const countResolvedEdges = (
   edges: number[],
-  idToOrdinal: Int32Array,
+  idToOrdinal: number[],
   nodeCount: number,
   rawEdgeCount: number,
 ): {
@@ -203,7 +197,7 @@ const countResolvedEdges = (
  */
 const computeAdjacencyLists = (
   edges: number[],
-  idToOrdinal: Int32Array,
+  idToOrdinal: number[],
   nodeCount: number,
   rawEdgeCount: number,
   ordinalToSuccessorStartOffset: Int32Array,
@@ -265,8 +259,8 @@ const computeAdjacencyLists = (
  * Resolves a node id to its ordinal, or -1 for ids of nodes that don't exist,
  * which JSC's `HeapSnapshotBuilder` sometimes outputs edge endpoints for.
  */
-const resolveIdToOrdinal = (idToOrdinal: Int32Array, id: number): number =>
-  id < idToOrdinal.length ? idToOrdinal[id]! : -1
+const resolveIdToOrdinal = (idToOrdinal: number[], id: number): number =>
+  idToOrdinal[id] ?? -1
 
 /**
  * Yields each node, and records each node whose class name index matches no
