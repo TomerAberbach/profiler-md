@@ -52,11 +52,15 @@ conversation, ask the user and stop.
    or revert it
 8. Capture a new profile (e.g. `current.<ext>`) with the same workload and
    profiler settings, and diff it with `profiler-md base.<ext> current.<ext>`
-   - Keep the change only if the profile's total drops by more than a small
-     fraction and the targeted functions or nodes account for the drop.
-     Otherwise revert and return to step 5
-   - If the diff is too noisy to judge, collect more data (see "Measurement")
-     and diff again
+   - Keep the change only if the targeted functions' or nodes' cost drops by
+     more than their noise floor (see "Measurement"), and no other function's or
+     node's cost rises by the amount they dropped. Otherwise revert and return
+     to step 5
+   - Ignore the profile's total. Its noise floor includes the variation of every
+     function or node, so a drop smaller than that floor is indistinguishable
+     from noise even when every run repeats the drop
+   - If the drop is close to the targeted functions' or nodes' noise floor,
+     collect more data (see "Measurement") and diff again
 9. If the goal is unmet and a clear bottleneck remains, make `current.<ext>` the
    new baseline and return to step 4. If no small change removes the remaining
    cost, follow "Redesigns"
@@ -74,6 +78,10 @@ conversation, ask the user and stop.
   number moves with machine load, caches, and garbage collection. A profile diff
   instead attributes each change in cost to functions or nodes, so it shows
   whether the code change removed the targeted cost
+- Two runs of the same workload differ, in the total and in each function or
+  node. Before judging the first change, capture a second baseline and diff the
+  two. A function's or node's noise floor is how much its cost differs between
+  the baselines
 - When a profile has too little data to trust, raise the profiler's resolution
   (e.g. a higher sampling frequency, or a smaller allocation sampling interval),
   enlarge the workload's input, or repeat its work. Apply the same adjustment
