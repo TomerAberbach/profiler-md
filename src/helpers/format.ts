@@ -4,7 +4,10 @@ import type { Options as PrettyBytesOptions } from 'pretty-bytes'
 import prettyMilliseconds from 'pretty-ms'
 
 export const formatCount = (count: number, unit?: string): string =>
-  count.toLocaleString(`en-US`) + (unit ? ` ${plur(unit, count)}` : ``)
+  (countFormatter ??= new Intl.NumberFormat(`en-US`)).format(count) +
+  (unit ? ` ${plur(unit, count)}` : ``)
+
+let countFormatter: Intl.NumberFormat | undefined
 
 /**
  * A base and a current count joined by an arrow, with {@link unit} stated once
