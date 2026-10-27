@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
+# Usage: scripts/bench [--save <path>] <cli args...>
+#
+# Converts the CLI's own CPU profile to Markdown. `--save` keeps the profile at
+# <path>, so two runs can be diffed.
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "$0")" && pwd)
 cli_path="$script_dir/../src/cli/index.ts"
 
+save_path=
+if [[ ${1-} == --save ]]; then
+  save_path=${2:?--save requires a path}
+  shift 2
+fi
+
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
-
 
 node \
   --cpu-prof \
@@ -15,4 +24,7 @@ node \
   "$cli_path" "$@" > /dev/null
 
 cpuprofile="$(echo "$tmpdir"/*.cpuprofile)"
+if [[ -n $save_path ]]; then
+  cp "$cpuprofile" "$save_path"
+fi
 node "$cli_path" "$cpuprofile"

@@ -1,218 +1,280 @@
 ---
 name: profile-optimize
 description: |
-  Generate a performance profile, identify hotspots, and optimize.
-argument-hint: '[what to focus on]'
+  Profile a program, find its costliest functions or nodes, and lower their
+  cost.
+argument-hint: '[what to optimize or focus on]'
 allowed-tools: Bash(profiler-md *)
 ---
 
-Generate a performance profile, identify hotspots, and optimize.
+Profile a program, find its costliest functions or nodes, and lower their cost.
 
-Focus: $ARGUMENTS
+Arguments: $ARGUMENTS
+
+# Goals
+
+- Lower the cost named in the arguments, or the cost the user is concerned about
+  in the conversation, to the user's target if they set one. A cost is whatever
+  the profiler measures: time, memory allocated or retained, instructions, I/O,
+  or another metric
+- Keep the program's output unchanged, and keep every test that passed before an
+  optimization passing after it. Change the output (e.g. an approximate result)
+  only with the user's approval
+- Prove each change with a profile diff
+
+If the cost or the code to optimize is unclear from the arguments and the
+conversation, ask the user and stop.
 
 # Workflow
 
-1. Decide what to profile (e.g. time) and write an isolated script that
-   exercises the slow path if nothing runs it directly. Run
-   `profiler-md --help <language>` for profiling instructions
-2. Capture a baseline: generate a profile, convert it with
-   `profiler-md path/to/profile`, and read the full report, focusing on:
-   - Call tree: how the profile's share divides from the outermost callers down,
-     which shows the branch to follow before any single function
-   - Hottest functions: self % shows where time is spent or memory is allocated,
-     rather than passed through
-   - Hottest call stacks: the call path to the hot functions
-3. Identify the hottest 1-3 functions by self % and read their source:
-   - A native function cannot be changed, but its cost may come from unnecessary
-     work in its callers (e.g. parsing the same data twice)
-   - Project functions are direct targets
-4. State a hypothesis (see "Hypotheses"). If the bottleneck is unclear, reread
-   the hot function and its callers
-5. Apply the minimal change that removes the bottleneck, one optimization at a
+1. Pick a profiler for the cost and the program's language. Run
+   `profiler-md --help <language>` for each profiler's capture commands and
+   settings, and `profiler-md --help` for CLI options
+2. Write a workload that runs only the code to optimize, unless an existing
+   command already does. Keep its input representative of real use. Fix the
+   input across runs, because every later profile must exercise the same work
+3. Capture a baseline profile (e.g. `base.<ext>`), convert it with
+   `profiler-md base.<ext>`, and read the whole output
+4. Read the source of the costliest functions or nodes, and of their callers or
+   the nodes that retain them
+   - A function or node outside the codebase (e.g. the runtime, a native module,
+     or a dependency) cannot be changed, though the code calling it or retaining
+     it can. Look for callers that make it repeat work (e.g. parsing the same
+     data twice)
+5. State a hypothesis (see "Hypotheses" and "Focus areas")
+6. Apply the smallest change that removes the bottleneck, one optimization at a
    time
-   - Leave unrelated code alone
-   - Optimize the general case, not the benchmark: don't exploit quirks of the
-     profiled input (its size, ordering, value distribution, or hardcoded
-     special cases for it) unless they're guaranteed properties of real inputs
-   - Prefer a change inside the hot function or its callers. A change that
-     replaces a representation, an intermediate structure, or a layer boundary
-     is a redesign. Follow "Redesigns" before starting one
-6. Run the relevant tests: if any newly fail, fix the optimization or revert it
-7. Capture a new report as in step 2 and compare self % for the targeted
-   function(s) against the baseline: if the improvement is negligible or
-   unclear, revert and go back to step 4. If the comparison is too noisy to
-   call, collect more data (see "Measurement")
-8. If the goal is unmet and a clear bottleneck remains, repeat from step 3 with
-   the new profile as the baseline. If no change inside a hot function can
-   remove the remaining cost, see "Redesigns"
-9. Report:
-   - Before vs after for the hot function(s)
-   - Any other functions that moved significantly (regressions)
+   - Exploit a property of the workload's input (its size, order, value
+     distribution) only when every real input has it
+   - Before replacing a representation, an intermediate structure, or a layer
+     boundary, follow "Redesigns"
+7. Run the tests covering the changed code. If one newly fails, fix the change
+   or revert it
+8. Capture a new profile (e.g. `current.<ext>`) with the same workload and
+   profiler settings, and diff it with `profiler-md base.<ext> current.<ext>`
+   - Keep the change only if the profile's total drops by more than a small
+     fraction and the targeted functions or nodes account for the drop.
+     Otherwise revert and return to step 5
+   - If the diff is too noisy to judge, collect more data (see "Measurement")
+     and diff again
+9. If the goal is unmet and a clear bottleneck remains, make `current.<ext>` the
+   new baseline and return to step 4. If no small change removes the remaining
+   cost, follow "Redesigns"
+10. Once the goal is met, or the remaining cost is spread across functions or
+    nodes that no change from "Focus areas" or "Redesigns" reduces, summarize
+    the diff between the first baseline and the final profile. List each kept
+    optimization and each disproved hypothesis. For a redesign, also report its
+    ceiling and the diff from step 4 of "Spike"
 
 # Measurement
 
-`profiler-md` reports are the ONLY measurements in this workflow. NEVER time
-manually (e.g. `time` or `performance.now()`).
-
-Manual timing yields one noisy end-to-end number that can improve for reasons
-unrelated to the change (machine load, caches, GC timing). Its instrumentation
-also distorts the hot path. A profile attributes work to functions, so a
-before/after comparison proves the optimization removed the targeted work, not
-merely that one run was faster.
-
-If a profile has too little data to trust, collect more:
-
-- Run the workload longer or loop it more times
-- Raise the sampling frequency if the profiler supports it (see
-  `profiler-md --help <language>`)
-- Regenerate the profile and compare again
+- Measure only with profiles converted by `profiler-md`. NEVER time or meter the
+  program manually (e.g. `time`, a timer around a call, or the process's memory
+  usage). A manual measurement gives one number for the whole run, and that
+  number moves with machine load, caches, and garbage collection. A profile diff
+  instead attributes each change in cost to functions or nodes, so it shows
+  whether the code change removed the targeted cost
+- When a profile has too little data to trust, raise the profiler's resolution
+  (e.g. a higher sampling frequency, or a smaller allocation sampling interval),
+  enlarge the workload's input, or repeat its work. Apply the same adjustment
+  when you recapture the baseline, so both sides of the diff run the same
+  workload and settings
 
 # Hypotheses
 
-Before changing anything, state:
+Before changing code, state:
 
-- What is the bottleneck? (e.g. "repeated object allocation in the hot loop",
-  "O(n²) suffix scan", "redundant map lookups")
-- What is the expected fix? (e.g. "hoist allocation outside loop", "use a
-  two-pointer suffix scan", "cache the lookup result")
-- Why will it be faster?
+- The bottleneck (e.g. "a new buffer allocated per row", "an `O(n²)` scan for
+  duplicates", "the same config parsed on every request")
+- The fix (e.g. "reuse one buffer", "track seen keys in a set", "parse the
+  config once at startup")
+- Why the fix lowers the profiled cost, and which functions or nodes should cost
+  less in the diff
 
 # Redesigns
 
-A local optimization makes the existing design do its work faster. A redesign
-replaces a representation, an intermediate structure, or a layer boundary so the
-hot work never runs. It changes code the profile never ranked and can move work
-instead of removing it, so it requires stronger evidence and a spike first.
+A local optimization makes the existing design do its work at a lower cost. A
+redesign replaces a representation, an intermediate structure, or a layer
+boundary so the costly work never runs. A redesign changes code the profile
+never ranked and can move cost elsewhere instead of removing it, so test it with
+a spike (see "Spike") before implementing it.
 
 ## When to consider one
 
-Only when the profile shows the cost is in the design rather than in one
-function:
+Consider a redesign only when the profile shows any of these signs that the cost
+is in the design rather than in one function or node:
 
-- The profile is flat: many small functions implement the same abstraction (e.g.
-  converting the same intermediate representation at each layer)
-- The hot function does only what its interface requires, and every local change
-  to it was reverted in step 7
+- The profile is flat, and many of its costliest functions or nodes implement
+  the same abstraction (e.g. each layer converting the same intermediate
+  representation)
+- The costliest function or node does only what its interface requires, and
+  every local change to it was reverted at step 8
 - The same local fix would repeat at many call sites
-- The design sets the asymptotic bound (e.g. an intermediate tree built in full
-  and walked once)
+- The design sets the asymptotic bound (e.g. a tree built in full only to be
+  walked once)
 
-Before designing anything, sum the self % of the functions the redesign would
-remove. That sum is the ceiling on its gain. If the ceiling is below the goal,
-report that the goal requires a different approach.
+Estimate the redesign's ceiling: the summed cost of the functions or nodes it
+eliminates. If the user set a target and the ceiling falls short of it, report
+that the goal requires a different approach and stop.
 
 ## Spike
 
-NEVER start with the redesign itself:
+A spike is a throwaway implementation of the redesign that covers only the code
+the workload runs. NEVER begin with the redesign itself. Time-box the spike to a
+fraction of the redesign's estimated effort. If the spike overruns, the design
+is too unclear to implement, so discard the spike.
 
-1. State the hypothesis as in "Hypotheses", plus which abstraction requires the
-   work, what replaces it, which functions it removes, and the ceiling
-2. Write a throwaway implementation for the profiled path alone: hardcode, skip
-   edge cases and tests, and leave other call sites on the old code. Isolate it
-   (a copy of the module, or its own commit or worktree) so discarding it is one
-   operation. NEVER edit the existing implementation in place
-3. Check it produces the same output as the baseline on the workload
-4. Profile it and compare against the baseline: the removed functions should be
-   gone, and no new function should absorb their cost
-5. Proceed only if the gain meets the goal or a clear change closes the gap.
-   Otherwise discard the spike and report the disproof as a finding
-6. Get the user's approval before implementing. Present the hypothesis, the
-   ceiling, the spike's profile against the baseline, and what the spike
-   skipped. Stop until the user answers
-7. Implement, then run steps 6 and 7 of the workflow. Compare the final profile
-   with the spike's: a lost gain means the added generality reintroduced work.
-   Treat the function that absorbed it as a new bottleneck
+1. State the hypothesis as in "Hypotheses", plus the abstraction that requires
+   the work, what replaces the abstraction, the functions or nodes the redesign
+   eliminates, and the ceiling
+2. Write the spike. Hardcode values, skip edge cases and tests, and leave other
+   callers on the old code. Isolate it (a copy of the module, its own commit, or
+   a separate worktree) so one operation discards it. NEVER edit the existing
+   implementation in place
+3. Check that the spike produces the same program output as the original code on
+   the workload
+4. Capture a profile (e.g. `spike.<ext>`) and diff it against the baseline. The
+   eliminated functions or nodes must be gone, and their cost must not have
+   moved to other functions or nodes
+5. If the diff fails either condition in step 4, or the gain falls short of the
+   target and no clear change closes the gap, discard the spike and report the
+   disproved hypothesis as a finding
+6. Ask the user to approve the redesign. Present the hypothesis, the ceiling,
+   the spike's diff against the baseline, and what the spike skipped. Stop until
+   the user answers
+7. Implement the redesign, then run steps 7 and 8 of the workflow. Also diff the
+   new profile against the spike's (`profiler-md spike.<ext> current.<ext>`). A
+   function or node that costs more than in the spike shows where the added
+   generality reintroduced work. Treat it as a new bottleneck
 
-Time-box the spike to a fraction of the redesign's cost. If it runs over, the
-design is too unclear to implement. Discard it.
+# Commits and pull requests
 
-Report a redesign with the ceiling and the spike's and final profiles against
-the baseline.
+Keep every profile the workflow captures until the commit and pull request
+descriptions include their diffs. Keep the first baseline under its own name, so
+step 9 never overwrites it.
+
+- In each commit's description, include the `profiler-md` diff of the profiles
+  captured before and after the commit's change (the diff from step 8), in a
+  fenced code block. For a redesign, include the diff against the profile from
+  before the redesign, not the diff against the spike's profile
+- In a pull request's description, include the `profiler-md` diff between the
+  first baseline and the final profile, collapsed in a `<details>` element:
+
+  ```
+  <details>
+  <summary>profiler-md diff</summary>
+
+  <!-- Output of `profiler-md <first baseline> <final profile>` -->
+
+  </details>
+  ```
+
+  Leave the blank lines around the diff and keep it unindented, so the pull
+  request renders it as Markdown
 
 # Focus areas
 
-Sub-bullets are examples.
+Each area's sub-bullets are examples.
 
 - Time complexity: reduce the asymptotic work per input element
-  - Replace `O(n²)` scans with single-pass or two-pointer algorithms
-  - Use heaps for top-N instead of fully sorting
-  - Sort once and binary search instead of repeated linear scans
+  - Replace an `O(n²)` scan with a single pass or two pointers
+  - Select the top N with a heap instead of a full sort
+  - Sort once and binary search instead of scanning repeatedly
 - Redundant work: compute each result once
   - Cache or memoize repeated parses and lookups
   - Hoist loop-invariant computation out of loops
-  - Build lookup tables once instead of searching repeatedly, and intern
+  - Build a lookup table once instead of searching repeatedly, and intern
     repeated values
   - Update incrementally instead of recomputing from scratch
-  - Persist expensive results between invocations, keyed by input so stale
-    entries are never served
-- Work avoidance: skip or defer computation whose result may never be used
-  - Exit early once the answer is known
-  - Filter before expensive transforms
-  - Order checks cheapest-first so expensive predicates run last and rarely
-  - Add fast paths for the common input shape
-  - Defer initialization and large dependency loading until first use,
-    especially on the startup critical path
-  - Debounce or throttle work triggered by bursty events
-- Data structure selection: match the structure to the access pattern
-  - Use sets/maps for membership and lookup instead of linear scans
-  - Use bitsets for dense boolean membership
-  - Use a ring buffer for FIFO access instead of shifting an array
-- Cache locality: lay out data so hot loops read memory sequentially
-  - Compressed sparse row (CSR) format
-  - Data-oriented design (struct-of-arrays, packed primitive arrays)
-  - Sparse arrays indexed by sequential IDs instead of integer-keyed hash maps
+  - Skip re-rendering a view whose inputs are unchanged
+  - Read all layout values before changing any, so no read forces the layout to
+    be recomputed between changes
+  - Persist an expensive result between runs, keyed by its input so a stale
+    entry is never served
+- Work avoidance: skip or defer work whose result may go unused
+  - Return early once the answer is known
+  - Filter before an expensive transform
+  - Run the cheapest check first, so expensive checks run rarely
+  - Add a fast path for the common input shape
+  - Process only what the consumer uses (e.g. render only the visible rows of a
+    long list)
+  - Defer initialization and loading large dependencies until first use,
+    especially at startup
+  - Debounce or throttle work triggered by bursts of events
+- Data structures: match the structure to the access pattern
+  - Look up membership in a set or map instead of a list
+  - Use a bitset for dense boolean membership
+  - Use a ring buffer for a FIFO queue instead of shifting an array
+- Memory layout: store data compactly and read it sequentially
+  - Store graphs in compressed sparse row (CSR) format
+  - Use data-oriented design (struct of arrays, packed primitive arrays)
+  - Index arrays by sequential IDs instead of hashing integer keys
   - Iterate in storage order (e.g. row-major for nested arrays)
-- Allocation and copying: allocate and copy less in hot paths
-  - Hoist allocations out of hot loops, and reuse buffers instead of
-    reallocating
-  - Preallocate arrays and buffers to their known final size instead of growing
-    incrementally
-  - Fuse chained transforms into one pass instead of building an intermediate
-    collection per step
-  - Use views/slices over underlying data instead of copying, and defer cloning
-    until mutation
-- Memory footprint: retain only what the computation needs
-  - Stream or process incrementally instead of materializing intermediates
-  - Bound caches (e.g. LRU), and use weak references for object-keyed caches
+  - Store each number in the narrowest type that holds its range, pack boolean
+    flags into bits, and encode a closed set of values as integers instead of
+    strings
+- Allocation and copying: allocate and copy less on the hot path
+  - Hoist allocations out of loops, and reuse buffers
+  - Preallocate arrays and buffers at their known final size
+  - Fuse chained transforms into one pass instead of building a collection per
+    step
+  - Read through views or slices of the original data, and copy only before a
+    mutation
+- Retained memory: keep only what the computation still needs
+  - Stream input instead of materializing intermediates
+  - Bound caches (e.g. LRU), and key object caches with weak references
   - Remove listeners, timers, and subscriptions when done
-  - Avoid closures capturing large outer scopes, and drop references held by
-    long-lived structures once no longer needed
-- String handling: minimize the strings created and scanned in hot paths
-  - Avoid repeated concatenation in loops
-  - Work with indices or char codes into the original string instead of creating
-    substrings
-  - Minimize serialization/deserialization round-trips
-  - Avoid regex in hot paths
-- Runtime friendliness: stay on the JIT's optimized fast paths
-  - Keep object shapes consistent (same fields, same initialization order)
-  - Avoid polymorphic call sites and mixed-type arrays in hot paths
-  - Keep numbers in the runtime's fast representations, and avoid deoptimization
-    triggers in hot loops
-- I/O and queries: make fewer round-trips and move fewer bytes
-  - Read or write in large chunks instead of many small operations
-  - Eliminate N+1 patterns by coalescing small queries or requests into one
-    batch
-  - Push filtering, aggregation, and pagination down to the data store, and add
-    indexes matching the hot query's predicates
-  - Compress or use binary encodings for large transfers, and send only the
-    fields the consumer reads
-- Concurrency: use idle hardware for independent work
-  - Run independent async operations concurrently, bounded to what the awaited
-    resource can absorb
-  - Overlap I/O waits with computation instead of strictly sequencing them
-  - Split CPU-bound work across threads or processes, and use SIMD where the
-    platform supports it
-- Contention and backpressure: keep concurrent parts from waiting on or
-  overwhelming each other
-  - Shrink critical sections to minimize time spent holding locks
-  - Shard or partition shared state, and prefer immutable or thread-local data
-    over shared mutable state
-  - Bound queues so producers can't outrun consumers, and shed or coalesce load
-    when the system is saturated
-- Precision trade-offs: do cheaper approximate work where the consumer tolerates
-  the difference
-  - Use approximate algorithms (sampling, sketches, bloom filters)
-  - Lower resolution or cap iteration counts when the output tolerance allows
-- Observability overhead: keep instrumentation too cheap to distort the hot path
-  - Keep logging, tracing, and assertions out of hot loops
-  - Sample or gate expensive instrumentation behind flags
+  - Keep closures from capturing large scopes, and release references a
+    long-lived structure no longer needs
+- Strings: create and scan fewer strings on the hot path
+  - Build strings with a builder or join instead of repeated concatenation
+  - Work with indices into the original string instead of substrings
+  - Remove serialization round trips
+  - Replace regexes on the hot path with direct character checks
+- Runtime: stay on the runtime's optimized paths
+  - Initialize an object's fields in the same order everywhere, so its shape
+    stays consistent
+  - Keep hot call sites monomorphic and arrays homogeneous
+  - Keep numbers in the runtime's unboxed representation, and remove whatever
+    deoptimizes a hot loop
+- Per-operation overhead: pay a setup or call cost once for many operations
+  instead of once per operation
+  - Reuse resources that are expensive to create (connections, threads,
+    processes, compiled regexes) through a pool or a long-lived instance
+  - Batch calls that cross a boundary (FFI, system calls, IPC, messages to a
+    worker) instead of making one call per item
+  - Fetch related records in one query or request instead of one per record (the
+    N+1 pattern)
+  - Read and write in large chunks
+- I/O and queries: move fewer bytes, and push work to the data store
+  - Push filtering, aggregation, and pagination down to the data store, and
+    index the columns a costly query filters on
+  - Compress or binary-encode large transfers, and send only the fields the
+    consumer reads
+- Concurrency: run independent work on idle hardware
+  - Run independent async operations concurrently, bounded by what the awaited
+    resource can serve
+  - Overlap I/O waits with computation
+  - Split CPU-bound work across threads or processes
+- Contention: keep concurrent work from waiting on or flooding other work
+  - Shrink critical sections
+  - Shard shared state, or use immutable or thread-local data
+  - Bound queues so producers cannot outrun consumers, and shed or coalesce load
+    at saturation
+- Specialized implementations: use a faster implementation of the same operation
+  - Replace a hand-written routine with the platform's built-in equivalent (e.g.
+    its JSON parser or sort)
+  - Replace a slow dependency with a faster one that behaves the same
+  - Use SIMD, vectorized library calls, or the GPU for data-parallel work
+- Build and runtime configuration: lower the cost without changing the code
+  - Build in release mode, with link-time or profile-guided optimization
+  - Tune the garbage collector and the heap size to the workload
+  - Enable the runtime's JIT or ahead-of-time compilation
+- Precision: compute approximately where the consumer tolerates the error
+  - Use sampling, sketches, or Bloom filters
+  - Lower resolution or cap iterations within the output's tolerance
+- Instrumentation: keep logging, tracing, and assertions off the hot path
+  - Move them out of hot loops
+  - Sample them, or gate the expensive ones behind a flag
+
+These aren't exhaustive. Reason from first principles when none fits cleanly.
