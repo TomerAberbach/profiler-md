@@ -3,6 +3,10 @@
 #
 # Converts the CLI's own CPU profile to Markdown. `--save` keeps the profile at
 # <path>, so two runs can be diffed.
+#
+# A first run without profiling, with the same arguments, fills the Node compile
+# cache, so the profile excludes the time spent stripping types and compiling
+# modules.
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "$0")" && pwd)
@@ -16,6 +20,9 @@ fi
 
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
+
+export NODE_COMPILE_CACHE="$script_dir/../node_modules/.cache/node-compile-cache"
+node "$cli_path" "$@" > /dev/null
 
 node \
   --cpu-prof \
