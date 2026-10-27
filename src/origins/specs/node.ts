@@ -58,13 +58,10 @@ const nodeTraceEventCategory = ({
   if (declaredCategories?.includes(`node.fs`)) {
     return `io`
   }
-  if (
-    declaredCategories?.includes(`node.async_hooks`) &&
+  return declaredCategories?.includes(`node.async_hooks`) &&
     name.endsWith(`_CALLBACK`)
-  ) {
-    return `script`
-  }
-  return undefined
+    ? `script`
+    : undefined
 }
 
 /** The module specifiers Node resolves to runtime builtins. */

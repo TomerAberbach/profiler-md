@@ -263,7 +263,7 @@ export const packedLocationNormalizer =
     return {
       name: func!,
       definition: { type: `file`, urlOrPath: file! },
-      executing: line === undefined ? undefined : { line: Number(line) },
+      ...(line === undefined ? {} : { executing: { line: Number(line) } }),
     }
   }
 
@@ -278,7 +278,10 @@ export const placeholderPathNormalizer =
   (paths: ReadonlySet<string>) =>
   (input: StackFrame): StackFrame =>
     input.definition?.type === `file` && paths.has(input.definition.urlOrPath)
-      ? { name: input.name, executing: input.executing }
+      ? {
+          name: input.name,
+          ...(input.executing && { executing: input.executing }),
+        }
       : input
 
 /**

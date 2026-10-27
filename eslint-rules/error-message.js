@@ -112,24 +112,21 @@ const isDestructuredLoggerMethod = (callee, sourceCode) => {
     return false
   }
   const variable = findVariable(sourceCode.getScope(callee), callee.name)
-  return (variable?.defs ?? []).some(({ type, node }) => {
-    if (
-      type !== `Variable` ||
-      node.id.type !== `ObjectPattern` ||
-      !node.init ||
-      !isLoggerExpression(node.init)
-    ) {
-      return false
-    }
-    return node.id.properties.some(
-      property =>
-        property.type === `Property` &&
-        !property.computed &&
-        LOGGER_METHODS.has(property.key.name) &&
-        property.value.type === `Identifier` &&
-        property.value.name === callee.name,
-    )
-  })
+  return (variable?.defs ?? []).some(({ type, node }) =>
+    type !== `Variable` ||
+    node.id.type !== `ObjectPattern` ||
+    !node.init ||
+    !isLoggerExpression(node.init)
+      ? false
+      : node.id.properties.some(
+          property =>
+            property.type === `Property` &&
+            !property.computed &&
+            LOGGER_METHODS.has(property.key.name) &&
+            property.value.type === `Identifier` &&
+            property.value.name === callee.name,
+        ),
+  )
 }
 
 const LOGGER_METHODS = new Set([`error`, `warn`, `info`, `debug`])

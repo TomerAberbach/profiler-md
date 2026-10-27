@@ -168,11 +168,11 @@ describe(`decompressLz4FrameStream`, () => {
         [0xf0, 0x02, ...codes(`abcdefghijklmnopq`)],
       ])
 
-      expect(
-        await bytesOf(
+      await expect(
+        bytesOf(
           decompressLz4FrameStream(streamOf(...chunk(compressed, chunkSize))),
         ),
-      ).toEqual(decompressLz4Frame(compressed))
+      ).resolves.toStrictEqual(decompressLz4Frame(compressed))
     },
   )
 
@@ -180,6 +180,8 @@ describe(`decompressLz4FrameStream`, () => {
     // Enough blocks of one repeated byte that the window slides before the
     // last block, whose match reaches back the full window.
     const block = [0x1f, ...codes(`a`), 0x01, 0x00, 0xf1] // 1 + (15 + 241 + 4)
+    // Every element is the same array, which `lz4FrameOf` only reads.
+    // eslint-disable-next-line unicorn/no-array-fill-with-reference-type
     const blocks = new Array<number[]>(2 ** 15).fill(block)
     const lastBlock = [0x0f, 0xff, 0xff, 0xf1] // A match 65535 bytes back
     const bytes = await bytesOf(
@@ -188,7 +190,7 @@ describe(`decompressLz4FrameStream`, () => {
       ),
     )
 
-    expect(bytes.length).toBe(blocks.length * 261 + 260)
+    expect(bytes).toHaveLength(blocks.length * 261 + 260)
     expect(bytes.every(byte => byte === 0x61)).toBe(true)
   })
 
@@ -203,7 +205,7 @@ describe(`decompressLz4FrameStream`, () => {
       decompressLz4FrameStream(streamOf(compressed)),
     )
 
-    expect(chunks.map(text)).toEqual([`abcd`, `ef`, `g`])
+    expect(chunks.map(text)).toStrictEqual([`abcd`, `ef`, `g`])
   })
 
   test(`errors on an input ending inside a block`, async () => {

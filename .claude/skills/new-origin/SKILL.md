@@ -67,11 +67,11 @@ $ARGUMENTS
 
 3. Enable detection: list every format the origin emits in its `formats`. A
    missing entry fails silently (detection falls back). The parameterized
-   `aggregated examples` test in `src/origins/index.test.ts` requires every
-   committed input to resolve to the origin in its filename (the second token,
-   which must be the origin's ID). NEVER commit an input that resolves
-   elsewhere: give the origin a marker entry or a parser origin hint, or make
-   the workload realistic enough to contain the origin's marker entries
+   example test in `src/origins/inputs.test.ts` requires every committed input
+   to resolve to the origin in its filename (the second token, which must be the
+   origin's ID). NEVER commit an input that resolves elsewhere: give the origin
+   a marker entry or a parser origin hint, or make the workload realistic enough
+   to contain the origin's marker entries
 
 4. Revisit the `fallbackOrigin` of every format the new origin emits, following
    the registration principles in `CLAUDE.md`. Update the comment above the
@@ -79,6 +79,6 @@ $ARGUMENTS
 
 5. Run the origin tests (`pnpm test src/origins/specs/<origin>.test.ts`,
    `pnpm test src/origins/categorize.test.ts`, and
-   `pnpm test src/origins/index.test.ts --project '<format>*'` per format the
+   `pnpm test src/origins/inputs.test.ts --project '<format>*'` per format the
    origin emits, one at a time) and fix failures. Without `--project`, the
-   `src/origins/index.test.ts` run converts every committed input
+   `src/origins/inputs.test.ts` run converts every committed input

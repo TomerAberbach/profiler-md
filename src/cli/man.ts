@@ -39,7 +39,7 @@ export const getManPage = (date: Date): string => {
       })),
     },
   ]
-  const page = formatDocPageAsMan(
+  return formatDocPageAsMan(
     {
       usage,
       description: message`Converts a profile to Markdown, or diffs a base profile against a current one.\n\nRun ${helpTopicsHint}.`,
@@ -57,9 +57,6 @@ export const getManPage = (date: Date): string => {
       ],
     },
   )
-  // Optique brackets every option in the synopsis, though `--help` is required
-  // in its alternative: https://github.com/dahlia/optique/issues/1004
-  return page.replace(String.raw`[\fB\-\-help\fR]`, String.raw`\fB\-\-help\fR`)
 }
 
 const literalEntry = (

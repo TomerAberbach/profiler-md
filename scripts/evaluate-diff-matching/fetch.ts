@@ -63,7 +63,7 @@ export const prefetch = (urls: Iterable<string>): void => {
         `--parallel-max`,
         `16`,
         `--write-out`,
-        `%{http_code} %{url}\\n`,
+        String.raw`%{http_code} %{url}\n`,
         ...pending.flatMap(url => [`-o`, partialPath(url), url]),
       ],
       { encoding: `utf8` },

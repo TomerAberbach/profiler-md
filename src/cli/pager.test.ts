@@ -13,12 +13,12 @@ beforeAll(async () => {
   dir = await mkdtemp(join(tmpdir(), `profiler-md-pager-`))
 })
 
-afterAll(() => rm(dir, { recursive: true }))
-
 afterEach(() => {
   vi.unstubAllEnvs()
   vi.restoreAllMocks()
 })
+
+afterAll(() => rm(dir, { recursive: true }))
 
 const page = async (text: string): Promise<string[]> => {
   const fallback = recordingOutput()
@@ -56,8 +56,8 @@ test(`passes the output to the pager and writes nothing else`, async () => {
 
   const fallback = await page(`# Hello\n`)
 
-  expect(await readFile(received, `utf8`)).toBe(`# Hello\n`)
-  expect(fallback).toEqual([])
+  await expect(readFile(received, `utf8`)).resolves.toBe(`# Hello\n`)
+  expect(fallback).toStrictEqual([])
   expectLogs([])
 })
 
@@ -73,11 +73,11 @@ test(`defaults LESS to case-insensitive search and keeps the user's LESS`, async
 
   vi.stubEnv(`LESS`, undefined)
   await page(``)
-  expect(await readFile(received, `utf8`)).toBe(`FIRSX -#6`)
+  await expect(readFile(received, `utf8`)).resolves.toBe(`FIRSX -#6`)
 
   vi.stubEnv(`LESS`, `R`)
   await page(``)
-  expect(await readFile(received, `utf8`)).toBe(`R`)
+  await expect(readFile(received, `utf8`)).resolves.toBe(`R`)
 })
 
 test(`falls back to the output and warns when the pager exits non-zero`, async () => {
@@ -85,7 +85,7 @@ test(`falls back to the output and warns when the pager exits non-zero`, async (
 
   const fallback = await page(`# Hello\n`)
 
-  expect(fallback).toEqual([`# Hello\n`])
+  expect(fallback).toStrictEqual([`# Hello\n`])
   expectLogs([
     `warn: pager false exited with a non-zero status, got: 1\n  hint: set PAGER to another pager, or pass --no-pager`,
   ])
@@ -97,7 +97,7 @@ test(`keeps the output in the pager when the user quits it early`, async () => {
 
   const fallback = await page(`# Hello\n`.repeat(100_000))
 
-  expect(fallback).toEqual([])
+  expect(fallback).toStrictEqual([])
   expectLogs([])
 })
 

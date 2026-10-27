@@ -105,20 +105,20 @@ describe(`convert`, () => {
   test(`separates the ticks the profiler sampled from the allocation it counted`, () => {
     const md = convertJsonToMd(ghcJsonProfileFormatSpec, profile(), options())
 
-    expect(profileTitles(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
       `Wall time profile`,
       `Allocated heap and entries profile`,
     ])
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
-      `Allocated 1,000\u00A0B and recorded 7 entries.`,
+      `Allocated 1,000\u{A0}B and recorded 7 entries.`,
     ])
   })
 
   test(`attributes each cost-centre stack's ticks to its innermost cost centre`, () => {
     const md = convertJsonToMd(ghcJsonProfileFormatSpec, profile(), options())
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -138,7 +138,7 @@ describe(`convert`, () => {
     ])
     // A node holds the costs of the stack from the root down to it, so its
     // caller is the node above it in the tree.
-    expect(callersTables(md, `Parse.parse`)).toEqual([
+    expect(callersTables(md, `Parse.parse`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -170,7 +170,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfSizeTables(md, `Allocated heap`)).toEqual([
+    expect(selfSizeTables(md, `Allocated heap`)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -207,11 +207,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 4.0ms over 4 samples (1.0ms per sample).`,
-      `Allocated 1,000\u00A0B and recorded 5 entries.`,
+      `Allocated 1,000\u{A0}B and recorded 5 entries.`,
     ])
-    expect(selfSizeTables(md, `Allocated heap`)).toEqual([
+    expect(selfSizeTables(md, `Allocated heap`)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -246,7 +246,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(rankingTables(md, `Entries`, `Self entries`)).toEqual([
+    expect(rankingTables(md, `Entries`, `Self entries`)).toStrictEqual([
       [
         {
           '%': `57.1%`,
@@ -303,7 +303,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -341,7 +341,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect([...timeProfile!.observations]).toEqual([
+    expect([...timeProfile!.observations]).toStrictEqual([
       {
         id: depth,
         values: [1000],

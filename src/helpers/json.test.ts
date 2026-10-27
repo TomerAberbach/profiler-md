@@ -21,7 +21,7 @@ test.each([
   [`hello`, false],
   [`+1`, false],
   [`.5`, false],
-  [`\u001F\u008B`, false],
+  [`\u{1F}\u{8B}`, false],
 ])(`maybeJson reports %j as maybe-JSON: %s`, (input, expected) => {
   expect(maybeJson(input)).toBe(expected)
   expect(maybeJson(new TextEncoder().encode(input))).toBe(expected)

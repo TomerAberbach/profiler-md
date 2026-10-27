@@ -33,7 +33,7 @@ test(`reports a plain error as a bug, with its trace`, () => {
   const [errorLine, ...caveatLines] = stderr.join(``).split(`\n`)
   expect(errorLine).toBe(`error: the invariant broke`)
   const traceLines = caveatLines.splice(3)
-  expect(caveatLines).toEqual([
+  expect(caveatLines).toStrictEqual([
     `This is a bug in ${packageJson.name}. Report it:`,
     `${packageJson.bugs.url}/new`,
     `Include the command you ran, the input if you can share it, and this trace:`,

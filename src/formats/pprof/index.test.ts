@@ -188,7 +188,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -199,7 +199,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `funcB`)).toEqual([
+    expect(linesTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -209,7 +209,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `funcB`)).toEqual([
+    expect(callersTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -252,7 +252,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([summary])
+    expect(summaryLines(md)).toStrictEqual([summary])
   })
 
   test(`splits each count and the metrics it was counted over into a profile`, () => {
@@ -276,11 +276,11 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Allocated 4\u00A0KiB over 8 objects (512\u00A0B per object).`,
-      `Retained 512\u00A0B over 2 objects (256\u00A0B per object).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Allocated 4\u{A0}KiB over 8 objects (512\u{A0}B per object).`,
+      `Retained 512\u{A0}B over 2 objects (256\u{A0}B per object).`,
     ])
-    expect(selfSizeTables(md, `Allocated heap profile`)).toEqual([
+    expect(selfSizeTables(md, `Allocated heap profile`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -291,7 +291,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, `Retained heap profile`)).toEqual([
+    expect(selfSizeTables(md, `Retained heap profile`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -325,12 +325,12 @@ describe(`convert`, () => {
     )
 
     // Which count the size was measured over is unknown, so it states no rate.
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Collected 3 samples.`,
       `Recorded 8 objects.`,
-      `Allocated 4\u00A0KiB.`,
+      `Allocated 4\u{A0}KiB.`,
     ])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -340,7 +340,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, `Heap profile`)).toEqual([
+    expect(selfSizeTables(md, `Heap profile`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -373,10 +373,10 @@ describe(`convert`, () => {
     )
 
     // Which count each was measured over is unknown, so neither counts records.
-    expect(summaryLines(md)).toEqual([
-      `Recorded 8 counts, recorded 3 counts, and allocated 4\u00A0KiB.`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Recorded 8 counts, recorded 3 counts, and allocated 4\u{A0}KiB.`,
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Ours`,
@@ -410,10 +410,10 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 900,000 counts over 3 samples (300,000 counts per sample).`,
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Cycles: `900,000`, Samples: `3` }],
     ])
   })
@@ -437,7 +437,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 5.0ms over 1 sample (5.0ms per sample).`,
     ])
   })
@@ -468,10 +468,10 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Retained 512\u00A0B over 2 objects (256\u00A0B per object).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Retained 512\u{A0}B over 2 objects (256\u{A0}B per object).`,
     ])
-    expect(selfSizeTables(md, `Retained heap profile`)).toEqual([
+    expect(selfSizeTables(md, `Retained heap profile`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -500,8 +500,8 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(profileTitles(md)).toEqual([`Widgets profile`])
-    expect(categoryTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Widgets profile`])
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Widgets: `3` }],
     ])
   })
@@ -551,7 +551,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([[`_ZN7myClass6methodEv`]])
+    ).toStrictEqual([[`_ZN7myClass6methodEv`]])
   })
 
   test(`counts a sample with no locations under an anonymous function`, () => {
@@ -572,7 +572,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -612,10 +612,10 @@ describe(`convert`, () => {
     // samples still do.
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`./src/a.ts`]])
+    ).toStrictEqual([[`./src/a.ts`]])
     expect(
       linesTables(md, `funcA`).map(table => table.map(row => row.Location)),
-    ).toEqual([[`./src/a.ts:5`]])
+    ).toStrictEqual([[`./src/a.ts:5`]])
   })
 
   test(`omits a negative line`, () => {
@@ -637,8 +637,8 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`./src/a.jl`]])
-    expect(linesTables(md, `funcA`)).toEqual([])
+    ).toStrictEqual([[`./src/a.jl`]])
+    expect(linesTables(md, `funcA`)).toStrictEqual([])
   })
 
   test(`handles inlined calls`, () => {
@@ -667,7 +667,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -678,7 +678,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `funcB`)).toEqual([
+    expect(callersTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -712,7 +712,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -746,10 +746,10 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 50.0ms over 5 samples (10.0ms per sample).`,
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -800,7 +800,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -845,7 +845,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -886,7 +886,7 @@ describe(`convert`, () => {
 
     // 0x7f1234 is 0x1234 past the mapping's start, which maps file offset
     // 0x1000.
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -923,7 +923,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: null }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -963,7 +963,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1041,7 +1041,7 @@ describe(`options`, () => {
       }),
     )
 
-    expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
+    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([1])
   })
 
   test(`showEntry hides entries while preserving metrics`, () => {
@@ -1057,7 +1057,7 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([expect.not.arrayContaining([`funcA`])])
+    ).toStrictEqual([expect.not.arrayContaining([`funcA`])])
     expect(callersTables(md, `funcB`)).toHaveLength(0)
   })
 
@@ -1070,6 +1070,6 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[expect.stringMatching(/^\//u)]])
+    ).toStrictEqual([[expect.stringMatching(/^\//u)]])
   })
 })

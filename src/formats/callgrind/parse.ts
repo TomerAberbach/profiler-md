@@ -676,10 +676,7 @@ const creatorOriginHint = (creator: string | undefined): string | undefined => {
     return `valgrind`
   }
   // A pure-Ruby rbspy capture has no `[c function]` marker frame.
-  if (creator === `rbspy`) {
-    return `rbspy`
-  }
-  return undefined
+  return creator === `rbspy` ? `rbspy` : undefined
 }
 
 const callgrindEventMetric = (

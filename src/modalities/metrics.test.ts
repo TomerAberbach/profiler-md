@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { countMetricOf } from './metric.ts'
 import { NANOSECONDS_METRIC, parseMetric, SAMPLES } from './metrics.ts'
 
 describe(`parseMetric`, () => {
-  it(`returns named size metric for alloc_space`, () => {
+  test(`returns named size metric for alloc_space`, () => {
     const metric = parseMetric({ name: `alloc_space`, unit: `bytes` })
 
     expect(metric).toMatchObject({
@@ -13,7 +13,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns named size metric for inuse_space`, () => {
+  test(`returns named size metric for inuse_space`, () => {
     const metric = parseMetric({ name: `inuse_space`, unit: `bytes` })
 
     expect(metric).toMatchObject({
@@ -27,7 +27,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`derives byte scale from unit, phrases from value-type name`, () => {
+  test(`derives byte scale from unit, phrases from value-type name`, () => {
     const metric = parseMetric({ name: `alloc_space`, unit: `kilobytes` })
 
     expect(metric).toMatchObject({
@@ -37,7 +37,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns default size metric for unknown value-type name`, () => {
+  test(`returns default size metric for unknown value-type name`, () => {
     const metric = parseMetric({ name: `foo`, unit: `bytes` })
 
     expect(metric).toMatchObject({
@@ -47,7 +47,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns time metric for known time unit`, () => {
+  test(`returns time metric for known time unit`, () => {
     const metric = parseMetric({ name: `foo`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -56,7 +56,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns contention phrases for pprof block/mutex delay`, () => {
+  test(`returns contention phrases for pprof block/mutex delay`, () => {
     const metric = parseMetric({ name: `delay`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -66,7 +66,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns wall time phrases for the wall metric name`, () => {
+  test(`returns wall time phrases for the wall metric name`, () => {
     const metric = parseMetric({ name: `wall`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -76,7 +76,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns generic sampling phrases when the name is just a time unit`, () => {
+  test(`returns generic sampling phrases when the name is just a time unit`, () => {
     const metric = parseMetric({ name: `nanoseconds`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -86,7 +86,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`keeps CPU phrases for the cpu metric name`, () => {
+  test(`keeps CPU phrases for the cpu metric name`, () => {
     const metric = parseMetric({ name: `cpu`, unit: `nanoseconds` })
 
     expect(metric).toMatchObject({
@@ -96,7 +96,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns custom metric for unknown name and unit`, () => {
+  test(`returns custom metric for unknown name and unit`, () => {
     const metric = parseMetric({ name: `my_metric`, unit: `widgets` })
 
     expect(metric).toMatchObject({
@@ -111,7 +111,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it(`returns count metric for "none" unit`, () => {
+  test(`returns count metric for "none" unit`, () => {
     const metric = parseMetric({ name: `foo`, unit: `none` })
 
     expect(metric).toMatchObject({
@@ -121,7 +121,7 @@ describe(`parseMetric`, () => {
     })
   })
 
-  it.each([
+  test.each([
     { scenario: `a time unit`, unit: `nanoseconds`, improvement: `decrease` },
     { scenario: `a size unit`, unit: `bytes`, improvement: `decrease` },
     {
@@ -137,7 +137,7 @@ describe(`parseMetric`, () => {
     },
   )
 
-  it(`takes the improvement direction the caller states over the unit's`, () => {
+  test(`takes the improvement direction the caller states over the unit's`, () => {
     const metric = parseMetric({
       name: `cache hit`,
       unit: `hit`,
@@ -149,7 +149,7 @@ describe(`parseMetric`, () => {
 })
 
 describe(`improvement direction`, () => {
-  it(`is a decrease for a count of what a profiler recorded`, () => {
+  test(`is a decrease for a count of what a profiler recorded`, () => {
     expect(
       countMetricOf(`contention`, { improvement: `decrease` }).improvement,
     ).toBe(`decrease`)

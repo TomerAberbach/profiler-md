@@ -36,8 +36,8 @@ describe(`countMetric`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Wall time profile`])
-    expect(summaryLines(md)).toEqual([`Took 2.0ms.`])
+    expect(profileTitles(md)).toStrictEqual([`Wall time profile`])
+    expect(summaryLines(md)).toStrictEqual([`Took 2.0ms.`])
   })
 
   test(`leaves another origin's collapsed counts as samples`, () => {
@@ -47,7 +47,7 @@ describe(`countMetric`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 1,500 samples.`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 1,500 samples.`])
   })
 })
 
@@ -55,14 +55,16 @@ describe(`normalizeStackFrame`, () => {
   const { normalizeStackFrame } = eflambeOriginSpec
 
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
-    expect(normalizeStackFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
+    expect(
+      normalizeStackFrame({ name: `Elixir.Jason:encode!/1` }),
+    ).toStrictEqual({
       name: `encode!/1`,
       definition: { type: `logical`, name: `Jason` },
     })
   })
 
   test(`lifts an Erlang module out of the name as the location`, () => {
-    expect(normalizeStackFrame({ name: `lists:reverse/1` })).toEqual({
+    expect(normalizeStackFrame({ name: `lists:reverse/1` })).toStrictEqual({
       name: `reverse/1`,
       definition: { type: `logical`, name: `lists` },
     })
@@ -71,14 +73,14 @@ describe(`normalizeStackFrame`, () => {
   test(`splits on the first colon, keeping the rest of the name intact`, () => {
     expect(
       normalizeStackFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `-do_encode_map/2-lc$^0/1-0-/2`,
       definition: { type: `logical`, name: `json` },
     })
   })
 
   test(`leaves a colon-less process id frame unchanged`, () => {
-    expect(normalizeStackFrame({ name: `<0.94.0>` })).toEqual({
+    expect(normalizeStackFrame({ name: `<0.94.0>` })).toStrictEqual({
       name: `<0.94.0>`,
     })
   })

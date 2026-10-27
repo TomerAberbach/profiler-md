@@ -9,8 +9,7 @@ import type { FormatSpec } from './spec.ts'
 export class FormatParseError extends ProfilerMdError {
   public constructor(reason: string, options?: ErrorOptions) {
     super(reason, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'FormatParseError'
+    this.name = `FormatParseError`
   }
 }
 
@@ -27,8 +26,7 @@ export class FormatRejectionError extends ProfilerMdError {
 
   public constructor(format: string, reason: string, options: ErrorOptions) {
     super(`${format}: ${reason}`, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'FormatRejectionError'
+    this.name = `FormatRejectionError`
     this.format = format
   }
 }
@@ -71,8 +69,7 @@ export class FormatDetectError extends ProfilerMdError {
     options?: ErrorOptions,
   ) {
     super(message, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'FormatDetectError'
+    this.name = `FormatDetectError`
     this.rejections = rejections
   }
 }
@@ -106,10 +103,9 @@ export const unclassifiedParseFailures = (error: unknown): unknown[] => {
   if (error instanceof FormatRejectionError) {
     return unclassifiedParseFailure(error)
   }
-  if (error instanceof Error && error.cause !== undefined) {
-    return unclassifiedParseFailures(error.cause)
-  }
-  return []
+  return error instanceof Error && error.cause !== undefined
+    ? unclassifiedParseFailures(error.cause)
+    : []
 }
 
 const unclassifiedParseFailure = ({

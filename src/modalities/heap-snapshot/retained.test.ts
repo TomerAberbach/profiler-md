@@ -124,7 +124,7 @@ test.prop([graphWithEntities])(
       entities.map((_, entityIndex) =>
         outermostInstanceOrdinalsOf(
           nodeOrdinalToEntityIndex.flatMap((index, nodeOrdinal) =>
-            index === entityIndex ? [nodeOrdinal] : [],
+            index === entityIndex ? nodeOrdinal : [],
           ),
         ).reduce(
           (sum, nodeOrdinal) => sum + nodeOrdinalToRetainedSize[nodeOrdinal]!,

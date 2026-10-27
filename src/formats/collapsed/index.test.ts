@@ -41,17 +41,21 @@ describe(`matches`, () => {
   })
 
   test(`parse rejects lines lacking a trailing count`, () => {
-    expect(() => parseCollapsed(makeCollapsed([`name,count`, `a,1`]))).toThrow()
+    expect(() => parseCollapsed(makeCollapsed([`name,count`, `a,1`]))).toThrow(
+      `missing sample count`,
+    )
   })
 
   test(`parse rejects a line whose space-separated count is non-numeric`, () => {
-    expect(() => parseCollapsed(makeCollapsed([`main work`]))).toThrow()
+    expect(() => parseCollapsed(makeCollapsed([`main work`]))).toThrow(
+      `invalid sample count`,
+    )
   })
 
   test(`rejects collapsed-shaped text containing a NUL byte`, () => {
     // Valid UTF-8, so it parses leniently (a user could force it), but a NUL
     // reveals binary input, so detection rejects it.
-    const bytes = makeCollapsed([`main;wo\u0000rk 1`])
+    const bytes = makeCollapsed([`main;wo\0rk 1`])
 
     expect(() => parseCollapsed(bytes)).not.toThrow()
     expect(collapsedFormatSpec.matches(bytes)).toBe(false)
@@ -85,12 +89,12 @@ describe(`convert`, () => {
 
     // Collapsed stacks have no metric, so the profile is ranked by sample count
     // alone with no redundant value column.
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 15 samples.`])
 
     // The packed line is the executing line, so it stays out of the location
     // and feeds the per-line breakdown instead.
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -107,7 +111,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(totalSamplesTables(md)).toEqual([
+    expect(totalSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -125,7 +129,7 @@ describe(`convert`, () => {
     ])
 
     // The callee count sums both `work` stacks (6 + 4).
-    expect(calleesTables(md, `main`)).toEqual([
+    expect(calleesTables(md, `main`)).toStrictEqual([
       [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py` }],
     ])
   })
@@ -139,7 +143,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -171,17 +175,17 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
-    expect(categoryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 15 samples.`])
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Samples: `15` }],
     ])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         { '%': `66.7%`, Samples: `10`, Function: `work`, Location: `app.py` },
         { '%': `33.3%`, Samples: `5`, Function: `main`, Location: `app.py` },
       ],
     ])
-    expect(linesTables(md, `work`)).toEqual([
+    expect(linesTables(md, `work`)).toStrictEqual([
       [
         { '%': `60.0%`, Samples: `6`, Location: `app.py:20` },
         { '%': `40.0%`, Samples: `4`, Location: `app.py:22` },
@@ -196,12 +200,12 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
           Samples: `6`,
-          Function: `wo\uFFFDrk`,
+          Function: `wo\u{FFFD}rk`,
           Location: `app.py`,
         },
         { '%': `40.0%`, Samples: `4`, Function: `main`, Location: `app.py` },
@@ -221,14 +225,14 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
-    expect(categoryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `60.0%`, Samples: `6` },
         { Category: `Standard library`, '%': `40.0%`, Samples: `4` },
       ],
     ])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -259,14 +263,14 @@ describe(`convert`, () => {
     )
 
     // The counts are microseconds of eflambe's traced wall time, not samples.
-    expect(summaryLines(md)).toEqual([`Took 10.0µs.`])
-    expect(categoryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Took 10.0µs.`])
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Standard library`, '%': `60.0%`, Time: `6.0µs` },
         { Category: `Ours`, '%': `40.0%`, Time: `4.0µs` },
       ],
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -297,14 +301,14 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
-    expect(categoryTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Standard library`, '%': `60.0%`, Samples: `6` },
         { Category: `Ours`, '%': `40.0%`, Samples: `4` },
       ],
     ])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -329,8 +333,8 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Collected 10 samples.`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `60.0%`,
@@ -355,7 +359,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -376,7 +380,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -402,18 +406,18 @@ describe(`convertAsync`, () => {
   const expected = convertBytesToMd(collapsedFormatSpec, bytes, options)
 
   test(`streaming parse matches sync conversion`, async () => {
-    expect(
-      await convertToMdAsync(collapsedFormatSpec, streamOf(bytes), options),
-    ).toBe(expected)
+    await expect(
+      convertToMdAsync(collapsedFormatSpec, streamOf(bytes), options),
+    ).resolves.toBe(expected)
   })
 
   test(`streaming parse matches sync conversion across a mid-line chunk boundary`, async () => {
-    expect(
-      await convertToMdAsync(
+    await expect(
+      convertToMdAsync(
         collapsedFormatSpec,
         streamOf(...chunk(bytes, 7)),
         options,
       ),
-    ).toBe(expected)
+    ).resolves.toBe(expected)
   })
 })

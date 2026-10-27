@@ -91,14 +91,18 @@ const streamTexts = (stream: Uint8Array): string[] => {
  * A prefix of every {@link JSON_BYTE_STRING} or {@link BASE64_GZIP} match, to
  * find in the bytes before decoding them.
  */
-const EMBEDDED_STREAM_PREFIXES = [`\\u001`, `\\u0004\\"M`, `H4sI`]
+const EMBEDDED_STREAM_PREFIXES = [
+  String.raw`\u001`,
+  String.raw`\u0004\"M`,
+  `H4sI`,
+]
 
 /**
  * A JSON string whose first escaped bytes are a gzip or LZ4 magic: a binary
  * body stored as one character per byte (e.g. a HAR request's `postData`).
  */
 const JSON_BYTE_STRING =
-  /"(?:\\u001[Ff](?:\u008B|\\u008[Bb])|\\u0004\\"M\\u0018)(?:[^"\\]|\\.)*"/gu
+  /"(?:\\u001[Ff](?:\u{8B}|\\u008[Bb])|\\u0004\\"M\\u0018)(?:[^"\\]|\\.)*"/gu
 
 /**
  * The bytes a JSON string stores one per character, or `undefined` for a
@@ -326,7 +330,7 @@ const RULES: readonly Rule[] = [
     matches: text =>
       [
         ...text.matchAll(
-          /@(?<=(?<![\w.+-])(?<local>[A-Za-z0-9][\w.%+-]*)@)[A-Za-z][\w.-]*\.(?:com|org|net|edu|gov|mil|io|dev|app|me|co|us|uk|ca|au|de|fr|ch|nl|se|no|fi|dk|ie|at|be|it|es|pl|cz|pt|il|in|jp|kr|cn|tw|hk|sg|nz|za|br|mx|ar|cl|ru|ai|info|email|xyz)(?![\w.-])/giu,
+          /@(?<=(?<![\w.+-])(?<local>[A-Z0-9][\w.%+-]*)@)[A-Z][\w.-]*\.(?:com|org|net|edu|gov|mil|io|dev|app|me|co|us|uk|ca|au|de|fr|ch|nl|se|no|fi|dk|ie|at|be|it|es|pl|cz|pt|il|in|jp|kr|cn|tw|hk|sg|nz|za|br|mx|ar|cl|ru|ai|info|email|xyz)(?![\w.-])/giu,
         ),
       ].map(match => `${match.groups!.local}${match[0]}`),
   },
@@ -355,7 +359,7 @@ const RULES: readonly Rule[] = [
     matches: text =>
       [
         ...text.matchAll(
-          /:(?<=(?<![\w:])(?<head>[\dA-Fa-f]{0,4}):)(?=[\dA-Fa-f]{0,4}:)[\dA-Fa-f:]*(?![\w:])/gu,
+          /:(?<=(?<![\w:])(?<head>[\dA-Fa-f]{0,4}):)(?=[\dA-Fa-f]{0,4}:)[\dA-Fa-f:]+(?![\w:])/gu,
         ),
       ]
         .map(match => `${match.groups!.head}${match[0]}`)
@@ -378,7 +382,7 @@ const RULES: readonly Rule[] = [
     // `.cache`), so only the directories that contain credentials or personal
     // state count.
     matches: regexMatches(
-      /\/(?:Users|home)\/[^/\s"]+\/(?:\.(?:ssh|gnupg|aws|azure|gcloud|kube|docker|config|netrc|npmrc|pypirc|gitconfig|git-credentials|bash_history|zsh_history|local\/share)(?![A-Za-z0-9_])[^\s"]*|Library\/(?:Application Support|Keychains|Cookies|Mail|Messages|Safari|Preferences)[^\s"]*)/gu,
+      /\/(?:Users|home)\/[^/\s"]+\/(?:\.(?:ssh|gnupg|aws|azure|gcloud|kube|docker|config|netrc|npmrc|pypirc|gitconfig|git-credentials|bash_history|zsh_history|local\/share)\b[^\s"]*|Library\/(?:Application Support|Keychains|Cookies|Mail|Messages|Safari|Preferences)[^\s"]*)/gu,
     ),
   },
   {
@@ -543,10 +547,7 @@ const utf16Encoding = (
   if (oddZeros >= most && evenZeros <= few) {
     return `utf-16le`
   }
-  if (evenZeros >= most && oddZeros <= few) {
-    return `utf-16be`
-  }
-  return undefined
+  return evenZeros >= most && oddZeros <= few ? `utf-16be` : undefined
 }
 
 const UTF16_SAMPLE_BYTES = 4096
@@ -644,7 +645,7 @@ const INPUT_DIRECTORY = `examples/input`
 const report = (path: string, findings: Finding[]): void => {
   console.error(`${relative(process.cwd(), path)}:`)
   for (const { rule, values } of findings) {
-    const shown = [...values.entries()].slice(0, 8)
+    const shown = [...values].slice(0, 8)
     console.error(`  ${rule.name}: ${rule.description}`)
     for (const [value, count] of shown) {
       const display = value.length > 120 ? `${value.slice(0, 117)}...` : value

@@ -93,7 +93,7 @@ const isDotnetTraceStackFrame = (name: string | undefined): boolean =>
  * A TraceEvent managed frame: a dotted assembly, `!`, and a method whose
  * qualified path contains no spaces, followed by its parenthesized signature.
  */
-const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S+\(.*\)$/u
+const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S[^\s(]*\(.*\)$/u
 
 /**
  * Categorizes a frame by its declaring type (the location lifted out by
@@ -174,5 +174,5 @@ const THREAD_FRAME = /^Thread \(\d+\)$/u
 const simplifySignature = (signature: string): string =>
   signature
     .replaceAll(/\b(?:value )?class /gu, ``)
-    .replaceAll(/[\w.]+\.(?=\w)/gu, ``)
+    .replaceAll(/[\w.]+\.\b/gu, ``)
     .replaceAll(`,`, `, `)

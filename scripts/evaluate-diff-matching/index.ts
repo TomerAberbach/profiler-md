@@ -21,7 +21,7 @@
  *   file diff changed has no known counterpart, so it goes unscored. A function
  *   with no position is the current function of its name in the same file,
  *   comparing names without the identifiers the origin strips because they
- *   differ per run or per build. `src/origins/index.test.ts` checks those
+ *   differ per run or per build. `src/origins/inputs.test.ts` checks those
  *   rules. A file no project matches is from a toolchain both sides share, so
  *   its positions map to themselves
  * - Synthetic edits: the same-code example pairs with seeded edits applied to

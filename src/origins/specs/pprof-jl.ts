@@ -47,16 +47,13 @@ export const pprofJlOriginSpec = {
     locationlessCategory(entry) ??
     `ours`,
   matchEntry: matchEntryFromRules({ location: JULIA_LOCATION_MATCH_RULES }),
-  normalizeStackFrame: input => {
+  normalizeStackFrame: input =>
     // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
     // pseudo-frame. It isn't a function: dropping it returns each sample's
     // self value to the function that allocated.
-    if (input.name?.startsWith(`Alloc: `) === true) {
-      return null
-    }
-
-    return dropPlaceholderPath(input)
-  },
+    input.name?.startsWith(`Alloc: `) === true
+      ? null
+      : dropPlaceholderPath(input),
 } as const satisfies OriginSpec
 
 /**
@@ -100,7 +97,7 @@ const juliaRuntimeNativeCategory = ({
     ? `native`
     : undefined
 
-const JULIA_NATIVE_SOURCE = /\.(?:c|cpp|h|S|dylib|so|dll)[\d.]*$/u
+const JULIA_NATIVE_SOURCE = /\.(?:[chS]|cpp|dylib|so|dll)[\d.]*$/u
 
 /**
  * The path PProf.jl writes for a frame whose source file it cannot find:

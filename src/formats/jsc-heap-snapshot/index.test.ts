@@ -112,7 +112,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Object`, '%': `60.9%`, Size: `280 B`, Nodes: `2` },
         { Category: `Function`, '%': `26.1%`, Size: `120 B`, Nodes: `1` },
@@ -120,7 +120,7 @@ describe(`convert`, () => {
         { Category: `Internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `60.9%`,
@@ -136,7 +136,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeRetainerPathTables(md, `Object`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `Object`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -146,7 +146,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(largestStringsTables(md)).toEqual([
+    expect(largestStringsTables(md)).toStrictEqual([
       [{ '%': `13.0%`, Size: `60 B`, Path: `string ← (GC root)` }],
     ])
   })
@@ -174,7 +174,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`string ←[0]– Array`]])
+    ).toStrictEqual([[`string ←[0]– Array`]])
   })
 
   test(`edges reference nodes by identifier, not ordinal`, () => {
@@ -203,7 +203,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`string ←.data– Holder`]])
+    ).toStrictEqual([[`string ←.data– Holder`]])
   })
 
   test(`Internal edges carry no name`, () => {
@@ -231,7 +231,7 @@ describe(`convert`, () => {
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
-    ).toEqual([[`string ← Structure`]])
+    ).toStrictEqual([[`string ← Structure`]])
   })
 
   test(`categorizes a constructor whose nodes all report zero self size by its first node`, () => {
@@ -265,7 +265,7 @@ describe(`convert`, () => {
     )
 
     // `Widget` holds no bytes of its own, so no node of it outweighs another.
-    expect(categorySubsectionTables(md, `Retained size`)).toEqual({
+    expect(categorySubsectionTables(md, `Retained size`)).toStrictEqual({
       Object: [
         {
           '%': `76.9%`,
@@ -327,7 +327,7 @@ describe(`convert`, () => {
       selfSizeRetainerPathTables(md, `Object`).map(table =>
         table.map(row => row.Path),
       ),
-    ).toEqual([
+    ).toStrictEqual([
       [
         `Object ←.propName– Object`,
         `Object ←[2]– Object`,
@@ -381,13 +381,13 @@ describe(`malformed snapshots`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Object`, '%': `100.0%`, Size: `64 B`, Nodes: `2` },
         { Category: `Internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [{ '%': `25.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
     ])
     expectLogs([

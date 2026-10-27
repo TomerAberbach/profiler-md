@@ -1,4 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
+// Present since Node 22.1, though experimental before 24.15.
+// eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { enableCompileCache } from 'node:module'
 import { join } from 'node:path'
 import { parentPort, workerData } from 'node:worker_threads'
@@ -65,10 +67,9 @@ const checkExample = (
     return `${examplePath} does not exist. Run \`pnpm update-examples\` to fix.`
   }
 
-  if (existing !== markdown) {
-    return `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.`
-  }
-  return undefined
+  return existing === markdown
+    ? undefined
+    : `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.`
 }
 
 parentPort!.on(`message`, updateExample)

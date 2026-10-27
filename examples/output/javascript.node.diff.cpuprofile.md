@@ -312,7 +312,7 @@ Lines with the largest change in contribution to each function's self time.
 
 |  Change |   Delta |             % |          Time | Samples | Location                                                    |
 | ------: | ------: | ------------: | ------------: | ------: | ----------------------------------------------------------- |
-| +106.0% | +2.60ms | 98.3% → 66.0% | 2.5ms → 5.1ms |   2 → 4 | `./node_modules/typescript/lib/typescript.js:11972 → 12099` |
+| +106.0% | +2.61ms | 98.3% → 66.0% | 2.5ms → 5.1ms |   2 → 4 | `./node_modules/typescript/lib/typescript.js:11972 → 12099` |
 |     new | +1.29ms |  0.0% → 16.8% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:12189`         |
 |     new | +1.27ms |  0.0% → 16.6% |   0ms → 1.3ms |   0 → 1 | `./node_modules/typescript/lib/typescript.js:12083`         |
 
@@ -1671,7 +1671,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |            Time |   Samples | Caller                      | Location                                                          |
 | -----: | -------: | -----: | --------------: | --------: | --------------------------- | ----------------------------------------------------------------- |
-|  -6.7% | -67.25ms | 100.0% | 1.01s → 943.6ms | 991 → 938 | `checkExpressionWorker`     | `./node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
+|  -6.7% | -67.26ms | 100.0% | 1.01s → 943.6ms | 991 → 938 | `checkExpressionWorker`     | `./node_modules/typescript/lib/typescript.js:81516:33 → 82811:33` |
 | +16.8% |  +0.04ms |  <0.1% |           0.3ms |         5 | `getFreshTypeOfLiteralType` | `./node_modules/typescript/lib/typescript.js:64394:37 → 65649:37` |
 
 ##### `readFileSync` (`node:fs:433:22`)
@@ -1929,7 +1929,7 @@ Callees with the largest change in contribution to each function's total time. I
 |  +34.1% |  +2.58ms |    2.9% → 3.6% |    7.6ms → 10.2ms |     6 → 8 | `isListElement2`    | `./node_modules/typescript/lib/typescript.js:32423:26 → 33478:26` |
 | removed |  -1.21ms |    0.5% → 0.0% |       1.2ms → 0ms |     1 → 0 | `isListTerminator`  | `./node_modules/typescript/lib/typescript.js:32546:28`            |
 |     new |  +1.00ms |    0.0% → 0.4% |       0ms → 1.0ms |     0 → 1 | `parseClassElement` | `./node_modules/typescript/lib/typescript.js:37593:29`            |
-|  +40.1% |  +0.58ms |    0.5% → 0.7% |     1.5ms → 2.0ms |     3 → 2 | `createNodeArray`   | `./node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
+|  +40.1% |  +0.59ms |    0.5% → 0.7% |     1.5ms → 2.0ms |     3 → 2 | `createNodeArray`   | `./node_modules/typescript/lib/typescript.js:32232:27 → 33287:27` |
 
 ##### `nextTokenWithoutCheck` (`./node_modules/typescript/lib/typescript.js:33008:33`)
 
@@ -2197,7 +2197,7 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |    Delta |             % |              Time |   Samples | Callee               | Location                                                          |
 | -----: | -------: | ------------: | ----------------: | --------: | -------------------- | ----------------------------------------------------------------- |
 |  -8.9% | -70.87ms | 49.2% → 47.8% | 795.3ms → 724.5ms | 861 → 824 | `forEach`            | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`   |
-|  -3.7% | -30.46ms | 50.7% → 52.0% | 818.9ms → 788.4ms | 792 → 769 | `checkDeferredNodes` | `./node_modules/typescript/lib/typescript.js:87179:30 → 88492:30` |
+|  -3.7% | -30.47ms | 50.7% → 52.0% | 818.9ms → 788.4ms | 792 → 769 | `checkDeferredNodes` | `./node_modules/typescript/lib/typescript.js:87179:30 → 88492:30` |
 | +15.2% |  +0.37ms |          0.2% |     2.5ms → 2.8ms |         3 | `addLazyDiagnostic`  | `./node_modules/typescript/lib/typescript.js:87339:25 → 88652:25` |
 
 ##### `checkBlock` (`./node_modules/typescript/lib/typescript.js:85011:22`)

@@ -26,7 +26,7 @@ describe(`nativeMatchEntry`, () => {
       `file:///home/alice/go/pkg/mod/golang.org/x/sys/unix/syscall.go`,
     ],
   ])(`strips the version of %s`, (_description, url, expected) => {
-    expect(nativeMatchEntry(absoluteEntry(`f`, url))).toEqual({
+    expect(nativeMatchEntry(absoluteEntry(`f`, url))).toStrictEqual({
       location: expected,
     })
   })
@@ -43,7 +43,7 @@ describe(`nativeMatchEntry`, () => {
       `file:///app/target/release/build/web-compiler/out/parser.rs`,
     ],
   ])(`strips the hash of %s`, (_description, url, expected) => {
-    expect(nativeMatchEntry(absoluteEntry(`f`, url))).toEqual({
+    expect(nativeMatchEntry(absoluteEntry(`f`, url))).toStrictEqual({
       location: expected,
     })
   })
@@ -63,7 +63,7 @@ describe(`nativeNormalizeStackFrame`, () => {
         name: `$s7profile4mainyyFTf4n_g`,
         definition: { type: `file`, urlOrPath: `/<compiler-generated>` },
       }),
-    ).toEqual({ name: `$s7profile4mainyyFTf4n_g` })
+    ).toStrictEqual({ name: `$s7profile4mainyyFTf4n_g` })
   })
 
   test(`leaves a located frame unchanged`, () => {

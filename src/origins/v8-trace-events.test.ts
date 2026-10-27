@@ -103,7 +103,7 @@ describe(`normalizeV8TraceEvent`, () => {
     name => {
       const span = collection(name)
 
-      expect(normalizeV8TraceEvent(span)).toEqual({
+      expect(normalizeV8TraceEvent(span)).toStrictEqual({
         event: {
           ...span,
           arguments: {},
@@ -155,7 +155,7 @@ describe(`normalizeV8TraceEvent`, () => {
   test(`a collection stating no heap size or cause records neither`, () => {
     const span: TraceSpan = { type: `span`, name: `MinorGC`, start: 0 }
 
-    expect(normalizeV8TraceEvent(span)).toEqual({
+    expect(normalizeV8TraceEvent(span)).toStrictEqual({
       event: {
         ...span,
         arguments: {},
@@ -185,7 +185,7 @@ describe(`normalizeV8TraceEvent`, () => {
       arguments: { stats: `{"isolate":"0x148018000"}`, other: `kept` },
     }
 
-    expect(normalizeV8TraceEvent(instant)).toEqual({
+    expect(normalizeV8TraceEvent(instant)).toStrictEqual({
       ...instant,
       arguments: { other: `kept` },
     })

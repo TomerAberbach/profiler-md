@@ -174,7 +174,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.frames).toEqual([
+    expect(graph!.frames).toStrictEqual([
       { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
   })
@@ -192,7 +192,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.functions).toEqual([
+    expect(graph!.functions).toStrictEqual([
       {
         selfValues: [],
         lineToValues: new Map(),
@@ -216,7 +216,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.functions).toEqual([
+    expect(graph!.functions).toStrictEqual([
       {
         selfValues: [40],
         lineToValues: new Map([
@@ -234,7 +234,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.functions).toEqual([
+    expect(graph!.functions).toStrictEqual([
       {
         selfValues: [30],
         lineToValues: new Map([
@@ -260,7 +260,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.frames).toEqual([
+    expect(graph!.frames).toStrictEqual([
       { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
   })
@@ -283,11 +283,11 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.frames).toEqual([
+    expect(graph!.frames).toStrictEqual([
       { name: `main`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
       { name: `work`, definition: { type: `file`, urlOrPath: `/app/a.c` } },
     ])
-    expect(graph!.functions).toEqual([
+    expect(graph!.functions).toStrictEqual([
       {
         selfValues: [10],
         lineToValues: new Map([[1, [10]]]),
@@ -315,7 +315,7 @@ describe(`parse`, () => {
       noopRecordTally,
     )
 
-    expect(graph!.functions).toEqual([
+    expect(graph!.functions).toStrictEqual([
       { selfValues: [10], lineToValues: new Map([[1, [10]]]), arcs: [] },
       { selfValues: [20], lineToValues: new Map([[2, [20]]]), arcs: [] },
     ])
@@ -349,7 +349,7 @@ describe(`calls without a cost line`, () => {
     )
 
     // The costs after each skipped call stay self costs, not arcs to `missing`.
-    expect(summaryLines(md)).toEqual([`Recorded 40 instructions.`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 40 instructions.`])
     expectLogs([
       `debug: origin candidates, in priority order: valgrind, rbspy`,
       `info: fallback origin: valgrind`,
@@ -376,7 +376,7 @@ describe(`calls without a cost line`, () => {
     )
 
     // The dropped call adds no arc to `missing`.
-    expect(calleesTables(md, `main`)).toEqual([
+    expect(calleesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -415,7 +415,7 @@ describe(`cost lines with a subposition before position 0`, () => {
     )
 
     // The call whose cost line is skipped adds no arc to `work`.
-    expect(summaryLines(md)).toEqual([`Recorded 60 instructions.`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 60 instructions.`])
     expectLogs([
       `debug: origin candidates, in priority order: valgrind, rbspy`,
       `info: fallback origin: valgrind`,
@@ -480,13 +480,13 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Instruction profile`])
-    expect(summaryLines(md)).toEqual([`Recorded 850 instructions.`])
+    expect(profileTitles(md)).toStrictEqual([`Instruction profile`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 850 instructions.`])
 
     // `memcpy` has no source file (`???`), so its location falls back to its
     // ELF object, a shared library, which categorizes it as native. Its self
     // cost line's line 0 means "no line information".
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Ours`,
@@ -501,7 +501,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(selfValuesTables(md, `instructions`)).toEqual([
+    expect(selfValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `64.7%`,
@@ -524,7 +524,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -549,7 +549,7 @@ describe(`convert`, () => {
 
     // The relative subpositions resolve against the previous cost line:
     // `+1` → line 11, `+2` → line 22.
-    expect(linesTables(md, `main`)).toEqual([
+    expect(linesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -563,7 +563,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `compress`)).toEqual([
+    expect(linesTables(md, `compress`)).toStrictEqual([
       [
         {
           '%': `54.5%`,
@@ -580,7 +580,7 @@ describe(`convert`, () => {
 
     // The arcs are the file's exact call counts and inclusive costs.
     // Percentages are of the function's total.
-    expect(totalCallersTables(md, `compress`)).toEqual([
+    expect(totalCallersTables(md, `compress`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -591,7 +591,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(calleesTables(md, `main`)).toEqual([
+    expect(calleesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `82.4%`,
@@ -602,7 +602,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(calleesTables(md, `compress`)).toEqual([
+    expect(calleesTables(md, `compress`)).toStrictEqual([
       [
         {
           '%': `21.4%`,
@@ -615,9 +615,9 @@ describe(`convert`, () => {
     ])
 
     // A call graph records no stacks, so none are fabricated.
-    expect(allTablesAfterHeading(parseMd(md), `Hottest call stacks`)).toEqual(
-      [],
-    )
+    expect(
+      allTablesAfterHeading(parseMd(md), `Hottest call stacks`),
+    ).toStrictEqual([])
   })
 
   test(`streaming parse across chunk boundaries matches buffered parse`, async () => {
@@ -630,7 +630,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(streamed).toEqual(buffered)
+    expect(streamed).toStrictEqual(buffered)
   })
 
   test(`reports a shared callee's exact caller arcs`, () => {
@@ -658,8 +658,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 120 instructions.`])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 120 instructions.`])
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -681,7 +681,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalCallersTables(md, `shared`)).toEqual([
+    expect(totalCallersTables(md, `shared`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -718,8 +718,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 100 instructions.`])
-    expect(selfValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 100 instructions.`])
+    expect(selfValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -729,7 +729,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -771,8 +771,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 100 instructions.`])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 100 instructions.`])
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -794,7 +794,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalCallersTables(md, `ping`)).toEqual([
+    expect(totalCallersTables(md, `ping`)).toStrictEqual([
       [
         {
           '%': `300.0%`,
@@ -848,8 +848,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 100 instructions.`])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 100 instructions.`])
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -916,8 +916,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 400 instructions.`])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 400 instructions.`])
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -946,7 +946,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(calleesTables(md, `_dl_runtime_resolve_xsavec`)).toEqual([
+    expect(calleesTables(md, `_dl_runtime_resolve_xsavec`)).toStrictEqual([
       [
         {
           '%': `74.4%`,
@@ -964,7 +964,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalCallersTables(md, `helper`)).toEqual([
+    expect(totalCallersTables(md, `helper`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -991,7 +991,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 10 instructions, recorded 2 system calls, spent 3.0ms, and ` +
         `spent 1.5ms.`,
     ])
@@ -1022,8 +1022,8 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(summaryLines(md)).toEqual([`Recorded 100 instructions.`])
-    expect(selfValuesTables(md, `instructions`)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 100 instructions.`])
+    expect(selfValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `90.0%`,
@@ -1039,7 +1039,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalValuesTables(md, `instructions`)).toEqual([
+    expect(totalValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1071,11 +1071,13 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Instruction and data read profile`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
+      `Instruction and data read profile`,
+    ])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 150 instructions and recorded 40 data reads.`,
     ])
-    expect(selfValuesTables(md, `instructions`)).toEqual([
+    expect(selfValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1085,7 +1087,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfValuesTables(md, `data reads`)).toEqual([
+    expect(selfValuesTables(md, `data reads`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1113,7 +1115,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(linesTables(md, `main`)).toEqual([
+    expect(linesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `85.7%`,
@@ -1142,7 +1144,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Exotic happenings profile`])
+    expect(profileTitles(md)).toStrictEqual([`Exotic happenings profile`])
   })
 
   test(`formats a lone samples event as a count-ranked profile`, () => {
@@ -1153,9 +1155,9 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(summaryLines(md)).toEqual([`Collected 12 samples.`])
-    expect(selfValuesTables(md, `samples`)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 12 samples.`])
+    expect(selfValuesTables(md, `samples`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1184,7 +1186,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(calleesTables(md, `main`)).toEqual([
+    expect(calleesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -1214,7 +1216,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(selfValuesTables(md, `instructions`)).toEqual([
+    expect(selfValuesTables(md, `instructions`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1224,7 +1226,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `main`)).toEqual([
+    expect(linesTables(md, `main`)).toStrictEqual([
       [
         {
           '%': `57.1%`,
@@ -1261,23 +1263,27 @@ describe(`convert`, () => {
       { baseURL: `/`, showEntry: () => true },
     )
 
-    expect(profileTitles(md)).toEqual([`Instruction profile diff`])
-    expect(summaryLines(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Instruction profile diff`])
+    expect(summaryLines(md)).toStrictEqual([
       `Recorded 300 → 380 instructions (+80 instructions, +26.7%).`,
     ])
-    expect(rankingTables(md, `Self instructions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self instructions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `+50.0%`,
-          Delta: `+100`,
-          '%': `66.7% → 78.9%`,
-          Instructions: `200 → 300`,
-          Function: `compress`,
-          Location: `/src/compress.c`,
-        },
+        [
+          {
+            Change: `+50.0%`,
+            Delta: `+100`,
+            '%': `66.7% → 78.9%`,
+            Instructions: `200 → 300`,
+            Function: `compress`,
+            Location: `/src/compress.c`,
+          },
+        ],
       ],
-    ])
-    expect(rankingTables(md, `Self instructions`, `Improvements`)).toEqual([
+    )
+    expect(
+      rankingTables(md, `Self instructions`, `Improvements`),
+    ).toStrictEqual([
       [
         {
           Change: `-20.0%`,
@@ -1315,7 +1321,7 @@ describe(`convert`, () => {
       { baseURL: `/`, showEntry: () => true },
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Native`,
@@ -1358,7 +1364,7 @@ test(`pairs each function's callers and callees in a diff`, () => {
     { baseURL: `/`, showEntry: () => true },
   )
 
-  expect(totalCallersTables(md, `compress`)).toEqual([
+  expect(totalCallersTables(md, `compress`)).toStrictEqual([
     [
       {
         Change: `+50.0%`,
@@ -1371,7 +1377,7 @@ test(`pairs each function's callers and callees in a diff`, () => {
       },
     ],
   ])
-  expect(calleesTables(md, `main`)).toEqual([
+  expect(calleesTables(md, `main`)).toStrictEqual([
     [
       {
         Change: `+50.0%`,
@@ -1420,7 +1426,7 @@ test(`omits the call counts of a diff with a side that records none`, () => {
     { baseURL: `/`, showEntry: () => true },
   )
 
-  expect(calleesTables(md, `main`)).toEqual([
+  expect(calleesTables(md, `main`)).toStrictEqual([
     [
       {
         Change: `+50.0%`,
@@ -1463,7 +1469,7 @@ test(`pairs the lines of a function an edit moved in a diff`, () => {
     { baseURL: `/`, showEntry: () => true },
   )
 
-  expect(linesTables(md, `main`)).toEqual([
+  expect(linesTables(md, `main`)).toStrictEqual([
     [
       {
         Change: `+60.0%`,
@@ -1527,12 +1533,12 @@ describe(`category subsections`, () => {
   ]
 
   test(`splits the self ranking into a subsection per covered category`, () => {
-    expect(rankingTable(md, `Self instructions`)).toEqual([
+    expect(rankingTable(md, `Self instructions`)).toStrictEqual([
       ...OURS_ROWS,
       ...NATIVE_ROWS,
       ...STDLIB_ROWS,
     ])
-    expect(categorySubsectionTables(md, `Self instructions`)).toEqual({
+    expect(categorySubsectionTables(md, `Self instructions`)).toStrictEqual({
       Ours: OURS_ROWS,
       Native: NATIVE_ROWS,
       'Standard library': STDLIB_ROWS,
@@ -1540,12 +1546,12 @@ describe(`category subsections`, () => {
   })
 
   test(`splits the total ranking into the same categories`, () => {
-    expect(rankingTable(md, `Total instructions`)).toEqual([
+    expect(rankingTable(md, `Total instructions`)).toStrictEqual([
       ...OURS_ROWS,
       ...NATIVE_ROWS,
       ...STDLIB_ROWS,
     ])
-    expect(categorySubsectionTables(md, `Total instructions`)).toEqual({
+    expect(categorySubsectionTables(md, `Total instructions`)).toStrictEqual({
       Ours: OURS_ROWS,
       Native: NATIVE_ROWS,
       'Standard library': STDLIB_ROWS,
@@ -1562,7 +1568,7 @@ describe(`category subsections`, () => {
     expect(rankingTable(singleCategoryMd, `Self instructions`)).toBeUndefined()
     expect(
       categorySubsectionTables(singleCategoryMd, `Self instructions`),
-    ).toEqual({
+    ).toStrictEqual({
       Ours: [
         {
           '%': `100.0%`,
@@ -1603,7 +1609,7 @@ describe(`category subsections`, () => {
     test(`splits each ranking into a subsection per covered category`, () => {
       expect(
         categoryRankingTables(diffMd, `Self instructions`, `Regressions`),
-      ).toEqual({
+      ).toStrictEqual({
         Native: [
           {
             Change: `+79.5%`,
@@ -1617,7 +1623,7 @@ describe(`category subsections`, () => {
       })
       expect(
         categoryRankingTables(diffMd, `Self instructions`, `Improvements`),
-      ).toEqual({
+      ).toStrictEqual({
         Ours: [
           {
             Change: `-50.0%`,
@@ -1663,7 +1669,7 @@ describe(`category subsections`, () => {
           `Self instructions`,
           `Improvements`,
         ),
-      ).toEqual({
+      ).toStrictEqual({
         Ours: [
           {
             Change: `-50.0%`,

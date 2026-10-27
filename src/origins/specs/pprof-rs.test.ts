@@ -31,7 +31,7 @@ describe(`normalizeStackFrame`, () => {
         name: `_main`,
         definition: { type: `file`, urlOrPath: `Unknown` },
       }),
-    ).toEqual({ name: `_main` })
+    ).toStrictEqual({ name: `_main` })
   })
 
   test(`leaves a located frame unchanged`, () => {
@@ -82,7 +82,7 @@ describe(`matchEntry`, () => {
         ),
         `pprof-rs`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       location: `file:///home/alice/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json/src/de.rs`,
     })
   })
@@ -96,7 +96,7 @@ describe(`matchEntry`, () => {
         ),
         `pprof-rs`,
       ),
-    ).toEqual({
+    ).toStrictEqual({
       location: `file:///app/target/release/build/web-compiler/out/parser.rs`,
     })
   })
@@ -110,6 +110,6 @@ describe(`matchEntry`, () => {
         ),
         `pprof-rs`,
       ),
-    ).toEqual({ location: `file:///rustc/library/std/src/rt.rs` })
+    ).toStrictEqual({ location: `file:///rustc/library/std/src/rt.rs` })
   })
 })

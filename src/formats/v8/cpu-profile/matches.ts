@@ -4,9 +4,5 @@ export const matchesV8CpuProfile = (json: unknown): boolean => {
   }
 
   const object = json as Record<string, unknown>
-  if (!Array.isArray(object.nodes) || !Array.isArray(object.timeDeltas)) {
-    return false
-  }
-
-  return true
+  return Array.isArray(object.nodes) && Array.isArray(object.timeDeltas)
 }

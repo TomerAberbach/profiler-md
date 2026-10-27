@@ -58,11 +58,35 @@ const formatMillisecondsToDigits = (
   // drop down to microseconds instead.
   milliseconds > 0 && milliseconds < 0.5 * 10 ** -decimalDigits
     ? formatMicrosecondsToDigits(milliseconds * 1000, decimalDigits)
-    : prettyMilliseconds(milliseconds, {
+    : prettyMilliseconds(snapToSecondsDigits(milliseconds, decimalDigits + 1), {
         secondsDecimalDigits: decimalDigits + 1,
         millisecondsDecimalDigits: decimalDigits,
         unitCount: 2,
       })
+
+/**
+ * Snaps a time within float noise of a displayed seconds step onto the step.
+ * pretty-ms truncates seconds to their decimal digits, so a float sum just
+ * below a step (e.g. 96 × 100ms summing to 9599.99999999998ms) would otherwise
+ * show the digit below it. https://github.com/TomerAberbach/profiler-md/issues/793
+ * tracks preventing the error where the values are summed.
+ */
+const snapToSecondsDigits = (
+  milliseconds: number,
+  secondsDecimalDigits: number,
+): number => {
+  if (Math.abs(milliseconds) < 1000) {
+    return milliseconds
+  }
+  const step = 10 ** (3 - secondsDecimalDigits)
+  const steps = milliseconds / step
+  const nearestSteps = Math.round(steps)
+  return Math.abs(steps - nearestSteps) < SECONDS_STEP_EPSILON
+    ? nearestSteps * step
+    : milliseconds
+}
+
+const SECONDS_STEP_EPSILON = 1e-7
 
 export const formatBytes = (bytes: number): string =>
   prettyBytes(bytes, prettyBytesOptions)

@@ -155,8 +155,7 @@ const toInvalidJsonError = (error: unknown): unknown =>
 class InputReadError extends Error {
   public constructor(cause: unknown) {
     super(`failed to read the input`, { cause })
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'InputReadError'
+    this.name = `InputReadError`
   }
 }
 
@@ -169,8 +168,5 @@ export const dataToBytes = (data: ProfileData): Uint8Array => {
   if (typeof data === `string`) {
     return (textEncoder ??= new TextEncoder()).encode(data)
   }
-  if (ArrayBuffer.isView(data)) {
-    return data
-  }
-  return concatUint8Arrays(data)
+  return ArrayBuffer.isView(data) ? data : concatUint8Arrays(data)
 }

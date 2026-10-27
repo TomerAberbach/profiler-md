@@ -137,7 +137,7 @@ $ARGUMENTS
     `src/formats/callgrind/index.test.ts` for the call graph. Build both sides
     with the makers in `src/modalities/<modality>/testing.ts`, run
     `diffAggregated<Modality>s` then `format<Modality>Diff`, and assert whole
-    tables with `toEqual` using `rankingTables`, `diffRankingTable`, and
+    tables with `toStrictEqual` using `rankingTables`, `diffRankingTable`, and
     `categoryRankingTables` from `src/testing.ts`. Add a test helper for a new
     heading to the modality's `testing.ts`, and use it in diff and non-diff
     tests. Cover:

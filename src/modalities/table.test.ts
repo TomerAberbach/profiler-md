@@ -40,7 +40,7 @@ test(`formatTable formats numeric cells and leaves text cells verbatim`, () => {
 
   expect(markdown).toBe(`|     % | Size | Count | Name |
 | ----: | ---: | ----: | ---- |
-| 30.0% | 30\u00A0B |     2 | a    |
+| 30.0% | 30\u{A0}B |     2 | a    |
 `)
 })
 
@@ -57,7 +57,7 @@ test(`formatDiffTable prepends Change and Delta and arrows value cells`, () => {
   expect(markdown)
     .toBe(`|  Change | Delta |             % |        Size | Count | Name |
 | ------: | ----: | ------------: | ----------: | ----: | ---- |
-| +200.0% | +20\u00A0B | 10.0% → 15.0% | 10\u00A0B → 30\u00A0B | 1 → 4 | a    |
+| +200.0% | +20\u{A0}B | 10.0% → 15.0% | 10\u{A0}B → 30\u{A0}B | 1 → 4 | a    |
 `)
 })
 
@@ -74,7 +74,7 @@ test(`formatDiffTable formats the Delta column at delta precision`, () => {
   expect(markdown)
     .toBe(`| Change |      Delta |             % |                Size | Count | Name |
 | -----: | ---------: | ------------: | ------------------: | ----: | ---- |
-| +42.5% | +1.523\u00A0KiB | 36.7% → 52.3% | 3.58\u00A0KiB → 5.11\u00A0KiB |     1 | a    |
+| +42.5% | +1.523\u{A0}KiB | 36.7% → 52.3% | 3.58\u{A0}KiB → 5.11\u{A0}KiB |     1 | a    |
 `)
 })
 
@@ -88,7 +88,7 @@ test(`formatDiffTable treats an absent base side as zero and shows current text`
   expect(markdown)
     .toBe(`| Change | Delta |            % |       Size | Count | Name  |
 | -----: | ----: | -----------: | ---------: | ----: | ----- |
-|    new | +50\u00A0B | 0.0% → 50.0% | 0\u00A0B → 50\u00A0B | 0 → 3 | added |
+|    new | +50\u{A0}B | 0.0% → 50.0% | 0\u{A0}B → 50\u{A0}B | 0 → 3 | added |
 `)
 })
 
@@ -102,7 +102,7 @@ test(`formatDiffTable treats an absent current side as zero and falls back to ba
   expect(markdown)
     .toBe(`|  Change | Delta |            % |       Size | Count | Name    |
 | ------: | ----: | -----------: | ---------: | ----: | ------- |
-| removed | -40\u00A0B | 40.0% → 0.0% | 40\u00A0B → 0\u00A0B | 2 → 0 | removed |
+| removed | -40\u{A0}B | 40.0% → 0.0% | 40\u{A0}B → 0\u{A0}B | 2 → 0 | removed |
 `)
 })
 
@@ -118,7 +118,7 @@ test(`formatDiffTable collapses unchanged value cells to a single value`, () => 
 
   expect(markdown).toBe(`| Change | Delta |     % | Size | Count | Name |
 | -----: | ----: | ----: | ---: | ----: | ---- |
-|   0.0% |   0\u00A0B | 30.0% | 30\u00A0B |     2 | a    |
+|   0.0% |   0\u{A0}B | 30.0% | 30\u{A0}B |     2 | a    |
 `)
 })
 
@@ -149,6 +149,6 @@ test(`formatDiffTable inserts Change and Delta before the changeDeltaBefore colu
   expect(markdown)
     .toBe(`| Name |  Change | Delta |             % |        Size |
 | ---- | ------: | ----: | ------------: | ----------: |
-| a    | +200.0% | +20\u00A0B | 10.0% → 15.0% | 10\u00A0B → 30\u00A0B |
+| a    | +200.0% | +20\u{A0}B | 10.0% → 15.0% | 10\u{A0}B → 30\u{A0}B |
 `)
 })

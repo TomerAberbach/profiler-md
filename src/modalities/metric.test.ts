@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { countMetricOf, metricsEqual } from './metric.ts'
 import {
   ALLOCATED_HEAP_METRIC,
@@ -9,7 +9,7 @@ import {
 } from './metrics.ts'
 
 describe(`metricsEqual`, () => {
-  it.each([
+  test.each([
     {
       scenario: `identical metrics`,
       left: NANOSECONDS_METRIC,
@@ -29,7 +29,7 @@ describe(`metricsEqual`, () => {
     expect(metricsEqual(left, right)).toBe(true)
   })
 
-  it.each([
+  test.each([
     {
       scenario: `different types`,
       left: NANOSECONDS_METRIC,

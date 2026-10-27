@@ -828,14 +828,12 @@ class Capture {
    */
   #framesOf(stack: number): number[] {
     const frames = this.#stackTree.framesOf(stack)
-    if (!this.#mainThreadStacks.has(stack)) {
-      return frames
-    }
-
-    return frames.slice(
-      0,
-      Math.max(frames.length - this.#header.skippedFramesOnMainThread, 0),
-    )
+    return this.#mainThreadStacks.has(stack)
+      ? frames.slice(
+          0,
+          Math.max(frames.length - this.#header.skippedFramesOnMainThread, 0),
+        )
+      : frames
   }
 }
 
@@ -1515,14 +1513,13 @@ const lineNumberOf = (
       firstLineNumber,
     )
   }
-  if (header.pythonVersion >= 0x03_0a_00_00) {
-    return lineNumberFromLineDeltas(
-      lineTable,
-      instructionOffset * 2,
-      firstLineNumber,
-    )
-  }
-  return lineNumberFromLineDeltas(lineTable, instructionOffset, firstLineNumber)
+  return lineNumberFromLineDeltas(
+    lineTable,
+    header.pythonVersion >= 0x03_0a_00_00
+      ? instructionOffset * 2
+      : instructionOffset,
+    firstLineNumber,
+  )
 }
 
 /**
@@ -1745,7 +1742,6 @@ class ByteReader {
 class InputExhaustedError extends Error {
   public constructor() {
     super(`input exhausted`)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'InputExhaustedError'
+    this.name = `InputExhaustedError`
   }
 }

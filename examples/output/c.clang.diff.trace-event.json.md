@@ -36,7 +36,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 |  +63.9% |  +1.64ms |   0.3% → 0.4% |     2.6ms → 4.2ms |     4 → 6 |   0.6ms → 0.7ms |     0.8ms → 0.9ms | `SLPVectorizerPass`                                                                           |
 |  +90.6% |  +1.41ms |   0.2% → 0.3% |     1.6ms → 3.0ms |   20 → 31 |           0.1ms |     0.9ms → 1.0ms | `ParseDeclarationOrFunctionDefinition`                                                        |
 |     new |  +1.10ms |   0.0% → 0.1% |       0ms → 1.1ms |     0 → 2 |     0ms → 0.6ms |       0ms → 0.6ms | `LoopFullUnrollPass`                                                                          |
-|  +32.3% |  +0.84ms |          0.4% |     2.6ms → 3.5ms |         1 |   2.6ms → 3.5ms |     2.6ms → 3.5ms | `ExecuteCompiler`                                                                             |
+|  +32.3% |  +0.85ms |          0.4% |     2.6ms → 3.5ms |         1 |   2.6ms → 3.5ms |     2.6ms → 3.5ms | `ExecuteCompiler`                                                                             |
 |  +24.0% |  +0.75ms |          0.4% |     3.1ms → 3.9ms |         5 |   0.6ms → 0.8ms |     0.9ms → 1.1ms | `CodeGen Function`                                                                            |
 |  +51.7% |  +0.71ms |          0.2% |     1.4ms → 2.1ms |         1 |   1.4ms → 2.1ms |     1.4ms → 2.1ms | `Backend`                                                                                     |
 
@@ -59,7 +59,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 |  +55.2% |  +1.69ms |   0.4% → 0.5% |     3.1ms → 4.7ms |     3 → 5 |   1.0ms → 0.9ms |     1.4ms → 1.6ms | `LoopVectorizePass`                                                                           |
 |  +63.9% |  +1.64ms |   0.3% → 0.4% |     2.6ms → 4.2ms |     4 → 6 |   0.6ms → 0.7ms |     0.8ms → 0.9ms | `SLPVectorizerPass`                                                                           |
 |     new |  +1.10ms |   0.0% → 0.1% |       0ms → 1.1ms |     0 → 2 |     0ms → 0.6ms |       0ms → 0.6ms | `LoopFullUnrollPass`                                                                          |
-|  +32.3% |  +0.84ms |          0.4% |     2.6ms → 3.5ms |         1 |   2.6ms → 3.5ms |     2.6ms → 3.5ms | `ExecuteCompiler`                                                                             |
+|  +32.3% |  +0.85ms |          0.4% |     2.6ms → 3.5ms |         1 |   2.6ms → 3.5ms |     2.6ms → 3.5ms | `ExecuteCompiler`                                                                             |
 |  +24.0% |  +0.75ms |          0.4% |     3.1ms → 3.9ms |         5 |   0.6ms → 0.8ms |     0.9ms → 1.1ms | `CodeGen Function`                                                                            |
 |  +51.7% |  +0.71ms |          0.2% |     1.4ms → 2.1ms |         1 |   1.4ms → 2.1ms |     1.4ms → 2.1ms | `Backend`                                                                                     |
 |     new |  +0.59ms |   0.0% → 0.1% |       0ms → 0.6ms |     0 → 1 |     0ms → 0.6ms |       0ms → 0.6ms | `RunLoopPass`                                                                                 |
@@ -81,7 +81,7 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 | Change |   Delta |           % |          Time | Count |          Mean |           Max | Span               |
 | -----: | ------: | ----------: | ------------: | ----: | ------------: | ------------: | ------------------ |
 |  -4.8% | -0.18ms | 0.5% → 0.4% | 3.7ms → 3.5ms |     2 |         1.8ms | 2.7ms → 2.6ms | `GlobalOptPass`    |
-|  -1.2% | -0.08ms | 1.0% → 0.8% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `IPSCCPPass`       |
+|  -1.2% | -0.09ms | 1.0% → 0.8% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `IPSCCPPass`       |
 | -28.7% | -0.05ms |       <0.1% | 0.2ms → 0.1ms |     1 | 0.2ms → 0.1ms | 0.2ms → 0.1ms | `SimplifyCFGPass`  |
 |  -6.5% | -0.04ms |        0.1% | 0.6ms → 0.5ms |     1 | 0.6ms → 0.5ms | 0.6ms → 0.5ms | `TargetIRAnalysis` |
 
@@ -226,7 +226,7 @@ Parent spans with the largest change in contribution to each span's self time.
 
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Parent      |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ----------- |
-|  -1.2% | -0.08ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `Optimizer` |
+|  -1.2% | -0.09ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `Optimizer` |
 
 ##### `SimplifyCFGPass`
 
@@ -311,7 +311,7 @@ Thread spans with the largest decrease in time, including child spans. Categorie
 | -----: | ------: | ----------: | ------------: | ----: | ------------: | ------------: | ------------------ |
 |  -4.8% | -0.18ms | 0.5% → 0.4% | 3.7ms → 3.5ms |     2 |         1.8ms | 2.7ms → 2.6ms | `GlobalOptPass`    |
 | -11.7% | -0.09ms |        0.1% | 0.8ms → 0.7ms |     1 | 0.8ms → 0.7ms | 0.8ms → 0.7ms | `SimplifyCFGPass`  |
-|  -1.2% | -0.08ms | 1.0% → 0.8% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `IPSCCPPass`       |
+|  -1.2% | -0.09ms | 1.0% → 0.8% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `IPSCCPPass`       |
 |  -6.5% | -0.04ms |        0.1% | 0.6ms → 0.5ms |     1 | 0.6ms → 0.5ms | 0.6ms → 0.5ms | `TargetIRAnalysis` |
 
 #### Attribute values
@@ -373,7 +373,7 @@ Attribute values with the largest change in contribution to each span's total ti
 |     new | +6.71ms | 0.0% → 2.7% | 0ms → 6.7ms | 0 → 1 | 0ms → 6.7ms | 0ms → 6.7ms | `detail`  | `(ZSTD_transferSequences_noDelim)`                 |
 |     new | +6.58ms | 0.0% → 2.6% | 0ms → 6.6ms | 0 → 1 | 0ms → 6.6ms | 0ms → 6.6ms | `detail`  | `(ZSTD_transferSequences_wBlockDelim)`             |
 | removed | -5.44ms | 2.8% → 0.0% | 5.4ms → 0ms | 1 → 0 | 5.4ms → 0ms | 5.4ms → 0ms | `detail`  | `(ZSTD_copySequencesToSeqStoreNoBlockDelim)`       |
-| removed | -5.25ms | 2.7% → 0.0% | 5.3ms → 0ms | 1 → 0 | 5.3ms → 0ms | 5.3ms → 0ms | `detail`  | `(ZSTD_copySequencesToSeqStoreExplicitBlockDelim)` |
+| removed | -5.26ms | 2.7% → 0.0% | 5.3ms → 0ms | 1 → 0 | 5.3ms → 0ms | 5.3ms → 0ms | `detail`  | `(ZSTD_copySequencesToSeqStoreExplicitBlockDelim)` |
 |     new | +3.59ms | 0.0% → 1.4% | 0ms → 3.6ms | 0 → 1 | 0ms → 3.6ms | 0ms → 3.6ms | `detail`  | `(ZSTD_convertBlockSequences)`                     |
 
 ##### `CGSCCToFunctionPassAdaptor`
@@ -466,7 +466,7 @@ Attribute values with the largest change in contribution to each span's total ti
 
 |  Change |   Delta |             % |          Time | Count |          Mean |           Max | Attribute | Value                                                                             |
 | ------: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------- | --------------------------------------------------------------------------------- |
-| +183.2% | +0.92ms | 17.2% → 23.7% | 0.5ms → 1.4ms | 1 → 2 | 0.5ms → 0.7ms | 0.5ms → 0.7ms | `detail`  | `loop %<unnamed loop> in function ZSTD_loadCEntropy`                              |
+| +183.2% | +0.93ms | 17.2% → 23.7% | 0.5ms → 1.4ms | 1 → 2 | 0.5ms → 0.7ms | 0.5ms → 0.7ms | `detail`  | `loop %<unnamed loop> in function ZSTD_loadCEntropy`                              |
 |     new | +0.80ms |  0.0% → 13.2% |   0ms → 0.8ms | 0 → 1 |   0ms → 0.8ms |   0ms → 0.8ms | `detail`  | `loop %<unnamed loop> in function ZSTD_transferSequences_noDelim`                 |
 |     new | +0.69ms |  0.0% → 11.5% |   0ms → 0.7ms | 0 → 1 |   0ms → 0.7ms |   0ms → 0.7ms | `detail`  | `loop %<unnamed loop> in function ZSTD_transferSequences_wBlockDelim`             |
 | removed | -0.68ms |  23.1% → 0.0% |   0.7ms → 0ms | 1 → 0 |   0.7ms → 0ms |   0.7ms → 0ms | `detail`  | `loop %<unnamed loop> in function ZSTD_copySequencesToSeqStoreNoBlockDelim`       |
@@ -488,7 +488,7 @@ Attribute values with the largest change in contribution to each span's total ti
 
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Attribute | Value      |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | --------- | ---------- |
-|  -1.2% | -0.08ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `detail`  | `[module]` |
+|  -1.2% | -0.09ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `detail`  | `[module]` |
 
 ##### `TargetIRAnalysis`
 
@@ -643,7 +643,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Parent      |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ----------- |
-|  -1.2% | -0.08ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `Optimizer` |
+|  -1.2% | -0.09ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `Optimizer` |
 
 ##### `TargetIRAnalysis`
 
@@ -867,7 +867,7 @@ Attribute values with the largest change in contribution to each span's elapsed 
 | +15.8% | +15.26ms | 30.1% → 30.0% | 96.6ms → 111.9ms |     1 | 96.6ms → 111.9ms | 96.6ms → 111.9ms | `detail`  | `/src/zstd/lib/compress/../common/allocations.h`   |
 | +15.0% | +13.18ms | 27.3% → 27.1% | 87.7ms → 100.9ms |     1 | 87.7ms → 100.9ms | 87.7ms → 100.9ms | `detail`  | `/src/zstd/lib/compress/../common/compiler.h`      |
 | +15.1% | +13.15ms | 27.2% → 26.9% | 87.3ms → 100.4ms |     1 | 87.3ms → 100.4ms | 87.3ms → 100.4ms | `detail`  | `/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h` |
-| +26.2% |  +3.02ms |   3.6% → 3.9% |  11.6ms → 14.6ms |     1 |  11.6ms → 14.6ms |  11.6ms → 14.6ms | `detail`  | `/src/zstd/lib/compress/zstd_compress_internal.h`  |
+| +26.2% |  +3.03ms |   3.6% → 3.9% |  11.6ms → 14.6ms |     1 |  11.6ms → 14.6ms |  11.6ms → 14.6ms | `detail`  | `/src/zstd/lib/compress/zstd_compress_internal.h`  |
 | +55.5% |  +1.17ms |   0.7% → 0.9% |    2.1ms → 3.3ms |     1 |    2.1ms → 3.3ms |    2.1ms → 3.3ms | `detail`  | `/src/zstd/lib/compress/../common/../zstd.h`       |
 
 #### Parents

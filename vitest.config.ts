@@ -1,6 +1,6 @@
 import { readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
-import { defineConfig } from 'vitest/config'
+import { configDefaults, defineConfig } from 'vitest/config'
 import { parseExampleFilename } from './src/cli/examples.ts'
 import { formats } from './src/formats/registry.ts'
 import type { Format } from './src/formats/registry.ts'
@@ -8,9 +8,9 @@ import type { Format } from './src/formats/registry.ts'
 // For tests that run over all inputs, each project takes a partition of them so
 // the conversions spread across workers instead of running one at a time.
 const inputProcessingFiles = [
-  `src/cli/index.test.ts`,
-  `src/formats/index.test.ts`,
-  `src/origins/index.test.ts`,
+  `src/cli/inputs.test.ts`,
+  `src/formats/inputs.test.ts`,
+  `src/origins/inputs.test.ts`,
 ]
 
 /**
@@ -112,7 +112,7 @@ const formatProjects = (format: Format) => {
         include: inputProcessingFiles,
         provide: { format, inputs },
         // A partition holding only `current` variants registers no tests in
-        // `src/formats/index.test.ts`, whose suites take each example's `base`.
+        // `src/formats/inputs.test.ts`, whose tests take each example's `base`.
         passWithNoTests: true,
       },
     },
@@ -120,14 +120,17 @@ const formatProjects = (format: Format) => {
 }
 
 /**
- * The `unit` project runs every input-independent test, since it's the only one
- * without an `include` filter. Input projects follow largest first, so the
- * longest-running partitions start while workers are free.
+ * The `unit` project runs every test file but the input-processing ones. Input
+ * projects follow largest first, so the longest-running partitions start while
+ * workers are free.
  */
 export const projects = [
   {
     extends: true as const,
-    test: { name: `unit`, provide: { inputs: [] as string[] } },
+    test: {
+      name: `unit`,
+      exclude: [...configDefaults.exclude, ...inputProcessingFiles],
+    },
   },
   ...formats
     .flatMap(format => formatProjects(format))

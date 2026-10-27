@@ -246,14 +246,14 @@ export const pinProblems = (): string[] => {
     }
     const script = file.slice(0, -`.sh`.length)
     for (const match of readScript(script).matchAll(
-      new RegExp(pinPattern(`(?<name>[A-Z_\\d]+)`), `gmu`),
+      new RegExp(pinPattern(String.raw`(?<name>[A-Z_\d]+)`), `gmu`),
     )) {
       pins.add(`${script}:${match.groups!.name}`)
     }
   }
   const projectPins = new Set(
     UPGRADED_PROJECTS.flatMap(({ script, pin }) =>
-      typeof pin === `string` ? [`${script}:${pin}`] : [],
+      typeof pin === `string` ? `${script}:${pin}` : [],
     ),
   )
   return [
@@ -340,14 +340,14 @@ const shellVariable = (script: string, name: string): string =>
 const pinnedVersions = (script: string, name: string): Record<Side, string> => {
   const [, base, current] = matchScript(
     script,
-    `${pinPattern(name)}"?([^"\\s]+)"? \\[current\\]="?([^"\\s)]+)"?\\)`,
+    String.raw`${pinPattern(name)}"?([^"\s]+)"? \[current\]="?([^"\s)]+)"?\)`,
     `pins no ${name} per side`,
   )
   return { base: base!, current: current! }
 }
 
 const pinPattern = (name: string): string =>
-  `^declare -A ${name}=\\(\\[base\\]=`
+  String.raw`^declare -A ${name}=\(\[base\]=`
 
 const matchScript = (
   script: string,

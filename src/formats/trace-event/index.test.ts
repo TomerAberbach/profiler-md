@@ -70,8 +70,8 @@ describe(`convert`, () => {
         { ph: `E`, pid: 1, tid: 1, ts: 10_000 },
       ])
 
-      expect(summaryLines(md)).toEqual([`Recorded 3 events over 10.0ms.`])
-      expect(spanTables(md, `Self time`)).toEqual([
+      expect(summaryLines(md)).toStrictEqual([`Recorded 3 events over 10.0ms.`])
+      expect(spanTables(md, `Self time`)).toStrictEqual([
         [
           {
             '%': `70.0%`,
@@ -99,7 +99,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Children`, `outer`)).toEqual([
+      expect(breakdownTables(md, `Children`, `outer`)).toStrictEqual([
         [
           {
             '%': `30.0%`,
@@ -121,7 +121,7 @@ describe(`convert`, () => {
         { ph: `E`, pid: 1, tid: 1, ts: 2000 },
       ])
 
-      expect(breakdownTables(md, `Parents`, `inner`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `inner`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -133,7 +133,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Parents`, `outer`)).toEqual([])
+      expect(breakdownTables(md, `Parents`, `outer`)).toStrictEqual([])
     })
 
     test(`merges an end event's args over its begin event's`, () => {
@@ -155,7 +155,7 @@ describe(`convert`, () => {
         },
       ])
 
-      expect(breakdownTables(md, `Attribute values`, `request`)).toEqual([
+      expect(breakdownTables(md, `Attribute values`, `request`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -195,7 +195,7 @@ describe(`convert`, () => {
         { ph: `E`, pid: 1, tid: 2, ts: 4000 },
       ])
 
-      expect(spanTables(md, `Total time`)).toEqual([
+      expect(spanTables(md, `Total time`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -219,11 +219,11 @@ describe(`convert`, () => {
         { ph: `B`, name: `unended`, pid: 1, tid: 1, ts: 1000 },
       ])
 
-      expect(summaryLines(md)).toEqual([`Recorded 2 events over 2.0ms.`])
-      expect(summaryTables(md)).toEqual([
+      expect(summaryLines(md)).toStrictEqual([`Recorded 2 events over 2.0ms.`])
+      expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `100.0%`, Time: `2.0ms`, Count: `2` }],
       ])
-      expect(spanTables(md, `Total time`)).toEqual([
+      expect(spanTables(md, `Total time`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -235,7 +235,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Children`, `task`)).toEqual([
+      expect(breakdownTables(md, `Children`, `task`)).toStrictEqual([
         [
           {
             '%': `0.0%`,
@@ -258,7 +258,7 @@ describe(`convert`, () => {
         { ph: `X`, name: `root`, pid: 1, tid: 1, ts: 0, dur: 10_000 },
       ])
 
-      expect(spanTables(md, `Self time`)).toEqual([
+      expect(spanTables(md, `Self time`)).toStrictEqual([
         [
           {
             '%': `50.0%`,
@@ -286,7 +286,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Parents`, `leaf`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `leaf`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -298,7 +298,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Parents`, `mid`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `mid`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -319,8 +319,8 @@ describe(`convert`, () => {
       ])
 
       // No span is nested, so no ranking by self time is shown.
-      expect(spanTables(md, `Self time`)).toEqual([])
-      expect(spanTables(md, `Total time`)).toEqual([
+      expect(spanTables(md, `Self time`)).toStrictEqual([])
+      expect(spanTables(md, `Total time`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -351,7 +351,7 @@ describe(`convert`, () => {
         { ph: `X`, name: `later`, pid: 1, tid: 1, ts: 5000, dur: 500 },
       ])
 
-      expect(breakdownTables(md, `Parents`, `overlap`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `overlap`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -365,7 +365,7 @@ describe(`convert`, () => {
       ])
       // The span it overlaps contains no later span, so one within both nests
       // in the overlapping span.
-      expect(breakdownTables(md, `Parents`, `later`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `later`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -377,7 +377,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(spanTables(md, `Self time`)).toEqual([
+      expect(spanTables(md, `Self time`)).toStrictEqual([
         [
           {
             '%': `50.0%`,
@@ -422,7 +422,7 @@ describe(`convert`, () => {
         { ph: `X`, name: `atEnd`, pid: 1, tid: 1, ts: 10_000, dur: 0 },
       ])
 
-      expect(breakdownTables(md, `Children`, `root`)).toEqual([
+      expect(breakdownTables(md, `Children`, `root`)).toStrictEqual([
         [
           {
             '%': `0.0%`,
@@ -451,7 +451,7 @@ describe(`convert`, () => {
         { ph: `X`, name: `second`, pid: 1, tid: 1, ts: 4000, dur: 4000 },
       ])
 
-      expect(breakdownTables(md, `Parents`, `second`)).toEqual([
+      expect(breakdownTables(md, `Parents`, `second`)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -463,7 +463,7 @@ describe(`convert`, () => {
           },
         ],
       ])
-      expect(breakdownTables(md, `Children`, `first`)).toEqual([])
+      expect(breakdownTables(md, `Children`, `first`)).toStrictEqual([])
     })
   })
 
@@ -482,7 +482,7 @@ describe(`convert`, () => {
       { ph: `E`, pid: 1, tid: 1, ts: 5000, tts: 1500 },
     ])
 
-    expect(spanTables(md, `Total CPU time`)).toEqual([
+    expect(spanTables(md, `Total CPU time`)).toStrictEqual([
       [
         {
           '%': `25.0%`,
@@ -502,7 +502,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(spanTables(md, `Self CPU time`)).toEqual([
+    expect(spanTables(md, `Self CPU time`)).toStrictEqual([
       [
         {
           '%': `12.5%`,
@@ -536,10 +536,10 @@ describe(`convert`, () => {
       ])
 
       // Threads sharing a name are one thread.
-      expect(summaryTables(md)).toEqual([
+      expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `175.0%`, Time: `7.0ms`, Count: `3` }],
       ])
-      expect(tablesAt(md, [`Threads`])).toEqual([
+      expect(tablesAt(md, [`Threads`])).toStrictEqual([
         [
           { Thread: `Main`, '%': `100.0%`, Time: `4.0ms`, Count: `1` },
           { Thread: `(unnamed)`, '%': `75.0%`, Time: `3.0ms`, Count: `2` },
@@ -557,10 +557,10 @@ describe(`convert`, () => {
         { ph: `X`, name: `c`, pid: 2, tid: 2, ts: 0, dur: 1000 },
       ])
 
-      expect(summaryTables(md)).toEqual([
+      expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `175.0%`, Time: `7.0ms`, Count: `3` }],
       ])
-      expect(tablesAt(md, [`Threads`])).toEqual([
+      expect(tablesAt(md, [`Threads`])).toStrictEqual([
         [
           {
             Thread: `Browser / Main`,
@@ -589,7 +589,7 @@ describe(`convert`, () => {
         { ph: `X`, name: `a`, pid: 1, tid: 1, ts: 0, dur: 4000 },
       ])
 
-      expect(summaryTables(md)).toEqual([
+      expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `100.0%`, Time: `4.0ms`, Count: `1` }],
       ])
     })
@@ -603,9 +603,11 @@ describe(`convert`, () => {
       { ph: `i`, name: `mark`, pid: 1, tid: 1, ts: 3000, args: { why: `x` } },
     ])
 
-    expect(summaryLines(md)).toEqual([`Recorded 4 events over 3.0ms.`])
-    expect(summaryTables(md)).toEqual([[{ Category: `Other`, Count: `4` }]])
-    expect(instantTables(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([`Recorded 4 events over 3.0ms.`])
+    expect(summaryTables(md)).toStrictEqual([
+      [{ Category: `Other`, Count: `4` }],
+    ])
+    expect(instantTables(md)).toStrictEqual([
       [
         { '%': `75.0%`, Count: `3`, Instant: `mark` },
         { '%': `25.0%`, Count: `1`, Instant: `navigationStart` },
@@ -613,7 +615,9 @@ describe(`convert`, () => {
     ])
     expect(
       breakdownTables(md, `Attribute values`, `mark`, `Most frequent instants`),
-    ).toEqual([[{ '%': `33.3%`, Count: `1`, Attribute: `why`, Value: `x` }]])
+    ).toStrictEqual([
+      [{ '%': `33.3%`, Count: `1`, Attribute: `why`, Value: `x` }],
+    ])
   })
 
   describe(`counter events`, () => {
@@ -624,9 +628,9 @@ describe(`convert`, () => {
         { ph: `C`, name: `queue`, pid: 1, ts: 4000, args: { length: 4 } },
       ])
 
-      expect(summaryLines(md)).toEqual([`Recorded 0 events over 4.0ms.`])
+      expect(summaryLines(md)).toStrictEqual([`Recorded 0 events over 4.0ms.`])
       // The mean weighs 2 for 1ms and 8 for 3ms.
-      expect(gaugeTables(md)).toEqual([
+      expect(gaugeTables(md)).toStrictEqual([
         [
           {
             Gauge: `queue`,
@@ -650,7 +654,7 @@ describe(`convert`, () => {
         { ph: `C`, name: `queue`, pid: 2, ts: 0, args: { length: 8 } },
       ])
 
-      expect(gaugeTables(md)).toEqual([
+      expect(gaugeTables(md)).toStrictEqual([
         [
           {
             Gauge: `Browser / queue`,
@@ -696,7 +700,7 @@ describe(`convert`, () => {
         },
       ])
 
-      expect(gaugeTables(md)).toEqual([
+      expect(gaugeTables(md)).toStrictEqual([
         [
           {
             Gauge: `memory[7] used`,
@@ -728,7 +732,7 @@ describe(`convert`, () => {
         { ph: `C`, name: `mem`, pid: 1, ts: 1000, args: { heap: 2, stack: 3 } },
       ])
 
-      expect(gaugeTables(md)).toEqual([
+      expect(gaugeTables(md)).toStrictEqual([
         [
           {
             Gauge: `mem heap`,
@@ -769,7 +773,7 @@ describe(`convert`, () => {
       ])
 
       // A span nested in one of its name adds nothing to the name's time.
-      expect(spanTables(md, `Elapsed time`)).toEqual([
+      expect(spanTables(md, `Elapsed time`)).toStrictEqual([
         [
           {
             Time: `10.0ms`,
@@ -789,7 +793,7 @@ describe(`convert`, () => {
       ])
       expect(
         breakdownTables(md, `Parents`, `Source`, `Longest async spans`),
-      ).toEqual([
+      ).toStrictEqual([
         [
           {
             '%': `16.7%`,
@@ -804,12 +808,12 @@ describe(`convert`, () => {
       // A span of another category's tree is nested in nothing.
       expect(
         breakdownTables(md, `Parents`, `request`, `Longest async spans`),
-      ).toEqual([])
+      ).toStrictEqual([])
       // Async spans have no self time, so they add no time to a category.
-      expect(summaryTables(md)).toEqual([
+      expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `0.0%`, Time: `0ms`, Count: `3` }],
       ])
-      expect(spanTables(md, `Total time`)).toEqual([])
+      expect(spanTables(md, `Total time`)).toStrictEqual([])
     })
 
     test(`tells trees apart by scope and by a local id's process`, () => {
@@ -824,7 +828,7 @@ describe(`convert`, () => {
         { ph: `e`, name: `s`, cat: `c`, pid: 1, id: 1, scope: `y`, ts: 4000 },
       ])
 
-      expect(spanTables(md, `Elapsed time`)).toEqual([
+      expect(spanTables(md, `Elapsed time`)).toStrictEqual([
         [
           {
             Time: `13.0ms`,
@@ -838,10 +842,10 @@ describe(`convert`, () => {
       ])
       expect(
         breakdownTables(md, `Parents`, `a`, `Longest async spans`),
-      ).toEqual([])
+      ).toStrictEqual([])
       expect(
         breakdownTables(md, `Parents`, `s`, `Longest async spans`),
-      ).toEqual([])
+      ).toStrictEqual([])
     })
 
     test(`counts an unended span with no time and skips an end with nothing begun`, () => {
@@ -852,7 +856,7 @@ describe(`convert`, () => {
         { ph: `e`, name: `Timeout`, cat: `c`, pid: 1, id: `0x2`, ts: 3000 },
       ])
 
-      expect(spanTables(md, `Elapsed time`)).toEqual([
+      expect(spanTables(md, `Elapsed time`)).toStrictEqual([
         [
           {
             Time: `2.0ms`,
@@ -875,7 +879,7 @@ describe(`convert`, () => {
         { ph: `F`, name: `load`, cat: `c`, pid: 1, id: 1, ts: 2000 },
       ])
 
-      expect(spanTables(md, `Elapsed time`)).toEqual([
+      expect(spanTables(md, `Elapsed time`)).toStrictEqual([
         [
           {
             Time: `2.0ms`,
@@ -894,7 +898,7 @@ describe(`convert`, () => {
         { ph: `n`, name: `headers`, cat: `c`, pid: 1, id: 2, ts: 1000 },
       ])
 
-      expect(instantTables(md)).toEqual([
+      expect(instantTables(md)).toStrictEqual([
         [{ '%': `100.0%`, Count: `2`, Instant: `headers` }],
       ])
     })
@@ -910,7 +914,7 @@ describe(`convert`, () => {
       {},
     ])
 
-    expect(summaryLines(md)).toEqual([`Recorded 1 event over 2.0ms.`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 1 event over 2.0ms.`])
     expectLogs([
       ...FALLBACK_ORIGIN_LOGS,
       `warn: skipped 4 events in a phase this format's parser leaves unread`,
@@ -944,7 +948,7 @@ describe(`convert`, () => {
       },
     ])
 
-    expect(breakdownTables(md, `Attribute values`, `Source`)).toEqual([
+    expect(breakdownTables(md, `Attribute values`, `Source`)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -966,7 +970,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(breakdownTables(md, `Longest instances`, `Source`)).toEqual([
+    expect(breakdownTables(md, `Longest instances`, `Source`)).toStrictEqual([
       [
         { '%': `75.0%`, Start: `0ms`, Time: `3.0ms`, Attributes: `detail=a.h` },
         {
@@ -1006,7 +1010,7 @@ describe(`convert`, () => {
     })
 
     // Events sharing a name are one span, categorized by its first event.
-    expect(summaryTables(md)).toEqual([
+    expect(summaryTables(md)).toStrictEqual([
       [
         { Category: `I/O`, '%': `80.0%`, Time: `4.0ms`, Count: `2` },
         { Category: `Other`, '%': `20.0%`, Time: `1.0ms`, Count: `1` },

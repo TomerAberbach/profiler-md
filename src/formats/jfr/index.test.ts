@@ -78,8 +78,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -89,10 +89,10 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `funcB`)).toEqual([
+    expect(linesTables(md, `funcB`)).toStrictEqual([
       [{ '%': `100.0%`, Samples: `2`, Location: `com.example.B:10` }],
     ])
-    expect(callersTables(md, `funcB`)).toEqual([
+    expect(callersTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -126,8 +126,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Allocated heap profile`])
-    expect(selfSizeTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Allocated heap profile`])
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -138,7 +138,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalSizeTables(md)).toEqual([
+    expect(totalSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -177,8 +177,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Allocated native memory profile`])
-    expect(selfSizeTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Allocated native memory profile`])
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -189,7 +189,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalSizeTables(md)).toEqual([
+    expect(totalSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -222,8 +222,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Lock contention profile`])
-    expect(selfTimeTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Lock contention profile`])
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -251,11 +251,11 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Collected 1 sample.`,
-      `Allocated 1\u00A0KiB over 1 sample (1\u00A0KiB per sample).`,
-      `Retained 512\u00A0B over 1 object (512\u00A0B per object).`,
-      `Allocated 256\u00A0B over 1 sample (256\u00A0B per sample).`,
+      `Allocated 1\u{A0}KiB over 1 sample (1\u{A0}KiB per sample).`,
+      `Retained 512\u{A0}B over 1 object (512\u{A0}B per object).`,
+      `Allocated 256\u{A0}B over 1 sample (256\u{A0}B per sample).`,
       `Blocked 3.0ms over 1 contention (3.0ms per contention).`,
     ])
   })
@@ -282,8 +282,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Retained heap profile`])
-    expect(selfSizeTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Retained heap profile`])
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -324,9 +324,9 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Object profile`])
-    expect(summaryLines(md)).toEqual([`Recorded 3 objects.`])
-    expect(selfObjectsTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Object profile`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 3 objects.`])
+    expect(selfObjectsTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -359,7 +359,7 @@ describe(`convert`, () => {
 
     expect(
       profileTitles(convertBytesToMd(jfrFormatSpec, bytes, options)),
-    ).toEqual([
+    ).toStrictEqual([
       `Sampling profile`,
       `Allocated heap profile`,
       `Retained heap profile`,
@@ -390,7 +390,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         { '%': `66.7%`, Samples: `2`, Function: `a`, Location: `C` },
         {
@@ -423,7 +423,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -457,8 +457,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -480,8 +480,8 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Lock contention profile`])
-    expect(selfTimeTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Lock contention profile`])
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -521,7 +521,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -554,7 +554,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -593,13 +593,13 @@ describe(`convert`, () => {
 
       const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-      expect(paragraphsUnderTitle(md)).toEqual([
+      expect(paragraphsUnderTitle(md)).toStrictEqual([
         `Collected 3 samples.`,
         `Paths starting with \`./\` or \`../\` are relative to \`/project/\`.`,
         `Call stacks missing their outermost callers account for 33.3% of the samples collected.`,
         `\`truncated\` stands for missing outermost callers.`,
       ])
-      expect(callTreeLines(md)).toEqual([
+      expect(callTreeLines(md)).toStrictEqual([
         [
           `├── 2 samples (66.7%) main at com.example.A`,
           `│   └── 2 samples (66.7%, self 100.0% globally) leaf`,
@@ -627,8 +627,8 @@ describe(`convert`, () => {
 
       const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-      expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
-      expect(callStackTables(md)).toEqual([
+      expect(summaryLines(md)).toStrictEqual([`Collected 1 sample.`])
+      expect(callStackTables(md)).toStrictEqual([
         [
           {
             '%': `100.0%`,
@@ -654,7 +654,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(linesTables(md, `funcB`)).toEqual([])
+    expect(linesTables(md, `funcB`)).toStrictEqual([])
   })
 
   test(`keeps the chunks before one a killed JVM left cut off, with a warning`, async () => {
@@ -667,10 +667,10 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
-    expect(
-      await convertToMdAsync(jfrFormatSpec, streamOf(bytes), options),
-    ).toBe(md)
+    expect(summaryLines(md)).toStrictEqual([`Collected 1 sample.`])
+    await expect(
+      convertToMdAsync(jfrFormatSpec, streamOf(bytes), options),
+    ).resolves.toBe(md)
     const conversionLogs = [
       `debug: origin candidates, in priority order: async-profiler, jdk`,
       `info: detected origin: async-profiler`,
@@ -710,7 +710,7 @@ describe(`allocation event families`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -743,7 +743,7 @@ describe(`allocation event families`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `50.0%`,
@@ -772,7 +772,7 @@ describe(`allocation event families`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -804,7 +804,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -865,7 +865,7 @@ describe(`malformed recordings`, () => {
     )
 
     expect(md).toBe(convertBytesToMd(jfrFormatSpec, makeJfr(input), options))
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -881,10 +881,10 @@ describe(`malformed recordings`, () => {
         },
       ],
     ])
-    expect(linesTables(md, `leaf`)).toEqual([
+    expect(linesTables(md, `leaf`)).toStrictEqual([
       [{ '%': `100.0%`, Samples: `2`, Location: `com.example.L:7` }],
     ])
-    expect(linesTables(md, `root`)).toEqual([
+    expect(linesTables(md, `root`)).toStrictEqual([
       [{ '%': `100.0%`, Samples: `1`, Location: `com.example.R:3` }],
     ])
   })
@@ -903,8 +903,8 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -932,7 +932,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 1 sample.`])
     expectLogs([
       ...ORIGIN_LOGS,
       `warn: skipped 1 event referencing a missing stack trace`,
@@ -955,7 +955,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfSamplesTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1026,7 +1026,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(summaryLines(md)).toEqual([`Collected 2 samples.`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 2 samples.`])
     expectLogs([
       ...ORIGIN_LOGS,
       `warn: skipped 1 constant pool entry with a length past its end`,
@@ -1060,7 +1060,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(summaryLines(md)).toEqual([`Collected 1 sample.`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 1 sample.`])
     expectLogs([
       ...ORIGIN_LOGS,
       `warn: skipped 1 byte from an event with an invalid size to the end of its chunk`,
@@ -1108,7 +1108,7 @@ describe(`options`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
     )
 
-    expect(totalSizeTables(md).map(table => table.length)).toEqual([1])
+    expect(totalSizeTables(md).map(table => table.length)).toStrictEqual([1])
   })
 })
 
@@ -1136,21 +1136,17 @@ describe(`streaming parse`, () => {
   const expected = convertBytesToMd(jfrFormatSpec, bytes, options)
 
   test(`matches sync conversion`, async () => {
-    expect(
-      await convertToMdAsync(jfrFormatSpec, streamOf(bytes), options),
-    ).toBe(expected)
+    await expect(
+      convertToMdAsync(jfrFormatSpec, streamOf(bytes), options),
+    ).resolves.toBe(expected)
   })
 
   test(`matches sync conversion across mid-chunk stream boundaries`, async () => {
     // Tiny stream reads split the chunk header and body across boundaries,
     // exercising the queue's header peeks and chunk assembly.
-    expect(
-      await convertToMdAsync(
-        jfrFormatSpec,
-        streamOf(...chunk(bytes, 13)),
-        options,
-      ),
-    ).toBe(expected)
+    await expect(
+      convertToMdAsync(jfrFormatSpec, streamOf(...chunk(bytes, 13)), options),
+    ).resolves.toBe(expected)
   })
 
   test(`merges methods and stacks across chunks`, async () => {
@@ -1158,12 +1154,12 @@ describe(`streaming parse`, () => {
     // single-chunk recordings feeds the parser two chunks from the stream.
     const recording = concatUint8Arrays([bytes, bytes])
 
-    expect(
-      await convertToMdAsync(
+    await expect(
+      convertToMdAsync(
         jfrFormatSpec,
         streamOf(...chunk(recording, 13)),
         options,
       ),
-    ).toBe(convertBytesToMd(jfrFormatSpec, recording, options))
+    ).resolves.toBe(convertBytesToMd(jfrFormatSpec, recording, options))
   })
 })

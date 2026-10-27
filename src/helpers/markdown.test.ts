@@ -13,10 +13,10 @@ import { parseMd } from './testing.ts'
 
 test.each([
   [`plain pipe`, text(`a|b`)],
-  [`plain backslash pipe`, text(`a\\|b`)],
-  [`code span pipe`, inlineCode(`RegExp: (?:\\/\\/)|(?:^|\\/)`)],
+  [`plain backslash pipe`, text(String.raw`a\|b`)],
+  [`code span pipe`, inlineCode(String.raw`RegExp: (?:\/\/)|(?:^|\/)`)],
   [`code span pipe with method name`, inlineCode(`<GetInstance>g__Get|58_0`)],
-  [`code span backslash pipe`, inlineCode(`RegExp: a\\|b`)],
+  [`code span backslash pipe`, inlineCode(String.raw`RegExp: a\|b`)],
 ])(`table escapes pipes so cells stay intact: %s`, (_, cell) => {
   const md = mdastToMarkdown([
     table([`Function`, `Samples`], [[[cell], [text(`3`)]]]),
@@ -25,7 +25,7 @@ test.each([
   const parsedTable = parseMd(md).children[0]!
   expect(parsedTable.type).toBe(`table`)
   const rows = (parsedTable as { children: { children: unknown[] }[] }).children
-  expect(rows.map(row => row.children.length)).toEqual([2, 2])
+  expect(rows.map(row => row.children.length)).toStrictEqual([2, 2])
 })
 
 test.each([
@@ -64,14 +64,14 @@ test.each([
     (value: string) => table([`Function`], [[[inlineCode(value)]]]),
   ],
 ])(`control characters serialize as control pictures: %s`, (_, node) => {
-  const md = mdastToMarkdown([node(`a\0b\x01c\x1Bd\x7Fe\tf`)])
+  const md = mdastToMarkdown([node(`a\0b\u{1}c\u{1B}d\u{7F}e\tf`)])
 
-  expect(md).toContain(`a\u2400b\u2401c\u241Bd\u2421e\tf`)
-  expect(md).not.toMatch(/[\0-\b\v\f\x0E-\x1F\x7F]/u)
+  expect(md).toContain(`a\u{2400}b\u{2401}c\u{241B}d\u{2421}e\tf`)
+  expect(md).not.toMatch(/[\u{0}-\u{8}\v\f\u{E}-\u{1F}\u{7F}]/u)
 })
 
 test(`trusted formatter characters serialize unescaped`, () => {
-  const line = `Took 1.2ms → 3.4ms (Δ +2.2ms, <0.1%, 5\u00A0µs per sample) ← done`
+  const line = `Took 1.2ms → 3.4ms (Δ +2.2ms, <0.1%, 5\u{A0}µs per sample) ← done`
 
   const md = mdastToMarkdown([paragraph(line)])
 

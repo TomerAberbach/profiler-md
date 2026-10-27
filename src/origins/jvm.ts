@@ -182,7 +182,7 @@ const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
  * missing the symbols the whole VM shares.
  */
 const HOTSPOT_COMPILER =
-  /^(?:Compil(?:e|ation)(?:Broker|Task|Queue|Policy|Log)?(?:::|$)|AbstractCompiler|C[12]Compiler|C[12]_MacroAssembler|Phase[A-Z]|GraphBuilder|GraphKit|IdealKit|Matcher::|Scheduling::|LinearScan|IntervalWalker|LIR|Canonicalizer|Value(?:Stack|Map)|Block(?:Begin|End|List|_)|ci[A-Z]|Type(?!ArrayKlass)[A-Z]|Type::|[A-Za-z_0-9]*Node(?:::|$)|Node_|NodeHash|Unique_Node_List|IndexSet|RegMask|ConnectionGraph|MethodLiveness|BCEscapeAnalyzer|AbstractAssembler|Assembler::|MacroAssembler|CodeBuffer|CodeSection|DebugInformationRecorder|OopMap(?!Cache)|RelocIterator|AdapterHandlerLibrary|JVMState|OopFlow|NTarjan)/u
+  /^(?:Compil(?:e|ation)(?:Broker|Task|Queue|Policy|Log)?(?:::|$)|AbstractCompiler|C[12]Compiler|C[12]_MacroAssembler|Phase[A-Z]|GraphBuilder|GraphKit|IdealKit|Matcher::|Scheduling::|LinearScan|IntervalWalker|LIR|Canonicalizer|Value(?:Stack|Map)|Block(?:Begin|End|List|_)|ci[A-Z]|Type(?!ArrayKlass)[A-Z]|Type::|\w*Node(?:::|$)|Node_|NodeHash|Unique_Node_List|IndexSet|RegMask|ConnectionGraph|MethodLiveness|BCEscapeAnalyzer|AbstractAssembler|Assembler::|MacroAssembler|CodeBuffer|CodeSection|DebugInformationRecorder|OopMap(?!Cache)|RelocIterator|AdapterHandlerLibrary|JVMState|OopFlow|NTarjan)/u
 
 /**
  * Categorizes the frames async-profiler emits for a stack entry it could not
@@ -303,15 +303,12 @@ export const jvmMethodDisplayName = (
   descriptor: string,
 ): string => {
   const close = descriptor.indexOf(`)`)
-  if (
-    name === `` ||
+  return name === `` ||
     !descriptor.startsWith(`(`) ||
     close === -1 ||
     descriptor === `()L;`
-  ) {
-    return name
-  }
-  return `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
+    ? name
+    : `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
 }
 
 /** Parses a run of JVM field descriptors into Java source type names. */

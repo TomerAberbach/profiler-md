@@ -32,17 +32,17 @@ describe(`normalizeStackFrame`, () => {
   test(`splits a file:func:line frame, keeping the line as the executing line`, () => {
     // The line stays out of the location so a function sampled at several
     // lines aggregates as one, with the lines feeding the per-line breakdown.
-    expect(normalizeStackFrame({ name: `script.py:fib:4` })).toEqual({
+    expect(normalizeStackFrame({ name: `script.py:fib:4` })).toStrictEqual({
       name: `fib`,
       definition: { type: `file`, urlOrPath: `script.py` },
       executing: { line: 4 },
     })
   })
 
-  test.each([`C:\\proj\\app.py`, `D:/proj/app.py`])(
+  test.each([String.raw`C:\proj\app.py`, `D:/proj/app.py`])(
     `keeps the Windows drive-letter path %s whole instead of splitting on the drive colon`,
     path => {
-      expect(normalizeStackFrame({ name: `${path}:run:10` })).toEqual({
+      expect(normalizeStackFrame({ name: `${path}:run:10` })).toStrictEqual({
         name: `run`,
         definition: { type: `file`, urlOrPath: path },
         executing: { line: 10 },
@@ -51,11 +51,13 @@ describe(`normalizeStackFrame`, () => {
   )
 
   test(`keeps a C++ namespaced function name intact`, () => {
-    expect(normalizeStackFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
-      name: `Foo::bar`,
-      definition: { type: `file`, urlOrPath: `file.cpp` },
-      executing: { line: 42 },
-    })
+    expect(normalizeStackFrame({ name: `file.cpp:Foo::bar:42` })).toStrictEqual(
+      {
+        name: `Foo::bar`,
+        definition: { type: `file`, urlOrPath: `file.cpp` },
+        executing: { line: 42 },
+      },
+    )
   })
 
   test(`drops the thread frame every stack is rooted at`, () => {
@@ -63,22 +65,24 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`renames the bare <GC> leaf to the garbage collector label`, () => {
-    expect(normalizeStackFrame({ name: `<GC>` })).toEqual({
+    expect(normalizeStackFrame({ name: `<GC>` })).toStrictEqual({
       name: `(garbage collector)`,
     })
   })
 
   test(`renames the bare <native> frame to the native label`, () => {
-    expect(normalizeStackFrame({ name: `<native>` })).toEqual({
+    expect(normalizeStackFrame({ name: `<native>` })).toStrictEqual({
       name: `(native)`,
     })
   })
 
   test(`drops the -1 line of a frame whose line tachyon could not resolve`, () => {
-    expect(normalizeStackFrame({ name: `__init__:__init__:-1` })).toEqual({
-      name: `__init__`,
-      definition: { type: `file`, urlOrPath: `__init__` },
-    })
+    expect(normalizeStackFrame({ name: `__init__:__init__:-1` })).toStrictEqual(
+      {
+        name: `__init__`,
+        definition: { type: `file`, urlOrPath: `__init__` },
+      },
+    )
   })
 })
 

@@ -9,12 +9,13 @@ export const matchesSysting = (bytes: Uint8Array): boolean => {
     return false
   }
 
-  if (typeof json !== `object` || json === null || Array.isArray(json)) {
-    return false
-  }
-
-  return Number.isInteger(
-    (json as Record<string, unknown>).systing_profile_export,
+  return (
+    typeof json === `object` &&
+    json !== null &&
+    !Array.isArray(json) &&
+    Number.isSafeInteger(
+      (json as Record<string, unknown>).systing_profile_export,
+    )
   )
 }
 

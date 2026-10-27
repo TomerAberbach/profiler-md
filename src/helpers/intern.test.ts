@@ -21,7 +21,7 @@ describe(`mixHash`, () => {
 
     expect(value).toBeGreaterThanOrEqual(-0x80_00_00_00)
     expect(value).toBeLessThanOrEqual(0x7f_ff_ff_ff)
-    expect(Number.isInteger(value)).toBe(true)
+    expect(Number.isSafeInteger(value)).toBe(true)
   })
 })
 
@@ -56,7 +56,7 @@ test(`interns each distinct key once`, () => {
   expect(again.index).toBe(first.index)
   expect(again.item).toBe(first.item)
   expect(creates()).toBe(1)
-  expect(interner.items).toEqual([{ key: [1, 2, 3] }])
+  expect(interner.items).toStrictEqual([{ key: [1, 2, 3] }])
 })
 
 test(`assigns sequential indices in insertion order`, () => {
@@ -67,7 +67,7 @@ test(`assigns sequential indices in insertion order`, () => {
   expect(intern([3, 3, 3]).index).toBe(2)
   expect(intern([1]).index).toBe(0)
 
-  expect(interner.items).toEqual([
+  expect(interner.items).toStrictEqual([
     { key: [1] },
     { key: [2, 2] },
     { key: [3, 3, 3] },
@@ -85,7 +85,7 @@ describe(`hash collisions`, () => {
 
     expect(new Set([first.index, second.index, third.index]).size).toBe(3)
     expect(creates()).toBe(3)
-    expect(interner.items).toEqual([
+    expect(interner.items).toStrictEqual([
       { key: [1, 2] },
       { key: [3, 4] },
       { key: [5, 6] },
@@ -152,10 +152,10 @@ test.prop([keysArb, hashArb])(
     )
 
     const distinct = [...new Set(keys.map(key => JSON.stringify(key)))]
-    expect(indices).toEqual(
+    expect(indices).toStrictEqual(
       keys.map(key => distinct.indexOf(JSON.stringify(key))),
     )
-    expect(interner.items).toEqual(
+    expect(interner.items).toStrictEqual(
       distinct.map(serialized => ({ key: JSON.parse(serialized) as number[] })),
     )
     expect(creates).toBe(distinct.length)
@@ -175,7 +175,7 @@ test.prop([keysArb, hashArb])(
 
     const secondPass = keys.map(intern)
 
-    expect(secondPass).toEqual(firstPass)
-    expect(interner.items).toEqual(itemsAfterFirstPass)
+    expect(secondPass).toStrictEqual(firstPass)
+    expect(interner.items).toStrictEqual(itemsAfterFirstPass)
   },
 )

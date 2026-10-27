@@ -28,12 +28,8 @@ export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
     const sample = target as Record<string, unknown>
     return Array.isArray(sample.stackTraces) && Array.isArray(sample.durations)
   }
-  if (
-    !Array.isArray(recording.sampleStackTraces) ||
-    !Array.isArray(recording.sampleDurations)
-  ) {
-    return false
-  }
-
-  return true
+  return (
+    Array.isArray(recording.sampleStackTraces) &&
+    Array.isArray(recording.sampleDurations)
+  )
 }

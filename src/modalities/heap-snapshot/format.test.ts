@@ -50,7 +50,7 @@ describe(`formatHeapSnapshot`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every node, so all nodes are shown`,
     ])
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -60,7 +60,7 @@ describe(`formatHeapSnapshot`, () => {
         },
       ],
     ])
-    expect(retainedSizeTables(md)).toEqual([
+    expect(retainedSizeTables(md)).toStrictEqual([
       [
         {
           '%': `150.0%`,
@@ -179,7 +179,7 @@ describe(`formatHeapSnapshot`, () => {
     test(`splits a ranking into a subsection per covered category`, () => {
       const md = mdastToMarkdown(formatHeapSnapshot(snapshot, defaultOptions))
 
-      expect(categorySubsectionTables(md, `Self size`)).toEqual({
+      expect(categorySubsectionTables(md, `Self size`)).toStrictEqual({
         Object: [
           {
             '%': `60.0%`,
@@ -218,10 +218,9 @@ describe(`formatHeapSnapshot`, () => {
         ),
       )
 
-      expect(Object.keys(categorySubsectionTables(md, `Self size`))).toEqual([
-        `Object`,
-        `Array`,
-      ])
+      expect(
+        Object.keys(categorySubsectionTables(md, `Self size`)),
+      ).toStrictEqual([`Object`, `Array`])
     })
 
     test(`splits a ranking whose constructors all fall in one category`, () => {
@@ -242,7 +241,7 @@ describe(`formatHeapSnapshot`, () => {
         formatHeapSnapshot(singleCategory, defaultOptions),
       )
 
-      expect(categorySubsectionTables(md, `Self size`)).toEqual({
+      expect(categorySubsectionTables(md, `Self size`)).toStrictEqual({
         Object: [
           {
             '%': `100.0%`,
@@ -268,7 +267,7 @@ describe(`formatHeapSnapshot`, () => {
 
       const md = mdastToMarkdown(formatHeapSnapshot(strings, defaultOptions))
 
-      expect(categorySubsectionTables(md, `Largest strings`)).toEqual({
+      expect(categorySubsectionTables(md, `Largest strings`)).toStrictEqual({
         String: [
           {
             '%': `60.0%`,
@@ -306,9 +305,9 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
-    expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB → 1.5\u00A0KiB (+512\u00A0B, +50.0%) over 10 → 12 nodes and 20 → 25 edges.`,
+    expect(profileTitles(md)).toStrictEqual([`Heap snapshot diff`])
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 1\u{A0}KiB → 1.5\u{A0}KiB (+512\u{A0}B, +50.0%) over 10 → 12 nodes and 20 → 25 edges.`,
     ])
   })
 
@@ -322,8 +321,8 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB over 10 nodes and 20 edges.`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 1\u{A0}KiB over 10 nodes and 20 edges.`,
     ])
   })
 
@@ -343,7 +342,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Object`,
@@ -430,16 +429,16 @@ describe(`formatHeapSnapshotDiff`, () => {
         Constructor: `Removed`,
       },
     ]
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       expectedRegressions,
     ])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([
       expectedImprovements,
     ])
-    expect(rankingTables(md, `Retained size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Retained size`, `Regressions`)).toStrictEqual([
       expectedRegressions,
     ])
-    expect(rankingTables(md, `Retained size`, `Improvements`)).toEqual([
+    expect(rankingTables(md, `Retained size`, `Improvements`)).toStrictEqual([
       expectedImprovements,
     ])
   })
@@ -482,22 +481,26 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `+200.0%`,
-          Delta: `+200 B`,
-          '%': `78.1% → 234.4%`,
-          Retained: `100 B → 300 B`,
-          Instances: `1 → 2`,
-          Paths: `1`,
-          Name: `grewFn`,
-          Location: `./src/a.ts:5:10 → 7:10`,
-          'Example path': `(unknown) ← (GC root)`,
-        },
+        [
+          {
+            Change: `+200.0%`,
+            Delta: `+200 B`,
+            '%': `78.1% → 234.4%`,
+            Retained: `100 B → 300 B`,
+            Instances: `1 → 2`,
+            Paths: `1`,
+            Name: `grewFn`,
+            Location: `./src/a.ts:5:10 → 7:10`,
+            'Example path': `(unknown) ← (GC root)`,
+          },
+        ],
       ],
-    ])
-    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([
+    )
+    expect(
+      rankingTables(md, `Largest functions`, `Improvements`),
+    ).toStrictEqual([
       [
         {
           Change: `-75.0%`,
@@ -530,7 +533,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Largest strings`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest strings`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+220.0%`,
@@ -542,7 +545,9 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Largest strings`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Largest strings`, `Improvements`)).toStrictEqual(
+      [],
+    )
   })
 
   test(`omits the location column when nothing has a location`, () => {
@@ -584,7 +589,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -596,20 +601,22 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual(
       [
-        {
-          Change: `+100.0%`,
-          Delta: `+100 B`,
-          '%': `61.0% → 75.8%`,
-          Retained: `100 B → 200 B`,
-          Instances: `1`,
-          Paths: `1`,
-          Name: `myFn`,
-          'Example path': `(unknown) ← (GC root)`,
-        },
+        [
+          {
+            Change: `+100.0%`,
+            Delta: `+100 B`,
+            '%': `61.0% → 75.8%`,
+            Retained: `100 B → 200 B`,
+            Instances: `1`,
+            Paths: `1`,
+            Name: `myFn`,
+            'Example path': `(unknown) ← (GC root)`,
+          },
+        ],
       ],
-    ])
+    )
   })
 
   test(`omits entities hidden by showEntry without hiding entities from the other snapshot`, () => {
@@ -648,7 +655,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
     expect(md).not.toContain(`Hidden`)
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `new`,
@@ -694,7 +701,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     expectLogs([
       `warn: entry filter ignored because it hides every node, so all nodes are shown`,
     ])
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([
       [
         {
           Change: `+100.0%`,
@@ -754,7 +761,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     )
     expect(md).toContain(`No string differed in bytes.`)
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         {
           Category: `Object`,
@@ -853,7 +860,9 @@ describe(`formatHeapSnapshotDiff`, () => {
     test(`splits each ranking into a subsection per covered category`, () => {
       const md = diffMixedSnapshots([600, 390, 10], [300, 700, 10])
 
-      expect(categoryRankingTables(md, `Self size`, `Regressions`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self size`, `Regressions`),
+      ).toStrictEqual({
         Array: [
           {
             Change: `+79.5%`,
@@ -865,7 +874,9 @@ describe(`formatHeapSnapshotDiff`, () => {
           },
         ],
       })
-      expect(categoryRankingTables(md, `Self size`, `Improvements`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self size`, `Improvements`),
+      ).toStrictEqual({
         Object: [
           {
             Change: `-50.0%`,
@@ -886,13 +897,15 @@ describe(`formatHeapSnapshotDiff`, () => {
 
       expect(
         Object.keys(categoryRankingTables(md, `Self size`, `Improvements`)),
-      ).toEqual([`Array`])
+      ).toStrictEqual([`Array`])
     })
 
     test(`splits a ranking whose constructors all fall in one category`, () => {
       const md = diffMixedSnapshots([1000, 0, 0], [500, 0, 0])
 
-      expect(categoryRankingTables(md, `Self size`, `Improvements`)).toEqual({
+      expect(
+        categoryRankingTables(md, `Self size`, `Improvements`),
+      ).toStrictEqual({
         Object: [
           {
             Change: `-50.0%`,
@@ -937,7 +950,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
       expect(
         categoryRankingTables(md, `Largest strings`, `Regressions`),
-      ).toEqual({
+      ).toStrictEqual({
         String: [
           {
             Change: `+200.0%`,

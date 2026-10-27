@@ -731,7 +731,7 @@ const formatString = (string: string): string => {
   if (string.length > MAX_STRING_LENGTH) {
     string = `${string.slice(0, MAX_STRING_LENGTH - 1)}…`
   }
-  return string.replaceAll(`\n`, `\\n`)
+  return string.replaceAll(`\n`, String.raw`\n`)
 }
 
 const MAX_STRING_LENGTH = 50

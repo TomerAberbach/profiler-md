@@ -147,7 +147,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `85.7%`,
@@ -165,7 +165,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -186,22 +186,21 @@ describe(`convert`, () => {
   })
 
   test(`aggregates the samples layout's targets into one profile`, () => {
-    const frame = (name: string): ReturnType<typeof makeWebKitStackFrame> =>
-      makeWebKitStackFrame({
-        name,
-        url: `file:///project/src/index.ts`,
-        line: 10,
-      })
+    const frame = makeWebKitStackFrame({
+      name: `work`,
+      url: `file:///project/src/index.ts`,
+      line: 10,
+    })
     const recording = {
       version: 1,
       recording: {
         samples: [
           {
-            stackTraces: [{ stackFrames: [frame(`work`)] }],
+            stackTraces: [{ stackFrames: [frame] }],
             durations: [0.01],
           },
           {
-            stackTraces: [{ stackFrames: [frame(`work`)] }],
+            stackTraces: [{ stackFrames: [frame] }],
             durations: [0.03],
           },
         ],
@@ -214,7 +213,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project/` }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -252,10 +251,10 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 250.0ms over 3 samples (83.3ms per sample).`,
     ])
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -306,7 +305,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project/` }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 100.0ms over 2 samples (50.0ms per sample).`,
     ])
     expectLogs([
@@ -360,7 +359,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [expect.objectContaining({ Location: `<unknown>` })],
     ])
   })
@@ -402,7 +401,7 @@ describe(`convert`, () => {
     )
 
     // Recursive: total deduplicated (2 samples, not 3)
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -456,7 +455,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `66.7%`, Time: `20.0ms`, Samples: `1` },
         { Category: `Ours`, '%': `33.3%`, Time: `10.0ms`, Samples: `1` },
@@ -508,7 +507,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(linesTables(md, `work`)).toEqual([
+    expect(linesTables(md, `work`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -582,7 +581,7 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([expect.not.arrayContaining([`work`])])
+    ).toStrictEqual([expect.not.arrayContaining([`work`])])
     expect(callersTables(md, `work`)).toHaveLength(0)
   })
 
@@ -596,8 +595,8 @@ describe(`options`, () => {
       }),
     )
 
-    expect(selfTimeTables(md).map(table => table.length)).toEqual([1])
-    expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
+    expect(selfTimeTables(md).map(table => table.length)).toStrictEqual([1])
+    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([1])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
@@ -611,7 +610,9 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
+    ).toStrictEqual([
+      [expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)],
+    ])
   })
 
   test(`categorizeFunctions overrides the detected categories`, () => {
@@ -627,7 +628,7 @@ describe(`options`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
         { Category: `Ours`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },

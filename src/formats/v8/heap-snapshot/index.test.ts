@@ -324,7 +324,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Object`, '%': `47.4%`, Size: `200 B`, Nodes: `1` },
         { Category: `String`, '%': `26.1%`, Size: `110 B`, Nodes: `2` },
@@ -335,7 +335,7 @@ describe(`convert`, () => {
     ])
 
     // Only MyClass shows because the others are filtered
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `47.4%`,
@@ -347,7 +347,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(selfSizeRetainerPathTables(md, `MyClass`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `MyClass`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -358,7 +358,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(functionTables(md)).toEqual([
+    expect(functionTables(md)).toStrictEqual([
       [
         {
           '%': `15.2%`,
@@ -372,7 +372,7 @@ describe(`convert`, () => {
       ],
     ])
 
-    expect(largestStringsTables(md)).toEqual([
+    expect(largestStringsTables(md)).toStrictEqual([
       [
         {
           '%': `26.1%`,
@@ -401,7 +401,7 @@ describe(`convert`, () => {
 
     // V8 types both nodes `object`. Only the runtime's language states that an
     // `Array` instance is an array.
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Array`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
         { Category: `Object`, '%': `33.3%`, Size: `100 B`, Nodes: `1` },
@@ -421,7 +421,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Object`, '%': `100.0%`, Size: `300 B`, Nodes: `2` },
         { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
@@ -443,7 +443,7 @@ describe(`convert`, () => {
 
     // The base is the common ancestor of the closure's location and the
     // constructor's URL-shaped name, so the Markdown shows both relative to it.
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `47.4%`,
@@ -454,7 +454,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(functionTables(md)).toEqual([
+    expect(functionTables(md)).toStrictEqual([
       [
         {
           '%': `15.2%`,
@@ -469,7 +469,7 @@ describe(`convert`, () => {
     ])
     // String values are never locations, so the script name's raw value stays
     // absolute.
-    expect(largestStringsTables(md)).toEqual([
+    expect(largestStringsTables(md)).toStrictEqual([
       [
         {
           '%': `26.1%`,
@@ -532,17 +532,17 @@ describe(`convert`, () => {
     }
     expect(
       rankingTables(unmatchedMd, `Largest functions`, `Regressions`),
-    ).toEqual([[newFunction]])
+    ).toStrictEqual([[newFunction]])
     expect(
       rankingTables(unmatchedMd, `Largest functions`, `Improvements`),
-    ).toEqual([[removedFunction]])
+    ).toStrictEqual([[removedFunction]])
     // With the hook the function matches across the snapshots and has no delta.
     expect(
       rankingTables(matchedMd, `Largest functions`, `Regressions`),
-    ).toEqual([])
+    ).toStrictEqual([])
     expect(
       rankingTables(matchedMd, `Largest functions`, `Improvements`),
-    ).toEqual([])
+    ).toStrictEqual([])
   })
 
   test(`weak edges are not followed for retainer paths`, () => {
@@ -588,7 +588,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         expect.objectContaining({ Constructor: `parent` }),
         expect.objectContaining({ Constructor: `child` }),
@@ -640,7 +640,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -711,7 +711,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -770,7 +770,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeRetainerPathTables(md, `child`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `child`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -867,7 +867,7 @@ describe(`convert`, () => {
     )
 
     expect(md).not.toContain(`## Largest functions`)
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `47.4%`,
@@ -887,7 +887,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(retainedNodeTables(shown, `myFn`)).toEqual([
+    expect(retainedNodeTables(shown, `myFn`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -906,7 +906,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(functionTables(hidden)).toEqual([
+    expect(functionTables(hidden)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -918,7 +918,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(retainedNodeTables(hidden, `myFn`)).toEqual([])
+    expect(retainedNodeTables(hidden, `myFn`)).toStrictEqual([])
   })
 
   test(`a category filter hides strings`, () => {
@@ -932,7 +932,7 @@ describe(`convert`, () => {
     )
 
     expect(md).not.toContain(`## Largest strings`)
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [
         {
           '%': `47.4%`,
@@ -952,7 +952,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(selfSizeRetainerPathTables(shown, `Widget`)).toEqual([
+    expect(selfSizeRetainerPathTables(shown, `Widget`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -971,7 +971,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeRetainerPathTables(hidden, `Widget`)).toEqual([
+    expect(selfSizeRetainerPathTables(hidden, `Widget`)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -991,7 +991,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfSizeRetainerPathTables(md, `Array`)).toEqual([
+    expect(selfSizeRetainerPathTables(md, `Array`)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1010,7 +1010,7 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    expect(largestStringsTables(md)).toEqual([
+    expect(largestStringsTables(md)).toStrictEqual([
       [
         {
           '%': `37.5%`,
@@ -1084,7 +1084,7 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
   ]
   expect(
     [`a`, `b`, `c`, `xx`].map(name => selfSizeRetainerPathTables(md, name)),
-  ).toEqual([
+  ).toStrictEqual([
     rowAt(`a ← (GC root)`),
     rowAt(`b ←.x– a`),
     rowAt(`c ←.y– b ←.x– a`),
@@ -1153,13 +1153,13 @@ describe(`malformed snapshots`, () => {
   ])(`skips an edge pointing $case, with a warning`, ({ toNode }) => {
     const md = convert(makeSnapshot({ toNode }))
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Object`, '%': `100.0%`, Size: `16 B`, Nodes: `1` },
         { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
-    expect(selfSizeTables(md)).toEqual([
+    expect(selfSizeTables(md)).toStrictEqual([
       [{ '%': `100.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
     ])
     expectLogs([

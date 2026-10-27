@@ -38,7 +38,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `gamma_spin (nested [nested.c:9]) <0x56475007017d>`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `gamma_spin`,
       definition: { type: `file`, urlOrPath: `nested.c` },
       executing: { line: 9 },
@@ -48,7 +48,7 @@ describe(`normalizeStackFrame`, () => {
   test(`splits a line-less located frame`, () => {
     expect(
       normalizeStackFrame({ name: `read_config (app [config.c]) <0x1234>` }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `read_config`,
       definition: { type: `file`, urlOrPath: `config.c` },
     })
@@ -61,7 +61,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `handle_mm_fault ([kernel] [memory.c:5432]) <0xffffffff96e00123>`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `handle_mm_fault ([kernel])`,
       definition: { type: `file`, urlOrPath: `memory.c` },
       executing: { line: 5432 },
@@ -80,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
   ])(
     `keeps the module, minus the address, for the source-less %s frame`,
     (name, expected) => {
-      expect(normalizeStackFrame({ name })).toEqual({ name: expected })
+      expect(normalizeStackFrame({ name })).toStrictEqual({ name: expected })
     },
   )
 
@@ -89,7 +89,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `std::vector<int>::push_back(int&&) (app [vector.h:123]) <0x1>`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `std::vector<int>::push_back(int&&)`,
       definition: { type: `file`, urlOrPath: `vector.h` },
       executing: { line: 123 },
@@ -99,7 +99,7 @@ describe(`normalizeStackFrame`, () => {
   test(`splits a Python frame's location`, () => {
     expect(
       normalizeStackFrame({ name: `handle_request (python) [server.py:88]` }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `handle_request`,
       definition: { type: `file`, urlOrPath: `server.py` },
       executing: { line: 88 },
@@ -107,7 +107,7 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`leaves an unpacked frame untouched`, () => {
-    expect(normalizeStackFrame({ name: `0x7f95bfdb6e12` })).toEqual({
+    expect(normalizeStackFrame({ name: `0x7f95bfdb6e12` })).toStrictEqual({
       name: `0x7f95bfdb6e12`,
     })
   })
@@ -118,7 +118,7 @@ describe(`normalizeStackFrame`, () => {
         name: `located`,
         definition: { type: `file`, urlOrPath: `a.c` },
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `located`,
       definition: { type: `file`, urlOrPath: `a.c` },
     })

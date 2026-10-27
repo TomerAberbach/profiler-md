@@ -109,7 +109,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(selfTimeTables(md)).toEqual([
+    expect(selfTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -120,7 +120,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(callersTables(md, `funcB`)).toEqual([
+    expect(callersTables(md, `funcB`)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -206,7 +206,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(linesTables(md, `funcB`)).toEqual([
+    expect(linesTables(md, `funcB`)).toStrictEqual([
       [
         { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `./src/b.ts:8` },
         { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `./src/b.ts:5` },
@@ -283,7 +283,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(linesTables(md, `funcB`)).toEqual([
+    expect(linesTables(md, `funcB`)).toStrictEqual([
       [
         { '%': `66.7%`, Time: `0.2ms`, Samples: `2`, Location: `./src/b.ts:5` },
         { '%': `33.3%`, Time: `0.1ms`, Samples: `1`, Location: `./src/b.ts:8` },
@@ -332,7 +332,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(totalTimeTables(md)).toEqual([
+    expect(totalTimeTables(md)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -403,12 +403,12 @@ describe(`convert`, () => {
           .filter(row => row.Function === `(anonymous)`)
           .map(row => row.Location),
       ),
-    ).toEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
+    ).toStrictEqual([[`./src/a.ts:21:1`, `./src/a.ts:11:1`]])
     expect(
       totalTimeTables(md).map(
         table => table.filter(row => row.Function === `(anonymous)`).length,
       ),
-    ).toEqual([2])
+    ).toStrictEqual([2])
   })
 
   test(`unknown (-1) line and column are dropped from a located frame`, () => {
@@ -441,7 +441,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`./src/a.ts`]])
+    ).toStrictEqual([[`./src/a.ts`]])
   })
 
   test(`categorizes ours, third-party, and stdlib code`, () => {
@@ -496,7 +496,7 @@ describe(`convert`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Ours`, '%': `71.4%`, Time: `1.3ms`, Samples: `2` },
         { Category: `Third-party`, '%': `28.6%`, Time: `0.5ms`, Samples: `1` },
@@ -589,7 +589,7 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toEqual([expect.not.arrayContaining([`funcB`])])
+    ).toStrictEqual([expect.not.arrayContaining([`funcB`])])
     expect(callersTables(md, `funcC`)).toHaveLength(0)
   })
 
@@ -603,8 +603,8 @@ describe(`options`, () => {
       }),
     )
 
-    expect(selfTimeTables(md).map(table => table.length)).toEqual([2])
-    expect(totalTimeTables(md).map(table => table.length)).toEqual([2])
+    expect(selfTimeTables(md).map(table => table.length)).toStrictEqual([2])
+    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([2])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
@@ -616,7 +616,7 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([
+    ).toStrictEqual([
       [
         expect.stringMatching(/^\//u),
         expect.stringMatching(/^\//u),
@@ -639,7 +639,7 @@ describe(`options`, () => {
       }),
     )
 
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [
         { Category: `Third-party`, '%': `75.0%`, Time: `0.3ms`, Samples: `3` },
         { Category: `Ours`, '%': `25.0%`, Time: `0.1ms`, Samples: `1` },
@@ -728,7 +728,7 @@ describe(`malformed profiles`, () => {
         normalizeProfileToMdOptions({ baseURL: `/project` }),
       )
 
-      expect(linesTables(md, `foo`)).toEqual([])
+      expect(linesTables(md, `foo`)).toStrictEqual([])
       expectLogs([
         `debug: origin candidates, in priority order: deno, bun, node, chrome`,
         `info: fallback origin: chrome`,
@@ -760,7 +760,7 @@ describe(`samples referencing a missing node`, () => {
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
-    expect(summaryLines(md)).toEqual([
+    expect(summaryLines(md)).toStrictEqual([
       `Took 5.0µs over 1 sample (5.0µs per sample).`,
     ])
     expectLogs([

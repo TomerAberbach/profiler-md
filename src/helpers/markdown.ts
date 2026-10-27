@@ -81,7 +81,7 @@ export const phrasing = (
 export const inlineCode = (value: string): InlineCode => ({
   type: `inlineCode`,
   value: toControlPictures(
-    lineEndingsToSpaces(value).replaceAll(`\\|`, `\\ |`),
+    lineEndingsToSpaces(value).replaceAll(String.raw`\|`, String.raw`\ |`),
   ),
 })
 
@@ -114,9 +114,9 @@ export const text = (value: string): Text => ({
 // replace each with its Unicode control picture (U+2400 to U+2421). Tabs and
 // line endings are text.
 const toControlPictures = (value: string): string =>
-  value.replaceAll(/[\0-\b\v\f\x0E-\x1F\x7F]/gu, char =>
-    char === `\x7F`
-      ? `\u2421`
+  value.replaceAll(/[\u{0}-\u{8}\v\f\u{E}-\u{1F}\u{7F}]/gu, char =>
+    char === `\u{7F}`
+      ? `\u{2421}`
       : String.fromCodePoint(0x24_00 + char.codePointAt(0)!),
   )
 
@@ -139,11 +139,9 @@ export const headingNameLocationKey = (heading: Heading): string | null => {
     .map(nodeText)
     .join(``)
     .trim()
-  if (!after.startsWith(`(`) || !after.endsWith(`)`)) {
-    return null
-  }
-
-  return nameLocationKey(name, after.slice(1, -1))
+  return !after.startsWith(`(`) || !after.endsWith(`)`)
+    ? null
+    : nameLocationKey(name, after.slice(1, -1))
 }
 
 /** The key matching a {@link nameLocationPhrasing} heading to a table row. */
@@ -155,10 +153,9 @@ export const nodeText = (node: Node): string => {
   if (`value` in node && typeof node.value === `string`) {
     return node.value
   }
-  if (`children` in node && Array.isArray(node.children)) {
-    return (node.children as Node[]).map(nodeText).join(``)
-  }
-  return ``
+  return `children` in node && Array.isArray(node.children)
+    ? (node.children as Node[]).map(nodeText).join(``)
+    : ``
 }
 
 export const formatSectionGroup = (

@@ -222,26 +222,26 @@ describe(`convert`, () => {
       records: [...records],
     })
 
-    expect(convertBytesToMd(memrayFormatSpec, version13, options())).toEqual(
-      convertBytesToMd(memrayFormatSpec, version12, options()),
-    )
+    expect(
+      convertBytesToMd(memrayFormatSpec, version13, options()),
+    ).toStrictEqual(convertBytesToMd(memrayFormatSpec, version12, options()))
   })
 
   test(`measures the memory live at the peak and at the end`, () => {
     const md = convertBytesToMd(memrayFormatSpec, risesThenFalls, options())
 
-    expect(profileTitles(md)).toEqual([PEAK, LEAKED])
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
-      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    expect(profileTitles(md)).toStrictEqual([PEAK, LEAKED])
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
+      `Leaked 1.5\u{A0}KiB over 2 allocations (768\u{A0}B per allocation).`,
     ])
-    expect(categoryTables(md)).toEqual([
+    expect(categoryTables(md)).toStrictEqual([
       [{ Category: `Ours`, '%': `100.0%`, Size: `4 KiB`, Allocations: `2` }],
       [{ Category: `Ours`, '%': `100.0%`, Size: `1.5 KiB`, Allocations: `2` }],
     ])
 
     // At the peak both allocations are live and `cold` holds the larger one.
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -261,7 +261,7 @@ describe(`convert`, () => {
     ])
 
     // By the end `cold` has freed its 3 KiB and leaked only the later 512 B.
-    expect(selfSizeTables(md, LEAKED)).toEqual([
+    expect(selfSizeTables(md, LEAKED)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -337,11 +337,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Held 9\u00A0KiB over 2 allocations (4.5\u00A0KiB per allocation).`,
-      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 9\u{A0}KiB over 2 allocations (4.5\u{A0}KiB per allocation).`,
+      `Leaked 1.5\u{A0}KiB over 2 allocations (768\u{A0}B per allocation).`,
     ])
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `88.9%`,
@@ -359,7 +359,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, LEAKED)).toEqual([
+    expect(selfSizeTables(md, LEAKED)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -446,11 +446,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Held 12\u00A0KiB over 2 allocations (6\u00A0KiB per allocation).`,
-      `Leaked 2.5\u00A0KiB over 2 allocations (1.25\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 12\u{A0}KiB over 2 allocations (6\u{A0}KiB per allocation).`,
+      `Leaked 2.5\u{A0}KiB over 2 allocations (1.25\u{A0}KiB per allocation).`,
     ])
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -461,7 +461,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, LEAKED)).toEqual([
+    expect(selfSizeTables(md, LEAKED)).toStrictEqual([
       [
         {
           '%': `80.0%`,
@@ -506,11 +506,11 @@ describe(`convert`, () => {
 
     // `cold` holds no bytes, so the sizes the table ranks by leave it out, but
     // the profile still counts its allocation.
-    expect(summaryLines(md)).toEqual([
-      `Held 2\u00A0KiB over 2 allocations (1\u00A0KiB per allocation).`,
-      `Leaked 2\u00A0KiB over 2 allocations (1\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 2\u{A0}KiB over 2 allocations (1\u{A0}KiB per allocation).`,
+      `Leaked 2\u{A0}KiB over 2 allocations (1\u{A0}KiB per allocation).`,
     ])
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -545,7 +545,7 @@ describe(`convert`, () => {
 
     // `hot` allocated it, so only it has the size to itself, while `cold`
     // holds it as its callee's.
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -556,7 +556,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(totalSizeTables(md, PEAK)).toEqual([
+    expect(totalSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -607,9 +607,9 @@ describe(`convert`, () => {
 
     // The 4 KiB allocation is the peak, and the 1 KiB one that reused its
     // address is what leaked.
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 1 allocation (4\u00A0KiB per allocation).`,
-      `Leaked 1\u00A0KiB over 1 allocation (1\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 1 allocation (4\u{A0}KiB per allocation).`,
+      `Leaked 1\u{A0}KiB over 1 allocation (1\u{A0}KiB per allocation).`,
     ])
   })
 
@@ -641,9 +641,9 @@ describe(`convert`, () => {
     )
 
     // The peak is the 1 KiB allocation alone, since the 8 B one displaced it.
-    expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB over 1 allocation (1\u00A0KiB per allocation).`,
-      `Leaked 8\u00A0B over 1 allocation (8\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 1\u{A0}KiB over 1 allocation (1\u{A0}KiB per allocation).`,
+      `Leaked 8\u{A0}B over 1 allocation (8\u{A0}B per allocation).`,
     ])
   })
 
@@ -674,9 +674,9 @@ describe(`convert`, () => {
     )
 
     // The two mappings cover 4 KiB together, not the 6 KiB they total.
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
-      `Leaked 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
+      `Leaked 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
     ])
   })
 
@@ -708,9 +708,9 @@ describe(`convert`, () => {
 
     // The two halves the unmapping left are two mappings by the end, so the
     // leaked memory counts one allocation each.
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 1 allocation (4\u00A0KiB per allocation).`,
-      `Leaked 3\u00A0KiB over 2 allocations (1.5\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 1 allocation (4\u{A0}KiB per allocation).`,
+      `Leaked 3\u{A0}KiB over 2 allocations (1.5\u{A0}KiB per allocation).`,
     ])
   })
 
@@ -734,7 +734,7 @@ describe(`convert`, () => {
 
     // `cold` is the launcher's frame, so only `hot` remains, with the size to
     // itself and nothing above it.
-    expect(totalSizeTables(md, PEAK)).toEqual([
+    expect(totalSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -786,7 +786,7 @@ describe(`convert`, () => {
 
     // Both frames are the same function, defined on line 10, and the line
     // table splits its size across the two lines it was executing.
-    expect(linesTables(md, `hot`)).toEqual([
+    expect(linesTables(md, `hot`)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -836,11 +836,11 @@ describe(`convert`, () => {
     )
 
     // The same totals a capture of every allocation replays to.
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
-      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
+      `Leaked 1.5\u{A0}KiB over 2 allocations (768\u{A0}B per allocation).`,
     ])
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `75.0%`,
@@ -893,11 +893,11 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB over 4 allocations (256\u00A0B per allocation).`,
-      `Leaked 768\u00A0B over 3 allocations (256\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 1\u{A0}KiB over 4 allocations (256\u{A0}B per allocation).`,
+      `Leaked 768\u{A0}B over 3 allocations (256\u{A0}B per allocation).`,
     ])
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -908,7 +908,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, LEAKED)).toEqual([
+    expect(selfSizeTables(md, LEAKED)).toStrictEqual([
       [
         {
           '%': `66.7%`,
@@ -948,7 +948,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(selfSizeTables(md, PEAK)).toEqual([
+    expect(selfSizeTables(md, PEAK)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1003,11 +1003,11 @@ describe(`convert`, () => {
 
     // The malloc and the mapping are live together at the peak, and the two
     // halves of the mapping are what leaked.
-    expect(summaryLines(md)).toEqual([
-      `Held 5\u00A0KiB over 2 allocations (2.5\u00A0KiB per allocation).`,
-      `Leaked 3\u00A0KiB over 2 allocations (1.5\u00A0KiB per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 5\u{A0}KiB over 2 allocations (2.5\u{A0}KiB per allocation).`,
+      `Leaked 3\u{A0}KiB over 2 allocations (1.5\u{A0}KiB per allocation).`,
     ])
-    expect(selfSizeTables(md, LEAKED)).toEqual([
+    expect(selfSizeTables(md, LEAKED)).toStrictEqual([
       [
         {
           '%': `100.0%`,
@@ -1045,16 +1045,16 @@ describe(`convert`, () => {
       { baseURL: `/app`, showEntry: () => true },
     )
 
-    expect(profileTitles(md)).toEqual([
+    expect(profileTitles(md)).toStrictEqual([
       `Peak memory profile diff`,
       `Leaked memory profile diff`,
     ])
-    expect(summaryLines(md)).toEqual([
-      `Held 29\u00A0B over 1 → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
-      `Leaked 29\u00A0B over 1 → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 29\u{A0}B over 1 → 7 allocations (29\u{A0}B → 4.14\u{A0}B per allocation).`,
+      `Leaked 29\u{A0}B over 1 → 7 allocations (29\u{A0}B → 4.14\u{A0}B per allocation).`,
     ])
-    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([])
-    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Regressions`)).toStrictEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toStrictEqual([])
   })
 
   // `memray run` writes every capture as an LZ4 frame, which the pipeline
@@ -1062,9 +1062,9 @@ describe(`convert`, () => {
   test(`converts a compressed capture`, () => {
     const md = profileToMd(asLz4Frame(risesThenFalls), { baseURL: `/app` })
 
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
-      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
+      `Leaked 1.5\u{A0}KiB over 2 allocations (768\u{A0}B per allocation).`,
     ])
   })
 
@@ -1077,9 +1077,9 @@ describe(`convert`, () => {
       { baseURL: `/app` },
     )
 
-    expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
-      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 4\u{A0}KiB over 2 allocations (2\u{A0}KiB per allocation).`,
+      `Leaked 1.5\u{A0}KiB over 2 allocations (768\u{A0}B per allocation).`,
     ])
   })
 
@@ -1173,7 +1173,7 @@ describe(`convert`, () => {
         options(),
       )
 
-      expect(md).toEqual(expectedMd)
+      expect(md).toStrictEqual(expectedMd)
     },
   )
 

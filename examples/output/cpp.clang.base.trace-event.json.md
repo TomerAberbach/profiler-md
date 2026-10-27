@@ -97,7 +97,7 @@ Parent spans with the largest contribution to each span's self time.
 | ----: | ------: | ----: | ----: | -----: | ------------------------------ |
 | 65.4% | 666.9ms | 1,233 | 0.5ms | 11.8ms | `InstantiateFunction`          |
 | 32.9% | 335.2ms |   408 | 0.8ms | 13.3ms | `PerformPendingInstantiations` |
-|  0.8% |   7.8ms |     7 | 1.1ms |  2.6ms | `ParseClass`                   |
+|  0.8% |   7.9ms |     7 | 1.1ms |  2.6ms | `ParseClass`                   |
 |  0.7% |   6.8ms |    43 | 0.2ms |  0.6ms | `InstantiateClass`             |
 |  0.3% |   2.6ms |     5 | 0.5ms |  0.8ms | `ParseFunctionDefinition`      |
 

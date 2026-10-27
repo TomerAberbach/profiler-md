@@ -4,13 +4,9 @@ export const matchesV8HeapProfile = (json: unknown): boolean => {
   }
 
   const object = json as Record<string, unknown>
-  if (
-    typeof object.head !== `object` ||
-    object.head === null ||
-    !Array.isArray(object.samples)
-  ) {
-    return false
-  }
-
-  return true
+  return (
+    typeof object.head === `object` &&
+    object.head !== null &&
+    Array.isArray(object.samples)
+  )
 }

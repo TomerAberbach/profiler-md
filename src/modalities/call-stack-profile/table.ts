@@ -180,8 +180,10 @@ export const formatCallStack = (
       return parts
     }
 
-    parts.push(inlineCode(frame.name))
-    parts.push(...formatFrameLocation(frame, previousFunction, options))
+    parts.push(
+      inlineCode(frame.name),
+      ...formatFrameLocation(frame, previousFunction, options),
+    )
     previousFunction = frame
     return parts
   })

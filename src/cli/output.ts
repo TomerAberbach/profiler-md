@@ -22,7 +22,11 @@ export const writeOutput = async (
 }
 
 export const isTTYOutput = (outputPath: string): boolean =>
-  outputPath === `-` && Boolean(process.stdout.isTTY)
+  outputPath === `-` &&
+  // @types/node types `isTTY` as a boolean, but a non-TTY stream leaves it
+  // undefined.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
+  Boolean(process.stdout.isTTY)
 
 /**
  * Rejects an output path that cannot be written.

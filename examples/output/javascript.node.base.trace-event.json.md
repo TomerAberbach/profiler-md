@@ -1221,7 +1221,7 @@ Instances of each span with the most time.
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 11.9% | 6.3ms |    4.9ms |  14.7ms | `JavaScriptMainThread` |
 |  1.1% | 0.6ms |    0.3ms | 513.4ms | `JavaScriptMainThread` |
-|  0.8% | 0.4ms |    0.1ms | 446.5ms | `JavaScriptMainThread` |
+|  0.8% | 0.4ms |    0.2ms | 446.5ms | `JavaScriptMainThread` |
 |  0.7% | 0.4ms |    0.1ms | 138.6ms | `JavaScriptMainThread` |
 |  0.7% | 0.4ms |   46.0µs | 343.1ms | `JavaScriptMainThread` |
 

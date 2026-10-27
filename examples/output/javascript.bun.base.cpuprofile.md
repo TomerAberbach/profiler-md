@@ -130,7 +130,7 @@ Categories accounting for at least 1.0% of self time.
 |  0.1% |   7.9ms |       6 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
 |  0.1% |   7.6ms |       6 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
 |  0.1% |   5.0ms |       1 | `loadAndEvaluateModule`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|  0.1% |   3.6ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
+|  0.1% |   3.7ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
 |  0.1% |   2.8ms |       2 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
 | <0.1% |   2.5ms |       2 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
 | <0.1% |   1.5ms |       1 | `readdirSync`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
@@ -151,7 +151,7 @@ Categories accounting for at least 1.0% of self time.
 |  0.2% | 11.6ms |       7 | `toString`    | `<unknown>` |
 |  0.2% | 10.5ms |       8 | `get`         | `<unknown>` |
 |  0.1% |  6.4ms |       5 | `set`         | `<unknown>` |
-|  0.1% |  4.5ms |       4 | `lastIndexOf` | `<unknown>` |
+|  0.1% |  4.6ms |       4 | `lastIndexOf` | `<unknown>` |
 |  0.1% |  3.8ms |       3 | `find`        | `<unknown>` |
 |  0.1% |  3.6ms |       3 | `trimEnd`     | `<unknown>` |
 |  0.1% |  3.4ms |       3 | `Map`         | `<unknown>` |
@@ -272,7 +272,7 @@ Lines with the largest contribution to each function's self time.
 | 41.0% | 19.9ms |      15 | `./node_modules/typescript/lib/typescript.js:69605` |
 | 30.5% | 14.8ms |      11 | `./node_modules/typescript/lib/typescript.js:69607` |
 |  8.8% |  4.3ms |       3 | `./node_modules/typescript/lib/typescript.js:69601` |
-|  5.2% |  2.5ms |       2 | `./node_modules/typescript/lib/typescript.js:69606` |
+|  5.2% |  2.6ms |       2 | `./node_modules/typescript/lib/typescript.js:69606` |
 |  2.2% |  1.1ms |       1 | `./node_modules/typescript/lib/typescript.js:69603` |
 
 ##### `inferFromTypes` (`./node_modules/typescript/lib/typescript.js:69901:28`)
@@ -358,7 +358,7 @@ Lines with the largest contribution to each function's self time.
 
 |      % |  Time | Samples | Location |
 | -----: | ----: | ------: | -------- |
-| 100.0% | 3.6ms |       3 | 1        |
+| 100.0% | 3.7ms |       3 | 1        |
 
 ##### `filter` (`<unknown>`)
 
@@ -658,7 +658,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |      % |  Time | Samples | Caller         | Location                                               |
 | -----: | ----: | ------: | -------------- | ------------------------------------------------------ |
-| 100.0% | 3.6ms |       3 | `createSymbol` | `./node_modules/typescript/lib/typescript.js:49995:24` |
+| 100.0% | 3.7ms |       3 | `createSymbol` | `./node_modules/typescript/lib/typescript.js:49995:24` |
 
 ##### `trimEnd` (`<unknown>`)
 
@@ -872,7 +872,7 @@ Categories accounting for at least 1.0% of self time.
 |  0.2% |   9.9ms |       7 | `requestInstantiate`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
 |  0.1% |   7.9ms |       6 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
 |  0.1% |   7.6ms |       6 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.1% |   3.6ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
+|  0.1% |   3.7ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
 |  0.1% |   2.8ms |       2 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
 
 ##### Standard library
@@ -890,7 +890,7 @@ Categories accounting for at least 1.0% of self time.
 |  0.1% |  6.4ms |       5 | `set`             | `<unknown>`                |
 |  0.1% |  6.4ms |       5 | `find`            | `<unknown>`                |
 |  0.1% |  5.2ms |       4 | `map`             | `<unknown>`                |
-|  0.1% |  4.5ms |       4 | `lastIndexOf`     | `<unknown>`                |
+|  0.1% |  4.6ms |       4 | `lastIndexOf`     | `<unknown>`                |
 |  0.1% |  3.9ms |       3 | `filter`          | `<unknown>`                |
 |  0.1% |  3.7ms |       3 | `(anonymous)`     | `internal:stream:1:11`     |
 |  0.1% |  3.7ms |       3 | `(anonymous)`     | `node:stream:1:11`         |
@@ -1296,7 +1296,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller         | Location                                               |
 | -----: | ----: | ------: | -------------- | ------------------------------------------------------ |
-| 100.0% | 3.6ms |       3 | `createSymbol` | `./node_modules/typescript/lib/typescript.js:49995:24` |
+| 100.0% | 3.7ms |       3 | `createSymbol` | `./node_modules/typescript/lib/typescript.js:49995:24` |
 
 ##### `trimEnd` (`<unknown>`)
 
@@ -1371,7 +1371,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 81.2% |   3.98s |   3,031 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:86886:30`  |
 | 10.6% | 522.2ms |     318 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:122449:24` |
 |  4.6% | 228.0ms |      95 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:124200:35` |
-|  4.5% | 218.9ms |     171 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:45224:21`  |
+|  4.5% | 219.0ms |     171 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:45224:21`  |
 |  3.5% | 172.6ms |     136 | `bind`               | `./node_modules/typescript/lib/typescript.js:46600:16`  |
 
 ##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:123317:76`)

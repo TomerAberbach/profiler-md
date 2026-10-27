@@ -96,7 +96,8 @@ const emittedCategories = (output: string): string[] => {
 }
 
 /** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 /-]*?) +\|/u
+const CATEGORY_ROW =
+  /^\| (?<category>[A-Z](?:[A-Za-z0-9 /-]*[A-Za-z0-9/-])?) +\|/u
 
 describe.each(
   CATEGORY_SETS.map(({ noun, categories }) => [noun, categories] as const),
@@ -107,17 +108,11 @@ describe.each(
     const reason = UNEMITTED_CATEGORIES.get(`${modality} ${category}`)
     const filename = emitted.get(formatCategory(category))
 
-    if (reason === undefined) {
-      expect(
-        filename,
-        `no example emits it, and nothing records why`,
-      ).toBeDefined()
-      return
-    }
-
     expect(
-      filename,
-      `${filename} emits it, so drop its entry, which reads: ${reason}`,
-    ).toBeUndefined()
+      filename !== undefined,
+      reason === undefined
+        ? `no example emits it, and nothing records why`
+        : `${filename} emits it, so drop its entry, which reads: ${reason}`,
+    ).toBe(reason === undefined)
   })
 })

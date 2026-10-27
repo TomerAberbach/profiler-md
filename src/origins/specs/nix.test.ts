@@ -37,7 +37,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `${NIXPKGS}/lib/attrsets.nix:1623:11:binaryMerge`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `binaryMerge`,
       callSite: {
         type: `file`,
@@ -50,7 +50,7 @@ describe(`normalizeStackFrame`, () => {
   test(`leaves an anonymous lambda nameless`, () => {
     expect(
       normalizeStackFrame({ name: `${NIXPKGS}/pkgs/stdenv/booter.nix:98:14` }),
-    ).toEqual({
+    ).toStrictEqual({
       name: undefined,
       callSite: {
         type: `file`,
@@ -65,7 +65,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({
         name: `«nix-internal»/derivation-internal.nix:37:12:primop derivationStrict:hello-2.12.3`,
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `primop derivationStrict:hello-2.12.3`,
       callSite: {
         type: `file`,
@@ -81,7 +81,7 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`drops the «none» placeholder position`, () => {
-    expect(normalizeStackFrame({ name: `«none»:0` })).toEqual({
+    expect(normalizeStackFrame({ name: `«none»:0` })).toStrictEqual({
       name: undefined,
     })
   })
@@ -143,7 +143,7 @@ describe(`matchEntry`, () => {
   test(`strips the store hash from a store path`, () => {
     expect(
       matchEntry(locatedEntry(`binaryMerge`, `${NIXPKGS}/lib/attrsets.nix`)),
-    ).toEqual({ location: `file:///nix/store/source/lib/attrsets.nix` })
+    ).toStrictEqual({ location: `file:///nix/store/source/lib/attrsets.nix` })
   })
 
   test(`leaves a path outside the store alone`, () => {

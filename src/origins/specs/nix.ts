@@ -51,15 +51,12 @@ export const nixOriginSpec = {
     unattributedNixCategory(entry) ??
     `ours`,
   matchEntry: matchEntryFromRules({ location: NIX_LOCATION_MATCH_RULES }),
-  normalizeStackFrame: input => {
+  normalizeStackFrame: input =>
     // A sourced frame stores its position in a separate field, so its name
     // isn't packed.
-    if (input.definition || input.callSite) {
-      return input
-    }
-
-    return parsePackedStackFrame(input.name ?? ``) ?? input
-  },
+    input.definition || input.callSite
+      ? input
+      : (parsePackedStackFrame(input.name ?? ``) ?? input),
   functionIdentity: `call-site`,
 } as const satisfies OriginSpec
 

@@ -56,7 +56,7 @@ const inlineCodeValues = (md: string): string[] => {
 const frameName = fc
   .string({ minLength: 1, maxLength: 30 })
   .map(name => name.replaceAll(/\r\n|[\r\n]/gu, ` `))
-  .filter(name => name.trim().length > 0 && !name.includes(`\\|`))
+  .filter(name => name.trim().length > 0 && !name.includes(String.raw`\|`))
 
 test.prop([frameName])(
   `function names round-trip through Markdown exactly`,
@@ -101,29 +101,29 @@ test(`a newline in a function name normalizes to a space without breaking struct
     Function: `evil name`,
     Location: `<unknown>`,
   }
-  expect(categoryTables(md)).toEqual([
+  expect(categoryTables(md)).toStrictEqual([
     [{ Category: `Native`, '%': `100.0%`, Time: `10.0ms`, Samples: `1` }],
   ])
-  expect(selfTimeTables(md)).toEqual([[functionRow]])
-  expect(totalTimeTables(md)).toEqual([[functionRow]])
+  expect(selfTimeTables(md)).toStrictEqual([[functionRow]])
+  expect(totalTimeTables(md)).toStrictEqual([[functionRow]])
 })
 
 test(`a backslash-pipe in a function name normalizes with a space without breaking structure`, () => {
   const md = profileToMd({
-    data: makeProfileData(`RegExp: a\\|b`),
+    data: makeProfileData(String.raw`RegExp: a\|b`),
     format: `speedscope`,
   })
 
-  expect(inlineCodeValues(md)).toContain(`RegExp: a\\ |b`)
+  expect(inlineCodeValues(md)).toContain(String.raw`RegExp: a\ |b`)
   const functionRow = {
     '%': `100.0%`,
     Time: `10.0ms`,
     Samples: `1`,
-    Function: `RegExp: a\\ |b`,
+    Function: String.raw`RegExp: a\ |b`,
     Location: `<unknown>`,
   }
-  expect(selfTimeTables(md)).toEqual([[functionRow]])
-  expect(totalTimeTables(md)).toEqual([[functionRow]])
+  expect(selfTimeTables(md)).toStrictEqual([[functionRow]])
+  expect(totalTimeTables(md)).toStrictEqual([[functionRow]])
 })
 
 test(`file paths with Markdown syntax round-trip exactly in locations`, () => {

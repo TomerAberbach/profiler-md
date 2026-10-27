@@ -27,8 +27,7 @@ export class CliError extends ProfilerMdError {
     options?: ErrorOptions,
   ) {
     super(message, options)
-    // eslint-disable-next-line stylistic/quotes
-    this.name = 'CliError'
+    this.name = `CliError`
     this.exitCode = exitCode
   }
 }

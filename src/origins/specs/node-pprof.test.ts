@@ -28,7 +28,7 @@ describe(`normalizeStackFrame`, () => {
         name: `(anonymous:L#122135:C#9)`,
         definition: { type: `file`, urlOrPath: `file:///app/src/index.js` },
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `(anonymous)`,
       definition: {
         type: `file`,
@@ -48,7 +48,7 @@ describe(`normalizeStackFrame`, () => {
           position: { line: 12 },
         },
       }),
-    ).toEqual({
+    ).toStrictEqual({
       name: `(anonymous)`,
       definition: {
         type: `file`,

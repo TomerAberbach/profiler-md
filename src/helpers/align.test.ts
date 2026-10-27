@@ -8,9 +8,9 @@ import {
 } from './align.ts'
 
 /** A strictly increasing list over a small range, so offsets repeat across pairs. */
-const positions = (maxLength = 20): fc.Arbitrary<number[]> =>
+const positions = (): fc.Arbitrary<number[]> =>
   fc
-    .uniqueArray(fc.integer({ min: -15, max: 15 }), { maxLength })
+    .uniqueArray(fc.integer({ min: -15, max: 15 }), { maxLength: 20 })
     .map(list => list.toSorted((left, right) => left - right))
 
 const alignmentCost = (

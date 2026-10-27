@@ -86,17 +86,14 @@ const readHelpTopicDoc = (helpTopic: HelpTopic): Promise<string> => {
   return readFile(new URL(`../../docs/${path}.md`, import.meta.url), `utf8`)
 }
 
-const seeAlsoTopics = (helpTopic: HelpTopic): string[] => {
-  if (helpTopic.type === `language`) {
-    return helpTopic.language.formats
-  }
-  return [...languages.entries()].flatMap(([id, language]) => {
-    if (!language.formats.includes(helpTopic.format)) {
-      return []
-    }
-    return [id, ...(language.aliases?.map(alias => alias.id) ?? [])]
-  })
-}
+const seeAlsoTopics = (helpTopic: HelpTopic): string[] =>
+  helpTopic.type === `language`
+    ? helpTopic.language.formats
+    : [...languages].flatMap(([id, language]) =>
+        language.formats.includes(helpTopic.format)
+          ? [id, ...(language.aliases?.map(alias => alias.id) ?? [])]
+          : [],
+      )
 
 export type HelpTextOptions = {
   colors?: boolean
@@ -142,9 +139,9 @@ const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
 ]
 
 /**
- * Appends each entry's default to its description. Optique's `showDefault`, and
- * its wrapping of a text term that starts with a space, indent a wrapped
- * default by one column, so the default joins the description's text.
+ * Appends each entry's default to its description as `(default: …)`. The help
+ * page and the man page share these sections, and `@optique/man` writes a
+ * default only as `[…]`: https://github.com/dahlia/optique/issues/1100
  */
 export const describeDefaults = (section: DocSection): DocSection => ({
   ...section,
@@ -182,7 +179,7 @@ export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   ...CATEGORY_SETS.map(({ title, categories }) => [title, categories] as const),
   [
     `Languages`,
-    [...languages.entries()].map(([id, { aliases }]) =>
+    [...languages].map(([id, { aliases }]) =>
       [id, ...(aliases?.map(alias => alias.id) ?? [])].join(`/`),
     ),
   ],

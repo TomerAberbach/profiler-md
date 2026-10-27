@@ -359,10 +359,9 @@ export class PerfFile {
     offsetLow -= carry * 0x1_00_00_00_00
     const offsetHigh = high - mapping.startHigh + mapping.pageOffsetHigh + carry
 
-    if (offsetHigh < 0) {
-      return this.#unmappedFile.frameFor(high, low, this.#frames)
-    }
-    return mapping.file.frameFor(offsetHigh, offsetLow, this.#frames)
+    return offsetHigh < 0
+      ? this.#unmappedFile.frameFor(high, low, this.#frames)
+      : mapping.file.frameFor(offsetHigh, offsetLow, this.#frames)
   }
 
   /**
@@ -657,14 +656,11 @@ export class PerfFile {
    */
   #recordTime(record: PerfRecord): number {
     const { trailerSize, trailerTimeOffset } = this.#recordAttr(record).layout
-    if (
-      !this.#sampleIdAll ||
+    return !this.#sampleIdAll ||
       trailerTimeOffset === undefined ||
       record.payloadEnd - trailerSize < record.payload
-    ) {
-      return 0
-    }
-    return this.#uint64(record.payloadEnd - trailerTimeOffset)
+      ? 0
+      : this.#uint64(record.payloadEnd - trailerTimeOffset)
   }
 
   /**
@@ -673,17 +669,12 @@ export class PerfFile {
    */
   #recordAttr({ payload, payloadEnd }: PerfRecord): EventAttr {
     const { trailerSize, trailerIdOffset } = this.#idLayout
-    if (
-      !this.#sampleIdAll ||
+    return !this.#sampleIdAll ||
       trailerIdOffset === undefined ||
       payloadEnd - trailerSize < payload
-    ) {
-      return this.#attrs[0]
-    }
-    return (
-      this.#attrsById.get(this.#uint64(payloadEnd - trailerIdOffset)) ??
-      this.#attrs[0]
-    )
+      ? this.#attrs[0]
+      : (this.#attrsById.get(this.#uint64(payloadEnd - trailerIdOffset)) ??
+          this.#attrs[0])
   }
 
   /**
