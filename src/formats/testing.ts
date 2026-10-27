@@ -68,6 +68,28 @@ export const detectionLogs = (filename: string, md: string): unknown[] => {
 }
 
 /**
+ * The warnings converting a committed input logs, which only a profiler bug
+ * the input reflects causes.
+ */
+export const inputWarnings = (filename: string): readonly string[] =>
+  INPUT_WARNINGS.get(filename) ?? []
+
+const INPUT_WARNINGS: ReadonlyMap<string, readonly string[]> = new Map(
+  // V8's sampling heap profiler returns a sample whose node the call tree
+  // omits: https://issues.chromium.org/issues/566593637
+  [
+    `javascript.chrome.base.heapprofile`,
+    `javascript.node.base.heapprofile`,
+  ].map(
+    filename =>
+      [
+        filename,
+        [`warn: skipped 1 sample referencing a missing node`],
+      ] as const,
+  ),
+)
+
+/**
  * The smallest of the given inputs, as a single-element array, or an empty
  * array when there are none. A `test.each` over the result registers nothing in
  * a project that received none.

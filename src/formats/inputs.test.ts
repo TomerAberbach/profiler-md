@@ -13,6 +13,7 @@ import {
   detectionLogs,
   injectedFormat,
   injectedInputs,
+  inputWarnings,
   readInput,
   smallestInput,
 } from './testing.ts'
@@ -59,7 +60,7 @@ test.each(allInputs)(
     const md = profileToMd(readInput(filename), { baseURL: null })
 
     expect(md).toMatch(MARKDOWN_REGEX)
-    expectLogs(detectionLogs(filename, md))
+    expectLogs([...detectionLogs(filename, md), ...inputWarnings(filename)])
     expect(callTreeViolations(md)).toStrictEqual([])
   },
 )
@@ -72,7 +73,7 @@ test.each(smallestJsonInput)(
     })
 
     expect(md).toMatch(MARKDOWN_REGEX)
-    expectLogs(detectionLogs(filename, md))
+    expectLogs([...detectionLogs(filename, md), ...inputWarnings(filename)])
   },
 )
 
@@ -87,7 +88,7 @@ test.each(smallestBinaryInput)(
     const md = profileToMd(iterable, { baseURL: null })
 
     expect(md).toMatch(MARKDOWN_REGEX)
-    expectLogs(detectionLogs(filename, md))
+    expectLogs([...detectionLogs(filename, md), ...inputWarnings(filename)])
   },
 )
 
@@ -102,7 +103,7 @@ describe.each(smallestAnyInput)(
       const md = await profileToMdAsync(blob, { baseURL: null })
 
       expect(md).toMatch(MARKDOWN_REGEX)
-      expectLogs(detectionLogs(filename, md))
+      expectLogs([...detectionLogs(filename, md), ...inputWarnings(filename)])
     })
 
     test(`from ReadableStream`, async () => {
@@ -116,7 +117,7 @@ describe.each(smallestAnyInput)(
       const md = await profileToMdAsync(stream, { baseURL: null })
 
       expect(md).toMatch(MARKDOWN_REGEX)
-      expectLogs(detectionLogs(filename, md))
+      expectLogs([...detectionLogs(filename, md), ...inputWarnings(filename)])
     })
   },
 )
@@ -131,7 +132,12 @@ test.each(allInputs)(
     expect(md).toMatch(MARKDOWN_DIFF_REGEX)
     // No regressions or improvements when diffing an input against itself.
     expect(md).not.toMatch(/Regressions|Improvements/u)
-    expectLogs([...detectionLogs(filename, md), ...detectionLogs(filename, md)])
+    expectLogs([
+      ...detectionLogs(filename, md),
+      ...detectionLogs(filename, md),
+      ...inputWarnings(filename),
+      ...inputWarnings(filename),
+    ])
   },
 )
 
@@ -147,6 +153,11 @@ test.each(smallestAnyInput)(
     )
 
     expect(md).toMatch(MARKDOWN_DIFF_REGEX)
-    expectLogs([...detectionLogs(filename, md), ...detectionLogs(filename, md)])
+    expectLogs([
+      ...detectionLogs(filename, md),
+      ...detectionLogs(filename, md),
+      ...inputWarnings(filename),
+      ...inputWarnings(filename),
+    ])
   },
 )

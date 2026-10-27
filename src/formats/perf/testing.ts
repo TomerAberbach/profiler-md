@@ -16,6 +16,9 @@ export const MULTI_EVENT_SAMPLE_TYPE = 0x167
 /** The same, plus the `PERF_SAMPLE_CPU` that states which CPU took a sample. */
 export const MULTI_EVENT_CPU_SAMPLE_TYPE = 0x1e7
 
+/** The same, without the `PERF_SAMPLE_IP` that states the sampled address. */
+export const NO_IP_SAMPLE_TYPE = 0x126
+
 /** The `PERF_SAMPLE_STACK_USER` bit `perf record --call-graph dwarf` sets. */
 export const STACK_USER_SAMPLE_TYPE = 0x2000
 
@@ -108,7 +111,8 @@ export const sampleRecord = ({
   cpu,
   stackCopy,
 }: {
-  ip?: Address
+  /** The sampled address, or `null` for an event without `PERF_SAMPLE_IP`. */
+  ip?: Address | null
   pid?: number
   tid?: number
   time?: number
@@ -130,7 +134,9 @@ export const sampleRecord = ({
   cpu?: number
 } = {}): Uint8Array =>
   record(RECORD_SAMPLE, misc, writer => {
-    writer.address(ip)
+    if (ip !== null) {
+      writer.address(ip)
+    }
     writer.uint32(pid)
     writer.uint32(tid)
     writer.uint64(time)

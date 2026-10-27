@@ -27,7 +27,7 @@ export const parseHprof = (
 ): HeapSnapshot[] => {
   const dump = readDump(bytes, recordTally)
   const nodes = readNodes(dump, recordTally)
-  return [buildHeapSnapshot(dump, nodes)]
+  return [buildHeapSnapshot(dump, nodes, recordTally)]
 }
 
 export const parseHprofAsync = async (
@@ -372,13 +372,11 @@ const readNodes = (dump: Dump, recordTally: RecordTally): Nodes => {
 
   const rootTags = resolveRootTags(ordinalOf, nodeCount, rootRecords)
 
-  if (repeatedCount > 0) {
-    recordTally.skipped(
-      `object record`,
-      `repeating an earlier object ID`,
-      repeatedCount,
-    )
-  }
+  recordTally.skipped(
+    `object record`,
+    `repeating an earlier object ID`,
+    repeatedCount,
+  )
 
   return {
     nodeCount,
@@ -423,6 +421,9 @@ type DumpedClass = {
 type FlattenedFields = {
   nameStringIds: Float64Array
   types: Uint8Array
+
+  /** Whether the dump has a class dump for the class and every superclass. */
+  complete: boolean
 }
 
 /** Reads a class dump's super class, loader, and field descriptors. */
@@ -518,9 +519,13 @@ const resolveRootTags = (
   return rootTags
 }
 
-const buildHeapSnapshot = (dump: Dump, nodes: Nodes): HeapSnapshot => {
+const buildHeapSnapshot = (
+  dump: Dump,
+  nodes: Nodes,
+  recordTally: RecordTally,
+): HeapSnapshot => {
   const { nodeCount, selfSizes } = nodes
-  const references = readReferences(dump, nodes)
+  const references = readReferences(dump, nodes, recordTally)
   const nodeAdjacencyGraph = nodeAdjacencyGraphFromSuccessors(
     references.successorCounts,
     references.successorOrdinals,
@@ -573,8 +578,17 @@ type References = {
  * An instance is not treated as referencing its own class. A class is reachable
  * as a system-class root already, and attributing every instance's retention to
  * its class would make each class retain the objects its instances hold.
+ *
+ * A reference to an object the dump has no record of is skipped without a
+ * tally, because HotSpot writes them in every dump: its CDS archived heap roots
+ * array references the mirrors of archived classes not yet loaded, which get
+ * neither an instance record nor a class dump.
  */
-const readReferences = (dump: Dump, nodes: Nodes): References => {
+const readReferences = (
+  dump: Dump,
+  nodes: Nodes,
+  recordTally: RecordTally,
+): References => {
   const { readId } = dump
   const { nodeCount, rootTags, ordinalOf, recordOffsets } = nodes
 
@@ -582,6 +596,7 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
   const successorEdgeIndices = new DynamicTypedArray(new Int32Array(1 << 16))
   const successorCounts = new Int32Array(nodeCount)
   let referenceCount = 0
+  let unreadFieldBytes = 0
 
   let nodeOrdinal = GC_ROOT_ORDINAL
   // A reference's edge index is its position among the record's references,
@@ -638,7 +653,12 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
         const ordinal = ordinalOfRecord(body)
         if (ordinal !== -1) {
           startNode(ordinal)
-          addInstanceReferences(dump, nodes, body, addReference)
+          unreadFieldBytes += addInstanceReferences(
+            dump,
+            nodes,
+            body,
+            addReference,
+          )
         }
         break
       }
@@ -654,6 +674,12 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
         break
     }
   })
+
+  recordTally.skipped(
+    `byte`,
+    `of instance field values whose class or a superclass has no class dump`,
+    unreadFieldBytes,
+  )
 
   return {
     successorOrdinals: successorOrdinals.array.subarray(0, referenceCount),
@@ -835,12 +861,17 @@ const addClassReferences = (
   addReference(ordinalOf.get(protectionDomainObjectId))
 }
 
+/**
+ * Adds the references an instance's object-typed fields hold. Returns the bytes
+ * of field values left unread because the instance's class layout is missing a
+ * class dump.
+ */
 const addInstanceReferences = (
   dump: Dump,
   nodes: Nodes,
   body: number,
   addReference: (targetOrdinal: number) => void,
-): void => {
+): number => {
   const { idSize, readId, typeSizes } = dump
   const { ordinalOf } = nodes
 
@@ -849,13 +880,19 @@ const addInstanceReferences = (
     nodes,
     ordinalOf.get(readId(body + idSize + 4)),
   )
-  let offset = body + idSize * 2 + 8
+  const fieldsStart = body + idSize * 2 + 8
+  let offset = fieldsStart
   for (const type of fields.types) {
     if (type === TYPE_OBJECT) {
       addReference(ordinalOf.get(readId(offset)))
     }
     offset += basicTypeSize(typeSizes, type)
   }
+  if (fields.complete) {
+    return 0
+  }
+  const end = fieldsStart + dumpedObjectSize(dump, HPROF_GC_INSTANCE_DUMP, body)
+  return Math.max(0, end - offset)
 }
 
 const addArrayReferences = (
@@ -1160,17 +1197,17 @@ const flattenedFieldsOf = (
 ): FlattenedFields => {
   const dumpedClass = nodes.classes.get(classOrdinal)
   if (!dumpedClass) {
-    return EMPTY_FIELDS
+    return MISSING_CLASS_FIELDS
   }
   if (dumpedClass.flattenedFields) {
     return dumpedClass.flattenedFields
   }
 
-  const superFields = flattenedFieldsOf(
-    dump,
-    nodes,
-    nodes.ordinalOf.get(dumpedClass.superObjectId),
-  )
+  const { superObjectId } = dumpedClass
+  const superFields =
+    superObjectId === 0
+      ? NO_SUPERCLASS_FIELDS
+      : flattenedFieldsOf(dump, nodes, nodes.ordinalOf.get(superObjectId))
   const { fieldNameStringIds, fieldTypes } = dumpedClass
   const nameStringIds = new Float64Array(
     fieldNameStringIds.length + superFields.nameStringIds.length,
@@ -1181,14 +1218,24 @@ const flattenedFieldsOf = (
   types.set(fieldTypes)
   types.set(superFields.types, fieldTypes.length)
 
-  const flattenedFields = { nameStringIds, types }
+  const flattenedFields = {
+    nameStringIds,
+    types,
+    complete: superFields.complete,
+  }
   dumpedClass.flattenedFields = flattenedFields
   return flattenedFields
 }
 
-const EMPTY_FIELDS: FlattenedFields = {
+const NO_SUPERCLASS_FIELDS: FlattenedFields = {
   nameStringIds: new Float64Array(0),
   types: new Uint8Array(0),
+  complete: true,
+}
+
+const MISSING_CLASS_FIELDS: FlattenedFields = {
+  ...NO_SUPERCLASS_FIELDS,
+  complete: false,
 }
 
 const UNKNOWN_FIELD_EDGE: RetainerEdge = { type: `property`, name: `(unknown)` }

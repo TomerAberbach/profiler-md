@@ -29,6 +29,7 @@ import {
   mmapRecord,
   MULTI_EVENT_CPU_SAMPLE_TYPE,
   MULTI_EVENT_SAMPLE_TYPE,
+  NO_IP_SAMPLE_TYPE,
   sampleRecord,
   STACK_USER_SAMPLE_TYPE,
   truncatedRecord,
@@ -678,6 +679,44 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Time: `2.0ms`,
           Samples: `2`,
+          Function: `0x1234`,
+          Location: `/src/workload`,
+        },
+      ],
+    ])
+  })
+
+  test(`a sample whose call chain resolved to no frame and that records no address is stackless`, () => {
+    const md = convertBytesToMd(
+      perfFormatSpec,
+      makePerf({
+        events: [{ sampleType: NO_IP_SAMPLE_TYPE }],
+        records: [
+          workloadMapping,
+          sampleRecord({ ip: null, callchain: [CONTEXT_USER, 0x40_12_34] }),
+          sampleRecord({ ip: null, callchain: [] }),
+          sampleRecord({ ip: null, callchain: [CONTEXT_USER] }),
+        ],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 3.0ms over 3 samples (1.0ms per sample).`,
+    ])
+    expect(selfTimeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `2.0ms`,
+          Samples: `2`,
+          Function: `(anonymous)`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `1.0ms`,
+          Samples: `1`,
           Function: `0x1234`,
           Location: `/src/workload`,
         },

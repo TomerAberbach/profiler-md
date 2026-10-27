@@ -1,10 +1,11 @@
 import { expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { aggregateInput } from '../formats/index.ts'
-import { injectedInputs, readInput } from '../formats/testing.ts'
+import { injectedInputs, inputWarnings, readInput } from '../formats/testing.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'
 import type { AggregatedInput } from '../modalities/registry.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
+import { takeUnassertedLogs } from '../testing.ts'
 import { pprofJlOriginSpec } from './specs/pprof-jl.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
@@ -193,11 +194,16 @@ const UNSYMBOLIZED_ADDRESS = /^0x[0-9a-fA-F]+$/u
 test.each(groupByExample(inputFilenames))(
   `$example resolves to its profiler's origin, categorizes canonically, and pairs every entry whose match key differs only by an address`,
   ({ base, current }) => {
-    const matchKeysOf = (filename: string): Set<string> => {
+    const aggregate = (filename: string): AggregatedInput[] => {
       const inputs = aggregateInput(
         readInput(filename),
         normalizeProfileToMdOptions(),
       )
+      expect(takeUnassertedLogs()).toStrictEqual(inputWarnings(filename))
+      return inputs
+    }
+    const matchKeysOf = (filename: string): Set<string> => {
+      const inputs = aggregate(filename)
       expectCanonicalAggregation(filename, inputs)
       return matchKeys(inputs)
     }
@@ -211,12 +217,7 @@ test.each(groupByExample(inputFilenames))(
     const baseKeys = matchKeysOf(base)
     const currentKeys =
       current === undefined
-        ? matchKeys(
-            aggregateInput(
-              readInput(base.replace(`.base.`, `.current.`)),
-              normalizeProfileToMdOptions(),
-            ),
-          )
+        ? matchKeys(aggregate(base.replace(`.base.`, `.current.`)))
         : matchKeysOf(current)
 
     expect(unpairedAddressVariants(baseKeys, currentKeys)).toStrictEqual([])

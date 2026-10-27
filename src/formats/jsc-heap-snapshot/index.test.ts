@@ -318,26 +318,6 @@ describe(`convert`, () => {
     })
   })
 
-  test(`out-of-bounds edge ordinal does not crash`, () => {
-    const snapshot = makeJSCSnapshot({
-      nodes: [
-        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
-        ...makeJSCNode({ id: 1, size: 100, nameIndex: 0 }),
-      ],
-      nodeClassNames: [`Object`],
-      edges: makeJSCEdge({ from: 0, to: 99, type: 1, nameIndex: 0 }),
-      edgeNames: [`ref`],
-    })
-
-    expect(() =>
-      convertJsonToMd(
-        jscHeapSnapshotFormatSpec,
-        snapshot,
-        normalizeProfileToMdOptions(),
-      ),
-    ).not.toThrow()
-  })
-
   test(`all four edge types are formatted with correct notation`, () => {
     const snapshot = makeJSCSnapshot({
       nodes: [
@@ -435,6 +415,52 @@ describe(`malformed snapshots`, () => {
       `info: fallback origin: safari`,
       `debug: no entry marked another origin`,
       `warn: skipped 1 class name reference matching no entry in nodeClassNames`,
+    ])
+  })
+  test(`skips an edge with an endpoint matching no node, with a warning`, () => {
+    const md = convert(
+      makeJSCSnapshot({
+        nodes: [
+          ...makeJSCNode({ id: 0, size: 0, nameIndex: 0 }),
+          ...makeJSCNode({ id: 1, size: 16, nameIndex: 1 }),
+        ],
+        nodeClassNames: [`<root>`, `Foo`],
+        edges: [
+          ...makeJSCEdge({ from: 0, to: 1, type: EDGE_INTERNAL, nameIndex: 0 }),
+          ...makeJSCEdge({
+            from: 0,
+            to: 99,
+            type: EDGE_INTERNAL,
+            nameIndex: 0,
+          }),
+          ...makeJSCEdge({
+            from: 98,
+            to: 1,
+            type: EDGE_INTERNAL,
+            nameIndex: 0,
+          }),
+        ],
+        edgeNames: [],
+      }),
+    )
+
+    expect(categoryTables(md)).toStrictEqual([
+      [
+        { Category: `Object`, '%': `100.0%`, Size: `16 B`, Nodes: `1` },
+        { Category: `Internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+      ],
+    ])
+    expect(selfSizeTables(md)).toStrictEqual([
+      [{ '%': `100.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
+    ])
+    expect(selfSizeRetainerPathTables(md, `Foo`)).toStrictEqual([
+      [{ '%': `100.0%`, Size: `16 B`, Instances: `1`, Path: `Foo ← <root>` }],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: bun, safari`,
+      `info: fallback origin: safari`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 edges referencing a missing node`,
     ])
   })
 })

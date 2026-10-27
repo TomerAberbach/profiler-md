@@ -724,4 +724,35 @@ describe(`malformed profiles`, () => {
       ...originLogs,
     ])
   })
+
+  test(`skips a sample referencing a missing node, with a warning`, () => {
+    const profile = {
+      ...structuredClone(baseProfile),
+      samples: [...baseProfile.samples, { size: 100, nodeId: 99, ordinal: 5 }],
+    }
+
+    const md = convertJsonToMd(
+      v8HeapProfileFormatSpec,
+      profile,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(md).toBe(
+      convertJsonToMd(
+        v8HeapProfileFormatSpec,
+        structuredClone(baseProfile),
+        normalizeProfileToMdOptions({ baseURL: `/project` }),
+      ),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: node, chrome`,
+      `info: detected origin: node`,
+      `debug: node is marked by the entry readFileSync in node:fs`,
+    ]
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample referencing a missing node`,
+      ...originLogs,
+    ])
+  })
 })
