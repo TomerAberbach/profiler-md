@@ -120,11 +120,10 @@ export const parseV8HeapSnapshot = (
   // DevTools derives the counts from the arrays rather than reading them, so
   // the parser does too. The parsed JSON is the parser's own.
   const nodeCount = nodes.length / fieldLayout.nodeFieldCount
-  const edgeCount = edges.length / fieldLayout.edgeFieldCount
   snapshot.snapshot.node_count = nodeCount
-  snapshot.snapshot.edge_count = edgeCount
+  snapshot.snapshot.edge_count = edges.length / fieldLayout.edgeFieldCount
 
-  const nodeAdjacencyGraph = computeNodeAdjacencyGraph(
+  const { nodeAdjacencyGraph, edgeCount } = computeNodeAdjacencyGraph(
     snapshot,
     fieldLayout,
     recordTally,
@@ -339,7 +338,7 @@ const computeNodeAdjacencyGraph = (
   { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
   recordTally: RecordTally,
-): NodeAdjacencyGraph => {
+): { nodeAdjacencyGraph: NodeAdjacencyGraph; edgeCount: number } => {
   const { nodeFieldCount, nodeEdgeCountOffset, edgeFieldCount } = fieldLayout
   const { edgeTypeOffset, edgeToNodeOffset, edgeTypeWeak } = fieldLayout
 
@@ -400,11 +399,16 @@ const computeNodeAdjacencyGraph = (
     )
   }
 
-  return nodeAdjacencyGraphFromSuccessors(
-    ordinalToSuccessorCount,
-    offsetToSuccessorOrdinal,
-    offsetToSuccessorEdgeIndex,
-  )
+  return {
+    nodeAdjacencyGraph: nodeAdjacencyGraphFromSuccessors(
+      ordinalToSuccessorCount,
+      offsetToSuccessorOrdinal,
+      offsetToSuccessorEdgeIndex,
+    ),
+    // Weak edges retain nothing, so the graph leaves them out, but they are
+    // edges of the snapshot all the same.
+    edgeCount: totalEdgeCount - skippedEdgeCount,
+  }
 }
 
 const computeNodeOrdinalToLocation = (

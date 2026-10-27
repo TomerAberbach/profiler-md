@@ -7,7 +7,12 @@ import {
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import { categoryTables, expectLogs, rankingTables } from '../../../testing.ts'
+import {
+  categoryTables,
+  expectLogs,
+  rankingTables,
+  summaryLines,
+} from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotFormatSpec } from './index.ts'
@@ -1127,6 +1132,19 @@ describe(`malformed snapshots`, () => {
       normalizeProfileToMdOptions(),
     )
 
+  test(`counts the edges pointing at a node`, () => {
+    const md = convert(makeSnapshot())
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 16\u{A0}B over 2 nodes and 1 edge.`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: bun, node, chrome, profile-jl`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+    ])
+  })
+
   test(`reads the node and edge counts from the arrays`, () => {
     const snapshot = makeSnapshot()
     const { node_count: _, edge_count: __, ...rest } = snapshot.snapshot
@@ -1152,6 +1170,10 @@ describe(`malformed snapshots`, () => {
     { case: `inside a node`, toNode: 7 },
   ])(`skips an edge pointing $case, with a warning`, ({ toNode }) => {
     const md = convert(makeSnapshot({ toNode }))
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Held 16\u{A0}B over 2 nodes and 0 edges.`,
+    ])
 
     expect(categoryTables(md)).toStrictEqual([
       [

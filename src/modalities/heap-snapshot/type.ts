@@ -13,6 +13,7 @@ export type HeapSnapshot = {
 
   nodeCount: number
 
+  /** The edges pointing at a node of the snapshot, retaining it or not. */
   edgeCount: number
 
   nodeAdjacencyGraph: NodeAdjacencyGraph
