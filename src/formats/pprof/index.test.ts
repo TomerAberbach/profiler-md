@@ -337,6 +337,44 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`omits a line from a metric's Lines breakdown when the metric has no value there`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `samples`, unit: `count` },
+        { type: `cpu`, unit: `nanoseconds` },
+        { type: `wall`, unit: `nanoseconds` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [
+        { id: 1, lines: [{ functionId: 1, line: 5 }] },
+        { id: 2, lines: [{ functionId: 1, line: 6 }] },
+      ],
+      samples: [
+        { locationIds: [1], values: [1, 2_000_000, 3_000_000] },
+        { locationIds: [2], values: [1, 0, 1_000_000] },
+      ],
+    })
+
+    const md = convertBytesToMd(
+      pprofFormatSpec,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(linesTables(md, `funcA`)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `2.0ms`,
+          Samples: `1`,
+          Location: `./src/a.ts:5`,
+        },
+      ],
+    ])
+  })
+
   test(`splits a count the prefixes pair with no metric into a profile of its own`, () => {
     const data = makePprof({
       valueTypes: [
