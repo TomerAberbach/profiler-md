@@ -13,5 +13,6 @@ export const ghcJsonProfileFormatSpec = {
   fallbackOrigin: `ghc`,
   type: `json`,
   matches: matchesGhcJsonProfile,
-  parse: json => parseGhcJsonProfile(json as GhcJsonProfile),
+  parse: (json, recordTally) =>
+    parseGhcJsonProfile(json as GhcJsonProfile, recordTally),
 } as const satisfies JsonFormatSpec

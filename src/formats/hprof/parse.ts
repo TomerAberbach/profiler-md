@@ -330,7 +330,7 @@ const readNodes = (dump: Dump, recordTally: RecordTally): Nodes => {
     return ordinal
   }
 
-  forEachSubRecord(dump, (tag, body) => {
+  const skippedBytes = forEachSubRecord(dump, (tag, body) => {
     switch (tag) {
       case HPROF_GC_CLASS_DUMP: {
         const dumpedClass = readClass(dump, body)
@@ -354,6 +354,21 @@ const readNodes = (dump: Dump, recordTally: RecordTally): Nodes => {
         break
     }
   })
+
+  if (skippedBytes > 0) {
+    // The synthetic GC root makes every dump a heap snapshot with a node, so
+    // the pipeline can't tell that the dump's every sub-record was skipped.
+    if (nodeCount === 1 && rootRecords.length === 0) {
+      throw new FormatParseError(
+        `no heap dump sub-record ends within its record`,
+      )
+    }
+    recordTally.skipped(
+      `byte`,
+      `from a heap dump sub-record running past its record to that record's end`,
+      skippedBytes,
+    )
+  }
 
   const rootTags = resolveRootTags(ordinalOf, nodeCount, rootRecords)
 
@@ -650,31 +665,47 @@ const readReferences = (dump: Dump, nodes: Nodes): References => {
   }
 }
 
+/**
+ * Visits each heap dump sub-record, skipping the rest of a heap dump record
+ * from a sub-record that runs past its end. Returns the bytes skipped.
+ */
 const forEachSubRecord = (
   dump: Dump,
   visit: (tag: number, body: number) => void,
-): void => {
+): number => {
   const { bytes, heapDumpRanges } = dump
+  let skippedBytes = 0
   for (let range = 0; range < heapDumpRanges.length; range += 2) {
     let offset = heapDumpRanges[range]!
     const end = heapDumpRanges[range + 1]!
     while (offset < end) {
+      const start = offset
       const tag = bytes[offset]!
       const body = offset + 1
-      offset = subRecordEnd(dump, tag, body)
-      // The JVM writes whole sub-records into each segment.
+      offset = subRecordEnd(dump, tag, body, end)
+      // The JVM writes whole sub-records into each segment, and each heap dump
+      // record states its own length, so the next one still parses.
       if (offset > end) {
-        throw new FormatParseError(
-          `heap dump sub-record of tag 0x${tag.toString(16)} runs past its record`,
-        )
+        skippedBytes += end - start
+        break
       }
       visit(tag, body)
     }
   }
+  return skippedBytes
 }
 
-/** The offset just past the sub-record of {@link tag} whose body is at {@link body}. */
-const subRecordEnd = (dump: Dump, tag: number, body: number): number => {
+/**
+ * The offset just past the sub-record of {@link tag} whose body is at
+ * {@link body}, or `Infinity` when a field that sizes it lies past
+ * {@link recordEnd}, the end of its heap dump record.
+ */
+const subRecordEnd = (
+  dump: Dump,
+  tag: number,
+  body: number,
+  recordEnd: number,
+): number => {
   const { bytes, view, idSize, typeSizes } = dump
   switch (tag) {
     case HPROF_GC_ROOT_UNKNOWN:
@@ -691,12 +722,19 @@ const subRecordEnd = (dump: Dump, tag: number, body: number): number => {
     case HPROF_GC_ROOT_THREAD_OBJECT:
       return body + idSize + 8
     case HPROF_GC_CLASS_DUMP:
-      return classDumpEnd(dump, body)
+      return classDumpEnd(dump, body, recordEnd)
     case HPROF_GC_INSTANCE_DUMP:
-      return body + idSize * 2 + 8 + view.getUint32(body + idSize * 2 + 4)
+      return body + idSize * 2 + 8 > recordEnd
+        ? Infinity
+        : body + idSize * 2 + 8 + view.getUint32(body + idSize * 2 + 4)
     case HPROF_GC_OBJECT_ARRAY_DUMP:
-      return body + idSize * 2 + 8 + view.getUint32(body + idSize + 4) * idSize
+      return body + idSize + 8 > recordEnd
+        ? Infinity
+        : body + idSize * 2 + 8 + view.getUint32(body + idSize + 4) * idSize
     case HPROF_GC_PRIMITIVE_ARRAY_DUMP: {
+      if (body + idSize + 9 > recordEnd) {
+        return Infinity
+      }
       const length = view.getUint32(body + idSize + 4)
       const type = bytes[body + idSize + 8]!
       return body + idSize + 9 + length * basicTypeSize(typeSizes, type)
@@ -709,39 +747,60 @@ const subRecordEnd = (dump: Dump, tag: number, body: number): number => {
 }
 
 /**
- * The offset just past the class dump whose body is at {@link body}.
+ * The offset just past the class dump whose body is at {@link body}, or
+ * `Infinity` when a field that sizes it lies past {@link recordEnd}.
  *
  * A class dump's length depends on its constant pool and field descriptors, so
  * it is measured by reading past them.
  */
-const classDumpEnd = (dump: Dump, body: number): number => {
+const classDumpEnd = (dump: Dump, body: number, recordEnd: number): number => {
   const { bytes, view, idSize, typeSizes } = dump
 
-  let offset = constantPoolEnd(dump, body)
+  let offset = constantPoolEnd(dump, body, recordEnd)
+  if (offset + 2 > recordEnd) {
+    return Infinity
+  }
   const staticFieldCount = view.getUint16(offset)
   offset += 2
   for (let index = 0; index < staticFieldCount; index++) {
+    if (offset + idSize + 1 > recordEnd) {
+      return Infinity
+    }
     offset += idSize + 1 + basicTypeSize(typeSizes, bytes[offset + idSize]!)
   }
 
+  if (offset + 2 > recordEnd) {
+    return Infinity
+  }
   const instanceFieldCount = view.getUint16(offset)
   return offset + 2 + instanceFieldCount * (idSize + 1)
 }
 
 /**
  * The offset just past the constant pool of the class dump whose body is at
- * {@link body}, where its static field descriptors begin.
+ * {@link body}, where its static field descriptors begin, or `Infinity` when a
+ * field that sizes it lies past {@link recordEnd}.
  */
-const constantPoolEnd = (dump: Dump, body: number): number => {
+const constantPoolEnd = (
+  dump: Dump,
+  body: number,
+  recordEnd = Infinity,
+): number => {
   const { bytes, view, idSize, typeSizes } = dump
 
   // The class object, the stack trace serial number, the super class, the
   // loader, the signers, the protection domain, the two reserved identifiers,
   // and the instance size.
   let offset = body + idSize * 7 + 8
+  if (offset + 2 > recordEnd) {
+    return Infinity
+  }
   const constantPoolCount = view.getUint16(offset)
   offset += 2
   for (let index = 0; index < constantPoolCount; index++) {
+    if (offset + 3 > recordEnd) {
+      return Infinity
+    }
     offset += 3 + basicTypeSize(typeSizes, bytes[offset + 2]!)
   }
   return offset

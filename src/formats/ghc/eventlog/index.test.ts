@@ -65,13 +65,38 @@ describe(`parse`, () => {
     ).toThrow(`truncated header`)
   })
 
-  test(`rejects a sample referencing a cost centre the log never defined`, () => {
+  test(`skips a sample referencing a cost centre the log never defined`, () => {
+    const md = convertBytesToMd(
+      ghcEventlogFormatSpec,
+      makeGhcEventlog({
+        costCentres: COST_CENTRES,
+        tickInterval: 1_000_000,
+        samples: [[2, 1], [1, 9], [9]],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: ghc`,
+      `info: fallback origin: ghc`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples referencing a missing cost centre`,
+    ])
+  })
+
+  test(`rejects a log whose every sample references a cost centre the log never defined`, () => {
     expect(() =>
-      parseGhcEventlog(
+      convertBytesToMd(
+        ghcEventlogFormatSpec,
         makeGhcEventlog({ costCentres: COST_CENTRES, samples: [[1, 9]] }),
-        noopRecordTally,
+        options(),
       ),
-    ).toThrow(`cost-centre stack references undefined cost centre 9`)
+    ).toThrow(
+      `ghc-eventlog: no usable records because the parser skipped 1 sample referencing a missing cost centre`,
+    )
   })
 
   test(`rejects a log with no cost-centre samples`, () => {

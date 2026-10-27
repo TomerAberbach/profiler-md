@@ -9,6 +9,8 @@ export type HprofDump = {
   objectArrays?: HprofObjectArray[]
   primitiveArrays?: HprofPrimitiveArray[]
   roots?: HprofRoot[]
+  /** Bytes written at the end of the heap dump record, after its roots. */
+  heapSuffix?: number[]
 }
 
 /** A class, written as both a load-class record and a class dump. */
@@ -76,6 +78,7 @@ export const makeHprof = ({
   objectArrays = [],
   primitiveArrays = [],
   roots = [],
+  heapSuffix = [],
 }: HprofDump = {}): Uint8Array => {
   const writer = new ByteWriter(idSize)
   const strings = new StringTable()
@@ -212,6 +215,8 @@ export const makeHprof = ({
         break
     }
   }
+
+  heap.raw(Uint8Array.from(heapSuffix))
 
   writer.record(segmented ? HPROF_HEAP_DUMP_SEGMENT : HPROF_HEAP_DUMP, body =>
     body.raw(heap.bytes),

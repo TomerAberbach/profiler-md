@@ -34,6 +34,12 @@ import { callgrindFormatSpec } from './index.ts'
 import { parseCallgrind } from './parse.ts'
 import { makeCallgrind } from './testing.ts'
 
+const callgrindOriginLogs = [
+  `debug: origin candidates, in priority order: rbspy, valgrind`,
+  `info: fallback origin: valgrind`,
+  `debug: no entry marked another origin`,
+]
+
 const options = normalizeProfileToMdOptions({
   baseURL: `/`,
   showEntry: () => true,
@@ -123,33 +129,6 @@ describe(`parse`, () => {
         noopRecordTally,
       ),
     ).toThrow(`name (3) referenced before definition`)
-  })
-
-  test(`rejects calls= without a call count`, () => {
-    expect(() =>
-      parseCallgrind(
-        makeCallgrind([`events: Ir`, `fn=main`, `cfn=work`, `calls=`, `1 10`]),
-        noopRecordTally,
-      ),
-    ).toThrow(`invalid number, got: ""`)
-  })
-
-  test(`rejects calls= without a preceding cfn=`, () => {
-    expect(() =>
-      parseCallgrind(
-        makeCallgrind([`events: Ir`, `fn=main`, `calls=1 5`, `1 10`]),
-        noopRecordTally,
-      ),
-    ).toThrow(`calls= without a preceding cfn=`)
-  })
-
-  test(`rejects a cost line with more values than events`, () => {
-    expect(() =>
-      parseCallgrind(
-        makeCallgrind([`events: Ir`, `fn=main`, `1 10 20`]),
-        noopRecordTally,
-      ),
-    ).toThrow(`cost line with more values than events`)
   })
 
   test(`rejects a relative subposition with no offset after its sign`, () => {
@@ -351,9 +330,7 @@ describe(`calls without a cost line`, () => {
     // The costs after each skipped call stay self costs, not arcs to `missing`.
     expect(summaryLines(md)).toStrictEqual([`Recorded 40 instructions.`])
     expectLogs([
-      `debug: origin candidates, in priority order: rbspy, valgrind`,
-      `info: fallback origin: valgrind`,
-      `debug: no entry marked another origin`,
+      ...callgrindOriginLogs,
       `warn: skipped 3 calls without a cost line`,
     ])
   })
@@ -388,10 +365,64 @@ describe(`calls without a cost line`, () => {
       ],
     ])
     expectLogs([
-      `debug: origin candidates, in priority order: rbspy, valgrind`,
-      `info: fallback origin: valgrind`,
-      `debug: no entry marked another origin`,
+      ...callgrindOriginLogs,
       `warn: skipped 1 call without a cost line`,
+    ])
+  })
+})
+
+describe(`unreadable cost lines and calls`, () => {
+  test(`are skipped with a warning`, () => {
+    const md = convertBytesToMd(
+      callgrindFormatSpec,
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `1 10`,
+        `1 20 30`,
+        `1 0x`,
+        `cfn=work`,
+        `calls=`,
+        `1 40`,
+        `calls=1 5`,
+        `1 50 60`,
+        `fn=(1) work`,
+        `2 70`,
+      ]),
+      options,
+    )
+
+    // The skipped calls' costs are neither arcs nor self costs.
+    expect(summaryLines(md)).toStrictEqual([`Recorded 80 instructions.`])
+    expectLogs([
+      ...callgrindOriginLogs,
+      `warn: skipped 1 cost line with more values than events`,
+      `warn: skipped 1 cost line with an invalid cost`,
+      `warn: skipped 1 call with an invalid call count`,
+      `warn: skipped 1 call with more values than events`,
+    ])
+  })
+
+  test(`skip a calls= without a preceding cfn= with a warning`, () => {
+    const md = convertBytesToMd(
+      callgrindFormatSpec,
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `calls=1 5`,
+        `1 10`,
+        `1 20`,
+      ]),
+      options,
+    )
+
+    // The skipped call's cost line is not read as a self cost.
+    expect(summaryLines(md)).toStrictEqual([`Recorded 20 instructions.`])
+    expectLogs([
+      ...callgrindOriginLogs,
+      `warn: skipped 1 call without a preceding cfn= line`,
     ])
   })
 })
@@ -417,9 +448,7 @@ describe(`cost lines with a subposition before position 0`, () => {
     // The call whose cost line is skipped adds no arc to `work`.
     expect(summaryLines(md)).toStrictEqual([`Recorded 60 instructions.`])
     expectLogs([
-      `debug: origin candidates, in priority order: rbspy, valgrind`,
-      `info: fallback origin: valgrind`,
-      `debug: no entry marked another origin`,
+      ...callgrindOriginLogs,
       `warn: skipped 1 cost line with a subposition before position 0`,
       `warn: skipped 1 call with a subposition before position 0`,
     ])

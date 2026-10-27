@@ -21,6 +21,13 @@ formats
   accept anything of the format, including a version or variant the parser
   rejects, so auto-detection reports that reason instead of an undetectable
   input
+- Write `matches` to recognize the format's canonical structure (a magic number,
+  a header, a well-formed first record), and reject an input whose structure it
+  doesn't recognize, even one the parser would convert by skipping malformed
+  records. The parser skips a malformed record only in an input already detected
+  or specified as the format. A `matches` that looks past malformed records
+  detects unrelated inputs as the format, most of all a format without a magic
+  number (e.g. collapsed)
 - Throw a `FormatParseError` for every violation the parser identifies. The
   pipeline reports any other error from `parse` or a parsed input's lazy
   iterable as `<format>: failed to parse the input`, which the CLI marks as a
@@ -68,9 +75,11 @@ formats
   reads), or reaches the end of an input cut short, record it on the
   `recordTally` argument of `parse` (`recordTally.skipped(...)`,
   `recordTally.endsBefore(...)`). NEVER record a record the parser reads
-- Count what the parser skips in a loop that already reads each record, either
-  in `parse` or in a parsed input's lazy iterable, and record the total once
-  after the loop. NEVER add a pass over the input only to tally it
+- Tally a skip in the loop that already reads the record, either in `parse` or
+  in a parsed input's lazy iterable, by calling `recordTally.skipped(...)` at
+  the skip. Where a loop skips most of the records it reads (e.g. every record
+  of an unsupported type), count them in a local integer and record the total
+  once after the loop. NEVER add a pass over the input only to tally it
 - NEVER index into a plain object with profile-derived strings (e.g. frame
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`

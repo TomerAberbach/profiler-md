@@ -369,6 +369,9 @@ class Capture {
   /** How many of the recent addresses an earlier record has filled. */
   #cachedAddressCount = 0
 
+  /** The allocations skipped for naming a cache slot no record filled. */
+  #unfilledCacheSlotAllocations = 0
+
   /** The running values the delta-encoded fields are decoded against. */
   #lastDataPointer = 0
   #lastFirstLineNumber = 0
@@ -404,6 +407,11 @@ class Capture {
   }
 
   public toProfiles(): CallStackProfile[] {
+    this.#recordTally.skipped(
+      `allocation`,
+      `naming an address no earlier record wrote`,
+      this.#unfilledCacheSlotAllocations,
+    )
     if (this.#header.fileFormat !== `aggregated`) {
       this.#heap.visitPeak(this.#addToUsage(`peak`))
       this.#heap.visitLeaked(this.#addToUsage(`leaked`))
@@ -584,6 +592,13 @@ class Capture {
     }
     const size = simpleDeallocation ? 0 : reader.varint()
 
+    // Only a record naming its address in full changes the cache and the
+    // delta base, so the records after one naming an unfilled slot still
+    // decode.
+    if (address === undefined) {
+      this.#unfilledCacheSlotAllocations++
+      return
+    }
     this.#cacheAddress(cacheIndex, address)
     this.#heap.apply(
       allocator,
@@ -605,7 +620,9 @@ class Capture {
     if (this.#header.nativeTraces && (flags & 1) !== 0) {
       reader.signedVarint() // The native frame the object was created in
     }
-    this.#cacheAddress(cacheIndex, address)
+    if (address !== undefined) {
+      this.#cacheAddress(cacheIndex, address)
+    }
   }
 
   /**
@@ -615,20 +632,18 @@ class Capture {
    * Addresses are recorded shifted down by three bits, which every allocator's
    * alignment leaves zero.
    *
-   * @throws if the index names a cache slot no earlier record filled, which a
-   *   capture truncated or corrupted before this record leaves behind.
+   * @returns `undefined` if the index names a cache slot no earlier record
+   *   filled, which a capture truncated or corrupted before this record leaves
+   *   behind.
    */
-  #readAddress(reader: ByteReader, cacheIndex: number): number {
+  #readAddress(reader: ByteReader, cacheIndex: number): number | undefined {
     if (cacheIndex === UNCACHED_ADDRESS) {
       return (this.#lastDataPointer + reader.signedVarint()) * 8
     }
 
-    if (cacheIndex >= this.#cachedAddressCount) {
-      throw new FormatParseError(
-        `record names an address no earlier record wrote, got cache index: ${cacheIndex}`,
-      )
-    }
-    return this.#recentAddresses[cacheIndex]!
+    return cacheIndex < this.#cachedAddressCount
+      ? this.#recentAddresses[cacheIndex]
+      : undefined
   }
 
   /** Caches an address a record named as uncached, once the record is read. */

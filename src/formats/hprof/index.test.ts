@@ -523,4 +523,74 @@ describe(`malformed dumps`, () => {
       `warn: the input ends before the HEAP DUMP END record`,
     ])
   })
+
+  /**
+   * A primitive array sub-record stating 1,000 byte elements of which its heap
+   * dump record holds 2: a tag, an object ID, a stack trace serial number, a
+   * length, and an element type, then the elements.
+   */
+  const truncatedSubRecord = [
+    0x23,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0x30,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0x03,
+    0xe8,
+    HPROF_BYTE,
+    0,
+    0,
+  ]
+
+  test(`skips the rest of a heap dump record from a sub-record running past it, with a warning`, () => {
+    const complete = convert(holderGraph)
+    expectLogs(originLogs)
+
+    const md = convert(
+      makeHprof({ ...HOLDER_GRAPH, heapSuffix: truncatedSubRecord }),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 20 bytes from a heap dump sub-record running past its record to that record's end`,
+    ])
+  })
+
+  test(`skips a sub-record whose header runs past the end of the input, with a warning`, () => {
+    const unsegmented = { ...HOLDER_GRAPH, segmented: false }
+    const complete = convert(makeHprof(unsegmented))
+    expectLogs(originLogs)
+
+    // An instance dump's tag and the first bytes of its object ID, cut off
+    // before the field that sizes it.
+    const md = convert(
+      makeHprof({ ...unsegmented, heapSuffix: [0x21, 0, 0, 0] }),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 4 bytes from a heap dump sub-record running past its record to that record's end`,
+    ])
+  })
+
+  test(`rejects a dump whose every heap dump sub-record runs past its record`, () => {
+    expect(() =>
+      hprofFormatSpec.parse(
+        makeHprof({ heapSuffix: truncatedSubRecord }),
+        noopRecordTally,
+      ),
+    ).toThrow(`no heap dump sub-record ends within its record`)
+  })
 })

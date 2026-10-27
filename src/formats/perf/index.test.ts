@@ -152,42 +152,6 @@ describe(`parse`, () => {
     ])
   })
 
-  test(`rejects a sample record shorter than the fields its event records`, () => {
-    const sample = sampleRecord({ callchain: [0x40_12_34] })
-
-    expect(() =>
-      parsePerf(
-        makePerf({ records: [truncatedRecord(sample, 24)] }),
-        noopRecordTally,
-      ),
-    ).toThrow(
-      `sample record ends before the fields its event records, got: 16 bytes`,
-    )
-    expect(() =>
-      parsePerf(
-        makePerf({ records: [truncatedRecord(sample, 40)] }),
-        noopRecordTally,
-      ),
-    ).toThrow(`sample record ends before its call chain, got: 0 bytes`)
-    expect(() =>
-      parsePerf(
-        makePerf({ records: [truncatedRecord(sample, 48)] }),
-        noopRecordTally,
-      ),
-    ).toThrow(`sample call chain runs past its record, got: 1 entries`)
-  })
-
-  test(`rejects a command record shorter than the process it names`, () => {
-    expect(() =>
-      parsePerf(
-        makePerf({
-          records: [truncatedRecord(commRecord({ exec: true }), 8)],
-        }),
-        noopRecordTally,
-      ),
-    ).toThrow(`truncated command record`)
-  })
-
   test(`rejects a file cut short of the data section it declares`, () => {
     const bytes = makePerf({
       records: [sampleRecord({ callchain: [0x40_10_00] })],
@@ -995,6 +959,134 @@ describe(`malformed recordings`, () => {
       ])
     },
   )
+
+  const sample = sampleRecord({ callchain: [0x40_12_34] })
+
+  test.each([
+    { size: 24, reason: `ending before the fields its event records` },
+    { size: 40, reason: `ending before its call chain` },
+    { size: 48, reason: `with a call chain running past its record` },
+  ])(
+    `skips a sample record cut to $size bytes, with a warning`,
+    ({ size, reason }) => {
+      const md = convertBytesToMd(
+        perfFormatSpec,
+        makePerf({
+          records: [workloadMapping, truncatedRecord(sample, size), sample],
+        }),
+        options(),
+      )
+
+      expect(summaryLines(md)).toStrictEqual([
+        `Took 1.0ms over 1 sample (1.0ms per sample).`,
+      ])
+      expectLogs([...originLogs, `warn: skipped 1 sample ${reason}`])
+    },
+  )
+
+  test(`skips a sample record ending before its event ID, with a warning`, () => {
+    const withId = sampleRecord({ id: 1, callchain: [0x40_12_34] })
+    const md = convertBytesToMd(
+      perfFormatSpec,
+      makePerf({
+        events: [cpuClock, cpuClockAgain],
+        records: [workloadMapping, truncatedRecord(withId, 24), withId],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample ending before its event ID`,
+    ])
+  })
+
+  test(`skips a sample record ending before its copied user stack, dropping the frames it read`, () => {
+    const withStack = sampleRecord({
+      callchain: [0x40_56_78],
+      stackCopy: new Uint8Array(0),
+    })
+    const md = convertBytesToMd(
+      perfFormatSpec,
+      makePerf({
+        events: [{ sampleType: 0x127 + STACK_USER_SAMPLE_TYPE }],
+        records: [
+          workloadMapping,
+          truncatedRecord(withStack, withStack.length - 8),
+          sampleRecord({
+            callchain: [0x40_12_34],
+            stackCopy: new Uint8Array(0),
+          }),
+        ],
+      }),
+      options(),
+    )
+
+    expect(selfTimeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `1.0ms`,
+          Samples: `1`,
+          Function: `0x1234`,
+          Location: `/src/workload`,
+        },
+      ],
+    ])
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 sample ending before its copied user stack`,
+    ])
+  })
+
+  test.each([
+    {
+      case: `a mapping record ending before its filename`,
+      record: truncatedRecord(
+        mmapRecord({ start: 0x7f_00_00, path: `/usr/lib/libc.so.6` }),
+        40,
+      ),
+      warning: `skipped 1 mapping record ending before its filename`,
+    },
+    {
+      case: `a command record ending before its process ID`,
+      record: truncatedRecord(commRecord({ exec: true }), 8),
+      warning: `skipped 1 command record ending before its process ID`,
+    },
+    {
+      case: `a fork record ending before its time`,
+      record: truncatedRecord(forkRecord({ pid: 2, parentPid: 1 }), 24),
+      warning: `skipped 1 fork record ending before its time`,
+    },
+  ])(`skips $case, with a warning`, ({ record, warning }) => {
+    const md = convertBytesToMd(
+      perfFormatSpec,
+      makePerf({ records: [workloadMapping, record, sample] }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([...originLogs, `warn: ${warning}`])
+  })
+
+  test(`rejects a recording whose every sample record is cut short`, () => {
+    expect(() =>
+      convertBytesToMd(
+        perfFormatSpec,
+        makePerf({
+          records: [workloadMapping, truncatedRecord(sample, 40)],
+        }),
+        options(),
+      ),
+    ).toThrow(
+      `no usable records because the parser skipped 1 sample ending before its call chain`,
+    )
+  })
 
   test(`skips trailing bytes that don't form a record, with a warning`, () => {
     const md = convertBytesToMd(

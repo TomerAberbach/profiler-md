@@ -92,7 +92,8 @@ export type Parse<Input> = {
 export type RecordTally = {
   /**
    * Records that the parser skipped `count` records of `unit` (e.g. `sample`)
-   * for `reason`, a participle phrase (e.g. `referencing a missing node`).
+   * for `reason`, a participle phrase (e.g. `referencing a missing node`). A
+   * `count` of `0` records nothing.
    */
   skipped: (unit: string, reason: string, count?: number) => void
 

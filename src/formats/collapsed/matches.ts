@@ -13,12 +13,9 @@ export const matchesCollapsed = (bytes: Uint8Array): boolean => {
   // parser's own line grammar keeps detection and parsing agreeing on what a
   // stack line is.
   for (const line of decodeUtf8Lines(bytes)) {
-    try {
-      if (parseCollapsedLine(line) !== undefined) {
-        return true
-      }
-    } catch {
-      return false
+    const parsed = parseCollapsedLine(line)
+    if (parsed !== undefined) {
+      return typeof parsed === `object`
     }
   }
   return false
