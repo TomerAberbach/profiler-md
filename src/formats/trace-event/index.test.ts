@@ -972,10 +972,17 @@ describe(`convert`, () => {
     ])
     expect(breakdownTables(md, `Longest instances`, `Source`)).toStrictEqual([
       [
-        { '%': `75.0%`, Start: `0ms`, Time: `3.0ms`, Attributes: `detail=a.h` },
+        {
+          '%': `75.0%`,
+          Start: `0ms`,
+          Thread: `(unnamed)`,
+          Time: `3.0ms`,
+          Attributes: `detail=a.h`,
+        },
         {
           '%': `25.0%`,
           Start: `3.0ms`,
+          Thread: `(unnamed)`,
           Time: `1.0ms`,
           Attributes: `detail=b.h`,
         },

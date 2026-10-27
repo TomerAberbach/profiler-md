@@ -676,7 +676,7 @@ describe(`span breakdowns`, () => {
     })
   })
 
-  test(`threads break down no span recorded on one thread`, () => {
+  test(`threads break down a span recorded on one thread`, () => {
     const md = traceDiffMd(
       makeAggregatedTrace(
         [
@@ -694,7 +694,22 @@ describe(`span breakdowns`, () => {
       ),
     )
 
-    expect(spanBreakdown(md, `Threads`)).toStrictEqual({})
+    expect(spanBreakdown(md, `Threads`)).toStrictEqual({
+      job: [
+        [
+          {
+            Change: `+100.0%`,
+            Delta: `+30.00ms`,
+            '%': `100.0%`,
+            Time: `30.0ms → 60.0ms`,
+            Count: `1`,
+            Mean: `30.0ms → 60.0ms`,
+            Max: `30.0ms → 60.0ms`,
+            Thread: `main`,
+          },
+        ],
+      ],
+    })
   })
 
   test(`parents and children show the change in each nested span's share`, () => {

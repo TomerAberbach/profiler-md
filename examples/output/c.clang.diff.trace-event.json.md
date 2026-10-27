@@ -7,6 +7,14 @@ Recorded 740 → 891 events (+151, +20.4%) over 744.0ms → 940.4ms (+196.40ms, 
 | Compilation | +25.6% | +186.12ms | 97.6% → 97.0% | 726.5ms → 912.6ms | 680 → 810 |
 | Parsing     | +58.8% |  +10.28ms |   2.4% → 3.0% |   17.5ms → 27.8ms |   60 → 81 |
 
+## Threads
+
+Threads with the largest change in time in spans. Threads run concurrently, so percentages can sum to more than 100%.
+
+| Change |     Delta |      % |              Time |     Count | Thread  |
+| -----: | --------: | -----: | ----------------: | --------: | ------- |
+| +26.4% | +196.40ms | 100.0% | 744.0ms → 940.4ms | 718 → 868 | `clang` |
+
 ## Longest thread spans
 
 Spans recorded on one thread. A span's time includes time its thread spent waiting.
@@ -495,6 +503,166 @@ Attribute values with the largest change in contribution to each span's total ti
 | Change |   Delta |      % |          Time | Count |          Mean |           Max | Attribute | Value                |
 | -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | --------- | -------------------- |
 |  -6.5% | -0.04ms | 100.0% | 0.6ms → 0.5ms |     1 | 0.6ms → 0.5ms | 0.6ms → 0.5ms | `detail`  | `ZSTD_compressBound` |
+
+#### Threads
+
+Threads with the largest change in contribution to each span's total time.
+
+##### `ExecuteCompiler`
+
+| Change |     Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | --------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +26.4% | +196.40ms | 100.0% | 744.0ms → 940.4ms |     1 | 744.0ms → 940.4ms | 744.0ms → 940.4ms | `clang` |
+
+##### `Backend`
+
+| Change |     Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | --------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +27.2% | +153.10ms | 100.0% | 562.5ms → 715.6ms |     1 | 562.5ms → 715.6ms | 562.5ms → 715.6ms | `clang` |
+
+##### `Optimizer`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +24.0% | +83.30ms | 100.0% | 347.1ms → 430.4ms |     1 | 347.1ms → 430.4ms | 347.1ms → 430.4ms | `clang` |
+
+##### `CodeGenPasses`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +32.3% | +69.09ms | 100.0% | 214.1ms → 283.2ms |     1 | 214.1ms → 283.2ms | 214.1ms → 283.2ms | `clang` |
+
+##### `OptModule`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +32.2% | +68.99ms | 100.0% | 214.0ms → 283.0ms |     1 | 214.0ms → 283.0ms | 214.0ms → 283.0ms | `clang` |
+
+##### `ModuleInlinerWrapperPass`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +26.4% | +62.28ms | 100.0% | 235.8ms → 298.1ms |     1 | 235.8ms → 298.1ms | 235.8ms → 298.1ms | `clang` |
+
+##### `ModuleToPostOrderCGSCCPassAdaptor`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------- |
+| +26.5% | +62.11ms | 100.0% | 234.4ms → 296.5ms |     1 | 234.4ms → 296.5ms | 234.4ms → 296.5ms | `clang` |
+
+##### `PassManager<Function>`
+
+| Change |    Delta |      % |              Time |     Count |          Mean |            Max | Thread  |
+| -----: | -------: | -----: | ----------------: | --------: | ------------: | -------------: | ------- |
+| +29.6% | +60.72ms | 100.0% | 204.9ms → 265.6ms | 130 → 147 | 1.6ms → 1.8ms | 9.6ms → 12.0ms | `clang` |
+
+##### `OptFunction`
+
+| Change |    Delta |      % |              Time |     Count |          Mean |             Max | Thread  |
+| -----: | -------: | -----: | ----------------: | --------: | ------------: | --------------: | ------- |
+| +34.2% | +59.94ms | 100.0% | 175.3ms → 235.3ms | 100 → 118 | 1.8ms → 2.0ms | 10.4ms → 13.5ms | `clang` |
+
+##### `DevirtSCCRepeatedPass`
+
+| Change |    Delta |      % |              Time |     Count |          Mean |             Max | Thread  |
+| -----: | -------: | -----: | ----------------: | --------: | ------------: | --------------: | ------- |
+| +30.0% | +57.66ms | 100.0% | 192.2ms → 249.8ms | 106 → 121 | 1.8ms → 2.1ms | 10.8ms → 13.3ms | `clang` |
+
+##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
+
+| Change |    Delta |      % |              Time |     Count |          Mean |             Max | Thread  |
+| -----: | -------: | -----: | ----------------: | --------: | ------------: | --------------: | ------- |
+| +29.9% | +57.27ms | 100.0% | 191.8ms → 249.1ms | 106 → 121 | 1.8ms → 2.1ms | 10.8ms → 13.3ms | `clang` |
+
+##### `CGSCCToFunctionPassAdaptor`
+
+| Change |    Delta |      % |              Time |    Count |          Mean |            Max | Thread  |
+| -----: | -------: | -----: | ----------------: | -------: | ------------: | -------------: | ------- |
+| +28.2% | +45.04ms | 100.0% | 159.5ms → 204.6ms | 94 → 102 | 1.7ms → 2.0ms | 9.7ms → 12.0ms | `clang` |
+
+##### `Frontend`
+
+| Change |    Delta |      % |              Time | Count |             Mean |               Max | Thread  |
+| -----: | -------: | -----: | ----------------: | ----: | ---------------: | ----------------: | ------- |
+| +23.7% | +42.46ms | 100.0% | 178.8ms → 221.2ms |     2 | 89.4ms → 110.6ms | 163.9ms → 200.4ms | `clang` |
+
+##### `RunPass`
+
+| Change |    Delta |      % |            Time |   Count |  Mean |           Max | Thread  |
+| -----: | -------: | -----: | --------------: | ------: | ----: | ------------: | ------- |
+| +43.0% | +29.02ms | 100.0% | 67.5ms → 96.5ms | 64 → 84 | 1.1ms | 4.1ms → 4.7ms | `clang` |
+
+##### `ModuleToFunctionPassAdaptor`
+
+| Change |    Delta |      % |             Time | Count |            Mean |             Max | Thread  |
+| -----: | -------: | -----: | ---------------: | ----: | --------------: | --------------: | ------- |
+| +21.5% | +19.84ms | 100.0% | 92.2ms → 112.0ms |     3 | 30.7ms → 37.3ms | 60.5ms → 75.8ms | `clang` |
+
+##### `ParseDeclarationOrFunctionDefinition`
+
+| Change |    Delta |      % |            Time |   Count |  Mean |           Max | Thread  |
+| -----: | -------: | -----: | --------------: | ------: | ----: | ------------: | ------- |
+| +58.8% | +10.28ms | 100.0% | 17.5ms → 27.8ms | 20 → 31 | 0.9ms | 2.3ms → 3.9ms | `clang` |
+
+##### `ParseFunctionDefinition`
+
+| Change |   Delta |      % |            Time |   Count |  Mean |           Max | Thread  |
+| -----: | ------: | -----: | --------------: | ------: | ----: | ------------: | ------- |
+| +55.6% | +8.87ms | 100.0% | 15.9ms → 24.8ms | 18 → 27 | 0.9ms | 2.3ms → 3.9ms | `clang` |
+
+##### `InstCombinePass`
+
+|  Change |   Delta |      % |           Time |  Count |  Mean |           Max | Thread  |
+| ------: | ------: | -----: | -------------: | -----: | ----: | ------------: | ------- |
+| +238.6% | +8.00ms | 100.0% | 3.4ms → 11.4ms | 6 → 19 | 0.6ms | 0.7ms → 0.8ms | `clang` |
+
+##### `InlinerPass`
+
+| Change |   Delta |      % |          Time |  Count |  Mean |           Max | Thread  |
+| -----: | ------: | -----: | ------------: | -----: | ----: | ------------: | ------- |
+| +92.0% | +4.35ms | 100.0% | 4.7ms → 9.1ms | 6 → 12 | 0.8ms | 0.9ms → 1.0ms | `clang` |
+
+##### `FunctionToLoopPassAdaptor`
+
+| Change |   Delta |      % |           Time |   Count |          Mean |           Max | Thread  |
+| -----: | ------: | -----: | -------------: | ------: | ------------: | ------------: | ------- |
+| +39.1% | +3.58ms | 100.0% | 9.2ms → 12.7ms | 13 → 14 | 0.7ms → 0.9ms | 1.2ms → 1.9ms | `clang` |
+
+##### `GVNPass`
+
+| Change |   Delta |      % |            Time |   Count |          Mean |           Max | Thread  |
+| -----: | ------: | -----: | --------------: | ------: | ------------: | ------------: | ------- |
+| +26.5% | +3.41ms | 100.0% | 12.9ms → 16.3ms | 10 → 12 | 1.3ms → 1.4ms | 3.0ms → 3.4ms | `clang` |
+
+##### `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>`
+
+|  Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread  |
+| ------: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------- |
+| +106.2% | +3.11ms | 100.0% | 2.9ms → 6.0ms | 5 → 9 | 0.6ms → 0.7ms | 0.7ms → 0.9ms | `clang` |
+
+##### `GlobalOptPass`
+
+| Change |   Delta |      % |          Time | Count |  Mean |           Max | Thread  |
+| -----: | ------: | -----: | ------------: | ----: | ----: | ------------: | ------- |
+|  -4.8% | -0.18ms | 100.0% | 3.7ms → 3.5ms |     2 | 1.8ms | 2.7ms → 2.6ms | `clang` |
+
+##### `SimplifyCFGPass`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread  |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------- |
+| -11.7% | -0.09ms | 100.0% | 0.8ms → 0.7ms |     1 | 0.8ms → 0.7ms | 0.8ms → 0.7ms | `clang` |
+
+##### `IPSCCPPass`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread  |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------- |
+|  -1.2% | -0.09ms | 100.0% | 7.3ms → 7.2ms |     1 | 7.3ms → 7.2ms | 7.3ms → 7.2ms | `clang` |
+
+##### `TargetIRAnalysis`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread  |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------- |
+|  -6.5% | -0.04ms | 100.0% | 0.6ms → 0.5ms |     1 | 0.6ms → 0.5ms | 0.6ms → 0.5ms | `clang` |
 
 #### Parents
 

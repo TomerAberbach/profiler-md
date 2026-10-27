@@ -7,6 +7,14 @@ Recorded 1,773 → 1,785 events (+12, +0.7%) over 3.88s → 3.90s (+18.04ms, +0.
 | Compilation |  +0.9% | +28.77ms | 87.1% → 87.4% |     3.38s → 3.41s | 1,497 → 1,509 |
 | Parsing     |  -0.5% |  -1.95ms | 11.1% → 11.0% | 432.9ms → 431.0ms |           276 |
 
+## Threads
+
+Threads with the largest change in time in spans. Threads run concurrently, so percentages can sum to more than 100%.
+
+| Change |    Delta |             % |          Time |         Count | Thread |
+| -----: | -------: | ------------: | ------------: | ------------: | ------ |
+|  +0.7% | +26.82ms | 98.2% → 98.5% | 3.81s → 3.84s | 1,773 → 1,785 | `Main` |
+
 ## Longest thread spans
 
 Spans recorded on one thread. A span's time includes time its thread spent waiting.
@@ -345,6 +353,118 @@ Attribute values with the largest change in contribution to each span's total ti
 | ------: | ------: | -----------: | ----------: | ----: | ----------: | ----------: | ------------- | ---------------------------------------------------------------- |
 | removed | -0.15ms | 67.3% → 0.0% | 0.2ms → 0ms | 1 → 0 | 0.2ms → 0ms | 0.2ms → 0ms | `resolveFrom` | `/src/zod/__lib_node_modules_lookup_lib.es2020.intl.d.ts__.ts`   |
 | removed | -0.07ms | 32.7% → 0.0% | 0.1ms → 0ms | 1 → 0 | 0.1ms → 0ms | 0.1ms → 0ms | `resolveFrom` | `/src/zod/__lib_node_modules_lookup_lib.es2022.string.d.ts__.ts` |
+
+#### Threads
+
+Threads with the largest change in contribution to each span's total time.
+
+##### `checkSourceFile`
+
+| Change |    Delta |      % |          Time | Count |            Mean |               Max | Thread |
+| -----: | -------: | -----: | ------------: | ----: | --------------: | ----------------: | ------ |
+|  +1.2% | +36.18ms | 100.0% | 2.90s → 2.93s |    83 | 35.0ms → 35.4ms | 601.2ms → 643.9ms | `Main` |
+
+##### `checkExpression`
+
+| Change |    Delta |      % |          Time |     Count |          Mean |               Max | Thread |
+| -----: | -------: | -----: | ------------: | --------: | ------------: | ----------------: | ------ |
+|  -1.9% | -54.53ms | 100.0% | 2.90s → 2.85s | 558 → 565 | 5.2ms → 5.1ms | 118.6ms → 124.9ms | `Main` |
+
+##### `checkVariableDeclaration`
+
+| Change |    Delta |      % |              Time |   Count |          Mean |               Max | Thread |
+| -----: | -------: | -----: | ----------------: | ------: | ------------: | ----------------: | ------ |
+|  +4.1% | +32.57ms | 100.0% | 799.1ms → 831.6ms | 81 → 88 | 9.9ms → 9.5ms | 118.8ms → 125.2ms | `Main` |
+
+##### `checkDeferredNode`
+
+| Change |    Delta |      % |          Time |     Count |          Mean |               Max | Thread |
+| -----: | -------: | -----: | ------------: | --------: | ------------: | ----------------: | ------ |
+|  +1.9% | +20.02ms | 100.0% | 1.04s → 1.06s | 116 → 117 | 9.0ms → 9.1ms | 122.3ms → 128.2ms | `Main` |
+
+##### `processRootFiles`
+
+| Change |    Delta |      % |              Time | Count |              Mean |               Max | Thread |
+| -----: | -------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------ |
+|  +3.8% | +14.59ms | 100.0% | 388.3ms → 402.9ms |     1 | 388.3ms → 402.9ms | 388.3ms → 402.9ms | `Main` |
+
+##### `processTypeReferenceDirective`
+
+| Change |    Delta |      % |              Time | Count |            Mean |               Max | Thread |
+| -----: | -------: | -----: | ----------------: | ----: | --------------: | ----------------: | ------ |
+|  +6.1% | +12.42ms | 100.0% | 204.8ms → 217.2ms |     5 | 41.0ms → 43.4ms | 137.7ms → 146.6ms | `Main` |
+
+##### `processTypeReferences`
+
+| Change |   Delta |      % |            Time | Count |            Mean |             Max | Thread |
+| -----: | ------: | -----: | --------------: | ----: | --------------: | --------------: | ------ |
+|  +7.4% | +5.81ms | 100.0% | 79.0ms → 84.8ms |     1 | 79.0ms → 84.8ms | 79.0ms → 84.8ms | `Main` |
+
+##### `resolveModuleNamesWorker`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------ |
+| +19.7% | +0.70ms | 100.0% | 3.5ms → 4.2ms | 2 → 4 | 1.8ms → 1.1ms | 3.0ms → 2.0ms | `Main` |
+
+##### `getVariancesWorker`
+
+| Change |     Delta |      % |          Time |   Count |            Mean |               Max | Thread |
+| -----: | --------: | -----: | ------------: | ------: | --------------: | ----------------: | ------ |
+| -18.6% | -264.66ms | 100.0% | 1.42s → 1.16s | 28 → 24 | 50.9ms → 48.4ms | 172.9ms → 152.0ms | `Main` |
+
+##### `structuredTypeRelatedTo`
+
+| Change |     Delta |      % |          Time |     Count |            Mean |               Max | Thread |
+| -----: | --------: | -----: | ------------: | --------: | --------------: | ----------------: | ------ |
+| -14.4% | -677.00ms | 100.0% | 4.71s → 4.03s | 279 → 278 | 16.9ms → 14.5ms | 173.2ms → 152.4ms | `Main` |
+
+##### `createProgram`
+
+| Change |   Delta |      % |              Time | Count |              Mean |               Max | Thread |
+| -----: | ------: | -----: | ----------------: | ----: | ----------------: | ----------------: | ------ |
+|  -1.2% | -7.07ms | 100.0% | 590.8ms → 583.7ms |     1 | 590.8ms → 583.7ms | 590.8ms → 583.7ms | `Main` |
+
+##### `findSourceFile`
+
+| Change |    Delta |      % |          Time |   Count |            Mean |               Max | Thread |
+| -----: | -------: | -----: | ------------: | ------: | --------------: | ----------------: | ------ |
+|  +1.6% | +26.52ms | 100.0% | 1.68s → 1.71s | 60 → 63 | 28.1ms → 27.2ms | 190.8ms → 204.2ms | `Main` |
+
+##### `resolveTypeReferenceDirectiveNamesWorker`
+
+|  Change |   Delta |             % |        Time | Count |        Mean |         Max | Thread |
+| ------: | ------: | ------------: | ----------: | ----: | ----------: | ----------: | ------ |
+| removed | -2.28ms | 100.0% → 0.0% | 2.3ms → 0ms | 1 → 0 | 2.3ms → 0ms | 2.3ms → 0ms | `Main` |
+
+##### `bindSourceFile`
+
+| Change |   Delta |      % |              Time | Count |  Mean |             Max | Thread |
+| -----: | ------: | -----: | ----------------: | ----: | ----: | --------------: | ------ |
+|  -0.7% | -2.09ms | 100.0% | 321.2ms → 319.1ms |   275 | 1.2ms | 59.5ms → 61.0ms | `Main` |
+
+##### `createSourceFile`
+
+| Change |   Delta |      % |              Time | Count |  Mean |             Max | Thread |
+| -----: | ------: | -----: | ----------------: | ----: | ----: | --------------: | ------ |
+|  -0.5% | -1.95ms | 100.0% | 432.9ms → 431.0ms |   276 | 1.6ms | 79.8ms → 75.8ms | `Main` |
+
+##### `resolveLibrary`
+
+|  Change |   Delta |             % |        Time | Count |        Mean |         Max | Thread |
+| ------: | ------: | ------------: | ----------: | ----: | ----------: | ----------: | ------ |
+| removed | -0.23ms | 100.0% → 0.0% | 0.2ms → 0ms | 2 → 0 | 0.1ms → 0ms | 0.2ms → 0ms | `Main` |
+
+##### `emit`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------ |
+| -15.9% | -0.20ms | 100.0% | 1.3ms → 1.1ms |     1 | 1.3ms → 1.1ms | 1.3ms → 1.1ms | `Main` |
+
+##### `emitBuildInfo`
+
+| Change |   Delta |      % |          Time | Count |          Mean |           Max | Thread |
+| -----: | ------: | -----: | ------------: | ----: | ------------: | ------------: | ------ |
+| -28.1% | -0.17ms | 100.0% | 0.6ms → 0.4ms |     1 | 0.6ms → 0.4ms | 0.6ms → 0.4ms | `Main` |
 
 #### Parents
 
