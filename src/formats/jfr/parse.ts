@@ -1105,7 +1105,9 @@ class JfrParser {
   }
 
   #readFields(type: TypeDef): Record<string, unknown> {
-    const object: Record<string, unknown> = {}
+    // Without a prototype, a field the recording names `__proto__` is stored
+    // like any other instead of replacing the object's prototype.
+    const object = Object.create(null) as Record<string, unknown>
     // The single-value branch is inlined here rather than delegating to
     // `#readValue` to skip a call per field on this hot path.
     for (const field of type.fields) {
