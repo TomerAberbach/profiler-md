@@ -351,7 +351,7 @@ describe(`calls without a cost line`, () => {
     // The costs after each skipped call stay self costs, not arcs to `missing`.
     expect(summaryLines(md)).toStrictEqual([`Recorded 40 instructions.`])
     expectLogs([
-      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `debug: origin candidates, in priority order: rbspy, valgrind`,
       `info: fallback origin: valgrind`,
       `debug: no entry marked another origin`,
       `warn: skipped 3 calls without a cost line`,
@@ -388,7 +388,7 @@ describe(`calls without a cost line`, () => {
       ],
     ])
     expectLogs([
-      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `debug: origin candidates, in priority order: rbspy, valgrind`,
       `info: fallback origin: valgrind`,
       `debug: no entry marked another origin`,
       `warn: skipped 1 call without a cost line`,
@@ -417,7 +417,7 @@ describe(`cost lines with a subposition before position 0`, () => {
     // The call whose cost line is skipped adds no arc to `work`.
     expect(summaryLines(md)).toStrictEqual([`Recorded 60 instructions.`])
     expectLogs([
-      `debug: origin candidates, in priority order: valgrind, rbspy`,
+      `debug: origin candidates, in priority order: rbspy, valgrind`,
       `info: fallback origin: valgrind`,
       `debug: no entry marked another origin`,
       `warn: skipped 1 cost line with a subposition before position 0`,

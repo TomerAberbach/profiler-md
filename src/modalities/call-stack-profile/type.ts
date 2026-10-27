@@ -16,9 +16,8 @@ export type CallStackProfile = {
    * recorder's event-type definitions or a writer's self-identification
    * field), set by a parser when that metadata identifies one.
    *
-   * A hint, not a decision: detection treats it like a marker entry of that
-   * origin, so a forced origin ignores it and a higher-priority origin's
-   * marker entry overrides it.
+   * Detection resolves to that origin over any marker entry, because the
+   * metadata is the writer identifying itself. A specified origin ignores it.
    */
   originHint?: string
 

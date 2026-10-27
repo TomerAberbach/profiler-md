@@ -178,8 +178,9 @@ export const traceEventNormalizerForContext = ({
 /**
  * Determines the origin of an input from its entries.
  *
- * Tries each origin that can emit the format in priority order, resolving to
- * the highest-priority one with a marker entry among the added entries, and
+ * Resolves to the origin a parser's origin hint names, or else tries each
+ * origin that can emit the format in priority order, resolving to the
+ * highest-priority one with a marker entry among the added entries, and
  * falling back to the format's fallback origin when none match.
  *
  * An explicit origin skips detection.
@@ -224,9 +225,9 @@ export class OriginDetector {
     const match = this.#match
     switch (match.type) {
       case `specified`:
+      case `hint`:
         return true
       case `marker`:
-      case `hint`:
         // The highest-priority candidate matched; nothing can outrank it.
         return match.index === 0
       case `fallback`:
@@ -262,22 +263,21 @@ export class OriginDetector {
    * recorder's own event types or a writer's self-identification field)
    * pointing at an origin whose entries carry no marker.
    *
-   * Treated like a marker entry of the hinted origin: a specified origin
-   * ignores it and a higher-priority origin's marker entry overrides it. An ID
-   * that isn't a candidate for the format is ignored.
+   * A hint outranks every marker entry, because it is the writer identifying
+   * itself. A specified origin and an earlier hint ignore it, and so does an
+   * ID that isn't a candidate for the format.
    */
   public hint(origin: string): void {
-    if (this.decided) {
+    if (this.#match.type === `specified` || this.#match.type === `hint`) {
       return
     }
 
-    const index = this.#candidates.findIndex(
+    const candidate = this.#candidates.find(
       candidate => candidate.id === origin,
     )
-    if (index === -1 || index >= matchedIndex(this.#match)) {
-      return
+    if (candidate) {
+      this.#match = { type: `hint`, origin: candidate.id }
     }
-    this.#match = { type: `hint`, index }
   }
 
   public addAll(entries: readonly DeepReadonly<ProfileEntry>[]): void {
@@ -293,9 +293,9 @@ export class OriginDetector {
     const match = this.#match
     switch (match.type) {
       case `specified`:
+      case `hint`:
         return match.origin
       case `marker`:
-      case `hint`:
         return this.#candidates[match.index]!.id
       case `fallback`:
         return this.#fallback.id
@@ -329,21 +329,21 @@ export type OriginEvidence =
 
 /**
  * The highest-priority match an {@link OriginDetector} records: its origin
- * evidence, with the candidate index a marker entry or hint matched, or the
- * specified origin.
+ * evidence, with the specified or hinted origin, or the candidate index a
+ * marker entry matched.
  */
 type OriginMatch =
   | { type: `specified`; origin: Origin }
+  | { type: `hint`; origin: Origin }
   | { type: `marker`; index: number; entry: DeepReadonly<ProfileEntry> }
-  | { type: `hint`; index: number }
   | { type: `fallback` }
 
 /**
- * The index of the candidate a match selected, or `Infinity` when no candidate
+ * The index of the candidate a marker entry matched, or `Infinity` when none
  * matched yet, so any candidate outranks it.
  */
 const matchedIndex = (match: OriginMatch): number =>
-  match.type === `marker` || match.type === `hint` ? match.index : Infinity
+  match.type === `marker` ? match.index : Infinity
 
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
 type RegisteredOriginSpec = (typeof originSpecs)[number]
