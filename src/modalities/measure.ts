@@ -16,22 +16,40 @@ import type { Cell } from './table.ts'
  * The header noun for each metric's column. Two metrics sharing a noun
  * (allocated and retained heap are both "Size") would produce
  * indistinguishable columns, so those fall back to each metric's verb
- * ("Allocated", "Retained").
+ * ("Allocated", "Retained"), and metrics sharing that too fall back to their
+ * title ("CPU", "Wall time").
  */
 export const metricColumnNouns = (metrics: Metric[]): string[] => {
-  const nounCounts = new Map<string, number>()
-  for (const { phrases } of metrics) {
-    nounCounts.set(
-      phrases.columnNoun,
-      (nounCounts.get(phrases.columnNoun) ?? 0) + 1,
-    )
-  }
+  const columnNouns = uniquePhrases(metrics, ({ columnNoun }) => columnNoun)
+  const pastTenseVerbs = uniquePhrases(
+    metrics.filter(({ phrases }) => !columnNouns.has(phrases.columnNoun)),
+    ({ pastTenseVerb }) => pastTenseVerb,
+  )
   return metrics.map(({ phrases }) =>
     capitalizeFirst(
-      nounCounts.get(phrases.columnNoun)! > 1
-        ? phrases.pastTenseVerb
-        : phrases.columnNoun,
+      columnNouns.has(phrases.columnNoun)
+        ? phrases.columnNoun
+        : pastTenseVerbs.has(phrases.pastTenseVerb)
+          ? phrases.pastTenseVerb
+          : phrases.titleNoun,
     ),
+  )
+}
+
+/** The phrases {@link phraseOf} returns for exactly one of {@link metrics}. */
+const uniquePhrases = (
+  metrics: Metric[],
+  phraseOf: (phrases: Metric[`phrases`]) => string,
+): Set<string> => {
+  const phraseCounts = new Map<string, number>()
+  for (const { phrases } of metrics) {
+    const phrase = phraseOf(phrases)
+    phraseCounts.set(phrase, (phraseCounts.get(phrase) ?? 0) + 1)
+  }
+  return new Set(
+    [...phraseCounts]
+      .filter(([, count]) => count === 1)
+      .map(([phrase]) => phrase),
   )
 }
 
