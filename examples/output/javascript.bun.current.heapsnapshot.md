@@ -89,13 +89,13 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Object`
 
-|    % |     Size | Instances | Path                                                                                     |
-| ---: | -------: | --------: | ---------------------------------------------------------------------------------------- |
-| 1.5% | 1.48 KiB |         3 | `Object ←(several paths)– GlobalObject`                                                  |
-| 1.2% |  1.2 KiB |         5 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                 |
-| 0.2% |    225 B |         1 | `Object ←.versions– url  ←.process– GlobalObject`                                        |
-| 0.2% |    181 B |         1 | `Object ← GlobalObject`                                                                  |
-| 0.2% |    160 B |         1 | `Object ←.win32– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|    % |     Size | Instances | Path                                                                     |
+| ---: | -------: | --------: | ------------------------------------------------------------------------ |
+| 3.0% | 2.86 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
+| 1.7% | 1.64 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 0.7% |    668 B |         5 | `Object ← (GC root)`                                                     |
+| 0.2% |    225 B |         1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
+| 0.2% |    181 B |         1 | `Object ← GlobalObject`                                                  |
 
 ##### `ModuleRecord`
 
@@ -146,13 +146,13 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Map`
 
-|     % | Size | Instances | Path                                                                                                                                                                 |
-| ----: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 12.5% | 41 B |         1 | `Map ←(several paths)– GlobalObject`                                                                                                                                 |
-|  9.7% | 32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                                                                                     |
-|  9.7% | 32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject`                                                                     |
-|  9.7% | 32 B |         1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-|  9.7% | 32 B |         1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject`                                                                                                                |
+|     % |  Size | Instances | Path                                                                                                                                                                 |
+| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.9% | 128 B |         4 | `Map ← (GC root)`                                                                                                                                                    |
+| 12.5% |  41 B |         1 | `Map ←(several paths)– GlobalObject`                                                                                                                                 |
+|  9.7% |  32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                                                                                     |
+|  9.7% |  32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject`                                                                     |
+|  9.7% |  32 B |         1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 
 ##### `Promise (fulfilled: Object)`
 
@@ -320,8 +320,8 @@ Retainer paths with the largest contribution to each constructor's retained size
 | ----: | -------: | --------: | ------------------------------------------------------------------------ |
 | 73.6% |  458 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
 | 70.9% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject`                       |
-|  4.1% | 25.4 KiB |         1 | `Object ←(several paths)– GlobalObject`                                  |
-|  2.8% | 17.7 KiB |         1 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 12.0% | 74.9 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
+|  8.2% |   51 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 |  2.2% | 13.8 KiB |         1 | `Object ← GlobalObject`                                                  |
 
 ##### `InternalModuleRegistry`
@@ -344,13 +344,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Map`
 
-|     % |     Size | Instances | Path                                                                                             |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------ |
-| 95.5% | 16.1 KiB |         1 | `Map ←.byId– Object ←.__retained– GlobalObject`                                                  |
-|  2.0% |    352 B |         1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject`                                            |
-|  1.9% |    329 B |         1 | `Map ←(several paths)– GlobalObject`                                                             |
-|  0.2% |     32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                 |
-|  0.2% |     32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject` |
+|     % |     Size | Instances | Path                                                  |
+| ----: | -------: | --------: | ----------------------------------------------------- |
+| 95.5% | 16.1 KiB |         1 | `Map ←.byId– Object ←.__retained– GlobalObject`       |
+|  2.0% |    352 B |         1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject` |
+|  1.9% |    329 B |         1 | `Map ←(several paths)– GlobalObject`                  |
+|  0.7% |    128 B |         4 | `Map ← (GC root)`                                     |
+|  0.2% |     32 B |         1 | `Map ←.requireMap– GlobalObject`                      |
 
 ##### `ReadStream`
 
