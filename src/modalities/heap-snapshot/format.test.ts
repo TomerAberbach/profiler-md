@@ -22,6 +22,7 @@ import {
   makeRetainerHops,
   makeSourceLocation,
   retainedSizeTables,
+  selfSizeRetainerPathTables,
   selfSizeTables,
   SEVERAL_PATHS_NOTE,
 } from './testing.ts'
@@ -67,6 +68,53 @@ describe(`formatHeapSnapshot`, () => {
           Size: `150 B`,
           Instances: `1`,
           Constructor: `Widget`,
+        },
+      ],
+    ])
+  })
+
+  test(`sums every shown instance into its retainer path's row`, () => {
+    const holder = { id: 0, name: `Holder` }
+    const other = { id: 0, name: `Other` }
+    const edge: RetainerPathEdge = { type: `property`, name: `p` }
+    const selfSizes = [50, 10, 10, 30]
+    const constructor = {
+      ...makeAggregatedHeapSnapshotConstructor({
+        name: `Widget`,
+        selfSize: 100,
+        retainedSize: 100,
+        instanceCount: selfSizes.length,
+      }),
+    }
+    constructor.instances = constructor.instances.map((instance, index) => ({
+      ...instance,
+      selfSize: selfSizes[index]!,
+      retainedSize: selfSizes[index]!,
+    }))
+    const snapshot = {
+      ...makeAggregatedHeapSnapshot({ constructors: [constructor] }),
+      ...makeRetainerHops([
+        [{ edge, retainer: holder }],
+        [{ edge, retainer: holder }],
+        [{ edge, retainer: holder }],
+        [{ edge, retainer: other }],
+      ]),
+    }
+
+    const md = mdastToMarkdown(
+      formatHeapSnapshot(
+        snapshot,
+        resolveProfileToMdOptions({ baseURL: `/project`, topN: 4 }),
+      ),
+    )
+
+    expect(selfSizeRetainerPathTables(md, `Widget`)).toStrictEqual([
+      [
+        {
+          '%': `70.0%`,
+          Size: `70 B`,
+          Instances: `3`,
+          Path: `(unknown) ←.p– Holder`,
         },
       ],
     ])

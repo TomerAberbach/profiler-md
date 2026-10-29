@@ -7,7 +7,7 @@ import {
   formatCount,
   formatCountArrow,
 } from '../../helpers/format.ts'
-import { MaxHeap, selectTopN } from '../../helpers/heap.ts'
+import { selectTopN } from '../../helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
@@ -45,7 +45,6 @@ import type {
   AggregatedHeapSnapshot,
   AggregatedHeapSnapshotConstructor,
   AggregatedHeapSnapshotFunction,
-  AggregatedHeapSnapshotNode,
   AggregatedHeapSnapshotString,
   RetainerPathEdge,
   RetainerPathStep,
@@ -58,6 +57,7 @@ import {
 } from './aggregate.ts'
 import {
   diffRetainerPaths,
+  groupInstancesByPath,
   matchConstructorInstanceGroups,
   matchFunctionRetainedNodeGroups,
   RetainerPaths,
@@ -105,18 +105,21 @@ export const formatHeapSnapshot = (
       snapshot.strings.some(string => showEntry(string, snapshot.context)),
     entities: `node`,
   })
+  const pathOf = new RetainerPaths(sectionOptions).pathOfNodeIn(snapshot)
   const { result: sections, edgeTypes } = ShownRetainerPaths.record(
     sectionOptions,
     shownPaths => [
       ...formatLargestConstructors({
         snapshot,
         hasLocation,
+        pathOf,
         shownPaths,
         options: sectionOptions,
       }),
       ...formatLargestFunctions({
         snapshot,
         hasLocation,
+        pathOf,
         shownPaths,
         options: sectionOptions,
       }),
@@ -381,11 +384,13 @@ const formatSeveralPathsNote = (
 const formatLargestConstructors = ({
   snapshot,
   hasLocation,
+  pathOf,
   shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
+  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -408,6 +413,7 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
+        pathOf,
         shownPaths,
         options,
         size: SELF_SIZE,
@@ -416,6 +422,7 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
+        pathOf,
         shownPaths,
         options,
         size: RETAINED_SIZE,
@@ -519,6 +526,7 @@ const formatLargestSizeConstructors = ({
   snapshot,
   hasLocation,
   categories,
+  pathOf,
   shownPaths,
   options,
   size,
@@ -526,6 +534,7 @@ const formatLargestSizeConstructors = ({
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
+  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
@@ -551,6 +560,7 @@ const formatLargestSizeConstructors = ({
         constructor,
         snapshot,
         sizeOf,
+        pathOf,
         shownPaths,
         hasLocation,
         options,
@@ -586,6 +596,7 @@ const formatLargestConstructorInstances = ({
   constructor,
   snapshot,
   sizeOf,
+  pathOf,
   shownPaths,
   hasLocation,
   options,
@@ -593,18 +604,21 @@ const formatLargestConstructorInstances = ({
   constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
   sizeOf: ConstructorSize[`sizeOf`]
+  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const largestInstanceGroups = selectLargestInstanceGroups({
-    instances: constructor.instances.filter(instance =>
-      options.showEntry(instance, snapshot.context),
+  const largestInstanceGroups = selectTopN(
+    groupInstancesByPath(
+      constructor.instances.filter(instance =>
+        options.showEntry(instance, snapshot.context),
+      ),
+      pathOf,
     ),
+    Math.ceil(options.topN / 4),
     sizeOf,
-    retainerPathOf: nodeOrdinal => shownPaths.ofNode(snapshot, nodeOrdinal),
-    topN: Math.ceil(options.topN / 4),
-  }).sort((group1, group2) => group2.size - group1.size)
+  )
   if (largestInstanceGroups.length === 0) {
     return []
   }
@@ -615,68 +629,25 @@ const formatLargestConstructorInstances = ({
     formatTable(
       instanceGroupColumns,
       largestInstanceGroups.map(group => ({
-        size: group.size,
+        size: sizeOf(group),
         total: constructorSize,
         instanceCount: group.instanceCount,
-        retainerPath: group.retainerPath,
+        retainerPath: shownPaths.ofNode(snapshot, group.nodeOrdinal),
       })),
     ),
   ]
 }
 
-/** A group of instances with the same retainer path. */
-type InstanceGroup = {
-  retainerPath: string
-  instanceCount: number
-  size: number
-}
-
-const selectLargestInstanceGroups = ({
-  instances,
-  sizeOf,
-  retainerPathOf,
-  topN,
-}: {
-  instances: AggregatedHeapSnapshotNode[]
-  sizeOf: (instance: AggregatedHeapSnapshotNode) => number
-
-  /** Called only for an instance that joins a returned group. */
-  retainerPathOf: (nodeOrdinal: number) => string
-  topN: number
-}): InstanceGroup[] => {
-  // Popping by descending size stops at `topN` paths without calling
-  // `retainerPathOf` for the long tail.
-  const heap = new MaxHeap(instances, sizeOf)
-  const pathToGroup = new Map<string, InstanceGroup>()
-
-  while (heap.length > 0 && pathToGroup.size < topN) {
-    const instance = heap.pop()!
-
-    const retainerPath = retainerPathOf(instance.id)
-    let group = pathToGroup.get(retainerPath)
-    if (!group) {
-      group = { retainerPath, instanceCount: 0, size: 0 }
-      pathToGroup.set(retainerPath, group)
-    }
-
-    group.instanceCount++
-    // Safe to sum retained sizes: same-path instances can't be in a
-    // dominator/dominatee relationship, so their retained subtrees are
-    // disjoint.
-    group.size += sizeOf(instance)
-  }
-
-  return [...pathToGroup.values()]
-}
-
 const formatLargestFunctions = ({
   snapshot,
   hasLocation,
+  pathOf,
   shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
+  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -703,7 +674,6 @@ const formatLargestFunctions = ({
     }),
   )
 
-  const pathOf = new RetainerPaths(options).pathOfNodeIn(snapshot)
   return [
     ...formatRankingHeader(FUNCTIONS_PROSE),
     formatTable(
@@ -1149,9 +1119,8 @@ const formatDiffFunctionRetainedNodes = ({
  * An entity's groups whose size changed the most either way, paired across the
  * sides.
  *
- * Unlike the non-diff breakdowns, which stop at the largest nodes, a diff
- * groups every shown node, because a group's change needs its whole size on
- * both sides. It formats only the paths of the groups it shows.
+ * It groups every shown node, because a group's change needs its whole
+ * size on both sides. It formats only the paths of the groups it shows.
  */
 const formatDiffEntityGroups = <
   Entity extends DiffedHeapSnapshotEntity,

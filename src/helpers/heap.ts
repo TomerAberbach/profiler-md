@@ -14,7 +14,7 @@ export const selectTopN = <Value>(
   return Array.from({ length: topN }, () => heap.pop()!)
 }
 
-export class MaxHeap<Value> {
+class MaxHeap<Value> {
   readonly #keys: Float64Array
   readonly #values: readonly Value[]
 

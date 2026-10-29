@@ -845,16 +845,34 @@ export const groupConstructorInstances = (
   options: FormattingProfileToMdOptions,
 ): DiffedInstanceGroup[] => {
   const { context } = diff[side]
-  const pathOf = retainerPaths[side]
-  const pathToGroup = new Map<number, DiffedInstanceGroup>()
-  for (const instance of constructor[side]?.instances ?? []) {
-    if (!options.showEntry(instance, context)) {
-      continue
-    }
+  return groupInstancesByPath(
+    (constructor[side]?.instances ?? []).filter(instance =>
+      options.showEntry(instance, context),
+    ),
+    retainerPaths[side],
+  )
+}
+
+/** Instances that share a retainer path, and the first of them. */
+export type InstanceGroup = DiffedInstanceGroup & { nodeOrdinal: number }
+
+/** Groups {@link instances} by the retainer paths {@link pathOf} interns. */
+export const groupInstancesByPath = (
+  instances: readonly AggregatedHeapSnapshotNode[],
+  pathOf: (nodeOrdinal: number) => number,
+): InstanceGroup[] => {
+  const pathToGroup = new Map<number, InstanceGroup>()
+  for (const instance of instances) {
     const path = pathOf(instance.id)
     let group = pathToGroup.get(path)
     if (!group) {
-      group = { path, instanceCount: 0, selfSize: 0, retainedSize: 0 }
+      group = {
+        path,
+        nodeOrdinal: instance.id,
+        instanceCount: 0,
+        selfSize: 0,
+        retainedSize: 0,
+      }
       pathToGroup.set(path, group)
     }
     group.instanceCount++
