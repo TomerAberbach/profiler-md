@@ -1,5 +1,9 @@
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { metricDiffMeasure, metricMeasure } from '../function/index.ts'
+import {
+  metricDiffMeasure,
+  metricMeasure,
+  rankedFunctions,
+} from '../function/index.ts'
 import type { DiffMeasure, Measure, MeasureColumns } from '../function/index.ts'
 import type { Metric } from '../metric.ts'
 import type { AggregatedCallStackProfile } from './aggregate.ts'
@@ -97,11 +101,9 @@ export const shareOf = (value: number, { total }: Measure): number =>
 export const selfRankedFunctions = (
   { functions, context }: AggregatedCallStackProfile,
   measure: Measure,
-  { showEntry }: FormattingProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): AggregatedCallStackProfile[`functions`] =>
-  functions.filter(
-    func => selfValueOf(measure, func) > 0 && showEntry(func, context),
-  )
+  rankedFunctions(selfValueOf, functions, measure, context, options)
 
 export const totalValueOf = (
   measure: Measure,

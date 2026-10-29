@@ -54,6 +54,9 @@ $ARGUMENTS
      modalities, following the formatting principles in
      `src/modalities/CLAUDE.md`. If the modality's tables or headings diverge,
      update `src/cli/highlight-markdown.ts`
+     - When the entities are functions, format the `Hottest functions` section
+       with `formatHottestFunctions` and `formatDiffFunctions` from
+       `src/modalities/function/`, declaring the self and total directions
    - `modality.ts`: the `<name>ModalitySpec` satisfying `ModalitySpec` from
      `src/modalities/spec.ts`, modeled on
      `src/modalities/call-graph/modality.ts`:
