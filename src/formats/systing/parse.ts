@@ -74,8 +74,11 @@ class SystingProfileBuilder {
   readonly #frames: StackFrame[] = []
   /** Export frame id → index into the frames array. */
   readonly #frameIndices = new Map<number, number>()
-  /** Export stack id → the stack's frame indices, leaf-first. */
-  readonly #stacks = new Map<number, number[]>()
+  /**
+   * Export stack id → the stack's frame indices, leaf-first, or `null` for a
+   * stack referencing a frame no record defines.
+   */
+  readonly #stacks = new Map<number, number[] | null>()
   readonly #observations = new Map<SystingEventKind, Observation[]>()
   #header: SystingHeader | undefined
   #eventTypeKinds: ReadonlyMap<number, SystingEventKind> =
@@ -123,9 +126,16 @@ class SystingProfileBuilder {
   }
 
   #addRecord(line: string): void {
-    const record = parseJson(line)
+    let record: unknown
+    try {
+      record = parseJson(line)
+    } catch {
+      this.#recordTally.skipped(`record`, `of invalid JSON`)
+      return
+    }
     if (!Array.isArray(record)) {
-      throw new FormatParseError(`record is not an array`)
+      this.#recordTally.skipped(`record`, `other than an array`)
+      return
     }
     switch (record[0]) {
       case `f`: {
@@ -166,18 +176,16 @@ class SystingProfileBuilder {
   }
 
   #addStack(id: number, frameIds: number[]): void {
-    this.#stacks.set(
-      id,
-      frameIds.map(frameId => {
-        const index = this.#frameIndices.get(frameId)
-        if (index === undefined) {
-          throw new FormatParseError(
-            `stack ${id} references undefined frame ${frameId}`,
-          )
-        }
-        return index
-      }),
-    )
+    const frameIndices = new Array<number>(frameIds.length)
+    for (let i = 0; i < frameIds.length; i++) {
+      const index = this.#frameIndices.get(frameIds[i]!)
+      if (index === undefined) {
+        this.#stacks.set(id, null)
+        return
+      }
+      frameIndices[i] = index
+    }
+    this.#stacks.set(id, frameIndices)
   }
 
   #addObservation(stackId: number, eventType: number, count: number): void {
@@ -190,7 +198,14 @@ class SystingProfileBuilder {
     }
     const frameIndices = this.#stacks.get(stackId)
     if (!frameIndices) {
-      throw new FormatParseError(`sample references undefined stack ${stackId}`)
+      this.#recordTally.skipped(
+        `sample`,
+        frameIndices === null
+          ? `of a stack referencing a missing frame`
+          : `referencing a missing stack`,
+        count,
+      )
+      return
     }
     let observations = this.#observations.get(kind)
     if (!observations) {
@@ -212,20 +227,16 @@ class SystingProfileBuilder {
     if (!this.#header) {
       throw new FormatParseError(`empty input`)
     }
-    if (this.#unknownTagRecordCount > 0) {
-      this.#recordTally.skipped(
-        `record`,
-        `with an unknown tag`,
-        this.#unknownTagRecordCount,
-      )
-    }
-    if (this.#unknownEventTypeSampleCount > 0) {
-      this.#recordTally.skipped(
-        `sample`,
-        `of an unknown event type`,
-        this.#unknownEventTypeSampleCount,
-      )
-    }
+    this.#recordTally.skipped(
+      `record`,
+      `with an unknown tag`,
+      this.#unknownTagRecordCount,
+    )
+    this.#recordTally.skipped(
+      `sample`,
+      `of an unknown event type`,
+      this.#unknownEventTypeSampleCount,
+    )
 
     const profiles: CallStackProfile[] = []
     for (const kind of EVENT_KINDS) {

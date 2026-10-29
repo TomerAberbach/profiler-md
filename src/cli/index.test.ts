@@ -1000,7 +1000,9 @@ test.concurrent(
     )
 
     expect(status).toBe(1)
-    expect(stderr).toBe(`error: stdin: collapsed: missing sample count\n`)
+    expect(stderr).toBe(
+      `error: stdin: collapsed: no usable records because the parser skipped 1 line without a sample count\n`,
+    )
   },
 )
 

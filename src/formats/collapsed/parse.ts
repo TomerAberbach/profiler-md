@@ -5,10 +5,13 @@ import type {
 } from '../../modalities/call-stack-profile/index.ts'
 import { SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import { FormatParseError } from '../error.ts'
+import type { RecordTally } from '../spec.ts'
 
-export const parseCollapsed = (bytes: Uint8Array): CallStackProfile[] => {
-  const builder = new CollapsedProfileBuilder()
+export const parseCollapsed = (
+  bytes: Uint8Array,
+  recordTally: RecordTally,
+): CallStackProfile[] => {
+  const builder = new CollapsedProfileBuilder(recordTally)
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
   }
@@ -17,8 +20,9 @@ export const parseCollapsed = (bytes: Uint8Array): CallStackProfile[] => {
 
 export const parseCollapsedAsync = async (
   stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
 ): Promise<CallStackProfile[]> => {
-  const builder = new CollapsedProfileBuilder()
+  const builder = new CollapsedProfileBuilder(recordTally)
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
   }
@@ -38,6 +42,7 @@ type InternedStack = {
 }
 
 class CollapsedProfileBuilder {
+  readonly #recordTally: RecordTally
   readonly #indexByFrame = new Map<string, number>()
   readonly #frames: StackFrame[] = []
   readonly #observations: Observation[] = []
@@ -47,9 +52,17 @@ class CollapsedProfileBuilder {
   // re-slicing and re-hashing its name.
   #previousStack: InternedStack | undefined
 
+  public constructor(recordTally: RecordTally) {
+    this.#recordTally = recordTally
+  }
+
   public addLine(line: string): void {
     const parsed = parseCollapsedLine(line)
-    if (!parsed) {
+    if (parsed === undefined) {
+      return
+    }
+    if (typeof parsed === `string`) {
+      this.#recordTally.skipped(`line`, parsed)
       return
     }
 
@@ -138,25 +151,24 @@ class CollapsedProfileBuilder {
 
 /**
  * Parses one collapsed line into its stack text and count, returning
- * `undefined` for blank or `#` comment lines.
- *
- * @throws on a missing or non-numeric count.
+ * `undefined` for blank or `#` comment lines, and the reason to skip a line
+ * without a numeric count.
  */
 export const parseCollapsedLine = (
   line: string,
-): { stack: string; count: number } | undefined => {
+): { stack: string; count: number } | string | undefined => {
   if (line.length === 0 || line.startsWith(`#`)) {
     return undefined
   }
 
   const lastSpace = line.lastIndexOf(` `)
   if (lastSpace === -1) {
-    throw new FormatParseError(`missing sample count`)
+    return `without a sample count`
   }
 
   const countText = line.slice(lastSpace + 1)
   if (!/^\d+$/u.test(countText)) {
-    throw new FormatParseError(`invalid sample count`)
+    return `with an invalid sample count`
   }
 
   // Trim extra separator whitespace so a count padded with multiple spaces

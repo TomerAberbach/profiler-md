@@ -129,28 +129,48 @@ export class PerfFile {
   public toProfiles(): CallStackProfile[] {
     let unattributedCount = 0
     for (const record of this.#records()) {
-      if (record.type !== RECORD_SAMPLE) {
-        continue
-      }
-      const attr = this.#sampleAttr(record)
-      if (!attr) {
+      if (record.type === RECORD_SAMPLE && !this.#readSampleRecord(record)) {
         unattributedCount++
-        continue
       }
-      this.#readSample(record, attr, this.#samplesFor(attr))
     }
-    if (unattributedCount > 0) {
-      this.#recordTally.skipped(
-        `sample`,
-        `with an event ID no attribute lists`,
-        unattributedCount,
-      )
-    }
+    this.#recordTally.skipped(
+      `sample`,
+      `with an event ID no attribute lists`,
+      unattributedCount,
+    )
 
     return this.#attrs.flatMap(attr => {
       const samples = this.#samples.get(attr)
       return samples?.count ? [this.#toProfile(attr, samples)] : []
     })
+  }
+
+  /**
+   * Reads a sample record into its event's samples, or skips it when it is
+   * unreadable. Returns `false` when no attribute lists its event ID.
+   */
+  #readSampleRecord(record: PerfRecord): boolean {
+    let samples: EventSamples | undefined
+    try {
+      const attr = this.#sampleAttr(record)
+      if (!attr) {
+        return false
+      }
+      samples = this.#samplesFor(attr)
+      this.#readSample(record, attr, samples)
+    } catch (error) {
+      samples?.discard()
+      this.#skipUnreadable(error)
+    }
+    return true
+  }
+
+  /** Tallies a record {@link error} made unreadable, or rethrows any other error. */
+  #skipUnreadable(error: unknown): void {
+    if (!(error instanceof UnreadableRecordError)) {
+      throw error
+    }
+    this.#recordTally.skipped(error.unit, error.reason)
   }
 
   /**
@@ -166,9 +186,7 @@ export class PerfFile {
     }
     const idOffset = payload + this.#idLayout.idOffset
     if (idOffset + 8 > payloadEnd) {
-      throw new FormatParseError(
-        `sample record ends before its event id, got: ${payloadEnd - payload} bytes`,
-      )
+      throw new UnreadableRecordError(`sample`, `ending before its event ID`)
     }
     const id = this.#uint64(idOffset)
     if (this.#attrs.length === 1 || id === 0) {
@@ -187,8 +205,9 @@ export class PerfFile {
   ): void {
     const { sampleType, readFormat, samplePeriod, layout } = attr
     if (payload + layout.size > payloadEnd) {
-      throw new FormatParseError(
-        `sample record ends before the fields its event records, got: ${payloadEnd - payload} bytes`,
+      throw new UnreadableRecordError(
+        `sample`,
+        `ending before the fields its event records`,
       )
     }
 
@@ -208,8 +227,9 @@ export class PerfFile {
     if (sampleType & SAMPLE_READ) {
       offset = this.#skipRead(offset, readFormat)
       if (offset > payloadEnd) {
-        throw new FormatParseError(
-          `sample record ends within its counter read, got: ${payloadEnd - payload} bytes`,
+        throw new UnreadableRecordError(
+          `sample`,
+          `ending within its counter read`,
         )
       }
     }
@@ -278,15 +298,14 @@ export class PerfFile {
     samples: EventSamples,
   ): number {
     if (offset + 8 > payloadEnd) {
-      throw new FormatParseError(
-        `sample record ends before its call chain, got: ${payloadEnd - offset} bytes`,
-      )
+      throw new UnreadableRecordError(`sample`, `ending before its call chain`)
     }
     const length = this.#uint64(offset)
     offset += 8
     if (offset + length * 8 > payloadEnd) {
-      throw new FormatParseError(
-        `sample call chain runs past its record, got: ${length} entries`,
+      throw new UnreadableRecordError(
+        `sample`,
+        `with a call chain running past its record`,
       )
     }
 
@@ -384,7 +403,10 @@ export class PerfFile {
   ): void {
     const stackOffset = this.#skipToStackUser(offset, payloadEnd, attr)
     if (stackOffset + 8 > payloadEnd) {
-      throw new FormatParseError(`truncated sample record`)
+      throw new UnreadableRecordError(
+        `sample`,
+        `ending before its copied user stack`,
+      )
     }
     if (this.#uint64(stackOffset)) {
       throw new FormatParseError(
@@ -404,13 +426,19 @@ export class PerfFile {
   ): number {
     if (sampleType & SAMPLE_RAW) {
       if (offset + 4 > payloadEnd) {
-        throw new FormatParseError(`truncated sample record`)
+        throw new UnreadableRecordError(
+          `sample`,
+          `ending before its copied user stack`,
+        )
       }
       offset += 4 + this.#view.getUint32(offset, true)
     }
     if (sampleType & SAMPLE_BRANCH_STACK) {
       if (offset + 8 > payloadEnd) {
-        throw new FormatParseError(`truncated sample record`)
+        throw new UnreadableRecordError(
+          `sample`,
+          `ending before its copied user stack`,
+        )
       }
       const length = this.#uint64(offset)
       offset += 8 + length * BRANCH_ENTRY_SIZE
@@ -420,7 +448,10 @@ export class PerfFile {
     }
     if (sampleType & SAMPLE_REGS_USER) {
       if (offset + 8 > payloadEnd) {
-        throw new FormatParseError(`truncated sample record`)
+        throw new UnreadableRecordError(
+          `sample`,
+          `ending before its copied user stack`,
+        )
       }
       // The registers follow their ABI, and no registers follow an ABI of none.
       if (this.#uint64(offset)) {
@@ -505,21 +536,25 @@ export class PerfFile {
     const forks: Fork[] = []
 
     for (const record of this.#records(this.#recordTally)) {
-      switch (record.type) {
-        case RECORD_MMAP:
-        case RECORD_MMAP2:
-          this.#addMapping(record, recorded, kernelRecorded)
-          break
-        case RECORD_COMM:
-          if (record.misc & MISC_EXEC) {
-            this.#addExec(record, recorded)
-          }
-          break
-        case RECORD_FORK:
-          this.#addFork(record, forks)
-          break
-        default:
-          break
+      try {
+        switch (record.type) {
+          case RECORD_MMAP:
+          case RECORD_MMAP2:
+            this.#addMapping(record, recorded, kernelRecorded)
+            break
+          case RECORD_COMM:
+            if (record.misc & MISC_EXEC) {
+              this.#addExec(record, recorded)
+            }
+            break
+          case RECORD_FORK:
+            this.#addFork(record, forks)
+            break
+          default:
+            break
+        }
+      } catch (error) {
+        this.#skipUnreadable(error)
       }
     }
 
@@ -603,7 +638,10 @@ export class PerfFile {
       payload +
       (type === RECORD_MMAP2 ? MMAP2_FILENAME_OFFSET : MMAP_FILENAME_OFFSET)
     if (filenameOffset > payloadEnd) {
-      throw new FormatParseError(`truncated mapping record`)
+      throw new UnreadableRecordError(
+        `mapping record`,
+        `ending before its filename`,
+      )
     }
 
     const startLow = this.#view.getUint32(payload + 8, true)
@@ -642,7 +680,10 @@ export class PerfFile {
   #addExec(record: PerfRecord, recorded: Map<number, RecordedMappings>): void {
     const { payload, payloadEnd } = record
     if (payload + 4 > payloadEnd) {
-      throw new FormatParseError(`truncated command record`)
+      throw new UnreadableRecordError(
+        `command record`,
+        `ending before its process ID`,
+      )
     }
     recordedMapsFor(recorded, this.#view.getUint32(payload, true)).addExec(
       this.#recordTime(record),
@@ -685,7 +726,7 @@ export class PerfFile {
    */
   #addFork({ misc, payload, payloadEnd }: PerfRecord, forks: Fork[]): void {
     if (payload + FORK_TIME_OFFSET + 8 > payloadEnd) {
-      throw new FormatParseError(`truncated fork record`)
+      throw new UnreadableRecordError(`fork record`, `ending before its time`)
     }
     const pid = this.#view.getUint32(payload, true)
     const parentPid = this.#view.getUint32(payload + 4, true)
@@ -1080,6 +1121,22 @@ const ATTR_FLAG_SAMPLE_ID_ALL = 0x4_00_00
 
 let textDecoder: InstanceType<typeof TextDecoder> | undefined
 
+/**
+ * Thrown when one record ends before a field it states. The record's size still
+ * locates the next one, so reading resumes there.
+ */
+class UnreadableRecordError extends Error {
+  public readonly unit: string
+  public readonly reason: string
+
+  public constructor(unit: string, reason: string, options?: ErrorOptions) {
+    super(`${unit} ${reason}`, options)
+    this.name = `UnreadableRecordError`
+    this.unit = unit
+    this.reason = reason
+  }
+}
+
 class EventSamples {
   readonly #frameIndices = new DynamicTypedArray(new Int32Array(4096))
   #frameCount = 0
@@ -1103,6 +1160,11 @@ class EventSamples {
     this.#frameIndices.ensureCapacity(this.#frameCount + 1)[
       this.#frameCount++
     ] = index
+  }
+
+  /** Drops the frames added to the sample being read. */
+  public discard(): void {
+    this.#frameCount = this.#offsets.array[this.#count]!
   }
 
   /**

@@ -10,11 +10,16 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
   categoryTables,
+  expectLogs,
   linesTables,
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import {
+  convertBytesToMd,
+  convertToMdAsync,
+  noopRecordTally,
+} from '../testing.ts'
 import { collapsedFormatSpec } from './index.ts'
 import { parseCollapsed } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
@@ -40,16 +45,10 @@ describe(`matches`, () => {
     expect(collapsedFormatSpec.matches(invalidByteCollapsed)).toBe(true)
   })
 
-  test(`parse rejects lines lacking a trailing count`, () => {
-    expect(() => parseCollapsed(makeCollapsed([`name,count`, `a,1`]))).toThrow(
-      `missing sample count`,
-    )
-  })
-
-  test(`parse rejects a line whose space-separated count is non-numeric`, () => {
-    expect(() => parseCollapsed(makeCollapsed([`main work`]))).toThrow(
-      `invalid sample count`,
-    )
+  test(`rejects a buffer whose first stack line has no count`, () => {
+    expect(
+      collapsedFormatSpec.matches(makeCollapsed([`name,count`, `a,1`])),
+    ).toBe(false)
   })
 
   test(`rejects collapsed-shaped text containing a NUL byte`, () => {
@@ -57,7 +56,7 @@ describe(`matches`, () => {
     // reveals binary input, so detection rejects it.
     const bytes = makeCollapsed([`main;wo\0rk 1`])
 
-    expect(() => parseCollapsed(bytes)).not.toThrow()
+    expect(() => parseCollapsed(bytes, noopRecordTally)).not.toThrow()
     expect(collapsedFormatSpec.matches(bytes)).toBe(false)
   })
 
@@ -69,6 +68,38 @@ describe(`matches`, () => {
     expect(
       collapsedFormatSpec.matches(makeCollapsed([`# a comment`, ``])),
     ).toBe(false)
+  })
+})
+
+describe(`lines without a numeric count`, () => {
+  test(`are skipped with a warning`, () => {
+    // The last line is cut off by the end of the input.
+    const md = convertBytesToMd(
+      collapsedFormatSpec,
+      makeCollapsed([`main;work 3`, `main work`, `main 2`, `main;wo`]),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([`Collected 5 samples.`])
+    expectLogs([
+      `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, nix, rbspy, excimer`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 line with an invalid sample count`,
+      `warn: skipped 1 line without a sample count`,
+    ])
+  })
+
+  test(`reject an input whose every line lacks one`, () => {
+    expect(() =>
+      convertBytesToMd(
+        collapsedFormatSpec,
+        makeCollapsed([`name,count`, `a,1`]),
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(
+      `no usable records because the parser skipped 2 lines without a sample count`,
+    )
   })
 })
 

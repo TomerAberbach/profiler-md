@@ -6,11 +6,12 @@ import {
 import { normalizeProfileToMdOptions } from '../../../options.ts'
 import {
   callersTables,
+  expectLogs,
   profileTitles,
   rankingTables,
   summaryLines,
 } from '../../../testing.ts'
-import { convertJsonToMd } from '../../testing.ts'
+import { convertJsonToMd, noopRecordTally } from '../../testing.ts'
 import { ghcJsonProfileFormatSpec } from './index.ts'
 import { parseGhcJsonProfile } from './parse.ts'
 import {
@@ -83,19 +84,6 @@ describe(`matches`, () => {
         profile: [],
       }),
     ).toBe(false)
-  })
-})
-
-describe(`parse`, () => {
-  test(`rejects a tree referencing a cost centre the profile never defined`, () => {
-    expect(() =>
-      parseGhcJsonProfile(
-        makeGhcJsonProfile({
-          costCentres: [],
-          profile: makeGhcProfileNode({ id: 7, ticks: 1 }),
-        }),
-      ),
-    ).toThrow(`cost-centre stack references undefined cost centre 7`)
   })
 })
 
@@ -339,6 +327,7 @@ describe(`convert`, () => {
         ],
         profile: node,
       }),
+      noopRecordTally,
     )
 
     expect([...timeProfile!.observations]).toStrictEqual([
@@ -365,7 +354,67 @@ describe(`malformed profiles`, () => {
     expect(() => convert(profile)).toThrow(`tick_interval must be a number`)
   })
 
-  test(`rejects a tree node id of constructor that no cost centre defines`, () => {
+  test(`skips a branch whose cost centre the profile never defined`, () => {
+    const md = convert(
+      makeGhcJsonProfile({
+        costCentres: COST_CENTRES,
+        profile: makeGhcProfileNode({
+          id: 1,
+          children: [
+            makeGhcProfileNode({ id: 2, ticks: 3, alloc: 800 }),
+            makeGhcProfileNode({
+              id: 7,
+              ticks: 5,
+              alloc: 100,
+              children: [makeGhcProfileNode({ id: 3, ticks: 2, alloc: 50 })],
+            }),
+          ],
+        }),
+      }),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 3.0ms over 3 samples (1.0ms per sample).`,
+      `Allocated 800\u{A0}B and recorded 0 entries.`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: ghc`,
+      `info: fallback origin: ghc`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 7 samples of a stack referencing a missing cost centre`,
+      `warn: skipped 2 cost-centre stacks referencing a missing cost centre`,
+    ])
+  })
+
+  test(`skips a branch whose cost centre the profile never defined without a warning when it recorded nothing`, () => {
+    const md = convert(
+      makeGhcJsonProfile({
+        costCentres: COST_CENTRES,
+        profile: makeGhcProfileNode({
+          id: 1,
+          children: [
+            makeGhcProfileNode({ id: 2, ticks: 3, alloc: 800 }),
+            makeGhcProfileNode({
+              id: 7,
+              children: [makeGhcProfileNode({ id: 3 })],
+            }),
+          ],
+        }),
+      }),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 3.0ms over 3 samples (1.0ms per sample).`,
+      `Allocated 800\u{A0}B and recorded 0 entries.`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: ghc`,
+      `info: fallback origin: ghc`,
+      `debug: no entry marked another origin`,
+    ])
+  })
+
+  test(`rejects a tree whose every stack references a missing cost centre, keyed by an id of constructor`, () => {
     expect(() =>
       convert(
         makeGhcJsonProfile({
@@ -376,6 +425,8 @@ describe(`malformed profiles`, () => {
           }),
         }),
       ),
-    ).toThrow(`cost-centre stack references undefined cost centre constructor`)
+    ).toThrow(
+      `ghc-json-profile: no usable records because the parser skipped 1 sample of a stack referencing a missing cost centre`,
+    )
   })
 })

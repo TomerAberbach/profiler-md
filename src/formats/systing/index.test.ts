@@ -95,19 +95,15 @@ describe(`matches`, () => {
     ).toThrow(`root_first`)
   })
 
-  test.each([
-    {
-      scenario: `a truncated header line`,
-      input: `{"systing_profile_export": 1, "sample_event": "cpu-clock`,
-    },
-    {
-      scenario: `a truncated record line`,
-      input: `${JSON.stringify(systingHeader)}\n["f", 1, "main`,
-    },
-  ])(`parse classifies $scenario as invalid JSON`, ({ input }) => {
+  test(`parse classifies a truncated header line as invalid JSON`, () => {
     let thrown
     try {
-      parseSysting(new TextEncoder().encode(input), noopRecordTally)
+      parseSysting(
+        new TextEncoder().encode(
+          `{"systing_profile_export": 1, "sample_event": "cpu-clock`,
+        ),
+        noopRecordTally,
+      )
     } catch (error: unknown) {
       thrown = error
     }
@@ -115,24 +111,6 @@ describe(`matches`, () => {
     expect(thrown).toBeInstanceOf(FormatParseError)
     expect((thrown as Error).message).toBe(`invalid JSON`)
     expect((thrown as Error).cause).toBeInstanceOf(SyntaxError)
-  })
-
-  test(`parse rejects records that aren't arrays`, () => {
-    expect(() =>
-      parseSysting(makeSysting([{ frame: 0 }]), noopRecordTally),
-    ).toThrow(`not an array`)
-  })
-
-  test(`parse rejects a stack referencing an undefined frame`, () => {
-    expect(() =>
-      parseSysting(makeSysting([[`s`, 0, [7]]]), noopRecordTally),
-    ).toThrow(`undefined frame 7`)
-  })
-
-  test(`parse rejects a sample referencing an undefined stack`, () => {
-    expect(() =>
-      parseSysting(makeSysting([[`x`, 1, 9, 1, 1]]), noopRecordTally),
-    ).toThrow(`undefined stack 9`)
   })
 })
 
@@ -439,6 +417,111 @@ describe(`convert`, () => {
       `debug: no entry marked another origin`,
       `warn: skipped 2 records with an unknown tag`,
     ])
+  })
+
+  test.each([
+    {
+      scenario: `a record line of invalid JSON`,
+      lines: [`["f", 1, "main`],
+      warning: `warn: skipped 1 record of invalid JSON`,
+    },
+    {
+      scenario: `a record that is not an array`,
+      lines: [`{"frame": 1}`, `null`],
+      warning: `warn: skipped 2 records other than an array`,
+    },
+    {
+      scenario: `a sample referencing a missing stack`,
+      lines: [`["x", 1, 9, 1, 4]`],
+      warning: `warn: skipped 4 samples referencing a missing stack`,
+    },
+  ])(`$scenario is skipped, with a warning`, ({ lines, warning }) => {
+    const md = convertBytesToMd(
+      systingFormatSpec,
+      new TextEncoder().encode(
+        [
+          JSON.stringify(systingHeader),
+          JSON.stringify([`f`, 0, `work (app) <0x1000>`]),
+          JSON.stringify([`s`, 0, [0]]),
+          ...lines,
+          JSON.stringify([`x`, 1, 0, 1, 2]),
+          ``,
+        ].join(`\n`),
+      ),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: systing`,
+      `info: fallback origin: systing`,
+      `debug: no entry marked another origin`,
+      warning,
+    ])
+  })
+
+  test(`skips the samples of a stack referencing a missing frame, with one warning`, () => {
+    const md = convertBytesToMd(
+      systingFormatSpec,
+      makeSysting([
+        [`f`, 0, `work (app) <0x1000>`],
+        [`s`, 0, [0]],
+        [`s`, 1, [0, 7]],
+        [`s`, 2, [9]],
+        [`x`, 1, 0, 1, 2],
+        [`x`, 1, 1, 1, 3],
+      ]),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: systing`,
+      `info: fallback origin: systing`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 3 samples of a stack referencing a missing frame`,
+    ])
+  })
+
+  test(`reads a stack by its last definition`, () => {
+    const md = convertBytesToMd(
+      systingFormatSpec,
+      makeSysting([
+        [`f`, 0, `work (app) <0x1000>`],
+        [`s`, 0, [0]],
+        [`s`, 1, [0]],
+        [`s`, 1, [0, 7]],
+        [`x`, 1, 0, 1, 2],
+        [`x`, 1, 1, 1, 3],
+      ]),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: systing`,
+      `info: fallback origin: systing`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 3 samples of a stack referencing a missing frame`,
+    ])
+  })
+
+  test(`an export whose every sample references a missing stack is rejected`, () => {
+    expect(() =>
+      convertBytesToMd(
+        systingFormatSpec,
+        makeSysting([[`x`, 1, 9, 1, 4]]),
+        options(),
+      ),
+    ).toThrow(
+      `systing: no usable records because the parser skipped 4 samples referencing a missing stack`,
+    )
   })
 
   test(`samples of unrecognized event types are skipped, with a warning`, () => {

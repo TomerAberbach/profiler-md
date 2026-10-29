@@ -91,7 +91,11 @@ class Eventlog {
       frames,
       metrics: measure.metrics,
       countMetric: SAMPLES,
-      observations: this.#observations(idToFrameIndex, measure.values),
+      observations: this.#observations(
+        idToFrameIndex,
+        measure.values,
+        recordTally,
+      ),
     }
   }
 
@@ -143,12 +147,6 @@ class Eventlog {
     const idToFrameIndex: number[] = []
     let tickInterval: number | undefined
     let sampled = false
-    // The IDs a sample referenced before a definition of them was read. The
-    // runtime writes a cost centre's definition before the samples referencing
-    // it, so this stays empty. A log that breaks that ordering must fail here
-    // rather than during aggregation, which runs past the stage that prefixes
-    // the format's title and records a rejected format during auto-detection.
-    const undefinedIds = new Set<number>()
 
     const events = this.#events()
     let next = events.next()
@@ -165,17 +163,9 @@ class Eventlog {
           // The runtime writes the interval in nanoseconds.
           tickInterval = Number(this.#view.getBigUint64(payload)) / 1000
           break
-        case TIME_PROFILE_SAMPLE: {
+        case TIME_PROFILE_SAMPLE:
           sampled = true
-          const depth = this.#sampleStackDepth(payload)
-          for (let index = 0; index < depth; index++) {
-            const id = this.#sampleCostCentreId(payload, index)
-            if (idToFrameIndex[id] === undefined) {
-              undefinedIds.add(id)
-            }
-          }
           break
-        }
       }
     }
 
@@ -190,14 +180,6 @@ class Eventlog {
       throw new FormatParseError(
         `no cost-centre samples, which a run records with +RTS -p -l-au`,
       )
-    }
-
-    for (const id of undefinedIds) {
-      if (idToFrameIndex[id] === undefined) {
-        throw new FormatParseError(
-          `cost-centre stack references undefined cost centre ${id}`,
-        )
-      }
     }
 
     return { frames, idToFrameIndex, tickInterval }
@@ -222,7 +204,8 @@ class Eventlog {
   }
 
   /**
-   * Yields one sample per tick the profiler recorded.
+   * Yields one sample per tick the profiler recorded, skipping each sample
+   * that references a cost centre the log never defines.
    *
    * Every sample measured the same interval, so they share one {@link values}
    * array rather than allocating a copy per tick. The aggregator only reads it.
@@ -230,8 +213,10 @@ class Eventlog {
   *#observations(
     idToFrameIndex: number[],
     values: number[],
+    recordTally: RecordTally,
   ): Iterable<Observation> {
-    for (const { eventType, payload } of this.#events()) {
+    let skippedSamples = 0
+    samples: for (const { eventType, payload } of this.#events()) {
       if (eventType !== TIME_PROFILE_SAMPLE) {
         continue
       }
@@ -239,14 +224,22 @@ class Eventlog {
       const depth = this.#sampleStackDepth(payload)
       const frameIndices = new Array<number>(depth)
       for (let index = 0; index < depth; index++) {
-        // Reading the cost centres established that every ID a sample
-        // references is defined.
-        frameIndices[index] =
-          idToFrameIndex[this.#sampleCostCentreId(payload, index)]!
+        const frameIndex =
+          idToFrameIndex[this.#sampleCostCentreId(payload, index)]
+        if (frameIndex === undefined) {
+          skippedSamples++
+          continue samples
+        }
+        frameIndices[index] = frameIndex
       }
 
       yield { values, frameIndices }
     }
+    recordTally.skipped(
+      `sample`,
+      `referencing a missing cost centre`,
+      skippedSamples,
+    )
   }
 
   /**

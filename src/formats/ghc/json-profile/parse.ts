@@ -10,6 +10,7 @@ import {
 } from '../../../modalities/metrics.ts'
 import type { StackFrame } from '../../../modalities/stack-frame.ts'
 import { FormatParseError } from '../../error.ts'
+import type { RecordTally } from '../../spec.ts'
 import { costCentreStackFrame } from '../cost-centre.ts'
 
 /**
@@ -96,6 +97,7 @@ export type GhcJsonProfileNode = {
  */
 export const parseGhcJsonProfile = (
   profile: GhcJsonProfile,
+  recordTally: RecordTally,
 ): CallStackProfile[] => {
   const {
     cost_centres: costCentres,
@@ -108,7 +110,6 @@ export const parseGhcJsonProfile = (
     throw new FormatParseError(`tick_interval must be a number`)
   }
   const { frames, idToFrameIndex } = costCentreFrames(costCentres)
-  validateCostCentreReferences(root, idToFrameIndex)
 
   return [
     {
@@ -119,7 +120,12 @@ export const parseGhcJsonProfile = (
       // cost centre collects.
       metrics: [WALL_TIME_METRIC],
       countMetric: SAMPLES,
-      observations: timeObservations(root, idToFrameIndex, tickInterval),
+      observations: timeObservations(
+        root,
+        idToFrameIndex,
+        tickInterval,
+        recordTally,
+      ),
     },
     {
       type: `call-stack-profile`,
@@ -130,7 +136,7 @@ export const parseGhcJsonProfile = (
       // entered no times still allocates, and one it entered many times may
       // allocate nothing.
       countMetric: null,
-      observations: allocationObservations(root, idToFrameIndex),
+      observations: allocationObservations(root, idToFrameIndex, recordTally),
     },
   ]
 }
@@ -175,51 +181,39 @@ const costCentreFrames = (
   return { frames, idToFrameIndex }
 }
 
-/**
- * Throws when the cost-centre tree references a cost centre the profile never
- * defined.
- *
- * The walk yielding the stacks is lazy, so a check made there would throw while
- * the profile is aggregated rather than while it is parsed. Aggregation is past
- * the stage that prefixes the format's title and records a rejected format
- * during auto-detection.
- */
-const validateCostCentreReferences = (
-  root: GhcJsonProfileNode,
-  idToFrameIndex: Map<number, number>,
-): void => {
-  const stack: GhcJsonProfileNode[] = [root]
-  while (stack.length > 0) {
-    const node = stack.pop()!
-    if (!idToFrameIndex.has(node.id)) {
-      throw new FormatParseError(
-        `cost-centre stack references undefined cost centre ${node.id}`,
-      )
-    }
-    for (const child of node.children ?? []) {
-      stack.push(child)
-    }
-  }
-}
-
 /** A tick is one sample, so a stack's ticks are its count. */
 function* timeObservations(
   root: GhcJsonProfileNode,
   idToFrameIndex: Map<number, number>,
   tickInterval: number,
+  recordTally: RecordTally,
 ): Iterable<Observation> {
-  for (const { node, id, path } of costCentreStacks(root, idToFrameIndex)) {
-    if (node.ticks > 0) {
-      yield {
-        id,
-        // The aggregator scales values by the sample count, so a value is what
-        // one tick measured.
-        values: [tickInterval],
-        frameIndices: path.toReversed(),
-        count: node.ticks,
-      }
+  let skippedTickCount = 0
+  for (const { node, id, path, resolved } of costCentreStacks(
+    root,
+    idToFrameIndex,
+  )) {
+    if (node.ticks === 0) {
+      continue
+    }
+    if (!resolved) {
+      skippedTickCount += node.ticks
+      continue
+    }
+    yield {
+      id,
+      // The aggregator scales values by the sample count, so a value is what
+      // one tick measured.
+      values: [tickInterval],
+      frameIndices: path.toReversed(),
+      count: node.ticks,
     }
   }
+  recordTally.skipped(
+    `sample`,
+    `of a stack referencing a missing cost centre`,
+    skippedTickCount,
+  )
 }
 
 /**
@@ -230,16 +224,31 @@ function* timeObservations(
 function* allocationObservations(
   root: GhcJsonProfileNode,
   idToFrameIndex: Map<number, number>,
+  recordTally: RecordTally,
 ): Iterable<Observation> {
-  for (const { node, id, path } of costCentreStacks(root, idToFrameIndex)) {
-    if (node.alloc > 0 || node.entries > 0) {
-      yield {
-        id,
-        values: [node.alloc, node.entries],
-        frameIndices: path.toReversed(),
-      }
+  let skippedStackCount = 0
+  for (const { node, id, path, resolved } of costCentreStacks(
+    root,
+    idToFrameIndex,
+  )) {
+    if (node.alloc === 0 && node.entries === 0) {
+      continue
+    }
+    if (!resolved) {
+      skippedStackCount++
+      continue
+    }
+    yield {
+      id,
+      values: [node.alloc, node.entries],
+      frameIndices: path.toReversed(),
     }
   }
+  recordTally.skipped(
+    `cost-centre stack`,
+    `referencing a missing cost centre`,
+    skippedStackCount,
+  )
 }
 
 /** A cost-centre stack tree node paired with the call stack it represents. */
@@ -260,6 +269,9 @@ type CostCentreStack = {
    * keeps. Copying every node's path costs the tree's size times its depth.
    */
   path: readonly number[]
+
+  /** Whether every cost centre in the stack is one the profile defines. */
+  resolved: boolean
 }
 
 /**
@@ -275,6 +287,9 @@ function* costCentreStacks(
   idToFrameIndex: Map<number, number>,
 ): Iterable<CostCentreStack> {
   const path: number[] = []
+  // The path entries that resolve to no frame. A node below one represents a
+  // stack containing the undefined cost centre too.
+  let missingFrameCount = 0
   const stack: { node: GhcJsonProfileNode; childIndex: number }[] = [
     { node: root, childIndex: 0 },
   ]
@@ -284,10 +299,15 @@ function* costCentreStacks(
     const top = stack.at(-1)!
 
     if (top.childIndex === 0) {
-      // Parsing rejects a profile whose tree references an undefined cost
-      // centre, so every node's ID resolves to a frame.
-      path.push(idToFrameIndex.get(top.node.id)!)
-      yield { node: top.node, id: id++, path }
+      const frameIndex = idToFrameIndex.get(top.node.id)
+      if (frameIndex === undefined) {
+        missingFrameCount++
+        path.push(MISSING_FRAME)
+      } else {
+        path.push(frameIndex)
+      }
+      yield { node: top.node, id, path, resolved: missingFrameCount === 0 }
+      id++
     }
 
     const child = top.node.children?.[top.childIndex]
@@ -296,7 +316,11 @@ function* costCentreStacks(
       stack.push({ node: child, childIndex: 0 })
     } else {
       stack.pop()
-      path.pop()
+      if (path.pop() === MISSING_FRAME) {
+        missingFrameCount--
+      }
     }
   }
 }
+
+const MISSING_FRAME = -1

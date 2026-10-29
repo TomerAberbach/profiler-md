@@ -594,7 +594,9 @@ describe(`profileToMd`, () => {
   test(`a specified format reports its rejection as that format's`, () => {
     expect(() =>
       profileToMd({ data: `funcA;funcB`, format: `collapsed` }),
-    ).toThrow(`collapsed: missing sample count`)
+    ).toThrow(
+      `collapsed: no usable records because the parser skipped 1 line without a sample count`,
+    )
   })
 
   test(`a specified format reports its rejection as that format's when async`, async () => {
@@ -603,7 +605,9 @@ describe(`profileToMd`, () => {
         data: new Blob([`funcA;funcB`]),
         format: `collapsed`,
       }),
-    ).rejects.toThrow(`collapsed: missing sample count`)
+    ).rejects.toThrow(
+      `collapsed: no usable records because the parser skipped 1 line without a sample count`,
+    )
   })
 
   test(`detection names every format that rejected the input`, () => {
@@ -1184,13 +1188,6 @@ describe(`logging`, () => {
       `info: detected format: v8-cpu-profile`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
       ...NODE_ORIGIN_LOGS,
-    ])
-  })
-
-  test(`logs each format that recognized the input but rejected it`, () => {
-    expect(() => profileToMd(`a;b 1\nc;d x\n`)).toThrow(/invalid sample count/u)
-    expectLogs([
-      `debug: collapsed recognized the input but rejected it: invalid sample count`,
     ])
   })
 

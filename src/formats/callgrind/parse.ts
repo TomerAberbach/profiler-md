@@ -61,9 +61,13 @@ type CallgrindCall = {
 /**
  * A `calls=` line pending the cost line that contains the call's inclusive
  * cost: the callee's name, resolved from the `cfn=` context the `calls=`
- * required, and the calls' count.
+ * required, and the calls' count. A call the parser skips contains why
+ * instead, so its cost line is dropped rather than read as a self cost.
  */
-type PendingCall = {
+type PendingCall = ReadCall | { type: `skipped`; reason: string }
+
+type ReadCall = {
+  type: `read`
   calleeName: string
   callCount: number
 }
@@ -97,11 +101,16 @@ class PendingCallSlot {
    * Skips a `calls=` whose cost line never arrived (a truncated file, a
    * part boundary written without a `part:` header, another `calls=`). The
    * stale `calls=` would otherwise consume the next cost line as an arc to the
-   * stale callee.
+   * stale callee. A call already skipped is counted by its own reason.
    */
   public skip(): void {
     if (this.#call) {
-      this.#recordTally.skipped(`call`, `without a cost line`)
+      this.#recordTally.skipped(
+        `call`,
+        this.#call.type === `skipped`
+          ? this.#call.reason
+          : `without a cost line`,
+      )
       this.#call = undefined
     }
   }
@@ -186,6 +195,9 @@ class CallgrindProfileBuilder {
       return
     }
 
+    // The line may be a damaged position spec, such as an `fn=` or a `calls=`,
+    // so skipping it would attribute the cost lines after it to the wrong
+    // function or read a call's inclusive cost as a self cost.
     throw new FormatParseError(
       `unrecognized line, got: ${JSON.stringify(line)}`,
     )
@@ -225,24 +237,27 @@ class CallgrindProfileBuilder {
       case `cfn`:
         this.#callName = resolveName(this.#functionNames, rest)
         break
-      case `calls`: {
+      case `calls`:
         // `calls=count target-subpositions`. The following cost line contains
         // the call's inclusive cost. Aggregation ignores the target position.
-        if (this.#callName === undefined) {
-          throw new FormatParseError(`calls= without a preceding cfn=`)
-        }
-        const count = rest.trimStart().split(/\s+/u, 1)[0]!
-        this.#pendingCall.replace({
-          calleeName: this.#callName,
-          callCount: parseCost(count),
-        })
+        this.#pendingCall.replace(this.#pendingCallOf(rest))
         break
-      }
       // Jump specs (`jump=`/`jcnd=`) contain control-flow counts, not costs.
       case `jump`:
       case `jcnd`:
         break
     }
+  }
+
+  #pendingCallOf(rest: string): PendingCall {
+    const callName = this.#callName
+    if (callName === undefined) {
+      return { type: `skipped`, reason: `without a preceding cfn= line` }
+    }
+    const callCount = parseCost(rest.trimStart().split(/\s+/u, 1)[0]!)
+    return Number.isNaN(callCount)
+      ? { type: `skipped`, reason: `with an invalid call count` }
+      : { type: `read`, calleeName: callName, callCount }
   }
 
   #addHeader(key: string, rest: string): void {
@@ -358,18 +373,36 @@ class CallgrindProfileBuilder {
     const tokens = line.trimEnd().split(/\s+/u)
     const costLine = this.#parseSubpositions(tokens)
     const values = this.#parseValues(tokens, eventIndices)
+    const pendingCall = this.#pendingCall.take()
+    if (pendingCall?.type === `skipped`) {
+      this.#skipCostLine(true, pendingCall.reason)
+      return
+    }
+    const isCall = pendingCall !== undefined
     if (costLine === null) {
-      const unit = this.#pendingCall.take() ? `call` : `cost line`
-      this.#recordTally.skipped(unit, `with a subposition before position 0`)
+      this.#skipCostLine(isCall, `with a subposition before position 0`)
+      return
+    }
+    if (typeof values === `string`) {
+      this.#skipCostLine(isCall, values)
       return
     }
 
-    const pendingCall = this.#pendingCall.take()
     if (pendingCall) {
       this.#addCallCost(func, pendingCall, values)
       return
     }
     this.#addSelfCost(func, costLine, values)
+  }
+
+  /** Skips a cost line, ending the call it completes. */
+  #skipCostLine(isCall: boolean, reason: string): void {
+    if (isCall) {
+      this.#recordTally.skipped(`call`, reason)
+      this.#clearCallObjectAndFile()
+    } else {
+      this.#recordTally.skipped(`cost line`, reason)
+    }
   }
 
   /**
@@ -401,25 +434,34 @@ class CallgrindProfileBuilder {
     if (token === `*`) {
       value = this.#lastSubpositions[column] ?? 0
     } else if (token.startsWith(`+`)) {
-      value = (this.#lastSubpositions[column] ?? 0) + parseCost(token.slice(1))
+      value =
+        (this.#lastSubpositions[column] ?? 0) + parseSubposition(token.slice(1))
     } else if (token.startsWith(`-`)) {
-      value = (this.#lastSubpositions[column] ?? 0) - parseCost(token.slice(1))
+      value =
+        (this.#lastSubpositions[column] ?? 0) - parseSubposition(token.slice(1))
     } else {
-      value = parseCost(token)
+      value = parseSubposition(token)
     }
     this.#lastSubpositions[column] = value
     return value
   }
 
-  /** Reads the line's cost values into the global event indices. */
-  #parseValues(tokens: string[], eventIndices: number[]): number[] {
+  /**
+   * Reads the line's cost values into the global event indices, returning the
+   * reason to skip the line when they don't parse.
+   */
+  #parseValues(tokens: string[], eventIndices: number[]): number[] | string {
     if (tokens.length > this.#subpositionCount + eventIndices.length) {
-      throw new FormatParseError(`cost line with more values than events`)
+      return `with more values than events`
     }
     const values: number[] = []
     for (let i = this.#subpositionCount; i < tokens.length; i++) {
+      const value = parseCost(tokens[i]!)
+      if (Number.isNaN(value)) {
+        return `with an invalid cost`
+      }
       // A cost line may omit trailing values, which default to zero.
-      values[eventIndices[i - this.#subpositionCount]!] = parseCost(tokens[i]!)
+      values[eventIndices[i - this.#subpositionCount]!] = value
     }
     return values
   }
@@ -427,7 +469,7 @@ class CallgrindProfileBuilder {
   /** Adds a pending `calls=` and its inclusive cost to the arc. */
   #addCallCost(
     caller: CallgrindFunction,
-    pendingCall: PendingCall,
+    pendingCall: ReadCall,
     values: number[],
   ): void {
     // A call without `cob=`/`cfi=` targets the current object and the current
@@ -627,6 +669,8 @@ const resolveName = (
 
   const known = dictionary.get(id)
   if (known === undefined) {
+    // The name sets the position context for every line until the next spec
+    // of its kind, so skipping one line would misattribute the lines after it.
     throw new FormatParseError(`name (${id}) referenced before definition`)
   }
   return known
@@ -635,7 +679,22 @@ const resolveName = (
 /** A compressed name's numeric ID between its parentheses. */
 const COMPRESSED_NAME_ID = /^\d+$/u
 
-/** Parses a decimal or `0x`-prefixed hexadecimal unsigned integer. */
+/**
+ * Parses a subposition, throwing when it is invalid because the relative
+ * subpositions on the lines after it would resolve against the wrong base.
+ */
+const parseSubposition = (token: string): number => {
+  const value = parseCost(token)
+  if (Number.isNaN(value)) {
+    throw new FormatParseError(`invalid number, got: ${JSON.stringify(token)}`)
+  }
+  return value
+}
+
+/**
+ * Parses a decimal or `0x`-prefixed hexadecimal unsigned integer, returning
+ * `NaN` when the token is not one.
+ */
 const parseCost = (token: string): number => {
   // `Number('')` is `0`, so an empty token needs its own rejection. A bare `+`
   // or `-` subposition leaves one when its sign is sliced off.
@@ -645,10 +704,7 @@ const parseCost = (token: string): number => {
       : token.startsWith(`0x`)
         ? Number.parseInt(token, 16)
         : Number(token)
-  if (Number.isNaN(value) || value < 0) {
-    throw new FormatParseError(`invalid number, got: ${JSON.stringify(token)}`)
-  }
-  return value
+  return value < 0 ? Number.NaN : value
 }
 
 /** Adds {@link values} into {@link target} element-wise, growing it. */

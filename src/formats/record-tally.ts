@@ -29,6 +29,9 @@ export class RecordTallyCounts implements RecordTally, RecordReader {
   }
 
   public skipped(unit: string, reason: string, count = 1): void {
+    if (count === 0) {
+      return
+    }
     const key = `${unit}\0${reason}`
     const skip = this.#skips.get(key)
     if (skip) {

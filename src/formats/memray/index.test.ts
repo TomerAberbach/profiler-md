@@ -128,15 +128,57 @@ describe(`matches`, () => {
     ).toThrow(`unsupported version 14`)
   })
 
-  test(`parse reports an allocation naming an uncached address`, () => {
-    // A 1 KiB malloc naming cache index 0, which no earlier record filled.
+  test(`skips an allocation naming an uncached address, with a warning`, () => {
+    const records = [
+      { type: `thread`, threadId: MAIN_THREAD_ID },
+      { type: `push`, codeObjectId: 1 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
+      { type: `alloc`, allocator: MEMRAY_FREE, address: 0x1000 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x2000, size: 512 },
+    ] as const
+    const complete = convertBytesToMd(
+      memrayFormatSpec,
+      makeMemray({ codeObjects: CODE_OBJECTS, records: [...records] }),
+      options(),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: memray`,
+      `info: fallback origin: memray`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs(originLogs)
+
+    const md = convertBytesToMd(
+      memrayFormatSpec,
+      makeMemray({
+        codeObjects: CODE_OBJECTS,
+        records: [
+          ...records.slice(0, 2),
+          // A 1 KiB malloc naming cache index 0, which no earlier record
+          // filled.
+          { type: `raw`, bytes: [0x86, 0x80, 0x08] },
+          ...records.slice(2),
+        ],
+      }),
+      options(),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 allocation naming an address no earlier record wrote`,
+    ])
+  })
+
+  test(`rejects a capture whose every allocation names an uncached address`, () => {
     expect(() =>
-      parseMemray(
+      convertBytesToMd(
+        memrayFormatSpec,
         makeMemray({ records: [{ type: `raw`, bytes: [0x86, 0x80, 0x08] }] }),
-        noopRecordTally,
+        options(),
       ),
     ).toThrow(
-      `record names an address no earlier record wrote, got cache index: 0`,
+      `no usable records because the parser skipped 1 allocation naming an address no earlier record wrote`,
     )
   })
 
