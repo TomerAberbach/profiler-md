@@ -1,35 +1,8 @@
-import type {
-  FormattingProfileToMdOptions,
-  FunctionCategory,
-} from '../../options.ts'
-import { formatCategory } from '../format.ts'
-import type { NamedFunction } from '../format.ts'
-import { metricCell, metricColumnNouns } from '../measure.ts'
-import type { Metric } from '../metric.ts'
-import {
-  codeCell,
-  countCell,
-  locationCell,
-  percentCell,
-  textCell,
-} from '../table.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
+import { functionNameColumns, measureColumns } from '../function/index.ts'
+import type { FunctionMeasureRow, MeasureColumns } from '../function/index.ts'
+import { countCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
-import type { AggregatedCallGraphCategoryMetrics } from './aggregate.ts'
-
-export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
-
-export const functionColumns = (
-  metric: Metric,
-  entity: string,
-  options: FormattingProfileToMdOptions,
-): Table<FunctionMeasureRow> => [
-  ...measureColumns(metric),
-  { header: entity, cellOf: row => codeCell(row.func.name) },
-  {
-    header: `Location`,
-    cellOf: row => locationCell(row.func.location, options),
-  },
-]
 
 /** An arc's row, whose `func` is the arc's other endpoint. */
 export type ArcRow = FunctionMeasureRow & { callCount: number }
@@ -39,12 +12,12 @@ export type ArcRow = FunctionMeasureRow & { callCount: number }
  * arc in the graph recorded a call count.
  */
 export const arcColumns = (
-  metric: Metric,
+  measure: MeasureColumns,
   entity: `Caller` | `Callee`,
   hasCallCounts: boolean,
   options: FormattingProfileToMdOptions,
 ): Table<ArcRow> => [
-  ...measureColumns(metric),
+  ...measureColumns(measure),
   ...(hasCallCounts
     ? [
         {
@@ -53,91 +26,5 @@ export const arcColumns = (
         } satisfies Column<ArcRow>,
       ]
     : []),
-  { header: entity, cellOf: row => codeCell(row.func.name) },
-  {
-    header: `Location`,
-    cellOf: row => locationCell(row.func.location, options),
-  },
-]
-
-/** A row for one of {@link func}'s lines. */
-export type LineRow = MeasureRow & { func: NamedFunction; line: number }
-
-/**
- * The value columns followed by a `Location` column resolving each line against
- * its function's location.
- */
-export const lineColumns = (
-  metric: Metric,
-  options: FormattingProfileToMdOptions,
-): Table<LineRow> => [
-  ...measureColumns(metric),
-  {
-    header: `Location`,
-    cellOf: ({ func, line }) =>
-      func.location
-        ? locationCell({ ...func.location, line, column: undefined }, options)
-        : textCell(String(line)),
-  },
-]
-
-/** A row of the categories table for one category on one side. */
-export type CategoryRow = {
-  category: FunctionCategory
-  stats: AggregatedCallGraphCategoryMetrics
-  /** Maps each metric column to its index in {@link stats}. */
-  indices: number[]
-  total: number
-}
-
-/** The columns of the overall hottest function categories table. */
-export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
-  const columnNouns = metricColumnNouns(metrics)
-  return [
-    {
-      header: `Category`,
-      cellOf: row => textCell(formatCategory(row.category)),
-    },
-    {
-      header: { content: `%`, align: `right` },
-      changeDeltaBefore: true,
-      cellOf: row =>
-        percentCell(
-          row.total ? row.stats.values[row.indices[0]!]! / row.total : 0,
-        ),
-    },
-    ...metrics.map((metric, index): Column<CategoryRow> => ({
-      header: { content: columnNouns[index]!, align: `right` },
-      primary: index === 0,
-      cellOf: row => metricCell(row.stats.values[row.indices[index]!]!, metric),
-    })),
-  ]
-}
-
-type MeasureRow = {
-  /** The row's recorded value for the section's metric. */
-  value: number
-
-  /** The total the row's `%` is computed against. */
-  total: number
-}
-
-/**
- * A call graph records metric values only, so unlike a call stack profile's
- * tables, these columns include no count column.
- */
-const measureColumns = (metric: Metric): Table<MeasureRow> => [
-  {
-    header: { content: `%`, align: `right` },
-    changeDeltaBefore: true,
-    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
-  },
-  {
-    header: {
-      content: metricColumnNouns([metric])[0]!,
-      align: `right`,
-    },
-    primary: true,
-    cellOf: row => metricCell(row.value, metric),
-  },
+  ...functionNameColumns(entity, options),
 ]

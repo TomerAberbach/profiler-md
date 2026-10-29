@@ -55,8 +55,18 @@ import {
   unchangedDiffSentence,
 } from '../format.ts'
 import type { ActiveDiffEntity } from '../format.ts'
-import { isZeroDiffTotal, isZeroTotal } from '../function/index.ts'
-import type { DiffMeasure, Measure } from '../function/index.ts'
+import {
+  categoryColumns,
+  functionColumns,
+  isZeroDiffTotal,
+  isZeroTotal,
+  lineColumns,
+} from '../function/index.ts'
+import type {
+  DiffMeasure,
+  FunctionMeasureRow,
+  Measure,
+} from '../function/index.ts'
 import {
   formatProseValue,
   formatProseValueArrow,
@@ -88,20 +98,13 @@ import {
 } from './measure.ts'
 import {
   callStackColumns,
-  categoryColumns,
   formatCallStack,
   formatFrameNotationNote,
-  functionColumns,
   HIDDEN_FRAMES,
-  lineColumns,
   newShownFrameNotation,
   TRUNCATED_FRAMES,
 } from './table.ts'
-import type {
-  FunctionMeasureRow,
-  ShownFrame,
-  ShownFrameNotation,
-} from './table.ts'
+import type { ShownFrame, ShownFrameNotation } from './table.ts'
 import { formatCallTree, formatDiffCallTree } from './tree/index.ts'
 
 export const formatCallStackProfile = (
