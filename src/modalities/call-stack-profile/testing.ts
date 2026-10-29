@@ -3,6 +3,7 @@ import {
   allCodeBlocksAfterHeading,
   allTablesAfterHeading,
   allTablesAfterHeadingContaining,
+  markdownSectionsUnderHeading,
   nodesUnderHeading,
   parseMd,
 } from '../../helpers/testing.ts'
@@ -177,7 +178,9 @@ export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Hottest call stacks`)
 
 export const callTreeLines = (md: string): string[][] =>
-  allCodeBlocksAfterHeading(parseMd(md), `Call tree`)
+  markdownSectionsUnderHeading(md, `Call tree`).flatMap(section =>
+    allCodeBlocksAfterHeading(parseMd(section), `Call tree`),
+  )
 
 /**
  * How each call tree in {@link md} breaks the properties every call tree has,

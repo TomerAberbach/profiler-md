@@ -150,6 +150,59 @@ export const allCodeBlocksAfterHeading = (
     ({ value }) => value.split(`\n`),
   )
 
+/**
+ * The Markdown of each section under an ATX {@link heading}, from the heading
+ * to the next heading of the same or a lower depth. Parsing these instead of
+ * the whole document spares a large document's other sections.
+ */
+export const markdownSectionsUnderHeading = (
+  markdown: string,
+  heading: string,
+): string[] => {
+  const sections: string[] = []
+  const lines = markdown.split(`\n`)
+  // The opening fence of the code block the current line is in. A run of the
+  // same character at least as long closes it.
+  let fence: string | undefined
+  let section: { depth: number; start: number } | undefined
+  for (const [index, line] of lines.entries()) {
+    if (fence) {
+      const closing = line.trimEnd()
+      if (
+        closing.length >= fence.length &&
+        closing === fence[0]!.repeat(closing.length)
+      ) {
+        fence = undefined
+      }
+      continue
+    }
+    const fenceMatch = FENCE_REGEX.exec(line)
+    if (fenceMatch) {
+      fence = fenceMatch[0]
+      continue
+    }
+    const headingMatch = HEADING_REGEX.exec(line)
+    if (!headingMatch) {
+      continue
+    }
+    const depth = headingMatch.groups!.hashes!.length
+    if (section && depth <= section.depth) {
+      sections.push(lines.slice(section.start, index).join(`\n`))
+      section = undefined
+    }
+    if (!section && headingMatch.groups!.text === heading) {
+      section = { depth, start: index }
+    }
+  }
+  if (section) {
+    sections.push(lines.slice(section.start).join(`\n`))
+  }
+  return sections
+}
+
+const FENCE_REGEX = /^(?:`{3,}|~{3,})/u
+const HEADING_REGEX = /^(?<hashes>#{1,6})(?: (?<text>.*))?$/u
+
 export const allTablesAfterHeadingContaining = (
   nodes: readonly Node[],
   substring: string,
