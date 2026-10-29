@@ -4,11 +4,7 @@ import { formatSpecs, formatToSpec } from '../formats/registry.ts'
 import { readInput } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import {
-  categorizeHeapSnapshotConstructorForOrigin,
-  OriginDetector,
-  origins,
-} from './index.ts'
+import { OriginDetector, origins, originSpecOf } from './index.ts'
 import type { Origin } from './index.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
@@ -47,16 +43,16 @@ describe(`heap snapshot constructor categorization`, () => {
   test.each<Origin>([`node`, `chrome`, `bun`, `safari`])(
     `%s categorizes JavaScript's own classes`,
     origin => {
-      expect(categorizeHeapSnapshotConstructorForOrigin(`Array`, origin)).toBe(
-        `array`,
-      )
+      expect(
+        originSpecOf(origin).categorizeHeapSnapshotConstructor(`Array`),
+      ).toBe(`array`)
     },
   )
 
   test(`an origin observing another language leaves the format's category`, () => {
     // Julia writes V8-format snapshots, whose class names are Julia's.
     expect(
-      categorizeHeapSnapshotConstructorForOrigin(`Array`, `profile-jl`),
+      originSpecOf(`profile-jl`).categorizeHeapSnapshotConstructor(`Array`),
     ).toBeUndefined()
   })
 
@@ -64,7 +60,7 @@ describe(`heap snapshot constructor categorization`, () => {
     `%s categorizes JavaScriptCore's own classes`,
     origin => {
       expect(
-        categorizeHeapSnapshotConstructorForOrigin(`ModuleLoader`, origin),
+        originSpecOf(origin).categorizeHeapSnapshotConstructor(`ModuleLoader`),
       ).toBe(`native`)
     },
   )
@@ -73,7 +69,7 @@ describe(`heap snapshot constructor categorization`, () => {
     // Node's ESM loader defines a JavaScript class by the same name as
     // JavaScriptCore's native one, which is the program's own code.
     expect(
-      categorizeHeapSnapshotConstructorForOrigin(`ModuleLoader`, `node`),
+      originSpecOf(`node`).categorizeHeapSnapshotConstructor(`ModuleLoader`),
     ).toBeUndefined()
   })
 })

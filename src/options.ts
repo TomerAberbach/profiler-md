@@ -15,10 +15,7 @@ import type {
   AggregatedProfileEntry,
   EntryCategory,
 } from './modalities/registry.ts'
-import {
-  categorizeEntryForOrigin,
-  matchEntryForOrigin,
-} from './origins/index.ts'
+import { originSpecOf } from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
 import { normalizeSourceMaps, SourceMapResolver } from './source-map.ts'
 import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
@@ -373,7 +370,7 @@ export const DEFAULT_MIN_CATEGORY_SHARE = 0.01
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,
   { origin }: ProfileToMdContext,
-): EntryMatch | undefined => matchEntryForOrigin(entry, origin)
+): EntryMatch | undefined => originSpecOf(origin).matchEntry(entry)
 
 /**
  * The default {@link ProfileToMdOptions.categorizeFunctions}.
@@ -383,8 +380,10 @@ export const defaultMatchEntry = (
 export const defaultCategorizeFunctions = (
   entries: readonly DeepReadonly<ProfileEntry>[],
   { origin }: ProfileToMdContext,
-): FunctionCategory[] =>
-  entries.map(entry => categorizeEntryForOrigin(entry, origin))
+): FunctionCategory[] => {
+  const { categorizeEntry } = originSpecOf(origin)
+  return entries.map(entry => categorizeEntry(entry))
+}
 
 /**
  * The default {@link ProfileToMdOptions.showEntry}.

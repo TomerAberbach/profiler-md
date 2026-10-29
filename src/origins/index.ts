@@ -2,20 +2,9 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
-import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
-import type { Metric } from '../modalities/metric.ts'
-import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
-import type {
-  TraceEvent,
-  TraceEventCategory,
-} from '../modalities/trace/type.ts'
-import type {
-  EntryMatch,
-  FunctionCategory,
-  ProfileEntry,
-  ProfileToMdContext,
-} from '../options.ts'
-import type { NormalizedTraceEvent, OriginSpec } from './spec.ts'
+import type { TraceEventCategory } from '../modalities/trace/type.ts'
+import type { ProfileEntry } from '../options.ts'
+import type { OriginSpec } from './spec.ts'
 import { originSpecs } from './specs/index.ts'
 
 /**
@@ -28,43 +17,9 @@ import { originSpecs } from './specs/index.ts'
  */
 export type Origin = RegisteredOriginSpec[`id`]
 
-export const categorizeEntryForOrigin = (
-  entry: DeepReadonly<ProfileEntry>,
-  origin: Origin,
-): FunctionCategory => originToSpec.get(origin)!.categorizeEntry(entry)
-
-export const categorizeHeapSnapshotConstructorForOrigin = (
-  name: string,
-  origin: Origin,
-): HeapSnapshotNodeCategory | undefined => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.categorizeHeapSnapshotConstructor?.(name)
-}
-
-export const categorizeHeapSnapshotDeclaredTypeForOrigin = (
-  declaredType: string,
-  origin: Origin,
-): HeapSnapshotNodeCategory | undefined => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.categorizeHeapSnapshotDeclaredType?.(declaredType)
-}
-
-/** @see {@link OriginSpec.countMetric} */
-export const countMetricForOrigin = (
-  format: Format,
-  origin: Origin,
-): Metric | undefined => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.countMetric?.(format)
-}
-
-export const hasRuntimeInsertedArcsForOrigin = (
-  entry: DeepReadonly<ProfileEntry>,
-  origin: Origin,
-): boolean => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.hasRuntimeInsertedArcs?.(entry) ?? false
-}
+/** The spec of {@link origin}. */
+export const originSpecOf = (origin: Origin): ResolvedOriginSpec =>
+  originToSpec.get(origin)!
 
 /**
  * Whether two locations are one source under their origins' entry matches,
@@ -86,94 +41,8 @@ const originSourceKey = (
   location: DeepReadonly<SourceLocation>,
   origin: Origin,
 ): string =>
-  matchEntryForOrigin({ location }, origin)?.location ??
+  originSpecOf(origin).matchEntry({ location })?.location ??
   sourceReferenceId(location)
-
-export const matchEntryForOrigin = (
-  entry: DeepReadonly<ProfileEntry>,
-  origin: Origin,
-): EntryMatch | undefined => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.matchEntry?.(entry)
-}
-
-/** @see {@link OriginSpec.matchHeapSnapshotEdgeName} */
-export const matchHeapSnapshotEdgeNameForOrigin = (
-  name: string,
-  origin: Origin,
-): string => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.matchHeapSnapshotEdgeName?.(name) ?? name
-}
-
-export const functionIdentityForContext = ({
-  origin,
-}: ProfileToMdContext): FunctionIdentity => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.functionIdentity ?? `definition`
-}
-
-/** @see {@link OriginSpec.isTruncationMarker} */
-export const truncationMarkerForContext = ({
-  format,
-  origin,
-}: ProfileToMdContext): ((frame: StackFrame) => boolean) => {
-  const { isTruncationMarker }: OriginSpec = originToSpec.get(origin)!
-  return isTruncationMarker
-    ? frame => isTruncationMarker(frame, format)
-    : () => false
-}
-
-export const normalizeStackFrameForContext = (
-  frame: StackFrame,
-  { format, origin }: ProfileToMdContext,
-): StackFrame | null => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  const normalizedFrame = spec.normalizeStackFrame
-    ? spec.normalizeStackFrame(frame, format)
-    : frame
-  if (!normalizedFrame) {
-    return null
-  }
-
-  const nameIsLocation =
-    frame.name !== undefined &&
-    frame.definition?.type === `file` &&
-    frame.name === frame.definition.urlOrPath
-  if (nameIsLocation) {
-    // A frame named with its own location has no function name. Unrelated
-    // profilers independently converged on this idiom (e.g. Excimer, rbspy), so
-    // normalization drops the name for every origin and format. Only a file
-    // reference qualifies, because a function can share its logical reference's
-    // name, like a method named after its class or module.
-    return { ...normalizedFrame, name: undefined }
-  }
-
-  return normalizedFrame
-}
-
-/** @see {@link OriginSpec.categorizeTraceEvent} */
-export const categorizeTraceEventForOrigin = (
-  event: DeepReadonly<Pick<TraceEvent, `name` | `declaredCategories`>>,
-  origin: Origin,
-): TraceEventCategory => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.categorizeTraceEvent?.(event) ?? `other`
-}
-
-/**
- * The context's origin's {@link OriginSpec.normalizeTraceEvent} for its
- * format, or `undefined` when the origin leaves every event as it is.
- */
-export const traceEventNormalizerForContext = ({
-  format,
-  origin,
-}: ProfileToMdContext):
-  ((event: TraceEvent) => NormalizedTraceEvent) | undefined => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  const { normalizeTraceEvent } = spec
-  return normalizeTraceEvent && (event => normalizeTraceEvent(event, format))
-}
 
 /**
  * Determines the origin of an input from its entries.
@@ -186,8 +55,8 @@ export const traceEventNormalizerForContext = ({
  * An explicit origin skips detection.
  */
 export class OriginDetector {
-  readonly #candidates: readonly RegisteredOriginSpec[]
-  readonly #fallback: RegisteredOriginSpec
+  readonly #candidates: readonly ResolvedOriginSpec[]
+  readonly #fallback: ResolvedOriginSpec
   /**
    * Whether the fallback is unconditional: no candidate, or a single candidate
    * that is already the fallback (e.g. a single-runtime format), so no entry
@@ -206,7 +75,7 @@ export class OriginDetector {
     { id: format, fallbackOrigin }: { id: Format; fallbackOrigin: Origin },
     origin?: Origin,
   ) {
-    this.#fallback = originToSpec.get(fallbackOrigin)!
+    this.#fallback = originSpecOf(fallbackOrigin)
     if (origin !== undefined) {
       this.#candidates = []
       this.#fallbackDecided = true
@@ -355,18 +224,49 @@ export const origins: Origin[] = originSpecs
   .map(originSpec => originSpec.id)
   .sort()
 
-const originToSpec = new Map<Origin, RegisteredOriginSpec>(
-  originSpecs.map(originSpec => [originSpec.id, originSpec]),
-)
-
-export const originTitle = (origin: Origin): string => {
-  const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.title ?? origin
+/** An {@link OriginSpec} with every optional field set to its default. */
+export type ResolvedOriginSpec = Required<
+  Omit<OriginSpec, `id` | `categorizeTraceEvent` | `matchHeapSnapshotEdgeName`>
+> & {
+  id: Origin
+  categorizeTraceEvent: (
+    ...args: Parameters<NonNullable<OriginSpec[`categorizeTraceEvent`]>>
+  ) => TraceEventCategory
+  matchHeapSnapshotEdgeName: (
+    ...args: Parameters<NonNullable<OriginSpec[`matchHeapSnapshotEdgeName`]>>
+  ) => string
 }
 
-const makeFormatToOriginSpecs = (): Map<Format, RegisteredOriginSpec[]> => {
-  const index = new Map<Format, RegisteredOriginSpec[]>()
-  for (const originSpec of originSpecs) {
+const resolveOriginSpec = (
+  spec: OriginSpec & { id: Origin },
+): ResolvedOriginSpec => ({
+  ...spec,
+  title: spec.title ?? spec.id,
+  categorizeHeapSnapshotConstructor:
+    spec.categorizeHeapSnapshotConstructor ?? (() => undefined),
+  categorizeHeapSnapshotDeclaredType:
+    spec.categorizeHeapSnapshotDeclaredType ?? (() => undefined),
+  countMetric: spec.countMetric ?? (() => undefined),
+  hasRuntimeInsertedArcs: spec.hasRuntimeInsertedArcs ?? (() => false),
+  matchEntry: spec.matchEntry ?? (() => undefined),
+  normalizeStackFrame: spec.normalizeStackFrame ?? (frame => frame),
+  isTruncationMarker: spec.isTruncationMarker ?? (() => false),
+  functionIdentity: spec.functionIdentity ?? `definition`,
+  normalizeTraceEvent: spec.normalizeTraceEvent ?? (event => event),
+  categorizeTraceEvent: event => spec.categorizeTraceEvent?.(event) ?? `other`,
+  matchHeapSnapshotEdgeName: name =>
+    spec.matchHeapSnapshotEdgeName?.(name) ?? name,
+})
+
+const resolvedOriginSpecs = originSpecs.map(resolveOriginSpec)
+
+const originToSpec = new Map<Origin, ResolvedOriginSpec>(
+  resolvedOriginSpecs.map(originSpec => [originSpec.id, originSpec]),
+)
+
+const makeFormatToOriginSpecs = (): Map<Format, ResolvedOriginSpec[]> => {
+  const index = new Map<Format, ResolvedOriginSpec[]>()
+  for (const originSpec of resolvedOriginSpecs) {
     for (const format of originSpec.formats) {
       let candidates = index.get(format)
       if (!candidates) {

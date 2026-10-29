@@ -5,7 +5,7 @@ import type {
   FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
-import { hasRuntimeInsertedArcsForOrigin } from '../../origins/index.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
@@ -239,8 +239,9 @@ class FunctionsAggregator {
    */
   #cycleAnalysisArcs(): CallGraphFunction[`arcs`][] {
     const runtimeInserted = new Set<AggregatedCallGraphFunction>()
+    const { hasRuntimeInsertedArcs } = originSpecOf(this.#context.origin)
     for (const func of this.#keyToFunction.values()) {
-      if (hasRuntimeInsertedArcsForOrigin(func, this.#context.origin)) {
+      if (hasRuntimeInsertedArcs(func)) {
         runtimeInserted.add(func)
       }
     }

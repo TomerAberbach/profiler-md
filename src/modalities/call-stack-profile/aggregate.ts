@@ -5,7 +5,7 @@ import type {
   FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
-import { countMetricForOrigin } from '../../origins/index.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator, OtherSideInput } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
@@ -124,7 +124,7 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
       metrics,
       // The origin's answer overrides the format's, where the format's
       // origins disagree on what one count measures.
-      countMetricForOrigin(context.format, context.origin) ?? countMetric,
+      originSpecOf(context.origin).countMetric(context.format) ?? countMetric,
       functions,
       options,
       context,

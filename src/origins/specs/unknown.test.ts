@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { Format } from '../../formats/registry.ts'
 import type { ProfileEntry } from '../../options.ts'
-import { matchEntryForOrigin } from '../index.ts'
+import { originSpecOf } from '../index.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { unknownOriginSpec } from './unknown.ts'
 
@@ -88,9 +88,8 @@ describe(`matchEntry`, () => {
     // The unknown origin carries no profiler's rules (see
     // `unknownOriginSpec`), so no entry gets an entry match.
     expect(
-      matchEntryForOrigin(
+      originSpecOf(`unknown`).matchEntry(
         absoluteEntry(`main`, `file:///project/src/main.rs`),
-        `unknown`,
       ),
     ).toBeUndefined()
   })

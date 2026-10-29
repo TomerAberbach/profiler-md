@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
-import { matchEntryForOrigin } from '../index.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 
@@ -73,14 +72,15 @@ describe(`categorizeEntry`, () => {
 })
 
 describe(`matchEntry`, () => {
+  const { matchEntry } = pprofRsOriginSpec
+
   test(`strips a registry crate's version`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         absoluteEntry(
           `serde_json::de::from_str`,
           `file:///home/alice/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.140/src/de.rs`,
         ),
-        `pprof-rs`,
       ),
     ).toStrictEqual({
       location: `file:///home/alice/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json/src/de.rs`,
@@ -89,12 +89,11 @@ describe(`matchEntry`, () => {
 
   test(`strips a Cargo build-script hash`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         absoluteEntry(
           `parse`,
           `file:///app/target/release/build/web-compiler-${`a`.repeat(16)}/out/parser.rs`,
         ),
-        `pprof-rs`,
       ),
     ).toStrictEqual({
       location: `file:///app/target/release/build/web-compiler/out/parser.rs`,
@@ -103,12 +102,11 @@ describe(`matchEntry`, () => {
 
   test(`strips a rustc commit hash`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         absoluteEntry(
           `rt`,
           `file:///rustc/${`a`.repeat(40)}/library/std/src/rt.rs`,
         ),
-        `pprof-rs`,
       ),
     ).toStrictEqual({ location: `file:///rustc/library/std/src/rt.rs` })
   })

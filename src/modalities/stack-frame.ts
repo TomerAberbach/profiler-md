@@ -13,11 +13,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../options.ts'
-import {
-  functionIdentityForContext,
-  normalizeStackFrameForContext,
-  truncationMarkerForContext,
-} from '../origins/index.ts'
+import { originSpecOf } from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
 /**
@@ -157,14 +153,36 @@ export class StackFrameTable {
   }
 
   #normalize(context: ProfileToMdContext): StackFrameFunctionTable {
-    const isTruncationMarker = truncationMarkerForContext(context)
+    const { functionIdentity, isTruncationMarker, normalizeStackFrame } =
+      originSpecOf(context.origin)
     return new StackFrameFunctionTable(
-      this.#frames.map(frame => normalizeStackFrameForContext(frame, context)),
-      functionIdentityForContext(context),
-      index => isTruncationMarker(this.#frames[index]!),
+      this.#frames.map(frame =>
+        dropLocationName(frame, normalizeStackFrame(frame, context.format)),
+      ),
+      functionIdentity,
+      index => isTruncationMarker(this.#frames[index]!, context.format),
     )
   }
 }
+
+/**
+ * Drops the name of {@link normalized} when {@link frame}, the frame before
+ * normalization, is named with its own file reference, because such a frame
+ * has no function name. Unrelated profilers independently converged on this
+ * idiom (e.g. Excimer, rbspy), so it applies to every origin and format. Only a
+ * file reference qualifies, because a function can share its logical
+ * reference's name, like a method named after its class or module.
+ */
+const dropLocationName = (
+  frame: StackFrame,
+  normalized: StackFrame | null,
+): StackFrame | null =>
+  normalized &&
+  frame.name !== undefined &&
+  frame.definition?.type === `file` &&
+  frame.name === frame.definition.urlOrPath
+    ? { ...normalized, name: undefined }
+    : normalized
 
 /**
  * An input's distinct frames normalized by the resolved origin, resolving a

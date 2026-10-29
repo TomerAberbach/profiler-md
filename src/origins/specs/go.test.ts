@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, test } from 'vitest'
-import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { GO_STDLIB_PACKAGES, goOriginSpec } from './go.ts'
 
@@ -236,6 +235,8 @@ describe(`GO_STDLIB_PACKAGES`, () => {
 })
 
 describe(`matchEntry`, () => {
+  const { matchEntry } = goOriginSpec
+
   test.each([
     [
       `the module cache`,
@@ -249,21 +250,19 @@ describe(`matchEntry`, () => {
     ],
   ])(`strips a module's version from %s`, (_description, path, expected) => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         relativeEntry(`github.com/spf13/cobra.(*Command).Execute`, path),
-        `go`,
       ),
     ).toStrictEqual({ location: expected })
   })
 
   test(`leaves a standard library source unchanged`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         relativeEntry(
           `encoding/json.Unmarshal`,
           `/usr/local/go/src/encoding/json/decode.go`,
         ),
-        `go`,
       ),
     ).toBeUndefined()
   })
