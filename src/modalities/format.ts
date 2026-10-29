@@ -204,10 +204,23 @@ type DiffEntityCategories<Entity> = {
   categoryOf: (entity: Entity) => EntryCategory
 }
 
-type DiffEntityRankings<Entity> = {
+/**
+ * A diff's ranking of entities by one measure: the entities whose value
+ * increased and decreased the most, overall and within each category.
+ */
+export type DiffEntityRanking<Entity> = {
   increases: ActiveDiffEntity<Entity>[]
   decreases: ActiveDiffEntity<Entity>[]
   categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
+
+  /** The least share a category accounts for to get its own ranking. */
+  minCategoryShare: number
+
+  /**
+   * Whether any ranked entity has a value on either side, changed or not.
+   * Only entities the entry filter shows are ranked.
+   */
+  hasActive: boolean
 }
 
 /** A diffed entity paired with its base and current values for one measure. */
@@ -218,7 +231,7 @@ export type ActiveDiffEntity<Entity> = {
 }
 
 /** One category's own increases and decreases within a diff ranking. */
-export type DiffCategoryRanking<Item> = {
+type DiffCategoryRanking<Item> = {
   category: EntryCategory
   increases: Item[]
   decreases: Item[]
@@ -236,16 +249,13 @@ export const selectDiffEntities = <
   sides: DiffSides,
   options: FormattingProfileToMdOptions,
   categories?: DiffEntityCategories<Entity>,
-): DiffEntityRankings<Entity> & { hasActive: boolean } => {
+): DiffEntityRanking<Entity> => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) &&
       showDiffEntity(entity, sides, options.showEntry),
   )
-  return {
-    hasActive: active.length > 0,
-    ...rankDiffEntities(active, options.topN, categories),
-  }
+  return rankDiffEntities(active, options, categories)
 }
 
 /** Whether {@link showEntry} shows a diffed entity's entry on either side. */
@@ -260,18 +270,22 @@ export const showDiffEntity = <
   (current !== undefined && showEntry(current, sides.current.context))
 
 /**
- * Selects the {@link topN} entities whose measure increased and decreased the
- * most from {@link entities}. {@link diffRankings} states which of the two a
- * metric counts as a regression.
+ * Selects the top N entities whose measure increased and decreased the most
+ * from {@link entities}, which have a value on either side.
+ * {@link diffRankings} states which of the two a metric counts as a
+ * regression.
  *
  * {@link categories} additionally selects the top of each category, ranked the
  * same way among that category's own entities.
  */
 export const rankDiffEntities = <Entity>(
   entities: ActiveDiffEntity<Entity>[],
-  topN: number,
+  {
+    topN,
+    minCategoryShare,
+  }: Pick<FormattingProfileToMdOptions, `topN` | `minCategoryShare`>,
   categories?: DiffEntityCategories<Entity>,
-): DiffEntityRankings<Entity> => {
+): DiffEntityRanking<Entity> => {
   const increased = entities.filter(
     ({ baseValue, currentValue }) => currentValue > baseValue,
   )
@@ -303,6 +317,8 @@ export const rankDiffEntities = <Entity>(
         decreases: topDecreases(decreased.filter(inCategory)),
       }
     }),
+    minCategoryShare,
+    hasActive: entities.length > 0,
   }
 }
 
@@ -322,9 +338,9 @@ export const selectLargestChanges = <Item>(
   )
 
 /**
- * The increase and decrease subsections for the entities' values of one
- * measure, each a table and its category subsections, as
- * {@link formatDiffPartitionSections} lays them out.
+ * The increase and decrease subsections of {@link ranking}, each a table and
+ * its category subsections, as {@link formatDiffPartitionSections} lays them
+ * out.
  */
 export const formatDiffMeasureSections = <Entity, Row>({
   headingLevel,
@@ -332,55 +348,52 @@ export const formatDiffMeasureSections = <Entity, Row>({
   description,
   improvement,
   columns,
-  hasActive,
-  increases,
-  decreases,
-  categoryRankings = [],
+  ranking,
   selfValueNoun,
-  minCategoryShare,
   rowOf,
-  detailSections = [],
+  formatDetailSections,
   entities,
-}: {
-  headingLevel: number
-  title: string
-  description: string
-  improvement: MetricImprovement
-  columns: Table<Row>
-  hasActive: boolean
-  increases: Entity[]
-  decreases: Entity[]
-  categoryRankings?: DiffCategoryRanking<Entity>[]
-
-  /** The self value a category's share is of, e.g. "self samples". */
-  selfValueNoun: string
-  minCategoryShare: number
-  rowOf: (entity: Entity) => Diff<Row>
-  detailSections?: RootContent[]
-
-  /** The noun for the ranked entities. */
-  entities: EntityNoun
-}): RootContent[] =>
+}: DiffMeasureSectionsArgs<Entity, Row>): RootContent[] =>
   formatDiffPartitionSections({
     headingLevel,
     title,
     improvement,
-    hasActive,
+    hasActive: ranking.hasActive,
     unchangedSentence: unchangedDiffSentence(entities.singular, description),
-    detailSections,
+    detailSections:
+      formatDetailSections?.(shownDiffEntities(improvement, ranking)) ?? [],
     formatPartition: ({ change, title: subtitle }) =>
       formatDiffRankingSections({
         headingLevel: headingLevel + 1,
         subtitle,
         sentence: diffRankingSentence(entities.plural, change, description),
         columns,
-        ...changedEntities(change, { increases, decreases }),
-        categoryRankings,
+        ...changedEntities(change, ranking),
+        categoryRankings: ranking.categoryRankings,
         selfValueNoun,
-        minCategoryShare,
-        rowOf,
+        minCategoryShare: ranking.minCategoryShare,
+        rowOf: ({ entity }) => rowOf(entity),
       }),
   })
+
+export type DiffMeasureSectionsArgs<Entity, Row> = {
+  headingLevel: number
+  title: string
+  description: string
+  improvement: MetricImprovement
+  columns: Table<Row>
+  ranking: DiffEntityRanking<Entity>
+
+  /** The self value a category's share is of, e.g. "self samples". */
+  selfValueNoun: string
+  rowOf: (entity: Entity) => Diff<Row>
+
+  /** The sections breaking down the distinct entities the rankings show. */
+  formatDetailSections?: (shownEntities: Entity[]) => RootContent[]
+
+  /** The noun for the ranked entities. */
+  entities: EntityNoun
+}
 
 /**
  * The partitions {@link formatPartition} formats for each of a measure's
@@ -545,27 +558,19 @@ export const isRepeatedByCategory = <Entity>(
  * The distinct entities a diff's rankings show, in the order they first
  * appear.
  */
-export const shownDiffEntities = <Entity>({
-  improvement,
-  increases,
-  decreases,
-  categoryRankings = [],
-}: {
-  improvement: MetricImprovement
-  increases: Entity[]
-  decreases: Entity[]
-  categoryRankings?: DiffCategoryRanking<Entity>[]
-}): Entity[] => [
-  ...new Set(
-    diffRankings(improvement).flatMap(({ change }) => {
-      const { entities, entitiesOf } = changedEntities(change, {
-        increases,
-        decreases,
-      })
-      return [...entities, ...categoryRankings.flatMap(entitiesOf)]
-    }),
-  ),
-]
+const shownDiffEntities = <Entity>(
+  improvement: MetricImprovement,
+  ranking: DiffEntityRanking<Entity>,
+): Entity[] =>
+  Array.from(
+    new Set(
+      diffRankings(improvement).flatMap(({ change }) => {
+        const { entities, entitiesOf } = changedEntities(change, ranking)
+        return [...entities, ...ranking.categoryRankings.flatMap(entitiesOf)]
+      }),
+    ),
+    ({ entity }) => entity,
+  )
 
 /** One of a diff's two rankings: the change it ranks, and its heading. */
 export type DiffRanking = {

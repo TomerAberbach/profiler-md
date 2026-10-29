@@ -1045,12 +1045,12 @@ const formatDiffCallStacks = ({
 
   const { metric } = measure
   const verbPhrase = metric.phrases.pastParticipleVerbPhrase
-  const changes = rankDiffEntities(active, options.topN)
+  const changes = rankDiffEntities(active, options)
   return formatDiffPartitionSections({
     headingLevel,
     title: `Hottest call stacks`,
     improvement: metric.improvement,
-    hasActive: active.length > 0,
+    hasActive: changes.hasActive,
     unchangedSentence: unchangedDiffSentence(
       `call stack`,
       `${verbPhrase} in its leaf frame`,

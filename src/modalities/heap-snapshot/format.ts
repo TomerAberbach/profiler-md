@@ -26,7 +26,7 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
-import type { Diff, EntryDiff } from '../diff.ts'
+import type { EntryDiff } from '../diff.ts'
 import {
   formatBaseURLNote,
   formatDiffMeasureSections,
@@ -35,9 +35,8 @@ import {
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
-  shownDiffEntities,
 } from '../format.ts'
-import type { DiffCategoryRanking } from '../format.ts'
+import type { DiffMeasureSectionsArgs } from '../format.ts'
 import { BYTES_METRIC } from '../metrics.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
@@ -886,17 +885,16 @@ const formatDiffSizeConstructors = ({
   size: ConstructorSize
 }): RootContent[] => {
   const { sizeOf, prose } = size
-  const { increases, decreases, hasActive, categoryRankings } =
-    selectDiffEntities(
-      diff.constructors.map(entity => ({
-        entity,
-        baseValue: entity.base ? sizeOf(entity.base) : 0,
-        currentValue: entity.current ? sizeOf(entity.current) : 0,
-      })),
-      diff,
-      options,
-      { categories, categoryOf: entity => entity.category },
-    )
+  const ranking = selectDiffEntities(
+    diff.constructors.map(entity => ({
+      entity,
+      baseValue: entity.base ? sizeOf(entity.base) : 0,
+      currentValue: entity.current ? sizeOf(entity.current) : 0,
+    })),
+    diff,
+    options,
+    { categories, categoryOf: entity => entity.category },
+  )
 
   const sideRowOf = (total: number, entity?: DiffedHeapSnapshotEntity) =>
     entity && {
@@ -910,36 +908,26 @@ const formatDiffSizeConstructors = ({
     current: sideRowOf(diff.current.heldSize, current),
   })
 
-  const instanceSections = shownDiffEntities({
-    improvement: BYTES_METRIC.improvement,
-    increases,
-    decreases,
-    categoryRankings,
-  }).flatMap(({ entity }) =>
-    formatDiffConstructorInstances({
-      constructor: entity,
-      groupDiffs: instanceGroupDiffs(entity),
-      paths,
-      sizeOf,
-      shownPaths,
-      hasLocation,
-      options,
-    }),
-  )
-
   return formatDiffEntitySections({
     prose,
     columns: constructorColumns(hasLocation, options),
-    hasActive,
-    increases,
-    decreases,
-    categoryRankings,
-    minCategoryShare: options.minCategoryShare,
-    rowOf: ({ entity }) => rowOf(entity),
-    detailSections: formatSectionGroup(
-      retainerPathsHeader(size, `with the largest change in`),
-      instanceSections,
-    ),
+    ranking,
+    rowOf,
+    formatDetailSections: constructors =>
+      formatSectionGroup(
+        retainerPathsHeader(size, `with the largest change in`),
+        constructors.flatMap(constructor =>
+          formatDiffConstructorInstances({
+            constructor,
+            groupDiffs: instanceGroupDiffs(constructor),
+            paths,
+            sizeOf,
+            shownPaths,
+            hasLocation,
+            options,
+          }),
+        ),
+      ),
   })
 }
 
@@ -990,7 +978,7 @@ const formatDiffFunctions = ({
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { increases, decreases, hasActive } = selectDiffEntities(
+  const ranking = selectDiffEntities(
     diff.functions.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -1008,40 +996,34 @@ const formatDiffFunctions = ({
     current: current && functionRowOf(current, diff.current, shownPaths),
   })
 
-  const retained = shownPaths.record(() =>
-    shownDiffEntities({
-      improvement: BYTES_METRIC.improvement,
-      increases,
-      decreases,
-    }).flatMap(({ entity }) =>
-      formatDiffFunctionRetainedNodes({
-        diff,
-        fn: entity,
-        retainerPaths,
-        shownPaths,
-        hasLocation,
-        options,
-      }),
-    ),
-  )
-
   return formatDiffEntitySections({
     prose: FUNCTIONS_PROSE,
     columns: functionColumns(hasLocation, options),
-    hasActive,
-    increases,
-    decreases,
-    minCategoryShare: options.minCategoryShare,
-    rowOf: ({ entity }) => rowOf(entity),
-    detailSections: formatSectionGroup(
-      retainedNodesHeader(
-        `with the largest change in`,
-        retained.edgeTypes.has(`any-element`)
-          ? phrasing` ${inlineCode(`[]`)} stands for any element of an array.`
-          : [],
-      ),
-      retained.result,
-    ),
+    ranking,
+    rowOf,
+    formatDetailSections: functions => {
+      const retained = shownPaths.record(() =>
+        functions.flatMap(fn =>
+          formatDiffFunctionRetainedNodes({
+            diff,
+            fn,
+            retainerPaths,
+            shownPaths,
+            hasLocation,
+            options,
+          }),
+        ),
+      )
+      return formatSectionGroup(
+        retainedNodesHeader(
+          `with the largest change in`,
+          retained.edgeTypes.has(`any-element`)
+            ? phrasing` ${inlineCode(`[]`)} stands for any element of an array.`
+            : [],
+        ),
+        retained.result,
+      )
+    },
   })
 }
 
@@ -1179,17 +1161,16 @@ const formatDiffStrings = ({
     minCategoryShare: options.minCategoryShare,
   })
 
-  const { increases, decreases, hasActive, categoryRankings } =
-    selectDiffEntities(
-      diff.strings.map(entity => ({
-        entity,
-        baseValue: entity.base ? entity.base.selfSize : 0,
-        currentValue: entity.current ? entity.current.selfSize : 0,
-      })),
-      diff,
-      options,
-      { categories, categoryOf },
-    )
+  const ranking = selectDiffEntities(
+    diff.strings.map(entity => ({
+      entity,
+      baseValue: entity.base ? entity.base.selfSize : 0,
+      currentValue: entity.current ? entity.current.selfSize : 0,
+    })),
+    diff,
+    options,
+    { categories, categoryOf },
+  )
 
   const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
     base: base && nodeRowOf(base, diff.base, shownPaths),
@@ -1200,12 +1181,8 @@ const formatDiffStrings = ({
     prose: STRINGS_PROSE,
     // Diffed strings are matched by value, so they always have a value.
     columns: stringColumns(true),
-    hasActive,
-    increases,
-    decreases,
-    categoryRankings,
-    minCategoryShare: options.minCategoryShare,
-    rowOf: ({ entity }) => rowOf(entity),
+    ranking,
+    rowOf,
   })
 }
 
@@ -1229,18 +1206,10 @@ const nodeRowOf = (
 const formatDiffEntitySections = <Entity, Row>({
   prose,
   ...args
-}: {
-  prose: RankingProse
-  columns: Table<Row>
-  hasActive: boolean
-  increases: Entity[]
-  decreases: Entity[]
-  categoryRankings?: DiffCategoryRanking<Entity>[]
-  minCategoryShare: number
-  rowOf: (entity: Entity) => Diff<Row>
-  /** The sections breaking down the entities the rankings show. */
-  detailSections?: RootContent[]
-}): RootContent[] =>
+}: { prose: RankingProse } & Pick<
+  DiffMeasureSectionsArgs<Entity, Row>,
+  `columns` | `ranking` | `rowOf` | `formatDetailSections`
+>): RootContent[] =>
   formatDiffMeasureSections({
     ...args,
     headingLevel: prose.headingLevel,

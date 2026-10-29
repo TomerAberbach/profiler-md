@@ -31,7 +31,6 @@ import {
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
-  shownDiffEntities,
 } from '../format.ts'
 import type { EntityNoun } from '../format.ts'
 import { formatProseValue } from '../measure.ts'
@@ -1231,20 +1230,19 @@ const formatDiffSpanMeasure = ({
   const { base, current, spans } = diff
   const valueOf = (span: AggregatedTraceSpan | undefined): number =>
     span === undefined ? 0 : measure.valueOf(span)
-  const { increases, decreases, hasActive, categoryRankings } =
-    selectDiffEntities(
-      spans.filter(measure.population.includes).map(span => ({
-        entity: span,
-        baseValue: valueOf(span.base),
-        currentValue: valueOf(span.current),
-      })),
-      diff,
-      options,
-      {
-        categories: measure.population.hasThreadTime ? categories : [],
-        categoryOf: span => span.category,
-      },
-    )
+  const ranking = selectDiffEntities(
+    spans.filter(measure.population.includes).map(span => ({
+      entity: span,
+      baseValue: valueOf(span.base),
+      currentValue: valueOf(span.current),
+    })),
+    diff,
+    options,
+    {
+      categories: measure.population.hasThreadTime ? categories : [],
+      categoryOf: span => span.category,
+    },
+  )
 
   const baseTotal = spanTotalOf(measure, base)
   const currentTotal = spanTotalOf(measure, current)
@@ -1255,29 +1253,20 @@ const formatDiffSpanMeasure = ({
     description: measure.description,
     improvement: `decrease`,
     columns: spanColumns(measure, base, current),
-    hasActive,
-    increases,
-    decreases,
-    categoryRankings,
+    ranking,
     selfValueNoun: `self time`,
-    minCategoryShare: options.minCategoryShare,
-    rowOf: ({ entity }) => ({
-      base: entity.base && spanRowOf(entity.base, measure, baseTotal),
-      current:
-        entity.current && spanRowOf(entity.current, measure, currentTotal),
+    rowOf: span => ({
+      base: span.base && spanRowOf(span.base, measure, baseTotal),
+      current: span.current && spanRowOf(span.current, measure, currentTotal),
     }),
-    detailSections: formatDiffSpanBreakdowns({
-      spans: shownDiffEntities({
-        improvement: `decrease`,
-        increases,
-        decreases,
-        categoryRankings,
-      }).map(({ entity }) => entity),
-      measure,
-      indexes,
-      options,
-      headingLevel: headingLevel + 1,
-    }),
+    formatDetailSections: shownSpans =>
+      formatDiffSpanBreakdowns({
+        spans: shownSpans,
+        measure,
+        indexes,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
   })
 }
 
@@ -1637,25 +1626,18 @@ const formatDiffInstants = (
     categoryOf: instant => instant.category,
     minCategoryShare: options.minCategoryShare,
   })
-  const { increases, decreases, hasActive, categoryRankings } =
-    selectDiffEntities(
-      instants.map(instant => ({
-        entity: instant,
-        baseValue: instant.base?.count ?? 0,
-        currentValue: instant.current?.count ?? 0,
-      })),
-      diff,
-      options,
-      { categories, categoryOf: instant => instant.category },
-    )
+  const ranking = selectDiffEntities(
+    instants.map(instant => ({
+      entity: instant,
+      baseValue: instant.base?.count ?? 0,
+      currentValue: instant.current?.count ?? 0,
+    })),
+    diff,
+    options,
+    { categories, categoryOf: instant => instant.category },
+  )
   const baseTotal = totalCount(base.instants)
   const currentTotal = totalCount(current.instants)
-  const shown = shownDiffEntities({
-    improvement: `decrease`,
-    increases,
-    decreases,
-    categoryRankings,
-  }).map(({ entity }) => entity)
 
   return formatSectionGroup(
     [heading(headingLevel, `Most frequent instants`)],
@@ -1666,17 +1648,13 @@ const formatDiffInstants = (
       description: COUNT_DESCRIPTION,
       improvement: `decrease`,
       columns: INSTANT_COLUMNS,
-      hasActive,
-      increases,
-      decreases,
-      categoryRankings,
+      ranking,
       selfValueNoun: `instants`,
-      minCategoryShare: options.minCategoryShare,
-      rowOf: ({ entity }) => ({
-        base: entity.base && instantRowOf(entity.base, baseTotal),
-        current: entity.current && instantRowOf(entity.current, currentTotal),
+      rowOf: instant => ({
+        base: instant.base && instantRowOf(instant.base, baseTotal),
+        current: instant.current && instantRowOf(instant.current, currentTotal),
       }),
-      detailSections: [
+      formatDetailSections: shown => [
         ...formatDiffAttributeSections({
           events: shown,
           share: INSTANT_SHARE,
