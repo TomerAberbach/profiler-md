@@ -60,7 +60,7 @@ $ARGUMENTS
      - `aggregator(parsed, reader)` passes every lazily consumed iterable of the
        parsed input through `reader`, so the pipeline counts its records
      - When the entities are functions, spread `functionEntities<Func>()` from
-       `src/modalities/function-entities.ts`
+       `src/modalities/function/`
      - Annotate `entries` to return the entry type when the entries it returns
        are a narrower type
    - `index.ts` barrel, `testing.ts` for modality-specific test utilities

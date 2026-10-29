@@ -4,10 +4,10 @@ import {
   formatPercent,
 } from '../../../helpers/format.ts'
 import { formatSourceLocationDiff } from '../../../location.ts'
+import type { Measure } from '../../function/index.ts'
 import { formatProseValueArrow } from '../../measure.ts'
 import type { AggregatedCallStackProfileFunction } from '../aggregate.ts'
 import { shareOf, sideSelfValueOf } from '../measure.ts'
-import type { Measure } from '../measure.ts'
 import {
   frameLocation,
   newShownFrameNotation,

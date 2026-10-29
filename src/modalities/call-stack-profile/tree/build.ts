@@ -1,6 +1,6 @@
+import type { Measure } from '../../function/index.ts'
 import type { AggregatedCallStackProfileFunction } from '../aggregate.ts'
 import { shareOf } from '../measure.ts'
-import type { Measure } from '../measure.ts'
 import { OMITTED_FRAMES_NAME, TRUNCATED_FRAMES_NAME } from '../table.ts'
 import {
   isCallTreeNode,

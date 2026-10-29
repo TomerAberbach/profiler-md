@@ -1,4 +1,6 @@
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import { metricDiffMeasure, metricMeasure } from '../function/index.ts'
+import type { DiffMeasure, Measure, MeasureColumns } from '../function/index.ts'
 import type { Metric } from '../metric.ts'
 import type { AggregatedCallStackProfile } from './aggregate.ts'
 import type { AggregatedCallStackProfileDiff } from './diff.ts'
@@ -9,34 +11,6 @@ export const NEGLIGIBLE_SHARE = 0.005
 export const firstMeasureWithValue = (
   measures: readonly Measure[],
 ): Measure | undefined => measures.find(({ total }) => total > 0)
-
-/**
- * What a profile section ranks, percentages, and tabulates by, resolved
- * against one profile so reading a value or the total needs no metric-index
- * bookkeeping.
- */
-export type Measure = MeasureColumns & {
-  /** The value an entity contributes: its metric value, or its count. */
-  valueOf: (values: Float64Array, count: number) => number
-
-  /** The profile-wide total. */
-  total: number
-}
-
-/**
- * What a measure's table columns are built from: what the measure ranks by, and
- * what the profile it was resolved against counts.
- */
-export type MeasureColumns = {
-  /** Whether this measure uses the profile's count or one of its metric values. */
-  type: `count` | `metric`
-
-  /** The metric this measure's values are in. */
-  metric: Metric
-
-  /** @see {@link AggregatedCallStackProfile.countMetric} */
-  countMetric: Metric | null
-}
 
 /**
  * The {@link Measure}s for a profile: one per metric, or a single count measure
@@ -62,12 +36,6 @@ export const measuresOf = (profile: AggregatedCallStackProfile): Measure[] => {
   return [countMeasure(countMetric, profile)]
 }
 
-/** A measure resolved against each side of a diff. */
-export type DiffMeasure = MeasureColumns & {
-  base: Measure
-  current: Measure
-}
-
 /** The diffing counterpart to {@link measuresOf}. */
 export const diffMeasuresOf = ({
   base,
@@ -76,13 +44,9 @@ export const diffMeasuresOf = ({
   countMetric,
 }: AggregatedCallStackProfileDiff): DiffMeasure[] => {
   if (metrics.length > 0) {
-    return metrics.map(({ metric, baseIndex, currentIndex }) => ({
-      type: `metric` as const,
-      metric,
-      countMetric,
-      base: metricMeasure(metric, baseIndex, base),
-      current: metricMeasure(metric, currentIndex, current),
-    }))
+    return metrics.map(metric =>
+      metricDiffMeasure(metric, base, current, countMetric),
+    )
   }
 
   if (!countMetric) {
@@ -99,18 +63,6 @@ export const diffMeasuresOf = ({
     },
   ]
 }
-
-const metricMeasure = (
-  metric: Metric,
-  index: number,
-  profile: AggregatedCallStackProfile,
-): Measure => ({
-  type: `metric`,
-  metric,
-  countMetric: profile.countMetric,
-  valueOf: values => values[index]!,
-  total: profile.totalValues[index]!,
-})
 
 const countMeasure = (
   countMetric: Metric,

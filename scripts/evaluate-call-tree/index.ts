@@ -43,7 +43,6 @@ import {
   selfRankedFunctions,
   selfValueOf,
 } from '../../src/modalities/call-stack-profile/measure.ts'
-import type { Measure } from '../../src/modalities/call-stack-profile/measure.ts'
 import {
   calleesOf,
   drawCallTree,
@@ -53,6 +52,7 @@ import type {
   CallTree,
   CallTreeRoot,
 } from '../../src/modalities/call-stack-profile/tree/index.ts'
+import type { Measure } from '../../src/modalities/function/index.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import { formatTable, ratio } from '../helpers/table.ts'

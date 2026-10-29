@@ -55,6 +55,8 @@ import {
   unchangedDiffSentence,
 } from '../format.ts'
 import type { ActiveDiffEntity } from '../format.ts'
+import { isZeroDiffTotal, isZeroTotal } from '../function/index.ts'
+import type { DiffMeasure, Measure } from '../function/index.ts'
 import {
   formatProseValue,
   formatProseValueArrow,
@@ -84,7 +86,6 @@ import {
   totalValueOf,
   zeroTotalScope,
 } from './measure.ts'
-import type { DiffMeasure, Measure } from './measure.ts'
 import {
   callStackColumns,
   categoryColumns,
@@ -199,8 +200,6 @@ export const memoizeShowEntry = (
       shownById[entry.id] ?? showEntry(entry, context),
   }
 }
-
-const isZeroTotal = (measure: Measure): boolean => measure.total === 0
 
 const formatOverallSummary = (
   profile: AggregatedCallStackProfile,
@@ -932,9 +931,6 @@ export const formatCallStackProfileDiff = (
     ...sections,
   ]
 }
-
-const isZeroDiffTotal = (measure: DiffMeasure): boolean =>
-  measure.base.total === 0 && measure.current.total === 0
 
 /**
  * A call stack merged on each side by its shown frames and paired across the
