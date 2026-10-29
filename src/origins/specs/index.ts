@@ -35,9 +35,7 @@ import { valgrindOriginSpec } from './valgrind.ts'
  * Within a format, the detector tries candidates in this order, so origins that
  * share a format and whose marker entries overlap must be ordered carefully
  * (e.g. Deno before Node, since Deno supports `node:` specifiers). A parser
- * origin hint loses to a marker entry of a higher-priority origin, so a
- * markerless origin detected by a hint must also precede the origins whose
- * markers it should outrank.
+ * origin hint outranks every marker entry, so the order ranks only markers.
  */
 export const originSpecs = [
   denoOriginSpec,
@@ -51,9 +49,6 @@ export const originSpecs = [
   goOriginSpec,
   pprofJlOriginSpec,
   profileJlOriginSpec,
-  // Before py-spy, whose marker accepts any CPython install-layout location
-  // that pyinstrument's speedscope frames also have. Otherwise pyinstrument's
-  // origin hint would lose to that marker.
   pyinstrumentOriginSpec,
   pySpyOriginSpec,
   tachyonOriginSpec,
@@ -62,19 +57,16 @@ export const originSpecs = [
   dotnetTraceOriginSpec,
   eflambeOriginSpec,
   nixOriginSpec,
-  // Before rbspy: a Valgrind-written callgrind file is identified only by its
-  // `creator:` origin hint, which a native symbol shaped like an rbspy frame
-  // would otherwise outrank.
-  valgrindOriginSpec,
   rbspyOriginSpec,
   safariOriginSpec,
   systingOriginSpec,
+  excimerOriginSpec,
   // Markerless origins, reachable only by format fallback, a parser origin
-  // hint, or an explicit origin; their position has no effect.
+  // hint, or an explicit origin, so their position has no effect.
   gperftoolsOriginSpec,
   clangOriginSpec,
   tscOriginSpec,
-  excimerOriginSpec,
+  valgrindOriginSpec,
   memrayOriginSpec,
   ghcOriginSpec,
   simpleperfOriginSpec,

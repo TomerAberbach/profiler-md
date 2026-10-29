@@ -54,9 +54,9 @@ export type OriginSpec = {
    * When no entry is an origin-level marker but the format's own metadata
    * identifies the writer (a recorder's event-type definitions, a
    * self-identification field), the format's parser sets a
-   * `CallStackProfile.originHint` instead, which detection treats like a marker entry
-   * of that origin. Converting the input to another format drops the hint, so
-   * it supplements markers rather than replacing them.
+   * `CallStackProfile.originHint` instead, which outranks every marker entry.
+   * Converting the input to another format drops the hint, so it supplements
+   * markers rather than replacing them.
    *
    * Used only for origin auto-detection (skipped when the user specifies an
    * origin), so be strict to avoid false positives.

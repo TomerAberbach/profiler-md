@@ -89,15 +89,30 @@ describe(`origin hints`, () => {
     expect(detector.resolve()).toBe(`go`)
   })
 
-  test(`a higher-priority origin's marker entry overrides the hint`, () => {
-    const detector = new OriginDetector({ format: `pprof`, origin: null })
-    detector.hint(`gperftools`)
-    detector.add({
-      name: `runtime.main`,
-      location: { type: `relative`, path: `/usr/lib/go/src/runtime/proc.go` },
-    })
-    expect(detector.resolve()).toBe(`go`)
-  })
+  test.each([`hint first`, `marker entry first`])(
+    `a hint outranks a marker entry of a higher-priority origin, $0`,
+    order => {
+      const detector = new OriginDetector({ format: `pprof`, origin: null })
+      const addRustEntry = () =>
+        detector.add({
+          name: `core::ptr::drop_in_place`,
+          location: {
+            type: `relative`,
+            path: `/rustc/90b35a6239c3d8bdabc530a6a0816f7ff89a0aaf/library/core/src/ptr/mod.rs`,
+          },
+        })
+
+      if (order === `marker entry first`) {
+        addRustEntry()
+        detector.hint(`gperftools`)
+      } else {
+        detector.hint(`gperftools`)
+        addRustEntry()
+      }
+
+      expect(detector.resolve()).toBe(`gperftools`)
+    },
+  )
 
   test(`an origin that can't emit the format is ignored`, () => {
     const detector = new OriginDetector({ format: `pprof`, origin: null })
