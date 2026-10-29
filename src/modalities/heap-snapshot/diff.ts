@@ -32,7 +32,6 @@ import {
   formatRetainerEdge,
   formatRetainerEdgeLabel,
   formatRetainerLabel,
-  keepsRetainerStep,
   nodeKey,
   shownRetainedNodes,
 } from './aggregate.ts'
@@ -291,7 +290,7 @@ const mergeFunctions = (
     options,
     toDiffed: func => ({
       type: `node`,
-      id: func.largestInstanceOrdinal,
+      id: func.id,
       name: func.name,
       location: func.location,
       category: func.category,
@@ -402,15 +401,15 @@ const mergeStrings = (
 }
 
 /**
- * A diff's retainer paths, and its retainer paths within a node's dominator.
+ * A diff's retainer paths, and its retainer paths within a node's dominator
+ * with each side's function interning a node's path within one.
  */
-export type DiffRetainerPaths = SidePaths<(nodeOrdinal: number) => number> & {
-  within: SidePaths<(nodeOrdinal: number, dominatorOrdinal: number) => number>
-}
-
-/** Interned paths, and each side's function interning a node's path. */
-type SidePaths<Intern> = Record<`base` | `current`, Intern> & {
+export type DiffRetainerPaths = {
   paths: RetainerPaths
+  within: Record<
+    `base` | `current`,
+    (nodeOrdinal: number, dominatorOrdinal: number) => number
+  > & { paths: RetainerPaths }
 }
 
 export const diffRetainerPaths = (
@@ -421,8 +420,6 @@ export const diffRetainerPaths = (
   const withinPaths = new RetainerPaths(options, { isWithinDominator: true })
   return {
     paths,
-    base: paths.pathOfNodeIn(diff.base),
-    current: paths.pathOfNodeIn(diff.current),
     within: {
       paths: withinPaths,
       base: withinPaths.pathWithinNodeIn(diff.base),
@@ -430,6 +427,12 @@ export const diffRetainerPaths = (
     },
   }
 }
+
+/** What a snapshot provides to walk its nodes' retainer paths. */
+export type PathSnapshot = Pick<
+  AggregatedHeapSnapshot,
+  `nodeCount` | `retainerHopOf` | `retainerOf`
+>
 
 /**
  * The retainer paths of a diff's two sides, each by an ID. Two paths share an
@@ -444,7 +447,8 @@ export class RetainerPaths {
   /** The ID of the empty path, formatted `(GC root)`. */
   public static readonly ROOT = 0
 
-  readonly #options: FormattingProfileToMdOptions
+  /** The options the paths' steps are formatted and keyed under. */
+  public readonly options: FormattingProfileToMdOptions
   readonly #isWithinDominator: boolean
 
   /** By path ID, each path's first step and the ID of the rest. */
@@ -463,6 +467,12 @@ export class RetainerPaths {
   /** IDs of the keys of paths' steps, from `1` because `0` keys the root path. */
   readonly #keyToId = new Map<string, number>()
 
+  /** By snapshot, the function {@link pathOfNodeIn} returns for it. */
+  readonly #snapshotToPathOf = new Map<
+    PathSnapshot,
+    (nodeOrdinal: number) => number
+  >()
+
   /**
    * Paths within a dominator end at the dominator, and record each element
    * edge as any element, so the elements of one array share a path.
@@ -471,20 +481,24 @@ export class RetainerPaths {
     options: FormattingProfileToMdOptions,
     { isWithinDominator = false }: { isWithinDominator?: boolean } = {},
   ) {
-    this.#options = options
+    this.options = options
     this.#isWithinDominator = isWithinDominator
   }
 
   /**
-   * Returns a function that interns the retainer path of a node of
+   * Returns the function that interns the retainer path of a node of
    * {@link snapshot}, memoized per node.
    */
-  public pathOfNodeIn(
-    snapshot: Pick<
-      AggregatedHeapSnapshot,
-      `nodeCount` | `retainerHopOf` | `retainerOf`
-    >,
-  ): (nodeOrdinal: number) => number {
+  public pathOfNodeIn(snapshot: PathSnapshot): (nodeOrdinal: number) => number {
+    let pathOf = this.#snapshotToPathOf.get(snapshot)
+    if (!pathOf) {
+      pathOf = this.#newPathOfNodeIn(snapshot)
+      this.#snapshotToPathOf.set(snapshot, pathOf)
+    }
+    return pathOf
+  }
+
+  #newPathOfNodeIn(snapshot: PathSnapshot): (nodeOrdinal: number) => number {
     let ordinalToPath: Int32Array | undefined
     const walk = this.#pathWalker(
       snapshot,
@@ -505,7 +519,7 @@ export class RetainerPaths {
    * dominator stays the same.
    */
   public pathWithinNodeIn(
-    snapshot: Pick<AggregatedHeapSnapshot, `retainerHopOf` | `retainerOf`>,
+    snapshot: PathSnapshot,
   ): (nodeOrdinal: number, dominatorOrdinal: number) => number {
     // Sparse, since it holds the paths within one dominator.
     const ordinalToPath = new Map<number, number>()
@@ -536,7 +550,7 @@ export class RetainerPaths {
    * without a memoized path.
    */
   #pathWalker(
-    snapshot: Pick<AggregatedHeapSnapshot, `retainerHopOf` | `retainerOf`>,
+    snapshot: PathSnapshot,
     memoizedPathOf: (nodeOrdinal: number) => number,
     memoizePath: (nodeOrdinal: number, path: number) => void,
   ): (nodeOrdinal: number) => number {
@@ -575,7 +589,7 @@ export class RetainerPaths {
           const retainer = ordinalToRetainer[dominatorOrdinal]
           ordinalToRetainerLabel[dominatorOrdinal] ??= formatRetainerLabel(
             retainer,
-            this.#options,
+            this.options,
           )
           path = this.#intern(
             edge,
@@ -599,7 +613,7 @@ export class RetainerPaths {
         edge,
         retainer,
         path,
-        formatRetainerLabel(retainer, this.#options),
+        formatRetainerLabel(retainer, this.options),
       )
     }
     return path
@@ -705,7 +719,7 @@ export class RetainerPaths {
       this.#isWithinDominator && edge.type === `element`
         ? ANY_ELEMENT_EDGE
         : edge
-    const key = `${rest}\0${formatRetainerEdgeLabel(pathEdge, this.#options)}\0${retainerLabel}`
+    const key = `${rest}\0${formatRetainerEdgeLabel(pathEdge, this.options)}\0${retainerLabel}`
     let path = this.#stepKeyToPath.get(key)
     if (path === undefined) {
       path = this.#steps.length
@@ -720,7 +734,7 @@ export class RetainerPaths {
     { edge, retainer }: RetainerPathStep,
     context: ProfileToMdContext,
   ): { own: string; normalized: string } {
-    const retainerKeys = this.#options.entryMatchKeys(retainer, context)
+    const retainerKeys = this.options.entryMatchKeys(retainer, context)
     return {
       own: `${formatRetainerEdge(edge, ({ name }) => name)}\0${retainerKeys.ownNameAndLocation}`,
       normalized: `${retainerEdgeMatchKey(edge, context)}\0${retainerKeys.nameAndLocation}`,
@@ -755,6 +769,15 @@ export class RetainerPaths {
     return located
   }
 }
+
+/**
+ * Whether a retainer path keeps a hop's step, given whether the hop's
+ * dominator is internal and whether the path from it outward is empty. A path
+ * drops its trailing steps through internal nodes, which are VM bookkeeping
+ * that never points to user code.
+ */
+const keepsRetainerStep = (internal: boolean, isRestEmpty: boolean): boolean =>
+  !(isRestEmpty && internal)
 
 const ANY_ELEMENT_EDGE: RetainerPathEdge = { type: `any-element` }
 
@@ -849,7 +872,7 @@ export const groupConstructorInstances = (
     (constructor[side]?.instances ?? []).filter(instance =>
       options.showEntry(instance, context),
     ),
-    retainerPaths[side],
+    retainerPaths.paths.pathOfNodeIn(diff[side]),
   )
 }
 

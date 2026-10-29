@@ -1,5 +1,4 @@
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { CategorySet } from '../category-sets.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 
@@ -33,17 +32,8 @@ export type HeapSnapshot = {
    */
   retainerEdgeOf: (retainerOrdinal: number, edgeIndex: number) => RetainerEdge
 
-  /** The node as a retainer path step shows it. */
+  /** The node as a retainer path step or a retained node listing shows it. */
   retainerOf: (nodeOrdinal: number) => RetainerNode
-
-  /**
-   * Computed lazily at formatting time, so it receives the resolved formatting
-   * options.
-   */
-  formatNodeLabel: (
-    nodeOrdinal: number,
-    options: FormattingProfileToMdOptions,
-  ) => string
 
   /** Whether the node is a bookkeeping node that never points to user code. */
   isInternalNode: (nodeOrdinal: number) => boolean

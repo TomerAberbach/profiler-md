@@ -73,9 +73,6 @@ export type AggregatedHeapSnapshot = {
   /** The node as a retainer path step shows it. */
   retainerOf: (nodeOrdinal: number) => RetainerNode
 
-  /** The steps of a node's retainer path, from the node outward. */
-  retainerStepsOf: (nodeOrdinal: number) => RetainerPathStep[]
-
   retainedNodesOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
@@ -101,17 +98,15 @@ export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
 }
 
 export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
+  /**
+   * The ordinal of the instance with the largest individual retained size,
+   * which is the instance the function's rows show.
+   */
+  id: number
   name: string
 
-  /**
-   * What this function holds, taken from the instance
-   * {@link largestInstanceOrdinal} identifies, which is the instance its rows
-   * show.
-   */
+  /** What this function holds, taken from the instance {@link id} identifies. */
   category: HeapSnapshotNodeCategory
-
-  /** Node ordinal of the instance with the largest individual retained size. */
-  largestInstanceOrdinal: number
   instanceOrdinals: number[]
 }
 
@@ -207,11 +202,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   readonly #retainerEdgeOf: HeapSnapshot[`retainerEdgeOf`]
   readonly #retainerOf: HeapSnapshot[`retainerOf`]
 
-  readonly #formatNodeLabel: (
-    nodeOrdinal: number,
-    options: FormattingProfileToMdOptions,
-  ) => string
-
   readonly #isInternalNode: (nodeOrdinal: number) => boolean
 
   readonly #unresolvedCategoryOf: (
@@ -270,7 +260,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       nodes,
       retainerEdgeOf,
       retainerOf,
-      formatNodeLabel,
       isInternalNode,
       unresolvedCategoryOf,
     } = snapshot
@@ -280,7 +269,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     this.#selfSizeOf = selfSizeOf
     this.#retainerEdgeOf = retainerEdgeOf
     this.#retainerOf = retainerOf
-    this.#formatNodeLabel = formatNodeLabel
     this.#isInternalNode = isInternalNode
     this.#unresolvedCategoryOf = unresolvedCategoryOf
 
@@ -395,7 +383,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         category: `function`,
         selfSize: 0,
         retainedSize: 0,
-        largestInstanceOrdinal: nodeOrdinal,
         instanceOrdinals: [],
       })
       this.#keyToFunctionIndex.set(key, functionIndex)
@@ -404,10 +391,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const fn = this.#functions[functionIndex]!
     fn.selfSize += this.#selfSizeOf(nodeOrdinal)
     fn.instanceOrdinals.push(nodeOrdinal)
-    if (
-      retainedSize > this.#nodeOrdinalToRetainedSize[fn.largestInstanceOrdinal]!
-    ) {
-      fn.largestInstanceOrdinal = nodeOrdinal
+    if (retainedSize > this.#nodeOrdinalToRetainedSize[fn.id]!) {
+      fn.id = nodeOrdinal
     }
     this.#nodeOrdinalToFunctionIndex[nodeOrdinal] = functionIndex
   }
@@ -471,19 +456,13 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
-      retainerStepsOf: nodeOrdinal =>
-        computeRetainerSteps(
-          nodeOrdinal,
-          this.#retainerHopOf,
-          this.#retainerOf,
-        ),
       retainedNodesOf: (nodeOrdinal, options) =>
         computeRetainedNodes(
           nodeOrdinal,
           this.#immediateDominatorGraph,
           this.#nodeOrdinalToRetainedSize,
           this.#selfSizeOf,
-          ordinal => this.#formatNodeLabel(ordinal, options),
+          ordinal => formatRetainerName(this.#retainerOf(ordinal), options),
           this.#isInternalNode,
           this.#entityLocationOf,
           categoryOf,
@@ -521,7 +500,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
   ): void {
     for (const fn of this.#functions) {
-      fn.category = categoryOf(fn.largestInstanceOrdinal)
+      fn.category = categoryOf(fn.id)
     }
     for (const constructor of this.#constructors) {
       for (const instance of constructor.instances) {
@@ -600,41 +579,6 @@ export const nodeKey = (
     ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
     : name
 
-export const computeRetainerSteps = (
-  nodeOrdinal: number,
-  retainerHopOf: (nodeOrdinal: number) => RetainerHop | undefined,
-  retainerOf: HeapSnapshot[`retainerOf`],
-): RetainerPathStep[] => {
-  const hops: RetainerHop[] = []
-  for (
-    let hop = retainerHopOf(nodeOrdinal);
-    hop;
-    hop = retainerHopOf(hop.dominatorOrdinal)
-  ) {
-    hops.push(hop)
-  }
-
-  const steps: RetainerPathStep[] = []
-  for (let index = hops.length - 1; index >= 0; index--) {
-    const hop = hops[index]!
-    if (keepsRetainerStep(hop.internal, steps.length === 0)) {
-      steps.push({ edge: hop.edge, retainer: retainerOf(hop.dominatorOrdinal) })
-    }
-  }
-  return steps.reverse()
-}
-
-/**
- * Whether a retainer path keeps a hop's step, given whether the hop's
- * dominator is internal and whether the path from it outward is empty. A path
- * drops its trailing steps through internal nodes, which are VM bookkeeping
- * that never points to user code.
- */
-export const keepsRetainerStep = (
-  internal: boolean,
-  isRestEmpty: boolean,
-): boolean => !(isRestEmpty && internal)
-
 export const formatRetainerLabel = (
   retainer: RetainerNode,
   options: FormattingProfileToMdOptions,
@@ -686,7 +630,7 @@ const computeRetainedNodes = (
   }: ImmediateDominatorGraph,
   nodeOrdinalToRetainedSize: Float64Array,
   selfSizeOf: (nodeOrdinal: number) => number,
-  formatNodeLabel: (nodeOrdinal: number) => string,
+  nameOf: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
   locationOf: (nodeOrdinal: number) => SourceLocation | undefined,
   categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
@@ -707,7 +651,7 @@ const computeRetainedNodes = (
       retainedNodes.push({
         type: `node`,
         id: current,
-        name: formatNodeLabel(current),
+        name: nameOf(current),
         category: categoryOf(current),
         selfSize: selfSizeOf(current),
         retainedSize: nodeOrdinalToRetainedSize[current]!,

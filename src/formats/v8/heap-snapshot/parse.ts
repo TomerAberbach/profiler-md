@@ -1,6 +1,5 @@
 import {
   absoluteFileReference,
-  formatSourceLocation,
   makeFileReference,
   sourceReferenceToSourceLocation,
 } from '../../../location.ts'
@@ -14,7 +13,6 @@ import type {
   RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
 } from '../../../modalities/heap-snapshot/index.ts'
-import type { FormattingProfileToMdOptions } from '../../../options.ts'
 import { FormatParseError } from '../../error.ts'
 import type { RecordTally } from '../../spec.ts'
 
@@ -153,8 +151,6 @@ export const parseV8HeapSnapshot = (
         ...nodeName(nodeOrdinal, snapshot, fieldLayout),
         location: nodeOrdinalToLocation[nodeOrdinal],
       }),
-      formatNodeLabel: (nodeOrdinal, options) =>
-        formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
       isInternalNode: nodeOrdinal =>
         isInternalNode(nodeOrdinal, snapshot, fieldLayout),
       unresolvedCategoryOf: nodeOrdinal =>
@@ -671,16 +667,6 @@ const retainerEdge = (
   return nameLocation
     ? { type: `property`, name, nameLocation }
     : { type: `property`, name }
-}
-
-const formatNodeLabel = (
-  nodeOrdinal: number,
-  snapshot: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-  options: FormattingProfileToMdOptions,
-): string => {
-  const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
-  return nameLocation ? formatSourceLocation(nameLocation, options) : name
 }
 
 /**
