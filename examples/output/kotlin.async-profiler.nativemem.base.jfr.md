@@ -1,10 +1,10 @@
 # Allocated native memory profile
 
-Allocated 1.6 GiB over 621,888 samples (2.7 KiB per sample).
+Allocated 847 MiB over 5,809 samples (149 KiB per sample).
 
 | Category |      % |    Size | Samples |
 | -------- | -----: | ------: | ------: |
-| Native   | 100.0% | 1.6 GiB | 621,888 |
+| Native   | 100.0% | 847 MiB |   5,809 |
 
 `…` stands for omitted frames.
 
@@ -13,46 +13,46 @@ Allocated 1.6 GiB over 621,888 samples (2.7 KiB per sample).
 Call paths to the hottest functions.
 
 ```
-├── … 1.4 GiB (87.2%) CompileBroker::invoke_compiler_on_method at libjvm.dylib
-│   ├── 1.37 GiB (85.3%) C2Compiler::compile_method
-│   │   └── 1.37 GiB (85.3%) Compile::Compile
-│   │       ├── 739 MiB (45.0%) Compile::Optimize
-│   │       │   ├── … 369 MiB (22.5%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
-│   │       │   │   ├── … 254 MiB (15.5%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 116 MiB (7.0%) 15 more callees, led by (1.5%) Node_Array::grow
-│   │       │   ├── … 295 MiB (18.0%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
-│   │       │   │   ├── … 208 MiB (12.7%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 86.8 MiB (5.3%) 12 more callees, led by (1.3%) Node_Array::grow
-│   │       │   └── 68.2 MiB (4.2%) 15 more callees, led by (0.9%) PhaseCCP::do_transform
-│   │       ├── 609 MiB (37.1%) Compile::Code_Gen
-│   │       │   ├── 470 MiB (28.6%) PhaseChaitin::Register_Allocate
-│   │       │   │   ├── … 335 MiB (20.4%, self 99.8% globally) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 114 MiB (6.9%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 20.2 MiB (1.2%) 8 more callees, led by (0.5%) PhaseChaitin::Split
-│   │       │   ├── 111 MiB (6.8%) Matcher::match
-│   │       │   │   ├── 66.8 MiB (4.1%) Matcher::xform
-│   │       │   │   │   ├── … 38.3 MiB (2.3%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   │   └── 28.4 MiB (1.7%) 5 more callees, led by (1.0%) Matcher::match_tree
-│   │       │   │   └── 44.3 MiB (2.7%) 4 more callees, led by (1.8%) Matcher::find_shared
-│   │       │   └── 28.3 MiB (1.7%) 8 more callees, led by (0.7%) PhaseCFG::do_global_code_motion
-│   │       ├── … 30.3 MiB (1.8%) Parse::do_one_block at libjvm.dylib
-│   │       │   └── 30.3 MiB (1.8%) 16 more callees, led by (0.5%) Parse::do_field_access
-│   │       └── 11.3 MiB (0.7%) PhaseRemoveUseless::PhaseRemoveUseless
-│   │           └── 11.3 MiB (0.7%) Compile::identify_useful_nodes …
-│   └── 31.6 MiB (1.9%) 6 more callees, led by (1.9%) Compiler::compile_method
-└── 202 MiB (12.3%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
-    └── 202 MiB (12.3%) run(String[])
-        ├── … 132 MiB (8.0%) exec(MessageCollector, Services, CommonCompilerArguments) at org.jetbrains.kotlin.cli.common.CLICompiler
-        │   └── … 121 MiB (7.4%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
-        │       └── 116 MiB (7.0%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
-        │           └── 116 MiB (7.0%) phaseBody(PipelineContext, PipelineArtifact)
-        │               ├── 83.7 MiB (5.1%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
-        │               │   └── 83.7 MiB (5.1%) executePhase(ConfigurationPipelineArtifact)
-        │               │       ├── 37.8 MiB (2.3%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
-        │               │       │   └── 37.8 MiB (2.3%) 6 more callees, led by (2.0%) runResolution(FirSession, List) at org.jetbrains.kotlin.fir.pipeline.AnalyseKt
-        │               │       └── 45.9 MiB (2.8%) 23 more callees, led by (1.2%) prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1)
-        │               └── 31.8 MiB (1.9%) 5 more callees, led by (0.8%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
-        └── … 60.5 MiB (3.7%) malloc_hook at libasyncProfiler.dylib
+├── … 768 MiB (90.7%) C2Compiler::compile_method at libjvm.dylib
+│   └── 768 MiB (90.7%) Compile::Compile
+│       ├── 412 MiB (48.7%) Compile::Optimize
+│       │   ├── … 211 MiB (24.9%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│       │   │   ├── … 185 MiB (21.9%) malloc_hook at libasyncProfiler.dylib
+│       │   │   ├── … 6.47 MiB (0.8%) malloc_hook at libasyncProfiler.dylib
+│       │   │   ├── … 6.25 MiB (0.7%) malloc_hook at libasyncProfiler.dylib
+│       │   │   └── 12.9 MiB (1.5%) 9 more callees, led by (0.5%) IdealLoopTree::loop_predication
+│       │   ├── … 178 MiB (21.0%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│       │   │   ├── … 159 MiB (18.8%) malloc_hook at libasyncProfiler.dylib
+│       │   │   ├── … 5.6 MiB (0.7%) malloc_hook at libasyncProfiler.dylib
+│       │   │   └── 13.4 MiB (1.6%) 10 more callees, led by (0.6%) Node_Array::grow
+│       │   ├── 5.25 MiB (0.6%) PhaseIterGVN::optimize
+│       │   │   └── 5.25 MiB (0.6%) PhaseIterGVN::transform_old
+│       │   │       └── 5.25 MiB (0.6%) 5 more callees, led by (0.5%) NodeHash::hash_find_insert
+│       │   └── 15.8 MiB (1.9%) 12 more callees, led by (0.5%) PhaseCCP::do_transform
+│       ├── 340 MiB (40.2%) Compile::Code_Gen
+│       │   ├── 284 MiB (33.5%) PhaseChaitin::Register_Allocate
+│       │   │   ├── 222 MiB (26.2%) PhaseIFG::init
+│       │   │   │   └── 222 MiB (26.2%) Arena::grow
+│       │   │   │       └── 222 MiB (26.2%) Chunk::operator new
+│       │   │   │           └── 222 MiB (26.2%) os::malloc
+│       │   │   │               └── 222 MiB (26.2%, self 100.0% globally) malloc_hook at libasyncProfiler.dylib
+│       │   │   └── … 57.6 MiB (6.8%) malloc_hook at libasyncProfiler.dylib
+│       │   ├── 50 MiB (5.9%) Matcher::match
+│       │   │   ├── 31.4 MiB (3.7%) Matcher::xform
+│       │   │   │   ├── … 22.1 MiB (2.6%) malloc_hook at libasyncProfiler.dylib
+│       │   │   │   └── 9.28 MiB (1.1%) 6 more callees, led by (0.5%) Node::out_grow
+│       │   │   └── … 15.2 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│       │   └── 6.37 MiB (0.8%) 5 more callees, led by (0.4%) PhaseCFG::do_global_code_motion
+│       ├── … 8.5 MiB (1.0%) Parse::do_one_block at libjvm.dylib
+│       │   └── 8.5 MiB (1.0%) 11 more callees, led by (0.4%) Parse::do_call
+│       └── 5.97 MiB (0.7%) 7 more callees, led by (0.5%) PhaseRemoveUseless::PhaseRemoveUseless
+└── 76.1 MiB (9.0%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+    └── 76.1 MiB (9.0%) run(String[])
+        ├── … 60.5 MiB (7.1%) malloc_hook at libasyncProfiler.dylib
+        └── … 10.2 MiB (1.2%) phaseBody(PipelineContext, PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+            └── 7.56 MiB (0.9%) executePhase(PipelineArtifact) at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+                └── 7.56 MiB (0.9%) executePhase(ConfigurationPipelineArtifact)
+                    └── 7.56 MiB (0.9%) 7 more callees, led by (0.5%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector) at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
 ```
 
 ## Hottest functions
@@ -67,11 +67,11 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|     % |     Size | Samples | Function       | Location                 |
-| ----: | -------: | ------: | -------------- | ------------------------ |
-| 99.8% |  1.6 GiB | 611,293 | `malloc_hook`  | `libasyncProfiler.dylib` |
-|  0.1% | 2.15 MiB |   9,858 | `realloc_hook` | `libasyncProfiler.dylib` |
-|  0.1% | 1.24 MiB |     737 | `calloc_hook`  | `libasyncProfiler.dylib` |
+|      % |     Size | Samples | Function       | Location                 |
+| -----: | -------: | ------: | -------------- | ------------------------ |
+| 100.0% |  847 MiB |   5,795 | `malloc_hook`  | `libasyncProfiler.dylib` |
+|  <0.1% |   20 KiB |       4 | `calloc_hook`  | `libasyncProfiler.dylib` |
+|  <0.1% | 2.31 KiB |      10 | `realloc_hook` | `libasyncProfiler.dylib` |
 
 #### Callers
 
@@ -81,52 +81,51 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 |     % |     Size | Samples | Caller                                    | Location          |
 | ----: | -------: | ------: | ----------------------------------------- | ----------------- |
-| 90.8% | 1.45 GiB | 546,928 | `os::malloc`                              | `libjvm.dylib`    |
-|  4.0% | 65.8 MiB |  10,151 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
-|  3.9% | 64.1 MiB |     133 | `readBytes`                               | `libjava.dylib`   |
-|  0.8% | 12.5 MiB |     401 | `updatewindow`                            | `libzip.dylib`    |
-|  0.2% |  3.1 MiB |     550 | `CCalloc`                                 | `libverify.dylib` |
+| 91.1% |  771 MiB |   5,309 | `os::malloc`                              | `libjvm.dylib`    |
+|  7.6% |   64 MiB |     128 | `readBytes`                               | `libjava.dylib`   |
+|  1.2% | 9.89 MiB |     281 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
+|  0.2% | 1.34 MiB |      43 | `updatewindow`                            | `libzip.dylib`    |
+| <0.1% |  299 KiB |      11 | `CCalloc`                                 | `libverify.dylib` |
+
+##### `calloc_hook` (`libasyncProfiler.dylib`)
+
+|     % |   Size | Samples | Caller                       | Location          |
+| ----: | -----: | ------: | ---------------------------- | ----------------- |
+| 80.0% | 16 KiB |       2 | `make_class_info_from_name`  | `libverify.dylib` |
+| 20.0% |  4 KiB |       2 | `VerifyClassForMajorVersion` | `libverify.dylib` |
 
 ##### `realloc_hook` (`libasyncProfiler.dylib`)
 
 |      % |     Size | Samples | Caller        | Location       |
 | -----: | -------: | ------: | ------------- | -------------- |
-| 100.0% | 2.15 MiB |   9,858 | `os::realloc` | `libjvm.dylib` |
-
-##### `calloc_hook` (`libasyncProfiler.dylib`)
-
-|     % |     Size | Samples | Caller                             | Location          |
-| ----: | -------: | ------: | ---------------------------------- | ----------------- |
-| 70.3% |  896 KiB |     112 | `make_class_info_from_name`        | `libverify.dylib` |
-| 26.2% |  334 KiB |     224 | `VerifyClassForMajorVersion`       | `libverify.dylib` |
-|  3.4% | 43.9 KiB |     401 | `Java_java_util_zip_Inflater_init` | `libzip.dylib`    |
+| 100.0% | 2.31 KiB |      10 | `os::realloc` | `libjvm.dylib` |
 
 ### Total size
 
 Functions with the most native bytes allocated within the function and its callees.
 
-|     % |     Size | Samples | Function                                   | Location                  |
-| ----: | -------: | ------: | ------------------------------------------ | ------------------------- |
-| 99.8% |  1.6 GiB | 611,293 | `malloc_hook`                              | `libasyncProfiler.dylib`  |
-| 90.6% | 1.45 GiB | 546,928 | `os::malloc`                               | `libjvm.dylib`            |
-| 87.4% |  1.4 GiB | 132,875 | `_pthread_start`                           | `libsystem_pthread.dylib` |
-| 87.4% |  1.4 GiB | 132,875 | `thread_start`                             | `libsystem_pthread.dylib` |
-| 87.4% |  1.4 GiB | 132,722 | `Thread::call_run`                         | `libjvm.dylib`            |
-| 87.4% |  1.4 GiB | 132,722 | `thread_native_entry`                      | `libjvm.dylib`            |
-| 87.2% |  1.4 GiB | 106,412 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
-| 87.2% |  1.4 GiB | 105,603 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
-| 87.2% |  1.4 GiB | 105,326 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
-| 86.7% | 1.39 GiB |  18,004 | `Chunk::operator new`                      | `libjvm.dylib`            |
-| 86.7% | 1.39 GiB |  17,937 | `Arena::grow`                              | `libjvm.dylib`            |
-| 85.3% | 1.37 GiB |  27,142 | `Compile::Compile`                         | `libjvm.dylib`            |
-| 85.3% | 1.37 GiB |  27,142 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
-| 45.0% |  739 MiB |   9,027 | `Compile::Optimize`                        | `libjvm.dylib`            |
-| 40.9% |  671 MiB |   7,644 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib`            |
-| 40.5% |  665 MiB |   7,529 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib`            |
-| 40.5% |  665 MiB |   7,528 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib`            |
-| 37.1% |  609 MiB |  15,087 | `Compile::Code_Gen`                        | `libjvm.dylib`            |
-| 28.6% |  470 MiB |   4,816 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib`            |
-| 28.2% |  462 MiB |   3,077 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib`            |
+|      % |    Size | Samples | Function                                   | Location                  |
+| -----: | ------: | ------: | ------------------------------------------ | ------------------------- |
+| 100.0% | 847 MiB |   5,795 | `malloc_hook`                              | `libasyncProfiler.dylib`  |
+|  91.1% | 771 MiB |   5,309 | `os::malloc`                               | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,073 | `Chunk::operator new`                      | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,073 | `Arena::grow`                              | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,111 | `Thread::call_run`                         | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,111 | `thread_native_entry`                      | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,111 | `_pthread_start`                           | `libsystem_pthread.dylib` |
+|  91.0% | 771 MiB |   5,111 | `thread_start`                             | `libsystem_pthread.dylib` |
+|  91.0% | 771 MiB |   5,097 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,097 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
+|  91.0% | 771 MiB |   5,097 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
+|  90.7% | 768 MiB |   5,005 | `Compile::Compile`                         | `libjvm.dylib`            |
+|  90.7% | 768 MiB |   5,005 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
+|  48.7% | 412 MiB |   2,630 | `Compile::Optimize`                        | `libjvm.dylib`            |
+|  46.2% | 391 MiB |   2,333 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib`            |
+|  45.9% | 389 MiB |   2,311 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib`            |
+|  45.9% | 389 MiB |   2,311 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib`            |
+|  40.7% | 344 MiB |   1,535 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib`            |
+|  40.2% | 340 MiB |   2,198 | `Compile::Code_Gen`                        | `libjvm.dylib`            |
+|  33.5% | 284 MiB |   1,627 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib`            |
 
 #### Categories
 
@@ -134,28 +133,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|     % |     Size | Samples | Function                                                           | Location                  |
-| ----: | -------: | ------: | ------------------------------------------------------------------ | ------------------------- |
-| 99.8% |  1.6 GiB | 611,293 | `malloc_hook`                                                      | `libasyncProfiler.dylib`  |
-| 90.6% | 1.45 GiB | 546,928 | `os::malloc`                                                       | `libjvm.dylib`            |
-| 87.4% |  1.4 GiB | 132,875 | `_pthread_start`                                                   | `libsystem_pthread.dylib` |
-| 87.4% |  1.4 GiB | 132,875 | `thread_start`                                                     | `libsystem_pthread.dylib` |
-| 87.4% |  1.4 GiB | 132,722 | `Thread::call_run`                                                 | `libjvm.dylib`            |
-| 87.4% |  1.4 GiB | 132,722 | `thread_native_entry`                                              | `libjvm.dylib`            |
-| 87.2% |  1.4 GiB | 106,412 | `JavaThread::thread_main_inner`                                    | `libjvm.dylib`            |
-| 86.7% | 1.39 GiB |  18,004 | `Chunk::operator new`                                              | `libjvm.dylib`            |
-| 86.7% | 1.39 GiB |  17,937 | `Arena::grow`                                                      | `libjvm.dylib`            |
-| 13.8% |  227 MiB |   4,762 | `Arena::Arealloc`                                                  | `libjvm.dylib`            |
-|  6.5% |  106 MiB | 268,898 | `Java_java_lang_ClassLoader_defineClass1`                          | `libjava.dylib`           |
-|  3.9% | 64.1 MiB |     133 | `readBytes`                                                        | `libjava.dylib`           |
-|  3.6% | 59.3 MiB | 459,732 | `AllocateHeap`                                                     | `libjvm.dylib`            |
-|  2.8% | 45.4 MiB |     986 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib`            |
-|  2.5% | 40.8 MiB | 248,047 | `KlassFactory::create_from_stream`                                 | `libjvm.dylib`            |
-|  2.4% | 40.1 MiB | 259,142 | `jvm_define_class_common`                                          | `libjvm.dylib`            |
-|  2.4% | 40.1 MiB | 259,142 | `JVM_DefineClassWithSource`                                        | `libjvm.dylib`            |
-|  2.4% | 40.1 MiB | 259,132 | `SystemDictionary::resolve_class_from_stream`                      | `libjvm.dylib`            |
-|  2.2% | 36.4 MiB |     887 | `Parse::Parse`                                                     | `libjvm.dylib`            |
-|  2.2% | 36.4 MiB |     887 | `ParseGenerator::generate`                                         | `libjvm.dylib`            |
+|      % |     Size | Samples | Function                                                           | Location                  |
+| -----: | -------: | ------: | ------------------------------------------------------------------ | ------------------------- |
+| 100.0% |  847 MiB |   5,795 | `malloc_hook`                                                      | `libasyncProfiler.dylib`  |
+|  91.1% |  771 MiB |   5,309 | `os::malloc`                                                       | `libjvm.dylib`            |
+|  91.0% |  771 MiB |   5,073 | `Chunk::operator new`                                              | `libjvm.dylib`            |
+|  91.0% |  771 MiB |   5,073 | `Arena::grow`                                                      | `libjvm.dylib`            |
+|  91.0% |  771 MiB |   5,111 | `Thread::call_run`                                                 | `libjvm.dylib`            |
+|  91.0% |  771 MiB |   5,111 | `thread_native_entry`                                              | `libjvm.dylib`            |
+|  91.0% |  771 MiB |   5,111 | `_pthread_start`                                                   | `libsystem_pthread.dylib` |
+|  91.0% |  771 MiB |   5,111 | `thread_start`                                                     | `libsystem_pthread.dylib` |
+|  91.0% |  771 MiB |   5,097 | `JavaThread::thread_main_inner`                                    | `libjvm.dylib`            |
+|   7.6% |   64 MiB |     128 | `readBytes`                                                        | `libjava.dylib`           |
+|   7.5% | 63.1 MiB |     930 | `Arena::Arealloc`                                                  | `libjvm.dylib`            |
+|   1.4% | 11.8 MiB |     197 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib`            |
+|   1.2% | 10.3 MiB |     123 | `Parse::do_one_block`                                              | `libjvm.dylib`            |
+|   1.2% | 10.3 MiB |     123 | `Parse::do_all_blocks`                                             | `libjvm.dylib`            |
+|   1.2% | 10.3 MiB |     123 | `Parse::Parse`                                                     | `libjvm.dylib`            |
+|   1.2% | 10.3 MiB |     123 | `ParseGenerator::generate`                                         | `libjvm.dylib`            |
+|   1.2% | 10.2 MiB |     423 | `Java_java_lang_ClassLoader_defineClass1`                          | `libjava.dylib`           |
+|   1.1% | 8.94 MiB |     111 | `Parse::do_call`                                                   | `libjvm.dylib`            |
+|   0.9% |  7.5 MiB |      87 | `PredictedCallGenerator::generate`                                 | `libjvm.dylib`            |
+|   0.7% | 5.88 MiB |      67 | `Type_Array::grow`                                                 | `libjvm.dylib`            |
 
 #### Callers
 
@@ -165,212 +164,207 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 |     % |     Size | Samples | Caller                                    | Location          |
 | ----: | -------: | ------: | ----------------------------------------- | ----------------- |
-| 90.8% | 1.45 GiB | 546,928 | `os::malloc`                              | `libjvm.dylib`    |
-|  4.0% | 65.8 MiB |  10,151 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
-|  3.9% | 64.1 MiB |     133 | `readBytes`                               | `libjava.dylib`   |
-|  0.8% | 12.5 MiB |     401 | `updatewindow`                            | `libzip.dylib`    |
-|  0.2% |  3.1 MiB |     550 | `CCalloc`                                 | `libverify.dylib` |
+| 91.1% |  771 MiB |   5,309 | `os::malloc`                              | `libjvm.dylib`    |
+|  7.6% |   64 MiB |     128 | `readBytes`                               | `libjava.dylib`   |
+|  1.2% | 9.89 MiB |     281 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
+|  0.2% | 1.34 MiB |      43 | `updatewindow`                            | `libzip.dylib`    |
+| <0.1% |  299 KiB |      11 | `CCalloc`                                 | `libverify.dylib` |
 
 ##### `os::malloc` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Caller                      | Location       |
-| ----: | -------: | ------: | --------------------------- | -------------- |
-| 95.7% | 1.39 GiB |  18,004 | `Chunk::operator new`       | `libjvm.dylib` |
-|  4.0% | 59.3 MiB | 459,732 | `AllocateHeap`              | `libjvm.dylib` |
-|  0.2% | 2.54 MiB |  30,527 | `AnyObj::operator new`      | `libjvm.dylib` |
-|  0.1% |  980 KiB |  11,894 | `os::malloc`                | `libjvm.dylib` |
-|  0.1% |  978 KiB |  11,884 | `JvmtiEnv::GetClassMethods` | `libjvm.dylib` |
+|     % |    Size | Samples | Caller                      | Location       |
+| ----: | ------: | ------: | --------------------------- | -------------- |
+| 99.9% | 771 MiB |   5,073 | `Chunk::operator new`       | `libjvm.dylib` |
+|  0.1% | 419 KiB |     222 | `AllocateHeap`              | `libjvm.dylib` |
+| <0.1% |   840 B |       5 | `os::malloc`                | `libjvm.dylib` |
+| <0.1% |   840 B |       5 | `JvmtiEnv::GetClassMethods` | `libjvm.dylib` |
+| <0.1% |   560 B |       7 | `AnyObj::operator new`      | `libjvm.dylib` |
 
-##### `_pthread_start` (`libsystem_pthread.dylib`)
+##### `Chunk::operator new` (`libjvm.dylib`)
 
-|      % |    Size | Samples | Caller         | Location                  |
-| -----: | ------: | ------: | -------------- | ------------------------- |
-| 100.0% | 1.4 GiB | 132,875 | `thread_start` | `libsystem_pthread.dylib` |
+|      % |    Size | Samples | Caller        | Location       |
+| -----: | ------: | ------: | ------------- | -------------- |
+| 100.0% | 771 MiB |   5,073 | `Arena::grow` | `libjvm.dylib` |
+
+##### `Arena::grow` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                       | Location       |
+| ----: | -------: | ------: | ---------------------------- | -------------- |
+| 44.7% |  344 MiB |   1,535 | `PhaseIdealLoop::Dominators` | `libjvm.dylib` |
+| 28.8% |  222 MiB |   1,068 | `PhaseIFG::init`             | `libjvm.dylib` |
+|  8.2% | 63.1 MiB |     930 | `Arena::Arealloc`            | `libjvm.dylib` |
+|  7.5% | 57.6 MiB |     483 | `PhaseLive::compute`         | `libjvm.dylib` |
+|  2.9% | 22.1 MiB |     130 | `Matcher::xform`             | `libjvm.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller                | Location       |
 | -----: | ------: | ------: | --------------------- | -------------- |
-| 100.0% | 1.4 GiB | 132,722 | `thread_native_entry` | `libjvm.dylib` |
+| 100.0% | 771 MiB |   5,111 | `thread_native_entry` | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller           | Location                  |
 | -----: | ------: | ------: | ---------------- | ------------------------- |
-| 100.0% | 1.4 GiB | 132,722 | `_pthread_start` | `libsystem_pthread.dylib` |
+| 100.0% | 771 MiB |   5,111 | `_pthread_start` | `libsystem_pthread.dylib` |
 
-##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+##### `_pthread_start` (`libsystem_pthread.dylib`)
 
-|      % |    Size | Samples | Caller             | Location       |
-| -----: | ------: | ------: | ------------------ | -------------- |
-| 100.0% | 1.4 GiB | 106,412 | `Thread::call_run` | `libjvm.dylib` |
-
-##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
-
-|      % |    Size | Samples | Caller                          | Location       |
-| -----: | ------: | ------: | ------------------------------- | -------------- |
-| 100.0% | 1.4 GiB | 105,603 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller         | Location                  |
+| -----: | ------: | ------: | -------------- | ------------------------- |
+| 100.0% | 771 MiB |   5,111 | `thread_start` | `libsystem_pthread.dylib` |
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller                                | Location       |
 | -----: | ------: | ------: | ------------------------------------- | -------------- |
-| 100.0% | 1.4 GiB | 105,326 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+| 100.0% | 771 MiB |   5,097 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
-##### `Chunk::operator new` (`libjvm.dylib`)
+##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Caller         | Location       |
-| -----: | -------: | ------: | -------------- | -------------- |
-| 100.0% | 1.39 GiB |  17,937 | `Arena::grow`  | `libjvm.dylib` |
-|  <0.1% | 98.4 KiB |      67 | `Arena::Arena` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller                          | Location       |
+| -----: | ------: | ------: | ------------------------------- | -------------- |
+| 100.0% | 771 MiB |   5,097 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
 
-##### `Arena::grow` (`libjvm.dylib`)
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Caller                                                             | Location       |
-| ----: | -------: | ------: | ------------------------------------------------------------------ | -------------- |
-| 32.5% |  462 MiB |   3,077 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
-| 23.5% |  335 MiB |   2,839 | `PhaseIFG::init`                                                   | `libjvm.dylib` |
-| 16.0% |  227 MiB |   4,762 | `Arena::Arealloc`                                                  | `libjvm.dylib` |
-|  8.0% |  114 MiB |   1,472 | `PhaseLive::compute`                                               | `libjvm.dylib` |
-|  3.2% | 45.4 MiB |     986 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 771 MiB |   5,097 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Caller                       | Location       |
-| -----: | -------: | ------: | ---------------------------- | -------------- |
-| 100.0% | 1.37 GiB |  27,142 | `C2Compiler::compile_method` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller                       | Location       |
+| -----: | ------: | ------: | ---------------------------- | -------------- |
+| 100.0% | 768 MiB |   5,005 | `C2Compiler::compile_method` | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Caller                                     | Location       |
-| -----: | -------: | ------: | ------------------------------------------ | -------------- |
-| 100.0% | 1.37 GiB |  27,142 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller                                     | Location       |
+| -----: | ------: | ------: | ------------------------------------------ | -------------- |
+| 100.0% | 768 MiB |   5,005 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
 ##### `Compile::Optimize` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller             | Location       |
 | -----: | ------: | ------: | ------------------ | -------------- |
-| 100.0% | 739 MiB |   9,027 | `Compile::Compile` | `libjvm.dylib` |
+| 100.0% | 412 MiB |   2,630 | `Compile::Compile` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
 |     % |    Size | Samples | Caller                    | Location       |
 | ----: | ------: | ------: | ------------------------- | -------------- |
-| 55.6% | 373 MiB |   4,518 | `Compile::Optimize`       | `libjvm.dylib` |
-| 44.4% | 298 MiB |   3,126 | `Compile::optimize_loops` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
-
-|      % |    Size | Samples | Caller                     | Location       |
-| -----: | ------: | ------: | -------------------------- | -------------- |
-| 100.0% | 665 MiB |   7,529 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
+| 54.2% | 212 MiB |   1,335 | `Compile::Optimize`       | `libjvm.dylib` |
+| 45.8% | 179 MiB |     998 | `Compile::optimize_loops` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller                           | Location       |
 | -----: | ------: | ------: | -------------------------------- | -------------- |
-| 100.0% | 665 MiB |   7,528 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+| 100.0% | 389 MiB |   2,311 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
 
-##### `Compile::Code_Gen` (`libjvm.dylib`)
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
 
-|      % |    Size | Samples | Caller             | Location       |
-| -----: | ------: | ------: | ------------------ | -------------- |
-| 100.0% | 609 MiB |  15,087 | `Compile::Compile` | `libjvm.dylib` |
-
-##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
-
-|      % |    Size | Samples | Caller              | Location       |
-| -----: | ------: | ------: | ------------------- | -------------- |
-| 100.0% | 470 MiB |   4,816 | `Compile::Code_Gen` | `libjvm.dylib` |
+|      % |    Size | Samples | Caller                     | Location       |
+| -----: | ------: | ------: | -------------------------- | -------------- |
+| 100.0% | 389 MiB |   2,311 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Caller                               | Location       |
 | -----: | ------: | ------: | ------------------------------------ | -------------- |
-| 100.0% | 462 MiB |   3,077 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+| 100.0% | 344 MiB |   1,535 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `Compile::Code_Gen` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 340 MiB |   2,198 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller              | Location       |
+| -----: | ------: | ------: | ------------------- | -------------- |
+| 100.0% | 284 MiB |   1,627 | `Compile::Code_Gen` | `libjvm.dylib` |
+
+##### `readBytes` (`libjava.dylib`)
+
+|      % |   Size | Samples | Caller                        | Location                  |
+| -----: | -----: | ------: | ----------------------------- | ------------------------- |
+| 100.0% | 64 MiB |     128 | `readBytes(byte[], int, int)` | `java.io.FileInputStream` |
 
 ##### `Arena::Arealloc` (`libjvm.dylib`)
 
 |     % |     Size | Samples | Caller                           | Location       |
 | ----: | -------: | ------: | -------------------------------- | -------------- |
-| 62.4% |  142 MiB |   3,066 | `Node_Array::grow`               | `libjvm.dylib` |
-| 12.1% | 27.5 MiB |     585 | `PhaseIdealLoop::set_idom`       | `libjvm.dylib` |
-|  7.6% | 17.2 MiB |     320 | `Type_Array::grow`               | `libjvm.dylib` |
-|  4.5% | 10.2 MiB |     162 | `Node::out_grow`                 | `libjvm.dylib` |
-|  3.3% | 7.44 MiB |     122 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
-
-##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
-
-|      % |    Size | Samples | Caller                                                                          | Location                |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------- | ----------------------- |
-| 100.0% | 106 MiB | 268,898 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader` |
-
-##### `readBytes` (`libjava.dylib`)
-
-|     % |     Size | Samples | Caller                         | Location                   |
-| ----: | -------: | ------: | ------------------------------ | -------------------------- |
-| 99.9% |   64 MiB |     128 | `readBytes(byte[], int, int)`  | `java.io.FileInputStream`  |
-|  0.1% | 58.8 KiB |       5 | `readBytes0(byte[], int, int)` | `java.io.RandomAccessFile` |
-
-##### `AllocateHeap` (`libjvm.dylib`)
-
-|     % |     Size | Samples | Caller                                                                                                                                                                                                                                                   | Location       |
-| ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| 60.7% |   36 MiB | 205,573 | `bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::internal_insert_get<SymbolTableLookup, bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::insert<SymbolTableLookup>(Thread*, SymbolTableLookup&, Symbol const&, bool*, bool*)::NOP>` | `libjvm.dylib` |
-| 11.0% | 6.55 MiB |  12,668 | `ImmutableOopMapBuilder::build`                                                                                                                                                                                                                          | `libjvm.dylib` |
-|  2.9% | 1.75 MiB |   2,615 | `Deoptimization::fetch_unroll_info_helper`                                                                                                                                                                                                               | `libjvm.dylib` |
-|  2.7% | 1.61 MiB |  26,456 | `PlatformMonitor::PlatformMonitor`                                                                                                                                                                                                                       | `libjvm.dylib` |
-|  2.0% |  1.2 MiB |   2,704 | `G1MonotonicArena::new_segment`                                                                                                                                                                                                                          | `libjvm.dylib` |
+| 56.0% | 35.3 MiB |     576 | `Node_Array::grow`               | `libjvm.dylib` |
+| 10.5% | 6.63 MiB |     102 | `PhaseIdealLoop::set_idom`       | `libjvm.dylib` |
+|  9.3% | 5.88 MiB |      67 | `Type_Array::grow`               | `libjvm.dylib` |
+|  7.3% | 4.59 MiB |      45 | `Node::out_grow`                 | `libjvm.dylib` |
+|  6.5% | 4.13 MiB |      37 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
 
 ##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
 
-|     % |    Size | Samples | Caller                                               | Location       |
-| ----: | ------: | ------: | ---------------------------------------------------- | -------------- |
-| 99.0% |  45 MiB |     981 | `PhaseIdealLoop::build_and_optimize`                 | `libjvm.dylib` |
-|  1.0% | 448 KiB |       5 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
+|      % |     Size | Samples | Caller                               | Location       |
+| -----: | -------: | ------: | ------------------------------------ | -------------- |
+| 100.0% | 11.8 MiB |     197 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
 
-##### `KlassFactory::create_from_stream` (`libjvm.dylib`)
+##### `Parse::do_one_block` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Caller                                               | Location       |
-| ----: | -------: | ------: | ---------------------------------------------------- | -------------- |
-| 97.4% | 39.8 MiB | 238,650 | `SystemDictionary::resolve_class_from_stream`        | `libjvm.dylib` |
-|  2.5% |    1 MiB |   8,216 | `SystemDictionary::resolve_hidden_class_from_stream` | `libjvm.dylib` |
-|  0.1% | 59.7 KiB |   1,181 | `ClassLoader::load_class`                            | `libjvm.dylib` |
+|      % |     Size | Samples | Caller                 | Location       |
+| -----: | -------: | ------: | ---------------------- | -------------- |
+| 100.0% | 10.3 MiB |     123 | `Parse::do_all_blocks` | `libjvm.dylib` |
 
-##### `jvm_define_class_common` (`libjvm.dylib`)
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Caller                      | Location       |
-| -----: | -------: | ------: | --------------------------- | -------------- |
-| 100.0% | 40.1 MiB | 259,142 | `JVM_DefineClassWithSource` | `libjvm.dylib` |
-
-##### `JVM_DefineClassWithSource` (`libjvm.dylib`)
-
-|     % |     Size | Samples | Caller                                    | Location        |
-| ----: | -------: | ------: | ----------------------------------------- | --------------- |
-| 99.9% | 40.1 MiB | 258,747 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib` |
-|  0.1% | 33.8 KiB |     395 | `Java_java_lang_ClassLoader_defineClass2` | `libjava.dylib` |
-
-##### `SystemDictionary::resolve_class_from_stream` (`libjvm.dylib`)
-
-|      % |     Size | Samples | Caller                    | Location       |
-| -----: | -------: | ------: | ------------------------- | -------------- |
-| 100.0% | 40.1 MiB | 259,125 | `jvm_define_class_common` | `libjvm.dylib` |
-|  <0.1% |    512 B |       7 | `JVM_LookupDefineClass`   | `libjvm.dylib` |
+|      % |     Size | Samples | Caller         | Location       |
+| -----: | -------: | ------: | -------------- | -------------- |
+| 100.0% | 10.3 MiB |     123 | `Parse::Parse` | `libjvm.dylib` |
 
 ##### `Parse::Parse` (`libjvm.dylib`)
 
 |      % |     Size | Samples | Caller                     | Location       |
 | -----: | -------: | ------: | -------------------------- | -------------- |
-| 100.0% | 36.4 MiB |     887 | `ParseGenerator::generate` | `libjvm.dylib` |
+| 100.0% | 10.3 MiB |     123 | `ParseGenerator::generate` | `libjvm.dylib` |
 
 ##### `ParseGenerator::generate` (`libjvm.dylib`)
 
 |     % |     Size | Samples | Caller                                 | Location       |
 | ----: | -------: | ------: | -------------------------------------- | -------------- |
-| 97.9% | 35.6 MiB |     871 | `Compile::Compile`                     | `libjvm.dylib` |
-| 68.8% | 25.1 MiB |     580 | `Parse::do_call`                       | `libjvm.dylib` |
-| 66.3% | 24.1 MiB |     595 | `PredictedCallGenerator::generate`     | `libjvm.dylib` |
-|  0.9% |  352 KiB |       8 | `CallGenerator::do_late_inline_helper` | `libjvm.dylib` |
+| 96.0% | 9.88 MiB |     117 | `Compile::Compile`                     | `libjvm.dylib` |
+| 64.4% | 6.63 MiB |      81 | `PredictedCallGenerator::generate`     | `libjvm.dylib` |
+| 62.9% | 6.47 MiB |      87 | `Parse::do_call`                       | `libjvm.dylib` |
+|  2.1% |  224 KiB |       4 | `CallGenerator::do_late_inline_helper` | `libjvm.dylib` |
+
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+
+|      % |     Size | Samples | Caller                                                                          | Location                |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------- | ----------------------- |
+| 100.0% | 10.2 MiB |     423 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader` |
+
+##### `Parse::do_call` (`libjvm.dylib`)
+
+|      % |     Size | Samples | Caller                | Location       |
+| -----: | -------: | ------: | --------------------- | -------------- |
+| 100.0% | 8.94 MiB |     111 | `Parse::do_one_block` | `libjvm.dylib` |
+
+##### `PredictedCallGenerator::generate` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                                 | Location       |
+| ----: | -------: | ------: | -------------------------------------- | -------------- |
+| 99.2% | 7.44 MiB |      86 | `Parse::do_call`                       | `libjvm.dylib` |
+| 55.4% | 4.16 MiB |      48 | `PredictedCallGenerator::generate`     | `libjvm.dylib` |
+|  2.5% |  192 KiB |       2 | `CallGenerator::do_late_inline_helper` | `libjvm.dylib` |
+
+##### `Type_Array::grow` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Caller                           | Location       |
+| ----: | -------: | ------: | -------------------------------- | -------------- |
+| 29.8% | 1.75 MiB |      23 | `PhaseValues::set_type_bottom`   | `libjvm.dylib` |
+| 26.1% | 1.53 MiB |      14 | `IdealKit::delay_transform`      | `libjvm.dylib` |
+| 14.4% |  864 KiB |       8 | `GraphKit::clone_map`            | `libjvm.dylib` |
+|  6.9% |  416 KiB |       7 | `Parse::build_exits`             | `libjvm.dylib` |
+|  6.4% |  384 KiB |       4 | `PhaseIdealLoop::split_thru_phi` | `libjvm.dylib` |
 
 #### Callees
 
@@ -378,253 +372,251 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ##### `os::malloc` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee        | Location                 |
-| -----: | -------: | ------: | ------------- | ------------------------ |
-| 100.0% | 1.45 GiB | 546,928 | `malloc_hook` | `libasyncProfiler.dylib` |
-|   0.1% |  980 KiB |  11,894 | `os::malloc`  | `libjvm.dylib`           |
+|      % |    Size | Samples | Callee        | Location                 |
+| -----: | ------: | ------: | ------------- | ------------------------ |
+| 100.0% | 771 MiB |   5,309 | `malloc_hook` | `libasyncProfiler.dylib` |
+|  <0.1% |   840 B |       5 | `os::malloc`  | `libjvm.dylib`           |
 
-##### `_pthread_start` (`libsystem_pthread.dylib`)
+##### `Chunk::operator new` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee       | Location       |
+| -----: | ------: | ------: | ------------ | -------------- |
+| 100.0% | 771 MiB |   5,073 | `os::malloc` | `libjvm.dylib` |
+
+##### `Arena::grow` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Callee                | Location       |
 | -----: | ------: | ------: | --------------------- | -------------- |
-| 100.0% | 1.4 GiB | 132,722 | `thread_native_entry` | `libjvm.dylib` |
-|  <0.1% |  56 KiB |     153 | `ThreadJavaMain`      | `libjli.dylib` |
-
-##### `thread_start` (`libsystem_pthread.dylib`)
-
-|      % |    Size | Samples | Callee           | Location                  |
-| -----: | ------: | ------: | ---------------- | ------------------------- |
-| 100.0% | 1.4 GiB | 132,875 | `_pthread_start` | `libsystem_pthread.dylib` |
+| 100.0% | 771 MiB |   5,073 | `Chunk::operator new` | `libjvm.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                          | Location       |
-| ----: | -------: | ------: | ------------------------------- | -------------- |
-| 99.7% |  1.4 GiB | 106,412 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
-|  0.2% | 2.39 MiB |  17,465 | `WorkerThread::run`             | `libjvm.dylib` |
-|  0.1% | 1.32 MiB |   8,544 | `VMThread::run`                 | `libjvm.dylib` |
-| <0.1% | 90.2 KiB |      45 | `JavaThread::post_run`          | `libjvm.dylib` |
-| <0.1% | 89.3 KiB |      33 | `ThreadsSMRSupport::smr_delete` | `libjvm.dylib` |
+|      % |     Size | Samples | Callee                          | Location       |
+| -----: | -------: | ------: | ------------------------------- | -------------- |
+| 100.0% |  771 MiB |   5,097 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+|  <0.1% | 25.8 KiB |       7 | `WorkerThread::run`             | `libjvm.dylib` |
+|  <0.1% | 21.4 KiB |       7 | `VMThread::run`                 | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Callee             | Location       |
 | -----: | ------: | ------: | ------------------ | -------------- |
-| 100.0% | 1.4 GiB | 132,722 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% | 771 MiB |   5,111 | `Thread::call_run` | `libjvm.dylib` |
 
-##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+##### `_pthread_start` (`libsystem_pthread.dylib`)
 
-|      % |     Size | Samples | Callee                                | Location       |
-| -----: | -------: | ------: | ------------------------------------- | -------------- |
-| 100.0% |  1.4 GiB | 105,603 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
-|  <0.1% | 39.3 KiB |     809 | `ServiceThread::service_thread_entry` | `libjvm.dylib` |
+|      % |    Size | Samples | Callee                | Location       |
+| -----: | ------: | ------: | --------------------- | -------------- |
+| 100.0% | 771 MiB |   5,111 | `thread_native_entry` | `libjvm.dylib` |
 
-##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
+##### `thread_start` (`libsystem_pthread.dylib`)
 
-|      % |    Size | Samples | Callee                                         | Location       |
-| -----: | ------: | ------: | ---------------------------------------------- | -------------- |
-| 100.0% | 1.4 GiB | 105,326 | `CompileBroker::invoke_compiler_on_method`     | `libjvm.dylib` |
-|  <0.1% | 139 KiB |     274 | `CompileBroker::possibly_add_compiler_threads` | `libjvm.dylib` |
-|  <0.1% |  24 KiB |       3 | `CompileQueue::get`                            | `libjvm.dylib` |
+|      % |    Size | Samples | Callee           | Location                  |
+| -----: | ------: | ------: | ---------------- | ------------------------- |
+| 100.0% | 771 MiB |   5,111 | `_pthread_start` | `libsystem_pthread.dylib` |
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                              | Location       |
-| ----: | -------: | ------: | ----------------------------------- | -------------- |
-| 97.8% | 1.37 GiB |  27,142 | `C2Compiler::compile_method`        | `libjvm.dylib` |
-|  2.2% | 31.4 MiB |  65,561 | `Compiler::compile_method`          | `libjvm.dylib` |
-| <0.1% |  184 KiB |  12,603 | `CompilationLog::log_compile`       | `libjvm.dylib` |
-| <0.1% | 64.9 KiB |       3 | `ciEnv::ciEnv`                      | `libjvm.dylib` |
-| <0.1% | 3.47 KiB |      12 | `JavaThread::push_jni_handle_block` | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                        | Location       |
+| ----: | -------: | ------: | ----------------------------- | -------------- |
+| 99.7% |  768 MiB |   5,005 | `C2Compiler::compile_method`  | `libjvm.dylib` |
+|  0.3% | 2.28 MiB |      90 | `Compiler::compile_method`    | `libjvm.dylib` |
+| <0.1% |   32 KiB |       1 | `ciEnv::ciEnv`                | `libjvm.dylib` |
+| <0.1% |     31 B |       1 | `CompilationLog::log_compile` | `libjvm.dylib` |
 
-##### `Chunk::operator new` (`libjvm.dylib`)
+##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee       | Location       |
-| -----: | -------: | ------: | ------------ | -------------- |
-| 100.0% | 1.39 GiB |  18,004 | `os::malloc` | `libjvm.dylib` |
+|      % |    Size | Samples | Callee                                     | Location       |
+| -----: | ------: | ------: | ------------------------------------------ | -------------- |
+| 100.0% | 771 MiB |   5,097 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
-##### `Arena::grow` (`libjvm.dylib`)
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee                | Location       |
-| -----: | -------: | ------: | --------------------- | -------------- |
-| 100.0% | 1.39 GiB |  17,937 | `Chunk::operator new` | `libjvm.dylib` |
+|      % |    Size | Samples | Callee                                | Location       |
+| -----: | ------: | ------: | ------------------------------------- | -------------- |
+| 100.0% | 771 MiB |   5,097 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
 
 |     % |     Size | Samples | Callee                                   | Location       |
 | ----: | -------: | ------: | ---------------------------------------- | -------------- |
-| 52.8% |  739 MiB |   9,027 | `Compile::Optimize`                      | `libjvm.dylib` |
-| 43.6% |  609 MiB |  15,087 | `Compile::Code_Gen`                      | `libjvm.dylib` |
-|  2.5% | 35.6 MiB |     871 | `ParseGenerator::generate`               | `libjvm.dylib` |
-|  0.8% | 11.3 MiB |     185 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
-|  0.2% | 2.84 MiB |      52 | `NodeHash::NodeHash`                     | `libjvm.dylib` |
+| 53.6% |  412 MiB |   2,630 | `Compile::Optimize`                      | `libjvm.dylib` |
+| 44.3% |  340 MiB |   2,198 | `Compile::Code_Gen`                      | `libjvm.dylib` |
+|  1.3% | 9.88 MiB |     117 | `ParseGenerator::generate`               | `libjvm.dylib` |
+|  0.6% | 4.25 MiB |      41 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
+|  0.1% | 1.06 MiB |      11 | `NodeHash::NodeHash`                     | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee             | Location       |
-| -----: | -------: | ------: | ------------------ | -------------- |
-| 100.0% | 1.37 GiB |  27,142 | `Compile::Compile` | `libjvm.dylib` |
+|      % |    Size | Samples | Callee             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 768 MiB |   5,005 | `Compile::Compile` | `libjvm.dylib` |
 
 ##### `Compile::Optimize` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                                 | Location       |
-| ----: | -------: | ------: | -------------------------------------- | -------------- |
-| 50.5% |  373 MiB |   4,518 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
-| 40.3% |  298 MiB |   3,126 | `Compile::optimize_loops`              | `libjvm.dylib` |
-|  2.0% | 15.1 MiB |     349 | `PhaseCCP::do_transform`               | `libjvm.dylib` |
-|  1.7% | 12.3 MiB |     218 | `PhaseIterGVN::optimize`               | `libjvm.dylib` |
-|  1.6% | 11.7 MiB |     233 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                         | Location       |
+| ----: | -------: | ------: | ------------------------------ | -------------- |
+| 51.4% |  212 MiB |   1,335 | `PhaseIdealLoop::optimize`     | `libjvm.dylib` |
+| 43.5% |  179 MiB |     998 | `Compile::optimize_loops`      | `libjvm.dylib` |
+|  1.3% | 5.25 MiB |      48 | `PhaseIterGVN::optimize`       | `libjvm.dylib` |
+|  0.9% | 3.82 MiB |      72 | `PhaseCCP::do_transform`       | `libjvm.dylib` |
+|  0.8% | 3.21 MiB |      49 | `ConnectionGraph::do_analysis` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                           | Location       |
-| ----: | -------: | ------: | -------------------------------- | -------------- |
-| 99.1% |  665 MiB |   7,529 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
-|  0.9% | 6.01 MiB |     115 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
-
-|      % |    Size | Samples | Callee                               | Location       |
-| -----: | ------: | ------: | ------------------------------------ | -------------- |
-| 100.0% | 665 MiB |   7,528 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
-|  <0.1% |  32 KiB |       1 | `Arena::grow`                        | `libjvm.dylib` |
+|     % |    Size | Samples | Callee                           | Location       |
+| ----: | ------: | ------: | -------------------------------- | -------------- |
+| 99.5% | 389 MiB |   2,311 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+|  0.5% |   2 MiB |      22 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
 |     % |     Size | Samples | Callee                                                             | Location       |
 | ----: | -------: | ------: | ------------------------------------------------------------------ | -------------- |
-| 69.5% |  462 MiB |   3,077 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
-|  7.0% | 46.3 MiB |   1,021 | `Node_Array::grow`                                                 | `libjvm.dylib` |
-|  6.8% |   45 MiB |     981 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
-|  4.9% | 32.3 MiB |     624 | `Arena::grow`                                                      | `libjvm.dylib` |
-|  4.7% |   31 MiB |     732 | `IdealLoopTree::loop_predication`                                  | `libjvm.dylib` |
+| 88.5% |  344 MiB |   1,535 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
+|  3.0% | 11.8 MiB |     197 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
+|  3.0% | 11.5 MiB |     193 | `Node_Array::grow`                                                 | `libjvm.dylib` |
+|  1.6% | 6.21 MiB |     114 | `Arena::grow`                                                      | `libjvm.dylib` |
+|  1.4% | 5.53 MiB |     104 | `IdealLoopTree::loop_predication`                                  | `libjvm.dylib` |
 
-##### `Compile::Code_Gen` (`libjvm.dylib`)
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                            | Location       |
-| ----: | -------: | ------: | --------------------------------- | -------------- |
-| 77.1% |  470 MiB |   4,816 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-| 18.2% |  111 MiB |   1,769 | `Matcher::match`                  | `libjvm.dylib` |
-|  1.9% | 11.6 MiB |     226 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
-|  1.3% |  7.8 MiB |     492 | `PhaseOutput::Output`             | `libjvm.dylib` |
-|  1.0% | 6.34 MiB |     125 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
-
-##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
-
-|     % |     Size | Samples | Callee                                     | Location       |
-| ----: | -------: | ------: | ------------------------------------------ | -------------- |
-| 71.2% |  335 MiB |   2,839 | `PhaseIFG::init`                           | `libjvm.dylib` |
-| 24.5% |  115 MiB |   1,517 | `PhaseLive::compute`                       | `libjvm.dylib` |
-|  1.9% | 8.85 MiB |     196 | `PhaseChaitin::Split`                      | `libjvm.dylib` |
-|  0.6% | 2.88 MiB |      59 | `PhaseAggressiveCoalesce::insert_copies`   | `libjvm.dylib` |
-|  0.5% | 2.53 MiB |      81 | `PhaseChaitin::post_allocate_copy_removal` | `libjvm.dylib` |
+|      % |    Size | Samples | Callee                               | Location       |
+| -----: | ------: | ------: | ------------------------------------ | -------------- |
+| 100.0% | 389 MiB |   2,311 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
 
 |      % |    Size | Samples | Callee        | Location       |
 | -----: | ------: | ------: | ------------- | -------------- |
-| 100.0% | 462 MiB |   3,077 | `Arena::grow` | `libjvm.dylib` |
+| 100.0% | 344 MiB |   1,535 | `Arena::grow` | `libjvm.dylib` |
 
-##### `Arena::Arealloc` (`libjvm.dylib`)
+##### `Compile::Code_Gen` (`libjvm.dylib`)
 
-|      % |    Size | Samples | Callee        | Location       |
-| -----: | ------: | ------: | ------------- | -------------- |
-| 100.0% | 227 MiB |   4,762 | `Arena::grow` | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                            | Location       |
+| ----: | -------: | ------: | --------------------------------- | -------------- |
+| 83.4% |  284 MiB |   1,627 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+| 14.7% |   50 MiB |     455 | `Matcher::match`                  | `libjvm.dylib` |
+|  0.9% | 3.07 MiB |      52 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
+|  0.5% | 1.86 MiB |      31 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
+|  0.3% | 1.15 MiB |      24 | `PhaseOutput::Output`             | `libjvm.dylib` |
 
-##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                      | Location                 |
-| ----: | -------: | ------: | --------------------------- | ------------------------ |
-| 62.1% | 65.8 MiB |  10,151 | `malloc_hook`               | `libasyncProfiler.dylib` |
-| 37.9% | 40.1 MiB | 258,747 | `JVM_DefineClassWithSource` | `libjvm.dylib`           |
+|     % |     Size | Samples | Callee                                   | Location       |
+| ----: | -------: | ------: | ---------------------------------------- | -------------- |
+| 78.1% |  222 MiB |   1,068 | `PhaseIFG::init`                         | `libjvm.dylib` |
+| 20.4% | 57.9 MiB |     492 | `PhaseLive::compute`                     | `libjvm.dylib` |
+|  1.0% | 2.75 MiB |      40 | `PhaseChaitin::Split`                    | `libjvm.dylib` |
+|  0.2% |  561 KiB |       9 | `PhaseRegAlloc::alloc_node_regs`         | `libjvm.dylib` |
+|  0.2% |  448 KiB |       9 | `PhaseAggressiveCoalesce::insert_copies` | `libjvm.dylib` |
 
 ##### `readBytes` (`libjava.dylib`)
 
-|      % |     Size | Samples | Callee        | Location                 |
-| -----: | -------: | ------: | ------------- | ------------------------ |
-| 100.0% | 64.1 MiB |     133 | `malloc_hook` | `libasyncProfiler.dylib` |
+|      % |   Size | Samples | Callee        | Location                 |
+| -----: | -----: | ------: | ------------- | ------------------------ |
+| 100.0% | 64 MiB |     128 | `malloc_hook` | `libasyncProfiler.dylib` |
 
-##### `AllocateHeap` (`libjvm.dylib`)
+##### `Arena::Arealloc` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee       | Location       |
-| -----: | -------: | ------: | ------------ | -------------- |
-| 100.0% | 59.3 MiB | 459,732 | `os::malloc` | `libjvm.dylib` |
+|      % |     Size | Samples | Callee        | Location       |
+| -----: | -------: | ------: | ------------- | -------------- |
+| 100.0% | 63.1 MiB |     930 | `Arena::grow` | `libjvm.dylib` |
 
 ##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
 
 |      % |     Size | Samples | Callee        | Location       |
 | -----: | -------: | ------: | ------------- | -------------- |
-| 100.0% | 45.4 MiB |     986 | `Arena::grow` | `libjvm.dylib` |
+| 100.0% | 11.8 MiB |     197 | `Arena::grow` | `libjvm.dylib` |
 
-##### `KlassFactory::create_from_stream` (`libjvm.dylib`)
+##### `Parse::do_one_block` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                                        | Location       |
-| ----: | -------: | ------: | --------------------------------------------- | -------------- |
-| 85.7% |   35 MiB | 216,537 | `ClassFileParser::ClassFileParser`            | `libjvm.dylib` |
-| 14.3% | 5.85 MiB |  31,595 | `ClassFileParser::create_instance_klass`      | `libjvm.dylib` |
-| <0.1% | 1.64 KiB |       3 | `JfrEventClassTransformer::on_klass_creation` | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                      | Location       |
+| ----: | -------: | ------: | --------------------------- | -------------- |
+| 86.9% | 8.94 MiB |     111 | `Parse::do_call`            | `libjvm.dylib` |
+| 26.1% | 2.69 MiB |      35 | `Parse::do_field_access`    | `libjvm.dylib` |
+| 10.3% | 1.06 MiB |      12 | `Parse::do_one_bytecode`    | `libjvm.dylib` |
+|  6.7% |  704 KiB |      10 | `Parse::return_current`     | `libjvm.dylib` |
+|  4.3% |  448 KiB |       3 | `GraphKit::access_store_at` | `libjvm.dylib` |
 
-##### `jvm_define_class_common` (`libjvm.dylib`)
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee                                        | Location       |
-| -----: | -------: | ------: | --------------------------------------------- | -------------- |
-| 100.0% | 40.1 MiB | 259,125 | `SystemDictionary::resolve_class_from_stream` | `libjvm.dylib` |
-|  <0.1% |    994 B |      17 | `SymbolTable::do_add_if_needed`               | `libjvm.dylib` |
-
-##### `JVM_DefineClassWithSource` (`libjvm.dylib`)
-
-|      % |     Size | Samples | Callee                    | Location       |
-| -----: | -------: | ------: | ------------------------- | -------------- |
-| 100.0% | 40.1 MiB | 259,142 | `jvm_define_class_common` | `libjvm.dylib` |
-
-##### `SystemDictionary::resolve_class_from_stream` (`libjvm.dylib`)
-
-|     % |     Size | Samples | Callee                                    | Location       |
-| ----: | -------: | ------: | ----------------------------------------- | -------------- |
-| 99.1% | 39.8 MiB | 238,650 | `KlassFactory::create_from_stream`        | `libjvm.dylib` |
-|  0.8% |  348 KiB |  19,948 | `SystemDictionary::define_instance_class` | `libjvm.dylib` |
-| <0.1% | 16.6 KiB |     500 | `SystemDictionary::find_or_define_helper` | `libjvm.dylib` |
-| <0.1% | 6.04 KiB |      34 | `ClassLoaderDataGraph::add`               | `libjvm.dylib` |
+|      % |     Size | Samples | Callee                | Location       |
+| -----: | -------: | ------: | --------------------- | -------------- |
+| 100.0% | 10.3 MiB |     123 | `Parse::do_one_block` | `libjvm.dylib` |
+|   1.2% |  128 KiB |       3 | `Parse::merge_common` | `libjvm.dylib` |
 
 ##### `Parse::Parse` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                    | Location       |
-| ----: | -------: | ------: | ------------------------- | -------------- |
-| 99.7% | 36.3 MiB |     864 | `Parse::do_all_blocks`    | `libjvm.dylib` |
-|  7.5% | 2.72 MiB |      53 | `Parse::build_exits`      | `libjvm.dylib` |
-|  2.3% |  864 KiB |      20 | `GraphKit::set_map_clone` | `libjvm.dylib` |
-|  2.1% |  800 KiB |      19 | `Parse::do_exits`         | `libjvm.dylib` |
-|  1.3% |  480 KiB |      14 | `Parse::create_entry_map` | `libjvm.dylib` |
+|      % |     Size | Samples | Callee                    | Location       |
+| -----: | -------: | ------: | ------------------------- | -------------- |
+| 100.0% | 10.3 MiB |     123 | `Parse::do_all_blocks`    | `libjvm.dylib` |
+|   6.4% |  672 KiB |       4 | `GraphKit::set_map_clone` | `libjvm.dylib` |
+|   5.5% |  576 KiB |      11 | `Parse::build_exits`      | `libjvm.dylib` |
+|   0.3% |   32 KiB |       1 | `Parse::create_entry_map` | `libjvm.dylib` |
 
 ##### `ParseGenerator::generate` (`libjvm.dylib`)
 
 |      % |     Size | Samples | Callee         | Location       |
 | -----: | -------: | ------: | -------------- | -------------- |
-| 100.0% | 36.4 MiB |     887 | `Parse::Parse` | `libjvm.dylib` |
+| 100.0% | 10.3 MiB |     123 | `Parse::Parse` | `libjvm.dylib` |
+
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+
+|     % |     Size | Samples | Callee                      | Location                 |
+| ----: | -------: | ------: | --------------------------- | ------------------------ |
+| 96.6% | 9.89 MiB |     281 | `malloc_hook`               | `libasyncProfiler.dylib` |
+|  3.4% |  352 KiB |     142 | `JVM_DefineClassWithSource` | `libjvm.dylib`           |
+
+##### `Parse::do_call` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Callee                                     | Location       |
+| ----: | -------: | ------: | ------------------------------------------ | -------------- |
+| 83.2% | 7.44 MiB |      86 | `PredictedCallGenerator::generate`         | `libjvm.dylib` |
+| 72.4% | 6.47 MiB |      87 | `ParseGenerator::generate`                 | `libjvm.dylib` |
+|  5.6% |  512 KiB |       4 | `DirectCallGenerator::generate`            | `libjvm.dylib` |
+|  2.4% |  224 KiB |       3 | `LibraryIntrinsic::generate`               | `libjvm.dylib` |
+|  0.7% |   64 KiB |       2 | `LateInlineVirtualCallGenerator::generate` | `libjvm.dylib` |
+
+##### `PredictedCallGenerator::generate` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Callee                             | Location       |
+| ----: | -------: | ------: | ---------------------------------- | -------------- |
+| 88.3% | 6.63 MiB |      81 | `ParseGenerator::generate`         | `libjvm.dylib` |
+| 55.4% | 4.16 MiB |      48 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
+| 11.7% |  896 KiB |       6 | `GraphKit::type_check_receiver`    | `libjvm.dylib` |
+| 11.7% |  896 KiB |       6 | `GraphKit::subtype_check_receiver` | `libjvm.dylib` |
+|  6.7% |  512 KiB |       3 | `GraphKit::null_check_common`      | `libjvm.dylib` |
+
+##### `Type_Array::grow` (`libjvm.dylib`)
+
+|      % |     Size | Samples | Callee            | Location       |
+| -----: | -------: | ------: | ----------------- | -------------- |
+| 100.0% | 5.88 MiB |      67 | `Arena::Arealloc` | `libjvm.dylib` |
 
 ## Hottest call stacks
 
 Call stacks with the most native bytes allocated in their leaf frame.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 20.4% |  335 MiB |   2,839 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 15.5% |  254 MiB |   1,774 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                             |
-| 12.7% |  208 MiB |   1,303 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                 |
-|  6.9% |  114 MiB |   1,472 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  3.4% |   55 MiB |     110 | `malloc_hook` (`libasyncProfiler.dylib`) ← `readBytes` (`libjava.dylib`) ← `readBytes(byte[], int, int)` (`java.io.FileInputStream`) ← `read(byte[], int, int)` ← `fill()` (`java.io.BufferedInputStream`) ← `read1(byte[], int, int)` ← `implRead(byte[], int, int)` ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.io.FilterInputStream`) ← `read(byte[], int, int)` (`java.io.PushbackInputStream`) ← `fill()` (`java.util.zip.InflaterInputStream`) ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.util.zip.ZipInputStream`) ← `read(byte[])` (`java.io.FilterInputStream`) ← `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`) ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])` |
-|  2.3% | 38.3 MiB |     405 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  1.8% | 29.5 MiB |     401 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::find_shared` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  1.5% |   25 MiB |     596 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                   |
-|  1.4% | 23.7 MiB |     556 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                       |
-|  1.3% | 21.3 MiB |     425 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                       |
-|  1.3% | 21.3 MiB |     425 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                           |
-|  1.0% | 16.9 MiB |     323 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                |
-|  0.9% | 15.4 MiB |     301 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                            |
-|  0.9% | 14.8 MiB |     340 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                       |
-|  0.7% | 11.5 MiB |     261 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  0.7% | 11.2 MiB |     183 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Compile::identify_useful_nodes` ← `PhaseRemoveUseless::PhaseRemoveUseless` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                  |
-|  0.6% | 9.44 MiB |     224 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                    |
-|  0.6% | 9.35 MiB |     153 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                         |
-|  0.6% | 9.31 MiB |     135 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node::out_grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.4% | 6.85 MiB |     159 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::split_thru_region` ← `PhaseIdealLoop::do_split_if` ← `PhaseIdealLoop::split_if_with_blocks` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                            |
+|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 26.2% |  222 MiB |   1,068 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 21.9% |  185 MiB |     873 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 18.8% |  159 MiB |     662 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                |
+|  6.8% | 57.6 MiB |     483 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  6.5% |   55 MiB |     110 | `malloc_hook` (`libasyncProfiler.dylib`) ← `readBytes` (`libjava.dylib`) ← `readBytes(byte[], int, int)` (`java.io.FileInputStream`) ← `read(byte[], int, int)` ← `fill()` (`java.io.BufferedInputStream`) ← `read1(byte[], int, int)` ← `implRead(byte[], int, int)` ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.io.FilterInputStream`) ← `read(byte[], int, int)` (`java.io.PushbackInputStream`) ← `fill()` (`java.util.zip.InflaterInputStream`) ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.util.zip.ZipInputStream`) ← `read(byte[])` (`java.io.FilterInputStream`) ← `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`) ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`                                                                                |
+|  2.6% | 22.1 MiB |     130 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  1.8% | 15.2 MiB |     126 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::find_shared` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.8% | 6.47 MiB |     109 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  0.7% | 6.25 MiB |     109 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.7% |  5.6 MiB |      88 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                          |
+|  0.6% |  5.5 MiB |      11 | `malloc_hook` (`libasyncProfiler.dylib`) ← `readBytes` (`libjava.dylib`) ← `readBytes(byte[], int, int)` (`java.io.FileInputStream`) ← `read(byte[], int, int)` ← `fill()` (`java.io.BufferedInputStream`) ← `read1(byte[], int, int)` ← `implRead(byte[], int, int)` ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.io.FilterInputStream`) ← `read(byte[], int, int)` (`java.io.PushbackInputStream`) ← `fill()` (`java.util.zip.InflaterInputStream`) ← `read(byte[], int, int)` ← `read(byte[], int, int)` (`java.util.zip.ZipInputStream`) ← `read(byte[])` (`java.io.FilterInputStream`) ← `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`) ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])` |
+|  0.6% | 5.06 MiB |      84 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.5% | 4.59 MiB |      45 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node::out_grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  0.5% | 4.25 MiB |      41 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Compile::identify_useful_nodes` ← `PhaseRemoveUseless::PhaseRemoveUseless` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  0.5% | 4.09 MiB |      36 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  0.4% | 3.78 MiB |      71 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.4% | 3.22 MiB |      58 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  0.4% | 2.99 MiB |      56 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  0.3% | 2.84 MiB |      47 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  0.3% | 2.75 MiB |      53 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                   |

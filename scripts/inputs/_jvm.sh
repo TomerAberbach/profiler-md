@@ -36,12 +36,15 @@ ensure_ap_lib() {
   ap_lib="$lib"
 }
 
+# Without a sampling interval, nativemem records every malloc and free, and a
+# JVM's startup alone fills about 75 MB of stack traces. A 256 KiB interval
+# records an allocation for each 256 KiB the program allocates.
 declare -A AP_EVENT=(
   [cpu]="event=cpu"
   [wall]="event=wall"
   [alloc]="event=alloc"
   [live]="event=alloc,live"
-  [nativemem]="event=nativemem"
+  [nativemem]="event=nativemem,nativemem=256k"
   [lock]="event=lock"
   [all]="event=cpu,event=alloc,event=lock"
 )
