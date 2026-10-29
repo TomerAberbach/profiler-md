@@ -1,6 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { oursIfLocatedCategory, pathCategory } from '../categorize.ts'
 import type { OriginSpec } from '../spec.ts'
 
 /**
@@ -26,7 +26,7 @@ export const excimerOriginSpec = {
   // global function whose file the collapsed format dropped rather than
   // compiled code, so it is `unknown` rather than `native`.
   categorizeEntry: entry =>
-    vendorCategory(entry) ?? (entry.location ? `ours` : `unknown`),
+    vendorCategory(entry) ?? oursIfLocatedCategory(entry),
   isTruncationMarker: ({ name }) => name === TRUNCATION_FRAME,
   normalizeStackFrame: input => {
     const { name, definition } = input
@@ -116,12 +116,10 @@ const TRUNCATION_FRAME = `excimer_truncated`
  * a file. Neither contains an install directory, so only file-scope and closure
  * frames can match this rule.
  */
-const vendorCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && VENDOR_DIRECTORY.test(sourceReferencePathOrName(location))
-    ? `third-party`
-    : undefined
+const vendorCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `third-party`, VENDOR_DIRECTORY)
 
 /** Composer's install directory, at the root of a project or of a package. */
 const VENDOR_DIRECTORY = /(?:^|\/)vendor\//u

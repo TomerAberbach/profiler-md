@@ -6,6 +6,7 @@ import {
   locationlessCategory,
   NATIVE_LIBRARY,
   nativeLibraryCategory,
+  pathCategory,
 } from './categorize.ts'
 import { matchEntryFromRules } from './spec.ts'
 import type { EntryMatchRule } from './spec.ts'
@@ -55,7 +56,7 @@ export const jvmMatchEntry = matchEntryFromRules({
 export const categorizeJvmEntry = (
   entry: DeepReadonly<ProfileEntry>,
 ): FunctionCategory =>
-  jvmStdlibCategory(entry) ??
+  pathCategory(entry, `stdlib`, JVM_STDLIB_PACKAGE) ??
   hotspotRuntimeCategory(entry) ??
   unresolvedFrameCategory(entry) ??
   nativeLibraryCategory(entry) ??
@@ -65,13 +66,6 @@ export const categorizeJvmEntry = (
   // internals, malloc, unresolved native code) rather than Java code.
   locationlessCategory(entry) ??
   `ours`
-
-const jvmStdlibCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && JVM_STDLIB_PACKAGE.test(sourceReferencePathOrName(location))
-    ? `stdlib`
-    : undefined
 
 /**
  * Whether a raw async-profiler frame name is in a JVM standard-library package,

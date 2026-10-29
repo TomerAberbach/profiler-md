@@ -2,6 +2,7 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { oursIfLocatedCategory } from '../categorize.ts'
 import { matchEntryFromRules } from '../spec.ts'
 import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
@@ -48,8 +49,11 @@ export const nixOriginSpec = {
   categorizeEntry: entry =>
     primopCategory(entry) ??
     evaluatorSourceCategory(entry) ??
-    unattributedNixCategory(entry) ??
-    `ours`,
+    // The evaluator records a position for every call, and normalization strips
+    // the `«none»` it writes where it resolved none. After primopCategory has
+    // taken the builtins, a frame left without a position is a call the
+    // evaluator could not locate.
+    oursIfLocatedCategory(entry),
   matchEntry: matchEntryFromRules({ location: NIX_LOCATION_MATCH_RULES }),
   normalizeStackFrame: input =>
     // A sourced frame stores its position in a separate field, so its name
@@ -100,20 +104,6 @@ const evaluatorSourceCategory = ({
 
 /** The directory the evaluator reports for the Nix sources compiled into it. */
 const EVALUATOR_SOURCE_DIRECTORY = `«nix-internal»`
-
-/**
- * Categorizes a remaining location-less frame as `unknown`.
- *
- * The evaluator records a position for every call, and writes `«none»` where
- * it could not resolve one. Normalization strips that placeholder and leaves
- * no location. A location-less frame that reaches this rule is a call the
- * evaluator could not place, because the `primop` rule already matched the
- * builtins.
- */
-const unattributedNixCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location ? undefined : `unknown`
 
 /**
  * Splits a packed `source:line[:column][:name]` frame into its name and call

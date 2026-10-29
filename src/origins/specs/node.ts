@@ -9,6 +9,7 @@ import {
   hasNodeModulesPath,
   javaScriptConstructorCategory,
   javaScriptMatchHeapSnapshotEdgeName,
+  NODE_PROTOCOLS,
   v8JavaScriptCategory,
 } from '../javascript.ts'
 import { hasProtocol } from '../spec.ts'
@@ -63,9 +64,6 @@ const nodeTraceEventCategory = ({
     ? `script`
     : undefined
 }
-
-/** The module specifiers Node resolves to runtime builtins. */
-const NODE_PROTOCOLS = [`node:`]
 
 const isFileLocated = (
   location: DeepReadonly<SourceLocation> | undefined,

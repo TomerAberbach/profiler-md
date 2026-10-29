@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import { systemDirectoryCategory } from './categorize.ts'
+import { oursIfLocatedCategory, systemDirectoryCategory } from './categorize.ts'
 
 /** Categorizes an entry a `perf.data` recording resolved to a mapped file. */
 export const categorizeLinuxEntry = (
@@ -10,8 +10,10 @@ export const categorizeLinuxEntry = (
   kernelMappingCategory(entry) ??
   anonymousMappingCategory(entry) ??
   systemDirectoryCategory(entry) ??
-  unmappedAddressCategory(entry) ??
-  `ours`
+  // A profiler resolving addresses against the process's mappings states where
+  // every other address came from, so one no mapping covered is code it
+  // recorded nothing about.
+  oursIfLocatedCategory(entry)
 
 /**
  * Categorizes the code a Linux kernel maps into a process rather than the
@@ -109,15 +111,3 @@ export const isAnonymousMapping = (path: string): boolean =>
   path === `[stack]` ||
   path.startsWith(`[stack:`) ||
   path.startsWith(`[anon:`)
-
-/**
- * Categorizes an address no memory mapping covered as `unknown`.
- *
- * A profiler that resolves addresses against the mappings a process made states
- * where every other address came from, so one it left unattributed is code it
- * recorded nothing about rather than compiled code it placed.
- */
-const unmappedAddressCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location ? undefined : `unknown`

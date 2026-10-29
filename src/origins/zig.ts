@@ -4,8 +4,8 @@
  */
 
 import type { DeepReadonly } from '../helpers/types.ts'
-import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { pathCategory } from './categorize.ts'
 import type { EntryMatchRule } from './spec.ts'
 
 /**
@@ -17,12 +17,10 @@ import type { EntryMatchRule } from './spec.ts'
  * executable's own mapping. Only the source path distinguishes them from user
  * code.
  */
-export const zigStdlibCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && ZIG_TOOLCHAIN_SOURCE.test(sourceReferencePathOrName(location))
-    ? `stdlib`
-    : undefined
+export const zigStdlibCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `stdlib`, ZIG_TOOLCHAIN_SOURCE)
 
 /**
  * A source under a Zig installation's `lib/` directory, which distribution

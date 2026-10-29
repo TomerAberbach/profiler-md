@@ -1,6 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { oursIfLocatedCategory, pathCategory } from '../categorize.ts'
 import {
   matchEntryFromRules,
   normalizeSpeedscopeExecutingLine,
@@ -77,10 +78,13 @@ export const rbspyOriginSpec = {
   }),
   categorizeEntry: entry =>
     cFunctionCategory(entry) ??
-    rubyGemCategory(entry) ??
+    pathCategory(entry, `third-party`, GEM_SOURCE) ??
     rubyStdlibCategory(entry) ??
-    unattributedRubyCategory(entry) ??
-    `ours`,
+    // Rbspy records a file for every Ruby method, and normalization strips the
+    // `unknown` it writes for one it could not attribute (a `class_eval`
+    // method). After cFunctionCategory has categorized the C functions, a frame
+    // left without a file is Ruby source rbspy could not locate.
+    oursIfLocatedCategory(entry),
   normalizeStackFrame: (input, format) => {
     if (input.definition) {
       // Rbspy's speedscope export also emits one frame per executing line, with
@@ -147,12 +151,8 @@ const cFunctionCategory = ({
 /** Rbspy's marker for a native (C) method, which carries no Ruby location. */
 const C_FUNCTION = `[c function]`
 
-const rubyGemCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && sourceReferencePathOrName(location).includes(`/gems/`)
-    ? `third-party`
-    : undefined
+/** An installed gem's source, e.g. `…/gems/rake-13.0.6/lib/rake.rb`. */
+const GEM_SOURCE = /\/gems\//u
 
 const rubyStdlibCategory = ({
   location,
@@ -179,20 +179,6 @@ const RUBY_INTERNAL_PREFIX = `<internal:`
 
 /** A versioned Ruby library directory, e.g. `/ruby/3.1.0/psych.rb`. */
 const RUBY_VERSIONED_LIB = /\/ruby\/\d/u
-
-/**
- * Categorizes a remaining location-less frame as `unknown`.
- *
- * Rbspy records a file for every Ruby method and writes `unknown` for one it
- * could not attribute, such as a method defined by `class_eval`. Stripping
- * that placeholder leaves no location, so by this point in the chain the frame
- * is Ruby source rbspy could not place rather than the compiled code
- * `[c function]` marks.
- */
-const unattributedRubyCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location ? undefined : `unknown`
 
 /**
  * The paths rbspy writes for a frame without a source file.

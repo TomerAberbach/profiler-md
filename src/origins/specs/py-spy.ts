@@ -55,19 +55,12 @@ const UNKNOWN_PATHS: ReadonlySet<string> = new Set([`?`])
 
 const dropPlaceholderPath = placeholderPathNormalizer(UNKNOWN_PATHS)
 
-// A frame `FRAME` split is located, so `normalizeLinelessStackFrame` passes it
-// through.
-const normalizePackedStackFrame = (input: StackFrame): StackFrame =>
-  normalizeLinelessStackFrame(normalizeLinedStackFrame(input))
-
 /**
  * A py-spy `function (file:line)` frame, e.g. `parse (black/parsing.py:42)`. The
  * `func` and `file` are greedy so a name or path containing spaces or
  * parentheses stays intact, anchored by the trailing `:line)`.
  */
 const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
-
-const normalizeLinedStackFrame = packedLocationNormalizer(FRAME)
 
 /**
  * The `function (file)` shape py-spy writes when the line is its placeholder
@@ -77,4 +70,7 @@ const normalizeLinedStackFrame = packedLocationNormalizer(FRAME)
  */
 const LINELESS_FRAME = /^(?<func>.+) \((?<file>.+)\)$/u
 
-const normalizeLinelessStackFrame = packedLocationNormalizer(LINELESS_FRAME)
+const normalizePackedStackFrame = packedLocationNormalizer(
+  FRAME,
+  LINELESS_FRAME,
+)

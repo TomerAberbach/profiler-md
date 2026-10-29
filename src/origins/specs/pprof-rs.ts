@@ -1,7 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
-import { locationlessCategory } from '../categorize.ts'
+import { locationlessCategory, pathCategory } from '../categorize.ts'
 import { RUST_LOCATION_MATCH_RULES, RUSTC_COMMIT_HASH_PATH } from '../rust.ts'
 import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
@@ -32,12 +31,10 @@ export const pprofRsOriginSpec = {
 } as const satisfies OriginSpec
 
 /** Categorizes Rust standard-library (`std`/`core`/`alloc`) frames as `stdlib`. */
-const rustStdlibCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && RUST_STDLIB_PATH.test(sourceReferencePathOrName(location))
-    ? `stdlib`
-    : undefined
+const rustStdlibCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `stdlib`, RUST_STDLIB_PATH)
 
 /**
  * Rust stdlib sources come from the rustc build, under a `/rustc/` path bearing
@@ -55,9 +52,10 @@ const isRustName = ({ name }: DeepReadonly<ProfileEntry>): boolean =>
   (name.includes(`{{closure}}`) || /::\{closure#\d/u.test(name))
 
 /** Categorizes frames from Cargo's dependency registry as `third-party`. */
-const cargoRegistryCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && sourceReferencePathOrName(location).includes(`/registry/src/`)
-    ? `third-party`
-    : undefined
+const cargoRegistryCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `third-party`, CARGO_REGISTRY_SOURCE)
+
+/** A crate Cargo unpacked from a registry, e.g. `…/registry/src/index…/serde-1.0.0/`. */
+const CARGO_REGISTRY_SOURCE = /\/registry\/src\//u

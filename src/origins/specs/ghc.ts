@@ -1,7 +1,10 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
-import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
+import {
+  locationlessCategory,
+  pathCategory,
+  systemDirectoryCategory,
+} from '../categorize.ts'
 import type { OriginSpec } from '../spec.ts'
 
 /**
@@ -71,12 +74,10 @@ const RUNTIME_ACTIVITY_CATEGORIES = new Map<string, FunctionCategory>([
  * and compiled from paths relative to it, so nothing a dependency contributes
  * is rooted in `libraries/`.
  */
-const bootLibraryCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && BOOT_LIBRARY_SOURCE.test(sourceReferencePathOrName(location))
-    ? `stdlib`
-    : undefined
+const bootLibraryCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `stdlib`, BOOT_LIBRARY_SOURCE)
 
 /** A path under a boot library's directory in GHC's source tree. */
 const BOOT_LIBRARY_SOURCE = /^libraries\/[^/]+\//u
