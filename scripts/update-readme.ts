@@ -1,21 +1,16 @@
 import { execSync } from 'node:child_process'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import {
-  exampleLabel,
-  parseExampleFilename,
-  variants,
-} from '../src/cli/examples.ts'
-import type { Example, ExampleVariant } from '../src/cli/examples.ts'
 import { formatUsageExamples } from '../src/cli/help.ts'
-import {
-  languageAliasToPrimary,
-  languageIconUrl,
-  languages,
-} from '../src/cli/languages.ts'
+import { languages } from '../src/cli/languages.ts'
 import type { Language } from '../src/cli/languages.ts'
+import { parseExampleFilename, variants } from '../src/formats/examples.ts'
+import type { Example, ExampleVariant } from '../src/formats/examples.ts'
 import { formatToSpec } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
+import { capitalizeFirst } from '../src/helpers/format.ts'
 import { profileToMd } from '../src/index.ts'
+import { DEVICON_VERSION, languageAliasToPrimary } from '../src/languages.ts'
+import { originTitle } from '../src/origins/index.ts'
 
 const check = process.argv.includes(`--check`)
 
@@ -49,7 +44,7 @@ const languageExampleRows = ([id, language]: [string, Language]): string[] => {
   const cells = language.formats.flatMap(format =>
     sortedVariantGroups(id, format).map(
       group =>
-        `<td>${escapeHtml(exampleLabel(group, { includeLanguage }))}</td><td>${formatLink(format)}</td><td>${variantLinks(group)}</td>`,
+        `<td>${escapeHtml(exampleLabel(group, includeLanguage))}</td><td>${formatLink(format)}</td><td>${variantLinks(group)}</td>`,
     ),
   )
   if (cells.length === 0) {
@@ -60,6 +55,51 @@ const languageExampleRows = ([id, language]: [string, Language]): string[] => {
   return cells.map(
     (cell, index) => `<tr>${index === 0 ? languageCell : ``}${cell}</tr>`,
   )
+}
+
+/** Without the language, the label keeps the origin's casing (`pprof block`). */
+const exampleLabel = (
+  example: Pick<Example, `language` | `origin` | `config`>,
+  includeLanguage: boolean,
+): string => {
+  const originAndConfiguration = [
+    originTitle(example.origin),
+    exampleConfigName(example.config),
+  ]
+    .filter(Boolean)
+    .join(` `)
+  return includeLanguage
+    ? capitalizeFirst(
+        `${exampleLanguageName(example.language)} ${originAndConfiguration}`,
+      )
+    : originAndConfiguration
+}
+
+const exampleLanguageName = (lang: string): string =>
+  languageNameById.get(lang) ?? lang
+const exampleConfigName = (config: string): string =>
+  configNames[config] ?? config
+
+const languageNameById: ReadonlyMap<string, string> = new Map(
+  [...languages].flatMap(([id, { name, aliases }]) => [
+    [id, name] as const,
+    ...aliases.map(alias => [alias.id, alias.name] as const),
+  ]),
+)
+
+const configNames: Record<string, string> = {
+  [`all-allocations`]: `all allocations`,
+  [`all-threads`]: `all threads`,
+  gil: `GIL`,
+  cpu: `CPU`,
+  [`cpu-trimpath`]: `CPU (-trimpath)`,
+  [`cpu-lines`]: `CPU (line numbers)`,
+  [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
+  [`cpu-dot`]: `CPU (dot)`,
+  [`alloc-dot`]: `alloc (dot)`,
+  [`cpu-stackdepth-64`]: `CPU (stackdepth=64)`,
+  [`wall-maxdepth-16`]: `wall (max depth 16)`,
+  goroutineleak: `goroutine leak`,
 }
 
 type VariantGroup = {
@@ -178,15 +218,15 @@ const iconImage = (
 ): string =>
   `<img src="${languageIconUrl(icon)}" alt="${escapeHtml(name)}" width="${size}" height="${size}" />`
 
+const languageIconUrl = (icon: string): string =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon@v${DEVICON_VERSION}/icons/${icon}/${icon}-original.svg`
+
 const languageNames = (language: Language): string =>
   languageMembers(language)
     .map(member => escapeHtml(member.name))
     .join(`⁠/⁠`)
 
-const languageMembers = (language: Language) => [
-  language,
-  ...(language.aliases ?? []),
-]
+const languageMembers = (language: Language) => [language, ...language.aliases]
 
 const escapeHtml = (text: string): string =>
   text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)

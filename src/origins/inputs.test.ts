@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { parseExampleFilename } from '../cli/examples.ts'
+import { parseExampleFilename } from '../formats/examples.ts'
 import { aggregateInput } from '../formats/index.ts'
 import { injectedInputs, inputWarnings, readInput } from '../formats/testing.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'

@@ -71,7 +71,7 @@
  */
 
 import { parseArgs } from 'node:util'
-import { parseExampleFilename } from '../../src/cli/examples.ts'
+import { parseExampleFilename } from '../../src/formats/examples.ts'
 import type { RetainerGroup } from '../../src/modalities/heap-snapshot/diff.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'

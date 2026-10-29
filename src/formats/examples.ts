@@ -1,9 +1,7 @@
-import { formats, formatToSpec } from '../formats/registry.ts'
-import type { Format } from '../formats/registry.ts'
-import { capitalizeFirst } from '../helpers/format.ts'
-import { origins, originTitle } from '../origins/index.ts'
+import { origins } from '../origins/index.ts'
 import type { Origin } from '../origins/index.ts'
-import { languages } from './languages.ts'
+import { formats, formatToSpec } from './registry.ts'
+import type { Format } from './registry.ts'
 
 /**
  * An `examples/output/` or `examples/input/` filename parsed into its canonical
@@ -121,49 +119,4 @@ export const exampleDiffPairs = (
     }
     return { name, ext, base, current }
   })
-}
-
-/** Without the language, the label keeps the origin's casing (`pprof block`). */
-export const exampleLabel = (
-  example: Pick<Example, `language` | `origin` | `config`>,
-  { includeLanguage = true }: { includeLanguage?: boolean } = {},
-): string => {
-  const originAndConfiguration = [
-    originTitle(example.origin),
-    exampleConfigName(example.config),
-  ]
-    .filter(Boolean)
-    .join(` `)
-  return includeLanguage
-    ? capitalizeFirst(
-        `${exampleLanguageName(example.language)} ${originAndConfiguration}`,
-      )
-    : originAndConfiguration
-}
-
-const exampleLanguageName = (lang: string): string =>
-  languageNames.get(lang) ?? lang
-const exampleConfigName = (config: string): string =>
-  configNames[config] ?? config
-
-const languageNames: ReadonlyMap<string, string> = new Map(
-  [...languages].flatMap(([id, { name, aliases }]) => [
-    [id, name] as const,
-    ...(aliases ?? []).map(alias => [alias.id, alias.name] as const),
-  ]),
-)
-
-const configNames: Record<string, string> = {
-  [`all-allocations`]: `all allocations`,
-  [`all-threads`]: `all threads`,
-  gil: `GIL`,
-  cpu: `CPU`,
-  [`cpu-trimpath`]: `CPU (-trimpath)`,
-  [`cpu-lines`]: `CPU (line numbers)`,
-  [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
-  [`cpu-dot`]: `CPU (dot)`,
-  [`alloc-dot`]: `alloc (dot)`,
-  [`cpu-stackdepth-64`]: `CPU (stackdepth=64)`,
-  [`wall-maxdepth-16`]: `wall (max depth 16)`,
-  goroutineleak: `goroutine leak`,
 }

@@ -1,4 +1,4 @@
-import type { LanguageId } from '../cli/languages.ts'
+import type { LanguageId } from '../languages.ts'
 import type { ParsedInput } from '../modalities/registry.ts'
 
 export type FormatSpec = JsonFormatSpec | BinaryFormatSpec

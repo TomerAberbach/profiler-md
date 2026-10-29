@@ -111,11 +111,12 @@ $ARGUMENTS
 
 12. Add the format spec to `formatSpecs` in `src/formats/registry.ts`
 
-13. `src/cli/languages.ts`: add a `languageMetas` entry (name, Devicon `icon`,
-    aliases, extensions) for any emitting language we don't list yet. Its icon
-    must be in `src/cli/devicon-icons.txt`. If a new configuration's filename
-    token doesn't read as a label (e.g. `cpu` for CPU), add one to `configNames`
-    in `src/cli/examples.ts`
+13. `src/languages.ts`: add a `languageMetas` entry (name, Devicon `icon`,
+    aliases, extensions, with an empty array for no aliases or extensions) for
+    any emitting language we don't list yet. Its icon must be in
+    `src/devicon-icons.txt`. If a new configuration's filename token doesn't
+    read as a label (e.g. `cpu` for CPU), add one to `configNames` in
+    `scripts/update-readme.ts`
 
 ## Validate against real inputs
 

@@ -1,7 +1,7 @@
 import { readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { configDefaults, defineConfig } from 'vitest/config'
-import { parseExampleFilename } from './src/cli/examples.ts'
+import { parseExampleFilename } from './src/formats/examples.ts'
 import { formats } from './src/formats/registry.ts'
 import type { Format } from './src/formats/registry.ts'
 

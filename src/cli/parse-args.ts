@@ -5,13 +5,14 @@ import packageJson from '../../package.json' with { type: 'json' }
 import { uncapitalizeFirst } from '../helpers/format.ts'
 import { program } from './cli.ts'
 import type { CLIArgs } from './cli.ts'
-import { CliError, reportError } from './error.ts'
+import { CliError } from './error.ts'
 import {
   defaultLogLevel,
   makeCliLogger,
   warnInvalidLogLevelEnv,
 } from './log.ts'
 import { logo } from './logo.ts'
+import { reportError } from './report-error.ts'
 
 export const parseArgs = (): CLIArgs =>
   runParser(program.parser, program.metadata.name, process.argv.slice(2), {

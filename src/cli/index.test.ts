@@ -12,7 +12,7 @@ import {
   crashingV8CpuProfile,
   lazilyCrashingV8CpuProfile,
 } from '../formats/v8/cpu-profile/testing.ts'
-import { languageExtensionToPrimary } from './languages.ts'
+import { languageExtensionToPrimary } from '../languages.ts'
 import { cliPath, compileCachePath, runCli } from './testing.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.

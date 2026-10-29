@@ -12,17 +12,18 @@ import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats, formatToSpec } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
+import {
+  languageAliasToPrimary,
+  languageExtensionToPrimary,
+  languageIdsOf,
+} from '../languages.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import { origins } from '../origins/index.ts'
 import { stdoutSupportsColor } from './ansis.ts'
 import { helpTopics, inputParser, program } from './cli.ts'
 import { CliError } from './error.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
-import {
-  languageAliasToPrimary,
-  languageExtensionToPrimary,
-  languages,
-} from './languages.ts'
+import { languages } from './languages.ts'
 import type { Language } from './languages.ts'
 import { writeOutput } from './output.ts'
 import type { WriteOutputOptions } from './output.ts'
@@ -91,7 +92,7 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] =>
     ? helpTopic.language.formats
     : [...languages].flatMap(([id, language]) =>
         language.formats.includes(helpTopic.format)
-          ? [id, ...(language.aliases?.map(alias => alias.id) ?? [])]
+          ? languageIdsOf(id, language)
           : [],
       )
 
@@ -179,8 +180,8 @@ export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   ...CATEGORY_SETS.map(({ title, categories }) => [title, categories] as const),
   [
     `Languages`,
-    [...languages].map(([id, { aliases }]) =>
-      [id, ...(aliases?.map(alias => alias.id) ?? [])].join(`/`),
+    [...languages].map(([id, language]) =>
+      languageIdsOf(id, language).join(`/`),
     ),
   ],
 ]

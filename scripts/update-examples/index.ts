@@ -2,8 +2,8 @@ import { readdirSync, rmSync, statSync } from 'node:fs'
 import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
-import { exampleDiffPairs } from '../../src/cli/examples.ts'
-import type { ExampleDiffPair } from '../../src/cli/examples.ts'
+import { exampleDiffPairs } from '../../src/formats/examples.ts'
+import type { ExampleDiffPair } from '../../src/formats/examples.ts'
 import type { ExampleResult, ExampleTask } from './worker.ts'
 
 type Example = { name: string; inputs: string[] }

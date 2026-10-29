@@ -105,11 +105,12 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
 ## Document and finish
 
 6. For a language we don't list yet: add a `languageMetas` entry (name, Devicon
-   `icon` from `src/cli/devicon-icons.txt`, aliases, extensions) in
-   `src/cli/languages.ts` and generation instructions in
-   `docs/languages/<language>.md` (following `docs/languages/CLAUDE.md`), then
-   verify the docs print with `node src/cli/index.ts --help <language>`. If a
-   new configuration's filename token doesn't read as a label (e.g. `cpu` for
-   CPU), add one to `configNames` in `src/cli/examples.ts`
+   `icon` from `src/devicon-icons.txt`, aliases, extensions, with an empty array
+   for no aliases or extensions) in `src/languages.ts` and generation
+   instructions in `docs/languages/<language>.md` (following
+   `docs/languages/CLAUDE.md`), then verify the docs print with
+   `node src/cli/index.ts --help <language>`. If a new configuration's filename
+   token doesn't read as a label (e.g. `cpu` for CPU), add one to `configNames`
+   in `scripts/update-readme.ts`
 
 7. `pnpm update-examples`, then `pnpm update-readme`

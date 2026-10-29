@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
-import { parseExampleFilename } from '../cli/examples.ts'
 import { callTreeViolations } from '../modalities/call-stack-profile/testing.ts'
 import { expectLogs } from '../testing.ts'
+import { parseExampleFilename } from './examples.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
