@@ -1,10 +1,10 @@
 # Allocated native memory profile diff
 
-Allocated 1.06 GiB → 1.09 GiB (+24.771 MiB, +2.3%) over 169,813 → 169,581 samples (6.56 KiB → 6.72 KiB per sample).
+Allocated 1.43 GiB → 1.32 GiB (-118.557 MiB, -8.1%) over 9,003 → 8,406 samples (167 KiB → 164 KiB per sample).
 
-| Category | Change |       Delta |      % |                Size |           Samples |
-| -------- | -----: | ----------: | -----: | ------------------: | ----------------: |
-| Native   |  +2.3% | +24.771 MiB | 100.0% | 1.06 GiB → 1.09 GiB | 169,813 → 169,581 |
+| Category | Change |        Delta |      % |                Size |       Samples |
+| -------- | -----: | -----------: | -----: | ------------------: | ------------: |
+| Native   |  -8.1% | -118.557 MiB | 100.0% | 1.43 GiB → 1.32 GiB | 9,003 → 8,406 |
 
 `…` stands for omitted frames.
 
@@ -13,46 +13,46 @@ Allocated 1.06 GiB → 1.09 GiB (+24.771 MiB, +2.3%) over 169,813 → 169,581
 Call paths to the hottest and most changed functions.
 
 ```
-├── … 1.04 GiB → 1.07 GiB (98.0% → 98.1%) CompileBroker::invoke_compiler_on_method at libjvm.dylib
-│   ├── 1.03 GiB → 1.06 GiB (97.1% → 97.2%) C2Compiler::compile_method
-│   │   └── 1.03 GiB → 1.06 GiB (97.1% → 97.2%) Compile::Compile
-│   │       ├── 605 MiB → 623 MiB (55.6% → 56.0%) Compile::Optimize
-│   │       │   ├── … 276 MiB → 285 MiB (25.4% → 25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
-│   │       │   │   ├── … 192 MiB → 195 MiB (17.6%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── 18.7 MiB → 20.2 MiB (1.7% → 1.8%) IdealLoopTree::loop_predication
-│   │       │   │   │   └── … 18.7 MiB → 20.2 MiB (1.7% → 1.8%) PhaseIdealLoop::loop_predication_impl at libjvm.dylib
-│   │       │   │   │       └── 18.7 MiB → 20.2 MiB (1.7% → 1.8%) 6 more callees, led by (1.0%) PhaseIdealLoop::loop_predication_impl_helper
-│   │       │   │   ├── … 18.9 MiB → 19.8 MiB (1.7% → 1.8%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 18.7 MiB → 19.6 MiB (1.7% → 1.8%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 28.3 MiB → 29.9 MiB (2.6% → 2.7%) 9 more callees, led by (0.9%) Arena::grow
-│   │       │   ├── … 276 MiB → 284 MiB (25.4% → 25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
-│   │       │   │   ├── … 194 MiB → 197 MiB (17.8% → 17.7%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 19.6 MiB → 19.9 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 19.5 MiB → 19.8 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 15 MiB → 16.3 MiB (1.4% → 1.5%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 28.5 MiB → 31 MiB (2.6% → 2.8%) 10 more callees, led by (1.0% → 1.1%) IdealLoopTree::loop_predication
-│   │       │   └── 46.3 MiB → 47.5 MiB (4.3%) 15 more callees, led by (0.9% → 1.0%) PhaseCCP::do_transform
-│   │       ├── 422 MiB → 429 MiB (38.8% → 38.5%) Compile::Code_Gen
-│   │       │   ├── 327 MiB → 332 MiB (30.0% → 29.9%) PhaseChaitin::Register_Allocate
-│   │       │   │   ├── … 233 MiB → 236 MiB (21.4% → 21.2%, self 100.0% globally) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   ├── … 77.4 MiB → 80.2 MiB (7.1% → 7.2%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 15.9 MiB → 15.3 MiB (1.5% → 1.4%) 11 more callees, led by (0.8%) PhaseChaitin::Split
-│   │       │   ├── 74.7 MiB → 76.2 MiB (6.9% → 6.8%) Matcher::match
-│   │       │   │   ├── 45.2 MiB → 45.5 MiB (4.2% → 4.1%) Matcher::xform
-│   │       │   │   │   ├── … 25.7 MiB → 26.2 MiB (2.4%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   │   ├── 12.9 MiB → 12.7 MiB (1.2% → 1.1%) Matcher::match_tree
-│   │       │   │   │   │   └── 12.9 MiB → 12.7 MiB (1.2% → 1.1%) 4 more callees, led by (0.8%) Matcher::ReduceInst
-│   │       │   │   │   └── 6.63 MiB → 6.69 MiB (0.6%) 6 more callees, led by (0.5%) Node::out_grow
-│   │       │   │   ├── … 19.6 MiB → 20.3 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
-│   │       │   │   └── 9.91 MiB → 10.3 MiB (0.9%) 3 more callees, led by (0.7%) Node_Array::grow
-│   │       │   └── 21 MiB → 20.2 MiB (1.9% → 1.8%) 6 more callees, led by (0.8%) PhaseCFG::do_global_code_motion
-│   │       ├── … 17 MiB → 18.4 MiB (1.6% → 1.7%) Parse::do_one_block at libjvm.dylib
-│   │       │   └── 17 MiB → 18.4 MiB (1.6% → 1.7%) 19 more callees, led by (0.4% → 0.5%) Parse::do_field_access
-│   │       └── 9.46 MiB → 9.43 MiB (0.9% → 0.8%) 10 more callees, led by (0.6%) PhaseRemoveUseless::PhaseRemoveUseless
-│   └── 10.3 MiB → 9.4 MiB (0.9% → 0.8%) 5 more callees, led by (0.9% → 0.8%) Compiler::compile_method
-├── … 13.3 MiB → 13.6 MiB (1.2%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH
-│   └── 13.3 MiB → 13.6 MiB (1.2%) 29 more callees, led by (0.3%) invokeVirtual(Object, Object, int) at java.lang.invoke.LambdaForm$DMH
-└── 4.54 MiB → 4.36 MiB (0.4%) <clinit>() at org.codenarc.CodeNarc
+└── … 1.42 GiB → 1.31 GiB (99.4%) Compile::Compile at libjvm.dylib
+    ├── 795 MiB → 735 MiB (54.2% → 54.6%) Compile::Optimize
+    │   ├── … 379 MiB → 351 MiB (25.8% → 26.1%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+    │   │   ├── … 332 MiB → 305 MiB (22.6% → 22.7%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 12.8 MiB → 11.2 MiB (0.9% → 0.8%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 11.7 MiB → 11.9 MiB (0.8% → 0.9%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 9.29 MiB → 9.3 MiB (0.6% → 0.7%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── 4.81 MiB → 4.92 MiB (0.3% → 0.4%) IdealLoopTree::iteration_split
+    │   │   └── 3.38 MiB → 2.63 MiB (0.2%) IdealLoopTree::loop_predication
+    │   ├── … 372 MiB → 344 MiB (25.4% → 25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+    │   │   ├── … 323 MiB → 301 MiB (22.1% → 22.3%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 10.3 MiB → 10 MiB (0.7%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 11.2 MiB → 8.38 MiB (0.8% → 0.6%) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── 5.81 MiB → 5.87 MiB (0.4%) Arena::grow
+    │   │   ├── … 5.31 MiB → 5.75 MiB (0.4%) PhaseIdealLoop::loop_predication_impl_helper at libjvm.dylib
+    │   │   ├── 4.06 MiB → 3.38 MiB (0.3%) PhaseIdealLoop::split_if_with_blocks
+    │   │   └── 3.25 MiB → 3.22 MiB (0.2%) IdealLoopTree::iteration_split
+    │   ├── … 9.53 MiB → 7.28 MiB (0.7% → 0.5%) malloc_hook at libasyncProfiler.dylib
+    │   ├── 6.29 MiB → 6.49 MiB (0.4% → 0.5%) ConnectionGraph::do_analysis
+    │   ├── 6.01 MiB → 5.28 MiB (0.4%) PhaseCCP::do_transform
+    │   ├── 5.71 MiB → 4.77 MiB (0.4%) PhaseRenumberLive::PhaseRenumberLive
+    │   └── 4.01 MiB → 4.72 MiB (0.3% → 0.4%) PhaseMacroExpand::expand_macro_nodes
+    ├── 633 MiB → 579 MiB (43.2% → 43.0%) Compile::Code_Gen
+    │   ├── 528 MiB → 482 MiB (36.0% → 35.8%) PhaseChaitin::Register_Allocate
+    │   │   ├── … 408 MiB → 375 MiB (27.8%, self 100.0% globally) malloc_hook at libasyncProfiler.dylib
+    │   │   ├── … 110 MiB → 98.7 MiB (7.5% → 7.3%) malloc_hook at libasyncProfiler.dylib
+    │   │   └── 7.09 MiB → 4.81 MiB (0.5% → 0.4%) PhaseChaitin::Split
+    │   ├── 92.4 MiB → 85.8 MiB (6.3% → 6.4%) Matcher::match
+    │   │   ├── 58.1 MiB → 53.3 MiB (4.0%) Matcher::xform
+    │   │   │   ├── … 41.4 MiB → 37.6 MiB (2.8%) malloc_hook at libasyncProfiler.dylib
+    │   │   │   ├── … 9.25 MiB (0.6% → 0.7%) malloc_hook at libasyncProfiler.dylib
+    │   │   │   └── 6.97 MiB → 6.22 MiB (0.5%) Matcher::match_tree
+    │   │   ├── … 26.4 MiB → 25 MiB (1.8% → 1.9%) malloc_hook at libasyncProfiler.dylib
+    │   │   └── 6.16 MiB → 5.88 MiB (0.4%) Node_Array::grow
+    │   └── 6 MiB → 5.1 MiB (0.4%) PhaseCFG::do_global_code_motion
+    ├── … 13.6 MiB → 12.9 MiB (0.9% → 1.0%) Parse::do_one_block at libjvm.dylib
+    │   ├── 3.25 MiB → 3.81 MiB (0.2% → 0.3%) Parse::do_field_access
+    │   ├── 2.97 MiB → 3.16 MiB (0.2%) Parse::do_call
+    │   └── 1.13 MiB → 1.47 MiB (0.1%) Parse::return_current
+    └── … 8.38 MiB → 7.88 MiB (0.6%) malloc_hook at libasyncProfiler.dylib
 ```
 
 ## Hottest functions
@@ -65,9 +65,9 @@ Functions with the largest increase in native bytes allocated within the functio
 
 ##### Native
 
-| Change |       Delta |      % |                Size |           Samples | Function      | Location                 |
-| -----: | ----------: | -----: | ------------------: | ----------------: | ------------- | ------------------------ |
-|  +2.3% | +24.772 MiB | 100.0% | 1.06 GiB → 1.09 GiB | 168,923 → 168,691 | `malloc_hook` | `libasyncProfiler.dylib` |
+| Change |   Delta |            % |         Size | Samples | Function      | Location                 |
+| -----: | ------: | -----------: | -----------: | ------: | ------------- | ------------------------ |
+|    new | +16 KiB | 0.0% → <0.1% | 0 B → 16 KiB |   0 → 2 | `calloc_hook` | `libasyncProfiler.dylib` |
 
 #### Improvements
 
@@ -75,29 +75,29 @@ Functions with the largest decrease in native bytes allocated within the functio
 
 ##### Native
 
-| Change |  Delta |     % |              Size | Samples | Function       | Location                 |
-| -----: | -----: | ----: | ----------------: | ------: | -------------- | ------------------------ |
-|  -0.4% | -704 B | <0.1% | 194 KiB → 193 KiB |     845 | `realloc_hook` | `libasyncProfiler.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Function      | Location                 |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------- | ------------------------ |
+|  -8.1% | -118.573 MiB | 100.0% | 1.43 GiB → 1.32 GiB | 9,003 → 8,404 | `malloc_hook` | `libasyncProfiler.dylib` |
 
 #### Callers
 
 Callers with the largest change in contribution to each function's self size. Inlining can make caller attribution imprecise.
 
+##### `calloc_hook` (`libasyncProfiler.dylib`)
+
+| Change |   Delta |             % |         Size | Samples | Caller                      | Location          |
+| -----: | ------: | ------------: | -----------: | ------: | --------------------------- | ----------------- |
+|    new | +16 KiB | 0.0% → 100.0% | 0 B → 16 KiB |   0 → 2 | `make_class_info_from_name` | `libverify.dylib` |
+
 ##### `malloc_hook` (`libasyncProfiler.dylib`)
 
-| Change |       Delta |     % |                Size |           Samples | Caller                                    | Location                 |
-| -----: | ----------: | ----: | ------------------: | ----------------: | ----------------------------------------- | ------------------------ |
-|  +2.3% | +24.764 MiB | 99.2% | 1.05 GiB → 1.08 GiB | 157,921 → 157,685 | `os::malloc`                              | `libjvm.dylib`           |
-|  +0.7% |  +7.633 KiB |  0.1% | 1.14 MiB → 1.15 MiB |     1,175 → 1,181 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib`          |
-|    ~0% |      +293 B |  0.5% |            5.92 MiB |             1,329 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`          |
-|  +0.1% |      +171 B | <0.1% |             298 KiB |                23 | `readBytes`                               | `libjava.dylib`          |
-|  -0.1% |       -32 B | <0.1% |            45.7 KiB |     1,333 → 1,331 | `CodeCache::add`                          | `libasyncProfiler.dylib` |
-
-##### `realloc_hook` (`libasyncProfiler.dylib`)
-
-| Change |  Delta |      % |              Size | Samples | Caller        | Location       |
-| -----: | -----: | -----: | ----------------: | ------: | ------------- | -------------- |
-|  -0.4% | -704 B | 100.0% | 194 KiB → 193 KiB |     845 | `os::realloc` | `libjvm.dylib` |
+|  Change |        Delta |     % |                Size |       Samples | Caller                                    | Location          |
+| ------: | -----------: | ----: | ------------------: | ------------: | ----------------------------------------- | ----------------- |
+|   -8.1% | -118.712 MiB | 99.8% | 1.43 GiB → 1.31 GiB | 8,931 → 8,330 | `os::malloc`                              | `libjvm.dylib`    |
+|  +10.5% |  +268.35 KiB |  0.2% |  2.5 MiB → 2.76 MiB |            40 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
+|  -85.0% | -139.062 KiB | <0.1% |  164 KiB → 24.6 KiB |         7 → 5 | `CCalloc`                                 | `libverify.dylib` |
+| +200.0% |  +13.984 KiB | <0.1% |   6.99 KiB → 21 KiB |         1 → 3 | `inflateInit2_`                           | `libzip.dylib`    |
+|   -3.7% |       -769 B | <0.1% | 20.2 KiB → 19.5 KiB |       14 → 15 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib`   |
 
 ### Total size
 
@@ -105,1057 +105,1072 @@ Callers with the largest change in contribution to each function's self size. In
 
 Functions with the largest increase in native bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-| Change |       Delta |             % |                Size |           Samples | Function                                   | Location                  |
-| -----: | ----------: | ------------: | ------------------: | ----------------: | ------------------------------------------ | ------------------------- |
-|  +2.4% | +25.774 MiB | 97.1% → 97.2% | 1.03 GiB → 1.06 GiB |   17,221 → 17,476 | `Compile::Compile`                         | `libjvm.dylib`            |
-|  +2.4% | +25.774 MiB | 97.1% → 97.2% | 1.03 GiB → 1.06 GiB |   17,221 → 17,476 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
-|  +2.4% | +25.075 MiB |         97.9% | 1.04 GiB → 1.06 GiB |   13,109 → 13,320 | `Chunk::operator new`                      | `libjvm.dylib`            |
-|  +2.4% | +25.075 MiB |         97.9% | 1.04 GiB → 1.06 GiB |   13,066 → 13,277 | `Arena::grow`                              | `libjvm.dylib`            |
-|  +2.3% | +24.878 MiB | 98.0% → 98.1% | 1.04 GiB → 1.07 GiB |   51,679 → 51,913 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
-|  +2.3% | +24.866 MiB | 98.0% → 98.1% | 1.04 GiB → 1.07 GiB |   51,756 → 51,967 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
-|  +2.3% | +24.866 MiB | 98.0% → 98.1% | 1.04 GiB → 1.07 GiB |   52,202 → 52,411 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
-|  +2.3% |  +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,999 → 55,877 | `_pthread_start`                           | `libsystem_pthread.dylib` |
-|  +2.3% |  +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,999 → 55,877 | `thread_start`                             | `libsystem_pthread.dylib` |
-|  +2.3% |  +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,846 → 55,724 | `Thread::call_run`                         | `libjvm.dylib`            |
-|  +2.3% |  +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,846 → 55,724 | `thread_native_entry`                      | `libjvm.dylib`            |
-|  +2.3% | +24.772 MiB |        100.0% | 1.06 GiB → 1.09 GiB | 168,923 → 168,691 | `malloc_hook`                              | `libasyncProfiler.dylib`  |
-|  +2.3% | +24.764 MiB |         99.2% | 1.05 GiB → 1.08 GiB | 157,921 → 157,685 | `os::malloc`                               | `libjvm.dylib`            |
-|  +3.1% | +18.541 MiB | 55.6% → 56.0% |   605 MiB → 623 MiB |     7,456 → 7,679 | `Compile::Optimize`                        | `libjvm.dylib`            |
-|  +3.1% | +17.366 MiB | 51.3% → 51.7% |   558 MiB → 576 MiB |     6,461 → 6,668 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib`            |
-|  +3.1% | +16.928 MiB | 50.8% → 51.1% |   552 MiB → 569 MiB |     6,363 → 6,562 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib`            |
-|  +3.1% | +16.928 MiB | 50.8% → 51.1% |   552 MiB → 569 MiB |     6,363 → 6,562 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib`            |
-|  +2.9% |  +7.947 MiB | 25.6% → 25.7% |   279 MiB → 287 MiB |     2,999 → 3,101 | `Compile::optimize_loops`                  | `libjvm.dylib`            |
-|  +1.9% |  +7.486 MiB | 35.4% → 35.3% |   385 MiB → 393 MiB |     2,589 → 2,602 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib`            |
-|  +1.5% |  +6.512 MiB | 38.8% → 38.5% |   422 MiB → 429 MiB |     7,964 → 7,980 | `Compile::Code_Gen`                        | `libjvm.dylib`            |
+|  Change |          Delta |            % |                Size | Samples | Function                                      | Location                                          |
+| ------: | -------------: | -----------: | ------------------: | ------: | --------------------------------------------- | ------------------------------------------------- |
+|  +40.1% |     +1.261 MiB |  0.2% → 0.3% | 3.15 MiB → 4.41 MiB | 43 → 51 | `PhaseIdealLoop::insert_post_loop`            | `libjvm.dylib`                                    |
+|  +28.4% | +1,004.085 KiB |  0.2% → 0.3% | 3.46 MiB → 4.44 MiB | 48 → 51 | `PhaseIdealLoop::insert_pre_post_loops`       | `libjvm.dylib`                                    |
+|  +37.6% |   +927.906 KiB |         0.2% | 2.41 MiB → 3.31 MiB | 45 → 44 | `Parse::do_put_xxx`                           | `libjvm.dylib`                                    |
+| +103.7% |   +896.039 KiB |         0.1% |  864 KiB → 1.72 MiB | 14 → 24 | `Parse::do_if`                                | `libjvm.dylib`                                    |
+|  +98.1% |   +852.054 KiB |         0.1% |  868 KiB → 1.68 MiB | 10 → 16 | `PhaseIdealLoop::split_if_with_blocks_pre`    | `libjvm.dylib`                                    |
+|  +77.5% |   +828.093 KiB |         0.1% | 1.04 MiB → 1.85 MiB | 13 → 19 | `PhaseIdealLoop::split_thru_phi`              | `libjvm.dylib`                                    |
+| +126.3% |   +768.078 KiB | <0.1% → 0.1% |  608 KiB → 1.34 MiB | 10 → 15 | `PhaseIdealLoop::register_new_node`           | `libjvm.dylib`                                    |
+|  +17.5% |   +720.171 KiB |  0.3% → 0.4% | 4.01 MiB → 4.72 MiB | 38 → 49 | `PhaseMacroExpand::expand_macro_nodes`        | `libjvm.dylib`                                    |
+|  +51.3% |   +639.984 KiB |         0.1% | 1.22 MiB → 1.84 MiB | 26 → 25 | `G1BarrierSetC2::post_barrier`                | `libjvm.dylib`                                    |
+|  +17.0% |   +575.921 KiB |  0.2% → 0.3% | 3.31 MiB → 3.88 MiB |      58 | `Parse::do_field_access`                      | `libjvm.dylib`                                    |
+|  +51.4% |   +572.562 KiB |         0.1% | 1.09 MiB → 1.65 MiB | 16 → 26 | `ConnectionGraph::ConnectionGraph`            | `libjvm.dylib`                                    |
+|   +7.9% |   +524.023 KiB |  0.4% → 0.5% |    6.49 MiB → 7 MiB | 89 → 88 | `PhaseIdealLoop::clone_loop`                  | `libjvm.dylib`                                    |
+|  +69.6% |   +512.093 KiB | <0.1% → 0.1% |  736 KiB → 1.22 MiB | 17 → 23 | `PhaseAggressiveCoalesce::insert_copies`      | `libjvm.dylib`                                    |
+|  +12.0% |   +480.187 KiB |         0.3% | 3.91 MiB → 4.38 MiB | 62 → 74 | `PhaseIdealLoop::create_new_if_for_predicate` | `libjvm.dylib`                                    |
+|  +15.7% |   +429.272 KiB |         0.2% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClassOrNull(String, boolean)`            | `jdk.internal.loader.BuiltinClassLoader`          |
+|  +15.7% |   +429.272 KiB |         0.2% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)`                  | `jdk.internal.loader.BuiltinClassLoader`          |
+|  +15.7% |   +429.272 KiB |         0.2% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)`                  | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
+|  +15.7% |   +429.272 KiB |         0.2% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String)`                           | `java.lang.ClassLoader`                           |
+|  +59.1% |   +416.156 KiB | <0.1% → 0.1% |  704 KiB → 1.09 MiB | 11 → 16 | `GraphKit::null_check_common`                 | `libjvm.dylib`                                    |
+| +100.0% |   +416.109 KiB | <0.1% → 0.1% |   416 KiB → 832 KiB |  9 → 11 | `GraphKit::uncommon_trap`                     | `libjvm.dylib`                                    |
 
 ##### Native
 
-| Change |          Delta |             % |                Size |           Samples | Function                                                             | Location                  |
-| -----: | -------------: | ------------: | ------------------: | ----------------: | -------------------------------------------------------------------- | ------------------------- |
-|  +2.4% |    +25.075 MiB |         97.9% | 1.04 GiB → 1.06 GiB |   13,109 → 13,320 | `Chunk::operator new`                                                | `libjvm.dylib`            |
-|  +2.4% |    +25.075 MiB |         97.9% | 1.04 GiB → 1.06 GiB |   13,066 → 13,277 | `Arena::grow`                                                        | `libjvm.dylib`            |
-|  +2.3% |    +24.866 MiB | 98.0% → 98.1% | 1.04 GiB → 1.07 GiB |   52,202 → 52,411 | `JavaThread::thread_main_inner`                                      | `libjvm.dylib`            |
-|  +2.3% |     +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,999 → 55,877 | `_pthread_start`                                                     | `libsystem_pthread.dylib` |
-|  +2.3% |     +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,999 → 55,877 | `thread_start`                                                       | `libsystem_pthread.dylib` |
-|  +2.3% |     +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,846 → 55,724 | `Thread::call_run`                                                   | `libjvm.dylib`            |
-|  +2.3% |     +24.78 MiB |         98.1% | 1.04 GiB → 1.07 GiB |   55,846 → 55,724 | `thread_native_entry`                                                | `libjvm.dylib`            |
-|  +2.3% |    +24.772 MiB |        100.0% | 1.06 GiB → 1.09 GiB | 168,923 → 168,691 | `malloc_hook`                                                        | `libasyncProfiler.dylib`  |
-|  +2.3% |    +24.764 MiB |         99.2% | 1.05 GiB → 1.08 GiB | 157,921 → 157,685 | `os::malloc`                                                         | `libjvm.dylib`            |
-|  +3.2% |     +5.312 MiB | 15.5% → 15.6% |   168 MiB → 174 MiB |     3,676 → 3,734 | `Arena::Arealloc`                                                    | `libjvm.dylib`            |
-| +10.5% |     +3.062 MiB |   2.7% → 2.9% | 29.1 MiB → 32.2 MiB |         719 → 793 | `IdealLoopTree::loop_predication`                                    | `libjvm.dylib`            |
-| +16.4% |     +2.594 MiB |   1.5% → 1.7% | 15.8 MiB → 18.4 MiB |         397 → 468 | `PathFrequency::to`                                                  | `libjvm.dylib`            |
-| +14.3% |     +2.219 MiB |   1.4% → 1.6% | 15.6 MiB → 17.8 MiB |         389 → 448 | `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` | `libjvm.dylib`            |
-| +33.5% |     +1.445 MiB |   0.4% → 0.5% | 4.31 MiB → 5.76 MiB |          99 → 116 | `IdealLoopTree::counted_loop`                                        | `libjvm.dylib`            |
-|  +3.3% |     +1.281 MiB |   3.5% → 3.6% | 38.4 MiB → 39.7 MiB |         866 → 893 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to`   | `libjvm.dylib`            |
-|  +8.0% | +1,001.703 KiB |   1.1% → 1.2% | 12.3 MiB → 13.3 MiB |         225 → 236 | `IdealLoopTree::iteration_split_impl`                                | `libjvm.dylib`            |
-| +17.5% |   +863.968 KiB |   0.4% → 0.5% | 4.81 MiB → 5.66 MiB |         111 → 119 | `Parse::do_field_access`                                             | `libjvm.dylib`            |
-| +32.0% |   +768.078 KiB |   0.2% → 0.3% | 2.34 MiB → 3.09 MiB |           62 → 67 | `G1BarrierSetC2::post_barrier`                                       | `libjvm.dylib`            |
-|  +3.5% |   +736.703 KiB |          1.9% |   20.3 MiB → 21 MiB |         489 → 504 | `Parse::do_one_block`                                                | `libjvm.dylib`            |
-|  +3.9% |   +736.671 KiB |          1.7% | 18.6 MiB → 19.3 MiB |         452 → 465 | `Parse::do_call`                                                     | `libjvm.dylib`            |
+|   Change |        Delta |            % |                Size | Samples | Function                                        | Location        |
+| -------: | -----------: | -----------: | ------------------: | ------: | ----------------------------------------------- | --------------- |
+|   +37.6% | +927.906 KiB |         0.2% | 2.41 MiB → 3.31 MiB | 45 → 44 | `Parse::do_put_xxx`                             | `libjvm.dylib`  |
+|  +103.7% | +896.039 KiB |         0.1% |  864 KiB → 1.72 MiB | 14 → 24 | `Parse::do_if`                                  | `libjvm.dylib`  |
+|   +51.3% | +639.984 KiB |         0.1% | 1.22 MiB → 1.84 MiB | 26 → 25 | `G1BarrierSetC2::post_barrier`                  | `libjvm.dylib`  |
+|   +17.0% | +575.921 KiB |  0.2% → 0.3% | 3.31 MiB → 3.88 MiB |      58 | `Parse::do_field_access`                        | `libjvm.dylib`  |
+|   +36.1% | +415.945 KiB |         0.1% | 1.13 MiB → 1.53 MiB | 12 → 11 | `Parse::return_current`                         | `libjvm.dylib`  |
+|  +599.7% | +384.015 KiB |        <0.1% |    64 KiB → 448 KiB |   2 → 3 | `LibraryCallKit::inline_native_Class_query`     | `libjvm.dylib`  |
+| +1199.4% | +383.992 KiB |        <0.1% |    32 KiB → 416 KiB |   1 → 3 | `Parse::catch_inline_exceptions`                | `libjvm.dylib`  |
+|   +13.4% | +365.215 KiB |         0.2% | 2.67 MiB → 3.03 MiB | 71 → 66 | `Java_java_lang_ClassLoader_defineClass1`       | `libjava.dylib` |
+|   +12.1% | +351.882 KiB |         0.2% | 2.84 MiB → 3.19 MiB | 51 → 46 | `BarrierSetC2::store_at`                        | `libjvm.dylib`  |
+|   +12.2% | +351.882 KiB |         0.2% | 2.81 MiB → 3.16 MiB | 50 → 45 | `ModRefBarrierSetC2::store_at_resolved`         | `libjvm.dylib`  |
+|   +40.0% | +320.023 KiB |         0.1% |  800 KiB → 1.09 MiB |  7 → 11 | `PreserveJVMState::PreserveJVMState`            | `libjvm.dylib`  |
+|  +899.6% | +288.015 KiB |        <0.1% |    32 KiB → 320 KiB |   1 → 2 | `LibraryCallKit::load_klass_from_mirror_common` | `libjvm.dylib`  |
+|      new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `LibraryCallKit::inline_unsafe_newArray`        | `libjvm.dylib`  |
+|   +63.6% |     +224 KiB |        <0.1% |   352 KiB → 576 KiB |       5 | `CountedLoopReserveKit::create_reserve`         | `libjvm.dylib`  |
+|   +63.6% |     +224 KiB |        <0.1% |   352 KiB → 576 KiB |       5 | `CountedLoopReserveKit::CountedLoopReserveKit`  | `libjvm.dylib`  |
+|   +63.6% |     +224 KiB |        <0.1% |   352 KiB → 576 KiB |       5 | `SuperWord::output`                             | `libjvm.dylib`  |
+|  +127.8% |  +193.99 KiB |        <0.1% |   152 KiB → 346 KiB | 30 → 36 | `ClassFileParser::ClassFileParser`              | `libjvm.dylib`  |
+|   +99.5% | +193.072 KiB |        <0.1% |   194 KiB → 387 KiB | 38 → 39 | `KlassFactory::create_from_stream`              | `libjvm.dylib`  |
+|   +62.5% | +159.984 KiB |        <0.1% |   256 KiB → 416 KiB |   5 → 4 | `Parse::adjust_map_after_if`                    | `libjvm.dylib`  |
+|      new | +128.031 KiB | 0.0% → <0.1% |       0 B → 128 KiB |   0 → 2 | `LibraryCallKit::inline_unsafe_allocate`        | `libjvm.dylib`  |
 
 #### Improvements
 
 Functions with the largest decrease in native bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-| Change |        Delta |            % |                Size |         Samples | Function                                      | Location       |
-| -----: | -----------: | -----------: | ------------------: | --------------: | --------------------------------------------- | -------------- |
-| -37.5% |   -1.217 MiB |  0.3% → 0.2% | 3.25 MiB → 2.03 MiB |        103 → 65 | `Matcher::Label_Root`                         | `libjvm.dylib` |
-| -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::create_slow_version_of_loop` | `libjvm.dylib` |
-| -30.4% |   -1.187 MiB |  0.4% → 0.2% | 3.91 MiB → 2.72 MiB |         71 → 53 | `PhaseIdealLoop::do_unswitching`              | `libjvm.dylib` |
-| -18.3% |    -1.03 MiB |  0.5% → 0.4% | 5.62 MiB → 4.59 MiB |       455 → 422 | `Compilation::emit_lir`                       | `libjvm.dylib` |
-| -22.9% | -991.273 KiB |  0.4% → 0.3% | 4.23 MiB → 3.26 MiB |        120 → 89 | `LinearScan::do_linear_scan`                  | `libjvm.dylib` |
-|  -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::compile_method`                 | `libjvm.dylib` |
-|  -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::Compilation`                    | `libjvm.dylib` |
-|  -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compiler::compile_method`                    | `libjvm.dylib` |
-| -65.1% | -895.343 KiB | 0.1% → <0.1% |  1.34 MiB → 480 KiB |         43 → 15 | `PhaseChaitin::post_allocate_copy_removal`    | `libjvm.dylib` |
-| -10.3% | -864.398 KiB |  0.8% → 0.7% | 8.23 MiB → 7.38 MiB | 16,822 → 16,776 | `Compilation::compile_java_method`            | `libjvm.dylib` |
-| -95.8% |  -735.46 KiB | 0.1% → <0.1% |    767 KiB → 32 KiB |          24 → 1 | `ResourceBitMap::ResourceBitMap`              | `libjvm.dylib` |
-| -95.7% | -703.484 KiB | 0.1% → <0.1% |    735 KiB → 32 KiB |          23 → 1 | `LinearScan::compute_local_live_sets`         | `libjvm.dylib` |
-| -16.7% | -672.078 KiB |  0.4% → 0.3% | 3.94 MiB → 3.28 MiB |         69 → 64 | `PhaseIdealLoop::fix_body_edges`              | `libjvm.dylib` |
-|  -5.0% | -532.195 KiB |  1.0% → 0.9% | 10.5 MiB → 9.97 MiB |       252 → 242 | `PhaseIdealLoop::split_if_with_blocks`        | `libjvm.dylib` |
-|  -4.1% | -480.101 KiB |  1.1% → 1.0% | 11.6 MiB → 11.1 MiB |       205 → 201 | `Type_Array::grow`                            | `libjvm.dylib` |
-| -11.9% | -448.273 KiB |         0.3% | 3.69 MiB → 3.25 MiB |              72 | `GraphKit::clone_map`                         | `libjvm.dylib` |
-| -31.8% | -448.117 KiB |         0.1% |  1.38 MiB → 960 KiB |         29 → 24 | `Parse::build_exits`                          | `libjvm.dylib` |
-| -28.0% | -432.007 KiB |         0.1% |  1.5 MiB → 1.08 MiB |         42 → 27 | `PhaseOutput::BuildOopMaps`                   | `libjvm.dylib` |
-|  -7.2% | -423.976 KiB |         0.5% | 5.78 MiB → 5.37 MiB |       346 → 333 | `PhaseOutput::Output`                         | `libjvm.dylib` |
-| -16.2% |  -416.07 KiB |         0.2% |  2.5 MiB → 2.09 MiB |         54 → 52 | `PhaseAggressiveCoalesce::insert_copies`      | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |       Samples | Function                                   | Location                  |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------------------------ | ------------------------- |
+|  -8.1% | -118.753 MiB |         99.7% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Chunk::operator new`                      | `libjvm.dylib`            |
+|  -8.1% | -118.753 MiB |         99.7% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Arena::grow`                              | `libjvm.dylib`            |
+|  -8.1% | -118.746 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
+|  -8.1% | -118.746 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
+|  -8.1% | -118.746 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,818 → 8,216 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `Thread::call_run`                         | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_native_entry`                      | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `_pthread_start`                           | `libsystem_pthread.dylib` |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_start`                             | `libsystem_pthread.dylib` |
+|  -8.1% | -118.712 MiB |         99.8% | 1.43 GiB → 1.31 GiB | 8,931 → 8,330 | `os::malloc`                               | `libjvm.dylib`            |
+|  -8.1% | -118.573 MiB |        100.0% | 1.43 GiB → 1.32 GiB | 9,003 → 8,404 | `malloc_hook`                              | `libasyncProfiler.dylib`  |
+|  -8.1% | -117.828 MiB |         99.4% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `Compile::Compile`                         | `libjvm.dylib`            |
+|  -8.1% | -117.828 MiB |         99.4% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
+|  -7.5% |  -59.717 MiB | 54.2% → 54.6% |   795 MiB → 735 MiB | 4,726 → 4,426 | `Compile::Optimize`                        | `libjvm.dylib`            |
+|  -7.5% |  -56.328 MiB | 51.6% → 51.9% |   755 MiB → 699 MiB | 4,198 → 3,929 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib`            |
+|  -7.4% |  -55.484 MiB | 51.2% → 51.6% |   751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib`            |
+|  -7.4% |  -55.484 MiB | 51.2% → 51.6% |   751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib`            |
+|  -8.7% |  -54.797 MiB | 43.2% → 43.0% |   633 MiB → 579 MiB | 3,651 → 3,401 | `Compile::Code_Gen`                        | `libjvm.dylib`            |
+|  -7.5% |  -49.312 MiB | 44.7% → 45.0% |   655 MiB → 606 MiB | 2,565 → 2,446 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib`            |
+|  -8.8% |  -46.237 MiB | 36.0% → 35.8% |   528 MiB → 482 MiB | 2,724 → 2,541 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib`            |
 
 ##### Native
 
-|  Change |        Delta |            % |                Size |           Samples | Function                                   | Location       |
-| ------: | -----------: | -----------: | ------------------: | ----------------: | ------------------------------------------ | -------------- |
-|   -9.4% | -979.539 KiB |  0.9% → 0.8% | 10.1 MiB → 9.18 MiB |   28,654 → 28,629 | `Compiler::compile_method`                 | `libjvm.dylib` |
-|  -95.8% |  -735.46 KiB | 0.1% → <0.1% |    767 KiB → 32 KiB |            24 → 1 | `ResourceBitMap::ResourceBitMap`           | `libjvm.dylib` |
-|   -4.1% | -480.101 KiB |  1.1% → 1.0% | 11.6 MiB → 11.1 MiB |         205 → 201 | `Type_Array::grow`                         | `libjvm.dylib` |
-|  -31.8% | -448.117 KiB |         0.1% |  1.38 MiB → 960 KiB |           29 → 24 | `Parse::build_exits`                       | `libjvm.dylib` |
-|  -17.4% | -384.164 KiB |         0.2% | 2.16 MiB → 1.78 MiB |           45 → 42 | `Parse::do_if`                             | `libjvm.dylib` |
-|   -2.3% | -291.491 KiB |         1.1% | 12.2 MiB → 11.9 MiB | 117,448 → 117,018 | `AllocateHeap`                             | `libjvm.dylib` |
-|  -26.5% | -288.101 KiB |         0.1% |  1.06 MiB → 800 KiB |            9 → 10 | `Parse::throw_to_exit`                     | `libjvm.dylib` |
-|  -25.7% | -288.101 KiB |         0.1% |  1.09 MiB → 832 KiB |           10 → 11 | `Parse::do_exceptions`                     | `libjvm.dylib` |
-|  -44.5% | -256.304 KiB | 0.1% → <0.1% |   576 KiB → 320 KiB |             8 → 6 | `CallGenerator::do_late_inline_helper`     | `libjvm.dylib` |
-|  -53.3% | -256.085 KiB |        <0.1% |   480 KiB → 224 KiB |             9 → 6 | `Parse::ensure_phis_everywhere`            | `libjvm.dylib` |
-|  -72.7% | -256.015 KiB |        <0.1% |    352 KiB → 96 KiB |             3 → 2 | `LibraryCallKit::inline_arraycopy`         | `libjvm.dylib` |
-|   -8.9% | -204.914 KiB |         0.2% | 2.25 MiB → 2.05 MiB |     2,547 → 2,311 | `Deoptimization::fetch_unroll_info_helper` | `libjvm.dylib` |
-|  -11.3% | -192.085 KiB |  0.2% → 0.1% | 1.66 MiB → 1.47 MiB |           36 → 33 | `PreserveJVMState::PreserveJVMState`       | `libjvm.dylib` |
-| removed | -192.031 KiB | <0.1% → 0.0% |       192 KiB → 0 B |             2 → 0 | `is_x2logic`                               | `libjvm.dylib` |
-|   -8.8% | -192.015 KiB |         0.2% | 2.13 MiB → 1.94 MiB |           65 → 59 | `Dict::doubhash`                           | `libjvm.dylib` |
-|   -8.8% | -192.015 KiB |         0.2% | 2.13 MiB → 1.94 MiB |           65 → 59 | `Dict::Insert`                             | `libjvm.dylib` |
-|  -33.3% | -160.062 KiB |        <0.1% |   480 KiB → 320 KiB |            13 → 9 | `DirectCallGenerator::generate`            | `libjvm.dylib` |
-|   -7.5% | -160.015 KiB |         0.2% | 2.09 MiB → 1.94 MiB |           38 → 42 | `G1BarrierSetC2::pre_barrier`              | `libjvm.dylib` |
-|  -15.7% | -155.195 KiB |         0.1% |   986 KiB → 831 KiB |       1,107 → 933 | `Deoptimization::fetch_unroll_info`        | `libjvm.dylib` |
-|  -15.7% | -155.195 KiB |         0.1% |   986 KiB → 831 KiB |       1,107 → 933 | `DeoptimizationBlob`                       | `<unknown>`    |
+| Change |        Delta |             % |                Size |       Samples | Function                                                                           | Location                  |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ---------------------------------------------------------------------------------- | ------------------------- |
+|  -8.1% | -118.753 MiB |         99.7% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Chunk::operator new`                                                              | `libjvm.dylib`            |
+|  -8.1% | -118.753 MiB |         99.7% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Arena::grow`                                                                      | `libjvm.dylib`            |
+|  -8.1% | -118.746 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `JavaThread::thread_main_inner`                                                    | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `Thread::call_run`                                                                 | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_native_entry`                                                              | `libjvm.dylib`            |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `_pthread_start`                                                                   | `libsystem_pthread.dylib` |
+|  -8.1% | -118.716 MiB | 99.7% → 99.6% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_start`                                                                     | `libsystem_pthread.dylib` |
+|  -8.1% | -118.712 MiB |         99.8% | 1.43 GiB → 1.31 GiB | 8,931 → 8,330 | `os::malloc`                                                                       | `libjvm.dylib`            |
+|  -8.1% | -118.573 MiB |        100.0% | 1.43 GiB → 1.32 GiB | 9,003 → 8,404 | `malloc_hook`                                                                      | `libasyncProfiler.dylib`  |
+|  -6.0% |   -7.502 MiB |   8.6% → 8.8% |   126 MiB → 118 MiB | 1,726 → 1,597 | `Arena::Arealloc`                                                                  | `libjvm.dylib`            |
+| -18.5% |   -4.438 MiB |   1.6% → 1.5% |   24 MiB → 19.6 MiB |     374 → 315 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to`                 | `libjvm.dylib`            |
+| -19.0% |    -2.75 MiB |   1.0% → 0.9% | 14.5 MiB → 11.7 MiB |     183 → 168 | `PredictedCallGenerator::generate`                                                 | `libjvm.dylib`            |
+| -12.6% |   -2.157 MiB |   1.2% → 1.1% |   17.2 MiB → 15 MiB |     225 → 203 | `Parse::do_call`                                                                   | `libjvm.dylib`            |
+| -11.4% |   -2.094 MiB |   1.3% → 1.2% | 18.4 MiB → 16.3 MiB |     247 → 218 | `Parse::do_all_blocks`                                                             | `libjvm.dylib`            |
+| -11.4% |   -2.094 MiB |   1.3% → 1.2% | 18.4 MiB → 16.3 MiB |     247 → 218 | `Parse::Parse`                                                                     | `libjvm.dylib`            |
+| -11.4% |   -2.094 MiB |   1.3% → 1.2% | 18.4 MiB → 16.3 MiB |     247 → 218 | `ParseGenerator::generate`                                                         | `libjvm.dylib`            |
+| -10.8% |   -1.969 MiB |          1.2% | 18.2 MiB → 16.2 MiB |     245 → 217 | `Parse::do_one_block`                                                              | `libjvm.dylib`            |
+| -43.9% |   -1.125 MiB |   0.2% → 0.1% | 2.56 MiB → 1.44 MiB |       47 → 30 | `GrowableArrayWithAllocator<unsigned int, GrowableArray<unsigned int>>::expand_to` | `libjvm.dylib`            |
+| -22.9% | -908.183 KiB |   0.3% → 0.2% | 3.87 MiB → 2.99 MiB |       95 → 89 | `Compiler::compile_method`                                                         | `libjvm.dylib`            |
+| -36.0% | -864.171 KiB |   0.2% → 0.1% |  2.34 MiB → 1.5 MiB |       22 → 16 | `Parse::build_exits`                                                               | `libjvm.dylib`            |
 
 #### Callers
 
 Callers with the largest change in contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `Compile::Compile` (`libjvm.dylib`)
+##### `PhaseIdealLoop::insert_post_loop` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Caller                       | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ---------------------------- | -------------- |
-|  +2.4% | +25.774 MiB | 100.0% | 1.03 GiB → 1.06 GiB | 17,221 → 17,476 | `C2Compiler::compile_method` | `libjvm.dylib` |
+| Change |       Delta |             % |                Size | Samples | Caller                                    | Location       |
+| -----: | ----------: | ------------: | ------------------: | ------: | ----------------------------------------- | -------------- |
+| +39.9% |   +1.23 MiB | 98.0% → 97.9% | 3.08 MiB → 4.31 MiB | 42 → 49 | `PhaseIdealLoop::insert_pre_post_loops`   | `libjvm.dylib` |
+| +50.0% | +32.015 KiB |   2.0% → 2.1% |     64 KiB → 96 KiB |   1 → 2 | `PhaseIdealLoop::insert_vector_post_loop` | `libjvm.dylib` |
 
-##### `C2Compiler::compile_method` (`libjvm.dylib`)
+##### `PhaseIdealLoop::insert_pre_post_loops` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Caller                                     | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------------------------------ | -------------- |
-|  +2.4% | +25.774 MiB | 100.0% | 1.03 GiB → 1.06 GiB | 17,221 → 17,476 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+| Change |          Delta |      % |                Size | Samples | Caller                                | Location       |
+| -----: | -------------: | -----: | ------------------: | ------: | ------------------------------------- | -------------- |
+| +28.4% | +1,004.085 KiB | 100.0% | 3.46 MiB → 4.44 MiB | 48 → 51 | `IdealLoopTree::iteration_split_impl` | `libjvm.dylib` |
+
+##### `Parse::do_put_xxx` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                   | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------------ | -------------- |
+| +37.6% | +927.906 KiB | 100.0% | 2.41 MiB → 3.31 MiB | 45 → 44 | `Parse::do_field_access` | `libjvm.dylib` |
+
+##### `Parse::do_if` (`libjvm.dylib`)
+
+|  Change |        Delta |      % |               Size | Samples | Caller                | Location       |
+| ------: | -----------: | -----: | -----------------: | ------: | --------------------- | -------------- |
+| +103.7% | +896.039 KiB | 100.0% | 864 KiB → 1.72 MiB | 14 → 24 | `Parse::do_one_block` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::split_if_with_blocks_pre` (`libjvm.dylib`)
+
+| Change |        Delta |      % |               Size | Samples | Caller                                 | Location       |
+| -----: | -----------: | -----: | -----------------: | ------: | -------------------------------------- | -------------- |
+| +98.1% | +852.054 KiB | 100.0% | 868 KiB → 1.68 MiB | 10 → 16 | `PhaseIdealLoop::split_if_with_blocks` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::split_thru_phi` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Caller                                      | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | ------------------------------------------- | -------------- |
+| +111.0% | +888.093 KiB | 74.9% → 89.0% | 800 KiB → 1.65 MiB |  9 → 15 | `PhaseIdealLoop::split_if_with_blocks_pre`  | `libjvm.dylib` |
+|  -22.4% |      -60 KiB | 25.1% → 11.0% |  268 KiB → 208 KiB |       4 | `PhaseIdealLoop::split_if_with_blocks_post` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::register_new_node` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                                                          | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | --------------------------------------------------------------- | -------------- |
+| +222.2% | +640.078 KiB | 47.4% → 67.4% | 288 KiB → 928 KiB |   3 → 8 | `PhaseIdealLoop::split_thru_phi`                                | `libjvm.dylib` |
+| removed | -128.046 KiB |  21.1% → 0.0% |     128 KiB → 0 B |   3 → 0 | `PhaseIdealLoop::clone_assertion_predicate_and_initialize`      | `libjvm.dylib` |
+| +399.9% | +128.015 KiB |  5.3% → 11.6% |  32 KiB → 160 KiB |   1 → 2 | `PhaseIdealLoop::rc_predicate`                                  | `libjvm.dylib` |
+| +100.0% |  +64.015 KiB |  10.5% → 9.3% |  64 KiB → 128 KiB |   1 → 2 | `PhaseIdealLoop::create_bool_from_template_assertion_predicate` | `libjvm.dylib` |
+| removed |  -64.015 KiB |  10.5% → 0.0% |      64 KiB → 0 B |   1 → 0 | `PhaseIdealLoop::insert_pre_post_loops`                         | `libjvm.dylib` |
+
+##### `PhaseMacroExpand::expand_macro_nodes` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller              | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------- | -------------- |
+| +17.5% | +720.171 KiB | 100.0% | 4.01 MiB → 4.72 MiB | 38 → 49 | `Compile::Optimize` | `libjvm.dylib` |
+
+##### `G1BarrierSetC2::post_barrier` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                                  | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | --------------------------------------- | -------------- |
+| +51.3% | +639.984 KiB | 100.0% | 1.22 MiB → 1.84 MiB | 26 → 25 | `ModRefBarrierSetC2::store_at_resolved` | `libjvm.dylib` |
+
+##### `Parse::do_field_access` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | --------------------- | -------------- |
+| +17.0% | +575.921 KiB | 100.0% | 3.31 MiB → 3.88 MiB |      58 | `Parse::do_one_block` | `libjvm.dylib` |
+
+##### `ConnectionGraph::ConnectionGraph` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                         | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------------------ | -------------- |
+| +51.4% | +572.562 KiB | 100.0% | 1.09 MiB → 1.65 MiB | 16 → 26 | `ConnectionGraph::do_analysis` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::clone_loop` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |                Size | Samples | Caller                                        | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | --------------------------------------------- | -------------- |
+|  +40.1% |   +1.261 MiB | 48.5% → 62.9% | 3.15 MiB → 4.41 MiB | 43 → 51 | `PhaseIdealLoop::insert_post_loop`            | `libjvm.dylib` |
+|  -35.5% | -352.031 KiB |  14.9% → 8.9% |   992 KiB → 640 KiB | 13 → 11 | `PhaseIdealLoop::create_slow_version_of_loop` | `libjvm.dylib` |
+| removed | -224.046 KiB |   3.4% → 0.0% |       224 KiB → 0 B |   3 → 0 | `PhaseIdealLoop::insert_pre_post_loops`       | `libjvm.dylib` |
+|  -66.7% | -128.046 KiB |   2.9% → 0.9% |    192 KiB → 64 KiB |   4 → 1 | `PhaseIdealLoop::do_peeling`                  | `libjvm.dylib` |
+| removed | -128.015 KiB |   1.9% → 0.0% |       128 KiB → 0 B |   1 → 0 | `PhaseIdealLoop::partial_peel`                | `libjvm.dylib` |
+
+##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
+
+| Change |        Delta |      % |               Size | Samples | Caller                            | Location       |
+| -----: | -----------: | -----: | -----------------: | ------: | --------------------------------- | -------------- |
+| +69.6% | +512.093 KiB | 100.0% | 736 KiB → 1.22 MiB | 17 → 23 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::create_new_if_for_predicate` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size | Samples | Caller                                                     | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------- | -------------- |
+| +20.6% |  +704.25 KiB | 85.6% → 92.1% | 3.34 MiB → 4.03 MiB | 49 → 65 | `PhaseIdealLoop::loop_predication_impl_helper`             | `libjvm.dylib` |
+| -37.5% | -192.062 KiB |  12.8% → 7.1% |   512 KiB → 320 KiB |  12 → 8 | `PhaseIdealLoop::insert_loop_limit_check_predicate`        | `libjvm.dylib` |
+| -50.0% |      -32 KiB |   1.6% → 0.7% |     64 KiB → 32 KiB |       1 | `PhaseIdealLoop::clone_parse_predicate_to_unswitched_loop` | `libjvm.dylib` |
+
+##### `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                       | Location                                 |
+| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------- | ---------------------------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)` | `jdk.internal.loader.BuiltinClassLoader` |
+| -56.5% |       -104 B |  <0.1% |        184 B → 80 B |   3 → 1 | `loadClassOrNull(String)`    | `jdk.internal.loader.BuiltinClassLoader` |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                       | Location                                          |
+| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------- | ------------------------------------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)` | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.ClassLoaders$AppClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Caller              | Location                |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------- | ----------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String)` | `java.lang.ClassLoader` |
+
+##### `loadClass(String)` (`java.lang.ClassLoader`)
+
+|  Change |        Delta |             % |                Size | Samples | Caller                                                                          | Location                                                             |
+| ------: | -----------: | ------------: | ------------------: | ------: | ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+|  +80.9% | +246.548 KiB | 11.2% → 17.4% |   305 KiB → 551 KiB |  10 → 8 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader`                                              |
+|     new |  +99.141 KiB |   0.0% → 3.1% |      0 B → 99.1 KiB |   0 → 1 | `<init>(int, boolean)`                                                          | `org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl`        |
+|  +30.7% |  +73.721 KiB |   8.8% → 9.9% |   240 KiB → 314 KiB |   3 → 2 | `lambda$createPlugin$0()`                                                       | `org.codehaus.groovy.vmplugin.VMPluginFactory`                       |
+| +137.3% |  +62.702 KiB |   1.7% → 3.4% |  45.7 KiB → 108 KiB |       7 | `invokeVirtual(Object, Object, Object)`                                         | `java.lang.invoke.LambdaForm$DMH`                                    |
+| +642.7% |  +56.654 KiB |   0.3% → 2.1% | 8.81 KiB → 65.5 KiB |       1 | `loadDgmInfo()`                                                                 | `org.codehaus.groovy.reflection.GeneratedMetaMethod$DgmMethodRecord` |
+
+##### `GraphKit::null_check_common` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                                      | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------------------- | -------------- |
+|     new | +256.015 KiB |  0.0% → 22.9% |     0 B → 256 KiB |   0 → 1 | `LibraryCallKit::inline_native_Class_query` | `libjvm.dylib` |
+| +500.6% |  +160.07 KiB |  4.5% → 17.1% |  32 KiB → 192 KiB |   1 → 3 | `Parse::array_addressing`                   | `libjvm.dylib` |
+|  +71.4% | +160.062 KiB | 31.8% → 34.3% | 224 KiB → 384 KiB |   3 → 7 | `PredictedCallGenerator::generate`          | `libjvm.dylib` |
+|  -50.0% | -127.992 KiB | 36.4% → 11.4% | 256 KiB → 128 KiB |   4 → 2 | `Parse::do_one_bytecode`                    | `libjvm.dylib` |
+| removed |  -64.015 KiB |   9.1% → 0.0% |      64 KiB → 0 B |   1 → 0 | `GraphKit::null_check_oop`                  | `libjvm.dylib` |
+
+##### `GraphKit::uncommon_trap` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Caller                          | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------- | -------------- |
+| +275.1% | +352.101 KiB | 30.8% → 57.7% | 128 KiB → 480 KiB |   3 → 7 | `GraphKit::null_check_common`   | `libjvm.dylib` |
+| +700.6% | +224.039 KiB |  7.7% → 30.8% |  32 KiB → 256 KiB |       1 | `Parse::adjust_map_after_if`    | `libjvm.dylib` |
+| removed |  -96.031 KiB |  23.1% → 0.0% |      96 KiB → 0 B |   2 → 0 | `Parse::array_addressing`       | `libjvm.dylib` |
+| removed |  -64.015 KiB |  15.4% → 0.0% |      64 KiB → 0 B |   1 → 0 | `GraphKit::add_parse_predicate` | `libjvm.dylib` |
+|     new |  +32.015 KiB |   0.0% → 3.8% |      0 B → 32 KiB |   0 → 1 | `Parse::do_all_blocks`          | `libjvm.dylib` |
+
+##### `Parse::return_current` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | --------------------- | -------------- |
+| +36.1% | +415.945 KiB | 100.0% | 1.13 MiB → 1.53 MiB | 12 → 11 | `Parse::do_one_block` | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_native_Class_query` (`libjvm.dylib`)
+
+|  Change |        Delta |      % |             Size | Samples | Caller                       | Location       |
+| ------: | -----------: | -----: | ---------------: | ------: | ---------------------------- | -------------- |
+| +599.7% | +384.015 KiB | 100.0% | 64 KiB → 448 KiB |   2 → 3 | `LibraryIntrinsic::generate` | `libjvm.dylib` |
+
+##### `Parse::catch_inline_exceptions` (`libjvm.dylib`)
+
+|   Change |        Delta |      % |             Size | Samples | Caller                 | Location       |
+| -------: | -----------: | -----: | ---------------: | ------: | ---------------------- | -------------- |
+| +1199.4% | +383.992 KiB | 100.0% | 32 KiB → 416 KiB |   1 → 3 | `Parse::do_exceptions` | `libjvm.dylib` |
+
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                                                                          | Location                |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------------------------------------------------------------------- | ----------------------- |
+| +13.4% | +365.215 KiB | 100.0% | 2.67 MiB → 3.03 MiB | 71 → 66 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader` |
+
+##### `BarrierSetC2::store_at` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                      | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | --------------------------- | -------------- |
+| +12.1% | +351.882 KiB | 100.0% | 2.84 MiB → 3.19 MiB | 51 → 46 | `GraphKit::access_store_at` | `libjvm.dylib` |
+
+##### `ModRefBarrierSetC2::store_at_resolved` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Caller                   | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------------ | -------------- |
+| +12.2% | +351.882 KiB | 100.0% | 2.81 MiB → 3.16 MiB | 50 → 45 | `BarrierSetC2::store_at` | `libjvm.dylib` |
+
+##### `PreserveJVMState::PreserveJVMState` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Caller                             | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | ---------------------------------- | -------------- |
+| +312.5% |  +800.07 KiB | 32.0% → 94.3% | 256 KiB → 1.03 MiB |  3 → 10 | `Parse::do_if`                     | `libjvm.dylib` |
+| removed | -384.031 KiB |  48.0% → 0.0% |      384 KiB → 0 B |   2 → 0 | `LibraryCallKit::inline_arraycopy` | `libjvm.dylib` |
+| removed | -128.015 KiB |  16.0% → 0.0% |      128 KiB → 0 B |   1 → 0 | `Parse::array_addressing`          | `libjvm.dylib` |
+|     new |  +64.015 KiB |   0.0% → 5.7% |       0 B → 64 KiB |   0 → 1 | `Parse::do_ifnull`                 | `libjvm.dylib` |
+| removed |  -32.015 KiB |   4.0% → 0.0% |       32 KiB → 0 B |   1 → 0 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
+
+##### `LibraryCallKit::load_klass_from_mirror_common` (`libjvm.dylib`)
+
+|  Change |        Delta |              % |            Size | Samples | Caller                                      | Location       |
+| ------: | -----------: | -------------: | --------------: | ------: | ------------------------------------------- | -------------- |
+|     new | +256.015 KiB |   0.0% → 80.0% |   0 B → 256 KiB |   0 → 1 | `LibraryCallKit::inline_unsafe_newArray`    | `libjvm.dylib` |
+| +100.0% |      +32 KiB | 100.0% → 20.0% | 32 KiB → 64 KiB |       1 | `LibraryCallKit::inline_native_Class_query` | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_unsafe_newArray` (`libjvm.dylib`)
+
+| Change |        Delta |             % |          Size | Samples | Caller                          | Location       |
+| -----: | -----------: | ------------: | ------------: | ------: | ------------------------------- | -------------- |
+|    new | +256.015 KiB | 0.0% → 100.0% | 0 B → 256 KiB |   0 → 1 | `LibraryCallKit::try_to_inline` | `libjvm.dylib` |
+
+##### `CountedLoopReserveKit::create_reserve` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Caller                                         | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------------------------- | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `CountedLoopReserveKit::CountedLoopReserveKit` | `libjvm.dylib` |
+
+##### `CountedLoopReserveKit::CountedLoopReserveKit` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Caller              | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------- | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `SuperWord::output` | `libjvm.dylib` |
+
+##### `SuperWord::output` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Caller                      | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------- | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `SuperWord::transform_loop` | `libjvm.dylib` |
+
+##### `ClassFileParser::ClassFileParser` (`libjvm.dylib`)
+
+|  Change |       Delta |      % |              Size | Samples | Caller                             | Location       |
+| ------: | ----------: | -----: | ----------------: | ------: | ---------------------------------- | -------------- |
+| +127.8% | +193.99 KiB | 100.0% | 152 KiB → 346 KiB | 30 → 36 | `KlassFactory::create_from_stream` | `libjvm.dylib` |
+
+##### `KlassFactory::create_from_stream` (`libjvm.dylib`)
+
+|  Change |       Delta |             % |               Size | Samples | Caller                                               | Location       |
+| ------: | ----------: | ------------: | -----------------: | ------: | ---------------------------------------------------- | -------------- |
+|  +55.6% | +96.966 KiB | 89.9% → 70.1% |  174 KiB → 271 KiB | 29 → 26 | `SystemDictionary::resolve_class_from_stream`        | `libjvm.dylib` |
+| +492.6% | +96.105 KiB | 10.1% → 29.9% | 19.5 KiB → 116 KiB |  9 → 13 | `SystemDictionary::resolve_hidden_class_from_stream` | `libjvm.dylib` |
+
+##### `Parse::adjust_map_after_if` (`libjvm.dylib`)
+
+|  Change |       Delta |             % |             Size | Samples | Caller             | Location       |
+| ------: | ----------: | ------------: | ---------------: | ------: | ------------------ | -------------- |
+| +233.3% |    +224 KiB | 37.5% → 76.9% | 96 KiB → 320 KiB |       2 | `Parse::do_ifnull` | `libjvm.dylib` |
+|  -40.0% | -64.015 KiB | 62.5% → 23.1% | 160 KiB → 96 KiB |   3 → 2 | `Parse::do_if`     | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_unsafe_allocate` (`libjvm.dylib`)
+
+| Change |        Delta |             % |          Size | Samples | Caller                       | Location       |
+| -----: | -----------: | ------------: | ------------: | ------: | ---------------------------- | -------------- |
+|    new | +128.031 KiB | 0.0% → 100.0% | 0 B → 128 KiB |   0 → 2 | `LibraryIntrinsic::generate` | `libjvm.dylib` |
 
 ##### `Chunk::operator new` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Caller        | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------- | -------------- |
-|  +2.4% | +25.075 MiB | 100.0% | 1.04 GiB → 1.06 GiB | 13,066 → 13,277 | `Arena::grow` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller        | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------- | -------------- |
+|  -8.1% | -118.753 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Arena::grow` | `libjvm.dylib` |
 
 ##### `Arena::grow` (`libjvm.dylib`)
 
-| Change |      Delta |             % |                Size |       Samples | Caller                                                               | Location       |
-| -----: | ---------: | ------------: | ------------------: | ------------: | -------------------------------------------------------------------- | -------------- |
-|  +1.9% | +7.455 MiB | 36.2% → 36.0% |   385 MiB → 393 MiB | 2,589 → 2,601 | `PhaseIdealLoop::Dominators`                                         | `libjvm.dylib` |
-|  +3.2% | +5.312 MiB | 15.8% → 15.9% |   168 MiB → 174 MiB | 3,676 → 3,734 | `Arena::Arealloc`                                                    | `libjvm.dylib` |
-|  +1.6% | +3.714 MiB | 21.8% → 21.7% |   233 MiB → 236 MiB | 1,799 → 1,834 | `PhaseIFG::init`                                                     | `libjvm.dylib` |
-|  +3.6% | +2.819 MiB |   7.3% → 7.4% | 77.4 MiB → 80.2 MiB |     896 → 935 | `PhaseLive::compute`                                                 | `libjvm.dylib` |
-| +14.3% | +2.219 MiB |   1.5% → 1.6% | 15.6 MiB → 17.8 MiB |     389 → 448 | `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` | `libjvm.dylib` |
-
-##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
-
-| Change |       Delta |      % |                Size |         Samples | Caller                                | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------------------------- | -------------- |
-|  +2.3% | +24.878 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 51,679 → 51,913 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+| Change |       Delta |             % |               Size |       Samples | Caller                                                             | Location       |
+| -----: | ----------: | ------------: | -----------------: | ------------: | ------------------------------------------------------------------ | -------------- |
+|  -7.5% | -49.312 MiB | 44.8% → 45.1% |  655 MiB → 606 MiB | 2,565 → 2,446 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
+|  -8.1% | -32.867 MiB |         27.9% |  408 MiB → 375 MiB | 1,726 → 1,658 | `PhaseIFG::init`                                                   | `libjvm.dylib` |
+| -10.0% | -11.005 MiB |   7.5% → 7.4% | 110 MiB → 98.7 MiB |     827 → 751 | `PhaseLive::compute`                                               | `libjvm.dylib` |
+|  -6.0% |  -7.502 MiB |   8.6% → 8.8% |  126 MiB → 118 MiB | 1,726 → 1,597 | `Arena::Arealloc`                                                  | `libjvm.dylib` |
+| -18.5% |  -4.438 MiB |   1.6% → 1.5% |  24 MiB → 19.6 MiB |     374 → 315 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Caller                          | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------------------- | -------------- |
-|  +2.3% | +24.866 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 51,756 → 51,967 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller                          | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------------------- | -------------- |
+|  -8.1% | -118.746 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
 
 ##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Caller             | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------ | -------------- |
-|  +2.3% | +24.866 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 52,202 → 52,411 | `Thread::call_run` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller             | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------ | -------------- |
+|  -8.1% | -118.746 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `Thread::call_run` | `libjvm.dylib` |
 
-##### `_pthread_start` (`libsystem_pthread.dylib`)
+##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |         Samples | Caller         | Location                  |
-| -----: | ---------: | -----: | ------------------: | --------------: | -------------- | ------------------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,999 → 55,877 | `thread_start` | `libsystem_pthread.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller                                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------------------------- | -------------- |
+|  -8.1% | -118.746 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,818 → 8,216 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |         Samples | Caller                | Location       |
-| -----: | ---------: | -----: | ------------------: | --------------: | --------------------- | -------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,846 → 55,724 | `thread_native_entry` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | --------------------- | -------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_native_entry` | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |         Samples | Caller           | Location                  |
-| -----: | ---------: | -----: | ------------------: | --------------: | ---------------- | ------------------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,846 → 55,724 | `_pthread_start` | `libsystem_pthread.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller           | Location                  |
+| -----: | -----------: | -----: | ------------------: | ------------: | ---------------- | ------------------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `_pthread_start` | `libsystem_pthread.dylib` |
 
-##### `malloc_hook` (`libasyncProfiler.dylib`)
+##### `_pthread_start` (`libsystem_pthread.dylib`)
 
-| Change |       Delta |     % |                Size |           Samples | Caller                                    | Location                 |
-| -----: | ----------: | ----: | ------------------: | ----------------: | ----------------------------------------- | ------------------------ |
-|  +2.3% | +24.764 MiB | 99.2% | 1.05 GiB → 1.08 GiB | 157,921 → 157,685 | `os::malloc`                              | `libjvm.dylib`           |
-|  +0.7% |  +7.633 KiB |  0.1% | 1.14 MiB → 1.15 MiB |     1,175 → 1,181 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib`          |
-|    ~0% |      +293 B |  0.5% |            5.92 MiB |             1,329 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`          |
-|  +0.1% |      +171 B | <0.1% |             298 KiB |                23 | `readBytes`                               | `libjava.dylib`          |
-|  -0.1% |       -32 B | <0.1% |            45.7 KiB |     1,333 → 1,331 | `CodeCache::add`                          | `libasyncProfiler.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Caller         | Location                  |
+| -----: | -----------: | -----: | ------------------: | ------------: | -------------- | ------------------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_start` | `libsystem_pthread.dylib` |
 
 ##### `os::malloc` (`libjvm.dylib`)
 
-| Change |        Delta |     % |                Size |           Samples | Caller                      | Location       |
-| -----: | -----------: | ----: | ------------------: | ----------------: | --------------------------- | -------------- |
-|  +2.4% |  +25.075 MiB | 98.7% | 1.04 GiB → 1.06 GiB |   13,109 → 13,320 | `Chunk::operator new`       | `libjvm.dylib` |
-|  -2.3% | -291.491 KiB |  1.1% | 12.2 MiB → 11.9 MiB | 117,448 → 117,018 | `AllocateHeap`              | `libjvm.dylib` |
-|  -2.8% |  -24.781 KiB |  0.1% |   880 KiB → 856 KiB |   10,485 → 10,471 | `AnyObj::operator new`      | `libjvm.dylib` |
-|  -0.1% |   -1.312 KiB |  0.1% |            1.18 MiB |             3,860 | `os::malloc`                | `libjvm.dylib` |
-|  -0.5% |   -1.312 KiB | <0.1% |   291 KiB → 290 KiB |             3,848 | `JvmtiEnv::GetClassMethods` | `libjvm.dylib` |
+| Change |        Delta |            % |                Size |       Samples | Caller                      | Location       |
+| -----: | -----------: | -----------: | ------------------: | ------------: | --------------------------- | -------------- |
+|  -8.1% | -118.753 MiB |        99.9% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Chunk::operator new`       | `libjvm.dylib` |
+| +23.1% |  +49.503 KiB |        <0.1% |   214 KiB → 263 KiB |     100 → 109 | `AllocateHeap`              | `libjvm.dylib` |
+| -94.6% |    -8.14 KiB |        <0.1% |    8.61 KiB → 480 B |         8 → 6 | `AnyObj::operator new`      | `libjvm.dylib` |
+|    ~0% |       +192 B |         0.1% |             914 KiB |         1 → 2 | `os::malloc`                | `libjvm.dylib` |
+|    new |       +192 B | 0.0% → <0.1% |         0 B → 192 B |         0 → 1 | `JvmtiEnv::GetClassMethods` | `libjvm.dylib` |
+
+##### `malloc_hook` (`libasyncProfiler.dylib`)
+
+|  Change |        Delta |     % |                Size |       Samples | Caller                                    | Location          |
+| ------: | -----------: | ----: | ------------------: | ------------: | ----------------------------------------- | ----------------- |
+|   -8.1% | -118.712 MiB | 99.8% | 1.43 GiB → 1.31 GiB | 8,931 → 8,330 | `os::malloc`                              | `libjvm.dylib`    |
+|  +10.5% |  +268.35 KiB |  0.2% |  2.5 MiB → 2.76 MiB |            40 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`   |
+|  -85.0% | -139.062 KiB | <0.1% |  164 KiB → 24.6 KiB |         7 → 5 | `CCalloc`                                 | `libverify.dylib` |
+| +200.0% |  +13.984 KiB | <0.1% |   6.99 KiB → 21 KiB |         1 → 3 | `inflateInit2_`                           | `libzip.dylib`    |
+|   -3.7% |       -769 B | <0.1% | 20.2 KiB → 19.5 KiB |       14 → 15 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib`   |
+
+##### `Compile::Compile` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size |       Samples | Caller                       | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ---------------------------- | -------------- |
+|  -8.1% | -117.828 MiB | 100.0% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `C2Compiler::compile_method` | `libjvm.dylib` |
+
+##### `C2Compiler::compile_method` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size |       Samples | Caller                                     | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------------------------------ | -------------- |
+|  -8.1% | -117.828 MiB | 100.0% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
 ##### `Compile::Optimize` (`libjvm.dylib`)
 
 | Change |       Delta |      % |              Size |       Samples | Caller             | Location       |
 | -----: | ----------: | -----: | ----------------: | ------------: | ------------------ | -------------- |
-|  +3.1% | +18.541 MiB | 100.0% | 605 MiB → 623 MiB | 7,456 → 7,679 | `Compile::Compile` | `libjvm.dylib` |
+|  -7.5% | -59.717 MiB | 100.0% | 795 MiB → 735 MiB | 4,726 → 4,426 | `Compile::Compile` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
-| Change |      Delta |             % |              Size |       Samples | Caller                    | Location       |
-| -----: | ---------: | ------------: | ----------------: | ------------: | ------------------------- | -------------- |
-|  +3.4% | +9.419 MiB | 50.1% → 50.2% | 280 MiB → 289 MiB | 3,462 → 3,567 | `Compile::Optimize`       | `libjvm.dylib` |
-|  +2.9% | +7.947 MiB | 49.9% → 49.8% | 279 MiB → 287 MiB | 2,999 → 3,101 | `Compile::optimize_loops` | `libjvm.dylib` |
+| Change |       Delta |     % |              Size |       Samples | Caller                    | Location       |
+| -----: | ----------: | ----: | ----------------: | ------------: | ------------------------- | -------------- |
+|  -7.6% | -28.422 MiB | 49.7% | 376 MiB → 347 MiB | 2,269 → 2,130 | `Compile::Optimize`       | `libjvm.dylib` |
+|  -7.3% | -27.905 MiB | 50.3% | 380 MiB → 352 MiB | 1,929 → 1,799 | `Compile::optimize_loops` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
 | Change |       Delta |      % |              Size |       Samples | Caller                           | Location       |
 | -----: | ----------: | -----: | ----------------: | ------------: | -------------------------------- | -------------- |
-|  +3.1% | +16.928 MiB | 100.0% | 552 MiB → 569 MiB | 6,363 → 6,562 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+|  -7.4% | -55.484 MiB | 100.0% | 751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
 
 | Change |       Delta |      % |              Size |       Samples | Caller                     | Location       |
 | -----: | ----------: | -----: | ----------------: | ------------: | -------------------------- | -------------- |
-|  +3.1% | +16.928 MiB | 100.0% | 552 MiB → 569 MiB | 6,363 → 6,562 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
-
-##### `Compile::optimize_loops` (`libjvm.dylib`)
-
-| Change |      Delta |      % |              Size |       Samples | Caller              | Location       |
-| -----: | ---------: | -----: | ----------------: | ------------: | ------------------- | -------------- |
-|  +2.9% | +7.947 MiB | 100.0% | 279 MiB → 287 MiB | 2,999 → 3,101 | `Compile::Optimize` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
-
-| Change |      Delta |      % |              Size |       Samples | Caller                               | Location       |
-| -----: | ---------: | -----: | ----------------: | ------------: | ------------------------------------ | -------------- |
-|  +1.9% | +7.486 MiB | 100.0% | 385 MiB → 393 MiB | 2,589 → 2,602 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+|  -7.4% | -55.484 MiB | 100.0% | 751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
 
 ##### `Compile::Code_Gen` (`libjvm.dylib`)
 
-| Change |      Delta |      % |              Size |       Samples | Caller             | Location       |
-| -----: | ---------: | -----: | ----------------: | ------------: | ------------------ | -------------- |
-|  +1.5% | +6.512 MiB | 100.0% | 422 MiB → 429 MiB | 7,964 → 7,980 | `Compile::Compile` | `libjvm.dylib` |
+| Change |       Delta |      % |              Size |       Samples | Caller             | Location       |
+| -----: | ----------: | -----: | ----------------: | ------------: | ------------------ | -------------- |
+|  -8.7% | -54.797 MiB | 100.0% | 633 MiB → 579 MiB | 3,651 → 3,401 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
+
+| Change |       Delta |      % |              Size |       Samples | Caller                               | Location       |
+| -----: | ----------: | -----: | ----------------: | ------------: | ------------------------------------ | -------------- |
+|  -7.5% | -49.312 MiB | 100.0% | 655 MiB → 606 MiB | 2,565 → 2,446 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+
+| Change |       Delta |      % |              Size |       Samples | Caller              | Location       |
+| -----: | ----------: | -----: | ----------------: | ------------: | ------------------- | -------------- |
+|  -8.8% | -46.237 MiB | 100.0% | 528 MiB → 482 MiB | 2,724 → 2,541 | `Compile::Code_Gen` | `libjvm.dylib` |
 
 ##### `Arena::Arealloc` (`libjvm.dylib`)
 
-|  Change |        Delta |             % |                Size |       Samples | Caller                           | Location       |
-| ------: | -----------: | ------------: | ------------------: | ------------: | -------------------------------- | -------------- |
-|   +2.6% |   +2.781 MiB | 62.9% → 62.6% |   106 MiB → 109 MiB | 2,359 → 2,394 | `Node_Array::grow`               | `libjvm.dylib` |
-|   +3.8% | +960.093 KiB | 14.7% → 14.8% | 24.7 MiB → 25.6 MiB |     548 → 549 | `PhaseIdealLoop::set_idom`       | `libjvm.dylib` |
-|  +18.4% | +736.132 KiB |   2.3% → 2.7% | 3.91 MiB → 4.63 MiB |       79 → 85 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
-| +133.3% | +640.046 KiB |   0.3% → 0.6% |  480 KiB → 1.09 MiB |       11 → 14 | `PhaseIterGVN::transform`        | `libjvm.dylib` |
-|  +13.2% | +544.125 KiB |   2.4% → 2.6% | 4.03 MiB → 4.56 MiB |       65 → 73 | `Block_Array::grow`              | `libjvm.dylib` |
-
-##### `IdealLoopTree::loop_predication` (`libjvm.dylib`)
-
-| Change |      Delta |             % |                Size |   Samples | Caller                               | Location       |
-| -----: | ---------: | ------------: | ------------------: | --------: | ------------------------------------ | -------------- |
-| +10.5% | +3.062 MiB |        100.0% | 29.1 MiB → 32.2 MiB | 719 → 793 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
-|  +9.6% | +1.281 MiB | 45.6% → 45.2% | 13.3 MiB → 14.6 MiB | 339 → 365 | `IdealLoopTree::loop_predication`    | `libjvm.dylib` |
-
-##### `PathFrequency::to` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |   Samples | Caller                                             | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | -------------------------------------------------- | -------------- |
-| +32.5% |       +2 MiB | 38.9% → 44.3% | 6.16 MiB → 8.16 MiB | 167 → 213 | `PhaseIdealLoop::loop_predication_follow_branches` | `libjvm.dylib` |
-|  +6.2% | +608.312 KiB | 61.1% → 55.7% | 9.66 MiB → 10.3 MiB | 230 → 255 | `PhaseIdealLoop::loop_predication_impl`            | `libjvm.dylib` |
-
-##### `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` (`libjvm.dylib`)
-
-| Change |      Delta |      % |                Size |   Samples | Caller              | Location       |
-| -----: | ---------: | -----: | ------------------: | --------: | ------------------- | -------------- |
-| +14.3% | +2.219 MiB | 100.0% | 15.6 MiB → 17.8 MiB | 389 → 448 | `PathFrequency::to` | `libjvm.dylib` |
-
-##### `IdealLoopTree::counted_loop` (`libjvm.dylib`)
-
-| Change |      Delta |      % |                Size |  Samples | Caller                               | Location       |
-| -----: | ---------: | -----: | ------------------: | -------: | ------------------------------------ | -------------- |
-| +33.5% | +1.445 MiB | 100.0% | 4.31 MiB → 5.76 MiB | 99 → 116 | `IdealLoopTree::counted_loop`        | `libjvm.dylib` |
-| +33.5% | +1.445 MiB | 100.0% | 4.31 MiB → 5.76 MiB | 99 → 116 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |     Samples | Caller                                 | Location       |
+| -----: | -----------: | ------------: | ------------------: | ----------: | -------------------------------------- | -------------- |
+|  -6.5% |   -4.657 MiB | 57.1% → 56.7% | 71.9 MiB → 67.2 MiB | 1,042 → 960 | `Node_Array::grow`                     | `libjvm.dylib` |
+| -31.6% |  -768.25 KiB |   1.9% → 1.4% | 2.38 MiB → 1.63 MiB |     44 → 28 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+| -13.2% | -736.125 KiB |   4.3% → 4.0% | 5.44 MiB → 4.72 MiB |     57 → 49 | `PhaseGVN::transform_no_reclaim`       | `libjvm.dylib` |
+| -37.5% | -480.125 KiB |   1.0% → 0.7% |  1.25 MiB → 800 KiB |     29 → 21 | `Dict::doubhash`                       | `libjvm.dylib` |
+|  -7.1% |  -319.89 KiB |   3.5% → 3.4% | 4.38 MiB → 4.06 MiB |     36 → 43 | `Block_Array::grow`                    | `libjvm.dylib` |
 
 ##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
 
-| Change |       Delta |             % |                Size |   Samples | Caller                                               | Location       |
-| -----: | ----------: | ------------: | ------------------: | --------: | ---------------------------------------------------- | -------------- |
-|  +3.4% |  +1.312 MiB | 99.7% → 99.8% | 38.3 MiB → 39.6 MiB | 863 → 891 | `PhaseIdealLoop::build_and_optimize`                 | `libjvm.dylib` |
-| -25.0% | -32.015 KiB |   0.3% → 0.2% |    128 KiB → 96 KiB |     3 → 2 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
+| Change |       Delta |              % |              Size |   Samples | Caller                                               | Location       |
+| -----: | ----------: | -------------: | ----------------: | --------: | ---------------------------------------------------- | -------------- |
+| -18.7% |    -4.5 MiB | 100.0% → 99.7% | 24 MiB → 19.5 MiB | 374 → 314 | `PhaseIdealLoop::build_and_optimize`                 | `libjvm.dylib` |
+|    new | +64.015 KiB |    0.0% → 0.3% |      0 B → 64 KiB |     0 → 1 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
 
-##### `IdealLoopTree::iteration_split_impl` (`libjvm.dylib`)
+##### `PredictedCallGenerator::generate` (`libjvm.dylib`)
 
-| Change |          Delta |      % |                Size |   Samples | Caller                           | Location       |
-| -----: | -------------: | -----: | ------------------: | --------: | -------------------------------- | -------------- |
-|  +8.0% | +1,001.703 KiB | 100.0% | 12.3 MiB → 13.3 MiB | 225 → 236 | `IdealLoopTree::iteration_split` | `libjvm.dylib` |
-
-##### `Parse::do_field_access` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |   Samples | Caller                | Location       |
-| -----: | -----------: | -----: | ------------------: | --------: | --------------------- | -------------- |
-| +17.5% | +863.968 KiB | 100.0% | 4.81 MiB → 5.66 MiB | 111 → 119 | `Parse::do_one_block` | `libjvm.dylib` |
-
-##### `G1BarrierSetC2::post_barrier` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Caller                                  | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | --------------------------------------- | -------------- |
-| +32.4% | +768.078 KiB | 98.7% → 99.0% | 2.31 MiB → 3.06 MiB | 61 → 66 | `ModRefBarrierSetC2::store_at_resolved` | `libjvm.dylib` |
-
-##### `Parse::do_one_block` (`libjvm.dylib`)
-
-| Change |        Delta |      % |              Size |   Samples | Caller                 | Location       |
-| -----: | -----------: | -----: | ----------------: | --------: | ---------------------- | -------------- |
-|  +3.5% | +736.703 KiB | 100.0% | 20.3 MiB → 21 MiB | 489 → 504 | `Parse::do_all_blocks` | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |   Samples | Caller                                 | Location       |
+| -----: | -----------: | ------------: | ------------------: | --------: | -------------------------------------- | -------------- |
+| -19.0% |    -2.75 MiB |        100.0% | 14.5 MiB → 11.7 MiB | 183 → 168 | `Parse::do_call`                       | `libjvm.dylib` |
+| -21.1% |   -1.125 MiB | 36.9% → 36.0% | 5.34 MiB → 4.22 MiB |   57 → 50 | `PredictedCallGenerator::generate`     | `libjvm.dylib` |
+| -33.4% | -128.156 KiB |   2.6% → 2.1% |   384 KiB → 256 KiB |     2 → 7 | `CallGenerator::do_late_inline_helper` | `libjvm.dylib` |
 
 ##### `Parse::do_call` (`libjvm.dylib`)
 
-| Change |        Delta |      % |                Size |   Samples | Caller                | Location       |
-| -----: | -----------: | -----: | ------------------: | --------: | --------------------- | -------------- |
-|  +3.9% | +736.671 KiB | 100.0% | 18.6 MiB → 19.3 MiB | 452 → 465 | `Parse::do_one_block` | `libjvm.dylib` |
+| Change |      Delta |      % |              Size |   Samples | Caller                | Location       |
+| -----: | ---------: | -----: | ----------------: | --------: | --------------------- | -------------- |
+| -12.6% | -2.157 MiB | 100.0% | 17.2 MiB → 15 MiB | 225 → 203 | `Parse::do_one_block` | `libjvm.dylib` |
 
-##### `Matcher::Label_Root` (`libjvm.dylib`)
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
 
-| Change |       Delta |             % |                Size |  Samples | Caller                | Location       |
-| -----: | ----------: | ------------: | ------------------: | -------: | --------------------- | -------------- |
-| -37.5% |  -1.217 MiB |        100.0% | 3.25 MiB → 2.03 MiB | 103 → 65 | `Matcher::match_tree` | `libjvm.dylib` |
-|  -1.9% | -31.976 KiB | 51.0% → 80.0% | 1.66 MiB → 1.62 MiB |  53 → 52 | `Matcher::Label_Root` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size |   Samples | Caller         | Location       |
+| -----: | ---------: | -----: | ------------------: | --------: | -------------- | -------------- |
+| -11.4% | -2.094 MiB | 100.0% | 18.4 MiB → 16.3 MiB | 247 → 218 | `Parse::Parse` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::create_slow_version_of_loop` (`libjvm.dylib`)
+##### `Parse::Parse` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size | Samples | Caller                           | Location       |
-| -----: | ---------: | -----: | ------------------: | ------: | -------------------------------- | -------------- |
-| -30.4% | -1.187 MiB | 100.0% | 3.91 MiB → 2.72 MiB | 71 → 53 | `PhaseIdealLoop::do_unswitching` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size |   Samples | Caller                     | Location       |
+| -----: | ---------: | -----: | ------------------: | --------: | -------------------------- | -------------- |
+| -11.4% | -2.094 MiB | 100.0% | 18.4 MiB → 16.3 MiB | 247 → 218 | `ParseGenerator::generate` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::do_unswitching` (`libjvm.dylib`)
+##### `ParseGenerator::generate` (`libjvm.dylib`)
 
-| Change |        Delta |             % |                Size | Samples | Caller                                | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ------------------------------------- | -------------- |
-| -38.1% | -768.234 KiB | 50.4% → 44.8% | 1.97 MiB → 1.22 MiB | 42 → 27 | `IdealLoopTree::iteration_split`      | `libjvm.dylib` |
-| -22.6% | -448.046 KiB | 49.6% → 55.2% |  1.94 MiB → 1.5 MiB | 29 → 26 | `IdealLoopTree::iteration_split_impl` | `libjvm.dylib` |
+|  Change |        Delta |             % |                Size |   Samples | Caller                                 | Location       |
+| ------: | -----------: | ------------: | ------------------: | --------: | -------------------------------------- | -------------- |
+|  -18.5% |   -2.625 MiB | 77.4% → 71.2% | 14.2 MiB → 11.6 MiB | 177 → 165 | `PredictedCallGenerator::generate`     | `libjvm.dylib` |
+|  -11.8% |   -2.125 MiB | 97.6% → 97.1% | 17.9 MiB → 15.8 MiB | 244 → 207 | `Compile::Compile`                     | `libjvm.dylib` |
+|  -10.0% |   -1.375 MiB | 74.8% → 76.0% | 13.8 MiB → 12.4 MiB | 168 → 150 | `Parse::do_call`                       | `libjvm.dylib` |
+| +250.0% | +160.046 KiB |   0.3% → 1.3% |    64 KiB → 224 KiB |     1 → 4 | `CallGenerator::do_late_inline_helper` | `libjvm.dylib` |
 
-##### `Compilation::emit_lir` (`libjvm.dylib`)
+##### `Parse::do_one_block` (`libjvm.dylib`)
 
-| Change |     Delta |      % |                Size |   Samples | Caller                             | Location       |
-| -----: | --------: | -----: | ------------------: | --------: | ---------------------------------- | -------------- |
-| -18.3% | -1.03 MiB | 100.0% | 5.62 MiB → 4.59 MiB | 455 → 422 | `Compilation::compile_java_method` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size |   Samples | Caller                 | Location       |
+| -----: | ---------: | -----: | ------------------: | --------: | ---------------------- | -------------- |
+| -10.8% | -1.969 MiB | 100.0% | 18.2 MiB → 16.2 MiB | 245 → 217 | `Parse::do_all_blocks` | `libjvm.dylib` |
 
-##### `LinearScan::do_linear_scan` (`libjvm.dylib`)
+##### `GrowableArrayWithAllocator<unsigned int, GrowableArray<unsigned int>>::expand_to` (`libjvm.dylib`)
 
-| Change |        Delta |      % |                Size |  Samples | Caller                  | Location       |
-| -----: | -----------: | -----: | ------------------: | -------: | ----------------------- | -------------- |
-| -22.9% | -991.273 KiB | 100.0% | 4.23 MiB → 3.26 MiB | 120 → 89 | `Compilation::emit_lir` | `libjvm.dylib` |
-
-##### `Compilation::compile_method` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |         Samples | Caller                     | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | -------------------------- | -------------- |
-|  -9.4% | -979.539 KiB | 100.0% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::Compilation` | `libjvm.dylib` |
-
-##### `Compilation::Compilation` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |         Samples | Caller                     | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | -------------------------- | -------------- |
-|  -9.4% | -979.539 KiB | 100.0% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compiler::compile_method` | `libjvm.dylib` |
+|  Change |       Delta |             % |               Size | Samples | Caller                                   | Location       |
+| ------: | ----------: | ------------: | -----------------: | ------: | ---------------------------------------- | -------------- |
+|  -61.0% | -800.14 KiB | 50.0% → 34.8% | 1.28 MiB → 512 KiB | 19 → 10 | `PhaseChaitin::new_lrg`                  | `libjvm.dylib` |
+|  -48.0% | -384.14 KiB | 30.5% → 28.3% |  800 KiB → 416 KiB |  18 → 9 | `PhaseCFG::partial_latency_of_defs`      | `libjvm.dylib` |
+|  +21.4% | +96.031 KiB | 17.1% → 37.0% |  448 KiB → 544 KiB |  9 → 11 | `PhaseAggressiveCoalesce::insert_copies` | `libjvm.dylib` |
+| removed | -64.015 KiB |   2.4% → 0.0% |       64 KiB → 0 B |   1 → 0 | `PhaseCFG::latency_from_uses`            | `libjvm.dylib` |
 
 ##### `Compiler::compile_method` (`libjvm.dylib`)
 
-| Change |        Delta |      % |                Size |         Samples | Caller                                     | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | ------------------------------------------ | -------------- |
-|  -9.4% | -979.539 KiB | 100.0% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
-
-##### `PhaseChaitin::post_allocate_copy_removal` (`libjvm.dylib`)
-
-| Change |        Delta |      % |               Size | Samples | Caller                            | Location       |
-| -----: | -----------: | -----: | -----------------: | ------: | --------------------------------- | -------------- |
-| -65.1% | -895.343 KiB | 100.0% | 1.34 MiB → 480 KiB | 43 → 15 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-
-##### `Compilation::compile_java_method` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |         Samples | Caller                        | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | ----------------------------- | -------------- |
-| -10.3% | -864.398 KiB | 100.0% | 8.23 MiB → 7.38 MiB | 16,822 → 16,776 | `Compilation::compile_method` | `libjvm.dylib` |
-
-##### `ResourceBitMap::ResourceBitMap` (`libjvm.dylib`)
-
-|  Change |        Delta |              % |             Size | Samples | Caller                                        | Location       |
-| ------: | -----------: | -------------: | ---------------: | ------: | --------------------------------------------- | -------------- |
-|  -95.7% | -703.484 KiB | 95.8% → 100.0% | 735 KiB → 32 KiB |  23 → 1 | `LinearScan::compute_local_live_sets`         | `libjvm.dylib` |
-| removed |  -31.976 KiB |    4.2% → 0.0% |     32 KiB → 0 B |   1 → 0 | `MethodLiveness::BasicBlock::get_liveness_at` | `libjvm.dylib` |
-
-##### `LinearScan::compute_local_live_sets` (`libjvm.dylib`)
-
-| Change |        Delta |      % |             Size | Samples | Caller                       | Location       |
-| -----: | -----------: | -----: | ---------------: | ------: | ---------------------------- | -------------- |
-| -95.7% | -703.484 KiB | 100.0% | 735 KiB → 32 KiB |  23 → 1 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::fix_body_edges` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Caller                       | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------- | -------------- |
-| -16.7% | -672.078 KiB | 100.0% | 3.94 MiB → 3.28 MiB | 69 → 64 | `PhaseIdealLoop::clone_loop` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::split_if_with_blocks` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |   Samples | Caller                               | Location       |
-| -----: | -----------: | -----: | ------------------: | --------: | ------------------------------------ | -------------- |
-|  -5.0% | -532.195 KiB | 100.0% | 10.5 MiB → 9.97 MiB | 252 → 242 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
-
-##### `Type_Array::grow` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |                Size | Samples | Caller                           | Location       |
-| ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------- | -------------- |
-|  -17.3% | -448.031 KiB | 21.9% → 18.9% | 2.53 MiB → 2.09 MiB | 44 → 42 | `GraphKit::clone_map`            | `libjvm.dylib` |
-| +109.1% | +384.046 KiB |   3.0% → 6.5% |   352 KiB → 736 KiB |  8 → 11 | `Parse::return_current`          | `libjvm.dylib` |
-|  -28.1% | -288.015 KiB |   8.6% → 6.5% |     1 MiB → 736 KiB | 17 → 16 | `PhaseIdealLoop::split_thru_phi` | `libjvm.dylib` |
-|   +7.4% | +255.976 KiB | 29.2% → 32.7% | 3.38 MiB → 3.63 MiB | 60 → 61 | `PhaseValues::set_type_bottom`   | `libjvm.dylib` |
-|  -35.0% | -224.015 KiB |   5.4% → 3.7% |   640 KiB → 416 KiB |  10 → 9 | `Parse::build_exits`             | `libjvm.dylib` |
-
-##### `GraphKit::clone_map` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Caller                               | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ------------------------------------ | -------------- |
-| -17.8% | -255.984 KiB | 38.1% → 35.6% | 1.41 MiB → 1.16 MiB | 20 → 21 | `GraphKit::set_map_clone`            | `libjvm.dylib` |
-| -11.3% | -192.085 KiB | 44.9% → 45.2% | 1.66 MiB → 1.47 MiB | 36 → 33 | `PreserveJVMState::PreserveJVMState` | `libjvm.dylib` |
-|  -8.4% |  -32.078 KiB | 10.2% → 10.6% |   384 KiB → 352 KiB |       9 | `Parse::build_exits`                 | `libjvm.dylib` |
-| -20.0% |  -32.078 KiB |   4.2% → 3.8% |   160 KiB → 128 KiB |       4 | `BuildCutout::BuildCutout`           | `libjvm.dylib` |
-|    new |  +32.015 KiB |   0.0% → 1.0% |        0 B → 32 KiB |   0 → 1 | `GraphKit::null_check_oop`           | `libjvm.dylib` |
+| Change |        Delta |      % |                Size | Samples | Caller                                     | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------------------------------------ | -------------- |
+| -22.9% | -908.183 KiB | 100.0% | 3.87 MiB → 2.99 MiB | 95 → 89 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
 ##### `Parse::build_exits` (`libjvm.dylib`)
 
 | Change |        Delta |      % |               Size | Samples | Caller         | Location       |
 | -----: | -----------: | -----: | -----------------: | ------: | -------------- | -------------- |
-| -31.8% | -448.117 KiB | 100.0% | 1.38 MiB → 960 KiB | 29 → 24 | `Parse::Parse` | `libjvm.dylib` |
-
-##### `PhaseOutput::BuildOopMaps` (`libjvm.dylib`)
-
-| Change |        Delta |      % |               Size | Samples | Caller                | Location       |
-| -----: | -----------: | -----: | -----------------: | ------: | --------------------- | -------------- |
-| -28.0% | -432.007 KiB | 100.0% | 1.5 MiB → 1.08 MiB | 42 → 27 | `PhaseOutput::Output` | `libjvm.dylib` |
-
-##### `PhaseOutput::Output` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |   Samples | Caller              | Location       |
-| -----: | -----------: | -----: | ------------------: | --------: | ------------------- | -------------- |
-|  -7.2% | -423.976 KiB | 100.0% | 5.78 MiB → 5.37 MiB | 346 → 333 | `Compile::Code_Gen` | `libjvm.dylib` |
-
-##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
-
-| Change |       Delta |      % |               Size | Samples | Caller                            | Location       |
-| -----: | ----------: | -----: | -----------------: | ------: | --------------------------------- | -------------- |
-| -16.2% | -416.07 KiB | 100.0% | 2.5 MiB → 2.09 MiB | 54 → 52 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-
-##### `Parse::do_if` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Caller                | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | --------------------- | -------------- |
-| -17.4% | -384.164 KiB | 100.0% | 2.16 MiB → 1.78 MiB | 45 → 42 | `Parse::do_one_block` | `libjvm.dylib` |
-
-##### `AllocateHeap` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |       Samples | Caller                                                                                 | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------------: | -------------------------------------------------------------------------------------- | -------------- |
-|  -9.0% | -129.578 KiB | 11.5% → 10.7% | 1.41 MiB → 1.28 MiB | 2,110 → 1,920 | `Deoptimization::fetch_unroll_info_helper`                                             | `libjvm.dylib` |
-| -41.2% |  -78.031 KiB |   1.5% → 0.9% |   189 KiB → 111 KiB |     182 → 180 | `ConcurrentHashTable<G1CodeRootSetHashTableConfig, (MEMFLAGS)5>::internal_grow_prolog` | `libjvm.dylib` |
-|  -9.0% |  -74.835 KiB |   6.6% → 6.2% |   832 KiB → 757 KiB |     422 → 384 | `vframeArray::allocate`                                                                | `libjvm.dylib` |
-| +52.5% |  +44.296 KiB |   0.7% → 1.1% |  84.4 KiB → 129 KiB |       27 → 46 | `BufferNode::Allocator::allocate`                                                      | `libjvm.dylib` |
-| -12.0% |      -24 KiB |   1.6% → 1.4% |   200 KiB → 176 KiB |       25 → 22 | `HeapRegionClaimer::HeapRegionClaimer`                                                 | `libjvm.dylib` |
-
-##### `Parse::throw_to_exit` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Caller                           | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | -------------------------------- | -------------- |
-| -22.6% | -224.085 KiB | 91.2% → 96.0% | 992 KiB → 768 KiB |   7 → 9 | `Parse::do_exceptions`           | `libjvm.dylib` |
-| -66.7% |  -64.015 KiB |   8.8% → 4.0% |   96 KiB → 32 KiB |   2 → 1 | `Parse::catch_inline_exceptions` | `libjvm.dylib` |
-
-##### `Parse::do_exceptions` (`libjvm.dylib`)
-
-| Change |        Delta |      % |               Size | Samples | Caller                | Location       |
-| -----: | -----------: | -----: | -----------------: | ------: | --------------------- | -------------- |
-| -25.7% | -288.101 KiB | 100.0% | 1.09 MiB → 832 KiB | 10 → 11 | `Parse::do_one_block` | `libjvm.dylib` |
-
-##### `CallGenerator::do_late_inline_helper` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |              Size | Samples | Caller                              | Location       |
-| ------: | -----------: | ------------: | ----------------: | ------: | ----------------------------------- | -------------- |
-|  -47.1% | -256.015 KiB | 94.4% → 90.0% | 544 KiB → 288 KiB |   6 → 5 | `Compile::inline_string_calls`      | `libjvm.dylib` |
-| removed |       -296 B |   0.1% → 0.0% |       296 B → 0 B |   1 → 0 | `Compile::inline_incrementally_one` | `libjvm.dylib` |
-
-##### `Parse::ensure_phis_everywhere` (`libjvm.dylib`)
-
-| Change |        Delta |      % |              Size | Samples | Caller                 | Location       |
-| -----: | -----------: | -----: | ----------------: | ------: | ---------------------- | -------------- |
-| -53.3% | -256.085 KiB | 100.0% | 480 KiB → 224 KiB |   9 → 6 | `Parse::do_all_blocks` | `libjvm.dylib` |
-
-##### `LibraryCallKit::inline_arraycopy` (`libjvm.dylib`)
-
-| Change |        Delta |      % |             Size | Samples | Caller                          | Location       |
-| -----: | -----------: | -----: | ---------------: | ------: | ------------------------------- | -------------- |
-| -72.7% | -256.015 KiB | 100.0% | 352 KiB → 96 KiB |   3 → 2 | `LibraryCallKit::try_to_inline` | `libjvm.dylib` |
-
-##### `Deoptimization::fetch_unroll_info_helper` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |       Samples | Caller                              | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------------: | ----------------------------------- | -------------- |
-| -15.7% | -155.195 KiB | 42.8% → 39.6% |   986 KiB → 831 KiB |   1,107 → 933 | `Deoptimization::fetch_unroll_info` | `libjvm.dylib` |
-|  -3.8% |  -49.718 KiB | 57.2% → 60.4% | 1.29 MiB → 1.24 MiB | 1,440 → 1,378 | `Deoptimization::uncommon_trap`     | `libjvm.dylib` |
-
-##### `PreserveJVMState::PreserveJVMState` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |              Size | Samples | Caller                             | Location       |
-| ------: | -----------: | ------------: | ----------------: | ------: | ---------------------------------- | -------------- |
-|  -15.6% | -160.031 KiB | 60.4% → 57.5% |   1 MiB → 864 KiB | 20 → 18 | `Parse::do_if`                     | `libjvm.dylib` |
-|  -12.5% |  -64.031 KiB | 30.2% → 29.8% | 512 KiB → 448 KiB | 12 → 10 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
-|  +66.6% |  +63.953 KiB |  5.7% → 10.6% |  96 KiB → 160 KiB |   2 → 4 | `Parse::array_addressing`          | `libjvm.dylib` |
-| removed |  -31.976 KiB |   1.9% → 0.0% |      32 KiB → 0 B |   1 → 0 | `Parse::do_ifnull`                 | `libjvm.dylib` |
-
-##### `is_x2logic` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |          Size | Samples | Caller           | Location       |
-| ------: | -----------: | ------------: | ------------: | ------: | ---------------- | -------------- |
-| removed | -192.031 KiB | 100.0% → 0.0% | 192 KiB → 0 B |   2 → 0 | `PhiNode::Ideal` | `libjvm.dylib` |
-
-##### `Dict::doubhash` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Caller         | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | -------------- | -------------- |
-|  -8.8% | -192.015 KiB | 100.0% | 2.13 MiB → 1.94 MiB | 65 → 59 | `Dict::Insert` | `libjvm.dylib` |
-
-##### `Dict::Insert` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Caller           | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | ---------------- | -------------- |
-|  -8.8% | -192.015 KiB | 100.0% | 2.13 MiB → 1.94 MiB | 65 → 59 | `Type::hashcons` | `libjvm.dylib` |
-
-##### `DirectCallGenerator::generate` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Caller                             | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | ---------------------------------- | -------------- |
-| -57.1% | -128.046 KiB | 46.7% → 30.0% |  224 KiB → 96 KiB |   6 → 3 | `Parse::do_call`                   | `libjvm.dylib` |
-| -12.5% |  -32.015 KiB | 53.3% → 70.0% | 256 KiB → 224 KiB |   7 → 6 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
-
-##### `G1BarrierSetC2::pre_barrier` (`libjvm.dylib`)
-
-| Change |        Delta |              % |                Size | Samples | Caller                                  | Location       |
-| -----: | -----------: | -------------: | ------------------: | ------: | --------------------------------------- | -------------- |
-|  -9.0% | -192.031 KiB | 100.0% → 98.4% | 2.09 MiB → 1.91 MiB | 38 → 41 | `ModRefBarrierSetC2::store_at_resolved` | `libjvm.dylib` |
-|    new |  +32.015 KiB |    0.0% → 1.6% |        0 B → 32 KiB |   0 → 1 | `G1BarrierSetC2::load_at_resolved`      | `libjvm.dylib` |
-
-##### `Deoptimization::fetch_unroll_info` (`libjvm.dylib`)
-
-| Change |        Delta |      % |              Size |     Samples | Caller               | Location    |
-| -----: | -----------: | -----: | ----------------: | ----------: | -------------------- | ----------- |
-| -15.7% | -155.195 KiB | 100.0% | 986 KiB → 831 KiB | 1,107 → 933 | `DeoptimizationBlob` | `<unknown>` |
-
-##### `DeoptimizationBlob` (`<unknown>`)
-
-|  Change |       Delta |            % |                Size |  Samples | Caller                                                               | Location                                              |
-| ------: | ----------: | -----------: | ------------------: | -------: | -------------------------------------------------------------------- | ----------------------------------------------------- |
-|  -68.4% | -139.14 KiB | 20.6% → 7.7% |  203 KiB → 64.2 KiB | 228 → 72 | `pathHasDotOrDotDot()`                                               | `jdk.nio.zipfs.ZipFileSystem$IndexNode`               |
-|  +30.0% | +16.054 KiB |  5.4% → 8.4% | 53.5 KiB → 69.6 KiB |  60 → 78 | `checkUTF8(byte[])`                                                  | `jdk.nio.zipfs.ZipFileSystem`                         |
-| removed | -16.054 KiB |  1.6% → 0.0% |      16.1 KiB → 0 B |   18 → 0 | `stringFromByteBuffer(ByteBuffer, int)`                              | `jdk.internal.jimage.ImageStringsReader`              |
-| removed | -16.054 KiB |  1.6% → 0.0% |      16.1 KiB → 0 B |   18 → 0 | `charsFromByteBufferLength(ByteBuffer, int)`                         | `jdk.internal.jimage.ImageStringsReader`              |
-| +150.0% | +16.054 KiB |  1.1% → 3.2% | 10.7 KiB → 26.8 KiB |  12 → 30 | `getReachableConfigSet(CharStream, ATNConfigSet, ATNConfigSet, int)` | `groovyjarjarantlr4.v4.runtime.atn.LexerATNSimulator` |
+| -36.0% | -864.171 KiB | 100.0% | 2.34 MiB → 1.5 MiB | 22 → 16 | `Parse::Parse` | `libjvm.dylib` |
 
 #### Callees
 
 Callees with the largest change in contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `Compile::Compile` (`libjvm.dylib`)
+##### `PhaseIdealLoop::insert_post_loop` (`libjvm.dylib`)
 
-| Change |       Delta |             % |                Size |       Samples | Callee                                   | Location       |
-| -----: | ----------: | ------------: | ------------------: | ------------: | ---------------------------------------- | -------------- |
-|  +3.1% | +18.541 MiB | 57.2% → 57.6% |   605 MiB → 623 MiB | 7,456 → 7,679 | `Compile::Optimize`                      | `libjvm.dylib` |
-|  +1.5% |  +6.512 MiB | 40.0% → 39.6% |   422 MiB → 429 MiB | 7,964 → 7,980 | `Compile::Code_Gen`                      | `libjvm.dylib` |
-|  +3.8% | +768.82 KiB |          1.9% | 19.9 MiB → 20.7 MiB |     513 → 525 | `ParseGenerator::generate`               | `libjvm.dylib` |
-| -75.0% | -95.929 KiB |         <0.1% |    128 KiB → 32 KiB |         4 → 1 | `Compile::Init`                          | `libjvm.dylib` |
-|  +0.5% | +32.164 KiB |   0.7% → 0.6% | 6.94 MiB → 6.97 MiB |     117 → 120 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size | Samples | Callee                       | Location       |
+| -----: | ---------: | -----: | ------------------: | ------: | ---------------------------- | -------------- |
+| +40.1% | +1.261 MiB | 100.0% | 3.15 MiB → 4.41 MiB | 43 → 51 | `PhaseIdealLoop::clone_loop` | `libjvm.dylib` |
 
-##### `C2Compiler::compile_method` (`libjvm.dylib`)
+##### `PhaseIdealLoop::insert_pre_post_loops` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Callee             | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------ | -------------- |
-|  +2.4% | +25.774 MiB | 100.0% | 1.03 GiB → 1.06 GiB | 17,221 → 17,476 | `Compile::Compile` | `libjvm.dylib` |
+|  Change |        Delta |             % |                Size | Samples | Callee                                                   | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------------------------------- | -------------- |
+|  +39.9% |    +1.23 MiB | 89.2% → 97.2% | 3.08 MiB → 4.31 MiB | 42 → 49 | `PhaseIdealLoop::insert_post_loop`                       | `libjvm.dylib` |
+| removed | -224.046 KiB |   6.3% → 0.0% |       224 KiB → 0 B |   3 → 0 | `PhaseIdealLoop::clone_loop`                             | `libjvm.dylib` |
+| removed |  -64.015 KiB |   1.8% → 0.0% |        64 KiB → 0 B |   1 → 0 | `PhaseIdealLoop::register_new_node`                      | `libjvm.dylib` |
+| +100.0% |      +32 KiB |   0.9% → 1.4% |     32 KiB → 64 KiB |       1 | `PhaseIdealLoop::copy_assertion_predicates_to_post_loop` | `libjvm.dylib` |
+
+##### `Parse::do_put_xxx` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |                Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------- | -------------- |
+|  +32.4% | +767.921 KiB | 96.1% → 92.5% | 2.31 MiB → 3.06 MiB |      42 | `GraphKit::access_store_at`      | `libjvm.dylib` |
+| +299.9% |     +192 KiB |   2.6% → 7.5% |    64 KiB → 256 KiB |       2 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
+| removed |  -32.015 KiB |   1.3% → 0.0% |        32 KiB → 0 B |   1 → 0 | `GraphKit::basic_plus_adr`       | `libjvm.dylib` |
+
+##### `Parse::do_if` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Callee                               | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | ------------------------------------ | -------------- |
+| +312.5% |  +800.07 KiB | 29.6% → 60.0% | 256 KiB → 1.03 MiB |  3 → 10 | `PreserveJVMState::PreserveJVMState` | `libjvm.dylib` |
+|     new | +159.992 KiB |   0.0% → 9.1% |      0 B → 160 KiB |   0 → 2 | `PhaseGVN::transform_no_reclaim`     | `libjvm.dylib` |
+|  -40.0% |  -64.015 KiB |  18.5% → 5.5% |   160 KiB → 96 KiB |   3 → 2 | `Parse::adjust_map_after_if`         | `libjvm.dylib` |
+|  +25.0% |  +32.015 KiB |  14.8% → 9.1% |  128 KiB → 160 KiB |   2 → 3 | `Parse::merge_common`                | `libjvm.dylib` |
+| removed |  -32.015 KiB |   3.7% → 0.0% |       32 KiB → 0 B |   1 → 0 | `BoolNode::negate`                   | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::split_if_with_blocks_pre` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | -------------------------------- | -------------- |
+| +111.0% | +888.093 KiB | 92.2% → 98.1% | 800 KiB → 1.65 MiB |  9 → 15 | `PhaseIdealLoop::split_thru_phi` | `libjvm.dylib` |
+|  -53.0% |  -36.039 KiB |   7.8% → 1.9% |    68 KiB → 32 KiB |       1 | `PhaseIterGVN::subsume_node`     | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::split_thru_phi` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee                              | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | ----------------------------------- | -------------- |
+| +222.2% | +640.078 KiB | 27.0% → 48.9% | 288 KiB → 928 KiB |   3 → 8 | `PhaseIdealLoop::register_new_node` | `libjvm.dylib` |
+| +121.0% |  +92.015 KiB |   7.1% → 8.9% |  76 KiB → 168 KiB |   2 → 3 | `Node::clone`                       | `libjvm.dylib` |
+|  +10.0% |  +63.984 KiB | 59.9% → 37.1% | 640 KiB → 704 KiB |   7 → 6 | `Type_Array::grow`                  | `libjvm.dylib` |
+|  +50.0% |  +32.015 KiB |   6.0% → 5.1% |   64 KiB → 96 KiB |   1 → 2 | `Node_Array::grow`                  | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::register_new_node` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Callee                                           | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | ------------------------------------------------ | -------------- |
+| +140.0% | +672.078 KiB | 78.9% → 83.7% | 480 KiB → 1.13 MiB |  7 → 12 | `Node_Array::grow`                               | `libjvm.dylib` |
+|  +75.0% |      +96 KiB | 21.1% → 16.3% |  128 KiB → 224 KiB |       3 | `PhaseIterGVN::register_new_node_with_optimizer` | `libjvm.dylib` |
+
+##### `PhaseMacroExpand::expand_macro_nodes` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size | Samples | Callee                                       | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------: | -------------------------------------------- | -------------- |
+| +19.1% | +416.093 KiB | 53.0% → 53.7% | 2.13 MiB → 2.53 MiB | 20 → 26 | `PhaseIterGVN::optimize`                     | `libjvm.dylib` |
+|    new | +256.015 KiB |   0.0% → 5.3% |       0 B → 256 KiB |   0 → 1 | `PhaseMacroExpand::expand_unlock_node`       | `libjvm.dylib` |
+| -46.7% | -224.062 KiB |  11.7% → 5.3% |   480 KiB → 256 KiB |   5 → 1 | `PhaseMacroExpand::expand_arraycopy_node`    | `libjvm.dylib` |
+| +18.1% | +176.046 KiB | 23.7% → 23.8% |  972 KiB → 1.12 MiB |  8 → 11 | `PhaseMacroExpand::expand_allocate_common`   | `libjvm.dylib` |
+| +20.0% |  +96.078 KiB | 11.7% → 11.9% |   480 KiB → 576 KiB |  5 → 10 | `PhaseMacroExpand::expand_subtypecheck_node` | `libjvm.dylib` |
+
+##### `G1BarrierSetC2::post_barrier` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | -------------------------------- | -------------- |
+|  +75.0% | +287.945 KiB | 30.8% → 35.6% | 384 KiB → 672 KiB |   8 → 7 | `IdealKit::if_then`              | `libjvm.dylib` |
+| +299.8% | +191.984 KiB |  5.1% → 13.6% |  64 KiB → 256 KiB |   2 → 1 | `IdealKit::transform`            | `libjvm.dylib` |
+|     new | +128.015 KiB |   0.0% → 6.8% |     0 B → 128 KiB |   0 → 1 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
+|     new | +128.015 KiB |   0.0% → 6.8% |     0 B → 128 KiB |   0 → 1 | `Node::Node`                     | `libjvm.dylib` |
+|  +42.9% |   +96.07 KiB | 17.9% → 17.0% | 224 KiB → 320 KiB |   5 → 7 | `IdealKit::end_if`               | `libjvm.dylib` |
+
+##### `Parse::do_field_access` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |                Size | Samples | Callee                          | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | ------------------------------- | -------------- |
+|  +37.6% | +927.906 KiB | 72.6% → 85.5% | 2.41 MiB → 3.31 MiB | 45 → 44 | `Parse::do_put_xxx`             | `libjvm.dylib` |
+|  -28.6% | -191.968 KiB | 19.8% → 12.1% |   672 KiB → 480 KiB | 10 → 12 | `Parse::do_get_xxx`             | `libjvm.dylib` |
+| removed | -128.015 KiB |   3.8% → 0.0% |       128 KiB → 0 B |   1 → 0 | `PhaseValues::uncached_makecon` | `libjvm.dylib` |
+|  -25.0% |      -32 KiB |   3.8% → 2.4% |    128 KiB → 96 KiB |       2 | `GraphKit::null_check_common`   | `libjvm.dylib` |
+
+##### `ConnectionGraph::ConnectionGraph` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size | Samples | Callee        | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | ------------- | -------------- |
+| +51.4% | +572.562 KiB | 100.0% | 1.09 MiB → 1.65 MiB | 16 → 26 | `Arena::grow` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::clone_loop` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |                Size | Samples | Callee                                        | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | --------------------------------------------- | -------------- |
+|  +44.0% | +352.085 KiB | 12.0% → 16.1% |  800 KiB → 1.13 MiB | 10 → 13 | `PhaseIdealLoop::fix_ctrl_uses`               | `libjvm.dylib` |
+|  +14.3% | +352.031 KiB | 37.1% → 39.3% | 2.41 MiB → 2.75 MiB | 36 → 38 | `PhaseIdealLoop::fix_body_edges`              | `libjvm.dylib` |
+|   -5.4% | -160.078 KiB | 44.3% → 38.8% | 2.88 MiB → 2.72 MiB | 37 → 32 | `Node_Array::grow`                            | `libjvm.dylib` |
+|     new | +160.031 KiB |   0.0% → 2.2% |       0 B → 160 KiB |   0 → 2 | `PhaseIdealLoop::clone_loop_handle_data_uses` | `libjvm.dylib` |
+| removed |  -84.031 KiB |   1.3% → 0.0% |        84 KiB → 0 B |   2 → 0 | `Node::clone`                                 | `libjvm.dylib` |
+
+##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee                                                                             | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| +649.8% | +416.078 KiB |  8.7% → 38.5% |  64 KiB → 480 KiB |   2 → 7 | `Block_Array::grow`                                                                | `libjvm.dylib` |
+|  +21.4% |  +96.031 KiB | 60.9% → 43.6% | 448 KiB → 544 KiB |  9 → 11 | `GrowableArrayWithAllocator<unsigned int, GrowableArray<unsigned int>>::expand_to` | `libjvm.dylib` |
+|     ~0% |        -16 B | 30.4% → 17.9% |           224 KiB |   6 → 5 | `PhaseChaitin::new_lrg`                                                            | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::create_new_if_for_predicate` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |                Size | Samples | Callee                             | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------: | ---------------------------------- | -------------- |
+|   +9.8% | +384.171 KiB | 98.4% → 96.4% | 3.84 MiB → 4.22 MiB | 61 → 72 | `PhaseIdealLoop::set_idom`         | `libjvm.dylib` |
+| +150.0% |  +96.015 KiB |   1.6% → 3.6% |    64 KiB → 160 KiB |   1 → 2 | `PhaseIdealLoop::register_control` | `libjvm.dylib` |
+
+##### `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+|    Change |        Delta |              % |                Size | Samples | Callee                               | Location                                 |
+| --------: | -----------: | -------------: | ------------------: | ------: | ------------------------------------ | ---------------------------------------- |
+|    +13.3% | +363.827 KiB | 100.0% → 97.9% | 2.67 MiB → 3.02 MiB | 71 → 65 | `findClassOnClassPathOrNull(String)` | `jdk.internal.loader.BuiltinClassLoader` |
+| +23565.5% |  +65.357 KiB |   <0.1% → 2.1% |    284 B → 65.6 KiB |   4 → 3 | `loadClassOrNull(String)`            | `jdk.internal.loader.BuiltinClassLoader` |
+|       new |        +90 B |   0.0% → <0.1% |          0 B → 90 B |   0 → 1 | `findLoadedClass(String)`            | `java.lang.ClassLoader`                  |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Callee                             | Location                                 |
+| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------------- | ---------------------------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClassOrNull(String, boolean)` | `jdk.internal.loader.BuiltinClassLoader` |
+
+##### `loadClass(String, boolean)` (`jdk.internal.loader.ClassLoaders$AppClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Callee                       | Location                                 |
+| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------- | ---------------------------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)` | `jdk.internal.loader.BuiltinClassLoader` |
+
+##### `loadClass(String)` (`java.lang.ClassLoader`)
+
+| Change |        Delta |      % |                Size | Samples | Callee                       | Location                                          |
+| -----: | -----------: | -----: | ------------------: | ------: | ---------------------------- | ------------------------------------------------- |
+| +15.7% | +429.272 KiB | 100.0% | 2.67 MiB → 3.09 MiB | 75 → 69 | `loadClass(String, boolean)` | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
+
+##### `GraphKit::null_check_common` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | -------------------------------- | -------------- |
+| +275.1% | +352.101 KiB | 18.2% → 42.9% | 128 KiB → 480 KiB |   3 → 7 | `GraphKit::uncommon_trap`        | `libjvm.dylib` |
+| +299.9% |     +192 KiB |  9.1% → 22.9% |  64 KiB → 256 KiB |       1 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
+|  -50.0% |      -96 KiB |  27.3% → 8.6% |  192 KiB → 96 KiB |       2 | `GraphKit::cast_not_null`        | `libjvm.dylib` |
+|  -30.0% |   -95.96 KiB | 45.5% → 20.0% | 320 KiB → 224 KiB |       5 | `BuildCutout::BuildCutout`       | `libjvm.dylib` |
+|     new |  +64.015 KiB |   0.0% → 5.7% |      0 B → 64 KiB |   0 → 1 | `TypePtr::xmeet`                 | `libjvm.dylib` |
+
+##### `GraphKit::uncommon_trap` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |              Size | Samples | Callee                         | Location       |
+| ------: | -----------: | ------------: | ----------------: | ------: | ------------------------------ | -------------- |
+|  +77.8% | +224.054 KiB | 69.2% → 61.5% | 288 KiB → 512 KiB |   6 → 7 | `GraphKit::make_runtime_call`  | `libjvm.dylib` |
+| +166.6% | +160.015 KiB | 23.1% → 30.8% |  96 KiB → 256 KiB |   2 → 3 | `Type_Array::grow`             | `libjvm.dylib` |
+|     new |  +64.015 KiB |   0.0% → 7.7% |      0 B → 64 KiB |   0 → 1 | `HaltNode::HaltNode`           | `libjvm.dylib` |
+| removed |  -31.976 KiB |   7.7% → 0.0% |      32 KiB → 0 B |   1 → 0 | `Compile::too_many_recompiles` | `libjvm.dylib` |
+
+##### `Parse::return_current` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |               Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | -----------------: | ------: | -------------------------------- | -------------- |
+|  +48.0% | +383.968 KiB | 69.4% → 75.5% | 800 KiB → 1.16 MiB |   8 → 6 | `Type_Array::grow`               | `libjvm.dylib` |
+| +100.0% | +128.007 KiB | 11.1% → 16.3% |  128 KiB → 256 KiB |   1 → 4 | `Parse::call_register_finalizer` | `libjvm.dylib` |
+|  -42.9% |  -96.031 KiB |  19.4% → 8.2% |  224 KiB → 128 KiB |   3 → 1 | `PhiNode::slice_memory`          | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_native_Class_query` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |            Size | Samples | Callee                                          | Location       |
+| ------: | -----------: | ------------: | --------------: | ------: | ----------------------------------------------- | -------------- |
+|     new | +256.015 KiB |  0.0% → 57.1% |   0 B → 256 KiB |   0 → 1 | `GraphKit::null_check_common`                   | `libjvm.dylib` |
+|     new | +128.015 KiB |  0.0% → 28.6% |   0 B → 128 KiB |   0 → 1 | `Node::Node`                                    | `libjvm.dylib` |
+| removed |  -32.015 KiB |  50.0% → 0.0% |    32 KiB → 0 B |   1 → 0 | `GraphKit::gen_instanceof`                      | `libjvm.dylib` |
+| +100.0% |      +32 KiB | 50.0% → 14.3% | 32 KiB → 64 KiB |       1 | `LibraryCallKit::load_klass_from_mirror_common` | `libjvm.dylib` |
+
+##### `Parse::catch_inline_exceptions` (`libjvm.dylib`)
+
+|   Change |        Delta |              % |             Size | Samples | Callee                 | Location       |
+| -------: | -----------: | -------------: | ---------------: | ------: | ---------------------- | -------------- |
+| +1099.5% | +352.015 KiB | 100.0% → 92.3% | 32 KiB → 384 KiB |   1 → 2 | `Parse::throw_to_exit` | `libjvm.dylib` |
+|      new |  +31.976 KiB |    0.0% → 7.7% |     0 B → 32 KiB |   0 → 1 | `LoadKlassNode::make`  | `libjvm.dylib` |
+
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
+
+| Change |       Delta |             % |               Size | Samples | Callee                      | Location                 |
+| -----: | ----------: | ------------: | -----------------: | ------: | --------------------------- | ------------------------ |
+| +10.5% | +268.35 KiB | 93.6% → 91.2% | 2.5 MiB → 2.76 MiB |      40 | `malloc_hook`               | `libasyncProfiler.dylib` |
+| +55.5% | +96.865 KiB |   6.4% → 8.8% |  175 KiB → 271 KiB | 31 → 26 | `JVM_DefineClassWithSource` | `libjvm.dylib`           |
+
+##### `BarrierSetC2::store_at` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size | Samples | Callee                                  | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------: | --------------------------------------- | -------------- |
+| +12.2% | +351.882 KiB | 98.9% → 99.0% | 2.81 MiB → 3.16 MiB | 50 → 45 | `ModRefBarrierSetC2::store_at_resolved` | `libjvm.dylib` |
+
+##### `ModRefBarrierSetC2::store_at_resolved` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size | Samples | Callee                            | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------: | --------------------------------- | -------------- |
+| +51.3% | +639.984 KiB | 43.3% → 58.4% | 1.22 MiB → 1.84 MiB | 26 → 25 | `G1BarrierSetC2::post_barrier`    | `libjvm.dylib` |
+| -19.1% |  -288.07 KiB | 52.2% → 37.6% | 1.47 MiB → 1.19 MiB | 21 → 19 | `G1BarrierSetC2::pre_barrier`     | `libjvm.dylib` |
+|    ~0% |        -32 B |   4.4% → 4.0% |             128 KiB |   3 → 1 | `BarrierSetC2::store_at_resolved` | `libjvm.dylib` |
+
+##### `PreserveJVMState::PreserveJVMState` (`libjvm.dylib`)
+
+| Change |        Delta |      % |               Size | Samples | Callee                | Location       |
+| -----: | -----------: | -----: | -----------------: | ------: | --------------------- | -------------- |
+| +40.0% | +320.023 KiB | 100.0% | 800 KiB → 1.09 MiB |  7 → 11 | `GraphKit::clone_map` | `libjvm.dylib` |
+
+##### `LibraryCallKit::load_klass_from_mirror_common` (`libjvm.dylib`)
+
+|  Change |        Delta |              % |            Size | Samples | Callee                           | Location       |
+| ------: | -----------: | -------------: | --------------: | ------: | -------------------------------- | -------------- |
+|     new | +256.015 KiB |   0.0% → 80.0% |   0 B → 256 KiB |   0 → 1 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
+| +100.0% |      +32 KiB | 100.0% → 20.0% | 32 KiB → 64 KiB |       1 | `GraphKit::null_check_oop`       | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_unsafe_newArray` (`libjvm.dylib`)
+
+| Change |        Delta |             % |          Size | Samples | Callee                                          | Location       |
+| -----: | -----------: | ------------: | ------------: | ------: | ----------------------------------------------- | -------------- |
+|    new | +256.015 KiB | 0.0% → 100.0% | 0 B → 256 KiB |   0 → 1 | `LibraryCallKit::load_klass_from_mirror_common` | `libjvm.dylib` |
+
+##### `CountedLoopReserveKit::create_reserve` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Callee                                           | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | ------------------------------------------------ | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `PhaseIdealLoop::create_reserve_version_of_loop` | `libjvm.dylib` |
+
+##### `CountedLoopReserveKit::CountedLoopReserveKit` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Callee                                  | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------------------------- | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `CountedLoopReserveKit::create_reserve` | `libjvm.dylib` |
+
+##### `SuperWord::output` (`libjvm.dylib`)
+
+| Change |    Delta |      % |              Size | Samples | Callee                                         | Location       |
+| -----: | -------: | -----: | ----------------: | ------: | ---------------------------------------------- | -------------- |
+| +63.6% | +224 KiB | 100.0% | 352 KiB → 576 KiB |       5 | `CountedLoopReserveKit::CountedLoopReserveKit` | `libjvm.dylib` |
+
+##### `ClassFileParser::ClassFileParser` (`libjvm.dylib`)
+
+|     Change |       Delta |             % |              Size | Samples | Callee                                        | Location       |
+| ---------: | ----------: | ------------: | ----------------: | ------: | --------------------------------------------- | -------------- |
+|     +64.5% | +97.904 KiB | 99.9% → 72.2% | 152 KiB → 250 KiB | 29 → 30 | `ClassFileParser::parse_stream`               | `libjvm.dylib` |
+| +122990.0% | +96.085 KiB |  0.1% → 27.8% |   80 B → 96.2 KiB |   1 → 6 | `ClassFileParser::post_process_parsed_stream` | `libjvm.dylib` |
+
+##### `KlassFactory::create_from_stream` (`libjvm.dylib`)
+
+|  Change |       Delta |             % |                Size | Samples | Callee                                   | Location       |
+| ------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------- | -------------- |
+| +127.8% | +193.99 KiB | 78.3% → 89.3% |   152 KiB → 346 KiB | 30 → 36 | `ClassFileParser::ClassFileParser`       | `libjvm.dylib` |
+|   -2.2% |      -940 B | 21.7% → 10.7% | 42.2 KiB → 41.3 KiB |   8 → 3 | `ClassFileParser::create_instance_klass` | `libjvm.dylib` |
+
+##### `Parse::adjust_map_after_if` (`libjvm.dylib`)
+
+|  Change |        Delta |             % |             Size | Samples | Callee                           | Location       |
+| ------: | -----------: | ------------: | ---------------: | ------: | -------------------------------- | -------------- |
+| +700.6% | +224.039 KiB | 12.5% → 61.5% | 32 KiB → 256 KiB |       1 | `GraphKit::uncommon_trap`        | `libjvm.dylib` |
+| removed |  -64.015 KiB |  25.0% → 0.0% |     64 KiB → 0 B |   1 → 0 | `GraphKit::add_parse_predicates` | `libjvm.dylib` |
+|  -50.0% |  -32.039 KiB |  25.0% → 7.7% |  64 KiB → 32 KiB |       1 | `Parse::sharpen_type_after_if`   | `libjvm.dylib` |
+|  +33.3% |      +32 KiB | 37.5% → 30.8% | 96 KiB → 128 KiB |       2 | `GraphKit::add_parse_predicate`  | `libjvm.dylib` |
+
+##### `LibraryCallKit::inline_unsafe_allocate` (`libjvm.dylib`)
+
+| Change |        Delta |             % |          Size | Samples | Callee                                | Location       |
+| -----: | -----------: | ------------: | ------------: | ------: | ------------------------------------- | -------------- |
+|    new | +128.031 KiB | 0.0% → 100.0% | 0 B → 128 KiB |   0 → 2 | `GraphKit::set_output_for_allocation` | `libjvm.dylib` |
 
 ##### `Chunk::operator new` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Callee       | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------ | -------------- |
-|  +2.4% | +25.075 MiB | 100.0% | 1.04 GiB → 1.06 GiB | 13,109 → 13,320 | `os::malloc` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Callee       | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------ | -------------- |
+|  -8.1% | -118.753 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `os::malloc` | `libjvm.dylib` |
 
 ##### `Arena::grow` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Callee                | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | --------------------- | -------------- |
-|  +2.4% | +25.075 MiB | 100.0% | 1.04 GiB → 1.06 GiB | 13,066 → 13,277 | `Chunk::operator new` | `libjvm.dylib` |
-
-##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |         Samples | Callee                              | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------------: | ----------------------------------- | -------------- |
-|  +2.4% |  +25.774 MiB | 99.0% → 99.1% | 1.03 GiB → 1.06 GiB | 17,221 → 17,476 | `C2Compiler::compile_method`        | `libjvm.dylib` |
-|  -9.4% | -979.539 KiB |   0.9% → 0.8% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compiler::compile_method`          | `libjvm.dylib` |
-| +64.3% |  +62.976 KiB |         <0.1% |  97.9 KiB → 161 KiB |           5 → 6 | `ciEnv::ciEnv`                      | `libjvm.dylib` |
-| -33.3% |       -296 B |         <0.1% |       888 B → 592 B |           3 → 2 | `JavaThread::push_jni_handle_block` | `libjvm.dylib` |
-|  -0.1% |        -88 B |         <0.1% |            65.3 KiB |   5,795 → 5,799 | `CompilationLog::log_compile`       | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Callee                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | --------------------- | -------------- |
+|  -8.1% | -118.753 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,212 | `Chunk::operator new` | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Callee                                         | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ---------------------------------------------- | -------------- |
-|  +2.3% | +24.878 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 51,679 → 51,913 | `CompileBroker::invoke_compiler_on_method`     | `libjvm.dylib` |
-| -31.3% | -11.266 KiB |  <0.1% |   36 KiB → 24.8 KiB |         72 → 50 | `CompileBroker::possibly_add_compiler_threads` | `libjvm.dylib` |
-| -50.0% |    -1,000 B |  <0.1% |  1.95 KiB → 1,000 B |           2 → 1 | `CompileBroker::init_compiler_runtime`         | `libjvm.dylib` |
+|  Change |        Delta |            % |                Size |       Samples | Callee                                         | Location       |
+| ------: | -----------: | -----------: | ------------------: | ------------: | ---------------------------------------------- | -------------- |
+|   -8.1% | -118.746 MiB |       100.0% | 1.43 GiB → 1.31 GiB | 8,818 → 8,216 | `CompileBroker::invoke_compiler_on_method`     | `libjvm.dylib` |
+| removed |   -8.062 KiB | <0.1% → 0.0% |      8.06 KiB → 0 B |         1 → 0 | `CompileBroker::possibly_add_compiler_threads` | `libjvm.dylib` |
+|     new |   +8.015 KiB | 0.0% → <0.1% |      0 B → 8.02 KiB |         0 → 1 | `CompileQueue::get`                            | `libjvm.dylib` |
 
 ##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |         Samples | Callee                                | Location       |
-| -----: | ----------: | -----: | ------------------: | --------------: | ------------------------------------- | -------------- |
-|  +2.3% | +24.866 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 51,756 → 51,967 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
-|  -0.1% |       -32 B |  <0.1% |            37.8 KiB |       446 → 444 | `ServiceThread::service_thread_entry` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Callee                                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------------------------- | -------------- |
+|  -8.1% | -118.746 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
-##### `_pthread_start` (`libsystem_pthread.dylib`)
+##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |         Samples | Callee                | Location       |
-| -----: | ---------: | -----: | ------------------: | --------------: | --------------------- | -------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,846 → 55,724 | `thread_native_entry` | `libjvm.dylib` |
-
-##### `thread_start` (`libsystem_pthread.dylib`)
-
-| Change |      Delta |      % |                Size |         Samples | Callee           | Location                  |
-| -----: | ---------: | -----: | ------------------: | --------------: | ---------------- | ------------------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,999 → 55,877 | `_pthread_start` | `libsystem_pthread.dylib` |
+|  Change |        Delta |             % |                Size |       Samples | Callee                        | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ----------------------------- | -------------- |
+|   -8.1% | -117.828 MiB | 99.7% → 99.8% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `C2Compiler::compile_method`  | `libjvm.dylib` |
+|  -22.9% | -908.183 KiB |   0.3% → 0.2% | 3.87 MiB → 2.99 MiB |       95 → 89 | `Compiler::compile_method`    | `libjvm.dylib` |
+| removed |  -31.976 KiB |  <0.1% → 0.0% |        32 KiB → 0 B |         1 → 0 | `ciEnv::ciEnv`                | `libjvm.dylib` |
+|     new |        +21 B |  0.0% → <0.1% |          0 B → 21 B |         0 → 1 | `CompilationLog::log_compile` | `libjvm.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
-| Change |       Delta |     % |                Size |         Samples | Callee                          | Location       |
-| -----: | ----------: | ----: | ------------------: | --------------: | ------------------------------- | -------------- |
-|  +2.3% | +24.866 MiB | 99.9% | 1.04 GiB → 1.07 GiB | 52,202 → 52,411 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
-| -12.3% | -55.875 KiB | <0.1% |   454 KiB → 398 KiB |   1,216 → 1,193 | `VMThread::run`                 | `libjvm.dylib` |
-|  -5.9% | -15.554 KiB | <0.1% |   266 KiB → 250 KiB |   2,330 → 2,038 | `WorkerThread::run`             | `libjvm.dylib` |
-| -49.9% |  -8.203 KiB | <0.1% | 16.4 KiB → 8.23 KiB |           9 → 5 | `JavaThread::post_run`          | `libjvm.dylib` |
-| -50.0% |  -8.117 KiB | <0.1% | 16.2 KiB → 8.12 KiB |           6 → 3 | `ThreadsSMRSupport::smr_delete` | `libjvm.dylib` |
+|   Change |        Delta |      % |                Size |       Samples | Callee                          | Location       |
+| -------: | -----------: | -----: | ------------------: | ------------: | ------------------------------- | -------------- |
+|    -8.1% | -118.746 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,819 → 8,217 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| +1794.5% |  +38.414 KiB |  <0.1% | 2.14 KiB → 40.6 KiB |         2 → 6 | `WorkerThread::run`             | `libjvm.dylib` |
+|   -18.9% |   -7.554 KiB |  <0.1% |   40 KiB → 32.4 KiB |             5 | `VMThread::run`                 | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |         Samples | Callee             | Location       |
-| -----: | ---------: | -----: | ------------------: | --------------: | ------------------ | -------------- |
-|  +2.3% | +24.78 MiB | 100.0% | 1.04 GiB → 1.07 GiB | 55,846 → 55,724 | `Thread::call_run` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size |       Samples | Callee             | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------ | -------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+| Change |        Delta |      % |                Size |       Samples | Callee                | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | --------------------- | -------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `thread_native_entry` | `libjvm.dylib` |
+
+##### `thread_start` (`libsystem_pthread.dylib`)
+
+| Change |        Delta |      % |                Size |       Samples | Callee           | Location                  |
+| -----: | -----------: | -----: | ------------------: | ------------: | ---------------- | ------------------------- |
+|  -8.1% | -118.716 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,826 → 8,228 | `_pthread_start` | `libsystem_pthread.dylib` |
 
 ##### `os::malloc` (`libjvm.dylib`)
 
-| Change |       Delta |      % |                Size |           Samples | Callee        | Location                 |
-| -----: | ----------: | -----: | ------------------: | ----------------: | ------------- | ------------------------ |
-|  +2.3% | +24.764 MiB | 100.0% | 1.05 GiB → 1.08 GiB | 157,921 → 157,685 | `malloc_hook` | `libasyncProfiler.dylib` |
-|  -0.1% |  -1.312 KiB |   0.1% |            1.18 MiB |             3,860 | `os::malloc`  | `libjvm.dylib`           |
+| Change |        Delta |      % |                Size |       Samples | Callee        | Location                 |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------- | ------------------------ |
+|  -8.1% | -118.712 MiB | 100.0% | 1.43 GiB → 1.31 GiB | 8,931 → 8,330 | `malloc_hook` | `libasyncProfiler.dylib` |
+|    ~0% |       +192 B |   0.1% |             914 KiB |         1 → 2 | `os::malloc`  | `libjvm.dylib`           |
+
+##### `Compile::Compile` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size |       Samples | Callee                                   | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ---------------------------------------- | -------------- |
+|  -7.5% |  -59.717 MiB | 54.5% → 54.9% |   795 MiB → 735 MiB | 4,726 → 4,426 | `Compile::Optimize`                      | `libjvm.dylib` |
+|  -8.7% |  -54.797 MiB | 43.5% → 43.2% |   633 MiB → 579 MiB | 3,651 → 3,401 | `Compile::Code_Gen`                      | `libjvm.dylib` |
+| -11.8% |   -2.125 MiB |          1.2% | 17.9 MiB → 15.8 MiB |     244 → 207 | `ParseGenerator::generate`               | `libjvm.dylib` |
+| -41.9% | -832.062 KiB |          0.1% | 1.94 MiB → 1.13 MiB |       15 → 11 | `Compile::inline_string_calls`           | `libjvm.dylib` |
+|  -6.0% | -512.109 KiB |          0.6% | 8.38 MiB → 7.88 MiB |       75 → 68 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
+
+##### `C2Compiler::compile_method` (`libjvm.dylib`)
+
+| Change |        Delta |      % |                Size |       Samples | Callee             | Location       |
+| -----: | -----------: | -----: | ------------------: | ------------: | ------------------ | -------------- |
+|  -8.1% | -117.828 MiB | 100.0% | 1.42 GiB → 1.31 GiB | 8,722 → 8,126 | `Compile::Compile` | `libjvm.dylib` |
 
 ##### `Compile::Optimize` (`libjvm.dylib`)
 
 | Change |        Delta |             % |                Size |       Samples | Callee                                 | Location       |
 | -----: | -----------: | ------------: | ------------------: | ------------: | -------------------------------------- | -------------- |
-|  +3.4% |   +9.419 MiB | 46.3% → 46.4% |   280 MiB → 289 MiB | 3,462 → 3,567 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
-|  +2.9% |   +7.947 MiB | 46.1% → 46.0% |   279 MiB → 287 MiB | 2,999 → 3,101 | `Compile::optimize_loops`              | `libjvm.dylib` |
-|  +4.4% | +454.414 KiB |          1.7% | 10.2 MiB → 10.6 MiB |     248 → 254 | `PhaseCCP::do_transform`               | `libjvm.dylib` |
-|  +4.7% | +411.804 KiB |          1.4% | 8.62 MiB → 9.02 MiB |     178 → 195 | `ConnectionGraph::do_analysis`         | `libjvm.dylib` |
-|  +3.2% | +249.554 KiB |          1.3% | 7.61 MiB → 7.85 MiB |     169 → 167 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+|  -7.6% |  -28.422 MiB | 47.3% → 47.2% |   376 MiB → 347 MiB | 2,269 → 2,130 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
+|  -7.3% |  -27.905 MiB | 47.8% → 47.9% |   380 MiB → 352 MiB | 1,929 → 1,799 | `Compile::optimize_loops`              | `libjvm.dylib` |
+| -20.2% |   -2.254 MiB |   1.4% → 1.2% | 11.2 MiB → 8.91 MiB |      115 → 94 | `PhaseIterGVN::optimize`               | `libjvm.dylib` |
+| -16.4% | -959.296 KiB |   0.7% → 0.6% | 5.71 MiB → 4.77 MiB |       98 → 83 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+| -12.1% | -743.617 KiB |   0.8% → 0.7% | 6.01 MiB → 5.28 MiB |      106 → 93 | `PhaseCCP::do_transform`               | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
-| Change |        Delta |     % |                Size |       Samples | Callee                           | Location       |
-| -----: | -----------: | ----: | ------------------: | ------------: | -------------------------------- | -------------- |
-|  +3.1% |  +16.928 MiB | 98.9% |   552 MiB → 569 MiB | 6,363 → 6,562 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
-|  +7.2% | +448.046 KiB |  1.1% | 6.04 MiB → 6.48 MiB |      98 → 106 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |       Samples | Callee                           | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------------: | -------------------------------- | -------------- |
+|  -7.4% |  -55.484 MiB | 99.4% → 99.5% |   751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+| -18.1% | -864.164 KiB |   0.6% → 0.5% | 4.66 MiB → 3.81 MiB |       41 → 33 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
-| Change |      Delta |             % |                Size |       Samples | Callee                                                             | Location       |
-| -----: | ---------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------ | -------------- |
-|  +1.9% | +7.486 MiB | 69.8% → 69.0% |   385 MiB → 393 MiB | 2,589 → 2,602 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
-| +10.5% | +3.062 MiB |   5.3% → 5.7% | 29.1 MiB → 32.2 MiB |     719 → 793 | `IdealLoopTree::loop_predication`                                  | `libjvm.dylib` |
-|  +8.7% | +2.124 MiB |   4.4% → 4.7% | 24.6 MiB → 26.7 MiB |     510 → 540 | `Arena::grow`                                                      | `libjvm.dylib` |
-| +33.5% | +1.445 MiB |   0.8% → 1.0% | 4.31 MiB → 5.76 MiB |      99 → 116 | `IdealLoopTree::counted_loop`                                      | `libjvm.dylib` |
-|  +3.4% | +1.312 MiB |   6.9% → 7.0% | 38.3 MiB → 39.6 MiB |     863 → 891 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
+|  Change |        Delta |             % |                Size |       Samples | Callee                                                             | Location       |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------ | -------------- |
+|   -7.5% |  -49.312 MiB | 87.3% → 87.1% |   655 MiB → 606 MiB | 2,565 → 2,446 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
+|  -18.7% |     -4.5 MiB |   3.2% → 2.8% |   24 MiB → 19.5 MiB |     374 → 314 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib` |
+|   -6.4% | -800.421 KiB |          1.6% | 12.3 MiB → 11.5 MiB |     249 → 227 | `IdealLoopTree::loop_predication`                                  | `libjvm.dylib` |
+|  -56.2% |  -457.71 KiB |          0.1% |   814 KiB → 356 KiB |       22 → 10 | `PhaseIdealLoop::build_loop_tree`                                  | `libjvm.dylib` |
+| removed | -256.031 KiB |  <0.1% → 0.0% |       256 KiB → 0 B |         2 → 0 | `IdealLoopTree::beautify_loops`                                    | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
 
 | Change |       Delta |      % |              Size |       Samples | Callee                               | Location       |
 | -----: | ----------: | -----: | ----------------: | ------------: | ------------------------------------ | -------------- |
-|  +3.1% | +16.928 MiB | 100.0% | 552 MiB → 569 MiB | 6,363 → 6,562 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
-
-##### `Compile::optimize_loops` (`libjvm.dylib`)
-
-| Change |      Delta |      % |              Size |       Samples | Callee                     | Location       |
-| -----: | ---------: | -----: | ----------------: | ------------: | -------------------------- | -------------- |
-|  +2.9% | +7.947 MiB | 100.0% | 279 MiB → 287 MiB | 2,999 → 3,101 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
-
-| Change |       Delta |            % |              Size |       Samples | Callee                 | Location       |
-| -----: | ----------: | -----------: | ----------------: | ------------: | ---------------------- | -------------- |
-|  +1.9% |  +7.455 MiB |       100.0% | 385 MiB → 393 MiB | 2,589 → 2,601 | `Arena::grow`          | `libjvm.dylib` |
-|    new | +31.976 KiB | 0.0% → <0.1% |      0 B → 32 KiB |         0 → 1 | `VectorSet::VectorSet` | `libjvm.dylib` |
+|  -7.4% | -55.484 MiB | 100.0% | 751 MiB → 695 MiB | 4,157 → 3,896 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
 
 ##### `Compile::Code_Gen` (`libjvm.dylib`)
 
 | Change |        Delta |             % |                Size |       Samples | Callee                            | Location       |
 | -----: | -----------: | ------------: | ------------------: | ------------: | --------------------------------- | -------------- |
-|  +1.8% |   +5.784 MiB | 77.3% → 77.5% |   327 MiB → 332 MiB | 3,112 → 3,145 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-|  +2.0% |   +1.461 MiB | 17.7% → 17.8% | 74.7 MiB → 76.2 MiB | 1,175 → 1,187 | `Matcher::match`                  | `libjvm.dylib` |
-|  -7.2% | -423.976 KiB |   1.4% → 1.3% | 5.78 MiB → 5.37 MiB |     346 → 333 | `PhaseOutput::Output`             | `libjvm.dylib` |
-|  -3.7% | -334.843 KiB |   2.1% → 2.0% | 8.94 MiB → 8.61 MiB |     192 → 173 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
-|  -3.0% | -149.531 KiB |   1.2% → 1.1% | 4.86 MiB → 4.71 MiB |      103 → 99 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
+|  -8.8% |  -46.237 MiB | 83.4% → 83.3% |   528 MiB → 482 MiB | 2,724 → 2,541 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+|  -7.1% |   -6.569 MiB | 14.6% → 14.8% | 92.4 MiB → 85.8 MiB |     706 → 673 | `Matcher::match`                  | `libjvm.dylib` |
+| -15.1% | -928.945 KiB |          0.9% |     6 MiB → 5.1 MiB |       96 → 83 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
+| -20.0% | -640.328 KiB |   0.5% → 0.4% |  3.13 MiB → 2.5 MiB |       58 → 48 | `PhaseOutput::Output`             | `libjvm.dylib` |
+| -12.5% | -401.062 KiB |          0.5% | 3.15 MiB → 2.75 MiB |       51 → 42 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
+
+| Change |       Delta |      % |              Size |       Samples | Callee        | Location       |
+| -----: | ----------: | -----: | ----------------: | ------------: | ------------- | -------------- |
+|  -7.5% | -49.312 MiB | 100.0% | 655 MiB → 606 MiB | 2,565 → 2,446 | `Arena::grow` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+
+| Change |        Delta |             % |                Size |       Samples | Callee                                   | Location       |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ---------------------------------------- | -------------- |
+|  -8.1% |  -32.867 MiB | 77.2% → 77.8% |   408 MiB → 375 MiB | 1,726 → 1,658 | `PhaseIFG::init`                         | `libjvm.dylib` |
+| -10.1% |   -11.13 MiB | 20.8% → 20.5% |  110 MiB → 98.8 MiB |     833 → 753 | `PhaseLive::compute`                     | `libjvm.dylib` |
+| -32.2% |    -2.28 MiB |   1.3% → 1.0% | 7.09 MiB → 4.81 MiB |      100 → 67 | `PhaseChaitin::Split`                    | `libjvm.dylib` |
+| -31.1% | -550.164 KiB |   0.3% → 0.2% | 1.73 MiB → 1.19 MiB |       27 → 19 | `PhaseRegAlloc::alloc_node_regs`         | `libjvm.dylib` |
+| +69.6% | +512.093 KiB |   0.1% → 0.3% |  736 KiB → 1.22 MiB |       17 → 23 | `PhaseAggressiveCoalesce::insert_copies` | `libjvm.dylib` |
 
 ##### `Arena::Arealloc` (`libjvm.dylib`)
 
 | Change |      Delta |      % |              Size |       Samples | Callee        | Location       |
 | -----: | ---------: | -----: | ----------------: | ------------: | ------------- | -------------- |
-|  +3.2% | +5.312 MiB | 100.0% | 168 MiB → 174 MiB | 3,676 → 3,734 | `Arena::grow` | `libjvm.dylib` |
-
-##### `IdealLoopTree::loop_predication` (`libjvm.dylib`)
-
-| Change |      Delta |             % |                Size |   Samples | Callee                                  | Location       |
-| -----: | ---------: | ------------: | ------------------: | --------: | --------------------------------------- | -------------- |
-| +10.5% | +3.062 MiB |        100.0% | 29.1 MiB → 32.2 MiB | 719 → 793 | `PhaseIdealLoop::loop_predication_impl` | `libjvm.dylib` |
-|  +9.6% | +1.281 MiB | 45.6% → 45.2% | 13.3 MiB → 14.6 MiB | 339 → 365 | `IdealLoopTree::loop_predication`       | `libjvm.dylib` |
-
-##### `PathFrequency::to` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |                Size |   Samples | Callee                                                               | Location       |
-| ------: | -----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------- | -------------- |
-|  +14.3% |   +2.219 MiB | 98.4% → 96.6% | 15.6 MiB → 17.8 MiB | 389 → 448 | `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` | `libjvm.dylib` |
-| +150.0% | +383.718 KiB |   1.6% → 3.4% |   256 KiB → 640 KiB |    8 → 20 | `Node_Stack::grow`                                                   | `libjvm.dylib` |
-
-##### `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` (`libjvm.dylib`)
-
-| Change |      Delta |      % |                Size |   Samples | Callee        | Location       |
-| -----: | ---------: | -----: | ------------------: | --------: | ------------- | -------------- |
-| +14.3% | +2.219 MiB | 100.0% | 15.6 MiB → 17.8 MiB | 389 → 448 | `Arena::grow` | `libjvm.dylib` |
-
-##### `IdealLoopTree::counted_loop` (`libjvm.dylib`)
-
-| Change |       Delta |              % |                Size |  Samples | Callee                                | Location       |
-| -----: | ----------: | -------------: | ------------------: | -------: | ------------------------------------- | -------------- |
-| +33.5% |  +1.445 MiB |         100.0% | 4.31 MiB → 5.76 MiB | 99 → 116 | `IdealLoopTree::counted_loop`         | `libjvm.dylib` |
-| +32.8% |  +1.414 MiB | 100.0% → 99.5% | 4.31 MiB → 5.73 MiB | 99 → 115 | `PhaseIdealLoop::is_counted_loop`     | `libjvm.dylib` |
-|    new | +31.976 KiB |    0.0% → 0.5% |        0 B → 32 KiB |    0 → 1 | `PhaseIdealLoop::replace_parallel_iv` | `libjvm.dylib` |
+|  -6.0% | -7.502 MiB | 100.0% | 126 MiB → 118 MiB | 1,726 → 1,597 | `Arena::grow` | `libjvm.dylib` |
 
 ##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size |   Samples | Callee        | Location       |
-| -----: | ---------: | -----: | ------------------: | --------: | ------------- | -------------- |
-|  +3.3% | +1.281 MiB | 100.0% | 38.4 MiB → 39.7 MiB | 866 → 893 | `Arena::grow` | `libjvm.dylib` |
+| Change |      Delta |      % |              Size |   Samples | Callee        | Location       |
+| -----: | ---------: | -----: | ----------------: | --------: | ------------- | -------------- |
+| -18.5% | -4.438 MiB | 100.0% | 24 MiB → 19.6 MiB | 374 → 315 | `Arena::grow` | `libjvm.dylib` |
 
-##### `IdealLoopTree::iteration_split_impl` (`libjvm.dylib`)
+##### `PredictedCallGenerator::generate` (`libjvm.dylib`)
 
-|  Change |        Delta |             % |                Size | Samples | Callee                                  | Location       |
-| ------: | -----------: | ------------: | ------------------: | ------: | --------------------------------------- | -------------- |
-|  +24.0% |   +1.254 MiB | 42.6% → 48.9% | 5.23 MiB → 6.48 MiB | 82 → 97 | `PhaseIdealLoop::insert_pre_post_loops` | `libjvm.dylib` |
-|  -22.6% | -448.046 KiB | 15.8% → 11.3% |  1.94 MiB → 1.5 MiB | 29 → 26 | `PhaseIdealLoop::do_unswitching`        | `libjvm.dylib` |
-| +599.8% | +384.062 KiB |   0.5% → 3.3% |    64 KiB → 448 KiB |   2 → 6 | `PhaseIdealLoop::partial_peel`          | `libjvm.dylib` |
-|   -6.2% | -275.875 KiB | 35.3% → 30.6% | 4.33 MiB → 4.06 MiB | 91 → 84 | `PhaseIdealLoop::do_unroll`             | `libjvm.dylib` |
-|  +49.9% |  +31.976 KiB |   0.5% → 0.7% |     64 KiB → 96 KiB |   2 → 3 | `IdealLoopTree::do_remove_empty_loop`   | `libjvm.dylib` |
-
-##### `Parse::do_field_access` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Callee                        | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ----------------------------- | -------------- |
-| +18.9% | +736.164 KiB | 79.2% → 80.1% | 3.81 MiB → 4.53 MiB | 84 → 92 | `Parse::do_put_xxx`           | `libjvm.dylib` |
-| +16.6% |  +95.789 KiB | 11.7% → 11.6% |   576 KiB → 672 KiB | 17 → 16 | `Parse::do_get_xxx`           | `libjvm.dylib` |
-| +99.9% |  +31.976 KiB |   0.6% → 1.1% |     32 KiB → 64 KiB |   1 → 2 | `Type::hashcons`              | `libjvm.dylib` |
-|    ~0% |        +80 B |   5.2% → 4.4% |             256 KiB |       7 | `GraphKit::null_check_common` | `libjvm.dylib` |
-|  -0.1% |        -40 B |          0.6% |              32 KiB |       1 | `ciBytecodeStream::get_field` | `libjvm.dylib` |
-
-##### `G1BarrierSetC2::post_barrier` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |               Size | Samples | Callee                     | Location       |
-| ------: | -----------: | ------------: | -----------------: | ------: | -------------------------- | -------------- |
-|  +77.3% | +544.062 KiB | 29.3% → 39.4% | 704 KiB → 1.22 MiB | 18 → 22 | `IdealKit::end_if`         | `libjvm.dylib` |
-|     new | +192.031 KiB |   0.0% → 6.1% |      0 B → 192 KiB |   0 → 2 | `GraphKit::insert_mem_bar` | `libjvm.dylib` |
-|  -10.4% |  -96.085 KiB | 38.7% → 26.3% |  928 KiB → 832 KiB | 22 → 19 | `IdealKit::if_then`        | `libjvm.dylib` |
-| +149.9% |      +96 KiB |   2.7% → 5.1% |   64 KiB → 160 KiB |       2 | `IdealKit::transform`      | `libjvm.dylib` |
-| +100.1% |  +64.031 KiB |   2.7% → 4.0% |   64 KiB → 128 KiB |   2 → 4 | `GraphKit::sync_kit`       | `libjvm.dylib` |
-
-##### `Parse::do_one_block` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |   Samples | Callee                   | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | ------------------------ | -------------- |
-| +17.5% | +863.968 KiB | 23.7% → 26.9% | 4.81 MiB → 5.66 MiB | 111 → 119 | `Parse::do_field_access` | `libjvm.dylib` |
-|  +3.9% | +736.671 KiB | 91.5% → 91.8% | 18.6 MiB → 19.3 MiB | 452 → 465 | `Parse::do_call`         | `libjvm.dylib` |
-| +29.0% | +576.031 KiB |  9.6% → 11.9% |  1.94 MiB → 2.5 MiB |   42 → 49 | `Parse::do_one_bytecode` | `libjvm.dylib` |
-| +56.5% | +416.109 KiB |   3.5% → 5.4% |  736 KiB → 1.13 MiB |   18 → 20 | `Parse::return_current`  | `libjvm.dylib` |
-| -17.4% | -384.164 KiB |  10.6% → 8.5% | 2.16 MiB → 1.78 MiB |   45 → 42 | `Parse::do_if`           | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |   Samples | Callee                             | Location       |
+| -----: | -----------: | ------------: | ------------------: | --------: | ---------------------------------- | -------------- |
+| -18.5% |   -2.625 MiB | 98.3% → 98.9% | 14.2 MiB → 11.6 MiB | 177 → 165 | `ParseGenerator::generate`         | `libjvm.dylib` |
+| -21.1% |   -1.125 MiB | 36.9% → 36.0% | 5.34 MiB → 4.22 MiB |   57 → 50 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
+| -57.7% | -480.062 KiB |   5.6% → 2.9% |   832 KiB → 352 KiB |     7 → 3 | `GraphKit::subtype_check_receiver` | `libjvm.dylib` |
+| +71.4% | +160.062 KiB |   1.5% → 3.2% |   224 KiB → 384 KiB |     3 → 7 | `GraphKit::null_check_common`      | `libjvm.dylib` |
+| -66.7% | -128.015 KiB |   1.3% → 0.5% |    192 KiB → 64 KiB |     3 → 2 | `GraphKit::type_check_receiver`    | `libjvm.dylib` |
 
 ##### `Parse::do_call` (`libjvm.dylib`)
 
-| Change |        Delta |             % |                Size |   Samples | Callee                                     | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | ------------------------------------------ | -------------- |
-| +13.6% |   +1.405 MiB | 55.5% → 60.8% | 10.3 MiB → 11.7 MiB | 216 → 248 | `ParseGenerator::generate`                 | `libjvm.dylib` |
-| -57.1% | -128.046 KiB |   1.2% → 0.5% |    224 KiB → 96 KiB |     6 → 3 | `DirectCallGenerator::generate`            | `libjvm.dylib` |
-| -16.7% | -127.976 KiB |   4.0% → 3.2% |   768 KiB → 640 KiB |   16 → 15 | `LibraryIntrinsic::generate`               | `libjvm.dylib` |
-|  +0.6% |   +97.71 KiB | 81.8% → 79.3% | 15.2 MiB → 15.3 MiB | 371 → 378 | `PredictedCallGenerator::generate`         | `libjvm.dylib` |
-| -60.0% |  -96.007 KiB |   0.8% → 0.3% |    160 KiB → 64 KiB |     5 → 2 | `LateInlineVirtualCallGenerator::generate` | `libjvm.dylib` |
+| Change |        Delta |             % |                Size |   Samples | Callee                                             | Location       |
+| -----: | -----------: | ------------: | ------------------: | --------: | -------------------------------------------------- | -------------- |
+| -19.0% |    -2.75 MiB | 84.3% → 78.1% | 14.5 MiB → 11.7 MiB | 183 → 168 | `PredictedCallGenerator::generate`                 | `libjvm.dylib` |
+| -10.0% |   -1.375 MiB | 80.1% → 82.5% | 13.8 MiB → 12.4 MiB | 168 → 150 | `ParseGenerator::generate`                         | `libjvm.dylib` |
+|    new | +256.031 KiB |   0.0% → 1.7% |       0 B → 256 KiB |     0 → 2 | `GraphKit::record_profiled_return_for_speculation` | `libjvm.dylib` |
+| -72.7% | -256.015 KiB |   2.0% → 0.6% |    352 KiB → 96 KiB |     3 → 2 | `LateInlineVirtualCallGenerator::generate`         | `libjvm.dylib` |
+|    new | +160.046 KiB |   0.0% → 1.0% |       0 B → 160 KiB |     0 → 3 | `GraphKit::cast_not_null`                          | `libjvm.dylib` |
 
-##### `Matcher::Label_Root` (`libjvm.dylib`)
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
 
-| Change |       Delta |             % |                Size | Samples | Callee                   | Location       |
-| -----: | ----------: | ------------: | ------------------: | ------: | ------------------------ | -------------- |
-| -34.7% |   -1.03 MiB | 91.3% → 95.4% | 2.97 MiB → 1.94 MiB | 95 → 62 | `Arena::grow`            | `libjvm.dylib` |
-| -66.7% | -191.96 KiB |   8.7% → 4.6% |    288 KiB → 96 KiB |   8 → 3 | `TypeAryPtr::add_offset` | `libjvm.dylib` |
-|  -1.9% | -31.976 KiB | 51.0% → 80.0% | 1.66 MiB → 1.62 MiB | 53 → 52 | `Matcher::Label_Root`    | `libjvm.dylib` |
+|  Change |        Delta |             % |                Size |   Samples | Callee                          | Location       |
+| ------: | -----------: | ------------: | ------------------: | --------: | ------------------------------- | -------------- |
+|  -10.8% |   -1.969 MiB | 99.0% → 99.6% | 18.2 MiB → 16.2 MiB | 245 → 217 | `Parse::do_one_block`           | `libjvm.dylib` |
+|  -62.5% | -160.039 KiB |   1.4% → 0.6% |    256 KiB → 96 KiB |         3 | `Parse::ensure_phis_everywhere` | `libjvm.dylib` |
+| removed |  -64.015 KiB |   0.3% → 0.0% |        64 KiB → 0 B |     1 → 0 | `GraphKit::clone_map`           | `libjvm.dylib` |
+|     new |  +32.015 KiB |   0.0% → 0.2% |        0 B → 32 KiB |     0 → 1 | `GraphKit::uncommon_trap`       | `libjvm.dylib` |
+|  +12.5% |  +31.984 KiB |   1.4% → 1.7% |   256 KiB → 288 KiB |     6 → 5 | `Parse::merge_common`           | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::create_slow_version_of_loop` (`libjvm.dylib`)
+##### `Parse::Parse` (`libjvm.dylib`)
 
-| Change |        Delta |             % |                Size | Samples | Callee                       | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ---------------------------- | -------------- |
-| -37.8% | -896.171 KiB | 59.2% → 52.9% | 2.31 MiB → 1.44 MiB | 38 → 27 | `PhaseIdealLoop::clone_loop` | `libjvm.dylib` |
-| -19.6% | -320.109 KiB | 40.8% → 47.1% | 1.59 MiB → 1.28 MiB | 33 → 26 | `PhaseIdealLoop::set_idom`   | `libjvm.dylib` |
+| Change |        Delta |            % |                Size |   Samples | Callee                    | Location       |
+| -----: | -----------: | -----------: | ------------------: | --------: | ------------------------- | -------------- |
+| -11.4% |   -2.094 MiB |       100.0% | 18.4 MiB → 16.3 MiB | 247 → 218 | `Parse::do_all_blocks`    | `libjvm.dylib` |
+| -36.0% | -864.171 KiB | 12.8% → 9.2% |  2.34 MiB → 1.5 MiB |   22 → 16 | `Parse::build_exits`      | `libjvm.dylib` |
+| -28.6% | -192.007 KiB |  3.6% → 2.9% |   672 KiB → 480 KiB |     6 → 8 | `GraphKit::set_map_clone` | `libjvm.dylib` |
+| -50.0% |     -128 KiB |  1.4% → 0.8% |   256 KiB → 128 KiB |         1 | `Parse::merge_common`     | `libjvm.dylib` |
+| -50.0% |  -63.984 KiB |  0.7% → 0.4% |    128 KiB → 64 KiB |     1 → 2 | `Parse::create_entry_map` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::do_unswitching` (`libjvm.dylib`)
+##### `ParseGenerator::generate` (`libjvm.dylib`)
 
-| Change |      Delta |      % |                Size | Samples | Callee                                        | Location       |
-| -----: | ---------: | -----: | ------------------: | ------: | --------------------------------------------- | -------------- |
-| -30.4% | -1.187 MiB | 100.0% | 3.91 MiB → 2.72 MiB | 71 → 53 | `PhaseIdealLoop::create_slow_version_of_loop` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size |   Samples | Callee         | Location       |
+| -----: | ---------: | -----: | ------------------: | --------: | -------------- | -------------- |
+| -11.4% | -2.094 MiB | 100.0% | 18.4 MiB → 16.3 MiB | 247 → 218 | `Parse::Parse` | `libjvm.dylib` |
 
-##### `Compilation::emit_lir` (`libjvm.dylib`)
+##### `Parse::do_one_block` (`libjvm.dylib`)
 
-| Change |        Delta |             % |                Size |   Samples | Callee                       | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | ---------------------------- | -------------- |
-| -22.9% | -991.273 KiB | 75.3% → 71.1% | 4.23 MiB → 3.26 MiB |  120 → 89 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
-|  -4.5% |  -63.953 KiB | 24.7% → 28.9% | 1.39 MiB → 1.33 MiB | 335 → 333 | `BlockList::iterate_forward` | `libjvm.dylib` |
+|  Change |        Delta |             % |                Size |   Samples | Callee                      | Location       |
+| ------: | -----------: | ------------: | ------------------: | --------: | --------------------------- | -------------- |
+|  -12.6% |   -2.157 MiB | 94.3% → 92.5% |   17.2 MiB → 15 MiB | 225 → 203 | `Parse::do_call`            | `libjvm.dylib` |
+| +103.7% | +896.039 KiB |  4.6% → 10.6% |  864 KiB → 1.72 MiB |   14 → 24 | `Parse::do_if`              | `libjvm.dylib` |
+|  -78.3% | -576.039 KiB |   4.0% → 1.0% |   736 KiB → 160 KiB |     8 → 3 | `Parse::array_load`         | `libjvm.dylib` |
+|  +17.0% | +575.921 KiB | 18.2% → 23.9% | 3.31 MiB → 3.88 MiB |        58 | `Parse::do_field_access`    | `libjvm.dylib` |
+|  -76.5% | -416.039 KiB |   2.9% → 0.8% |   544 KiB → 128 KiB |     9 → 4 | `GraphKit::access_store_at` | `libjvm.dylib` |
 
-##### `LinearScan::do_linear_scan` (`libjvm.dylib`)
+##### `GrowableArrayWithAllocator<unsigned int, GrowableArray<unsigned int>>::expand_to` (`libjvm.dylib`)
 
-| Change |        Delta |             % |                Size | Samples | Callee                                   | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ---------------------------------------- | -------------- |
-| -95.7% | -703.484 KiB |  17.0% → 1.0% |    735 KiB → 32 KiB |  23 → 1 | `LinearScan::compute_local_live_sets`    | `libjvm.dylib` |
-| -25.3% | -351.742 KiB | 32.1% → 31.1% | 1.36 MiB → 1.02 MiB | 43 → 32 | `LinearScan::build_intervals`            | `libjvm.dylib` |
-| +21.0% | +127.906 KiB | 14.0% → 22.0% |   608 KiB → 736 KiB | 14 → 18 | `LinearScan::allocate_registers`         | `libjvm.dylib` |
-| -66.7% |  -63.953 KiB |   2.2% → 1.0% |   95.9 KiB → 32 KiB |   3 → 1 | `LinearScan::resolve_exception_handlers` | `libjvm.dylib` |
-| -50.0% |  -31.976 KiB |   1.5% → 1.0% |     64 KiB → 32 KiB |   2 → 1 | `LinearScan::resolve_data_flow`          | `libjvm.dylib` |
-
-##### `Compilation::compile_method` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |         Samples | Callee                             | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------------: | ---------------------------------- | -------------- |
-| -10.3% | -864.398 KiB | 81.2% → 80.4% | 8.23 MiB → 7.38 MiB | 16,822 → 16,776 | `Compilation::compile_java_method` | `libjvm.dylib` |
-|  -6.4% |  -115.14 KiB | 17.3% → 17.9% | 1.75 MiB → 1.64 MiB | 11,827 → 11,848 | `ciEnv::register_method`           | `libjvm.dylib` |
-
-##### `Compilation::Compilation` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |         Samples | Callee                        | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | ----------------------------- | -------------- |
-|  -9.4% | -979.539 KiB | 100.0% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::compile_method` | `libjvm.dylib` |
+| Change |      Delta |      % |                Size | Samples | Callee        | Location       |
+| -----: | ---------: | -----: | ------------------: | ------: | ------------- | -------------- |
+| -43.9% | -1.125 MiB | 100.0% | 2.56 MiB → 1.44 MiB | 47 → 30 | `Arena::grow` | `libjvm.dylib` |
 
 ##### `Compiler::compile_method` (`libjvm.dylib`)
 
-| Change |        Delta |      % |                Size |         Samples | Callee                     | Location       |
-| -----: | -----------: | -----: | ------------------: | --------------: | -------------------------- | -------------- |
-|  -9.4% | -979.539 KiB | 100.0% | 10.1 MiB → 9.18 MiB | 28,654 → 28,629 | `Compilation::Compilation` | `libjvm.dylib` |
-
-##### `PhaseChaitin::post_allocate_copy_removal` (`libjvm.dylib`)
-
-| Change |        Delta |      % |               Size | Samples | Callee        | Location       |
-| -----: | -----------: | -----: | -----------------: | ------: | ------------- | -------------- |
-| -65.1% | -895.343 KiB | 100.0% | 1.34 MiB → 480 KiB | 43 → 15 | `Arena::grow` | `libjvm.dylib` |
-
-##### `Compilation::compile_java_method` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |       Samples | Callee                         | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------------ | -------------- |
-| -18.3% |    -1.03 MiB | 68.4% → 62.2% | 5.62 MiB → 4.59 MiB |     455 → 422 | `Compilation::emit_lir`        | `libjvm.dylib` |
-| +19.3% | +128.281 KiB |  7.9% → 10.5% |   665 KiB → 793 KiB | 1,490 → 1,502 | `Compilation::emit_code_body`  | `libjvm.dylib` |
-|  +4.2% |  +71.923 KiB | 20.2% → 23.4% | 1.66 MiB → 1.73 MiB | 8,978 → 8,973 | `Compilation::build_hir`       | `libjvm.dylib` |
-|  -3.1% |   -9.376 KiB |   3.6% → 3.9% |   302 KiB → 292 KiB | 5,899 → 5,879 | `ciMethod::ensure_method_data` | `libjvm.dylib` |
-
-##### `ResourceBitMap::ResourceBitMap` (`libjvm.dylib`)
-
-| Change |       Delta |      % |             Size | Samples | Callee        | Location       |
-| -----: | ----------: | -----: | ---------------: | ------: | ------------- | -------------- |
-| -95.8% | -735.46 KiB | 100.0% | 767 KiB → 32 KiB |  24 → 1 | `Arena::grow` | `libjvm.dylib` |
-
-##### `LinearScan::compute_local_live_sets` (`libjvm.dylib`)
-
-| Change |        Delta |      % |             Size | Samples | Callee                           | Location       |
-| -----: | -----------: | -----: | ---------------: | ------: | -------------------------------- | -------------- |
-| -95.7% | -703.484 KiB | 100.0% | 735 KiB → 32 KiB |  23 → 1 | `ResourceBitMap::ResourceBitMap` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::fix_body_edges` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Callee                       | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ---------------------------- | -------------- |
-|  -9.2% | -288.031 KiB | 77.8% → 84.8% | 3.06 MiB → 2.78 MiB | 58 → 56 | `PhaseIdealLoop::set_idom`   | `libjvm.dylib` |
-| -36.4% | -256.031 KiB | 17.5% → 13.3% |   704 KiB → 448 KiB |   9 → 7 | `Node_Array::grow`           | `libjvm.dylib` |
-| -66.7% | -128.015 KiB |   4.8% → 1.9% |    192 KiB → 64 KiB |   2 → 1 | `NodeHash::hash_find_insert` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::split_if_with_blocks` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |   Samples | Callee                                      | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | ------------------------------------------- | -------------- |
-|  -4.2% | -304.218 KiB | 66.8% → 67.3% | 7.01 MiB → 6.71 MiB | 172 → 163 | `PhaseIdealLoop::do_split_if`               | `libjvm.dylib` |
-| -12.3% | -166.015 KiB | 12.6% → 11.6% | 1.32 MiB → 1.16 MiB |   31 → 30 | `PhaseIdealLoop::split_if_with_blocks_pre`  | `libjvm.dylib` |
-|  -2.8% |   -61.96 KiB | 20.3% → 20.7% | 2.13 MiB → 2.06 MiB |        48 | `PhaseIdealLoop::split_if_with_blocks_post` | `libjvm.dylib` |
-
-##### `Type_Array::grow` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |   Samples | Callee            | Location       |
-| -----: | -----------: | -----: | ------------------: | --------: | ----------------- | -------------- |
-|  -4.1% | -480.101 KiB | 100.0% | 11.6 MiB → 11.1 MiB | 205 → 201 | `Arena::Arealloc` | `libjvm.dylib` |
-
-##### `GraphKit::clone_map` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Callee                    | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ------------------------- | -------------- |
-| -17.3% | -448.031 KiB | 68.6% → 64.4% | 2.53 MiB → 2.09 MiB | 44 → 42 | `Type_Array::grow`        | `libjvm.dylib` |
-| -15.4% |  -64.101 KiB | 11.0% → 10.6% |   416 KiB → 352 KiB |  9 → 10 | `MergeMemNode::make`      | `libjvm.dylib` |
-| -16.7% |  -32.031 KiB |   5.1% → 4.8% |   192 KiB → 160 KiB |   5 → 3 | `Node_Array::grow`        | `libjvm.dylib` |
-|    new |  +31.976 KiB |   0.0% → 1.0% |        0 B → 32 KiB |   0 → 1 | `Node::out_grow`          | `libjvm.dylib` |
-|    new |  +31.976 KiB |   0.0% → 1.0% |        0 B → 32 KiB |   0 → 1 | `JVMState::clone_shallow` | `libjvm.dylib` |
+| Change |        Delta |      % |                Size | Samples | Callee                     | Location       |
+| -----: | -----------: | -----: | ------------------: | ------: | -------------------------- | -------------- |
+| -22.9% | -908.183 KiB | 100.0% | 3.87 MiB → 2.99 MiB | 95 → 89 | `Compilation::Compilation` | `libjvm.dylib` |
 
 ##### `Parse::build_exits` (`libjvm.dylib`)
 
 |  Change |        Delta |             % |              Size | Samples | Callee                     | Location       |
 | ------: | -----------: | ------------: | ----------------: | ------: | -------------------------- | -------------- |
-|  -35.0% | -224.015 KiB | 45.5% → 43.3% | 640 KiB → 416 KiB |  10 → 9 | `Type_Array::grow`         | `libjvm.dylib` |
-|  -50.0% | -128.031 KiB | 18.2% → 13.3% | 256 KiB → 128 KiB |   6 → 4 | `Node::Node`               | `libjvm.dylib` |
-|   -8.4% |  -32.078 KiB | 27.3% → 36.7% | 384 KiB → 352 KiB |       9 | `GraphKit::clone_map`      | `libjvm.dylib` |
-| removed |  -32.015 KiB |   2.3% → 0.0% |      32 KiB → 0 B |   1 → 0 | `GraphKit::set_all_memory` | `libjvm.dylib` |
-| removed |  -31.976 KiB |   2.3% → 0.0% |      32 KiB → 0 B |   1 → 0 | `Node::out_grow`           | `libjvm.dylib` |
-
-##### `PhaseOutput::BuildOopMaps` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |                Size | Samples | Callee                   | Location       |
-| ------: | -----------: | ------------: | ------------------: | ------: | ------------------------ | -------------- |
-|  -30.8% | -463.984 KiB | 97.9% → 94.2% | 1.47 MiB → 1.02 MiB | 41 → 25 | `Arena::grow`            | `libjvm.dylib` |
-| +100.0% |  +31.976 KiB |   2.1% → 5.8% |     32 KiB → 64 KiB |   1 → 2 | `OopFlow::compute_reach` | `libjvm.dylib` |
-
-##### `PhaseOutput::Output` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |   Samples | Callee                      | Location       |
-| -----: | -----------: | ------------: | ------------------: | --------: | --------------------------- | -------------- |
-| -28.0% | -432.007 KiB | 26.0% → 20.2% |  1.5 MiB → 1.08 MiB |   42 → 27 | `PhaseOutput::BuildOopMaps` | `libjvm.dylib` |
-|  -7.7% | -100.085 KiB | 21.9% → 21.8% | 1.27 MiB → 1.17 MiB | 248 → 249 | `PhaseOutput::fill_buffer`  | `libjvm.dylib` |
-|  +2.9% |  +76.101 KiB | 44.5% → 49.3% | 2.57 MiB → 2.65 MiB |        53 | `Scheduling::Scheduling`    | `libjvm.dylib` |
-|  +8.3% |  +32.015 KiB |   6.5% → 7.6% |   384 KiB → 416 KiB |     2 → 3 | `Scheduling::DoScheduling`  | `libjvm.dylib` |
-
-##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
-
-|  Change |        Delta |             % |              Size | Samples | Callee                  | Location       |
-| ------: | -----------: | ------------: | ----------------: | ------: | ----------------------- | -------------- |
-|  -40.0% | -192.007 KiB | 18.8% → 13.4% | 480 KiB → 288 KiB |  10 → 7 | `PhaseChaitin::new_lrg` | `libjvm.dylib` |
-|  -26.1% |     -192 KiB | 28.8% → 25.4% | 736 KiB → 544 KiB |      12 | `Block_Array::grow`     | `libjvm.dylib` |
-| removed | -128.015 KiB |   5.0% → 0.0% |     128 KiB → 0 B |   1 → 0 | `Node::Node`            | `libjvm.dylib` |
-| +150.0% |  +95.929 KiB |   2.5% → 7.5% |  64 KiB → 160 KiB |   2 → 5 | `Arena::grow`           | `libjvm.dylib` |
-| removed |  -31.976 KiB |   1.2% → 0.0% |      32 KiB → 0 B |   1 → 0 | `Node::clone`           | `libjvm.dylib` |
-
-##### `Parse::do_if` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Callee                               | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | ------------------------------------ | -------------- |
-| -50.0% | -192.093 KiB | 17.4% → 10.5% | 384 KiB → 192 KiB |   7 → 6 | `Parse::adjust_map_after_if`         | `libjvm.dylib` |
-| -15.6% | -160.031 KiB | 46.4% → 47.4% |   1 MiB → 864 KiB | 20 → 18 | `PreserveJVMState::PreserveJVMState` | `libjvm.dylib` |
-| -27.3% |  -96.031 KiB | 15.9% → 14.0% | 352 KiB → 256 KiB |   6 → 4 | `Parse::merge_common`                | `libjvm.dylib` |
-| +50.0% |  +64.015 KiB |  5.8% → 10.5% | 128 KiB → 192 KiB |   3 → 4 | `GraphKit::create_and_map_if`        | `libjvm.dylib` |
-| -33.3% |  -64.015 KiB |   8.7% → 7.0% | 192 KiB → 128 KiB |   5 → 4 | `Node::Node`                         | `libjvm.dylib` |
-
-##### `AllocateHeap` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size |           Samples | Callee       | Location       |
-| -----: | -----------: | -----: | ------------------: | ----------------: | ------------ | -------------- |
-|  -2.3% | -291.491 KiB | 100.0% | 12.2 MiB → 11.9 MiB | 117,448 → 117,018 | `os::malloc` | `libjvm.dylib` |
-
-##### `Parse::throw_to_exit` (`libjvm.dylib`)
-
-| Change |       Delta |              % |               Size | Samples | Callee                               | Location       |
-| -----: | ----------: | -------------: | -----------------: | ------: | ------------------------------------ | -------------- |
-| -38.2% | -416.07 KiB | 100.0% → 84.0% | 1.06 MiB → 672 KiB |   9 → 7 | `GraphKit::set_map_clone`            | `libjvm.dylib` |
-|    new | +95.992 KiB |   0.0% → 12.0% |       0 B → 96 KiB |   0 → 2 | `GraphKit::combine_exception_states` | `libjvm.dylib` |
-|    new | +31.976 KiB |    0.0% → 4.0% |       0 B → 32 KiB |   0 → 1 | `GraphKit::make_exception_state`     | `libjvm.dylib` |
-
-##### `Parse::do_exceptions` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Callee                           | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | -------------------------------- | -------------- |
-| -22.6% | -224.085 KiB | 88.6% → 92.3% | 992 KiB → 768 KiB |   7 → 9 | `Parse::throw_to_exit`           | `libjvm.dylib` |
-| -50.0% |  -64.015 KiB |  11.4% → 7.7% |  128 KiB → 64 KiB |   3 → 2 | `Parse::catch_inline_exceptions` | `libjvm.dylib` |
-
-##### `CallGenerator::do_late_inline_helper` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Callee                             | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | ---------------------------------- | -------------- |
-| -47.1% | -256.015 KiB | 94.4% → 90.0% | 544 KiB → 288 KiB |   6 → 5 | `PredictedCallGenerator::generate` | `libjvm.dylib` |
-|  -0.9% |       -296 B |  5.6% → 10.0% | 32.3 KiB → 32 KiB |   2 → 1 | `ParseGenerator::generate`         | `libjvm.dylib` |
-
-##### `Parse::ensure_phis_everywhere` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Callee                     | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | -------------------------- | -------------- |
-| -53.9% | -224.109 KiB | 86.7% → 85.7% | 416 KiB → 192 KiB |   7 → 5 | `Parse::ensure_memory_phi` | `libjvm.dylib` |
-| -50.0% |  -31.976 KiB | 13.3% → 14.3% |   64 KiB → 32 KiB |   2 → 1 | `Parse::ensure_phi`        | `libjvm.dylib` |
-
-##### `LibraryCallKit::inline_arraycopy` (`libjvm.dylib`)
-
-|  Change |        Delta |            % |          Size | Samples | Callee                           | Location       |
-| ------: | -----------: | -----------: | ------------: | ------: | -------------------------------- | -------------- |
-| removed | -256.015 KiB | 72.7% → 0.0% | 256 KiB → 0 B |   1 → 0 | `ArrayCopyNode::connect_outputs` | `libjvm.dylib` |
-
-##### `Deoptimization::fetch_unroll_info_helper` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size |       Samples | Callee                               | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------------------ | -------------- |
-|  -9.0% | -129.578 KiB | 62.5% → 62.4% | 1.41 MiB → 1.28 MiB | 2,110 → 1,920 | `AllocateHeap`                       | `libjvm.dylib` |
-|  -9.0% |  -75.335 KiB |         36.1% |   833 KiB → 758 KiB |     436 → 390 | `Deoptimization::create_vframeArray` | `libjvm.dylib` |
-
-##### `PreserveJVMState::PreserveJVMState` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Callee                | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | --------------------- | -------------- |
-| -11.3% | -192.085 KiB | 100.0% | 1.66 MiB → 1.47 MiB | 36 → 33 | `GraphKit::clone_map` | `libjvm.dylib` |
-
-##### `is_x2logic` (`libjvm.dylib`)
-
-|  Change |        Delta |            % |          Size | Samples | Callee                           | Location       |
-| ------: | -----------: | -----------: | ------------: | ------: | -------------------------------- | -------------- |
-| removed | -128.015 KiB | 66.7% → 0.0% | 128 KiB → 0 B |   1 → 0 | `PhaseGVN::transform_no_reclaim` | `libjvm.dylib` |
-| removed |  -64.015 KiB | 33.3% → 0.0% |  64 KiB → 0 B |   1 → 0 | `Node::Node`                     | `libjvm.dylib` |
-
-##### `Dict::doubhash` (`libjvm.dylib`)
-
-| Change |        Delta |             % |                Size | Samples | Callee            | Location       |
-| -----: | -----------: | ------------: | ------------------: | ------: | ----------------- | -------------- |
-|  -8.2% | -160.039 KiB | 89.7% → 90.3% | 1.91 MiB → 1.75 MiB | 58 → 53 | `Arena::Arealloc` | `libjvm.dylib` |
-| -14.3% |  -31.976 KiB |  10.3% → 9.7% |   224 KiB → 192 KiB |   7 → 6 | `Arena::grow`     | `libjvm.dylib` |
-
-##### `Dict::Insert` (`libjvm.dylib`)
-
-| Change |        Delta |      % |                Size | Samples | Callee           | Location       |
-| -----: | -----------: | -----: | ------------------: | ------: | ---------------- | -------------- |
-|  -8.8% | -192.015 KiB | 100.0% | 2.13 MiB → 1.94 MiB | 65 → 59 | `Dict::doubhash` | `libjvm.dylib` |
-
-##### `DirectCallGenerator::generate` (`libjvm.dylib`)
-
-|  Change |       Delta |             % |              Size | Samples | Callee                                | Location       |
-| ------: | ----------: | ------------: | ----------------: | ------: | ------------------------------------- | -------------- |
-| removed | -96.031 KiB |  20.0% → 0.0% |      96 KiB → 0 B |   2 → 0 | `GraphKit::set_all_memory`            | `libjvm.dylib` |
-|  -14.3% | -32.015 KiB | 46.7% → 60.0% | 224 KiB → 192 KiB |   6 → 5 | `GraphKit::set_results_for_java_call` | `libjvm.dylib` |
-|  -20.0% | -32.015 KiB | 33.3% → 40.0% | 160 KiB → 128 KiB |   5 → 4 | `GraphKit::set_edges_for_java_call`   | `libjvm.dylib` |
-
-##### `G1BarrierSetC2::pre_barrier` (`libjvm.dylib`)
-
-| Change |        Delta |             % |              Size | Samples | Callee                     | Location       |
-| -----: | -----------: | ------------: | ----------------: | ------: | -------------------------- | -------------- |
-| -80.0% | -256.031 KiB |  14.9% → 3.2% |  320 KiB → 64 KiB |   4 → 2 | `IdealKit::load`           | `libjvm.dylib` |
-| -17.7% |   -96.07 KiB | 25.4% → 22.6% | 544 KiB → 448 KiB |  11 → 9 | `IdealKit::end_if`         | `libjvm.dylib` |
-| +50.0% |  +96.046 KiB |  9.0% → 14.5% | 192 KiB → 288 KiB |   2 → 5 | `IdealKit::make_leaf_call` | `libjvm.dylib` |
-| +10.0% |  +64.062 KiB | 29.8% → 35.5% | 640 KiB → 704 KiB | 12 → 16 | `IdealKit::if_then`        | `libjvm.dylib` |
-|    new |  +31.976 KiB |   0.0% → 1.6% |      0 B → 32 KiB |   0 → 1 | `GraphKit::sync_kit`       | `libjvm.dylib` |
-
-##### `Deoptimization::fetch_unroll_info` (`libjvm.dylib`)
-
-| Change |        Delta |      % |              Size |     Samples | Callee                                     | Location       |
-| -----: | -----------: | -----: | ----------------: | ----------: | ------------------------------------------ | -------------- |
-| -15.7% | -155.195 KiB | 100.0% | 986 KiB → 831 KiB | 1,107 → 933 | `Deoptimization::fetch_unroll_info_helper` | `libjvm.dylib` |
-
-##### `DeoptimizationBlob` (`<unknown>`)
-
-| Change |        Delta |      % |              Size |     Samples | Callee                              | Location       |
-| -----: | -----------: | -----: | ----------------: | ----------: | ----------------------------------- | -------------- |
-| -15.7% | -155.195 KiB | 100.0% | 986 KiB → 831 KiB | 1,107 → 933 | `Deoptimization::fetch_unroll_info` | `libjvm.dylib` |
+|  -81.8% | -576.109 KiB |  29.3% → 8.3% | 704 KiB → 128 KiB |   6 → 4 | `GraphKit::clone_map`      | `libjvm.dylib` |
+|  -87.5% | -448.031 KiB |  21.3% → 4.2% |  512 KiB → 64 KiB |   3 → 1 | `GraphKit::set_all_memory` | `libjvm.dylib` |
+|  +44.4% | +128.031 KiB | 12.0% → 27.1% | 288 KiB → 416 KiB |   4 → 6 | `Node::Node`               | `libjvm.dylib` |
+|   +7.4% |  +63.953 KiB | 36.0% → 60.4% | 864 KiB → 928 KiB |   8 → 5 | `Type_Array::grow`         | `libjvm.dylib` |
+| removed |  -32.015 KiB |   1.3% → 0.0% |      32 KiB → 0 B |   1 → 0 | `Node_Array::grow`         | `libjvm.dylib` |
 
 ## Hottest call stacks
 
@@ -1165,54 +1180,54 @@ Call stacks with the largest increase in native bytes allocated in their leaf fr
 
 Common call stack: `Compile::Compile` (`libjvm.dylib`) ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`
 
-|   Change |        Delta |             % |                Size |       Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| -------: | -----------: | ------------: | ------------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    +2.0% |   +3.869 MiB |         17.6% |   192 MiB → 195 MiB | 1,348 → 1,353 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|    +1.6% |   +3.714 MiB | 21.4% → 21.2% |   233 MiB → 236 MiB | 1,799 → 1,834 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|    +1.9% |   +3.586 MiB | 17.8% → 17.7% |   194 MiB → 197 MiB | 1,241 → 1,248 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|    +3.6% |   +2.819 MiB |   7.1% → 7.2% | 77.4 MiB → 80.2 MiB |     896 → 935 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  +132.3% |   +1.406 MiB |   0.1% → 0.2% | 1.06 MiB → 2.47 MiB |       30 → 60 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` ← `PathFrequency::to` ← `PhaseIdealLoop::loop_predication_follow_branches` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                        |
-|    +9.0% |   +1.338 MiB |   1.4% → 1.5% |   15 MiB → 16.3 MiB |     305 → 322 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|    +5.2% | +992.367 KiB |   1.7% → 1.8% | 18.7 MiB → 19.6 MiB |     460 → 481 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|    +5.1% |  +992.32 KiB |   1.7% → 1.8% | 18.9 MiB → 19.8 MiB |     466 → 489 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|   +93.9% | +991.273 KiB |   0.1% → 0.2% |    1.03 MiB → 2 MiB |       33 → 64 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|    +8.2% | +804.976 KiB |          0.9% |  9.6 MiB → 10.4 MiB |     205 → 218 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|    +3.7% | +748.406 KiB |          1.8% | 19.6 MiB → 20.3 MiB |     238 → 252 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::find_shared` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|   +14.0% | +480.093 KiB |          0.3% | 3.34 MiB → 3.81 MiB |       56 → 62 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|   +38.5% | +480.078 KiB |   0.1% → 0.2% | 1.22 MiB → 1.69 MiB |       30 → 40 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` ← `PathFrequency::to` ← `PhaseIdealLoop::loop_predication_follow_branches` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                    |
-|    +1.7% |     +460 KiB |          2.4% | 25.7 MiB → 26.2 MiB |           259 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|  +127.3% | +448.218 KiB |  <0.1% → 0.1% |   352 KiB → 800 KiB |       11 → 25 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` ← `PathFrequency::to` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                         |
-|   +39.4% | +416.062 KiB |          0.1% | 1.03 MiB → 1.44 MiB |       17 → 21 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Block_Array::grow` ← `PhaseChaitin::insert_proj` ← `PhaseChaitin::split_DEF` ← `PhaseChaitin::Split` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|    +4.0% | +416.039 KiB |          0.9% | 10.1 MiB → 10.5 MiB |     245 → 250 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| +1199.6% | +384.062 KiB |         <0.1% |    32 KiB → 416 KiB |         1 → 5 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::is_counted_loop` ← `IdealLoopTree::counted_loop` ← `IdealLoopTree::counted_loop` ← `IdealLoopTree::counted_loop` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|      new | +384.062 KiB |  0.0% → <0.1% |       0 B → 384 KiB |         0 → 4 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::is_counted_loop` ← `IdealLoopTree::counted_loop` ← `IdealLoopTree::counted_loop` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|      new | +384.062 KiB |  0.0% → <0.1% |       0 B → 384 KiB |         0 → 4 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::fix_ctrl_uses` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::insert_post_loop` ← `PhaseIdealLoop::insert_pre_post_loops` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` |
+|  Change |        Delta |            % |                Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------: | -----------: | -----------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +225.0% | +576.062 KiB | <0.1% → 0.1% |   256 KiB → 832 KiB |   2 → 6 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::register_new_node` ← `PhaseIdealLoop::split_thru_phi` ← `PhaseIdealLoop::split_if_with_blocks_pre` ← `PhaseIdealLoop::split_if_with_blocks` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  +51.4% | +572.562 KiB |         0.1% | 1.09 MiB → 1.65 MiB | 16 → 26 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `ConnectionGraph::ConnectionGraph` ← `ConnectionGraph::do_analysis` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  +35.4% | +544.156 KiB |  0.1% → 0.2% |  1.5 MiB → 2.03 MiB | 21 → 31 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::create_new_if_for_predicate` ← `PhaseIdealLoop::loop_predication_impl_helper` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  +37.2% | +512.078 KiB |         0.1% | 1.34 MiB → 1.84 MiB | 11 → 16 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `PhaseMacroExpand::expand_macro_nodes` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| +200.0% | +512.062 KiB | <0.1% → 0.1% |   256 KiB → 768 KiB |   2 → 6 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::is_counted_loop` ← `IdealLoopTree::counted_loop` ← `IdealLoopTree::counted_loop` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| +699.9% | +448.046 KiB |        <0.1% |    64 KiB → 512 KiB |   1 → 4 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::fix_body_edges` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::insert_post_loop` ← `PhaseIdealLoop::insert_pre_post_loops` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| +649.8% | +416.078 KiB |        <0.1% |    64 KiB → 480 KiB |   2 → 7 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Block_Array::grow` ← `PhaseAggressiveCoalesce::insert_copies` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| +216.6% | +320.148 KiB |        <0.1% |   148 KiB → 468 KiB |  4 → 12 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseCFG::global_code_motion` ← `PhaseCFG::do_global_code_motion` ← `Compile::Code_Gen`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|     new | +320.046 KiB | 0.0% → <0.1% |       0 B → 320 KiB |   0 → 3 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `PhaseValues::set_type_bottom` ← `PhaseIterGVN::register_new_node_with_optimizer` ← `PhaseMacroExpand::expand_allocate_common` ← `PhaseMacroExpand::expand_macro_nodes` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  +31.0% | +288.109 KiB |         0.1% |  928 KiB → 1.19 MiB | 14 → 21 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::create_new_if_for_predicate` ← `PhaseIdealLoop::loop_predication_impl_helper` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|     new | +288.062 KiB | 0.0% → <0.1% |       0 B → 288 KiB |   0 → 4 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `PhaseValues::set_type_bottom` ← `PhaseIterGVN::register_new_node_with_optimizer` ← `IfNode::Ideal_common` ← `IfNode::Ideal` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| +899.6% | +288.015 KiB |        <0.1% |    32 KiB → 320 KiB |   1 → 2 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `PhaseValues::set_type_bottom` ← `IfNode::Ideal_common` ← `IfNode::Ideal` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| +400.0% | +256.046 KiB |        <0.1% |    64 KiB → 320 KiB |   1 → 4 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Compile::grow_node_notes` ← `Compile::copy_node_notes_to` ← `Node::clone` ← `IfNode::Ideal_common` ← `IfNode::Ideal` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|     new | +256.031 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 2 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `IdealKit::delay_transform` ← `IdealKit::load` ← `G1BarrierSetC2::pre_barrier` ← `ModRefBarrierSetC2::store_at_resolved` ← `BarrierSetC2::store_at` ← `GraphKit::access_store_at` ← `Parse::do_put_xxx` ← `Parse::do_field_access` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|     new | +256.031 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 2 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseGVN::transform_no_reclaim` ← `GraphKit::record_profile_for_speculation` ← `GraphKit::record_profiled_return_for_speculation` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` |
+|     new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseGVN::transform_no_reclaim` ← `Parse::do_exits` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate`                                                                            |
+|     new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `Parse::return_current` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate`                                                                                                                                                                                                                                                                                                            |
+|     new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `PhaseValues::set_type_bottom` ← `PhaseIterGVN::register_new_node_with_optimizer` ← `PhaseMacroExpand::expand_unlock_node` ← `PhaseMacroExpand::expand_macro_nodes` ← `Compile::Optimize`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|     new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `Parse::build_exits` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate`                                                                                                                                                                                                         |
+|     new | +256.015 KiB | 0.0% → <0.1% |       0 B → 256 KiB |   0 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseGVN::transform_no_reclaim` ← `Parse::do_one_bytecode` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ### Improvements
 
 Call stacks with the largest decrease in native bytes allocated in their leaf frame.
 
-Common call stack: `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`) ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`
+Common call stack: `Compile::Compile` (`libjvm.dylib`) ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`
 
-|  Change |         Delta |            % |                Size |  Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ------: | ------------: | -----------: | ------------------: | -------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -74.4% | -1,023.25 KiB | 0.1% → <0.1% |  1.34 MiB → 352 KiB |  43 → 11 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::Label_Root` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  -25.6% |   -968.32 KiB |  0.3% → 0.2% |  3.7 MiB → 2.75 MiB | 118 → 88 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseChaitin::Split` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|  -65.1% |  -895.343 KiB | 0.1% → <0.1% |  1.34 MiB → 480 KiB |  43 → 15 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseChaitin::post_allocate_copy_removal` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  -95.7% |  -703.484 KiB | 0.1% → <0.1% |    735 KiB → 32 KiB |   23 → 1 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `ResourceBitMap::ResourceBitMap` ← `LinearScan::compute_local_live_sets` ← `LinearScan::do_linear_scan` ← `Compilation::emit_lir` ← `Compilation::compile_java_method` ← `Compilation::compile_method` ← `Compilation::Compilation` ← `Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  -48.5% |  -512.031 KiB | 0.1% → <0.1% |  1.03 MiB → 544 KiB |  14 → 12 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `PhaseMacroExpand::expand_macro_nodes` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  -30.8% |  -463.984 KiB |         0.1% | 1.47 MiB → 1.02 MiB |  41 → 25 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseOutput::BuildOopMaps` ← `PhaseOutput::Output` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|   -6.4% |  -352.015 KiB |         0.5% | 5.41 MiB → 5.06 MiB |  98 → 87 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node::out_grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|  -62.5% |  -319.765 KiB |        <0.1% |   512 KiB → 192 KiB |   16 → 6 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `LinearScan::create_interval` ← `LinearScan::add_temp` ← `LinearScan::build_intervals` ← `LinearScan::do_linear_scan` ← `Compilation::emit_lir` ← `Compilation::compile_java_method` ← `Compilation::compile_method` ← `Compilation::Compilation` ← `Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|   -6.3% |  -256.046 KiB |  0.4% → 0.3% | 3.94 MiB → 3.69 MiB |  94 → 91 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` ← `PathFrequency::to` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| removed |  -256.015 KiB | <0.1% → 0.0% |       256 KiB → 0 B |    1 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `GraphKit::clone_map` ← `GraphKit::set_map_clone` ← `Parse::throw_to_exit` ← `Parse::do_exceptions` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Compile::Compile` ← `C2Compiler::compile_method` |
-| removed |  -256.015 KiB | <0.1% → 0.0% |       256 KiB → 0 B |    1 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseGVN::transform_no_reclaim` ← `ArrayCopyNode::connect_outputs` ← `LibraryCallKit::inline_arraycopy` ← `LibraryCallKit::try_to_inline` ← `LibraryIntrinsic::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `Parse::do_call` ← `Parse::do_one_block` ← `Parse::do_all_blocks` ← `Parse::Parse` ← `ParseGenerator::generate` ← `PredictedCallGenerator::generate` ← `CallGenerator::do_late_inline_helper` ← `Compile::inline_string_calls` ← `Compile::inline_incrementally` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                  |
-| removed |  -256.015 KiB | <0.1% → 0.0% |       256 KiB → 0 B |    1 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Type_Array::grow` ← `PhaseValues::set_type_bottom` ← `PhaseIterGVN::register_new_node_with_optimizer` ← `ConstraintCastNode::optimize_integer_cast` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  -10.9% |  -224.078 KiB |         0.2% |    2 MiB → 1.78 MiB |  54 → 49 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<float, GrowableArray<float>>::expand_to` ← `PathFrequency::to` ← `PhaseIdealLoop::loop_predication_follow_branches` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|   -4.7% |  -192.062 KiB |  0.4% → 0.3% | 4.03 MiB → 3.84 MiB |  85 → 81 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseCFG::build_cfg` ← `PhaseCFG::PhaseCFG` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  -25.0% |  -192.062 KiB |         0.1% |   768 KiB → 576 KiB |  18 → 14 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::create_new_if_for_predicate` ← `PhaseIdealLoop::loop_predication_impl_helper` ← `PhaseIdealLoop::loop_predication_impl` ← `IdealLoopTree::loop_predication` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  -25.0% |  -192.046 KiB |         0.1% |   768 KiB → 576 KiB |  20 → 17 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::ReduceInst_Interior` ← `Matcher::ReduceInst` ← `Matcher::ReduceInst_Interior` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  -54.5% |  -192.031 KiB |        <0.1% |   352 KiB → 160 KiB |    5 → 3 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::remove_speculative_types` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| removed |  -192.031 KiB | <0.1% → 0.0% |       192 KiB → 0 B |    2 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::fix_body_edges` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::create_slow_version_of_loop` ← `PhaseIdealLoop::do_unswitching` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| removed |  -192.031 KiB | <0.1% → 0.0% |       192 KiB → 0 B |    2 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::insert_post_loop` ← `PhaseIdealLoop::insert_pre_post_loops` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| removed |  -192.031 KiB | <0.1% → 0.0% |       192 KiB → 0 B |    2 → 0 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::fix_body_edges` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::insert_post_loop` ← `PhaseIdealLoop::insert_pre_post_loops` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method`                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Change |        Delta |             % |                Size |       Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -8.1% |  -32.867 MiB |         27.8% |   408 MiB → 375 MiB | 1,726 → 1,658 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                                 |
+|  -8.1% |   -26.74 MiB | 22.6% → 22.7% |   332 MiB → 305 MiB | 1,187 → 1,129 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                                                      |
+|  -7.0% |  -22.571 MiB | 22.1% → 22.3% |   323 MiB → 301 MiB | 1,378 → 1,317 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                  |
+| -10.0% |  -11.005 MiB |   7.5% → 7.3% |  110 MiB → 98.7 MiB |     827 → 751 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                             |
+|  -9.2% |     -3.8 MiB |          2.8% | 41.4 MiB → 37.6 MiB |     216 → 200 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                                                                                                                  |
+| -25.3% |   -2.844 MiB |   0.8% → 0.6% | 11.2 MiB → 8.38 MiB |     189 → 155 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                            |
+| -23.1% |   -2.187 MiB |   0.6% → 0.5% | 9.47 MiB → 7.28 MiB |       93 → 72 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize`                                                                                                                                                                              |
+| -12.9% |   -1.656 MiB |   0.9% → 0.8% | 12.8 MiB → 11.2 MiB |     185 → 159 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize`                                                                |
+|  -5.3% |   -1.392 MiB |   1.8% → 1.9% |   26.4 MiB → 25 MiB |     198 → 201 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::find_shared` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                                                                                                            |
+| -19.4% |   -1.062 MiB |   0.4% → 0.3% | 5.47 MiB → 4.41 MiB |       63 → 59 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen`                                                                                                                                         |
+| -69.0% | -928.062 KiB |  0.1% → <0.1% |  1.31 MiB → 416 KiB |         9 → 5 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Block_Array::grow` ← `PhaseChaitin::insert_proj` ← `PhaseChaitin::split_USE` ← `PhaseChaitin::Split` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                        |
+| -31.6% |  -768.25 KiB |   0.2% → 0.1% | 2.38 MiB → 1.63 MiB |       44 → 28 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseRenumberLive::PhaseRenumberLive` ← `Compile::Optimize`                                                                                                                                                                                                           |
+| -32.4% | -768.156 KiB |   0.2% → 0.1% | 2.31 MiB → 1.56 MiB |       39 → 29 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Compile::remove_speculative_types` ← `Compile::Optimize`                                                                                                                                                                                         |
+| -21.3% |  -736.14 KiB |          0.2% | 3.38 MiB → 2.66 MiB |       27 → 18 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `NodeHash::hash_find_insert` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize`                                                                                                                                                 |
+| -59.0% |  -735.46 KiB |  0.1% → <0.1% |  1.22 MiB → 512 KiB |       39 → 16 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseChaitin::Split` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                            |
+| -11.1% | -672.171 KiB |          0.4% | 5.94 MiB → 5.28 MiB |      104 → 93 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize`                                                                                                                                                                            |
+| -19.8% | -608.179 KiB |          0.2% |    3 MiB → 2.41 MiB |       52 → 38 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::split_thru_region` ← `PhaseIdealLoop::do_split_if` ← `PhaseIdealLoop::split_if_with_blocks` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` |
+| -38.3% | -576.062 KiB |          0.1% |  1.47 MiB → 928 KiB |        11 → 7 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Compile::identify_useful_nodes` ← `PhaseRemoveUseless::PhaseRemoveUseless` ← `Compile::inline_string_calls`                                                                                                                                      |
+| -31.1% | -550.164 KiB |          0.1% | 1.73 MiB → 1.19 MiB |       27 → 19 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseRegAlloc::alloc_node_regs` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen`                                                                                                                                                                                                 |
+|  -6.0% | -512.109 KiB |          0.6% | 8.38 MiB → 7.88 MiB |       75 → 68 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Compile::identify_useful_nodes` ← `PhaseRemoveUseless::PhaseRemoveUseless`                                                                                                                                                                       |

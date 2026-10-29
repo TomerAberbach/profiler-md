@@ -47,13 +47,15 @@ ensure_spock() {
 # -failOn stays unset, so CodeNarc exits 0 despite the thousands of violations
 # it reports on Spock.
 #
-# The nativemem, cpu-threads-ann-sig, and collapsed alloc captures analyze one
-# small module with one ruleset to keep the output under the 100 MB input size
-# limit. The nativemem capture records every malloc/free, and even CodeNarc's
-# startup (loading its ~350 rule classes and the Groovy runtime) emits ~80 MB of
-# events. The cpu-threads-ann-sig capture roots each call stack at its thread
-# and appends method signatures, multiplying CodeNarc's distinct call stacks. A
-# full collapsed alloc capture writes ~585 MB.
+# The captures analyze Spock's spock-spring module, because CodeNarc's call
+# stacks run hundreds of frames deep and nearly every sample records a distinct
+# one. Analyzing all of Spock writes 45 to 75 MB per input.
+#
+# The cpu-threads-ann-sig and collapsed alloc captures analyze a smaller module
+# with one ruleset to keep the output under the 100 MB input size limit. The
+# cpu-threads-ann-sig capture roots each call stack at its thread and appends
+# method signatures, multiplying CodeNarc's distinct call stacks. A collapsed
+# alloc capture of all of Spock writes ~585 MB.
 run_jvm_workload() {
   local cfg=$1 ext=$2 side=$3 includes rulesets
   local jvm_args=("${@:4}")
@@ -67,12 +69,12 @@ run_jvm_workload() {
   cp "$jar" "$WORKDIR/codenarc.jar" || return 1
   jar="$WORKDIR/codenarc.jar"
   ensure_spock || return 1
-  if [[ "$cfg" == nativemem || "$cfg" == cpu-threads-ann-sig \
+  if [[ "$cfg" == cpu-threads-ann-sig \
     || ("$cfg" == alloc* && "$ext" == collapsed) ]]; then
     includes='spock-core/**/*.groovy'
     rulesets=rulesets/basic.xml
   else
-    includes='**/*.groovy'
+    includes='spock-spring/**/*.groovy'
     rulesets="$(IFS=,; echo "${RULESETS[*]}")"
   fi
   java "${jvm_args[@]}" -jar "$jar" \
