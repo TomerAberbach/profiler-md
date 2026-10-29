@@ -891,7 +891,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`drops location lines referencing absent functions`, () => {
+  test(`drops location lines referencing absent functions, with a warning`, () => {
     // The first inlined line references a function missing from the table
     // (e.g. an unsymbolized frame).
     const data = makePprof({
@@ -926,6 +926,57 @@ describe(`convert`, () => {
           Location: `./src/a.ts:5`,
         },
       ],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: node-pprof, pprof-rs, go, pprof-jl, rbspy, gperftools`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 location line referencing a missing function`,
+    ])
+  })
+
+  test(`names a location referencing an absent mapping by its address, with a warning`, () => {
+    const data = makePprof({
+      functions: [],
+      locations: [
+        { id: 1, mappingId: 99, address: 0x10_12_34, lines: [] },
+        { id: 2, address: 0x20_12_34, lines: [] },
+      ],
+      samples: [
+        { locationIds: [1], values: [100_000] },
+        { locationIds: [2], values: [100_000] },
+      ],
+    })
+
+    const md = convertBytesToMd(
+      pprofFormatSpec,
+      data,
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(selfTimeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `0x101234`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `0x201234`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: node-pprof, pprof-rs, go, pprof-jl, rbspy, gperftools`,
+      `info: fallback origin: unknown`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 1 location referencing a missing mapping`,
     ])
   })
 

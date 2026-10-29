@@ -20,7 +20,11 @@ export const parsePprof = (
 
   const originHint = pprofOriginHint(profile, string)
   const layouts = parseValueLayouts(profile, string)
-  const { frames, framesByLocationId } = parseStackFrames(profile, string)
+  const { frames, framesByLocationId } = parseStackFrames(
+    profile,
+    string,
+    recordTally,
+  )
 
   return layouts.map(
     ({ metrics, countMetric, metricValueIndices, countValueIndex }, index) => ({
@@ -361,6 +365,9 @@ const metricsOf = (
  * passing a reference to a missing function into aggregation. PProf.jl before
  * 3.1.1 writes such lines: https://github.com/JuliaPerf/PProf.jl/pull/98
  *
+ * A `mapping_id` of 0 means the location has no mapping. A nonzero one absent
+ * from the table resolves as no mapping too.
+ *
  * IDs are keyed raw (pprof-format decodes a given varint to `number`, or
  * `bigint` past 4 encoded bytes, deterministically per value) so the
  * per-location lookups never build key strings.
@@ -368,6 +375,7 @@ const metricsOf = (
 const parseStackFrames = (
   profile: PprofProto,
   string: StringReader,
+  recordTally: RecordTally,
 ): {
   frames: StackFrame[]
   framesByLocationId: Map<number | bigint, number[]>
@@ -378,24 +386,46 @@ const parseStackFrames = (
 
   const frames: StackFrame[] = []
   const framesByLocationId = new Map<number | bigint, number[]>()
+  let missingFunctionLines = 0
+  let missingMappingLocations = 0
   for (const location of profile.location) {
-    framesByLocationId.set(
-      location.id,
-      location.line.length === 0
-        ? [
-            (mappingById.get(location.mappingId) ?? unmapped).frameFor(
-              location.address,
-              frames,
-            ),
-          ]
-        : location.line.flatMap(({ functionId, line, column }) => {
-            const func = functionById.get(functionId)
-            return func === undefined
-              ? []
-              : func.frameFor(knownPprofPosition(line, column), frames)
-          }),
-    )
+    if (location.line.length === 0) {
+      const { mappingId } = location
+      let mapping = mappingById.get(mappingId)
+      if (mapping === undefined) {
+        if (mappingId !== 0 && mappingId !== 0n) {
+          missingMappingLocations++
+        }
+        mapping = unmapped
+      }
+      framesByLocationId.set(location.id, [
+        mapping.frameFor(location.address, frames),
+      ])
+      continue
+    }
+    const frameIndices: number[] = []
+    for (const { functionId, line, column } of location.line) {
+      const func = functionById.get(functionId)
+      if (func === undefined) {
+        missingFunctionLines++
+      } else {
+        frameIndices.push(
+          func.frameFor(knownPprofPosition(line, column), frames),
+        )
+      }
+    }
+    framesByLocationId.set(location.id, frameIndices)
   }
+  recordTally.skipped(
+    `location line`,
+    `referencing a missing function`,
+    missingFunctionLines,
+  )
+  recordTally.skipped(
+    `location`,
+    `referencing a missing mapping`,
+    missingMappingLocations,
+  )
   return { frames, framesByLocationId }
 }
 
@@ -607,20 +637,16 @@ function* parseObservations(
     }
     yield { values, frameIndices, count }
   }
-  if (skippedSamples > 0) {
-    recordTally?.skipped(
-      `sample`,
-      `referencing a missing location`,
-      skippedSamples,
-    )
-  }
-  if (shortSamples > 0) {
-    recordTally?.skipped(
-      `sample`,
-      `with fewer values than the profile has sample types`,
-      shortSamples,
-    )
-  }
+  recordTally?.skipped(
+    `sample`,
+    `referencing a missing location`,
+    skippedSamples,
+  )
+  recordTally?.skipped(
+    `sample`,
+    `with fewer values than the profile has sample types`,
+    shortSamples,
+  )
 }
 
 /** The sample's frames, or `undefined` if it references a missing location. */

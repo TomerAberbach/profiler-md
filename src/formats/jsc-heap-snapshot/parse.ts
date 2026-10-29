@@ -73,6 +73,7 @@ export const parseJSCHeapSnapshot = (
     idToOrdinal,
     nodeCount,
     rawEdgeCount,
+    recordTally,
   )
 
   return [
@@ -118,9 +119,10 @@ const computeNodeAdjacencyGraph = (
   idToOrdinal: number[],
   nodeCount: number,
   rawEdgeCount: number,
+  recordTally: RecordTally,
 ): NodeAdjacencyGraph => {
   const { ordinalToSuccessorCount, ordinalToPredecessorCount } =
-    countResolvedEdges(edges, idToOrdinal, nodeCount, rawEdgeCount)
+    countResolvedEdges(edges, idToOrdinal, nodeCount, rawEdgeCount, recordTally)
   const ordinalToSuccessorStartOffset = computeStartOffsets(
     ordinalToSuccessorCount,
   )
@@ -155,19 +157,21 @@ const computeNodeAdjacencyGraph = (
 
 /**
  * Counts each node's outgoing (successor) and incoming (predecessor) edges,
- * excluding edges between nodes that don't exist.
+ * excluding and tallying edges between nodes that don't exist.
  */
 const countResolvedEdges = (
   edges: number[],
   idToOrdinal: number[],
   nodeCount: number,
   rawEdgeCount: number,
+  recordTally: RecordTally,
 ): {
   ordinalToSuccessorCount: Int32Array
   ordinalToPredecessorCount: Int32Array
 } => {
   const ordinalToSuccessorCount = new Int32Array(nodeCount)
   const ordinalToPredecessorCount = new Int32Array(nodeCount)
+  let skippedEdgeCount = 0
   for (let edgeOrdinal = 0; edgeOrdinal < rawEdgeCount; edgeOrdinal++) {
     const edgeIndex = edgeOrdinal * EDGE_FIELD_COUNT
     const fromNodeOrdinal = resolveIdToOrdinal(
@@ -179,12 +183,14 @@ const countResolvedEdges = (
       edges[edgeIndex + EDGE_TO_OFFSET]!,
     )
     if (fromNodeOrdinal === -1 || toNodeOrdinal === -1) {
+      skippedEdgeCount++
       continue
     }
 
     ordinalToSuccessorCount[fromNodeOrdinal]!++
     ordinalToPredecessorCount[toNodeOrdinal]!++
   }
+  recordTally.skipped(`edge`, `referencing a missing node`, skippedEdgeCount)
   return { ordinalToSuccessorCount, ordinalToPredecessorCount }
 }
 
@@ -290,13 +296,11 @@ function* jscSnapshotNodes(
         ? { category: categorizeNode(flags) }
         : { category: categorizeNode(flags), type: `constructor`, name }
   }
-  if (missingClassNameCount > 0) {
-    recordTally.skipped(
-      `class name reference`,
-      `matching no entry in nodeClassNames`,
-      missingClassNameCount,
-    )
-  }
+  recordTally.skipped(
+    `class name reference`,
+    `matching no entry in nodeClassNames`,
+    missingClassNameCount,
+  )
 }
 
 /**

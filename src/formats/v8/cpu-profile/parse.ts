@@ -56,7 +56,11 @@ export const parseV8CpuProfile = (
   }
 
   const idToIndex = reindexNodes(profile)
-  const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
+  const indexToParentIndex = makeIndexToParentIndex(
+    profile,
+    idToIndex,
+    recordTally,
+  )
 
   const frames = profile.nodes.map(node =>
     callFrameToStackFrame(node.callFrame),
@@ -102,8 +106,10 @@ const reindexNodes = (profile: V8CpuProfile): number[] => {
 const makeIndexToParentIndex = (
   profile: V8CpuProfile,
   idToIndex: number[],
+  recordTally: RecordTally,
 ): Int32Array => {
   const indexToParentIndex = new Int32Array(profile.nodes.length).fill(-1)
+  let missingChildren = 0
   for (const node of profile.nodes) {
     if (!node.children) {
       continue
@@ -111,11 +117,13 @@ const makeIndexToParentIndex = (
     for (const childId of node.children) {
       const childIndex = idToIndex[childId]
       if (childIndex === undefined) {
+        missingChildren++
         continue
       }
       indexToParentIndex[childIndex] = node.id
     }
   }
+  recordTally.skipped(`child reference`, `to a missing node`, missingChildren)
   return indexToParentIndex
 }
 
@@ -150,9 +158,7 @@ function* cpuObservations(
       frameIndices: resolveFrameIndices(nodeIndex),
     }
   }
-  if (skippedSamples > 0) {
-    recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
-  }
+  recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
   if (sampleCount < profile.samples.length) {
     recordTally.skipped(
       `sample`,
@@ -191,7 +197,5 @@ function* cpuLineMetrics(
       })),
     }
   }
-  if (skippedTicks > 0) {
-    recordTally.skipped(`position tick`, `on a node with no hits`, skippedTicks)
-  }
+  recordTally.skipped(`position tick`, `on a node with no hits`, skippedTicks)
 }

@@ -585,6 +585,74 @@ describe(`malformed dumps`, () => {
     ])
   })
 
+  test(`reads an instance without the field values its missing class dumps lay out, with a warning`, () => {
+    const md = convert(
+      makeHprof({
+        classes: [
+          {
+            id: ENTRY_CLASS,
+            name: `com/example/Derived`,
+            // A superclass with no class dump.
+            superId: HOLDER_CLASS,
+            fields: [{ name: `own`, type: HPROF_OBJECT }],
+          },
+          { id: STRING_CLASS, name: `com/example/Held` },
+        ],
+        instances: [
+          {
+            id: ENTRY,
+            classId: ENTRY_CLASS,
+            fields: { own: HOLDER },
+            unlaidOutBytes: 8,
+          },
+          { id: HOLDER, classId: STRING_CLASS },
+          // An instance of a class with no class dump.
+          { id: STRING, classId: OBJECT_ARRAY_CLASS, unlaidOutBytes: 12 },
+        ],
+        roots: [
+          { id: ENTRY, tag: HPROF_ROOT_JNI_GLOBAL },
+          { id: STRING, tag: HPROF_ROOT_JNI_GLOBAL },
+        ],
+      }),
+    )
+
+    expect(selfSizeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `57.1%`,
+          Size: `16 B`,
+          Instances: `1`,
+          Constructor: `com.example.Derived`,
+        },
+        {
+          '%': `42.9%`,
+          Size: `12 B`,
+          Instances: `1`,
+          Constructor: `(unknown)`,
+        },
+        {
+          '%': `0.0%`,
+          Size: `0 B`,
+          Instances: `2`,
+          Constructor: `java.lang.Class`,
+        },
+        {
+          '%': `0.0%`,
+          Size: `0 B`,
+          Instances: `1`,
+          Constructor: `com.example.Held`,
+        },
+      ],
+    ])
+    expect(retainerPaths(md, `com.example.Held`)).toStrictEqual([
+      [`com.example.Held ←.own– com.example.Derived`],
+    ])
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 20 bytes of instance field values whose class or a superclass has no class dump`,
+    ])
+  })
+
   test(`rejects a dump whose every heap dump sub-record runs past its record`, () => {
     expect(() =>
       hprofFormatSpec.parse(

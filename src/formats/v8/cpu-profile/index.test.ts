@@ -737,6 +737,38 @@ describe(`malformed profiles`, () => {
       ])
     },
   )
+
+  test(`skips a child reference to a missing node, with a warning`, () => {
+    const makeProfile = (rootChildren: number[]): V8CpuProfile => ({
+      nodes: [makeV8CpuProfileRoot(rootChildren), { ...node, id: 2 }],
+      samples: [2],
+      timeDeltas: [5],
+    })
+
+    const md = convertJsonToMd(
+      v8CpuProfileFormatSpec,
+      makeProfile([2, 9]),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(md).toBe(
+      convertJsonToMd(
+        v8CpuProfileFormatSpec,
+        makeProfile([2]),
+        normalizeProfileToMdOptions(),
+      ),
+    )
+    const originLogs = [
+      `debug: origin candidates, in priority order: deno, bun, node, chrome`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+    ]
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 1 child reference to a missing node`,
+      ...originLogs,
+    ])
+  })
 })
 
 describe(`samples referencing a missing node`, () => {

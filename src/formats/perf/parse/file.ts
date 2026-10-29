@@ -1168,14 +1168,12 @@ class EventSamples {
   }
 
   /**
-   * Finishes the sample being read, standing for {@link period} event units,
-   * or drops it when it resolved to no frames.
+   * Finishes the sample being read, standing for {@link period} event units. A
+   * sample that resolved to no frames, because it records neither an
+   * instruction pointer nor a return address, is a stackless observation.
    */
   public finish(period: number): void {
     const count = this.#count
-    if (this.#frameCount === this.#offsets.array[count]) {
-      return
-    }
     this.#periods.ensureCapacity(count + 1)[count] = period
     this.#count++
     this.#offsets.ensureCapacity(count + 2)[count + 1] = this.#frameCount
@@ -1190,6 +1188,13 @@ class EventSamples {
     for (let index = 0; index < this.#count; index++) {
       const start = offsets[index]!
       const end = offsets[index + 1]!
+      if (start === end) {
+        yield {
+          values: hasMetric ? [periods[index]!] : [],
+          frameIndices: STACKLESS,
+        }
+        continue
+      }
       const stack = new Array<number>(end - start)
       for (let frame = start; frame < end; frame++) {
         stack[frame - start] = frameIndices[frame]!
@@ -1201,3 +1206,6 @@ class EventSamples {
     }
   }
 }
+
+/** The call stack of every stackless observation, which nothing mutates. */
+const STACKLESS: number[] = []

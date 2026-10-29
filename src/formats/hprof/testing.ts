@@ -36,6 +36,12 @@ type HprofInstance = {
 
   /** Field values by field name, defaulting to zero for a field left out. */
   fields?: Record<string, number>
+
+  /**
+   * Zero bytes written after the field values, standing for those of a class
+   * the dump has no class dump for.
+   */
+  unlaidOutBytes?: number
 }
 
 type HprofObjectArray = {
@@ -170,12 +176,17 @@ export const makeHprof = ({
     heap.id(instance.id)
     heap.u4(0)
     heap.id(instance.classId)
+    const unlaidOutBytes = instance.unlaidOutBytes ?? 0
     heap.u4(
-      fields.reduce((size, field) => size + typeSize(field.type, idSize), 0),
+      fields.reduce(
+        (size, field) => size + typeSize(field.type, idSize),
+        unlaidOutBytes,
+      ),
     )
     for (const field of fields) {
       heap.value(field.type, instance.fields?.[field.name] ?? 0)
     }
+    heap.raw(new Uint8Array(unlaidOutBytes))
   }
 
   for (const array of objectArrays) {
