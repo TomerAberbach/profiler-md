@@ -31,11 +31,53 @@ export type CompressionRuntime = {
 /**
  * Runs {@link attempt} on {@link data} with its compression stripped.
  *
- * An `Iterable` is buffered up front, because it may be one-shot while the
- * attempt reads it several times. A string is passed through, because a
- * compressed input arrives as bytes.
+ * Because a brotli retry reads the data a second time, it runs only for data
+ * that can be read twice. A generator or other `Iterable` that is its own
+ * iterator can be read only once, so it streams into the attempt as
+ * {@link withDecompressedAsync} streams a `ReadableStream`. Any other
+ * `Iterable` returns a fresh iterator each time and is buffered like bytes.
+ * Use {@link withBufferedDecompressed} where the attempt itself reads the data
+ * several times. A string is passed through, because a compressed input
+ * arrives as bytes.
  */
 export const withDecompressed = <Result>(
+  data: ProfileData,
+  attempt: (data: ProfileData) => Result,
+): Result => {
+  if (!isOneShot(data)) {
+    return withBufferedDecompressed(data, attempt)
+  }
+
+  try {
+    const { head, chunks } = peekIterator(data, MAGIC_LENGTH)
+    const rest = (function* (): Iterable<Uint8Array> {
+      yield* chunks
+      yield* data
+    })()
+    return isGzip(head) || isLz4Frame(head)
+      ? withBufferedDecompressed(rest, attempt)
+      : attempt(rest)
+  } finally {
+    // Closes the iterator wherever the attempt stopped reading it, so a
+    // generator's `finally` block runs.
+    data.return?.()
+  }
+}
+
+/** Whether {@link data} is its own iterator, so it can be read only once. */
+const isOneShot = (
+  data: ProfileData,
+): data is Iterable<Uint8Array> & Iterator<Uint8Array, unknown> =>
+  typeof data !== `string` &&
+  !ArrayBuffer.isView(data) &&
+  !Array.isArray(data) &&
+  (data[Symbol.iterator]() as object) === data
+
+/**
+ * The {@link withDecompressed} version for an attempt that reads the data
+ * several times, buffering an `Iterable` so every read returns the same bytes.
+ */
+export const withBufferedDecompressed = <Result>(
   data: ProfileData,
   attempt: (data: string | Uint8Array) => Result,
 ): Result => {
@@ -285,6 +327,27 @@ const GZIP_MAGIC = Uint8Array.from([0x1f, 0x8b])
 const MAGIC_LENGTH = 4
 
 /**
+ * The sync version of {@link peekStream}, reading chunks from {@link iterator}
+ * until they hold {@link length} bytes or the iterator ends.
+ */
+const peekIterator = (
+  iterator: Iterator<Uint8Array, unknown>,
+  length: number,
+): { head: Uint8Array; chunks: Uint8Array[] } => {
+  const chunks: Uint8Array[] = []
+  let read = 0
+  while (read < length) {
+    const { done, value } = iterator.next()
+    if (done) {
+      break
+    }
+    chunks.push(value)
+    read += value.length
+  }
+  return { head: headOf(chunks, length), chunks }
+}
+
+/**
  * Reads chunks from {@link stream} until they hold {@link length} bytes or the
  * stream ends. The reader is released, so the stream's remaining chunks can
  * still be read.
@@ -308,14 +371,16 @@ const peekStream = async (
   } finally {
     reader.releaseLock()
   }
-  const head =
-    chunks.length === 1
-      ? chunks[0]!.subarray(0, length)
-      : concatUint8Arrays(
-          chunks.map(chunk => chunk.subarray(0, length)),
-        ).subarray(0, length)
-  return { head, chunks }
+  return { head: headOf(chunks, length), chunks }
 }
+
+/** The first {@link length} bytes of {@link chunks}. */
+const headOf = (chunks: Uint8Array[], length: number): Uint8Array =>
+  chunks.length === 1
+    ? chunks[0]!.subarray(0, length)
+    : concatUint8Arrays(
+        chunks.map(chunk => chunk.subarray(0, length)),
+      ).subarray(0, length)
 
 const prependChunks = (
   chunks: Uint8Array[],

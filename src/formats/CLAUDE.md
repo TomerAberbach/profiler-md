@@ -4,7 +4,7 @@
 
 ```
 formats
-├── index.ts              # profileToMd and diffProfiles: buffers the input, then parses or detects, aggregates, and formats
+├── index.ts              # profileToMd and diffProfiles: strips the input's compression, then parses or detects, aggregates, and formats
 ├── record-tally.ts       # Rejects an input with no records and something tallied, and otherwise warns per reason
 ├── compression.ts        # Strips gzip, LZ4, and brotli through the `#compression` runtime (compression.node.ts or compression.web.ts per bundle)
 ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)

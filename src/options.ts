@@ -305,15 +305,6 @@ export type ProfileToMdContext = {
 }
 
 /**
- * A {@link ProfileToMdContext} whose origin has not been resolved yet: `null`
- * when none was given explicitly and the origin has yet to be detected.
- */
-export type UnresolvedProfileToMdContext = {
-  format: Format
-  origin: Origin | null
-}
-
-/**
  * Resolves options as the conversion pipeline does, except `baseURL: 'auto'`,
  * which it rejects.
  */

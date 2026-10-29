@@ -7,7 +7,6 @@ import type {
   AggregationProfileToMdOptions,
   ProfileEntry,
   ProfileToMdContext,
-  UnresolvedProfileToMdContext,
 } from '../options.ts'
 import { OriginDetector } from '../origins/index.ts'
 import type { Origin, OriginEvidence } from '../origins/index.ts'
@@ -26,22 +25,22 @@ export type PreparedInputs = {
 export const prepareParseResult = (
   { parsed, recordTally }: ParseResult,
   options: AggregationProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
+  format: Format,
+
+  /** The origin the caller specified, if any. */
+  origin?: Origin,
 ): PreparedInputs => {
   const aggregators = parsed.map(input =>
     modalitySpecOf(input).aggregator(input, recordTally),
   )
 
-  const detector = new OriginDetector(
-    formatToSpec[context.format],
-    context.origin,
-  )
+  const detector = new OriginDetector(formatToSpec[format], origin)
   for (const aggregator of aggregators) {
     aggregator.detectOrigin(detector)
   }
 
   const resolvedContext: ProfileToMdContext = {
-    format: context.format,
+    format,
     origin: detector.resolve(),
   }
   // An input with no profiles has no entries to detect an origin from, and no
@@ -120,8 +119,3 @@ const describeEntry = ({
   const described = name ?? `<anonymous>`
   return location ? `${described} in ${sourceReferenceId(location)}` : described
 }
-
-export const makeContext = (
-  format: Format,
-  origin: Origin | null = null,
-): UnresolvedProfileToMdContext => ({ format, origin })
