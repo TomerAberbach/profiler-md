@@ -55,6 +55,7 @@ export default [
             `*.config.*`,
             `*.setup.*`,
             `src/test-setup.ts`,
+            `src/cli/build-test-cli.ts`,
             // Only the man page build and its test import it.
             `src/cli/man.ts`,
           ],

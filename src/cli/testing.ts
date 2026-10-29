@@ -40,7 +40,13 @@ export const runCli = (
     child.stdin.end(input)
   })
 
-export const cliPath = join(import.meta.dirname, `index.ts`)
+/** Where `build-test-cli.ts` bundles the CLI the tests spawn. */
+export const testCliDirectory = join(
+  import.meta.dirname,
+  `../../node_modules/.cache/profiler-md-cli`,
+)
+
+export const cliPath = join(testCliDirectory, `dist/cli/index.mjs`)
 
 export const compileCachePath = join(
   import.meta.dirname,
