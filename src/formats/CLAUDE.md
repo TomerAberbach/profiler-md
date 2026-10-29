@@ -11,6 +11,7 @@ formats
 │   ├── matches.ts        # Cheap auto-detection check for the format
 │   ├── parse.ts          # Parses input into a modality's parsed type (a parse/ directory when it spans files, e.g. perf/parse/)
 │   └── index.ts          # Exports the format's spec
+├── examples.ts           # Parses example input and output filenames, and pairs each base input with its current input
 └── testing.ts            # Test-only utilities for running a format spec and reading example inputs
 ```
 

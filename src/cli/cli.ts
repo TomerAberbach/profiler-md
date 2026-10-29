@@ -7,6 +7,11 @@ import { defineProgram } from '@optique/core/program'
 import type { ValueParser } from '@optique/core/valueparser'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
+import {
+  languageExtensionToPrimary,
+  languageIdsOf,
+  languageMetas,
+} from '../languages.ts'
 import { LOG_LEVELS } from '../logger.ts'
 import { FUNCTION_CATEGORY_SET } from '../modalities/category-sets.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
@@ -14,7 +19,6 @@ import type { EntryCategory } from '../modalities/registry.ts'
 import { DEFAULT_MIN_CATEGORY_SHARE, DEFAULT_TOP_N } from '../options.ts'
 import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
-import { languages } from './languages.ts'
 import { DEFAULT_LOG_LEVEL, defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
 import {
   choice,
@@ -291,14 +295,14 @@ const diffingFlags = object(`Diffing`, {
   ),
 })
 
-const languageIds = [...languages].flatMap(([id, { aliases }]) => [
-  id,
-  ...(aliases?.map(alias => alias.id) ?? []),
-])
-const languageExtensions = [...languages.values()].flatMap(
-  ({ extensions }) => extensions ?? [],
+const languageIds = languageMetas.flatMap(([id, meta]) =>
+  languageIdsOf(id, meta),
 )
-export const helpTopics = [...formats, ...languageIds, ...languageExtensions]
+export const helpTopics = [
+  ...formats,
+  ...languageIds,
+  ...languageExtensionToPrimary.keys(),
+]
 
 const helpFlags = object(`Help`, {
   help: optional(

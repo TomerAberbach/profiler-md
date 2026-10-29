@@ -1,5 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import { aggregateInput } from '../formats/index.ts'
+import { formatToSpec } from '../formats/registry.ts'
 import { readInput } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
@@ -78,13 +79,13 @@ describe(`heap snapshot constructor categorization`, () => {
 
 describe(`origin hints`, () => {
   test(`a hint resolves an origin no entry marks`, () => {
-    const detector = new OriginDetector({ format: `pprof`, origin: null })
+    const detector = new OriginDetector(formatToSpec.pprof, null)
     detector.hint(`gperftools`)
     expect(detector.resolve()).toBe(`gperftools`)
   })
 
   test(`a specified origin ignores the hint`, () => {
-    const detector = new OriginDetector({ format: `pprof`, origin: `go` })
+    const detector = new OriginDetector(formatToSpec.pprof, `go`)
     detector.hint(`gperftools`)
     expect(detector.resolve()).toBe(`go`)
   })
@@ -92,7 +93,7 @@ describe(`origin hints`, () => {
   test.each([`hint first`, `marker entry first`])(
     `a hint outranks a marker entry of a higher-priority origin, $0`,
     order => {
-      const detector = new OriginDetector({ format: `pprof`, origin: null })
+      const detector = new OriginDetector(formatToSpec.pprof, null)
       const addRustEntry = () =>
         detector.add({
           name: `core::ptr::drop_in_place`,
@@ -115,7 +116,7 @@ describe(`origin hints`, () => {
   )
 
   test(`an origin that can't emit the format is ignored`, () => {
-    const detector = new OriginDetector({ format: `pprof`, origin: null })
+    const detector = new OriginDetector(formatToSpec.pprof, null)
     detector.hint(`excimer`)
     expect(detector.resolve()).toBe(`unknown`)
   })

@@ -1,7 +1,7 @@
 import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
 import type { ProfileInput } from '../index.ts'
 import { normalizeLogger } from '../logger.ts'
-import { CliError, reportError } from './error.ts'
+import { CliError } from './error.ts'
 import { printBriefHelp, printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import { inputName, openInputAsBlob } from './input.ts'
@@ -13,6 +13,7 @@ import {
 import { buildOptions } from './options.ts'
 import { checkOutputPath, isTTYOutput, writeOutput } from './output.ts'
 import { parseArgs } from './parse-args.ts'
+import { reportError } from './report-error.ts'
 
 const logger = makeCliLogger()
 let logLevel = defaultLogLevel()

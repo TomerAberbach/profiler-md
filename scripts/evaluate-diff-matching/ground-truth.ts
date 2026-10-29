@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { parseExampleFilename } from '../../src/cli/examples.ts'
+import { parseExampleFilename } from '../../src/formats/examples.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import { prefetch, readDownload } from './fetch.ts'
 import { diffFile } from './file-diff.ts'

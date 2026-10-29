@@ -1,4 +1,3 @@
-import { formatToSpec } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
@@ -15,7 +14,6 @@ import type {
   FunctionCategory,
   ProfileEntry,
   ProfileToMdContext,
-  UnresolvedProfileToMdContext,
 } from '../options.ts'
 import type { NormalizedTraceEvent, OriginSpec } from './spec.ts'
 import { originSpecs } from './specs/index.ts'
@@ -204,8 +202,11 @@ export class OriginDetector {
    */
   #match: OriginMatch = { type: `fallback` }
 
-  public constructor({ format, origin }: UnresolvedProfileToMdContext) {
-    this.#fallback = originToSpec.get(formatToSpec[format].fallbackOrigin)!
+  public constructor(
+    { id: format, fallbackOrigin }: { id: Format; fallbackOrigin: Origin },
+    origin: Origin | null,
+  ) {
+    this.#fallback = originToSpec.get(fallbackOrigin)!
     if (origin !== null) {
       this.#candidates = []
       this.#fallbackDecided = true

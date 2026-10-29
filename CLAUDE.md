@@ -16,6 +16,7 @@ profiler-md
 │   ├── formats/                  # Format specs and the conversion pipeline (has its own CLAUDE.md)
 │   ├── origins/                  # Origin specs, detection, and categorization (has its own CLAUDE.md)
 │   ├── modalities/               # Modality specs: aggregation, diffing, and Markdown formatting (has its own CLAUDE.md)
+│   ├── languages.ts              # Language names, Devicon icons, aliases, and the file extensions `--help` accepts
 │   ├── testing.ts                # Test-only option resolution, log assertion, and cross-modality Markdown assertion helpers
 │   ├── test-setup.ts             # Vitest setup that fails a test leaving a logged warning or error unasserted
 │   └── helpers/                  # Generic (non-profiling) utility functions
@@ -45,7 +46,7 @@ pnpm check
 # Regenerate an artifact after changing what it's built from. Each has a
 # `check-*` variant CI runs instead
 pnpm update-examples      # examples/output/ from examples/input/
-pnpm update-readme        # from src/cli/help.ts, src/cli/languages.ts, and `--help`
+pnpm update-readme        # from src/cli/help.ts, src/languages.ts, and `--help`
 pnpm update-demo          # assets/demo.gif from assets/demo.tape (requires vhs and gifsicle)
 pnpm evaluate-diff-matching --update # ground truth, after regenerating inputs or changing a version pin
 

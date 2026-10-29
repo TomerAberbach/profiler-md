@@ -1,3 +1,4 @@
+import { formatToSpec } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { ProfileEntry } from '../options.ts'
 import type { Origin } from './index.ts'
@@ -13,7 +14,7 @@ export const determineOrigin = ({
   /** A parser origin hint applied before the entries. */
   hint?: string
 }): Origin => {
-  const detector = new OriginDetector({ format, origin: null })
+  const detector = new OriginDetector(formatToSpec[format], null)
   if (hint !== undefined) {
     detector.hint(hint)
   }

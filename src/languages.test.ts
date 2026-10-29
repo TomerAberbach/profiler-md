@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { expect, test } from 'vitest'
-import { DEVICON_VERSION, languages } from './languages.ts'
+import { DEVICON_VERSION, languageMetas } from './languages.ts'
 
 test(`every language icon is a Devicon icon with an original SVG`, () => {
   const lines = readFileSync(
@@ -13,8 +13,8 @@ test(`every language icon is a Devicon icon with an original SVG`, () => {
     lines.filter(line => line !== `` && !line.startsWith(`#`)),
   )
 
-  const unknownIcons = [...languages.values()]
-    .flatMap(language => [language, ...(language.aliases ?? [])])
+  const unknownIcons = languageMetas
+    .flatMap(([, language]) => [language, ...language.aliases])
     .map(({ icon }) => icon)
     .filter(icon => !deviconIcons.has(icon))
 

@@ -1,12 +1,12 @@
-import { computeStartOffsets } from '../../modalities/heap-snapshot/index.ts'
+import { computeStartOffsets } from '../../modalities/heap-snapshot/graph.ts'
+import type { NodeAdjacencyGraph } from '../../modalities/heap-snapshot/graph.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
-  NodeAdjacencyGraph,
   RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
-} from '../../modalities/heap-snapshot/index.ts'
+} from '../../modalities/heap-snapshot/type.ts'
 import { FormatParseError } from '../error.ts'
 import type { RecordTally } from '../spec.ts'
 

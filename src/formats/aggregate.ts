@@ -12,6 +12,7 @@ import type {
 import { OriginDetector } from '../origins/index.ts'
 import type { Origin, OriginEvidence } from '../origins/index.ts'
 import type { ParseResult } from './parse.ts'
+import { formatToSpec } from './registry.ts'
 import type { Format } from './registry.ts'
 
 /** A raw input's aggregators, under the context its origin detection resolved. */
@@ -31,7 +32,10 @@ export const prepareParseResult = (
     modalitySpecOf(input).aggregator(input, recordTally),
   )
 
-  const detector = new OriginDetector(context)
+  const detector = new OriginDetector(
+    formatToSpec[context.format],
+    context.origin,
+  )
   for (const aggregator of aggregators) {
     aggregator.detectOrigin(detector)
   }

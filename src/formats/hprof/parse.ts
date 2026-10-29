@@ -1,12 +1,12 @@
 import { DynamicTypedArray } from '../../helpers/array.ts'
 import { streamToUint8Array } from '../../helpers/bytes.ts'
-import { nodeAdjacencyGraphFromSuccessors } from '../../modalities/heap-snapshot/index.ts'
+import { nodeAdjacencyGraphFromSuccessors } from '../../modalities/heap-snapshot/graph.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
   RetainerEdge,
   UnresolvedHeapSnapshotNodeCategory,
-} from '../../modalities/heap-snapshot/index.ts'
+} from '../../modalities/heap-snapshot/type.ts'
 import {
   JVM_PRIMITIVE_DESCRIPTOR_NAMES,
   jvmSourceClassName,

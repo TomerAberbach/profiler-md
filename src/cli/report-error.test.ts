@@ -2,9 +2,10 @@ import { afterEach, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError } from '../error.ts'
 import { expectLogs } from '../testing.ts'
-import { CliError, reportError } from './error.ts'
+import { CliError } from './error.ts'
 import { getUsageHint } from './help.ts'
 import { makeCliLogger } from './log.ts'
+import { reportError } from './report-error.ts'
 
 const EXIT = `process.exit`
 
