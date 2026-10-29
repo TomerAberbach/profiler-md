@@ -304,6 +304,39 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`heads metrics sharing a column noun and a verb by their titles`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `samples`, unit: `count` },
+        { type: `cpu`, unit: `nanoseconds` },
+        { type: `wall`, unit: `nanoseconds` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [1, 2_000_000, 3_000_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofFormatSpec,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(categoryTables(md)).toStrictEqual([
+      [
+        {
+          Category: `Ours`,
+          '%': `100.0%`,
+          CPU: `2.0ms`,
+          'Wall time': `3.0ms`,
+          Samples: `1`,
+        },
+      ],
+    ])
+  })
+
   test(`splits a count the prefixes pair with no metric into a profile of its own`, () => {
     const data = makePprof({
       valueTypes: [
