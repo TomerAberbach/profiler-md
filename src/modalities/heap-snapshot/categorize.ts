@@ -20,106 +20,25 @@ import type {
 } from './type.ts'
 
 /**
- * Resolves a node's unresolved category to its category under {@link origin}.
- *
- * Memoized by declared type name, since a snapshot declaring its own type names
- * can hold thousands of them.
+ * Aggregates each node's self size and count into its category's stats, with
+ * a constructor node's stats kept by its name so the origin can categorize it
+ * by its class.
  */
-export const newNodeCategoryResolver = (
-  origin: Origin,
-): ((
-  unresolvedCategory: UnresolvedHeapSnapshotNodeCategory,
-) => HeapSnapshotNodeCategory) => {
-  const declaredTypeToCategory = new Map<string, HeapSnapshotNodeCategory>()
-  return ({ category, declaredType }) => {
-    if (category !== undefined || declaredType === undefined) {
-      return category ?? `unknown`
-    }
-
-    let resolved = declaredTypeToCategory.get(declaredType)
-    if (resolved === undefined) {
-      resolved = declaredTypeCategory(declaredType, origin)
-      declaredTypeToCategory.set(declaredType, resolved)
-    }
-    return resolved
-  }
-}
-
-const declaredTypeCategory = (
-  declaredType: string,
-  origin: Origin,
-): HeapSnapshotNodeCategory =>
-  categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ?? `object`
-
-/** Aggregates each node's self size and count into its category's stats. */
 export class NodeCategoryStatsAggregator {
-  /** Stats of the nodes the format categorized, by the category it derived. */
-  readonly #byCategory = new KeyedNodeStats<HeapSnapshotNodeCategory>()
-
-  /**
-   * The same, for a node the format left uncategorized, by the type name it
-   * declared instead.
-   *
-   * Kept separate from the stats above rather than sharing one map keyed by
-   * either, because a format may declare a type name equal to a category name,
-   * and the two mean different things.
-   */
-  readonly #byDeclaredType = new KeyedNodeStats<string>()
-
-  public add(node: HeapSnapshotNode, selfSize: number): void {
-    if (node.category === undefined && node.declaredType !== undefined) {
-      this.#byDeclaredType.add(node, node.declaredType, selfSize)
-    } else {
-      this.#byCategory.add(node, node.category ?? `unknown`, selfSize)
-    }
-  }
-
-  /**
-   * Resolves each node's category: the origin categorizes a constructor by the
-   * class name its language defines, falling back to the category the format
-   * derived from the engine's own node type.
-   */
-  public aggregate(
-    origin: Origin,
-  ): Map<HeapSnapshotNodeCategory, NodeCategoryStats> {
-    const nodeCategoryToStats = new Map<
-      HeapSnapshotNodeCategory,
-      NodeCategoryStats
-    >()
-
-    this.#byCategory.aggregateInto(
-      nodeCategoryToStats,
-      origin,
-      category => category,
-    )
-    this.#byDeclaredType.aggregateInto(
-      nodeCategoryToStats,
-      origin,
-      declaredType => declaredTypeCategory(declaredType, origin),
-    )
-
-    return nodeCategoryToStats
-  }
-}
-
-/**
- * Size and count stats of the nodes sharing a key, with a constructor node's
- * stats kept by its name under that key.
- */
-class KeyedNodeStats<Key> {
-  readonly #keyToStats = new Map<Key, NodeCategoryStats>()
+  readonly #keyToStats = new Map<number, NodeCategoryStats>()
   readonly #keyToConstructorNameToStats = new Map<
-    Key,
+    number,
     Map<string, NodeCategoryStats>
   >()
 
-  public add(node: HeapSnapshotNode, key: Key, selfSize: number): void {
+  /** Adds a node under its {@link CategoryKeys} key. */
+  public add(node: HeapSnapshotNode, key: number, selfSize: number): void {
     const stats = this.#statsOf(node, key)
     stats.size += selfSize
     stats.nodeCount++
   }
 
-  #statsOf(node: HeapSnapshotNode, key: Key): NodeCategoryStats {
+  #statsOf(node: HeapSnapshotNode, key: number): NodeCategoryStats {
     if (node.type !== `constructor`) {
       return statsOf(this.#keyToStats, key)
     }
@@ -132,31 +51,24 @@ class KeyedNodeStats<Key> {
     return statsOf(nameToStats, node.name)
   }
 
-  /**
-   * Adds every key's stats to {@link nodeCategoryToStats} under the category
-   * {@link categoryOf} resolves the key to, or the one the origin assigns to a
-   * constructor's name.
-   */
-  public aggregateInto(
-    nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>,
-    origin: Origin,
-    categoryOf: (key: Key) => HeapSnapshotNodeCategory,
-  ): void {
+  public aggregate({
+    ofKey,
+    ofConstructor,
+  }: CategoryResolver): Map<HeapSnapshotNodeCategory, NodeCategoryStats> {
+    const nodeCategoryToStats = new Map<
+      HeapSnapshotNodeCategory,
+      NodeCategoryStats
+    >()
     for (const [key, stats] of this.#keyToStats) {
-      addStats(nodeCategoryToStats, categoryOf(key), stats)
+      addStats(nodeCategoryToStats, ofKey(key), stats)
     }
     for (const [key, nameToStats] of this.#keyToConstructorNameToStats) {
-      // `categoryOf` runs once per key rather than per constructor name, since
-      // one key can have thousands of them.
-      const category = categoryOf(key)
+      const category = ofKey(key)
       for (const [name, stats] of nameToStats) {
-        addStats(
-          nodeCategoryToStats,
-          categorizeHeapSnapshotConstructorForOrigin(name, origin) ?? category,
-          stats,
-        )
+        addStats(nodeCategoryToStats, ofConstructor(name) ?? category, stats)
       }
     }
+    return nodeCategoryToStats
   }
 }
 
@@ -198,109 +110,47 @@ type CategorizedString = { category: HeapSnapshotNodeCategory }
  * by the order it was added in, so nothing is stored per node.
  */
 export class EntityCategorizer {
-  readonly #categoryKeys = new CategoryKeys()
   readonly #constructorCategories: DominantCategory[] = []
   readonly #stringCategoryKeys: number[] = []
 
+  /** Adds a constructor's node under its {@link CategoryKeys} key. */
   public addConstructorNode(
     constructorIndex: number,
-    node: HeapSnapshotNode,
+    key: number,
     selfSize: number,
   ): void {
     addCategorySize(
       (this.#constructorCategories[constructorIndex] ??= newDominantCategory()),
-      this.#categoryKeys.keyOf(node),
+      key,
       selfSize,
     )
   }
 
-  /** Records the category of the next string added to the snapshot. */
-  public addStringNode(node: HeapSnapshotNode): void {
-    this.#stringCategoryKeys.push(this.#categoryKeys.keyOf(node))
+  /** Records the {@link CategoryKeys} key of the next string added. */
+  public addStringNode(key: number): void {
+    this.#stringCategoryKeys.push(key)
   }
 
   /**
    * Assigns each constructor and string the category holding the most of its
-   * self size.
-   *
-   * A constructor the origin names by the class its language defines takes that
-   * category instead, since the class name identifies what its instances hold
-   * more precisely than the nodes do.
+   * self size, or a constructor the category the origin assigns its class.
    */
   public categorize(
     constructors: CategorizedConstructor[],
     strings: CategorizedString[],
-    origin: Origin,
+    { ofKey, ofConstructor }: CategoryResolver,
   ): void {
-    const categoryOf = this.#categoryKeys.newResolver(origin)
     for (let index = 0; index < constructors.length; index++) {
       const constructor = constructors[index]!
       constructor.category =
-        categorizeHeapSnapshotConstructorForOrigin(constructor.name, origin) ??
-        categoryOf(this.#constructorCategories[index]!.key)
+        ofConstructor(constructor.name) ??
+        ofKey(this.#constructorCategories[index]!.key)
     }
     for (let index = 0; index < strings.length; index++) {
-      strings[index]!.category = categoryOf(this.#stringCategoryKeys[index]!)
+      strings[index]!.category = ofKey(this.#stringCategoryKeys[index]!)
     }
   }
 }
-
-/**
- * Numbers the key an entity's self size accumulates under: the category the
- * format derived, or the type name it declared when the format categorized
- * nothing.
- *
- * The two share one key space, since an entity's nodes may report either and
- * the entity takes the key holding the most of its self size. A key's sign
- * distinguishes the two, because a format may declare a type name equal to a category name, and
- * the two mean different things.
- */
-class CategoryKeys {
-  readonly #declaredTypes: string[] = []
-  readonly #declaredTypeToKey = new Map<string, number>()
-
-  public keyOf(node: HeapSnapshotNode): number {
-    if (node.category !== undefined || node.declaredType === undefined) {
-      return CATEGORY_TO_KEY.get(node.category ?? `unknown`)!
-    }
-
-    let key = this.#declaredTypeToKey.get(node.declaredType)
-    if (key === undefined) {
-      key = -this.#declaredTypes.push(node.declaredType)
-      this.#declaredTypeToKey.set(node.declaredType, key)
-    }
-    return key
-  }
-
-  /**
-   * Resolves a {@link keyOf} key to its category under {@link origin}.
-   *
-   * Memoized, since a snapshot declaring its own type names can hold thousands
-   * of them and every entity resolves one.
-   */
-  public newResolver(
-    origin: Origin,
-  ): (key: number) => HeapSnapshotNodeCategory {
-    const declaredTypeCategories = new Array<
-      HeapSnapshotNodeCategory | undefined
-    >(this.#declaredTypes.length)
-    return key => {
-      if (key > 0) {
-        return HEAP_SNAPSHOT_NODE_CATEGORIES[key - 1]!
-      }
-      const index = -key - 1
-      return (declaredTypeCategories[index] ??= declaredTypeCategory(
-        this.#declaredTypes[index]!,
-        origin,
-      ))
-    }
-  }
-}
-
-/** The key of each category, numbered from 1 so that no key is 0. */
-const CATEGORY_TO_KEY = new Map<HeapSnapshotNodeCategory, number>(
-  HEAP_SNAPSHOT_NODE_CATEGORIES.map((category, index) => [category, index + 1]),
-)
 
 /**
  * Which category holds the most of an entity's self size, tracked as its nodes
@@ -361,3 +211,87 @@ const newDominantCategory = (): DominantCategory => ({
  * {@link CategoryKeys.keyOf} never returns.
  */
 const NO_CATEGORY_KEY = 0
+
+/**
+ * Numbers the key a node's stats accumulate under: the category the format
+ * derived, or the type name it declared when the format categorized nothing.
+ *
+ * The two share one key space, since an entity's nodes may report either and
+ * the entity takes the key holding the most of its self size. A key's sign
+ * distinguishes the two, because a format may declare a type name equal to a
+ * category name, and the two mean different things.
+ */
+export class CategoryKeys {
+  readonly #declaredTypes: string[] = []
+  readonly #declaredTypeToKey = new Map<string, number>()
+
+  public keyOf({
+    category,
+    declaredType,
+  }: UnresolvedHeapSnapshotNodeCategory): number {
+    if (category !== undefined || declaredType === undefined) {
+      return CATEGORY_TO_KEY.get(category ?? `unknown`)!
+    }
+
+    let key = this.#declaredTypeToKey.get(declaredType)
+    if (key === undefined) {
+      key = -this.#declaredTypes.push(declaredType)
+      this.#declaredTypeToKey.set(declaredType, key)
+    }
+    return key
+  }
+
+  /**
+   * Resolves keys, unresolved categories, and the class names constructors
+   * define to categories under {@link origin}.
+   *
+   * Memoized by declared type, since a snapshot declaring its own type names
+   * can hold thousands of them.
+   */
+  public newResolver(origin: Origin): CategoryResolver {
+    const declaredTypeToCategory = new Map<string, HeapSnapshotNodeCategory>()
+    const ofDeclaredType = (declaredType: string): HeapSnapshotNodeCategory => {
+      let category = declaredTypeToCategory.get(declaredType)
+      if (category === undefined) {
+        category =
+          categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ??
+          `object`
+        declaredTypeToCategory.set(declaredType, category)
+      }
+      return category
+    }
+    return {
+      ofKey: key =>
+        key > 0
+          ? HEAP_SNAPSHOT_NODE_CATEGORIES[key - 1]!
+          : ofDeclaredType(this.#declaredTypes[-key - 1]!),
+      ofUnresolved: ({ category, declaredType }) =>
+        category ??
+        (declaredType === undefined ? `unknown` : ofDeclaredType(declaredType)),
+      ofConstructor: name =>
+        categorizeHeapSnapshotConstructorForOrigin(name, origin),
+    }
+  }
+}
+
+/** The categories under one origin, resolved from what the nodes report. */
+export type CategoryResolver = {
+  /** The category of a {@link CategoryKeys} key. */
+  ofKey: (key: number) => HeapSnapshotNodeCategory
+
+  /** The category of a node's unresolved category, creating no key. */
+  ofUnresolved: (
+    unresolved: UnresolvedHeapSnapshotNodeCategory,
+  ) => HeapSnapshotNodeCategory
+
+  /**
+   * The category the origin assigns to a constructor by the class name its
+   * language defines, which takes precedence over its nodes' own category.
+   */
+  ofConstructor: (name: string) => HeapSnapshotNodeCategory | undefined
+}
+
+/** The key of each category, numbered from 1 so that no key is 0. */
+const CATEGORY_TO_KEY = new Map<HeapSnapshotNodeCategory, number>(
+  HEAP_SNAPSHOT_NODE_CATEGORIES.map((category, index) => [category, index + 1]),
+)

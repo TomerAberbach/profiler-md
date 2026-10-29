@@ -10,14 +10,14 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../../options.ts'
-import { categorizeHeapSnapshotConstructorForOrigin } from '../../origins/index.ts'
-import type { Origin, OriginDetector } from '../../origins/index.ts'
+import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import {
+  CategoryKeys,
   EntityCategorizer,
-  newNodeCategoryResolver,
   NodeCategoryStatsAggregator,
 } from './categorize.ts'
+import type { CategoryResolver } from './categorize.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
@@ -209,6 +209,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   ) => UnresolvedHeapSnapshotNodeCategory
 
   #heldSize = 0
+  readonly #categoryKeys = new CategoryKeys()
   readonly #nodeCategoryStats = new NodeCategoryStatsAggregator()
 
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
@@ -286,16 +287,17 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
 
     let nodeOrdinal = 0
     for (const node of nodes) {
-      this.#addCategoryNode(nodeOrdinal, node)
+      const categoryKey = this.#categoryKeys.keyOf(node)
+      this.#addCategoryNode(nodeOrdinal, node, categoryKey)
       switch (node.type) {
         case `constructor`:
-          this.#addConstructorNode(nodeOrdinal, node)
+          this.#addConstructorNode(nodeOrdinal, node, categoryKey)
           break
         case `function`:
           this.#addFunctionNode(nodeOrdinal, node.name, node.location)
           break
         case `string`:
-          this.#addStringNode(nodeOrdinal, node)
+          this.#addStringNode(nodeOrdinal, node, categoryKey)
           break
         case undefined:
           break
@@ -313,15 +315,20 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     detector.addAll(this.#entries)
   }
 
-  #addCategoryNode(nodeOrdinal: number, node: HeapSnapshotNode): void {
+  #addCategoryNode(
+    nodeOrdinal: number,
+    node: HeapSnapshotNode,
+    categoryKey: number,
+  ): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#heldSize += selfSize
-    this.#nodeCategoryStats.add(node, selfSize)
+    this.#nodeCategoryStats.add(node, categoryKey, selfSize)
   }
 
   #addConstructorNode(
     nodeOrdinal: number,
     node: Extract<HeapSnapshotNode, { type: `constructor` }>,
+    categoryKey: number,
   ): void {
     const { name, location, nameLocation } = node
     const selfSize = this.#selfSizeOf(nodeOrdinal)
@@ -350,7 +357,11 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     }
 
     constructor.selfSize += selfSize
-    this.#entityCategorizer.addConstructorNode(constructorIndex, node, selfSize)
+    this.#entityCategorizer.addConstructorNode(
+      constructorIndex,
+      categoryKey,
+      selfSize,
+    )
     constructor.instances.push({
       type: `node`,
       id: nodeOrdinal,
@@ -400,6 +411,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   #addStringNode(
     nodeOrdinal: number,
     node: Extract<HeapSnapshotNode, { type: `string` }>,
+    categoryKey: number,
   ): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#strings.push({
@@ -411,7 +423,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       selfSize,
       retainedSize: selfSize,
     })
-    this.#entityCategorizer.addStringNode(node)
+    this.#entityCategorizer.addStringNode(categoryKey)
   }
 
   public aggregate(
@@ -431,14 +443,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       this.#functions,
     )
 
-    const { origin } = context
+    const categories = this.#categoryKeys.newResolver(context.origin)
     this.#entityCategorizer.categorize(
       this.#constructors,
       this.#strings,
-      origin,
+      categories,
     )
 
-    const categoryOf = this.#newNodeCategorizer(origin)
+    const categoryOf = this.#newNodeCategorizer(categories)
     this.#categorizeNodes(categoryOf)
 
     return {
@@ -447,7 +459,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       heldSize: this.#heldSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
-      nodeCategoryToStats: this.#nodeCategoryStats.aggregate(origin),
+      nodeCategoryToStats: this.#nodeCategoryStats.aggregate(categories),
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
@@ -471,17 +483,16 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   }
 
   /**
-   * Categorizes a node under {@link origin}: the category the origin assigns to
-   * the class its constructor defines, falling back to the node's own category.
+   * Categorizes a node: the category the origin assigns to the class its
+   * constructor defines, falling back to the node's own category.
    */
-  #newNodeCategorizer(
-    origin: Origin,
-  ): (nodeOrdinal: number) => HeapSnapshotNodeCategory {
-    const resolveCategory = newNodeCategoryResolver(origin)
-    // Resolved per constructor, because a class can have thousands of
-    // instances.
+  #newNodeCategorizer({
+    ofUnresolved,
+    ofConstructor,
+  }: CategoryResolver): (nodeOrdinal: number) => HeapSnapshotNodeCategory {
+    // Resolved per constructor, so a node reads its class's category by index.
     const constructorIndexToNamedCategory = this.#constructors.map(({ name }) =>
-      categorizeHeapSnapshotConstructorForOrigin(name, origin),
+      ofConstructor(name),
     )
     return nodeOrdinal => {
       const constructorIndex = this.#nodeOrdinalToConstructorIndex[nodeOrdinal]!
@@ -490,8 +501,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
           ? undefined
           : constructorIndexToNamedCategory[constructorIndex]
       return (
-        namedCategory ??
-        resolveCategory(this.#unresolvedCategoryOf(nodeOrdinal))
+        namedCategory ?? ofUnresolved(this.#unresolvedCategoryOf(nodeOrdinal))
       )
     }
   }
