@@ -156,7 +156,8 @@ const formatOverallSummary = ({
     paragraph(
       `Held ${formatBytes(heldSize)} over ${formatCount(
         nodeCount,
-      )} nodes and ${formatCount(edgeCount)} edges.`,
+        `node`,
+      )} and ${formatCount(edgeCount, `edge`)}.`,
     ),
     formatTable(
       categoryColumns,
