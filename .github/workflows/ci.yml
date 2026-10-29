@@ -59,7 +59,16 @@ jobs:
         os: [ubuntu-latest, macOS-latest]
       fail-fast: false
     steps:
+      # Skips the example inputs, which the next step restores from the cache.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/examples/input/*
+
+      - uses: ./.github/actions/example-inputs
 
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -89,7 +98,16 @@ jobs:
         nodejs: [22.18.0, 24]
       fail-fast: false
     steps:
+      # Skips the example inputs, which the next step restores from the cache.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/examples/input/*
+
+      - uses: ./.github/actions/example-inputs
 
       - name: Install Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0

@@ -1,0 +1,29 @@
+name: Example inputs
+description: >
+  Restores `examples/input/` from the cache, keyed by its tree hash, after a
+  checkout that skips it. A miss fetches the inputs from git, and the cache
+  saves them when the job ends.
+
+runs:
+  using: composite
+  steps:
+    - name: Read the inputs' tree hash
+      id: tree
+      shell: bash
+      run: echo "hash=$(git rev-parse HEAD:examples/input)" >> "$GITHUB_OUTPUT"
+
+    - name: Restore the inputs
+      id: cache
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: examples/input
+        key: example-inputs-${{ steps.tree.outputs.hash }}
+
+    # Refetches the commit as one full pack, because a blobless checkout
+    # fetches each missing blob on demand, many times slower.
+    - name: Fetch the inputs from git
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        git fetch --refetch --no-filter --depth=1 origin "$(git rev-parse HEAD)"
+        git sparse-checkout disable
