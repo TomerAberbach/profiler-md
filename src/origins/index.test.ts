@@ -1,12 +1,13 @@
 import { describe, expect, test, vi } from 'vitest'
 import { aggregateInput } from '../formats/index.ts'
-import { formatToSpec } from '../formats/registry.ts'
+import { formatSpecs, formatToSpec } from '../formats/registry.ts'
 import { readInput } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import {
   categorizeHeapSnapshotConstructorForOrigin,
   OriginDetector,
+  origins,
 } from './index.ts'
 import type { Origin } from './index.ts'
 
@@ -75,6 +76,12 @@ describe(`heap snapshot constructor categorization`, () => {
       categorizeHeapSnapshotConstructorForOrigin(`ModuleLoader`, `node`),
     ).toBeUndefined()
   })
+})
+
+// A format spec can't type its fallback origin as `Origin`, because the
+// origin registry's types derive from the format registry's.
+test.each(formatSpecs)(`$id falls back to a registered origin`, spec => {
+  expect(origins).toContain(spec.fallbackOrigin)
 })
 
 describe(`origin hints`, () => {
