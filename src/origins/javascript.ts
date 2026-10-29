@@ -14,13 +14,24 @@ import { locationlessCategory, syntheticFrameCategory } from './categorize.ts'
 export const v8JavaScriptCategory = (
   entry: DeepReadonly<ProfileEntry>,
 ): FunctionCategory | undefined =>
+  v8RegExpCategory(entry) ?? javaScriptCategory(entry)
+
+/**
+ * The categorization rules shared by the origins that observe any JavaScript
+ * engine. Compose an origin's own rules after it with `??`.
+ */
+export const javaScriptCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
   syntheticFrameCategory(entry) ??
-  v8RegExpCategory(entry) ??
   ecmaScriptBuiltinCategory(entry) ??
   locationlessCategory(entry) ??
   nodeModulesCategory(entry)
 
-export const v8RegExpCategory = ({
+/** The module specifiers Node resolves to runtime builtins. */
+export const NODE_PROTOCOLS = [`node:`]
+
+const v8RegExpCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   name?.startsWith(`RegExp: `) ? `regexp` : undefined
@@ -40,7 +51,7 @@ export const v8RegExpCategory = ({
  * `stdlib` (Bun's module `resolve`, rather than `Promise.resolve`). The name is
  * the only evidence for either, and both are library code the runtime ships.
  */
-export const ecmaScriptBuiltinCategory = ({
+const ecmaScriptBuiltinCategory = ({
   name,
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
@@ -114,7 +125,7 @@ const ITERATORS = [
  * Specific to the npm package ecosystem, which every JavaScript runtime (Node,
  * Deno, Bun, browsers) installs dependencies into.
  */
-export const nodeModulesCategory = ({
+const nodeModulesCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   hasNodeModulesPath(location) ? `third-party` : undefined

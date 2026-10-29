@@ -4,6 +4,7 @@ import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import { nativeMatchEntry, nativeNormalizeStackFrame } from '../native.ts'
+import { packedLocationNormalizer } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
 import { zigStdlibCategory } from '../zig.ts'
 
@@ -96,19 +97,7 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
     return { name: `${func!} (${inner!})` }
   }
 
-  const python =
-    PYTHON_FRAME_LINE.exec(input.name ?? ``) ??
-    PYTHON_FRAME.exec(input.name ?? ``)
-  if (python) {
-    const { func, file, line } = python.groups!
-    return {
-      name: func!,
-      definition: { type: `file`, urlOrPath: file! },
-      ...(line === undefined ? {} : { executing: { line: Number(line) } }),
-    }
-  }
-
-  return input
+  return unpackPythonFrame(input)
 }
 
 /**
@@ -144,3 +133,8 @@ const PYTHON_FRAME_LINE =
   /^(?<func>.+) \(python\) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u
 
 const PYTHON_FRAME = /^(?<func>.+) \(python\) \[(?<file>[^\][:]+)\]$/u
+
+const unpackPythonFrame = packedLocationNormalizer(
+  PYTHON_FRAME_LINE,
+  PYTHON_FRAME,
+)

@@ -1,12 +1,10 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { ProfileEntry } from '../../options.ts'
-import { locationlessCategory, syntheticFrameCategory } from '../categorize.ts'
 import {
-  ecmaScriptBuiltinCategory,
+  javaScriptCategory,
   javaScriptConstructorCategory,
   javaScriptMatchHeapSnapshotEdgeName,
-  nodeModulesCategory,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
 import type { OriginSpec } from '../spec.ts'
@@ -28,10 +26,7 @@ export const safariOriginSpec = {
   formats: [`jsc-heap-snapshot`, `webkit-timeline-recording`],
   isMarkerEntry: isInjectedScript,
   categorizeEntry: entry =>
-    syntheticFrameCategory(entry) ??
-    ecmaScriptBuiltinCategory(entry) ??
-    locationlessCategory(entry) ??
-    nodeModulesCategory(entry) ??
+    javaScriptCategory(entry) ??
     (isInjectedScript(entry) || isBundledAccessoryScript(entry)
       ? `stdlib`
       : undefined) ??

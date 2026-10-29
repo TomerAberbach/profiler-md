@@ -121,15 +121,25 @@ const ANONYMOUS_FUNCTION_NAME = `(anonymous)`
  * `libsystem_kernel.dylib`, or a versioned `libc.so.6`) as the location of a
  * frame it symbolicated to no source file.
  */
-export const nativeLibraryCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && NATIVE_LIBRARY.test(sourceReferencePathOrName(location))
-    ? `native`
-    : undefined
+export const nativeLibraryCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined => pathCategory(entry, `native`, NATIVE_LIBRARY)
 
 /** A shared-library path or file name. */
 export const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
+
+/**
+ * Categorizes an entry as {@link category} when its file reference's path, or
+ * its logical reference's name, matches {@link pattern}.
+ */
+export const pathCategory = (
+  { location }: DeepReadonly<ProfileEntry>,
+  category: FunctionCategory,
+  pattern: RegExp,
+): FunctionCategory | undefined =>
+  location && pattern.test(sourceReferencePathOrName(location))
+    ? category
+    : undefined
 
 /**
  * Categorizes an entry as {@link category} when its location
@@ -141,3 +151,14 @@ export const protocolCategory = (
   protocols: string[],
 ): FunctionCategory | undefined =>
   hasProtocol(location, protocols) ? category : undefined
+
+/**
+ * Categorizes an entry with a location as `ours` and one without as `unknown`,
+ * as a profiler's last rule. Use it only for a profiler that locates every
+ * frame it identifies, after the rules that categorize its location-less
+ * frames, so a frame left without one is code the profiler could not locate.
+ */
+export const oursIfLocatedCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory =>
+  location ? `ours` : `unknown`

@@ -235,18 +235,19 @@ export type NormalizedTraceEvent = TraceEvent | TraceEventWithReadings | null
 
 /**
  * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that packs a
- * frame's function, file, and executing line into its name, matched by
- * {@link regex}'s named groups `func`, `file`, and `line`. A regex without a
- * `line` group splits a frame whose name packs no line.
+ * frame's function, file, and executing line into its name, matched by the
+ * first of {@link regexes} that matches, through its named groups `func`,
+ * `file`, and `line`. A regex without a `line` group splits a frame whose name
+ * packs no line.
  *
- * A frame the regex doesn't match passes through unchanged.
+ * A frame no regex matches passes through unchanged.
  *
  * The packed line is where the frame was sampling, not where the function is
  * defined, so it becomes the executing line (feeding the per-line breakdown)
  * and the location alone identifies the function.
  */
 export const packedLocationNormalizer =
-  (regex: RegExp) =>
+  (...regexes: RegExp[]) =>
   (input: StackFrame): StackFrame => {
     // A sourced frame carries its source separately, so its name can't be
     // packed; matching it anyway could corrupt a coincidentally-shaped name.
@@ -254,7 +255,14 @@ export const packedLocationNormalizer =
       return input
     }
 
-    const frame = regex.exec(input.name ?? ``)
+    const name = input.name ?? ``
+    let frame: RegExpExecArray | null = null
+    for (const regex of regexes) {
+      frame = regex.exec(name)
+      if (frame) {
+        break
+      }
+    }
     if (!frame) {
       return input
     }

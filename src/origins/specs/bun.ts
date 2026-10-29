@@ -1,13 +1,9 @@
+import { protocolCategory } from '../categorize.ts'
 import {
-  locationlessCategory,
-  protocolCategory,
-  syntheticFrameCategory,
-} from '../categorize.ts'
-import {
-  ecmaScriptBuiltinCategory,
+  javaScriptCategory,
   javaScriptConstructorCategory,
   javaScriptMatchHeapSnapshotEdgeName,
-  nodeModulesCategory,
+  NODE_PROTOCOLS,
 } from '../javascript.ts'
 import { jscConstructorCategory } from '../jsc.ts'
 import type { OriginSpec } from '../spec.ts'
@@ -27,10 +23,7 @@ export const bunOriginSpec = {
     name !== undefined &&
     (JSC_MODULE_LOADER_BUILTINS.has(name) || BUN_RUNTIME_CLASSES.has(name)),
   categorizeEntry: entry =>
-    syntheticFrameCategory(entry) ??
-    ecmaScriptBuiltinCategory(entry) ??
-    locationlessCategory(entry) ??
-    nodeModulesCategory(entry) ??
+    javaScriptCategory(entry) ??
     protocolCategory(entry, `stdlib`, BUN_STDLIB_PROTOCOLS) ??
     `ours`,
   categorizeHeapSnapshotConstructor: name =>
@@ -72,4 +65,4 @@ const BUN_RUNTIME_CLASSES = new Set([
  * (`internal:primordials`, `internal:fs/streams`), which back the
  * `node:`/`bun:` builtins.
  */
-const BUN_STDLIB_PROTOCOLS = [`node:`, `bun:`, `internal:`]
+const BUN_STDLIB_PROTOCOLS = [...NODE_PROTOCOLS, `bun:`, `internal:`]

@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
-import { locationlessCategory } from '../categorize.ts'
+import { locationlessCategory, pathCategory } from '../categorize.ts'
 import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'
 import type { EntryMatchRule, OriginSpec } from '../spec.ts'
 
@@ -37,9 +37,7 @@ export const pprofJlOriginSpec = {
   // Only a Julia install lays out its runtime sources under `share/julia/`,
   // and every Julia profile touches `Base` or standard-library code from
   // there.
-  isMarkerEntry: entry =>
-    entry.location !== undefined &&
-    sourceReferencePathOrName(entry.location).includes(`/share/julia/`),
+  isMarkerEntry: entry => juliaInstallCategory(entry) !== undefined,
   categorizeEntry: entry =>
     juliaInstallCategory(entry) ??
     juliaDepotPackageCategory(entry) ??
@@ -60,12 +58,13 @@ export const pprofJlOriginSpec = {
  * Categorizes frames from the Julia install's `share/julia/` tree (`Base`,
  * the standard library, and the compiler) as `stdlib`.
  */
-const juliaInstallCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && sourceReferencePathOrName(location).includes(`/share/julia/`)
-    ? `stdlib`
-    : undefined
+const juliaInstallCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `stdlib`, JULIA_INSTALL_SOURCE)
+
+/** The runtime sources a Julia install lays out under `share/julia/`. */
+const JULIA_INSTALL_SOURCE = /\/share\/julia\//u
 
 /**
  * Categorizes Julia sources from a depot's package store
@@ -90,12 +89,10 @@ const juliaDepotPackageCategory = ({
  * as `native`. User code is always `.jl`, so a non-Julia source in a Julia
  * profile is runtime internals.
  */
-const juliaRuntimeNativeCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && JULIA_NATIVE_SOURCE.test(sourceReferencePathOrName(location))
-    ? `native`
-    : undefined
+const juliaRuntimeNativeCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `native`, JULIA_NATIVE_SOURCE)
 
 const JULIA_NATIVE_SOURCE = /\.(?:[chS]|cpp|dylib|so|dll)[\d.]*$/u
 

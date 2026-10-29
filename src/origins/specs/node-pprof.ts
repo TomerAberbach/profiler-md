@@ -1,15 +1,10 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { protocolCategory } from '../categorize.ts'
 import {
-  locationlessCategory,
-  protocolCategory,
-  syntheticFrameCategory,
-} from '../categorize.ts'
-import {
-  ecmaScriptBuiltinCategory,
   hasNodeModulesPath,
-  nodeModulesCategory,
-  v8RegExpCategory,
+  NODE_PROTOCOLS,
+  v8JavaScriptCategory,
 } from '../javascript.ts'
 import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
@@ -43,11 +38,7 @@ export const nodePprofOriginSpec = {
     garbageCollectionCategory(entry) ??
     // Its profiles come from the same engine the `node` origin observes, so
     // they contain V8's pseudo-frames and regular-expression frames too.
-    syntheticFrameCategory(entry) ??
-    v8RegExpCategory(entry) ??
-    ecmaScriptBuiltinCategory(entry) ??
-    locationlessCategory(entry) ??
-    nodeModulesCategory(entry) ??
+    v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
   normalizeStackFrame: input => {
@@ -80,9 +71,6 @@ export const nodePprofOriginSpec = {
     }
   },
 } as const satisfies OriginSpec
-
-/** The module specifiers Node resolves to runtime builtins. */
-const NODE_PROTOCOLS = [`node:`]
 
 const garbageCollectionCategory = ({
   name,
