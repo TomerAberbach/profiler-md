@@ -39,11 +39,18 @@ import {
   shownDiffEntities,
 } from '../format.ts'
 import {
+  isZeroDiffTotal,
+  isZeroTotal,
+  metricDiffMeasure,
+  metricMeasure,
+} from '../function/index.ts'
+import type { DiffMeasure, Measure } from '../function/index.ts'
+import {
   formatProseValue,
   formatProseValueArrow,
   formatProseValueDelta,
 } from '../measure.ts'
-import type { DiffMetric, Metric } from '../metric.ts'
+import type { Metric } from '../metric.ts'
 import type { EntryCategory } from '../registry.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
@@ -67,12 +74,10 @@ export const formatCallGraph = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
-  const measures = measuresOf(graph.metrics)
+  const measures = measuresOf(graph)
   const sectionOptions = resolveEntryFilter({
     options,
-    formatsAnyEntry:
-      graph.functions.length > 0 &&
-      !measures.every(measure => isZeroTotal(graph, measure)),
+    formatsAnyEntry: graph.functions.length > 0 && !measures.every(isZeroTotal),
     showsAnyEntry: showEntry =>
       graph.functions.some(func => showEntry(func, graph.context)),
     entities: `function`,
@@ -86,7 +91,7 @@ export const formatCallGraph = (
       measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (isZeroTotal(graph, measure)) {
+        if (isZeroTotal(measure)) {
           return [formatZeroTotalNote(measure.metric, ``)]
         }
 
@@ -102,18 +107,22 @@ export const formatCallGraph = (
 }
 
 /**
- * What a call-graph section ranks, percentages, and tabulates by: a metric at
- * a given index in {@link AggregatedCallGraph.metrics}. A call graph has at
- * least one metric, so unlike a call stack profile's measures, these need no
- * count fallback.
+ * A measure per metric. A call graph has at least one metric, so unlike a call
+ * stack profile's measures, these need no count fallback.
  */
-type Measure = { metric: Metric; index: number }
+const measuresOf = (graph: AggregatedCallGraph): Measure[] =>
+  graph.metrics.map((metric, index) => metricMeasure(metric, index, graph))
 
-const measuresOf = (metrics: Metric[]): Measure[] =>
-  metrics.map((metric, index) => ({ metric, index }))
+/** A call graph function's self value, since a call graph counts nothing. */
+const selfValueOf = (
+  measure: Measure,
+  func: AggregatedCallGraphFunction,
+): number => measure.valueOf(func.selfValues, 0)
 
-const isZeroTotal = (graph: AggregatedCallGraph, { index }: Measure): boolean =>
-  graph.totalValues[index] === 0
+const totalValueOf = (
+  measure: Measure,
+  func: AggregatedCallGraphFunction,
+): number => measure.valueOf(func.totalValues, 0)
 
 const formatSummaryLine = ({
   metrics,
@@ -173,7 +182,7 @@ const formatHottestFunctions = ({
     entries: graph.functions.filter(func =>
       options.showEntry(func, graph.context),
     ),
-    selfValueOf: func => func.selfValues[measure.index]!,
+    selfValueOf: func => selfValueOf(measure, func),
     categoryOf: func => func.category,
     minCategoryShare: options.minCategoryShare,
   })
@@ -212,8 +221,9 @@ const formatHottestSelfFunctions = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const { metric, index } = measure
-  const valueOf = (func: AggregatedCallGraphFunction) => func.selfValues[index]!
+  const { metric } = measure
+  const valueOf = (func: AggregatedCallGraphFunction) =>
+    selfValueOf(measure, func)
   const ranking = rankEntities({
     entities: graph.functions.filter(
       func => options.showEntry(func, graph.context) && valueOf(func) > 0,
@@ -249,7 +259,7 @@ const formatHottestSelfFunctions = ({
           functions,
           metric,
           valueOf,
-          total: graph.totalValues[index]!,
+          total: measure.total,
           options,
         }),
       headingLevel: headingLevel + 1,
@@ -279,12 +289,14 @@ const formatHottestLines = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const { metric, index } = measure
-  const selfValue = func.selfValues[index]!
+  const { metric } = measure
+  const selfValue = selfValueOf(measure, func)
   const hottestLines = selectTopN(
-    [...func.lineToMetrics].filter(([, values]) => values[index]! > 0),
+    [...func.lineToMetrics].filter(
+      ([, values]) => measure.valueOf(values, 0) > 0,
+    ),
     Math.ceil(options.topN / 4),
-    ([, values]) => values[index]!,
+    ([, values]) => measure.valueOf(values, 0),
   )
   if (hottestLines.length === 0) {
     return []
@@ -297,7 +309,7 @@ const formatHottestLines = ({
       hottestLines.map(([line, values]) => ({
         func,
         line,
-        value: values[index]!,
+        value: measure.valueOf(values, 0),
         total: selfValue,
       })),
     ),
@@ -317,9 +329,9 @@ const formatHottestTotalFunctions = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const { metric, index } = measure
+  const { metric } = measure
   const valueOf = (func: AggregatedCallGraphFunction) =>
-    func.totalValues[index]!
+    totalValueOf(measure, func)
   const ranking = rankEntities({
     entities: graph.functions.filter(
       func => options.showEntry(func, graph.context) && valueOf(func) > 0,
@@ -344,7 +356,7 @@ const formatHottestTotalFunctions = ({
           functions,
           metric,
           valueOf,
-          total: graph.totalValues[index]!,
+          total: measure.total,
           options,
         }),
       headingLevel: headingLevel + 1,
@@ -426,7 +438,7 @@ const formatHottestArcSections = ({
  * arcs ranked by the arcs' recorded total values.
  */
 const formatHottestArcs = ({
-  measure: { metric, index },
+  measure,
   func,
   arcs,
   hasCallCounts,
@@ -444,7 +456,7 @@ const formatHottestArcs = ({
 }): RootContent[] => {
   const hottestArcs = selectTopN(
     arcs
-      .rowsOf(func, index)
+      .rowsOf(func, measure)
       .map(([, row]) => row)
       .filter(row => options.showEntry(row.func, context) && row.value > 0)
       .toArray(),
@@ -458,7 +470,7 @@ const formatHottestArcs = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      arcColumns(metric, arcs.entity, hasCallCounts, options),
+      arcColumns(measure.metric, arcs.entity, hasCallCounts, options),
       hottestArcs,
     ),
   ]
@@ -469,28 +481,30 @@ export const formatCallGraphDiff = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
-  const metrics = diff.metrics.map(({ metric }) => metric)
+  const measures = diffMeasuresOf(diff)
   const matchLines = lineMatcher(diff)
   const matchFunctionIds = functionIdMatcher(diff.functions)
   const sectionOptions = resolveEntryFilter({
     options,
     formatsAnyEntry:
-      diff.functions.length > 0 &&
-      !diff.metrics.every(measure => isZeroDiffTotal(diff, measure)),
+      diff.functions.length > 0 && !measures.every(isZeroDiffTotal),
     showsAnyEntry: showEntry =>
       diff.functions.some(func => showDiffEntity(func, diff, showEntry)),
     entities: `function`,
   })
   return [
-    heading(headingLevel, `${formatTitle(metrics)} diff`),
+    heading(
+      headingLevel,
+      `${formatTitle(measures.map(({ metric }) => metric))} diff`,
+    ),
     paragraph(formatDiffSummaryLine(diff)),
     ...formatDiffCategoryTable(diff),
     ...formatBaseURLNote(options),
     ...formatMeasureSections(
-      diff.metrics,
+      measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
-        if (isZeroDiffTotal(diff, measure)) {
+        if (isZeroDiffTotal(measure)) {
           return [formatZeroTotalNote(measure.metric, ``)]
         }
 
@@ -507,11 +521,13 @@ export const formatCallGraphDiff = (
   ]
 }
 
-const isZeroDiffTotal = (
-  { base, current }: AggregatedCallGraphDiff,
-  { baseIndex, currentIndex }: DiffMetric,
-): boolean =>
-  base.totalValues[baseIndex] === 0 && current.totalValues[currentIndex] === 0
+/** The diffing counterpart to {@link measuresOf}. */
+const diffMeasuresOf = ({
+  base,
+  current,
+  metrics,
+}: AggregatedCallGraphDiff): DiffMeasure[] =>
+  metrics.map(metric => metricDiffMeasure(metric, base, current, null))
 
 const formatDiffSummaryLine = (diff: AggregatedCallGraphDiff): string =>
   `${capitalizeFirst(
@@ -582,7 +598,7 @@ const formatDiffFunctions = ({
   headingLevel,
 }: {
   diff: AggregatedCallGraphDiff
-  measure: AggregatedCallGraphDiff[`metrics`][number]
+  measure: DiffMeasure
   matchLines: LineMatcher<Float64Array>
   matchFunctionIds: FunctionIdMatcher
   options: FormattingProfileToMdOptions
@@ -593,9 +609,10 @@ const formatDiffFunctions = ({
     entries: diff.functions.filter(func =>
       showDiffEntity(func, diff, options.showEntry),
     ),
-    baseSelfValueOf: func => func.base?.selfValues[measure.baseIndex] ?? 0,
+    baseSelfValueOf: func =>
+      func.base ? selfValueOf(measure.base, func.base) : 0,
     currentSelfValueOf: func =>
-      func.current?.selfValues[measure.currentIndex] ?? 0,
+      func.current ? selfValueOf(measure.current, func.current) : 0,
     categoryOf: func => func.category,
     minCategoryShare: options.minCategoryShare,
   })
@@ -639,7 +656,7 @@ const formatDiffDirectionFunctions = ({
   direction,
 }: {
   diff: AggregatedCallGraphDiff
-  measure: AggregatedCallGraphDiff[`metrics`][number]
+  measure: DiffMeasure
   matchLines: LineMatcher<Float64Array>
   matchFunctionIds: FunctionIdMatcher
   categories: EntryCategory[]
@@ -647,39 +664,37 @@ const formatDiffDirectionFunctions = ({
   headingLevel: number
   direction: `self` | `total`
 }): RootContent[] => {
-  const { metric, baseIndex, currentIndex } = measure
+  const { metric } = measure
   const valueOf = (
+    side: Measure,
     func: AggregatedCallGraphFunction | undefined,
-    index: number,
   ): number =>
     func === undefined
       ? 0
-      : (direction === `self` ? func.selfValues : func.totalValues)[index]!
+      : (direction === `self` ? selfValueOf : totalValueOf)(side, func)
 
   const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.functions.map(func => ({
         entity: func,
-        baseValue: valueOf(func.base, baseIndex),
-        currentValue: valueOf(func.current, currentIndex),
+        baseValue: valueOf(measure.base, func.base),
+        currentValue: valueOf(measure.current, func.current),
       })),
       diff,
       options,
       { categories, categoryOf: func => func.category },
     )
 
-  const baseTotal = diff.base.totalValues[baseIndex]!
-  const currentTotal = diff.current.totalValues[currentIndex]!
   const rowOf = ({ base, current }: AggregatedCallGraphFunctionDiff) => ({
     base: base && {
       func: base,
-      value: valueOf(base, baseIndex),
-      total: baseTotal,
+      value: valueOf(measure.base, base),
+      total: measure.base.total,
     },
     current: current && {
       func: current,
-      value: valueOf(current, currentIndex),
-      total: currentTotal,
+      value: valueOf(measure.current, current),
+      total: measure.current.total,
     },
   })
 
@@ -725,7 +740,7 @@ type DiffDetailArgs = {
   diff: AggregatedCallGraphDiff
   matchLines: LineMatcher<Float64Array>
   matchFunctionIds: FunctionIdMatcher
-  measure: AggregatedCallGraphDiff[`metrics`][number]
+  measure: DiffMeasure
   funcs: AggregatedCallGraphFunctionDiff[]
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -757,13 +772,13 @@ const formatDiffLines = ({
   )
 
 const formatDiffFunctionLines = ({
-  measure: { metric, baseIndex, currentIndex },
+  measure,
   matchLines,
   func,
   options,
   headingLevel,
 }: {
-  measure: AggregatedCallGraphDiff[`metrics`][number]
+  measure: DiffMeasure
   matchLines: LineMatcher<Float64Array>
   func: AggregatedCallGraphFunctionDiff
   options: FormattingProfileToMdOptions
@@ -773,31 +788,32 @@ const formatDiffFunctionLines = ({
     matchLines(func),
     Math.ceil(options.topN / 4),
     ({ base, current }) =>
-      (current?.metrics[currentIndex] ?? 0) - (base?.metrics[baseIndex] ?? 0),
+      (current ? measure.current.valueOf(current.metrics, 0) : 0) -
+      (base ? measure.base.valueOf(base.metrics, 0) : 0),
   )
   if (changedLines.length === 0) {
     return []
   }
 
   const sideRowOf = (
+    side: Measure,
     sideFunc: AggregatedCallGraphFunction | undefined,
     line: DiffedLine<Float64Array> | undefined,
-    index: number,
   ) =>
     sideFunc &&
     line && {
       func: sideFunc,
       line: line.line,
-      value: line.metrics[index]!,
-      total: sideFunc.selfValues[index]!,
+      value: side.valueOf(line.metrics, 0),
+      total: selfValueOf(side, sideFunc),
     }
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatDiffTable(
-      lineColumns(metric, options),
+      lineColumns(measure.metric, options),
       changedLines.map(({ base, current }) => ({
-        base: sideRowOf(func.base, base, baseIndex),
-        current: sideRowOf(func.current, current, currentIndex),
+        base: sideRowOf(measure.base, func.base, base),
+        current: sideRowOf(measure.current, func.current, current),
       })),
     ),
   ]
@@ -839,7 +855,7 @@ const formatDiffArcSections = (args: DiffDetailArgs): RootContent[] => {
 const formatDiffFunctionArcs = ({
   diff,
   matchFunctionIds,
-  measure: { metric, baseIndex, currentIndex },
+  measure,
   func,
   arcs,
   hasCallCounts,
@@ -852,8 +868,8 @@ const formatDiffFunctionArcs = ({
 }): RootContent[] => {
   const changedArcs = selectLargestChanges(
     matchFunctionIds(
-      func.base && arcs.rowsOf(func.base, baseIndex),
-      func.current && arcs.rowsOf(func.current, currentIndex),
+      func.base && arcs.rowsOf(func.base, measure.base),
+      func.current && arcs.rowsOf(func.current, measure.current),
     ).filter(({ base, current }) =>
       showDiffEntity(
         { base: base?.func, current: current?.func },
@@ -871,7 +887,7 @@ const formatDiffFunctionArcs = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatDiffTable(
-      arcColumns(metric, arcs.entity, hasCallCounts, options),
+      arcColumns(measure.metric, arcs.entity, hasCallCounts, options),
       changedArcs,
     ),
   ]
@@ -894,10 +910,10 @@ const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
 type Arcs = {
   entity: `Caller` | `Callee`
 
-  /** A function's arcs as rows for one metric, keyed by the other end's ID. */
+  /** A function's arcs as rows for one measure, keyed by the other end's ID. */
   rowsOf: (
     func: AggregatedCallGraphFunction,
-    index: number,
+    measure: Measure,
   ) => IteratorObject<readonly [id: number, row: CallGraphArcRow]>
 }
 
@@ -905,7 +921,7 @@ type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
 
 const CALLER_ARCS: Arcs = {
   entity: `Caller`,
-  rowsOf: (func, index) =>
+  rowsOf: (func, measure) =>
     func.callerIdToMetrics
       .entries()
       .map(([id, { caller, callCount, totalValues }]) => [
@@ -913,15 +929,15 @@ const CALLER_ARCS: Arcs = {
         {
           func: caller,
           callCount,
-          value: totalValues[index]!,
-          total: func.totalValues[index]!,
+          value: measure.valueOf(totalValues, 0),
+          total: totalValueOf(measure, func),
         },
       ]),
 }
 
 const CALLEE_ARCS: Arcs = {
   entity: `Callee`,
-  rowsOf: (func, index) =>
+  rowsOf: (func, measure) =>
     func.calleeIdToMetrics
       .entries()
       .map(([id, { callee, callCount, totalValues }]) => [
@@ -929,8 +945,8 @@ const CALLEE_ARCS: Arcs = {
         {
           func: callee,
           callCount,
-          value: totalValues[index]!,
-          total: func.totalValues[index]!,
+          value: measure.valueOf(totalValues, 0),
+          total: totalValueOf(measure, func),
         },
       ]),
 }

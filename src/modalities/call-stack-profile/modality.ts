@@ -1,4 +1,4 @@
-import { functionEntities } from '../function-entities.ts'
+import { functionEntities } from '../function/index.ts'
 import type { ModalitySpec } from '../spec.ts'
 import { CallStackProfileAggregator } from './aggregate.ts'
 import type {

@@ -1,7 +1,7 @@
 import { PERCENT_RESOLUTION } from '../../../helpers/format.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
+import type { Measure } from '../../function/index.ts'
 import { NEGLIGIBLE_SHARE, shareOf } from '../measure.ts'
-import type { Measure } from '../measure.ts'
 import type { CallTreeInput } from './build.ts'
 import { isFunctionNode, sideUndrawnValuesOf, sideValueOf } from './node.ts'
 import type {

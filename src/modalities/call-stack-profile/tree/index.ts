@@ -4,6 +4,7 @@ import { code, paragraph } from '../../../helpers/markdown.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
 import { functionIdIndexes } from '../../diff.ts'
 import { selectLargestChanges, unchangedDiffSentence } from '../../format.ts'
+import type { DiffMeasure, Measure } from '../../function/index.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileFunction,
@@ -14,7 +15,6 @@ import {
   selfValueOf,
   sideSelfValueOf,
 } from '../measure.ts'
-import type { DiffMeasure, Measure } from '../measure.ts'
 import type { ShownFrameNotation } from '../table.ts'
 import { buildCallTree } from './build.ts'
 import type { CallTreeInput } from './build.ts'

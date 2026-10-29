@@ -18,6 +18,7 @@ import type {
 } from '../../options.ts'
 import { formatCategory } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
+import type { MeasureColumns } from '../function/index.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
 import type { Metric } from '../metric.ts'
 import { codeCell, locationCell, percentCell, textCell } from '../table.ts'
@@ -26,7 +27,6 @@ import type {
   AggregatedCallStackProfileCategoryMetrics,
   AggregatedCallStackProfileFunction,
 } from './aggregate.ts'
-import type { MeasureColumns } from './measure.ts'
 
 export type FunctionMeasureRow = MeasureRow & { func: NamedFunction }
 
