@@ -979,7 +979,7 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
                   retainedSize: fn.retainedSize,
                   location: fn.location,
                 }),
-                largestInstanceOrdinal: instanceOrdinals[0]!,
+                id: instanceOrdinals[0]!,
                 instanceOrdinals,
               },
             ]

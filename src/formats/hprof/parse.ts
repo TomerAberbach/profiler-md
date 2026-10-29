@@ -546,7 +546,6 @@ const buildHeapSnapshot = (
       id: nodeOrdinal,
       name: names.labelOf(nodeOrdinal),
     }),
-    formatNodeLabel: nodeOrdinal => names.labelOf(nodeOrdinal),
     // The GC root is the only node the dump doesn't record, and every other
     // node is a Java object that can reference user code.
     isInternalNode: nodeOrdinal => nodeOrdinal === GC_ROOT_ORDINAL,

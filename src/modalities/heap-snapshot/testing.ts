@@ -18,7 +18,7 @@ import type {
   RetainerHop,
   RetainerPathStep,
 } from './aggregate.ts'
-import { computeRetainerSteps } from './aggregate.ts'
+import type { PathSnapshot } from './diff.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 import { newOutermostInstanceOrdinalsOf } from './retained.ts'
@@ -121,7 +121,6 @@ export const makeAggregatedHeapSnapshot = ({
   outermostInstanceOrdinalsOf: instanceOrdinals => instanceOrdinals,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
-  retainerStepsOf: () => [],
   retainedNodesOf: () => [],
 })
 
@@ -134,14 +133,8 @@ export const makeAggregatedHeapSnapshot = ({
 export const makeRetainerHops = (
   paths: readonly (readonly RetainerPathStep[])[],
   endOrdinals: readonly (number | undefined)[] = [],
-): Pick<
-  AggregatedHeapSnapshot,
-  | `nodeCount`
-  | `outermostInstanceOrdinalsOf`
-  | `retainerHopOf`
-  | `retainerOf`
-  | `retainerStepsOf`
-> => {
+): PathSnapshot &
+  Pick<AggregatedHeapSnapshot, `outermostInstanceOrdinalsOf`> => {
   const hops: RetainerHop[] = []
   const retainers: RetainerNode[] = []
   let nodeCount = paths.length
@@ -177,8 +170,6 @@ export const makeRetainerHops = (
     ),
     retainerHopOf,
     retainerOf,
-    retainerStepsOf: nodeOrdinal =>
-      computeRetainerSteps(nodeOrdinal, retainerHopOf, retainerOf),
   }
 }
 
@@ -251,7 +242,6 @@ export const makeAggregatedHeapSnapshotFunction = ({
   category,
   selfSize,
   retainedSize,
-  largestInstanceOrdinal: 0,
   instanceOrdinals: Array.from({ length: instanceCount }, (_, index) => index),
 })
 

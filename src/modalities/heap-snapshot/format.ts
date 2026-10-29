@@ -70,6 +70,7 @@ import type {
   DiffedHeapSnapshotFunction,
   DiffedInstanceGroup,
   DiffRetainerPaths,
+  PathSnapshot,
   RetainerGroup,
 } from './diff.ts'
 import {
@@ -99,27 +100,22 @@ export const formatHeapSnapshot = (
       snapshot.constructors.some(constructor =>
         showEntry(constructor, snapshot.context),
       ) ||
-      snapshot.functions.some(fn =>
-        showEntry({ ...fn, id: fn.largestInstanceOrdinal }, snapshot.context),
-      ) ||
+      snapshot.functions.some(fn => showEntry(fn, snapshot.context)) ||
       snapshot.strings.some(string => showEntry(string, snapshot.context)),
     entities: `node`,
   })
-  const pathOf = new RetainerPaths(sectionOptions).pathOfNodeIn(snapshot)
   const { result: sections, edgeTypes } = ShownRetainerPaths.record(
-    sectionOptions,
+    new RetainerPaths(sectionOptions),
     shownPaths => [
       ...formatLargestConstructors({
         snapshot,
         hasLocation,
-        pathOf,
         shownPaths,
         options: sectionOptions,
       }),
       ...formatLargestFunctions({
         snapshot,
         hasLocation,
-        pathOf,
         shownPaths,
         options: sectionOptions,
       }),
@@ -190,7 +186,7 @@ export const formatHeapSnapshotDiff = (
   })
   const retainerPaths = diffRetainerPaths(diff, sectionOptions)
   const { result: sections, edgeTypes } = ShownRetainerPaths.record(
-    sectionOptions,
+    retainerPaths.paths,
     shownPaths => [
       ...formatDiffConstructors({
         diff,
@@ -299,19 +295,25 @@ type RetainerPathEdgeType = RetainerPathEdge[`type`]
  */
 class ShownRetainerPaths {
   readonly #options: FormattingProfileToMdOptions
+  readonly #paths: RetainerPaths
   readonly #recordings: Set<RetainerPathEdgeType>[] = []
 
-  private constructor(options: FormattingProfileToMdOptions) {
-    this.#options = options
+  private constructor(paths: RetainerPaths) {
+    this.#options = paths.options
+    this.#paths = paths
   }
 
-  /** Runs {@link build} with a new instance, as {@link record} does. */
+  /**
+   * Runs {@link build} with a new instance reading nodes' paths from
+   * {@link paths} and formatting them under its options, as {@link record}
+   * does.
+   */
   public static record<Result>(
-    options: FormattingProfileToMdOptions,
+    paths: RetainerPaths,
     build: (paths: ShownRetainerPaths) => Result,
   ): RecordedRetainerPaths<Result> {
-    const paths = new ShownRetainerPaths(options)
-    return paths.record(() => build(paths))
+    const shownPaths = new ShownRetainerPaths(paths)
+    return shownPaths.record(() => build(shownPaths))
   }
 
   /**
@@ -328,14 +330,19 @@ class ShownRetainerPaths {
     }
   }
 
+  /**
+   * Returns the function that interns the retainer path of a node of
+   * {@link snapshot}, the path {@link ofNode} formats.
+   */
+  public pathOf(snapshot: PathSnapshot): (nodeOrdinal: number) => number {
+    return this.#paths.pathOfNodeIn(snapshot)
+  }
+
   /** Formats the retainer path of a node of {@link snapshot}. */
-  public ofNode(
-    snapshot: Pick<AggregatedHeapSnapshot, `retainerOf` | `retainerStepsOf`>,
-    nodeOrdinal: number,
-  ): string {
+  public ofNode(snapshot: PathSnapshot, nodeOrdinal: number): string {
     return this.ofSteps(
       snapshot.retainerOf(nodeOrdinal),
-      snapshot.retainerStepsOf(nodeOrdinal),
+      this.#paths.stepsOf(this.pathOf(snapshot)(nodeOrdinal)),
     )
   }
 
@@ -385,13 +392,11 @@ const formatSeveralPathsNote = (
 const formatLargestConstructors = ({
   snapshot,
   hasLocation,
-  pathOf,
   shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
-  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -414,7 +419,6 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
-        pathOf,
         shownPaths,
         options,
         size: SELF_SIZE,
@@ -423,7 +427,6 @@ const formatLargestConstructors = ({
         snapshot,
         hasLocation,
         categories,
-        pathOf,
         shownPaths,
         options,
         size: RETAINED_SIZE,
@@ -527,7 +530,6 @@ const formatLargestSizeConstructors = ({
   snapshot,
   hasLocation,
   categories,
-  pathOf,
   shownPaths,
   options,
   size,
@@ -535,7 +537,6 @@ const formatLargestSizeConstructors = ({
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
-  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
@@ -561,7 +562,6 @@ const formatLargestSizeConstructors = ({
         constructor,
         snapshot,
         sizeOf,
-        pathOf,
         shownPaths,
         hasLocation,
         options,
@@ -597,7 +597,6 @@ const formatLargestConstructorInstances = ({
   constructor,
   snapshot,
   sizeOf,
-  pathOf,
   shownPaths,
   hasLocation,
   options,
@@ -605,7 +604,6 @@ const formatLargestConstructorInstances = ({
   constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
   sizeOf: ConstructorSize[`sizeOf`]
-  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
@@ -615,7 +613,7 @@ const formatLargestConstructorInstances = ({
       constructor.instances.filter(instance =>
         options.showEntry(instance, snapshot.context),
       ),
-      pathOf,
+      shownPaths.pathOf(snapshot),
     ),
     Math.ceil(options.topN / 4),
     sizeOf,
@@ -642,22 +640,18 @@ const formatLargestConstructorInstances = ({
 const formatLargestFunctions = ({
   snapshot,
   hasLocation,
-  pathOf,
   shownPaths,
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
-  pathOf: (nodeOrdinal: number) => number
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { heldSize, functions, context } = snapshot
+  const { functions, context } = snapshot
 
   const largestFunctions = selectTopN(
-    functions.filter(fn =>
-      options.showEntry({ ...fn, id: fn.largestInstanceOrdinal }, context),
-    ),
+    functions.filter(fn => options.showEntry(fn, context)),
     options.topN,
     fn => fn.retainedSize,
   )
@@ -679,14 +673,7 @@ const formatLargestFunctions = ({
     ...formatRankingHeader(FUNCTIONS_PROSE),
     formatTable(
       functionColumns(hasLocation, options),
-      largestFunctions.map(fn => ({
-        entity: fn,
-        size: fn.retainedSize,
-        total: heldSize,
-        instanceCount: fn.instanceOrdinals.length,
-        pathCount: new Set(fn.instanceOrdinals.map(pathOf)).size,
-        examplePath: shownPaths.ofNode(snapshot, fn.largestInstanceOrdinal),
-      })),
+      largestFunctions.map(fn => functionRowOf(fn, snapshot, shownPaths)),
     ),
     ...formatSectionGroup(
       retainedNodesHeader(`with the largest`),
@@ -1017,11 +1004,8 @@ const formatDiffFunctions = ({
     base,
     current,
   }: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>) => ({
-    base:
-      base && functionRowOf(base, diff.base, retainerPaths.base, shownPaths),
-    current:
-      current &&
-      functionRowOf(current, diff.current, retainerPaths.current, shownPaths),
+    base: base && functionRowOf(base, diff.base, shownPaths),
+    current: current && functionRowOf(current, diff.current, shownPaths),
   })
 
   const retained = shownPaths.record(() =>
@@ -1061,18 +1045,18 @@ const formatDiffFunctions = ({
   })
 }
 
-/** One side's row of a function, counting its distinct paths by {@link pathOf}. */
+/** A function's row on one side, counting its distinct retainer paths. */
 const functionRowOf = (
-  entity: DiffedHeapSnapshotFunction,
+  entity: AggregatedHeapSnapshotFunction | DiffedHeapSnapshotFunction,
   snapshot: AggregatedHeapSnapshot,
-  pathOf: (nodeOrdinal: number) => number,
   shownPaths: ShownRetainerPaths,
 ): FunctionRow => ({
   entity,
   size: entity.retainedSize,
   total: snapshot.heldSize,
-  instanceCount: entity.instanceCount,
-  pathCount: new Set(entity.instanceOrdinals.map(pathOf)).size,
+  instanceCount: entity.instanceOrdinals.length,
+  pathCount: new Set(entity.instanceOrdinals.map(shownPaths.pathOf(snapshot)))
+    .size,
   examplePath: shownPaths.ofNode(snapshot, entity.id),
 })
 

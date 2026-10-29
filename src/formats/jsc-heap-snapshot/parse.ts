@@ -89,9 +89,8 @@ export const parseJSCHeapSnapshot = (
         retainerEdge(edgeIndex, snapshot, indexEdgeType, internalEdgeType),
       retainerOf: nodeOrdinal => ({
         id: nodeOrdinal,
-        name: formatNodeLabel(nodeOrdinal, snapshot),
+        name: nodeClassName(nodeOrdinal, snapshot),
       }),
-      formatNodeLabel: nodeOrdinal => formatNodeLabel(nodeOrdinal, snapshot),
       isInternalNode: nodeOrdinal => isInternalNode(nodeOrdinal, snapshot),
       unresolvedCategoryOf: nodeOrdinal =>
         unresolvedCategoryOf(nodeOrdinal, nodes, stringClassNameIndex),
@@ -323,7 +322,7 @@ const retainerEdge = (
       : { type: `property`, name: edgeNames[edgeData]! }
 }
 
-const formatNodeLabel = (
+const nodeClassName = (
   nodeOrdinal: number,
   { nodes, nodeClassNames }: JSCHeapSnapshot,
 ): string => {
