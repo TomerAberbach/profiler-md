@@ -2,14 +2,17 @@ import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test, vi } from 'vitest'
 import { ProfilerMdError } from '../error.ts'
 import { asLz4Frame, bytesOf, chunk, streamOf } from '../helpers/testing.ts'
+import type { ProfileData } from '../options.ts'
 import * as node from './compression.node.ts'
 import type { CompressionRuntime } from './compression.ts'
 import {
+  withBufferedDecompressed,
   withBufferedDecompressedAsync,
   withDecompressed,
   withDecompressedAsync,
 } from './compression.ts'
 import * as web from './compression.web.ts'
+import { dataToBytes } from './parse.ts'
 
 const text = new TextEncoder().encode(`{"profile": "${`x`.repeat(1000)}"}`)
 const gzipped = new Uint8Array(gzipSync(text))
@@ -26,13 +29,20 @@ const gzippedBrotlied = new Uint8Array(gzipSync(brotlied))
  * Reads the decompressed text, failing on anything else the way a parser
  * fails on compressed bytes.
  */
-const readText = (data: string | Uint8Array): string => {
+const readText = (data: ProfileData): string => {
   const decoded =
-    typeof data === `string` ? data : new TextDecoder().decode(data)
+    typeof data === `string`
+      ? data
+      : new TextDecoder().decode(dataToBytes(data))
   if (!decoded.startsWith(`{`)) {
     throw new Error(`unreadable`)
   }
   return decoded
+}
+
+/** A one-shot iterable of {@link bytes} in small chunks. */
+function* oneShot(bytes: Uint8Array): Iterable<Uint8Array> {
+  yield* chunk(bytes, 3)
 }
 
 // Vitest runs on Node, so `#compression` resolves to the Node runtime here.
@@ -45,9 +55,70 @@ describe(`withDecompressed`, () => {
     expect(withDecompressed(text, data => data)).toBe(text)
   })
 
-  test(`buffers an iterable`, () => {
+  test(`buffers an array of chunks`, () => {
     expect(withDecompressed(chunk(gzipped, 5), readText)).toBe(
       new TextDecoder().decode(text),
+    )
+  })
+
+  test(`streams an uncompressed one-shot iterable into the attempt`, () => {
+    let pulled = 0
+    const chunks = chunk(text, 3)
+    const source = (function* (): Iterable<Uint8Array> {
+      for (const value of chunks) {
+        pulled++
+        yield value
+      }
+    })()
+    let pulledBeforeAttempt
+    const attempt = (data: ProfileData) => {
+      pulledBeforeAttempt = pulled
+      return readText(data)
+    }
+
+    expect(withDecompressed(source, attempt)).toBe(
+      new TextDecoder().decode(text),
+    )
+    expect(pulledBeforeAttempt).toBeLessThan(chunks.length)
+  })
+
+  test(`buffers an iterable that returns a fresh iterator, retrying it as brotli`, () => {
+    expect(withDecompressed(new Set(chunk(brotlied, 5)), readText)).toBe(
+      new TextDecoder().decode(text),
+    )
+  })
+
+  test(`closes a one-shot iterable the attempt left unread`, () => {
+    let closed = false
+    const source = (function* (): Iterable<Uint8Array> {
+      try {
+        yield* chunk(text, 3)
+      } finally {
+        closed = true
+      }
+    })()
+
+    expect(() =>
+      withDecompressed(source, () => {
+        throw new Error(`rejected`)
+      }),
+    ).toThrow(`rejected`)
+    expect(closed).toBe(true)
+  })
+
+  test.each([
+    [`gzip`, gzipped],
+    [`an LZ4 frame`, lz4ed],
+  ])(`strips %s from a one-shot iterable`, (_, compressed) => {
+    expect(withDecompressed(oneShot(compressed), readText)).toBe(
+      new TextDecoder().decode(text),
+    )
+  })
+
+  // Like a stream, a one-shot iterable can't be read a second time to retry.
+  test(`does not retry a one-shot iterable as brotli`, () => {
+    expect(() => withDecompressed(oneShot(brotlied), readText)).toThrow(
+      `unreadable`,
     )
   })
 
@@ -107,6 +178,14 @@ describe(`withDecompressed`, () => {
     expect(() => withDecompressed(corrupt, readText)).toThrow(ProfilerMdError)
     expect(() => withDecompressed(corrupt, readText)).toThrow(
       `cannot decompress the LZ4 input`,
+    )
+  })
+})
+
+describe(`withBufferedDecompressed`, () => {
+  test(`buffers a one-shot iterable, retrying it as brotli`, () => {
+    expect(withBufferedDecompressed(oneShot(brotlied), readText)).toBe(
+      new TextDecoder().decode(text),
     )
   })
 })

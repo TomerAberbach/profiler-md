@@ -163,25 +163,16 @@ console.log(
 
 ## Compressed inputs
 
-The API strips an input's compression before detecting its format, so a profile
-converts as its profiler wrote it: a gzipped `.pb.gz` pprof profile, an LZ4
-memray capture, or a profile a user compressed.
+The API decompresses an input before converting it, so a profile converts as its
+profiler wrote it: a gzipped `.pb.gz` pprof profile, an LZ4 memray capture, or a
+profile a user compressed.
 
-The API identifies gzip and LZ4 by their magic bytes, and reports a failure to
-decode either as an error naming the codec. Brotli has none, so the API tries it
-only after the input fails to convert as it is, and reports the original failure
-when the brotli attempt fails too. A brotli input therefore reports the
-conversion's own failure, never a decompression error.
+The available codecs depend on the runtime:
 
-The available codecs depend on the runtime the package resolves to:
+| Runtime     | Sync API          | Async API                                           |
+| ----------- | ----------------- | --------------------------------------------------- |
+| Node.js     | gzip, brotli, LZ4 | gzip, brotli, LZ4                                   |
+| Other (web) | LZ4               | gzip, LZ4, and brotli where the runtime supports it |
 
-| Runtime     | Sync API                                 | Async API                                                                  |
-| ----------- | ---------------------------------------- | -------------------------------------------------------------------------- |
-| Node.js     | gzip, brotli, LZ4                        | gzip, brotli, LZ4                                                          |
-| Other (web) | LZ4 (gzip throws, brotli is unsupported) | gzip, LZ4, and brotli where the runtime's `DecompressionStream` accepts it |
-
-The async API streams a gzip or LZ4 `Blob` or `ReadableStream` through the
-decoder when the format is given, so the decompressed bytes are never held
-whole. A brotli input is decoded whole, because the API identifies it by
-retrying the conversion. Under auto-detection the API buffers the decompressed
-input, because detection reads it several times.
+When you pass a format, pass a brotli input as a `Uint8Array`, an array of
+chunks, or a `Blob`. A generator or `ReadableStream` of brotli fails to convert.

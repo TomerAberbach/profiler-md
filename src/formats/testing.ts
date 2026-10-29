@@ -158,17 +158,8 @@ const convertParseResultToMd = (
 ): string =>
   formatAggregatedInputs(
     aggregatePreparedInputs(
-      prepareParseResult(
-        result,
-        options,
-        format ? { format, origin: null } : profileToMdContext(formatSpec),
-      ),
+      prepareParseResult(result, options, format ?? (formatSpec.id as Format)),
       options,
     ),
     options,
   )
-
-const profileToMdContext = (formatSpec: FormatSpec) => ({
-  format: formatSpec.id as Format,
-  origin: null,
-})

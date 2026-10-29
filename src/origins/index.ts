@@ -204,10 +204,10 @@ export class OriginDetector {
 
   public constructor(
     { id: format, fallbackOrigin }: { id: Format; fallbackOrigin: Origin },
-    origin: Origin | null,
+    origin?: Origin,
   ) {
     this.#fallback = originToSpec.get(fallbackOrigin)!
-    if (origin !== null) {
+    if (origin !== undefined) {
       this.#candidates = []
       this.#fallbackDecided = true
       this.#match = { type: `specified`, origin }

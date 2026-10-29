@@ -14,7 +14,7 @@ export const determineOrigin = ({
   /** A parser origin hint applied before the entries. */
   hint?: string
 }): Origin => {
-  const detector = new OriginDetector(formatToSpec[format], null)
+  const detector = new OriginDetector(formatToSpec[format])
   if (hint !== undefined) {
     detector.hint(hint)
   }

@@ -19,13 +19,10 @@ import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
-import {
-  aggregatePreparedInputs,
-  makeContext,
-  prepareParseResult,
-} from './aggregate.ts'
+import { aggregatePreparedInputs, prepareParseResult } from './aggregate.ts'
 import type { PreparedInputs } from './aggregate.ts'
 import {
+  withBufferedDecompressed,
   withBufferedDecompressedAsync,
   withDecompressed,
   withDecompressedAsync,
@@ -237,19 +234,16 @@ const prepareNormalizedInput = (
     const result = withDecompressed(data, decompressed =>
       parseAsFormat(formatSpec, decompressed),
     )
-    return prepareParseResult(result, options, makeContext(format, origin))
+    return prepareParseResult(result, options, format, origin)
   }
 
-  const detected = withDecompressed(data, decompressed =>
+  // Detection reads the data several times.
+  const detected = withBufferedDecompressed(data, decompressed =>
     detectFormat(decompressed, options),
   )
   logFormat(detected.format, `detected`, options)
 
-  return prepareParseResult(
-    detected,
-    options,
-    makeContext(detected.format, origin),
-  )
+  return prepareParseResult(detected, options, detected.format, origin)
 }
 
 const prepareNormalizedInputAsync = async (
@@ -267,7 +261,7 @@ const prepareNormalizedInputAsync = async (
     const result = await withDecompressedAsync(data, decompressed =>
       parseAsFormatAsync(formatSpec, decompressed),
     )
-    return prepareParseResult(result, options, makeContext(format, origin))
+    return prepareParseResult(result, options, format, origin)
   }
 
   // Detection reads the data several times.
@@ -276,11 +270,7 @@ const prepareNormalizedInputAsync = async (
   )
   logFormat(detected.format, `detected`, options)
 
-  return prepareParseResult(
-    detected,
-    options,
-    makeContext(detected.format, origin),
-  )
+  return prepareParseResult(detected, options, detected.format, origin)
 }
 
 /**
@@ -326,29 +316,20 @@ const detectFormatAsync = async (
   buffered: Blob | Uint8Array,
   options: AggregationProfileToMdOptions,
 ): Promise<DetectedInput> => {
+  if (!(buffered instanceof Blob)) {
+    return detectFormat(buffered, options)
+  }
+
   let json: unknown
   let jsonError: unknown
-  const couldBeJson =
-    buffered instanceof Blob
-      ? await maybeJsonAsync(buffered)
-      : maybeJson(buffered)
-  if (couldBeJson) {
+  if (await maybeJsonAsync(buffered)) {
     try {
-      json =
-        buffered instanceof Blob
-          ? await parseJsonAsync(buffered)
-          : parseJson(buffered)
+      json = await parseJsonAsync(buffered)
     } catch (error: unknown) {
       rethrowInputReadFailure(error)
       // Report unusable JSON only for an input that opens a JSON document,
       // because `maybeJson` also admits text starting like a bare JSON value.
-      jsonError = (
-        buffered instanceof Blob
-          ? await startsJsonDocumentAsync(buffered)
-          : startsJsonDocument(buffered)
-      )
-        ? error
-        : undefined
+      jsonError = (await startsJsonDocumentAsync(buffered)) ? error : undefined
     }
   }
 
@@ -357,11 +338,7 @@ const detectFormatAsync = async (
     (json === undefined
       ? undefined
       : detectJsonFormat(json, rejections, options)) ??
-    detectBinaryFormat(
-      buffered instanceof Blob ? await buffered.bytes() : buffered,
-      rejections,
-      options,
-    )
+    detectBinaryFormat(await buffered.bytes(), rejections, options)
   if (!detected) {
     throw toUndetectedFormatError(rejections, jsonError)
   }
