@@ -39,8 +39,11 @@ import {
   shownDiffEntities,
 } from '../format.ts'
 import {
+  categoryColumns,
+  functionColumns,
   isZeroDiffTotal,
   isZeroTotal,
+  lineColumns,
   metricDiffMeasure,
   metricMeasure,
 } from '../function/index.ts'
@@ -61,12 +64,7 @@ import type {
   AggregatedCallGraphDiff,
   AggregatedCallGraphFunctionDiff,
 } from './diff.ts'
-import {
-  arcColumns,
-  categoryColumns,
-  functionColumns,
-  lineColumns,
-} from './table.ts'
+import { arcColumns } from './table.ts'
 import type { ArcRow } from './table.ts'
 
 export const formatCallGraph = (
@@ -154,10 +152,10 @@ const formatCategoryTable = (graph: AggregatedCallGraph): RootContent[] => {
   const firstTotal = totalValues[0]!
   return [
     formatTable(
-      categoryColumns(metrics),
-      hottestCategories.map(([category, stats]) => ({
+      categoryColumns(metrics, null),
+      hottestCategories.map(([category, { values }]) => ({
         category,
-        stats,
+        stats: { values, count: 0 },
         indices: metricIndices,
         total: firstTotal,
       })),
@@ -257,9 +255,8 @@ const formatHottestSelfFunctions = ({
       formatEntityTable: functions =>
         formatFunctionTable({
           functions,
-          metric,
+          measure,
           valueOf,
-          total: measure.total,
           options,
         }),
       headingLevel: headingLevel + 1,
@@ -289,7 +286,6 @@ const formatHottestLines = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
-  const { metric } = measure
   const selfValue = selfValueOf(measure, func)
   const hottestLines = selectTopN(
     [...func.lineToMetrics].filter(
@@ -305,11 +301,12 @@ const formatHottestLines = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      lineColumns(metric, options),
+      lineColumns(measure, options),
       hottestLines.map(([line, values]) => ({
         func,
         line,
         value: measure.valueOf(values, 0),
+        count: 0,
         total: selfValue,
       })),
     ),
@@ -354,9 +351,8 @@ const formatHottestTotalFunctions = ({
       formatEntityTable: functions =>
         formatFunctionTable({
           functions,
-          metric,
+          measure,
           valueOf,
-          total: measure.total,
           options,
         }),
       headingLevel: headingLevel + 1,
@@ -375,20 +371,23 @@ const formatHottestTotalFunctions = ({
 
 const formatFunctionTable = ({
   functions,
-  metric,
+  measure,
   valueOf,
-  total,
   options,
 }: {
   functions: AggregatedCallGraphFunction[]
-  metric: Metric
+  measure: Measure
   valueOf: (func: AggregatedCallGraphFunction) => number
-  total: number
   options: FormattingProfileToMdOptions
 }): RootContent =>
   formatTable(
-    functionColumns(metric, `Function`, options),
-    functions.map(func => ({ func, value: valueOf(func), total })),
+    functionColumns(measure, `Function`, options),
+    functions.map(func => ({
+      func,
+      value: valueOf(func),
+      count: 0,
+      total: measure.total,
+    })),
   )
 
 /** The Callers and Callees sections of a total ranking. */
@@ -470,7 +469,7 @@ const formatHottestArcs = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      arcColumns(measure.metric, arcs.entity, hasCallCounts, options),
+      arcColumns(measure, arcs.entity, hasCallCounts, options),
       hottestArcs,
     ),
   ]
@@ -570,17 +569,17 @@ const formatDiffCategoryTable = (
   ])
   return [
     formatDiffTable(
-      categoryColumns(metrics),
+      categoryColumns(metrics, null),
       categories.map(([category, { base, current }]) => ({
         base: base && {
           category,
-          stats: base,
+          stats: { values: base.values, count: 0 },
           indices: baseIndices,
           total: baseTotal,
         },
         current: current && {
           category,
-          stats: current,
+          stats: { values: current.values, count: 0 },
           indices: currentIndices,
           total: currentTotal,
         },
@@ -689,11 +688,13 @@ const formatDiffDirectionFunctions = ({
     base: base && {
       func: base,
       value: valueOf(measure.base, base),
+      count: 0,
       total: measure.base.total,
     },
     current: current && {
       func: current,
       value: valueOf(measure.current, current),
+      count: 0,
       total: measure.current.total,
     },
   })
@@ -721,7 +722,7 @@ const formatDiffDirectionFunctions = ({
     title,
     description,
     improvement: metric.improvement,
-    columns: functionColumns(metric, `Function`, options),
+    columns: functionColumns(measure, `Function`, options),
     hasActive,
     increases,
     decreases,
@@ -805,12 +806,13 @@ const formatDiffFunctionLines = ({
       func: sideFunc,
       line: line.line,
       value: side.valueOf(line.metrics, 0),
+      count: 0,
       total: selfValueOf(side, sideFunc),
     }
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatDiffTable(
-      lineColumns(measure.metric, options),
+      lineColumns(measure, options),
       changedLines.map(({ base, current }) => ({
         base: sideRowOf(measure.base, func.base, base),
         current: sideRowOf(measure.current, func.current, current),
@@ -887,7 +889,7 @@ const formatDiffFunctionArcs = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatDiffTable(
-      arcColumns(measure.metric, arcs.entity, hasCallCounts, options),
+      arcColumns(measure, arcs.entity, hasCallCounts, options),
       changedArcs,
     ),
   ]
@@ -930,6 +932,7 @@ const CALLER_ARCS: Arcs = {
           func: caller,
           callCount,
           value: measure.valueOf(totalValues, 0),
+          count: 0,
           total: totalValueOf(measure, func),
         },
       ]),
@@ -946,6 +949,7 @@ const CALLEE_ARCS: Arcs = {
           func: callee,
           callCount,
           value: measure.valueOf(totalValues, 0),
+          count: 0,
           total: totalValueOf(measure, func),
         },
       ]),

@@ -6,7 +6,7 @@
 modalities
 ├── spec.ts               # The ModalitySpec contract every modality registers, and the record reader its aggregator reads through
 ├── registry.ts           # Modality registry, and the parsed input, aggregated input, entry, and category unions derived from it
-├── function/             # The ModalitySpec fields, and measures of a modality whose entities are functions
+├── function/             # The ModalitySpec fields, measures, and table columns of a modality whose entities are functions
 ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
 ├── metric.ts             # Recorded metric types, constructors, and equality
 ├── metrics.ts            # The named metric constants, and parsing of an input's unit/name strings to them
