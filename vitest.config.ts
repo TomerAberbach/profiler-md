@@ -147,6 +147,7 @@ export default defineConfig({
     pool: `threads`,
     isolate: false,
     setupFiles: [`src/test-setup.ts`],
+    globalSetup: [`src/cli/build-test-cli.ts`],
     projects,
     coverage: {
       include: [`src`],
