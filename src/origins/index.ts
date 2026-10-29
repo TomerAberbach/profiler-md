@@ -71,7 +71,9 @@ export const hasRuntimeInsertedArcsForOrigin = (
 /**
  * Whether two locations are one source under their origins' entry matches,
  * which strip only an identifier that differs per run or build, such as a
- * store hash or a runtime address.
+ * store hash or a runtime address. A caller's `matchEntry` can pair two
+ * different files, such as a renamed one, so it decides which entities pair
+ * but not whether their locations are one source.
  */
 export const isSameSourceForOrigins = (
   location1: DeepReadonly<SourceLocation>,
