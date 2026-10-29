@@ -206,6 +206,46 @@ describe(`convert`, () => {
     ).toStrictEqual([[`string ←.data– Holder`]])
   })
 
+  test(`resolves identifiers far above the node count`, () => {
+    // A process's later snapshots keep counting identifiers from its earlier
+    // ones.
+    const holderId = 2 ** 40 + 7
+    const stringId = 2 ** 40 + 5
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: holderId, size: 100, nameIndex: 1 }),
+        ...makeJSCNode({ id: stringId, size: 50, nameIndex: 2 }),
+      ],
+      nodeClassNames: [`<root>`, `Holder`, `string`],
+      edges: [
+        ...makeJSCEdge({
+          from: 0,
+          to: holderId,
+          type: EDGE_PROPERTY,
+          nameIndex: 0,
+        }),
+        ...makeJSCEdge({
+          from: holderId,
+          to: stringId,
+          type: EDGE_PROPERTY,
+          nameIndex: 1,
+        }),
+      ],
+      edgeNames: [`holder`, `data`],
+    })
+
+    const md = convertJsonToMd(
+      jscHeapSnapshotFormatSpec,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(
+      largestStringsTables(md).map(table => table.map(row => row.Path)),
+    ).toStrictEqual([[`string ←.data– Holder`]])
+  })
+
   test(`Internal edges carry no name`, () => {
     const snapshot = makeJSCSnapshot({
       nodes: [
