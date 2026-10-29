@@ -26,7 +26,6 @@ import {
   rankingSentence,
   selectDiffEntities,
   selectLargestChanges,
-  shownDiffEntities,
 } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
 import type { Metric } from '../metric.ts'
@@ -416,17 +415,6 @@ const formatDiffDirectionFunctions = <
   ) => RootContent[]
 }): RootContent[] => {
   const { metric } = measure
-  const { increases, decreases, hasActive, categoryRankings } =
-    selectDiffEntities(
-      diff.functions.map(func => ({
-        entity: func,
-        baseValue: sideValueOf(direction, measure.base, func.base),
-        currentValue: sideValueOf(direction, measure.current, func.current),
-      })),
-      diff,
-      options,
-      { categories, categoryOf: func => func.category },
-    )
 
   const sideRowOf = (side: Measure, func: Func | undefined) =>
     func && {
@@ -435,12 +423,6 @@ const formatDiffDirectionFunctions = <
       count: direction.countOf(func),
       total: side.total,
     }
-  const funcs = shownDiffEntities({
-    improvement: metric.improvement,
-    increases,
-    decreases,
-    categoryRankings,
-  }).map(({ entity }) => entity)
   return formatDiffMeasureSections({
     headingLevel,
     entities: FUNCTION_NOUN,
@@ -448,17 +430,22 @@ const formatDiffDirectionFunctions = <
     description: direction.descriptionOf(metric),
     improvement: metric.improvement,
     columns: functionColumns(measure, `Function`, options),
-    hasActive,
-    increases,
-    decreases,
-    categoryRankings,
+    ranking: selectDiffEntities(
+      diff.functions.map(func => ({
+        entity: func,
+        baseValue: sideValueOf(direction, measure.base, func.base),
+        currentValue: sideValueOf(direction, measure.current, func.current),
+      })),
+      diff,
+      options,
+      { categories, categoryOf: func => func.category },
+    ),
     selfValueNoun: `self ${metric.phrases.columnNoun}`,
-    minCategoryShare: options.minCategoryShare,
-    rowOf: ({ entity: { base, current } }) => ({
+    rowOf: ({ base, current }) => ({
       base: sideRowOf(measure.base, base),
       current: sideRowOf(measure.current, current),
     }),
-    detailSections: [
+    formatDetailSections: funcs => [
       ...(direction.type === `self`
         ? formatDiffLines({
             ranking,
