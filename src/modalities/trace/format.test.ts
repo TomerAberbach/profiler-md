@@ -131,15 +131,15 @@ describe(`summary`, () => {
     ])
   })
 
-  test(`a trace on one thread has no thread table`, () => {
+  test(`a trace on one thread has a thread table`, () => {
     const md = traceMd(
       makeAggregatedTrace([span(`a`, { thread: 0, start: 0, duration: 60 })], {
         threads: [`main`],
       }),
     )
 
-    expect(summaryTables(md)).toStrictEqual([
-      [{ Category: `Other`, '%': `100.0%`, Time: `60.0ms`, Count: `1` }],
+    expect(tablesAt(md, [`Threads`])).toStrictEqual([
+      [{ Thread: `main`, '%': `100.0%`, Time: `60.0ms`, Count: `1` }],
     ])
   })
 })
@@ -158,6 +158,7 @@ describe(`longest spans`, () => {
       `## Longest thread spans`,
       `### Self time`,
       `### Total time`,
+      `### Count`,
     ])
     expect(spanRanking(md, `Self time`)).toStrictEqual([
       [
@@ -253,6 +254,7 @@ describe(`longest spans`, () => {
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
+      `### Count`,
     ])
   })
 
@@ -354,6 +356,7 @@ describe(`longest spans`, () => {
       `### Total time`,
       `### Self CPU time`,
       `### Total CPU time`,
+      `### Count`,
     ])
     expect(spanRanking(md, `Self CPU time`)).toStrictEqual([
       [
@@ -411,8 +414,10 @@ describe(`longest spans`, () => {
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
+      `### Count`,
       `## Longest async spans`,
       `### Elapsed time`,
+      `### Count`,
     ])
     expect(openingParagraphs(md, `Longest thread spans`)).toStrictEqual([
       `Spans recorded on one thread. A span's time includes time its thread spent waiting.`,
@@ -474,8 +479,10 @@ describe(`longest spans`, () => {
       `# Trace`,
       `## Longest thread spans`,
       `### Total time`,
+      `### Count`,
       `## Longest async spans`,
       `### Elapsed time`,
+      `### Count`,
     ])
     expect(openingParagraphs(md, `Total time`)).toStrictEqual([
       `Thread spans with the most time.`,
@@ -534,6 +541,7 @@ describe(`longest spans`, () => {
       `# Trace`,
       `## Longest async spans`,
       `### Elapsed time`,
+      `### Count`,
     ])
     expect(summaryTables(md)).toStrictEqual([
       [{ Category: `Other`, '%': `0.0%`, Time: `0ms`, Count: `2` }],
@@ -748,7 +756,7 @@ describe(`span breakdowns`, () => {
     })
   })
 
-  test(`threads break down a span recorded on several`, () => {
+  test(`threads break down each span, including one recorded on one thread`, () => {
     const md = traceMd(
       makeAggregatedTrace(
         [
@@ -779,6 +787,18 @@ describe(`span breakdowns`, () => {
             Mean: `10.0ms`,
             Max: `10.0ms`,
             Thread: `worker`,
+          },
+        ],
+      ],
+      solo: [
+        [
+          {
+            '%': `100.0%`,
+            Time: `5.0ms`,
+            Count: `1`,
+            Mean: `5.0ms`,
+            Max: `5.0ms`,
+            Thread: `main`,
           },
         ],
       ],

@@ -7,6 +7,14 @@ Recorded 8,829 events over 10.04s.
 | Compilation | 92.8% |   9.32s | 8,119 |
 | Parsing     |  7.2% | 719.9ms |   710 |
 
+## Threads
+
+Threads with the most time in spans. Threads run concurrently, so percentages can sum to more than 100%.
+
+|      % |   Time | Count | Thread    |
+| -----: | -----: | ----: | --------- |
+| 100.0% | 10.04s | 8,634 | `clang++` |
+
 ## Longest thread spans
 
 Spans recorded on one thread. A span's time includes time its thread spent waiting.
@@ -455,6 +463,148 @@ Attribute values with the largest contribution to each span's total time.
 | 3.4% |  8.3ms |     1 |  8.3ms |  8.3ms | `detail`  | `(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
 | 3.0% |  7.5ms |     1 |  7.5ms |  7.5ms | `detail`  | `(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
+#### Threads
+
+Threads with the largest contribution to each span's total time.
+
+##### `ExecuteCompiler`
+
+|      % |   Time | Count |   Mean |    Max | Thread    |
+| -----: | -----: | ----: | -----: | -----: | --------- |
+| 100.0% | 10.04s |     1 | 10.04s | 10.04s | `clang++` |
+
+##### `Backend`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 6.90s |     1 | 6.90s | 6.90s | `clang++` |
+
+##### `Optimizer`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 3.87s |     1 | 3.87s | 3.87s | `clang++` |
+
+##### `Frontend`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 3.12s |     2 | 1.56s | 2.90s | `clang++` |
+
+##### `CodeGenPasses`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 3.02s |     1 | 3.02s | 3.02s | `clang++` |
+
+##### `OptModule`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 3.02s |     1 | 3.02s | 3.02s | `clang++` |
+
+##### `ModuleInlinerWrapperPass`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 2.68s |     1 | 2.68s | 2.68s | `clang++` |
+
+##### `ModuleToPostOrderCGSCCPassAdaptor`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 2.64s |     1 | 2.64s | 2.64s | `clang++` |
+
+##### `OptFunction`
+
+|      % |  Time | Count |  Mean |     Max | Thread    |
+| -----: | ----: | ----: | ----: | ------: | --------- |
+| 100.0% | 2.61s |   745 | 3.5ms | 235.8ms | `clang++` |
+
+##### `DevirtSCCRepeatedPass`
+
+|      % | Time | Count |  Mean |     Max | Thread    |
+| -----: | ---: | ----: | ----: | ------: | --------- |
+| 100.0% |   2s |   821 | 2.4ms | 134.6ms | `clang++` |
+
+##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
+
+|      % |  Time | Count |  Mean |     Max | Thread    |
+| -----: | ----: | ----: | ----: | ------: | --------- |
+| 100.0% | 1.99s |   821 | 2.4ms | 134.4ms | `clang++` |
+
+##### `PassManager<Function>`
+
+|      % |  Time | Count |  Mean |     Max | Thread    |
+| -----: | ----: | ----: | ----: | ------: | --------- |
+| 100.0% | 1.98s |   869 | 2.3ms | 110.2ms | `clang++` |
+
+##### `RunPass`
+
+|      % |  Time | Count |  Mean |     Max | Thread    |
+| -----: | ----: | ----: | ----: | ------: | --------- |
+| 100.0% | 1.52s |   836 | 1.8ms | 102.1ms | `clang++` |
+
+##### `CGSCCToFunctionPassAdaptor`
+
+|      % |  Time | Count |  Mean |     Max | Thread    |
+| -----: | ----: | ----: | ----: | ------: | --------- |
+| 100.0% | 1.50s |   643 | 2.3ms | 112.0ms | `clang++` |
+
+##### `PerformPendingInstantiations`
+
+|      % |  Time | Count |  Mean |   Max | Thread    |
+| -----: | ----: | ----: | ----: | ----: | --------- |
+| 100.0% | 1.48s |     1 | 1.48s | 1.48s | `clang++` |
+
+##### `InstantiateFunction`
+
+|      % |  Time | Count |  Mean |    Max | Thread    |
+| -----: | ----: | ----: | ----: | -----: | --------- |
+| 100.0% | 5.42s | 1,868 | 2.9ms | 36.8ms | `clang++` |
+
+##### `ModuleToFunctionPassAdaptor`
+
+|      % |    Time | Count |    Mean |     Max | Thread    |
+| -----: | ------: | ----: | ------: | ------: | --------- |
+| 100.0% | 817.4ms |     6 | 136.2ms | 553.1ms | `clang++` |
+
+##### `ParseDeclarationOrFunctionDefinition`
+
+|      % |    Time | Count |  Mean |    Max | Thread    |
+| -----: | ------: | ----: | ----: | -----: | --------- |
+| 100.0% | 703.5ms |   207 | 3.4ms | 46.2ms | `clang++` |
+
+##### `ParseFunctionDefinition`
+
+|      % |    Time | Count |  Mean |    Max | Thread    |
+| -----: | ------: | ----: | ----: | -----: | --------- |
+| 100.0% | 501.9ms |   163 | 3.1ms | 40.0ms | `clang++` |
+
+##### `InstantiateClass`
+
+|      % |    Time | Count |  Mean |    Max | Thread    |
+| -----: | ------: | ----: | ----: | -----: | --------- |
+| 100.0% | 815.0ms |   451 | 1.8ms | 10.0ms | `clang++` |
+
+##### `InstCombinePass`
+
+|      % |    Time | Count |  Mean |   Max | Thread    |
+| -----: | ------: | ----: | ----: | ----: | --------- |
+| 100.0% | 320.0ms |   251 | 1.3ms | 8.2ms | `clang++` |
+
+##### `ParseClass`
+
+|      % |    Time | Count |  Mean |    Max | Thread    |
+| -----: | ------: | ----: | ----: | -----: | --------- |
+| 100.0% | 265.2ms |   145 | 1.8ms | 10.3ms | `clang++` |
+
+##### `InlinerPass`
+
+|      % |    Time | Count |  Mean |    Max | Thread    |
+| -----: | ------: | ----: | ----: | -----: | --------- |
+| 100.0% | 246.8ms |   135 | 1.8ms | 19.3ms | `clang++` |
+
 #### Parents
 
 Parent spans with the largest contribution to each span's total time.
@@ -778,198 +928,262 @@ Instances of each span with the most time.
 
 ##### `ExecuteCompiler`
 
-|      % |   Time | Start |
-| -----: | -----: | ----: |
-| 100.0% | 10.04s |   0ms |
+|      % |   Time | Start | Thread    |
+| -----: | -----: | ----: | --------- |
+| 100.0% | 10.04s |   0ms | `clang++` |
 
 ##### `Backend`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 6.90s | 3.14s |
+|      % |  Time | Start | Thread    |
+| -----: | ----: | ----: | --------- |
+| 100.0% | 6.90s | 3.14s | `clang++` |
 
 ##### `Optimizer`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 3.87s | 3.14s |
+|      % |  Time | Start | Thread    |
+| -----: | ----: | ----: | --------- |
+| 100.0% | 3.87s | 3.14s | `clang++` |
 
 ##### `Frontend`
 
-|     % |    Time | Start |
-| ----: | ------: | ----: |
-| 92.9% |   2.90s | 2.2ms |
-|  7.1% | 221.5ms | 2.90s |
+|     % |    Time | Start | Thread    |
+| ----: | ------: | ----: | --------- |
+| 92.9% |   2.90s | 2.2ms | `clang++` |
+|  7.1% | 221.5ms | 2.90s | `clang++` |
 
 ##### `CodeGenPasses`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 3.02s | 7.02s |
+|      % |  Time | Start | Thread    |
+| -----: | ----: | ----: | --------- |
+| 100.0% | 3.02s | 7.02s | `clang++` |
 
 ##### `OptModule`
 
-|      % |  Time | Start | Attributes                            |
-| -----: | ----: | ----: | ------------------------------------- |
-| 100.0% | 3.02s | 7.02s | `detail=/src/fmt/test/format-test.cc` |
+|      % |  Time | Start | Thread    | Attributes                            |
+| -----: | ----: | ----: | --------- | ------------------------------------- |
+| 100.0% | 3.02s | 7.02s | `clang++` | `detail=/src/fmt/test/format-test.cc` |
 
 ##### `ModuleInlinerWrapperPass`
 
-|      % |  Time | Start | Attributes        |
-| -----: | ----: | ----: | ----------------- |
-| 100.0% | 2.68s | 3.61s | `detail=[module]` |
+|      % |  Time | Start | Thread    | Attributes        |
+| -----: | ----: | ----: | --------- | ----------------- |
+| 100.0% | 2.68s | 3.61s | `clang++` | `detail=[module]` |
 
 ##### `ModuleToPostOrderCGSCCPassAdaptor`
 
-|      % |  Time | Start | Attributes        |
-| -----: | ----: | ----: | ----------------- |
-| 100.0% | 2.64s | 3.64s | `detail=[module]` |
+|      % |  Time | Start | Thread    | Attributes        |
+| -----: | ----: | ----: | --------- | ----------------- |
+| 100.0% | 2.64s | 3.64s | `clang++` | `detail=[module]` |
 
 ##### `OptFunction`
 
-|    % |    Time | Start | Attributes                                                  |
-| ---: | ------: | ----: | ----------------------------------------------------------- |
-| 9.0% | 235.8ms | 9.68s | `detail=_GLOBAL__sub_I_format_test.cc`                      |
-| 4.2% | 108.4ms | 8.38s | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
-| 3.8% |  99.2ms | 8.51s | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
-| 3.0% |  77.6ms | 8.30s | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
-| 2.2% |  58.5ms | 8.15s | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
+|    % |    Time | Start | Thread    | Attributes                                                  |
+| ---: | ------: | ----: | --------- | ----------------------------------------------------------- |
+| 9.0% | 235.8ms | 9.68s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| 4.2% | 108.4ms | 8.38s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| 3.8% |  99.2ms | 8.51s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| 3.0% |  77.6ms | 8.30s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+| 2.2% |  58.5ms | 8.15s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
 
 ##### `DevirtSCCRepeatedPass`
 
-|    % |    Time | Start | Attributes                                                    |
-| ---: | ------: | ----: | ------------------------------------------------------------- |
-| 6.7% | 134.6ms | 6.14s | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 4.5% |  89.8ms | 4.82s | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 3.5% |  69.3ms | 4.93s | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 2.6% |  52.0ms | 4.73s | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
-| 2.1% |  43.2ms | 4.60s | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+|    % |    Time | Start | Thread    | Attributes                                                    |
+| ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
+| 6.7% | 134.6ms | 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 4.5% |  89.8ms | 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 3.5% |  69.3ms | 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 2.6% |  52.0ms | 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 2.1% |  43.2ms | 4.60s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
-|    % |    Time | Start | Attributes                                                    |
-| ---: | ------: | ----: | ------------------------------------------------------------- |
-| 6.7% | 134.4ms | 6.14s | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 4.5% |  89.5ms | 4.82s | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 3.4% |  68.9ms | 4.93s | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 2.6% |  51.8ms | 4.73s | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
-| 2.2% |  43.0ms | 4.60s | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+|    % |    Time | Start | Thread    | Attributes                                                    |
+| ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
+| 6.7% | 134.4ms | 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 4.5% |  89.5ms | 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 3.4% |  68.9ms | 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 2.6% |  51.8ms | 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 2.2% |  43.0ms | 4.60s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PassManager<Function>`
 
-|    % |    Time | Start | Attributes                                                  |
-| ---: | ------: | ----: | ----------------------------------------------------------- |
-| 5.6% | 110.2ms | 6.16s | `detail=_GLOBAL__sub_I_format_test.cc`                      |
-| 3.6% |  72.1ms | 4.84s | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
-| 2.8% |  55.0ms | 4.94s | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
-| 2.1% |  42.6ms | 4.74s | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
-| 1.9% |  37.8ms | 6.95s | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|    % |    Time | Start | Thread    | Attributes                                                  |
+| ---: | ------: | ----: | --------- | ----------------------------------------------------------- |
+| 5.6% | 110.2ms | 6.16s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| 3.6% |  72.1ms | 4.84s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| 2.8% |  55.0ms | 4.94s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| 2.1% |  42.6ms | 4.74s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+| 1.9% |  37.8ms | 6.95s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
 
 ##### `RunPass`
 
-|    % |    Time | Start | Attributes                             |
-| ---: | ------: | ----: | -------------------------------------- |
-| 6.7% | 102.1ms | 9.69s | `detail=AArch64 Instruction Selection` |
-| 2.8% |  42.9ms | 8.38s | `detail=AArch64 Instruction Selection` |
-| 2.3% |  35.3ms | 8.51s | `detail=AArch64 Instruction Selection` |
-| 1.6% |  25.1ms | 8.30s | `detail=AArch64 Instruction Selection` |
-| 1.4% |  21.2ms | 8.15s | `detail=AArch64 Instruction Selection` |
+|    % |    Time | Start | Thread    | Attributes                             |
+| ---: | ------: | ----: | --------- | -------------------------------------- |
+| 6.7% | 102.1ms | 9.69s | `clang++` | `detail=AArch64 Instruction Selection` |
+| 2.8% |  42.9ms | 8.38s | `clang++` | `detail=AArch64 Instruction Selection` |
+| 2.3% |  35.3ms | 8.51s | `clang++` | `detail=AArch64 Instruction Selection` |
+| 1.6% |  25.1ms | 8.30s | `clang++` | `detail=AArch64 Instruction Selection` |
+| 1.4% |  21.2ms | 8.15s | `clang++` | `detail=AArch64 Instruction Selection` |
 
 ##### `CGSCCToFunctionPassAdaptor`
 
-|    % |    Time | Start | Attributes                                                    |
-| ---: | ------: | ----: | ------------------------------------------------------------- |
-| 7.5% | 112.0ms | 6.16s | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 4.8% |  72.3ms | 4.84s | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 3.7% |  55.2ms | 4.94s | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 2.8% |  42.7ms | 4.74s | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
-| 2.3% |  34.8ms | 4.61s | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+|    % |    Time | Start | Thread    | Attributes                                                    |
+| ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
+| 7.5% | 112.0ms | 6.16s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 4.8% |  72.3ms | 4.84s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 3.7% |  55.2ms | 4.94s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 2.8% |  42.7ms | 4.74s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 2.3% |  34.8ms | 4.61s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PerformPendingInstantiations`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 1.48s | 1.42s |
+|      % |  Time | Start | Thread    |
+| -----: | ----: | ----: | --------- |
+| 100.0% | 1.48s | 1.42s | `clang++` |
 
 ##### `InstantiateFunction`
 
-|    % |   Time | Start | Attributes                                                                                                                |
-| ---: | -----: | ----: | ------------------------------------------------------------------------------------------------------------------------- |
-| 0.7% | 36.8ms | 1.89s | `detail=testing::StrictMock<mock_allocator<char>>::StrictMock`                                                            |
-| 0.7% | 36.7ms | 1.89s | `detail=mock_allocator<char>::mock_allocator`                                                                             |
-| 0.6% | 35.2ms | 2.59s | `detail=fmt::nested_formatter<double>::write_padded<fmt::context, (lambda at /src/fmt/test/format-test.cc:1992:30)>`      |
-| 0.6% | 34.9ms | 2.59s | `detail=fmt::formatter<point>::format(point, format_context &)::(anonymous class)::operator()<fmt::basic_appender<char>>` |
-| 0.6% | 33.1ms | 1.78s | `detail=testing::internal::FunctionMocker<void (int *, unsigned long)>::~FunctionMocker`                                  |
+|    % |   Time | Start | Thread    | Attributes                                                                                                                |
+| ---: | -----: | ----: | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 0.7% | 36.8ms | 1.89s | `clang++` | `detail=testing::StrictMock<mock_allocator<char>>::StrictMock`                                                            |
+| 0.7% | 36.7ms | 1.89s | `clang++` | `detail=mock_allocator<char>::mock_allocator`                                                                             |
+| 0.6% | 35.2ms | 2.59s | `clang++` | `detail=fmt::nested_formatter<double>::write_padded<fmt::context, (lambda at /src/fmt/test/format-test.cc:1992:30)>`      |
+| 0.6% | 34.9ms | 2.59s | `clang++` | `detail=fmt::formatter<point>::format(point, format_context &)::(anonymous class)::operator()<fmt::basic_appender<char>>` |
+| 0.6% | 33.1ms | 1.78s | `clang++` | `detail=testing::internal::FunctionMocker<void (int *, unsigned long)>::~FunctionMocker`                                  |
 
 ##### `ModuleToFunctionPassAdaptor`
 
-|     % |    Time | Start | Attributes        |
-| ----: | ------: | ----: | ----------------- |
-| 67.7% | 553.1ms | 6.43s | `detail=[module]` |
-| 15.7% | 128.3ms | 3.15s | `detail=[module]` |
-| 15.0% | 122.8ms | 3.42s | `detail=[module]` |
-|  0.9% |   7.3ms | 6.28s | `detail=[module]` |
-|  0.5% |   3.9ms | 3.63s | `detail=[module]` |
+|     % |    Time | Start | Thread    | Attributes        |
+| ----: | ------: | ----: | --------- | ----------------- |
+| 67.7% | 553.1ms | 6.43s | `clang++` | `detail=[module]` |
+| 15.7% | 128.3ms | 3.15s | `clang++` | `detail=[module]` |
+| 15.0% | 122.8ms | 3.42s | `clang++` | `detail=[module]` |
+|  0.9% |   7.3ms | 6.28s | `clang++` | `detail=[module]` |
+|  0.5% |   3.9ms | 3.63s | `clang++` | `detail=[module]` |
 
 ##### `ParseDeclarationOrFunctionDefinition`
 
-|    % |   Time |   Start | Attributes                                                                                       |
-| ---: | -----: | ------: | ------------------------------------------------------------------------------------------------ |
-| 6.6% | 46.2ms |  75.4ms | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath:83:1`                 |
-| 5.7% | 40.1ms |   1.05s | `detail=/src/fmt/test/format-test.cc:1210:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
-| 4.6% | 32.1ms |      1s | `detail=/src/fmt/test/format-test.cc:1030:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
-| 3.6% | 25.5ms |  44.5ms | `detail=/usr/include/math.h:34:1 <Spelling=/usr/include/aarch64-linux-gnu/sys/cdefs.h:140:24>`   |
-| 3.3% | 23.5ms | 977.9ms | `detail=/src/fmt/test/format-test.cc:971:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
+|    % |   Time |   Start | Thread    | Attributes                                                                                       |
+| ---: | -----: | ------: | --------- | ------------------------------------------------------------------------------------------------ |
+| 6.6% | 46.2ms |  75.4ms | `clang++` | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath:83:1`                 |
+| 5.7% | 40.1ms |   1.05s | `clang++` | `detail=/src/fmt/test/format-test.cc:1210:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
+| 4.6% | 32.1ms |      1s | `clang++` | `detail=/src/fmt/test/format-test.cc:1030:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
+| 3.6% | 25.5ms |  44.5ms | `clang++` | `detail=/usr/include/math.h:34:1 <Spelling=/usr/include/aarch64-linux-gnu/sys/cdefs.h:140:24>`   |
+| 3.3% | 23.5ms | 977.9ms | `clang++` | `detail=/src/fmt/test/format-test.cc:971:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
 
 ##### `ParseFunctionDefinition`
 
-|    % |   Time |   Start | Attributes        |
-| ---: | -----: | ------: | ----------------- |
-| 8.0% | 40.0ms |   1.05s | `detail=TestBody` |
-| 6.4% | 32.1ms |      1s | `detail=TestBody` |
-| 4.7% | 23.4ms | 977.9ms | `detail=TestBody` |
-| 4.0% | 20.2ms | 764.9ms | `detail=TestBody` |
-| 2.3% | 11.6ms |   1.25s | `detail=TestBody` |
+|    % |   Time |   Start | Thread    | Attributes        |
+| ---: | -----: | ------: | --------- | ----------------- |
+| 8.0% | 40.0ms |   1.05s | `clang++` | `detail=TestBody` |
+| 6.4% | 32.1ms |      1s | `clang++` | `detail=TestBody` |
+| 4.7% | 23.4ms | 977.9ms | `clang++` | `detail=TestBody` |
+| 4.0% | 20.2ms | 764.9ms | `clang++` | `detail=TestBody` |
+| 2.3% | 11.6ms |   1.25s | `clang++` | `detail=TestBody` |
 
 ##### `InstantiateClass`
 
-|    % |   Time |   Start | Attributes                                                                                                                                       |
-| ---: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1.2% | 10.0ms |   1.86s | `detail=std::unique_ptr<testing::internal::ActionResultHolder<char *>>`                                                                          |
-| 1.1% |  9.2ms |   1.61s | `detail=testing::internal::ValuesInIteratorRangeGenerator<bool>::Iterator`                                                                       |
-| 1.1% |  9.0ms | 766.3ms | `detail=testing::internal::MockSpec<int *(unsigned long)>`                                                                                       |
-| 1.1% |  9.0ms |   1.61s | `detail=std::unique_ptr<const bool>`                                                                                                             |
-| 1.0% |  8.4ms |   1.86s | `detail=std::__uniq_ptr_data<testing::internal::ActionResultHolder<char *>, std::default_delete<testing::internal::ActionResultHolder<char *>>>` |
+|    % |   Time |   Start | Thread    | Attributes                                                                                                                                       |
+| ---: | -----: | ------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1.2% | 10.0ms |   1.86s | `clang++` | `detail=std::unique_ptr<testing::internal::ActionResultHolder<char *>>`                                                                          |
+| 1.1% |  9.2ms |   1.61s | `clang++` | `detail=testing::internal::ValuesInIteratorRangeGenerator<bool>::Iterator`                                                                       |
+| 1.1% |  9.0ms | 766.3ms | `clang++` | `detail=testing::internal::MockSpec<int *(unsigned long)>`                                                                                       |
+| 1.1% |  9.0ms |   1.61s | `clang++` | `detail=std::unique_ptr<const bool>`                                                                                                             |
+| 1.0% |  8.4ms |   1.86s | `clang++` | `detail=std::__uniq_ptr_data<testing::internal::ActionResultHolder<char *>, std::default_delete<testing::internal::ActionResultHolder<char *>>>` |
 
 ##### `InstCombinePass`
 
-|    % |  Time | Start | Attributes                             |
-| ---: | ----: | ----: | -------------------------------------- |
-| 2.6% | 8.2ms | 6.17s | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.3% | 7.2ms | 6.97s | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.2% | 7.1ms | 6.21s | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.2% | 6.9ms | 6.95s | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.2% | 6.9ms | 6.19s | `detail=_GLOBAL__sub_I_format_test.cc` |
+|    % |  Time | Start | Thread    | Attributes                             |
+| ---: | ----: | ----: | --------- | -------------------------------------- |
+| 2.6% | 8.2ms | 6.17s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.3% | 7.2ms | 6.97s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.2% | 7.1ms | 6.21s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.2% | 6.9ms | 6.95s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.2% | 6.9ms | 6.19s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
 
 ##### `ParseClass`
 
-|    % |   Time |   Start | Attributes                                       |
-| ---: | -----: | ------: | ------------------------------------------------ |
-| 3.9% | 10.3ms | 543.7ms | `detail=testing::internal::TypedTestSuitePState` |
-| 3.8% | 10.2ms |   1.22s | `detail=fmt::formatter`                          |
-| 3.5% |  9.4ms | 721.1ms | `detail=testing::internal::FunctionMocker`       |
-| 3.2% |  8.6ms | 621.4ms | `detail=testing::Test`                           |
-| 2.8% |  7.3ms | 250.0ms | `detail=std::chrono::system_clock`               |
+|    % |   Time |   Start | Thread    | Attributes                                       |
+| ---: | -----: | ------: | --------- | ------------------------------------------------ |
+| 3.9% | 10.3ms | 543.7ms | `clang++` | `detail=testing::internal::TypedTestSuitePState` |
+| 3.8% | 10.2ms |   1.22s | `clang++` | `detail=fmt::formatter`                          |
+| 3.5% |  9.4ms | 721.1ms | `clang++` | `detail=testing::internal::FunctionMocker`       |
+| 3.2% |  8.6ms | 621.4ms | `clang++` | `detail=testing::Test`                           |
+| 2.8% |  7.3ms | 250.0ms | `clang++` | `detail=std::chrono::system_clock`               |
 
 ##### `InlinerPass`
 
-|    % |   Time | Start | Attributes                                                    |
-| ---: | -----: | ----: | ------------------------------------------------------------- |
-| 7.8% | 19.3ms | 6.14s | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 6.4% | 15.9ms | 4.82s | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 5.1% | 12.7ms | 4.93s | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 3.4% |  8.3ms | 4.73s | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
-| 3.0% |  7.5ms | 4.60s | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+|    % |   Time | Start | Thread    | Attributes                                                    |
+| ---: | -----: | ----: | --------- | ------------------------------------------------------------- |
+| 7.8% | 19.3ms | 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 6.4% | 15.9ms | 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 5.1% | 12.7ms | 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 3.4% |  8.3ms | 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 3.0% |  7.5ms | 4.60s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+
+### Count
+
+Thread spans with the most occurrences recorded.
+
+|     % | Count | Span                                                                                          |
+| ----: | ----: | --------------------------------------------------------------------------------------------- |
+| 21.6% | 1,868 | `InstantiateFunction`                                                                         |
+| 10.1% |   869 | `PassManager<Function>`                                                                       |
+|  9.7% |   836 | `RunPass`                                                                                     |
+|  9.5% |   821 | `DevirtSCCRepeatedPass`                                                                       |
+|  9.5% |   821 | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
+|  8.6% |   745 | `OptFunction`                                                                                 |
+|  7.4% |   643 | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  5.2% |   451 | `InstantiateClass`                                                                            |
+|  2.9% |   251 | `InstCombinePass`                                                                             |
+|  2.4% |   207 | `ParseDeclarationOrFunctionDefinition`                                                        |
+|  1.9% |   163 | `ParseFunctionDefinition`                                                                     |
+|  1.7% |   145 | `ParseClass`                                                                                  |
+|  1.6% |   135 | `InlinerPass`                                                                                 |
+|  0.9% |    75 | `CodeGen Function`                                                                            |
+|  0.7% |    59 | `GVNPass`                                                                                     |
+|  0.6% |    48 | `DSEPass`                                                                                     |
+|  0.6% |    48 | `MemorySSAAnalysis`                                                                           |
+|  0.5% |    47 | `SimplifyCFGPass`                                                                             |
+|  0.5% |    47 | `EarlyCSEPass`                                                                                |
+|  0.4% |    36 | `JumpThreadingPass`                                                                           |
+
+#### Categories
+
+Categories accounting for at least 1.0% of self time.
+
+##### Compilation
+
+|     % | Count | Span                                                                                          |
+| ----: | ----: | --------------------------------------------------------------------------------------------- |
+| 21.6% | 1,868 | `InstantiateFunction`                                                                         |
+| 10.1% |   869 | `PassManager<Function>`                                                                       |
+|  9.7% |   836 | `RunPass`                                                                                     |
+|  9.5% |   821 | `DevirtSCCRepeatedPass`                                                                       |
+|  9.5% |   821 | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
+|  8.6% |   745 | `OptFunction`                                                                                 |
+|  7.4% |   643 | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  5.2% |   451 | `InstantiateClass`                                                                            |
+|  2.9% |   251 | `InstCombinePass`                                                                             |
+|  1.6% |   135 | `InlinerPass`                                                                                 |
+|  0.9% |    75 | `CodeGen Function`                                                                            |
+|  0.7% |    59 | `GVNPass`                                                                                     |
+|  0.6% |    48 | `DSEPass`                                                                                     |
+|  0.6% |    48 | `MemorySSAAnalysis`                                                                           |
+|  0.5% |    47 | `SimplifyCFGPass`                                                                             |
+|  0.5% |    47 | `EarlyCSEPass`                                                                                |
+|  0.4% |    36 | `JumpThreadingPass`                                                                           |
+|  0.4% |    36 | `FunctionToLoopPassAdaptor`                                                                   |
+|  0.3% |    22 | `BlockFrequencyAnalysis`                                                                      |
+|  0.3% |    22 | `DominatorTreeAnalysis`                                                                       |
+
+##### Parsing
+
+|    % | Count | Span                                   |
+| ---: | ----: | -------------------------------------- |
+| 2.4% |   207 | `ParseDeclarationOrFunctionDefinition` |
+| 1.9% |   163 | `ParseFunctionDefinition`              |
+| 1.7% |   145 | `ParseClass`                           |
 
 ## Longest async spans
 
@@ -1030,3 +1244,11 @@ Instances of each span with the most time.
 |  9.2% | 234.5ms |   2.7ms | `detail=/src/fmt/include/fmt/format.h`                                      |
 |  7.8% | 197.3ms | 447.8ms | `detail=/src/fmt/test/gtest/gtest/gtest.h`                                  |
 |  3.1% |  79.2ms |  42.2ms | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath` |
+
+### Count
+
+Async spans with the most occurrences recorded.
+
+|      % | Count | Span     |
+| -----: | ----: | -------- |
+| 100.0% |   195 | `Source` |

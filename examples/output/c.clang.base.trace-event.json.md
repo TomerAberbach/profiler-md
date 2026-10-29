@@ -7,6 +7,14 @@ Recorded 740 events over 744.0ms.
 | Compilation | 97.6% | 726.5ms |   680 |
 | Parsing     |  2.4% |  17.5ms |    60 |
 
+## Threads
+
+Threads with the most time in spans. Threads run concurrently, so percentages can sum to more than 100%.
+
+|      % |    Time | Count | Thread  |
+| -----: | ------: | ----: | ------- |
+| 100.0% | 744.0ms |   718 | `clang` |
+
 ## Longest thread spans
 
 Spans recorded on one thread. A span's time includes time its thread spent waiting.
@@ -418,6 +426,142 @@ Attribute values with the largest contribution to each span's total time.
 | 15.5% | 0.7ms |     1 | 0.7ms | 0.7ms | `detail`  | `(ZSTD_reset_matchState)`          |
 | 14.4% | 0.7ms |     1 | 0.7ms | 0.7ms | `detail`  | `(ZSTD_compress_frameChunk)`       |
 
+#### Threads
+
+Threads with the largest contribution to each span's total time.
+
+##### `ExecuteCompiler`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 744.0ms |     1 | 744.0ms | 744.0ms | `clang` |
+
+##### `Backend`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 562.5ms |     1 | 562.5ms | 562.5ms | `clang` |
+
+##### `Optimizer`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 347.1ms |     1 | 347.1ms | 347.1ms | `clang` |
+
+##### `ModuleInlinerWrapperPass`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 235.8ms |     1 | 235.8ms | 235.8ms | `clang` |
+
+##### `ModuleToPostOrderCGSCCPassAdaptor`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 234.4ms |     1 | 234.4ms | 234.4ms | `clang` |
+
+##### `CodeGenPasses`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 214.1ms |     1 | 214.1ms | 214.1ms | `clang` |
+
+##### `OptModule`
+
+|      % |    Time | Count |    Mean |     Max | Thread  |
+| -----: | ------: | ----: | ------: | ------: | ------- |
+| 100.0% | 214.0ms |     1 | 214.0ms | 214.0ms | `clang` |
+
+##### `PassManager<Function>`
+
+|      % |    Time | Count |  Mean |   Max | Thread  |
+| -----: | ------: | ----: | ----: | ----: | ------- |
+| 100.0% | 204.9ms |   130 | 1.6ms | 9.6ms | `clang` |
+
+##### `DevirtSCCRepeatedPass`
+
+|      % |    Time | Count |  Mean |    Max | Thread  |
+| -----: | ------: | ----: | ----: | -----: | ------- |
+| 100.0% | 192.2ms |   106 | 1.8ms | 10.8ms | `clang` |
+
+##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
+
+|      % |    Time | Count |  Mean |    Max | Thread  |
+| -----: | ------: | ----: | ----: | -----: | ------- |
+| 100.0% | 191.8ms |   106 | 1.8ms | 10.8ms | `clang` |
+
+##### `Frontend`
+
+|      % |    Time | Count |   Mean |     Max | Thread  |
+| -----: | ------: | ----: | -----: | ------: | ------- |
+| 100.0% | 178.8ms |     2 | 89.4ms | 163.9ms | `clang` |
+
+##### `OptFunction`
+
+|      % |    Time | Count |  Mean |    Max | Thread  |
+| -----: | ------: | ----: | ----: | -----: | ------- |
+| 100.0% | 175.3ms |   100 | 1.8ms | 10.4ms | `clang` |
+
+##### `CGSCCToFunctionPassAdaptor`
+
+|      % |    Time | Count |  Mean |   Max | Thread  |
+| -----: | ------: | ----: | ----: | ----: | ------- |
+| 100.0% | 159.5ms |    94 | 1.7ms | 9.7ms | `clang` |
+
+##### `ModuleToFunctionPassAdaptor`
+
+|      % |   Time | Count |   Mean |    Max | Thread  |
+| -----: | -----: | ----: | -----: | -----: | ------- |
+| 100.0% | 92.2ms |     3 | 30.7ms | 60.5ms | `clang` |
+
+##### `RunPass`
+
+|      % |   Time | Count |  Mean |   Max | Thread  |
+| -----: | -----: | ----: | ----: | ----: | ------- |
+| 100.0% | 67.5ms |    64 | 1.1ms | 4.1ms | `clang` |
+
+##### `ParseDeclarationOrFunctionDefinition`
+
+|      % |   Time | Count |  Mean |   Max | Thread  |
+| -----: | -----: | ----: | ----: | ----: | ------- |
+| 100.0% | 17.5ms |    20 | 0.9ms | 2.3ms | `clang` |
+
+##### `ParseFunctionDefinition`
+
+|      % |   Time | Count |  Mean |   Max | Thread  |
+| -----: | -----: | ----: | ----: | ----: | ------- |
+| 100.0% | 15.9ms |    18 | 0.9ms | 2.3ms | `clang` |
+
+##### `GVNPass`
+
+|      % |   Time | Count |  Mean |   Max | Thread  |
+| -----: | -----: | ----: | ----: | ----: | ------- |
+| 100.0% | 12.9ms |    10 | 1.3ms | 3.0ms | `clang` |
+
+##### `FunctionToLoopPassAdaptor`
+
+|      % |  Time | Count |  Mean |   Max | Thread  |
+| -----: | ----: | ----: | ----: | ----: | ------- |
+| 100.0% | 9.2ms |    13 | 0.7ms | 1.2ms | `clang` |
+
+##### `IPSCCPPass`
+
+|      % |  Time | Count |  Mean |   Max | Thread  |
+| -----: | ----: | ----: | ----: | ----: | ------- |
+| 100.0% | 7.3ms |     1 | 7.3ms | 7.3ms | `clang` |
+
+##### `CalledValuePropagationPass`
+
+|      % |  Time | Count |  Mean |   Max | Thread  |
+| -----: | ----: | ----: | ----: | ----: | ------- |
+| 100.0% | 4.7ms |     1 | 4.7ms | 4.7ms | `clang` |
+
+##### `InlinerPass`
+
+|      % |  Time | Count |  Mean |   Max | Thread  |
+| -----: | ----: | ----: | ----: | ----: | ------- |
+| 100.0% | 4.7ms |     6 | 0.8ms | 0.9ms | `clang` |
+
 #### Parents
 
 Parent spans with the largest contribution to each span's total time.
@@ -668,182 +812,245 @@ Instances of each span with the most time.
 
 ##### `ExecuteCompiler`
 
-|      % |    Time | Start |
-| -----: | ------: | ----: |
-| 100.0% | 744.0ms |   0ms |
+|      % |    Time | Start | Thread  |
+| -----: | ------: | ----: | ------- |
+| 100.0% | 744.0ms |   0ms | `clang` |
 
 ##### `Backend`
 
-|      % |    Time |   Start |
-| -----: | ------: | ------: |
-| 100.0% | 562.5ms | 180.9ms |
+|      % |    Time |   Start | Thread  |
+| -----: | ------: | ------: | ------- |
+| 100.0% | 562.5ms | 180.9ms | `clang` |
 
 ##### `Optimizer`
 
-|      % |    Time |   Start |
-| -----: | ------: | ------: |
-| 100.0% | 347.1ms | 181.3ms |
+|      % |    Time |   Start | Thread  |
+| -----: | ------: | ------: | ------- |
+| 100.0% | 347.1ms | 181.3ms | `clang` |
 
 ##### `ModuleInlinerWrapperPass`
 
-|      % |    Time |   Start | Attributes        |
-| -----: | ------: | ------: | ----------------- |
-| 100.0% | 235.8ms | 229.1ms | `detail=[module]` |
+|      % |    Time |   Start | Thread  | Attributes        |
+| -----: | ------: | ------: | ------- | ----------------- |
+| 100.0% | 235.8ms | 229.1ms | `clang` | `detail=[module]` |
 
 ##### `ModuleToPostOrderCGSCCPassAdaptor`
 
-|      % |    Time |   Start | Attributes        |
-| -----: | ------: | ------: | ----------------- |
-| 100.0% | 234.4ms | 230.1ms | `detail=[module]` |
+|      % |    Time |   Start | Thread  | Attributes        |
+| -----: | ------: | ------: | ------- | ----------------- |
+| 100.0% | 234.4ms | 230.1ms | `clang` | `detail=[module]` |
 
 ##### `CodeGenPasses`
 
-|      % |    Time |   Start |
-| -----: | ------: | ------: |
-| 100.0% | 214.1ms | 529.3ms |
+|      % |    Time |   Start | Thread  |
+| -----: | ------: | ------: | ------- |
+| 100.0% | 214.1ms | 529.3ms | `clang` |
 
 ##### `OptModule`
 
-|      % |    Time |   Start | Attributes                                      |
-| -----: | ------: | ------: | ----------------------------------------------- |
-| 100.0% | 214.0ms | 529.3ms | `detail=/src/zstd/lib/compress/zstd_compress.c` |
+|      % |    Time |   Start | Thread  | Attributes                                      |
+| -----: | ------: | ------: | ------- | ----------------------------------------------- |
+| 100.0% | 214.0ms | 529.3ms | `clang` | `detail=/src/zstd/lib/compress/zstd_compress.c` |
 
 ##### `PassManager<Function>`
 
-|    % |  Time |   Start | Attributes                              |
-| ---: | ----: | ------: | --------------------------------------- |
-| 4.7% | 9.6ms | 292.7ms | `detail=ZSTD_resetCCtx_internal`        |
-| 3.7% | 7.7ms | 283.3ms | `detail=ZSTD_reset_matchState`          |
-| 3.3% | 6.8ms | 398.7ms | `detail=ZSTD_compressContinue_internal` |
-| 3.1% | 6.4ms | 391.4ms | `detail=ZSTD_compress_frameChunk`       |
-| 2.6% | 5.4ms | 319.2ms | `detail=ZSTD_loadCEntropy`              |
+|    % |  Time |   Start | Thread  | Attributes                              |
+| ---: | ----: | ------: | ------- | --------------------------------------- |
+| 4.7% | 9.6ms | 292.7ms | `clang` | `detail=ZSTD_resetCCtx_internal`        |
+| 3.7% | 7.7ms | 283.3ms | `clang` | `detail=ZSTD_reset_matchState`          |
+| 3.3% | 6.8ms | 398.7ms | `clang` | `detail=ZSTD_compressContinue_internal` |
+| 3.1% | 6.4ms | 391.4ms | `clang` | `detail=ZSTD_compress_frameChunk`       |
+| 2.6% | 5.4ms | 319.2ms | `clang` | `detail=ZSTD_loadCEntropy`              |
 
 ##### `DevirtSCCRepeatedPass`
 
-|    % |   Time |   Start | Attributes                                |
-| ---: | -----: | ------: | ----------------------------------------- |
-| 5.6% | 10.8ms | 291.7ms | `detail=(ZSTD_resetCCtx_internal)`        |
-| 4.5% |  8.6ms | 282.5ms | `detail=(ZSTD_reset_matchState)`          |
-| 4.1% |  7.9ms | 397.8ms | `detail=(ZSTD_compressContinue_internal)` |
-| 3.7% |  7.1ms | 390.6ms | `detail=(ZSTD_compress_frameChunk)`       |
-| 2.9% |  5.6ms | 319.1ms | `detail=(ZSTD_loadCEntropy)`              |
+|    % |   Time |   Start | Thread  | Attributes                                |
+| ---: | -----: | ------: | ------- | ----------------------------------------- |
+| 5.6% | 10.8ms | 291.7ms | `clang` | `detail=(ZSTD_resetCCtx_internal)`        |
+| 4.5% |  8.6ms | 282.5ms | `clang` | `detail=(ZSTD_reset_matchState)`          |
+| 4.1% |  7.9ms | 397.8ms | `clang` | `detail=(ZSTD_compressContinue_internal)` |
+| 3.7% |  7.1ms | 390.6ms | `clang` | `detail=(ZSTD_compress_frameChunk)`       |
+| 2.9% |  5.6ms | 319.1ms | `clang` | `detail=(ZSTD_loadCEntropy)`              |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
-|    % |   Time |   Start | Attributes                                |
-| ---: | -----: | ------: | ----------------------------------------- |
-| 5.6% | 10.8ms | 291.7ms | `detail=(ZSTD_resetCCtx_internal)`        |
-| 4.5% |  8.6ms | 282.5ms | `detail=(ZSTD_reset_matchState)`          |
-| 4.1% |  7.9ms | 397.8ms | `detail=(ZSTD_compressContinue_internal)` |
-| 3.7% |  7.1ms | 390.6ms | `detail=(ZSTD_compress_frameChunk)`       |
-| 2.9% |  5.6ms | 319.1ms | `detail=(ZSTD_loadCEntropy)`              |
+|    % |   Time |   Start | Thread  | Attributes                                |
+| ---: | -----: | ------: | ------- | ----------------------------------------- |
+| 5.6% | 10.8ms | 291.7ms | `clang` | `detail=(ZSTD_resetCCtx_internal)`        |
+| 4.5% |  8.6ms | 282.5ms | `clang` | `detail=(ZSTD_reset_matchState)`          |
+| 4.1% |  7.9ms | 397.8ms | `clang` | `detail=(ZSTD_compressContinue_internal)` |
+| 3.7% |  7.1ms | 390.6ms | `clang` | `detail=(ZSTD_compress_frameChunk)`       |
+| 2.9% |  5.6ms | 319.1ms | `clang` | `detail=(ZSTD_loadCEntropy)`              |
 
 ##### `Frontend`
 
-|     % |    Time |   Start |
-| ----: | ------: | ------: |
-| 91.7% | 163.9ms |   2.0ms |
-|  8.3% |  14.9ms | 165.9ms |
+|     % |    Time |   Start | Thread  |
+| ----: | ------: | ------: | ------- |
+| 91.7% | 163.9ms |   2.0ms | `clang` |
+|  8.3% |  14.9ms | 165.9ms | `clang` |
 
 ##### `OptFunction`
 
-|    % |   Time |   Start | Attributes                              |
-| ---: | -----: | ------: | --------------------------------------- |
-| 6.0% | 10.4ms | 692.9ms | `detail=ZSTD_resetCCtx_internal`        |
-| 5.8% | 10.2ms | 605.1ms | `detail=ZSTD_compressContinue_internal` |
-| 3.7% |  6.4ms | 703.3ms | `detail=ZSTD_reset_matchState`          |
-| 3.5% |  6.2ms | 665.0ms | `detail=ZSTD_compressStream2`           |
-| 3.3% |  5.9ms | 619.6ms | `detail=ZSTD_compressBegin_internal`    |
+|    % |   Time |   Start | Thread  | Attributes                              |
+| ---: | -----: | ------: | ------- | --------------------------------------- |
+| 6.0% | 10.4ms | 692.9ms | `clang` | `detail=ZSTD_resetCCtx_internal`        |
+| 5.8% | 10.2ms | 605.1ms | `clang` | `detail=ZSTD_compressContinue_internal` |
+| 3.7% |  6.4ms | 703.3ms | `clang` | `detail=ZSTD_reset_matchState`          |
+| 3.5% |  6.2ms | 665.0ms | `clang` | `detail=ZSTD_compressStream2`           |
+| 3.3% |  5.9ms | 619.6ms | `clang` | `detail=ZSTD_compressBegin_internal`    |
 
 ##### `CGSCCToFunctionPassAdaptor`
 
-|    % |  Time |   Start | Attributes                                |
-| ---: | ----: | ------: | ----------------------------------------- |
-| 6.1% | 9.7ms | 292.7ms | `detail=(ZSTD_resetCCtx_internal)`        |
-| 4.8% | 7.7ms | 283.3ms | `detail=(ZSTD_reset_matchState)`          |
-| 4.3% | 6.9ms | 398.7ms | `detail=(ZSTD_compressContinue_internal)` |
-| 4.0% | 6.4ms | 391.4ms | `detail=(ZSTD_compress_frameChunk)`       |
-| 3.4% | 5.4ms | 319.2ms | `detail=(ZSTD_loadCEntropy)`              |
+|    % |  Time |   Start | Thread  | Attributes                                |
+| ---: | ----: | ------: | ------- | ----------------------------------------- |
+| 6.1% | 9.7ms | 292.7ms | `clang` | `detail=(ZSTD_resetCCtx_internal)`        |
+| 4.8% | 7.7ms | 283.3ms | `clang` | `detail=(ZSTD_reset_matchState)`          |
+| 4.3% | 6.9ms | 398.7ms | `clang` | `detail=(ZSTD_compressContinue_internal)` |
+| 4.0% | 6.4ms | 391.4ms | `clang` | `detail=(ZSTD_compress_frameChunk)`       |
+| 3.4% | 5.4ms | 319.2ms | `clang` | `detail=(ZSTD_loadCEntropy)`              |
 
 ##### `ModuleToFunctionPassAdaptor`
 
-|     % |   Time |   Start | Attributes        |
-| ----: | -----: | ------: | ----------------- |
-| 65.6% | 60.5ms | 467.4ms | `detail=[module]` |
-| 18.9% | 17.4ms | 181.7ms | `detail=[module]` |
-| 15.5% | 14.3ms | 213.8ms | `detail=[module]` |
+|     % |   Time |   Start | Thread  | Attributes        |
+| ----: | -----: | ------: | ------- | ----------------- |
+| 65.6% | 60.5ms | 467.4ms | `clang` | `detail=[module]` |
+| 18.9% | 17.4ms | 181.7ms | `clang` | `detail=[module]` |
+| 15.5% | 14.3ms | 213.8ms | `clang` | `detail=[module]` |
 
 ##### `RunPass`
 
-|    % |  Time |   Start | Attributes                             |
-| ---: | ----: | ------: | -------------------------------------- |
-| 6.0% | 4.1ms | 693.1ms | `detail=AArch64 Instruction Selection` |
-| 4.6% | 3.1ms | 605.2ms | `detail=AArch64 Instruction Selection` |
-| 4.1% | 2.8ms | 703.5ms | `detail=AArch64 Instruction Selection` |
-| 4.1% | 2.7ms | 610.7ms | `detail=Greedy Register Allocator`     |
-| 4.0% | 2.7ms | 619.7ms | `detail=AArch64 Instruction Selection` |
+|    % |  Time |   Start | Thread  | Attributes                             |
+| ---: | ----: | ------: | ------- | -------------------------------------- |
+| 6.0% | 4.1ms | 693.1ms | `clang` | `detail=AArch64 Instruction Selection` |
+| 4.6% | 3.1ms | 605.2ms | `clang` | `detail=AArch64 Instruction Selection` |
+| 4.1% | 2.8ms | 703.5ms | `clang` | `detail=AArch64 Instruction Selection` |
+| 4.1% | 2.7ms | 610.7ms | `clang` | `detail=Greedy Register Allocator`     |
+| 4.0% | 2.7ms | 619.7ms | `clang` | `detail=AArch64 Instruction Selection` |
 
 ##### `ParseDeclarationOrFunctionDefinition`
 
-|     % |  Time |   Start | Attributes                                                                                                                           |
-| ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------ |
-| 13.0% | 2.3ms | 121.3ms | `detail=/src/zstd/lib/compress/zstd_compress.c:770:1`                                                                                |
-|  7.4% | 1.3ms |  25.8ms | `detail=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:11596:1 <Spelling=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:124:14>` |
-|  6.9% | 1.2ms | 132.7ms | `detail=/src/zstd/lib/compress/zstd_compress.c:2090:1`                                                                               |
-|  6.9% | 1.2ms |  42.3ms | `detail=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:27792:1 <Spelling=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:124:14>` |
-|  6.5% | 1.1ms | 157.0ms | `detail=/src/zstd/lib/compress/zstd_compress.c:5976:1`                                                                               |
+|     % |  Time |   Start | Thread  | Attributes                                                                                                                           |
+| ----: | ----: | ------: | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| 13.0% | 2.3ms | 121.3ms | `clang` | `detail=/src/zstd/lib/compress/zstd_compress.c:770:1`                                                                                |
+|  7.4% | 1.3ms |  25.8ms | `clang` | `detail=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:11596:1 <Spelling=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:124:14>` |
+|  6.9% | 1.2ms | 132.7ms | `clang` | `detail=/src/zstd/lib/compress/zstd_compress.c:2090:1`                                                                               |
+|  6.9% | 1.2ms |  42.3ms | `clang` | `detail=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:27792:1 <Spelling=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h:124:14>` |
+|  6.5% | 1.1ms | 157.0ms | `clang` | `detail=/src/zstd/lib/compress/zstd_compress.c:5976:1`                                                                               |
 
 ##### `ParseFunctionDefinition`
 
-|     % |  Time |   Start | Attributes                            |
-| ----: | ----: | ------: | ------------------------------------- |
-| 14.3% | 2.3ms | 121.4ms | `detail=ZSTD_CCtxParams_setParameter` |
-|  8.1% | 1.3ms |  25.9ms | `detail=vhsub_s16`                    |
-|  7.6% | 1.2ms |  42.3ms | `detail=vshl_s16`                     |
-|  7.5% | 1.2ms | 132.7ms | `detail=ZSTD_resetCCtx_internal`      |
-|  7.1% | 1.1ms | 157.0ms | `detail=ZSTD_compressStream_generic`  |
+|     % |  Time |   Start | Thread  | Attributes                            |
+| ----: | ----: | ------: | ------- | ------------------------------------- |
+| 14.3% | 2.3ms | 121.4ms | `clang` | `detail=ZSTD_CCtxParams_setParameter` |
+|  8.1% | 1.3ms |  25.9ms | `clang` | `detail=vhsub_s16`                    |
+|  7.6% | 1.2ms |  42.3ms | `clang` | `detail=vshl_s16`                     |
+|  7.5% | 1.2ms | 132.7ms | `clang` | `detail=ZSTD_resetCCtx_internal`      |
+|  7.1% | 1.1ms | 157.0ms | `clang` | `detail=ZSTD_compressStream_generic`  |
 
 ##### `GVNPass`
 
-|     % |  Time |   Start | Attributes                       |
-| ----: | ----: | ------: | -------------------------------- |
-| 23.1% | 3.0ms | 285.4ms | `detail=ZSTD_reset_matchState`   |
-| 17.9% | 2.3ms | 296.0ms | `detail=ZSTD_resetCCtx_internal` |
-| 11.0% | 1.4ms | 270.9ms | `detail=ZSTD_estimateCCtxSize`   |
-| 10.2% | 1.3ms | 321.2ms | `detail=ZSTD_loadCEntropy`       |
-|  8.8% | 1.1ms | 415.9ms | `detail=ZSTD_compressStream2`    |
+|     % |  Time |   Start | Thread  | Attributes                       |
+| ----: | ----: | ------: | ------- | -------------------------------- |
+| 23.1% | 3.0ms | 285.4ms | `clang` | `detail=ZSTD_reset_matchState`   |
+| 17.9% | 2.3ms | 296.0ms | `clang` | `detail=ZSTD_resetCCtx_internal` |
+| 11.0% | 1.4ms | 270.9ms | `clang` | `detail=ZSTD_estimateCCtxSize`   |
+| 10.2% | 1.3ms | 321.2ms | `clang` | `detail=ZSTD_loadCEntropy`       |
+|  8.8% | 1.1ms | 415.9ms | `clang` | `detail=ZSTD_compressStream2`    |
 
 ##### `FunctionToLoopPassAdaptor`
 
-|     % |  Time |   Start | Attributes                                              |
-| ----: | ----: | ------: | ------------------------------------------------------- |
-| 12.7% | 1.2ms | 320.0ms | `detail=ZSTD_loadCEntropy`                              |
-|  8.6% | 0.8ms | 449.2ms | `detail=ZSTD_copySequencesToSeqStoreNoBlockDelim`       |
-|  8.5% | 0.8ms | 393.0ms | `detail=ZSTD_compress_frameChunk`                       |
-|  8.1% | 0.7ms | 348.5ms | `detail=ZSTD_copySequencesToSeqStoreExplicitBlockDelim` |
-|  8.1% | 0.7ms | 394.2ms | `detail=ZSTD_compress_frameChunk`                       |
+|     % |  Time |   Start | Thread  | Attributes                                              |
+| ----: | ----: | ------: | ------- | ------------------------------------------------------- |
+| 12.7% | 1.2ms | 320.0ms | `clang` | `detail=ZSTD_loadCEntropy`                              |
+|  8.6% | 0.8ms | 449.2ms | `clang` | `detail=ZSTD_copySequencesToSeqStoreNoBlockDelim`       |
+|  8.5% | 0.8ms | 393.0ms | `clang` | `detail=ZSTD_compress_frameChunk`                       |
+|  8.1% | 0.7ms | 348.5ms | `clang` | `detail=ZSTD_copySequencesToSeqStoreExplicitBlockDelim` |
+|  8.1% | 0.7ms | 394.2ms | `clang` | `detail=ZSTD_compress_frameChunk`                       |
 
 ##### `IPSCCPPass`
 
-|      % |  Time |   Start | Attributes        |
-| -----: | ----: | ------: | ----------------- |
-| 100.0% | 7.3ms | 199.1ms | `detail=[module]` |
+|      % |  Time |   Start | Thread  | Attributes        |
+| -----: | ----: | ------: | ------- | ----------------- |
+| 100.0% | 7.3ms | 199.1ms | `clang` | `detail=[module]` |
 
 ##### `CalledValuePropagationPass`
 
-|      % |  Time |   Start | Attributes        |
-| -----: | ----: | ------: | ----------------- |
-| 100.0% | 4.7ms | 206.4ms | `detail=[module]` |
+|      % |  Time |   Start | Thread  | Attributes        |
+| -----: | ----: | ------: | ------- | ----------------- |
+| 100.0% | 4.7ms | 206.4ms | `clang` | `detail=[module]` |
 
 ##### `InlinerPass`
 
-|     % |  Time |   Start | Attributes                                |
-| ----: | ----: | ------: | ----------------------------------------- |
-| 19.7% | 0.9ms | 291.7ms | `detail=(ZSTD_resetCCtx_internal)`        |
-| 18.8% | 0.9ms | 397.8ms | `detail=(ZSTD_compressContinue_internal)` |
-| 18.6% | 0.9ms | 245.2ms | `detail=(ZSTD_CCtxParams_setParameter)`   |
-| 15.5% | 0.7ms | 282.5ms | `detail=(ZSTD_reset_matchState)`          |
-| 14.4% | 0.7ms | 390.6ms | `detail=(ZSTD_compress_frameChunk)`       |
+|     % |  Time |   Start | Thread  | Attributes                                |
+| ----: | ----: | ------: | ------- | ----------------------------------------- |
+| 19.7% | 0.9ms | 291.7ms | `clang` | `detail=(ZSTD_resetCCtx_internal)`        |
+| 18.8% | 0.9ms | 397.8ms | `clang` | `detail=(ZSTD_compressContinue_internal)` |
+| 18.6% | 0.9ms | 245.2ms | `clang` | `detail=(ZSTD_CCtxParams_setParameter)`   |
+| 15.5% | 0.7ms | 282.5ms | `clang` | `detail=(ZSTD_reset_matchState)`          |
+| 14.4% | 0.7ms | 390.6ms | `clang` | `detail=(ZSTD_compress_frameChunk)`       |
+
+### Count
+
+Thread spans with the most occurrences recorded.
+
+|     % | Count | Span                                                                                          |
+| ----: | ----: | --------------------------------------------------------------------------------------------- |
+| 18.1% |   130 | `PassManager<Function>`                                                                       |
+| 14.8% |   106 | `DevirtSCCRepeatedPass`                                                                       |
+| 14.8% |   106 | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
+| 13.9% |   100 | `OptFunction`                                                                                 |
+| 13.1% |    94 | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  8.9% |    64 | `RunPass`                                                                                     |
+|  2.8% |    20 | `ParseDeclarationOrFunctionDefinition`                                                        |
+|  2.5% |    18 | `ParseFunctionDefinition`                                                                     |
+|  1.8% |    13 | `FunctionToLoopPassAdaptor`                                                                   |
+|  1.4% |    10 | `GVNPass`                                                                                     |
+|  0.8% |     6 | `InlinerPass`                                                                                 |
+|  0.8% |     6 | `InstCombinePass`                                                                             |
+|  0.7% |     5 | `CodeGen Function`                                                                            |
+|  0.7% |     5 | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>`         |
+|  0.6% |     4 | `SLPVectorizerPass`                                                                           |
+|  0.4% |     3 | `ModuleToFunctionPassAdaptor`                                                                 |
+|  0.4% |     3 | `LoopVectorizePass`                                                                           |
+|  0.3% |     2 | `Frontend`                                                                                    |
+|  0.3% |     2 | `GlobalOptPass`                                                                               |
+|  0.3% |     2 | `DSEPass`                                                                                     |
+
+#### Categories
+
+Categories accounting for at least 1.0% of self time.
+
+##### Compilation
+
+|     % | Count | Span                                                                                          |
+| ----: | ----: | --------------------------------------------------------------------------------------------- |
+| 18.1% |   130 | `PassManager<Function>`                                                                       |
+| 14.8% |   106 | `DevirtSCCRepeatedPass`                                                                       |
+| 14.8% |   106 | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
+| 13.9% |   100 | `OptFunction`                                                                                 |
+| 13.1% |    94 | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  8.9% |    64 | `RunPass`                                                                                     |
+|  1.8% |    13 | `FunctionToLoopPassAdaptor`                                                                   |
+|  1.4% |    10 | `GVNPass`                                                                                     |
+|  0.8% |     6 | `InlinerPass`                                                                                 |
+|  0.8% |     6 | `InstCombinePass`                                                                             |
+|  0.7% |     5 | `CodeGen Function`                                                                            |
+|  0.7% |     5 | `PassManager<Loop, LoopAnalysisManager, LoopStandardAnalysisResults &, LPMUpdater &>`         |
+|  0.6% |     4 | `SLPVectorizerPass`                                                                           |
+|  0.4% |     3 | `ModuleToFunctionPassAdaptor`                                                                 |
+|  0.4% |     3 | `LoopVectorizePass`                                                                           |
+|  0.3% |     2 | `Frontend`                                                                                    |
+|  0.3% |     2 | `GlobalOptPass`                                                                               |
+|  0.3% |     2 | `DSEPass`                                                                                     |
+|  0.3% |     2 | `JumpThreadingPass`                                                                           |
+|  0.1% |     1 | `ExecuteCompiler`                                                                             |
+
+##### Parsing
+
+|    % | Count | Span                                   |
+| ---: | ----: | -------------------------------------- |
+| 2.8% |    20 | `ParseDeclarationOrFunctionDefinition` |
+| 2.5% |    18 | `ParseFunctionDefinition`              |
 
 ## Longest async spans
 
@@ -904,3 +1111,11 @@ Instances of each span with the most time.
 | 27.2% | 87.3ms |   9.0ms | `detail=/usr/lib/llvm-19/lib/clang/19/include/arm_neon.h` |
 |  3.6% | 11.6ms | 104.2ms | `detail=/src/zstd/lib/compress/zstd_compress_internal.h`  |
 |  2.0% |  6.5ms |   2.3ms | `detail=/src/zstd/lib/compress/../common/zstd_deps.h`     |
+
+### Count
+
+Async spans with the most occurrences recorded.
+
+|      % | Count | Span     |
+| -----: | ----: | -------- |
+| 100.0% |    22 | `Source` |

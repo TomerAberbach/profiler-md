@@ -501,12 +501,156 @@ Attribute amounts with the largest contribution to each span's total time.
 
 Threads with the largest contribution to each span's total time.
 
+##### `RunMicrotasks`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 5.59s |     1 | 5.59s | 5.59s | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 833.8ms | 1,413 | 0.6ms | 3.6ms | `PlatformWorkerThread` |
+
+##### `MinorGC`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 721.4ms |   348 | 2.1ms | 8.5ms | `JavaScriptMainThread` |
+
+##### `V8.GCScavenger`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 702.0ms |   348 | 2.0ms | 8.5ms | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 693.2ms |   348 | 2.0ms | 8.5ms | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER_SCAVENGE`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 681.8ms |   348 | 2.0ms | 8.4ms | `JavaScriptMainThread` |
+
+##### `V8.GC_BACKGROUND_UNPARK`
+
+|      % |    Time | Count |  Mean |    Max | Thread                 |
+| -----: | ------: | ----: | ----: | -----: | ---------------------- |
+| 100.0% | 554.0ms |   201 | 2.8ms | 13.4ms | `PlatformWorkerThread` |
+
+##### `V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 413.1ms |   348 | 1.2ms | 7.4ms | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 375.7ms |   388 | 1.0ms | 7.3ms | `JavaScriptMainThread` |
+
+##### `V8.GC_BACKGROUND_SAFEPOINT`
+
+|      % |    Time | Count |  Mean |   Max | Thread                 |
+| -----: | ------: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 253.5ms |    88 | 2.9ms | 7.6ms | `PlatformWorkerThread` |
+
+##### `V8.GC_MC_BACKGROUND_MARKING`
+
+|      % |    Time | Count |   Mean |    Max | Thread                 |
+| -----: | ------: | ----: | -----: | -----: | ---------------------- |
+| 100.0% | 238.5ms |    23 | 10.4ms | 29.9ms | `PlatformWorkerThread` |
+
+##### `V8.StackGuard`
+
+|      % |   Time | Count |   Mean |   Max | Thread                 |
+| -----: | -----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 96.3ms | 2,735 | 35.2µs | 5.5ms | `JavaScriptMainThread` |
+
+##### `V8.HandleInterrupts`
+
+|      % |   Time | Count |   Mean |   Max | Thread                 |
+| -----: | -----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 86.4ms | 2,757 | 31.4µs | 5.5ms | `JavaScriptMainThread` |
+
+##### `V8.BytecodeBudgetInterrupt`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 50.4ms | 6,944 | 7.3µs | 0.3ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_BACKGROUND_SWEEPING`
+
+|      % |   Time | Count |  Mean |    Max | Thread                 |
+| -----: | -----: | ----: | ----: | -----: | ---------------------- |
+| 100.0% | 34.5ms |    15 | 2.3ms | 14.6ms | `PlatformWorkerThread` |
+
+##### `fs.sync.stat`
+
+|      % |   Time |  Count |  Mean |   Max | Thread                 |
+| -----: | -----: | -----: | ----: | ----: | ---------------------- |
+| 100.0% | 31.5ms | 10,115 | 3.1µs | 0.1ms | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER_SCAVENGE_ROOTS`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 23.7ms |   348 | 0.1ms | 0.2ms | `JavaScriptMainThread` |
+
+##### `fs.sync.open`
+
+|      % |   Time | Count |   Mean |   Max | Thread                 |
+| -----: | -----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 23.3ms | 1,125 | 20.7µs | 0.1ms | `JavaScriptMainThread` |
+
+##### `V8.DeoptimizeCode`
+
+|      % |   Time | Count |   Mean |   Max | Thread                 |
+| -----: | -----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 21.3ms | 1,540 | 13.8µs | 0.1ms | `JavaScriptMainThread` |
+
+##### `V8.GCHandleGCRequest`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 11.0ms |     2 | 5.5ms | 5.5ms | `JavaScriptMainThread` |
+
+##### `MajorGC`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 10.9ms |     2 | 5.5ms | 5.5ms | `JavaScriptMainThread` |
+
+##### `V8.GCFinalizeMC`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 10.8ms |     2 | 5.4ms | 5.5ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MARK_COMPACTOR`
+
+|      % |   Time | Count |  Mean |   Max | Thread                 |
+| -----: | -----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 10.7ms |     2 | 5.4ms | 5.4ms | `JavaScriptMainThread` |
+
 ##### `Evacuator::EvacuatePage`
 
 |     % |  Time | Count |  Mean |   Max | Thread                 |
 | ----: | ----: | ----: | ----: | ----: | ---------------------- |
 | 69.1% | 5.7ms |    60 | 0.1ms | 0.2ms | `JavaScriptMainThread` |
 | 30.9% | 2.5ms |    24 | 0.1ms | 0.2ms | `PlatformWorkerThread` |
+
+##### `V8.GC_MC_EVACUATE`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 8.2ms |     4 | 2.0ms | 4.0ms | `JavaScriptMainThread` |
 
 ##### `FullEvacuator::RawEvacuatePage`
 
@@ -515,6 +659,12 @@ Threads with the largest contribution to each span's total time.
 | 69.1% | 5.6ms |    60 | 0.1ms | 0.1ms | `JavaScriptMainThread` |
 | 30.9% | 2.5ms |    24 | 0.1ms | 0.2ms | `PlatformWorkerThread` |
 
+##### `V8.GC_SCAVENGER_SCAVENGE_FINALIZE`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 8.1ms |   348 | 23.1µs | 1.4ms | `JavaScriptMainThread` |
+
 ##### `LiveObjectVisitor::VisitMarkedObjectsNoFail`
 
 |     % |  Time | Count |  Mean |   Max | Thread                 |
@@ -522,12 +672,126 @@ Threads with the largest contribution to each span's total time.
 | 68.5% | 5.4ms |    58 | 0.1ms | 0.1ms | `JavaScriptMainThread` |
 | 31.5% | 2.5ms |    24 | 0.1ms | 0.2ms | `PlatformWorkerThread` |
 
+##### `V8.BytecodeBudgetInterruptWithStackCheck`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 7.5ms |   452 | 16.6µs | 0.5ms | `JavaScriptMainThread` |
+
+##### `V8.GCIncrementalMarking`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 7.2ms |   613 | 11.8µs | 0.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_SCAVENGER_FREE_REMEMBERED_SET`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 6.2ms |   348 | 17.7µs | 0.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_EVACUATE_COPY`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 5.9ms |     2 | 3.0ms | 3.2ms | `JavaScriptMainThread` |
+
+##### `MarkCompactCollector::EvacuatePagesInParallel`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 5.9ms |     2 | 2.9ms | 3.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_INCREMENTAL`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 5.8ms |   613 | 9.4µs | 0.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_EVACUATE_COPY_PARALLEL`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 5.7ms |     2 | 2.9ms | 3.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_TIME_TO_SAFEPOINT`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 5.0ms |   353 | 14.3µs | 0.5ms | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_BACKGROUND_EVACUATE_COPY`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 2.6ms |     1 | 2.6ms | 2.6ms | `PlatformWorkerThread` |
+
+##### `V8.GC_HEAP_EPILOGUE_SAFEPOINT`
+
+|      % |  Time | Count |  Mean |    Max | Thread                 |
+| -----: | ----: | ----: | ----: | -----: | ---------------------- |
+| 100.0% | 1.8ms |   350 | 5.2µs | 18.0µs | `JavaScriptMainThread` |
+
+##### `V8.GC_HEAP_PROLOGUE_SAFEPOINT`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 1.5ms |   350 | 4.3µs | 0.5ms | `JavaScriptMainThread` |
+
+##### `V8.GCDeoptMarkedAllocationSites`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 1.4ms |    26 | 0.1ms | 0.2ms | `JavaScriptMainThread` |
+
+##### `V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP`
+
+|      % |  Time | Count |   Mean |   Max | Thread                 |
+| -----: | ----: | ----: | -----: | ----: | ---------------------- |
+| 100.0% | 0.8ms |    43 | 18.7µs | 0.3ms | `PlatformWorkerThread` |
+
+##### `Major concurrent marking rescheduled`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 0.5ms |   615 | 0.8µs | 2.0µs | `JavaScriptMainThread` |
+
 ##### `RememberedSetUpdatingItem::Process`
 
 |     % |  Time | Count |  Mean |    Max | Thread                 |
 | ----: | ----: | ----: | ----: | -----: | ---------------------- |
 | 57.8% | 0.3ms |    84 | 3.4µs | 24.0µs | `JavaScriptMainThread` |
 | 42.2% | 0.2ms |    46 | 4.5µs | 25.0µs | `PlatformWorkerThread` |
+
+##### `Parallel scavenge started`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 0.3ms |   348 | 0.9µs | 3.0µs | `JavaScriptMainThread` |
+
+##### `V8.GC_MC_BACKGROUND_EVACUATE_UPDATE_POINTERS`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 0.3ms |     1 | 0.3ms | 0.3ms | `PlatformWorkerThread` |
+
+##### `V8.GC_MINOR_MS_BACKGROUND_SWEEPING`
+
+|      % |  Time | Count |  Mean |    Max | Thread                 |
+| -----: | ----: | ----: | ----: | -----: | ---------------------- |
+| 100.0% | 0.2ms |    43 | 3.6µs | 29.0µs | `PlatformWorkerThread` |
+
+##### `LiveObjectVisitor::VisitMarkedObjects`
+
+|      % |  Time | Count |  Mean |   Max | Thread                 |
+| -----: | ----: | ----: | ----: | ----: | ---------------------- |
+| 100.0% | 0.1ms |     2 | 0.1ms | 0.1ms | `JavaScriptMainThread` |
+
+##### `ConcurrentMarking::RunMajor Preempted`
+
+|      % |   Time | Count |  Mean |    Max | Thread                 |
+| -----: | -----: | ----: | ----: | -----: | ---------------------- |
+| 100.0% | 31.0µs |     8 | 3.9µs | 14.0µs | `PlatformWorkerThread` |
 
 #### Parents
 
@@ -1621,6 +1885,97 @@ Categories accounting for at least 1.0% of self time.
 | <0.1% |    1.5ms |   350 |  4.3µs |  0.5ms | `V8.GC_HEAP_PROLOGUE_SAFEPOINT`           |
 | <0.1% |    1.3ms |     2 |  0.7ms |  0.8ms | `V8.GC_MC_EVACUATE_UPDATE_POINTERS`       |
 
+### Count
+
+Thread spans with the most occurrences recorded.
+
+|     % |  Count | Span                                           |
+| ----: | -----: | ---------------------------------------------- |
+| 24.1% | 10,115 | `fs.sync.stat`                                 |
+| 16.6% |  6,944 | `V8.BytecodeBudgetInterrupt`                   |
+|  6.6% |  2,757 | `V8.HandleInterrupts`                          |
+|  6.5% |  2,735 | `V8.StackGuard`                                |
+|  3.7% |  1,540 | `V8.DeoptimizeCode`                            |
+|  3.4% |  1,413 | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
+|  2.7% |  1,125 | `fs.sync.open`                                 |
+|  2.7% |  1,125 | `fs.sync.read`                                 |
+|  2.7% |  1,125 | `fs.sync.close`                                |
+|  2.7% |  1,124 | `fs.sync.fstat`                                |
+|  1.5% |    615 | `Major concurrent marking rescheduled`         |
+|  1.5% |    613 | `V8.GCIncrementalMarking`                      |
+|  1.5% |    613 | `V8.GC_MC_INCREMENTAL`                         |
+|  1.5% |    613 | `V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING`        |
+|  1.1% |    452 | `V8.BytecodeBudgetInterruptWithStackCheck`     |
+|  0.9% |    388 | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`            |
+|  0.8% |    353 | `V8.GC_TIME_TO_SAFEPOINT`                      |
+|  0.8% |    350 | `V8.GC_HEAP_PROLOGUE`                          |
+|  0.8% |    350 | `V8.GC_HEAP_PROLOGUE_SAFEPOINT`                |
+|  0.8% |    350 | `V8.GC_HEAP_EPILOGUE_SAFEPOINT`                |
+
+#### Categories
+
+Categories accounting for at least 1.0% of self time.
+
+##### Script
+
+|     % | Count | Span                                       |
+| ----: | ----: | ------------------------------------------ |
+| 16.6% | 6,944 | `V8.BytecodeBudgetInterrupt`               |
+|  6.6% | 2,757 | `V8.HandleInterrupts`                      |
+|  6.5% | 2,735 | `V8.StackGuard`                            |
+|  1.1% |   452 | `V8.BytecodeBudgetInterruptWithStackCheck` |
+| <0.1% |     1 | `RunMicrotasks`                            |
+
+##### Garbage collection
+
+|     % | Count | Span                                            |
+| ----: | ----: | ----------------------------------------------- |
+|  3.4% | 1,413 | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL`  |
+|  1.5% |   615 | `Major concurrent marking rescheduled`          |
+|  0.8% |   348 | `Parallel scavenge started`                     |
+|  0.5% |   201 | `V8.GC_BACKGROUND_UNPARK`                       |
+|  0.3% |   130 | `RememberedSetUpdatingItem::Process`            |
+|  0.2% |    88 | `V8.GC_BACKGROUND_SAFEPOINT`                    |
+|  0.2% |    84 | `Evacuator::EvacuatePage`                       |
+|  0.2% |    84 | `FullEvacuator::RawEvacuatePage`                |
+|  0.2% |    82 | `LiveObjectVisitor::VisitMarkedObjectsNoFail`   |
+|  0.1% |    43 | `V8.GC_MINOR_MS_BACKGROUND_SWEEPING`            |
+|  0.1% |    43 | `V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP`     |
+|  0.1% |    26 | `V8.GCDeoptMarkedAllocationSites`               |
+|  0.1% |    23 | `V8.GC_MC_BACKGROUND_MARKING`                   |
+| <0.1% |    15 | `V8.GC_MC_BACKGROUND_SWEEPING`                  |
+| <0.1% |     8 | `ConcurrentMarking::RunMajor Preempted`         |
+| <0.1% |     4 | `Major concurrent marking started`              |
+| <0.1% |     2 | `V8.GCHandleGCRequest`                          |
+| <0.1% |     2 | `ClearStringTableJob started`                   |
+| <0.1% |     2 | `MarkCompactCollector::EvacuatePagesInParallel` |
+| <0.1% |     2 | `PageEvacuationJob started`                     |
+
+##### Garbage collection pause
+
+|    % | Count | Span                                                    |
+| ---: | ----: | ------------------------------------------------------- |
+| 1.5% |   613 | `V8.GCIncrementalMarking`                               |
+| 1.5% |   613 | `V8.GC_MC_INCREMENTAL`                                  |
+| 1.5% |   613 | `V8.GC_MC_INCREMENTAL_EMBEDDER_TRACING`                 |
+| 0.9% |   388 | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`                     |
+| 0.8% |   353 | `V8.GC_TIME_TO_SAFEPOINT`                               |
+| 0.8% |   350 | `V8.GC_HEAP_PROLOGUE`                                   |
+| 0.8% |   350 | `V8.GC_HEAP_PROLOGUE_SAFEPOINT`                         |
+| 0.8% |   350 | `V8.GC_HEAP_EPILOGUE_SAFEPOINT`                         |
+| 0.8% |   350 | `V8.GC_HEAP_EPILOGUE_REDUCE_NEW_SPACE`                  |
+| 0.8% |   350 | `V8.GC_HEAP_EPILOGUE`                                   |
+| 0.8% |   350 | `V8.GC_HEAP_DUMP_STATISTICS`                            |
+| 0.8% |   350 | `V8.GC_HEAP_EXTERNAL_EPILOGUE`                          |
+| 0.8% |   348 | `MinorGC`                                               |
+| 0.8% |   348 | `V8.GCScavenger`                                        |
+| 0.8% |   348 | `V8.GC_SCAVENGER`                                       |
+| 0.8% |   348 | `V8.GC_SCAVENGER_SCAVENGE`                              |
+| 0.8% |   348 | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY` |
+| 0.8% |   348 | `V8.GC_SCAVENGER_SCAVENGE_ROOTS`                        |
+| 0.8% |   348 | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE`               |
+| 0.8% |   348 | `V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS`  |
+
 ## Longest async spans
 
 Spans of operations that stay pending while threads do other work. Async spans overlap one another, so their times can sum to more than the trace's duration.
@@ -1685,6 +2040,16 @@ Instances of each span with the most time.
 | -----: | ----: | ----: |
 | 100.0% | 5.59s | 9.9ms |
 
+### Count
+
+Async spans with the most occurrences recorded.
+
+|     % | Count | Span               |
+| ----: | ----: | ------------------ |
+| 60.6% |    80 | `PROMISE`          |
+| 38.6% |    51 | `PROMISE_CALLBACK` |
+|  0.8% |     1 | `PIPEWRAP`         |
+
 ## Most frequent instants
 
 ### Count
@@ -1713,6 +2078,28 @@ Categories accounting for at least 1.0% of instants.
 | ---: | ----: | ---------------------------------- |
 | 0.6% |     2 | `V8.GCMarkCompactorSummary`        |
 | 0.6% |     2 | `V8.GCMarkCompactorMarkingSummary` |
+
+#### Threads
+
+Threads with the largest contribution to each instant's count.
+
+##### `V8.GC_Heap_Stats`
+
+|      % | Count | Thread                 |
+| -----: | ----: | ---------------------- |
+| 100.0% |   350 | `JavaScriptMainThread` |
+
+##### `V8.GCMarkCompactorSummary`
+
+|      % | Count | Thread                 |
+| -----: | ----: | ---------------------- |
+| 100.0% |     2 | `JavaScriptMainThread` |
+
+##### `V8.GCMarkCompactorMarkingSummary`
+
+|      % | Count | Thread                 |
+| -----: | ----: | ---------------------- |
+| 100.0% |     2 | `JavaScriptMainThread` |
 
 ## Gauges
 

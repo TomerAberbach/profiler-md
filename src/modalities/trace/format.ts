@@ -127,7 +127,7 @@ const formatThreads = (
   options: FormattingProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
-  if (trace.threads.length < 2) {
+  if (trace.threads.length === 0) {
     return []
   }
 
@@ -449,19 +449,20 @@ const formatLongestSpans = (
         heading(headingLevel, population.title),
         paragraph(population.definition),
       ],
-      measures
-        .filter(measure => measure.population === population)
-        .flatMap(measure =>
-          formatSpanMeasure({
-            measure,
-            spans: shown,
-            categories,
-            trace,
-            index,
-            options,
-            headingLevel: headingLevel + 1,
-          }),
-        ),
+      [
+        ...measures.filter(measure => measure.population === population),
+        spanCount(population),
+      ].flatMap(measure =>
+        formatSpanMeasure({
+          measure,
+          spans: shown,
+          categories,
+          trace,
+          index,
+          options,
+          headingLevel: headingLevel + 1,
+        }),
+      ),
     ),
   )
 }
@@ -709,7 +710,7 @@ const formatThreadSections = ({
       paragraph(shareSentence(`Threads with the largest`, share)),
     ],
     events.flatMap(event => {
-      if (event.threadIdToStats.size < 2) {
+      if (event.threadIdToStats.size === 0) {
         return []
       }
       const { hasTime, total } = shareOf(event)
@@ -838,9 +839,7 @@ const formatInstanceSections = ({
           instanceColumns({
             hasCpuTime: rows.some(({ cpuTime }) => cpuTime !== undefined),
             hasStart: rows.some(({ start }) => start !== undefined),
-            hasThread:
-              trace.threads.length > 1 &&
-              rows.some(({ thread }) => thread !== undefined),
+            hasThread: rows.some(({ thread }) => thread !== undefined),
             hasAttributes: rows.some(({ attributes }) => attributes !== ``),
           }),
           rows,
@@ -1131,7 +1130,7 @@ const formatDiffThreads = (
   options: FormattingProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
-  if (base.threads.length < 2 && current.threads.length < 2) {
+  if (base.threads.length === 0 && current.threads.length === 0) {
     return []
   }
 
@@ -1480,12 +1479,10 @@ const formatDiffThreadSections = ({
       paragraph(shareSentence(`Threads with the largest change in`, share)),
     ],
     events.flatMap(event =>
-      // As in a single trace, an event on one thread has nothing to break
-      // down.
       Math.max(
         event.base?.threadIdToStats.size ?? 0,
         event.current?.threadIdToStats.size ?? 0,
-      ) < 2
+      ) === 0
         ? []
         : formatDiffStatsTable({
             event,

@@ -7,6 +7,14 @@ Recorded 1,773 events over 3.88s.
 | Compilation | 87.1% |   3.38s | 1,497 |
 | Parsing     | 11.1% | 432.9ms |   276 |
 
+## Threads
+
+Threads with the most time in spans. Threads run concurrently, so percentages can sum to more than 100%.
+
+|     % |  Time | Count | Thread |
+| ----: | ----: | ----: | ------ |
+| 98.2% | 3.81s | 1,773 | `Main` |
+
 ## Longest thread spans
 
 Spans recorded on one thread. A span's time includes time its thread spent waiting.
@@ -344,6 +352,118 @@ Attribute values with the largest contribution to each span's total time.
 | 67.3% | 0.2ms |     1 | 0.2ms | 0.2ms | `resolveFrom` | `/src/zod/__lib_node_modules_lookup_lib.es2020.intl.d.ts__.ts`   |
 | 32.7% | 0.1ms |     1 | 0.1ms | 0.1ms | `resolveFrom` | `/src/zod/__lib_node_modules_lookup_lib.es2022.string.d.ts__.ts` |
 
+#### Threads
+
+Threads with the largest contribution to each span's total time.
+
+##### `checkSourceFile`
+
+|      % |  Time | Count |   Mean |     Max | Thread |
+| -----: | ----: | ----: | -----: | ------: | ------ |
+| 100.0% | 2.90s |    83 | 35.0ms | 601.2ms | `Main` |
+
+##### `checkDeferredNode`
+
+|      % |  Time | Count |  Mean |     Max | Thread |
+| -----: | ----: | ----: | ----: | ------: | ------ |
+| 100.0% | 1.04s |   116 | 9.0ms | 122.3ms | `Main` |
+
+##### `checkExpression`
+
+|      % |  Time | Count |  Mean |     Max | Thread |
+| -----: | ----: | ----: | ----: | ------: | ------ |
+| 100.0% | 2.90s |   558 | 5.2ms | 118.6ms | `Main` |
+
+##### `checkVariableDeclaration`
+
+|      % |    Time | Count |  Mean |     Max | Thread |
+| -----: | ------: | ----: | ----: | ------: | ------ |
+| 100.0% | 799.1ms |    81 | 9.9ms | 118.8ms | `Main` |
+
+##### `createProgram`
+
+|      % |    Time | Count |    Mean |     Max | Thread |
+| -----: | ------: | ----: | ------: | ------: | ------ |
+| 100.0% | 590.8ms |     1 | 590.8ms | 590.8ms | `Main` |
+
+##### `findSourceFile`
+
+|      % |  Time | Count |   Mean |     Max | Thread |
+| -----: | ----: | ----: | -----: | ------: | ------ |
+| 100.0% | 1.68s |    60 | 28.1ms | 190.8ms | `Main` |
+
+##### `structuredTypeRelatedTo`
+
+|      % |  Time | Count |   Mean |     Max | Thread |
+| -----: | ----: | ----: | -----: | ------: | ------ |
+| 100.0% | 4.71s |   279 | 16.9ms | 173.2ms | `Main` |
+
+##### `createSourceFile`
+
+|      % |    Time | Count |  Mean |    Max | Thread |
+| -----: | ------: | ----: | ----: | -----: | ------ |
+| 100.0% | 432.9ms |   276 | 1.6ms | 79.8ms | `Main` |
+
+##### `processRootFiles`
+
+|      % |    Time | Count |    Mean |     Max | Thread |
+| -----: | ------: | ----: | ------: | ------: | ------ |
+| 100.0% | 388.3ms |     1 | 388.3ms | 388.3ms | `Main` |
+
+##### `bindSourceFile`
+
+|      % |    Time | Count |  Mean |    Max | Thread |
+| -----: | ------: | ----: | ----: | -----: | ------ |
+| 100.0% | 321.2ms |   275 | 1.2ms | 59.5ms | `Main` |
+
+##### `getVariancesWorker`
+
+|      % |  Time | Count |   Mean |     Max | Thread |
+| -----: | ----: | ----: | -----: | ------: | ------ |
+| 100.0% | 1.42s |    28 | 50.9ms | 172.9ms | `Main` |
+
+##### `processTypeReferenceDirective`
+
+|      % |    Time | Count |   Mean |     Max | Thread |
+| -----: | ------: | ----: | -----: | ------: | ------ |
+| 100.0% | 204.8ms |     5 | 41.0ms | 137.7ms | `Main` |
+
+##### `processTypeReferences`
+
+|      % |   Time | Count |   Mean |    Max | Thread |
+| -----: | -----: | ----: | -----: | -----: | ------ |
+| 100.0% | 79.0ms |     1 | 79.0ms | 79.0ms | `Main` |
+
+##### `resolveModuleNamesWorker`
+
+|      % |  Time | Count |  Mean |   Max | Thread |
+| -----: | ----: | ----: | ----: | ----: | ------ |
+| 100.0% | 3.5ms |     2 | 1.8ms | 3.0ms | `Main` |
+
+##### `resolveTypeReferenceDirectiveNamesWorker`
+
+|      % |  Time | Count |  Mean |   Max | Thread |
+| -----: | ----: | ----: | ----: | ----: | ------ |
+| 100.0% | 2.3ms |     1 | 2.3ms | 2.3ms | `Main` |
+
+##### `emit`
+
+|      % |  Time | Count |  Mean |   Max | Thread |
+| -----: | ----: | ----: | ----: | ----: | ------ |
+| 100.0% | 1.3ms |     1 | 1.3ms | 1.3ms | `Main` |
+
+##### `emitBuildInfo`
+
+|      % |  Time | Count |  Mean |   Max | Thread |
+| -----: | ----: | ----: | ----: | ----: | ------ |
+| 100.0% | 0.6ms |     1 | 0.6ms | 0.6ms | `Main` |
+
+##### `resolveLibrary`
+
+|      % |  Time | Count |  Mean |   Max | Thread |
+| -----: | ----: | ----: | ----: | ----: | ------ |
+| 100.0% | 0.2ms |     2 | 0.1ms | 0.2ms | `Main` |
+
 #### Parents
 
 Parent spans with the largest contribution to each span's total time.
@@ -547,153 +667,210 @@ Instances of each span with the most time.
 
 ##### `checkSourceFile`
 
-|     % |    Time | Start | Attributes                                                 |
-| ----: | ------: | ----: | ---------------------------------------------------------- |
-| 20.7% | 601.2ms | 1.38s | `path=/src/zod/src/types.ts`                               |
-|  9.7% | 282.9ms | 2.38s | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-|  9.3% | 269.8ms | 1.11s | `path=/src/zod/src/helpers/partialUtil.ts`                 |
-|  4.9% | 143.4ms | 3.10s | `path=/src/zod/src/__tests__/object.test.ts`               |
-|  4.3% | 125.7ms | 3.26s | `path=/src/zod/src/__tests__/partials.test.ts`             |
+|     % |    Time | Start | Thread | Attributes                                                 |
+| ----: | ------: | ----: | ------ | ---------------------------------------------------------- |
+| 20.7% | 601.2ms | 1.38s | `Main` | `path=/src/zod/src/types.ts`                               |
+|  9.7% | 282.9ms | 2.38s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  9.3% | 269.8ms | 1.11s | `Main` | `path=/src/zod/src/helpers/partialUtil.ts`                 |
+|  4.9% | 143.4ms | 3.10s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
+|  4.3% | 125.7ms | 3.26s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`             |
 
 ##### `checkDeferredNode`
 
-|     % |    Time | Start | Attributes                                                  |
-| ----: | ------: | ----: | ----------------------------------------------------------- |
-| 11.7% | 122.3ms | 2.40s | `path=/src/zod/src/__tests__/discriminated-unions.test.ts`  |
-|  3.9% |  40.6ms | 3.31s | `path=/src/zod/src/__tests__/partials.test.ts`              |
-|  2.7% |  28.6ms | 2.77s | `path=/src/zod/src/__tests__/firstpartyschematypes.test.ts` |
-|  2.6% |  27.7ms | 3.52s | `path=/src/zod/src/__tests__/readonly.test.ts`              |
-|  2.2% |  23.1ms | 1.08s | `path=/src/zod/src/helpers/parseUtil.ts`                    |
+|     % |    Time | Start | Thread | Attributes                                                  |
+| ----: | ------: | ----: | ------ | ----------------------------------------------------------- |
+| 11.7% | 122.3ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts`  |
+|  3.9% |  40.6ms | 3.31s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`              |
+|  2.7% |  28.6ms | 2.77s | `Main` | `path=/src/zod/src/__tests__/firstpartyschematypes.test.ts` |
+|  2.6% |  27.7ms | 3.52s | `Main` | `path=/src/zod/src/__tests__/readonly.test.ts`              |
+|  2.2% |  23.1ms | 1.08s | `Main` | `path=/src/zod/src/helpers/parseUtil.ts`                    |
 
 ##### `checkExpression`
 
-|    % |    Time | Start | Attributes                                                 |
-| ---: | ------: | ----: | ---------------------------------------------------------- |
-| 4.1% | 118.6ms | 2.40s | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 3.5% | 101.2ms | 2.40s | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 2.9% |  83.8ms | 2.26s | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-| 2.4% |  70.0ms | 2.26s | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-| 0.9% |  25.8ms |    2s | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+|    % |    Time | Start | Thread | Attributes                                                 |
+| ---: | ------: | ----: | ------ | ---------------------------------------------------------- |
+| 4.1% | 118.6ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+| 3.5% | 101.2ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+| 2.9% |  83.8ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+| 2.4% |  70.0ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+| 0.9% |  25.8ms |    2s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
 
 ##### `checkVariableDeclaration`
 
-|     % |    Time | Start | Attributes                                                 |
-| ----: | ------: | ----: | ---------------------------------------------------------- |
-| 14.9% | 118.8ms | 2.40s | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 10.5% |  84.0ms | 2.26s | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-|  3.3% |  26.1ms |    2s | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
-|  2.7% |  21.6ms | 3.22s | `path=/src/zod/src/__tests__/object.test.ts`               |
-|  2.6% |  21.0ms | 2.22s | `path=/src/zod/src/__tests__/catch.test.ts`                |
+|     % |    Time | Start | Thread | Attributes                                                 |
+| ----: | ------: | ----: | ------ | ---------------------------------------------------------- |
+| 14.9% | 118.8ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+| 10.5% |  84.0ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+|  3.3% |  26.1ms |    2s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+|  2.7% |  21.6ms | 3.22s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
+|  2.6% |  21.0ms | 2.22s | `Main` | `path=/src/zod/src/__tests__/catch.test.ts`                |
 
 ##### `createProgram`
 
-|      % |    Time | Start | Attributes                              |
-| -----: | ------: | ----: | --------------------------------------- |
-| 100.0% | 590.8ms |   0ms | `configFilePath=/src/zod/tsconfig.json` |
+|      % |    Time | Start | Thread | Attributes                              |
+| -----: | ------: | ----: | ------ | --------------------------------------- |
+| 100.0% | 590.8ms |   0ms | `Main` | `configFilePath=/src/zod/tsconfig.json` |
 
 ##### `findSourceFile`
 
-|     % |    Time |   Start | Attributes                                                                                      |
-| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------- |
-| 11.3% | 190.8ms | 127.5ms | `fileName=/src/zod/src/__tests__/all-errors.test.ts, fileIncludeKind=RootFile`                  |
-| 11.1% | 187.3ms | 130.8ms | `fileName=/src/zod/node_modules/@jest/globals/build/index.d.ts, fileIncludeKind=Import`         |
-| 10.4% | 174.4ms | 134.0ms | `fileName=/src/zod/node_modules/@jest/environment/build/index.d.ts, fileIncludeKind=Import`     |
-|  8.2% | 137.6ms | 138.1ms | `fileName=/src/zod/node_modules/@types/node/index.d.ts, fileIncludeKind=TypeReferenceDirective` |
-|  7.5% | 125.5ms |   0.8ms | `fileName=/src/zod/src/ZodError.ts, fileIncludeKind=RootFile`                                   |
+|     % |    Time |   Start | Thread | Attributes                                                                                      |
+| ----: | ------: | ------: | ------ | ----------------------------------------------------------------------------------------------- |
+| 11.3% | 190.8ms | 127.5ms | `Main` | `fileName=/src/zod/src/__tests__/all-errors.test.ts, fileIncludeKind=RootFile`                  |
+| 11.1% | 187.3ms | 130.8ms | `Main` | `fileName=/src/zod/node_modules/@jest/globals/build/index.d.ts, fileIncludeKind=Import`         |
+| 10.4% | 174.4ms | 134.0ms | `Main` | `fileName=/src/zod/node_modules/@jest/environment/build/index.d.ts, fileIncludeKind=Import`     |
+|  8.2% | 137.6ms | 138.1ms | `Main` | `fileName=/src/zod/node_modules/@types/node/index.d.ts, fileIncludeKind=TypeReferenceDirective` |
+|  7.5% | 125.5ms |   0.8ms | `Main` | `fileName=/src/zod/src/ZodError.ts, fileIncludeKind=RootFile`                                   |
 
 ##### `structuredTypeRelatedTo`
 
-|    % |    Time | Start |
-| ---: | ------: | ----: |
-| 3.7% | 173.2ms | 1.11s |
-| 3.6% | 169.9ms | 1.11s |
-| 3.5% | 163.2ms | 1.12s |
-| 3.4% | 161.8ms | 1.12s |
-| 3.3% | 156.6ms | 1.12s |
+|    % |    Time | Start | Thread |
+| ---: | ------: | ----: | ------ |
+| 3.7% | 173.2ms | 1.11s | `Main` |
+| 3.6% | 169.9ms | 1.11s | `Main` |
+| 3.5% | 163.2ms | 1.12s | `Main` |
+| 3.4% | 161.8ms | 1.12s | `Main` |
+| 3.3% | 156.6ms | 1.12s | `Main` |
 
 ##### `createSourceFile`
 
-|     % |   Time |   Start | Attributes                                               |
-| ----: | -----: | ------: | -------------------------------------------------------- |
-| 18.4% | 79.8ms |  42.8ms | `path=/src/zod/src/types.ts`                             |
-| 17.6% | 76.2ms | 495.1ms | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
-|  6.1% | 26.5ms | 401.6ms | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
-|  3.5% | 15.2ms |   1.7ms | `path=/src/zod/src/ZodError.ts`                          |
-|  2.5% | 11.0ms | 241.4ms | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
+|     % |   Time |   Start | Thread | Attributes                                               |
+| ----: | -----: | ------: | ------ | -------------------------------------------------------- |
+| 18.4% | 79.8ms |  42.8ms | `Main` | `path=/src/zod/src/types.ts`                             |
+| 17.6% | 76.2ms | 495.1ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
+|  6.1% | 26.5ms | 401.6ms | `Main` | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
+|  3.5% | 15.2ms |   1.7ms | `Main` | `path=/src/zod/src/ZodError.ts`                          |
+|  2.5% | 11.0ms | 241.4ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
 
 ##### `processRootFiles`
 
-|      % |    Time | Start |
-| -----: | ------: | ----: |
-| 100.0% | 388.3ms | 0.7ms |
+|      % |    Time | Start | Thread |
+| -----: | ------: | ----: | ------ |
+| 100.0% | 388.3ms | 0.7ms | `Main` |
 
 ##### `bindSourceFile`
 
-|     % |   Time |   Start | Attributes                                               |
-| ----: | -----: | ------: | -------------------------------------------------------- |
-| 18.5% | 59.5ms | 624.6ms | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
-| 10.6% | 34.2ms | 719.9ms | `path=/src/zod/src/types.ts`                             |
-|  7.3% | 23.4ms | 598.0ms | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
-|  5.6% | 17.9ms | 911.2ms | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
-|  2.3% |  7.4ms | 799.7ms | `path=/src/zod/node_modules/@types/node/inspector.d.ts`  |
+|     % |   Time |   Start | Thread | Attributes                                               |
+| ----: | -----: | ------: | ------ | -------------------------------------------------------- |
+| 18.5% | 59.5ms | 624.6ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
+| 10.6% | 34.2ms | 719.9ms | `Main` | `path=/src/zod/src/types.ts`                             |
+|  7.3% | 23.4ms | 598.0ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
+|  5.6% | 17.9ms | 911.2ms | `Main` | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
+|  2.3% |  7.4ms | 799.7ms | `Main` | `path=/src/zod/node_modules/@types/node/inspector.d.ts`  |
 
 ##### `getVariancesWorker`
 
-|     % |    Time | Start |
-| ----: | ------: | ----: |
-| 12.1% | 172.9ms | 1.11s |
-| 11.3% | 161.6ms | 1.12s |
-| 10.5% | 149.3ms | 1.12s |
-|  8.6% | 122.6ms | 1.15s |
-|  8.1% | 114.9ms | 1.15s |
+|     % |    Time | Start | Thread |
+| ----: | ------: | ----: | ------ |
+| 12.1% | 172.9ms | 1.11s | `Main` |
+| 11.3% | 161.6ms | 1.12s | `Main` |
+| 10.5% | 149.3ms | 1.12s | `Main` |
+|  8.6% | 122.6ms | 1.15s | `Main` |
+|  8.1% | 114.9ms | 1.15s | `Main` |
 
 ##### `processTypeReferenceDirective`
 
-|     % |    Time |   Start | Attributes                                                                         |
-| ----: | ------: | ------: | ---------------------------------------------------------------------------------- |
-| 67.2% | 137.7ms | 138.0ms | `directive=node, refPath=/src/zod/node_modules/@jest/environment/build/index.d.ts` |
-| 21.7% |  44.5ms | 395.7ms | `directive=babel__core`                                                            |
-|  7.8% |  16.1ms | 456.0ms | `directive=semver`                                                                 |
-|  2.5% |   5.0ms | 450.2ms | `directive=json-schema`                                                            |
-|  0.7% |   1.5ms | 444.3ms | `directive=estree`                                                                 |
+|     % |    Time |   Start | Thread | Attributes                                                                         |
+| ----: | ------: | ------: | ------ | ---------------------------------------------------------------------------------- |
+| 67.2% | 137.7ms | 138.0ms | `Main` | `directive=node, refPath=/src/zod/node_modules/@jest/environment/build/index.d.ts` |
+| 21.7% |  44.5ms | 395.7ms | `Main` | `directive=babel__core`                                                            |
+|  7.8% |  16.1ms | 456.0ms | `Main` | `directive=semver`                                                                 |
+|  2.5% |   5.0ms | 450.2ms | `Main` | `directive=json-schema`                                                            |
+|  0.7% |   1.5ms | 444.3ms | `Main` | `directive=estree`                                                                 |
 
 ##### `processTypeReferences`
 
-|      % |   Time |   Start |
-| -----: | -----: | ------: |
-| 100.0% | 79.0ms | 393.3ms |
+|      % |   Time |   Start | Thread |
+| -----: | -----: | ------: | ------ |
+| 100.0% | 79.0ms | 393.3ms | `Main` |
 
 ##### `resolveModuleNamesWorker`
 
-|     % |  Time |   Start | Attributes                                                                    |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------- |
-| 84.3% | 3.0ms | 294.2ms | `containingFileName=/src/zod/node_modules/@types/istanbul-reports/index.d.ts` |
-| 15.7% | 0.6ms | 304.2ms | `containingFileName=/src/zod/node_modules/@jest/fake-timers/build/index.d.ts` |
+|     % |  Time |   Start | Thread | Attributes                                                                    |
+| ----: | ----: | ------: | ------ | ----------------------------------------------------------------------------- |
+| 84.3% | 3.0ms | 294.2ms | `Main` | `containingFileName=/src/zod/node_modules/@types/istanbul-reports/index.d.ts` |
+| 15.7% | 0.6ms | 304.2ms | `Main` | `containingFileName=/src/zod/node_modules/@jest/fake-timers/build/index.d.ts` |
 
 ##### `resolveTypeReferenceDirectiveNamesWorker`
 
-|      % |  Time |   Start | Attributes                                               |
-| -----: | ----: | ------: | -------------------------------------------------------- |
-| 100.0% | 2.3ms | 393.3ms | `containingFileName=/src/zod/__inferred type names__.ts` |
+|      % |  Time |   Start | Thread | Attributes                                               |
+| -----: | ----: | ------: | ------ | -------------------------------------------------------- |
+| 100.0% | 2.3ms | 393.3ms | `Main` | `containingFileName=/src/zod/__inferred type names__.ts` |
 
 ##### `emit`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 1.3ms | 3.88s |
+|      % |  Time | Start | Thread |
+| -----: | ----: | ----: | ------ |
+| 100.0% | 1.3ms | 3.88s | `Main` |
 
 ##### `emitBuildInfo`
 
-|      % |  Time | Start |
-| -----: | ----: | ----: |
-| 100.0% | 0.6ms | 3.88s |
+|      % |  Time | Start | Thread |
+| -----: | ----: | ----: | ------ |
+| 100.0% | 0.6ms | 3.88s | `Main` |
 
 ##### `resolveLibrary`
 
-|     % |  Time |   Start | Attributes                                                                   |
-| ----: | ----: | ------: | ---------------------------------------------------------------------------- |
-| 67.3% | 0.2ms | 274.3ms | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2020.intl.d.ts__.ts`   |
-| 32.7% | 0.1ms | 484.3ms | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2022.string.d.ts__.ts` |
+|     % |  Time |   Start | Thread | Attributes                                                                   |
+| ----: | ----: | ------: | ------ | ---------------------------------------------------------------------------- |
+| 67.3% | 0.2ms | 274.3ms | `Main` | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2020.intl.d.ts__.ts`   |
+| 32.7% | 0.1ms | 484.3ms | `Main` | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2022.string.d.ts__.ts` |
+
+### Count
+
+Thread spans with the most occurrences recorded.
+
+|     % | Count | Span                                       |
+| ----: | ----: | ------------------------------------------ |
+| 31.5% |   558 | `checkExpression`                          |
+| 15.8% |   279 | `structuredTypeRelatedTo`                  |
+| 15.6% |   276 | `createSourceFile`                         |
+| 15.5% |   275 | `bindSourceFile`                           |
+|  6.5% |   116 | `checkDeferredNode`                        |
+|  4.7% |    83 | `checkSourceFile`                          |
+|  4.6% |    81 | `checkVariableDeclaration`                 |
+|  3.4% |    60 | `findSourceFile`                           |
+|  1.6% |    28 | `getVariancesWorker`                       |
+|  0.3% |     5 | `processTypeReferenceDirective`            |
+|  0.1% |     2 | `resolveLibrary`                           |
+|  0.1% |     2 | `resolveModuleNamesWorker`                 |
+|  0.1% |     1 | `createProgram`                            |
+|  0.1% |     1 | `processRootFiles`                         |
+|  0.1% |     1 | `processTypeReferences`                    |
+|  0.1% |     1 | `resolveTypeReferenceDirectiveNamesWorker` |
+|  0.1% |     1 | `emit`                                     |
+|  0.1% |     1 | `emitBuildInfo`                            |
+
+#### Categories
+
+Categories accounting for at least 1.0% of self time.
+
+##### Compilation
+
+|     % | Count | Span                                       |
+| ----: | ----: | ------------------------------------------ |
+| 31.5% |   558 | `checkExpression`                          |
+| 15.8% |   279 | `structuredTypeRelatedTo`                  |
+| 15.5% |   275 | `bindSourceFile`                           |
+|  6.5% |   116 | `checkDeferredNode`                        |
+|  4.7% |    83 | `checkSourceFile`                          |
+|  4.6% |    81 | `checkVariableDeclaration`                 |
+|  3.4% |    60 | `findSourceFile`                           |
+|  1.6% |    28 | `getVariancesWorker`                       |
+|  0.3% |     5 | `processTypeReferenceDirective`            |
+|  0.1% |     2 | `resolveLibrary`                           |
+|  0.1% |     2 | `resolveModuleNamesWorker`                 |
+|  0.1% |     1 | `createProgram`                            |
+|  0.1% |     1 | `processRootFiles`                         |
+|  0.1% |     1 | `processTypeReferences`                    |
+|  0.1% |     1 | `resolveTypeReferenceDirectiveNamesWorker` |
+|  0.1% |     1 | `emit`                                     |
+|  0.1% |     1 | `emitBuildInfo`                            |
+
+##### Parsing
+
+|     % | Count | Span               |
+| ----: | ----: | ------------------ |
+| 15.6% |   276 | `createSourceFile` |
 
 ## Most frequent instants
 
@@ -710,3 +887,13 @@ Categories accounting for at least 1.0% of instants.
 |      % | Count | Instant                             |
 | -----: | ----: | ----------------------------------- |
 | 100.0% |     2 | `recursiveTypeRelatedTo_DepthLimit` |
+
+#### Threads
+
+Threads with the largest contribution to each instant's count.
+
+##### `recursiveTypeRelatedTo_DepthLimit`
+
+|      % | Count | Thread |
+| -----: | ----: | ------ |
+| 100.0% |     2 | `Main` |
