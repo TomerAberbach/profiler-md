@@ -523,7 +523,9 @@ const formatHottestLines = ({
 }): RootContent[] => {
   const selfValue = selfValueOf(measure, func)
   const hottestLines = selectTopN(
-    [...func.lineToMetrics],
+    [...func.lineToMetrics].filter(
+      ([, stats]) => lineValueOf(measure, stats) > 0,
+    ),
     Math.ceil(options.topN / 4),
     ([, stats]) => lineValueOf(measure, stats),
   )
