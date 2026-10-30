@@ -26,6 +26,10 @@ export const dotnetTraceOriginSpec = {
   id: `dotnet-trace`,
   formats: [`speedscope`],
   isMarkerEntry: entry => isDotnetTraceStackFrame(entry.name),
+  // `dotnet-trace` exports speedscope with the name of its exporting library,
+  // TraceEvent.
+  isOriginHint: hint =>
+    hint.startsWith(`Microsoft.Diagnostics.Tracing.TraceEvent`),
   categorizeEntry: entry =>
     dotnetNamespaceCategory(entry) ??
     unknownAssemblyCategory(entry) ??

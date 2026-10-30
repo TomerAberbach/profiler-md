@@ -23,7 +23,7 @@ describe(`detection`, () => {
       determineOrigin({
         format: `callgrind`,
         entries: [relativeEntry(`main`, `/src/main.c`)],
-        hint: `valgrind`,
+        hint: `callgrind-3.22.0`,
       }),
     ).toBe(`valgrind`)
   })
@@ -38,7 +38,7 @@ describe(`detection`, () => {
           relativeEntry(`main`, `/src/main.c`),
           relativeEntry(`<main>`),
         ],
-        hint: `valgrind`,
+        hint: `callgrind-3.22.0`,
       }),
     ).toBe(`valgrind`)
   })

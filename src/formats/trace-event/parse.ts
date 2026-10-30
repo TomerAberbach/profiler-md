@@ -103,8 +103,8 @@ class TraceEventParser {
     const [processName] = this.#pidToName.values()
     return {
       type: `trace`,
-      // The process's name is the writer's own, so it is a hint only where it
-      // is an origin's ID.
+      // The process's name is the writer's own, so it is a hint only where an
+      // origin accepts it.
       originHint: processName?.toLowerCase(),
       millisecondsPerTimeUnit: 0.001,
       threads,

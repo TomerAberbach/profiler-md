@@ -21,6 +21,7 @@ export const excimerOriginSpec = {
     (CLOSURE_FRAME.test(name) ||
       FILE_SCOPE_FRAME.test(name) ||
       name === TRUNCATION_FRAME),
+  isOriginHint: hint => hint === `Excimer`,
   // Excimer records user PHP code alone, because its stack walker skips every
   // frame whose function is not `ZEND_USER_CODE`. A frame with no location is a
   // global function whose file the collapsed format dropped rather than

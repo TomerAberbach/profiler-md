@@ -93,7 +93,7 @@ export const parseSpeedscope = (
   profile: SpeedscopeProfile,
   recordTally: RecordTally,
 ): CallStackProfile[] => {
-  const originHint = exporterOriginHint(profile.exporter)
+  const originHint = profile.exporter
   // Speedscope samples reference frames by their index in the shared table, so
   // it doubles as the distinct frames, shared across the file's profiles.
   const frames = profile.shared.frames.map(frameToStackFrame)
@@ -103,28 +103,6 @@ export const parseSpeedscope = (
       ? sampledProfile(frames, subProfile, recordTally)
       : eventedProfile(frames, subProfile)),
   }))
-}
-
-const exporterOriginHint = (
-  exporter: string | undefined,
-): string | undefined => {
-  if (!exporter) {
-    return undefined
-  }
-  if (exporter === `Excimer`) {
-    return `excimer`
-  }
-  if (exporter === `pyinstrument`) {
-    return `pyinstrument`
-  }
-  // `dotnet-trace` writes the name of its exporting library, TraceEvent.
-  if (exporter.startsWith(`Microsoft.Diagnostics.Tracing.TraceEvent`)) {
-    return `dotnet-trace`
-  }
-  if (exporter.startsWith(`py-spy@`)) {
-    return `py-spy`
-  }
-  return exporter.startsWith(`rbspy@`) ? `rbspy` : undefined
 }
 
 // The `line`/`col` are read as the function's definition position, matching

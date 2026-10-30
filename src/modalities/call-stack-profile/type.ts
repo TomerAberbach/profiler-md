@@ -12,11 +12,12 @@ export type CallStackProfile = {
   type: `call-stack-profile`
 
   /**
-   * The ID of the origin the format's own metadata points to (e.g. a
-   * recorder's event-type definitions or a writer's self-identification
-   * field), set by a parser when that metadata identifies one.
+   * The name the format's own metadata gives the writer (e.g. a recorder's
+   * event-type definitions or a writer's self-identification field), set by a
+   * parser when that metadata identifies one. It is an origin's ID or a name
+   * the origin's {@link OriginSpec.isOriginHint} accepts.
    *
-   * Detection resolves to that origin over any marker entry, because the
+   * Detection resolves to the origin it names over any marker entry, because the
    * metadata is the writer identifying itself. A specified origin ignores it.
    */
   originHint?: string

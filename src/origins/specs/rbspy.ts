@@ -72,6 +72,11 @@ export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
   isMarkerEntry: entry => isRbspyStackFrame(entry.name),
+  // A pure-Ruby capture has no `[c function]` marker frame. Rbspy states its
+  // ID in a callgrind `creator:` header and its versioned name in a speedscope
+  // `exporter` field.
+  isOriginHint: (hint, format) =>
+    format === `speedscope` && hint.startsWith(`rbspy@`),
   matchEntry: matchEntryFromRules({
     name: RUBY_NAME_MATCH_RULES,
     location: RUBY_LOCATION_MATCH_RULES,

@@ -19,6 +19,9 @@ export const valgrindOriginSpec = {
   title: `Valgrind`,
   formats: [`callgrind`],
   isMarkerEntry: () => false,
+  // A native frame from Valgrind looks like one from any other native
+  // profiler, so only callgrind's versioned `creator:` header identifies it.
+  isOriginHint: hint => hint.startsWith(`callgrind`),
   categorizeEntry: categorizeGenericEntry,
   matchEntry: nativeMatchEntry,
   normalizeStackFrame: nativeNormalizeStackFrame,

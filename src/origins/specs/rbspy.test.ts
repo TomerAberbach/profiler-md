@@ -40,6 +40,16 @@ describe(`detection`, () => {
       }),
     ).toBe(`rbspy`)
   })
+
+  test(`a callgrind creator spelled like a speedscope exporter names no origin`, () => {
+    expect(
+      determineOrigin({
+        format: `callgrind`,
+        entries: [relativeEntry(`realtime`)],
+        hint: `rbspy@0.51.0`,
+      }),
+    ).toBe(`valgrind`)
+  })
 })
 
 describe(`normalizeStackFrame`, () => {

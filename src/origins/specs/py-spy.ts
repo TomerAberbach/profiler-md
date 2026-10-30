@@ -19,6 +19,7 @@ export const pySpyOriginSpec = {
   // them.
   isMarkerEntry: entry =>
     FRAME.test(entry.name ?? ``) || pythonStdlibCategory(entry) !== undefined,
+  isOriginHint: hint => hint.startsWith(`py-spy@`),
   categorizeEntry: categorizeCPythonEntry,
   // Py-spy emits one frame per executing line in both shapes: packed into a
   // collapsed name, or as a located speedscope frame whose `line` needs
