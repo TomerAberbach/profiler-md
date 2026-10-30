@@ -2,7 +2,8 @@ import { createWriteStream } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import type { NormalizedLogger } from '../logger.ts'
-import { CliError, isClosedReaderError } from './error.ts'
+import { isTTY } from './ansis.ts'
+import { CliError, errorCodeOf, isClosedReaderError } from './error.ts'
 import { openPager } from './pager.ts'
 
 export type WriteOutputOptions = {
@@ -22,11 +23,7 @@ export const writeOutput = async (
 }
 
 export const isTTYOutput = (outputPath: string): boolean =>
-  outputPath === `-` &&
-  // @types/node types `isTTY` as a boolean, but a non-TTY stream leaves it
-  // undefined.
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
-  Boolean(process.stdout.isTTY)
+  outputPath === `-` && isTTY(process.stdout)
 
 /**
  * Rejects an output path that cannot be written.
@@ -119,8 +116,3 @@ const WRITE_ERROR_REASONS: ReadonlyMap<string | undefined, string> = new Map([
   [`EACCES`, `permission denied`],
   [`EPERM`, `permission denied`],
 ])
-
-const errorCodeOf = (error: unknown): string | undefined =>
-  error instanceof Error && `code` in error && typeof error.code === `string`
-    ? error.code
-    : undefined

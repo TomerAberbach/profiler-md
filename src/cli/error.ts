@@ -34,3 +34,9 @@ export class CliError extends ProfilerMdError {
  */
 export const isClosedReaderError = (error: NodeJS.ErrnoException): boolean =>
   error.code === `EPIPE` || error.code === `ENOTCONN`
+
+/** The `code` a Node.js system error states, if any. */
+export const errorCodeOf = (error: unknown): string | undefined =>
+  error instanceof Error && `code` in error && typeof error.code === `string`
+    ? error.code
+    : undefined

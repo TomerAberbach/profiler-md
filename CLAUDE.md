@@ -17,7 +17,7 @@ profiler-md
 │   ├── origins/                  # Origin specs, detection, and categorization (has its own CLAUDE.md)
 │   ├── modalities/               # Modality specs: aggregation, diffing, and Markdown formatting (has its own CLAUDE.md)
 │   ├── languages.ts              # Language names, Devicon icons, aliases, and the file extensions `--help` accepts
-│   ├── testing.ts                # Test-only option resolution, log assertion, and cross-modality Markdown assertion helpers
+│   ├── testing.ts                # Test-only log assertion and cross-modality Markdown assertion helpers
 │   ├── test-setup.ts             # Vitest setup that fails a test leaving a logged warning or error unasserted
 │   └── helpers/                  # Generic (non-profiling) utility functions
 ├── docs/

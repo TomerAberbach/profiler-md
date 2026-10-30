@@ -7,10 +7,13 @@ export const stderrSupportsColor = (): boolean =>
   streamSupportsColor(process.stderr)
 
 const streamSupportsColor = (stream: NodeJS.WriteStream): boolean =>
+  makeAnsis({ isTTY: isTTY(stream) }).isSupported()
+
+export const isTTY = (stream: NodeJS.WriteStream): boolean =>
   // @types/node types `isTTY` as a boolean, but a non-TTY stream leaves it
   // undefined.
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
-  makeAnsis({ isTTY: Boolean(stream.isTTY) }).isSupported()
+  Boolean(stream.isTTY)
 
 export type MakeAnsisOptions = {
   /** Whether the stream the styled text is written to is a TTY. */
