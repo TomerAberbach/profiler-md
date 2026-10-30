@@ -1,10 +1,9 @@
-import { protocolCategory } from '../categorize.ts'
+import { hasProtocol, protocolCategory } from '../categorize.ts'
 import {
   javaScriptConstructorCategory,
   javaScriptMatchHeapSnapshotEdgeName,
   v8JavaScriptCategory,
 } from '../javascript.ts'
-import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
 import {
   normalizeV8TraceEvent,

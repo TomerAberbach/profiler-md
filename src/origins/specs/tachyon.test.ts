@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 

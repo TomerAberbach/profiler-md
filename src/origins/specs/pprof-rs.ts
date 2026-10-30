@@ -1,5 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory, pathCategory } from '../categorize.ts'
 import { RUST_LOCATION_MATCH_RULES, RUSTC_COMMIT_HASH_PATH } from '../rust.ts'
 import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'

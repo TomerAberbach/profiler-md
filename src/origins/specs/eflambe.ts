@@ -1,7 +1,8 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
 import { WALL_TIME_METRIC } from '../../modalities/metrics.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../spec.ts'
 

@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { pprofJlOriginSpec } from './pprof-jl.ts'
 

@@ -1,7 +1,8 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
+import type { FunctionCategory } from '../modalities/category-sets.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
-import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import type { ProfileEntry } from '../options.ts'
 import {
   locationlessCategory,
   NATIVE_LIBRARY,

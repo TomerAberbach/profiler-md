@@ -1,5 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { oursIfLocatedCategory, pathCategory } from '../categorize.ts'
 import type { OriginSpec } from '../spec.ts'
 

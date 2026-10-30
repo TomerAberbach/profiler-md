@@ -1,6 +1,5 @@
-import { protocolCategory } from '../categorize.ts'
+import { hasProtocol, protocolCategory } from '../categorize.ts'
 import { NODE_PROTOCOLS, v8JavaScriptCategory } from '../javascript.ts'
-import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
 
 export const denoOriginSpec = {
