@@ -2,8 +2,9 @@ import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import {
-  attributeEntityRetainedSizes,
+  attributeEntityMinRetainedSizes,
   computeNodeOrdinalToRetainedSize,
+  newInstancesRetainedSizeOf,
   newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
 import { makeNodeAdjacencyGraph } from './testing.ts'
@@ -97,40 +98,147 @@ const graphWithEntities = fc.integer({ min: 1, max: 40 }).chain(nodeCount =>
 )
 
 test.prop([graphWithEntities])(
-  `attributeEntityRetainedSizes sums the retained sizes of the instances newOutermostInstanceOrdinalsOf selects`,
+  `newInstancesRetainedSizeOf sums the nodes that removing the instances leaves unreachable`,
   ({ nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }) => {
-    const immediateDominatorGraph = computeImmediateDominatorGraph(
-      nodeCount,
-      makeNodeAdjacencyGraph(nodeCount, edges),
-    )
-    const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
-      nodeOrdinal => selfSizes[nodeOrdinal]!,
-      immediateDominatorGraph,
-    )
-    const entities = Array.from({ length: 4 }, () => ({
-      retainedSize: 0,
-    }))
-    attributeEntityRetainedSizes(
-      nodeOrdinalToRetainedSize,
-      immediateDominatorGraph,
-      Int32Array.from(nodeOrdinalToEntityIndex),
-      entities,
+    const { instancesRetainedSizeOf, entityInstanceOrdinals } = retainedSizesOf(
+      { nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes },
     )
 
-    const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
-      immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+    const reachableOrdinals = (removedOrdinals: readonly number[]) => {
+      const reached = new Set([0, ...removedOrdinals])
+      const stack = [0]
+      while (stack.length > 0) {
+        const fromOrdinal = stack.pop()!
+        for (const [edgeFromOrdinal, toOrdinal] of edges) {
+          if (edgeFromOrdinal === fromOrdinal && !reached.has(toOrdinal)) {
+            reached.add(toOrdinal)
+            stack.push(toOrdinal)
+          }
+        }
+      }
+      for (const removedOrdinal of removedOrdinals) {
+        reached.delete(removedOrdinal)
+      }
+      reached.add(0)
+      return reached
+    }
+    const reachable = reachableOrdinals([])
+    expect(entityInstanceOrdinals.map(instancesRetainedSizeOf)).toStrictEqual(
+      entityInstanceOrdinals.map(instanceOrdinals => {
+        if (instanceOrdinals.includes(0)) {
+          return [...reachable].reduce(
+            (sum, nodeOrdinal) => sum + selfSizes[nodeOrdinal]!,
+            0,
+          )
+        }
+        const stillReachable = reachableOrdinals(instanceOrdinals)
+        return [...reachable]
+          .filter(nodeOrdinal => !stillReachable.has(nodeOrdinal))
+          .reduce((sum, nodeOrdinal) => sum + selfSizes[nodeOrdinal]!, 0)
+      }),
     )
-    expect(
-      entities.map((_, entityIndex) =>
-        outermostInstanceOrdinalsOf(
-          nodeOrdinalToEntityIndex.flatMap((index, nodeOrdinal) =>
-            index === entityIndex ? nodeOrdinal : [],
-          ),
-        ).reduce(
-          (sum, nodeOrdinal) => sum + nodeOrdinalToRetainedSize[nodeOrdinal]!,
-          0,
-        ),
-      ),
-    ).toStrictEqual(entities.map(({ retainedSize }) => retainedSize))
   },
 )
+
+test.prop([graphWithEntities])(
+  `attributeEntityMinRetainedSizes sums at least the outermost instances' retained sizes and at most the instances' retained size`,
+  ({ nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }) => {
+    const {
+      entities,
+      instancesRetainedSizeOf,
+      entityInstanceOrdinals,
+      outermostRetainedSizeOf,
+    } = retainedSizesOf({
+      nodeCount,
+      edges,
+      nodeOrdinalToEntityIndex,
+      selfSizes,
+    })
+
+    for (const [entityIndex, { minRetainedSize }] of entities.entries()) {
+      const instanceOrdinals = entityInstanceOrdinals[entityIndex]!
+      expect(minRetainedSize).toBeGreaterThanOrEqual(
+        outermostRetainedSizeOf(instanceOrdinals),
+      )
+      expect(minRetainedSize).toBeLessThanOrEqual(
+        instancesRetainedSizeOf(instanceOrdinals),
+      )
+    }
+  },
+)
+
+test(`attributeEntityMinRetainedSizes counts a node the instances retain only together`, () => {
+  // 0 → 1 → 3 and 0 → 2 → 3, where 1 and 2 are the entity's instances and 3
+  // retains 4
+  const { entities } = retainedSizesOf({
+    nodeCount: 5,
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+      [3, 4],
+    ],
+    nodeOrdinalToEntityIndex: [-1, 0, 0, -1, -1],
+    selfSizes: [0, 1, 2, 4, 8],
+  })
+
+  expect(entities).toStrictEqual([{ minRetainedSize: 15 }])
+})
+
+const retainedSizesOf = ({
+  nodeCount,
+  edges,
+  nodeOrdinalToEntityIndex,
+  selfSizes,
+}: {
+  nodeCount: number
+  edges: readonly (readonly [number, number])[]
+  nodeOrdinalToEntityIndex: readonly number[]
+  selfSizes: readonly number[]
+}) => {
+  const nodeAdjacencyGraph = makeNodeAdjacencyGraph(nodeCount, edges)
+  const immediateDominatorGraph = computeImmediateDominatorGraph(
+    nodeCount,
+    nodeAdjacencyGraph,
+  )
+  const selfSizeOf = (nodeOrdinal: number) => selfSizes[nodeOrdinal]!
+  const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
+    selfSizeOf,
+    immediateDominatorGraph,
+  )
+  const entityCount = Math.max(-1, ...nodeOrdinalToEntityIndex) + 1
+  const entities = Array.from({ length: entityCount }, () => ({
+    minRetainedSize: 0,
+  }))
+  attributeEntityMinRetainedSizes(
+    nodeOrdinalToRetainedSize,
+    nodeAdjacencyGraph,
+    immediateDominatorGraph,
+    Int32Array.from(nodeOrdinalToEntityIndex),
+    entities,
+  )
+
+  const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
+    immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+  )
+  return {
+    entities,
+    entityInstanceOrdinals: entities.map((_, entityIndex) =>
+      nodeOrdinalToEntityIndex.flatMap((index, nodeOrdinal) =>
+        index === entityIndex ? nodeOrdinal : [],
+      ),
+    ),
+    instancesRetainedSizeOf: newInstancesRetainedSizeOf(
+      nodeAdjacencyGraph,
+      nodeOrdinalToRetainedSize,
+      selfSizeOf,
+      outermostInstanceOrdinalsOf,
+    ),
+    outermostRetainedSizeOf: (instanceOrdinals: readonly number[]) =>
+      outermostInstanceOrdinalsOf(instanceOrdinals).reduce(
+        (sum, nodeOrdinal) => sum + nodeOrdinalToRetainedSize[nodeOrdinal]!,
+        0,
+      ),
+  }
+}

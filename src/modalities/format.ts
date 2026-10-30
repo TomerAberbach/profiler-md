@@ -204,7 +204,7 @@ export const resolveEntryFilter = ({
   return { ...options, showEntry: () => true }
 }
 
-type DiffEntityCategories<Entity> = {
+export type DiffEntityCategories<Entity> = {
   categories: EntryCategory[]
   categoryOf: (entity: Entity) => EntryCategory
 }

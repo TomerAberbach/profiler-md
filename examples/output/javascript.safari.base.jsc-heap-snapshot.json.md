@@ -671,26 +671,26 @@ Constructors with the most instance bytes, including nodes only the instances ke
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
-| 55.3% | 5.76 MiB |    11,833 | `Object`                     |
-| 27.9% | 2.91 MiB |    13,414 | `Function`                   |
-| 18.9% | 1.97 MiB |     7,600 | `FunctionExecutable`         |
-| 17.8% | 1.85 MiB |    12,175 | `Structure`                  |
-| 15.6% | 1.62 MiB |     6,041 | `UnlinkedFunctionExecutable` |
+| 58.7% | 6.11 MiB |    11,833 | `Object`                     |
+| 33.7% | 3.51 MiB |    13,414 | `Function`                   |
+| 19.8% | 2.06 MiB |     7,600 | `FunctionExecutable`         |
+| 19.2% |    2 MiB |    12,175 | `Structure`                  |
+| 15.6% | 1.63 MiB |     6,041 | `UnlinkedFunctionExecutable` |
 | 11.2% | 1.17 MiB |     1,660 | `UnlinkedFunctionCodeBlock`  |
-|  9.7% | 1.01 MiB |        14 | `Window`                     |
-|  7.6% |  811 KiB |     2,030 | `JSLexicalEnvironment`       |
-|  6.1% |  650 KiB |     7,409 | `Array`                      |
+| 10.2% | 1.06 MiB |        14 | `Window`                     |
+|  9.0% |  958 KiB |     2,030 | `JSLexicalEnvironment`       |
+|  7.1% |  754 KiB |     7,409 | `Array`                      |
 |  5.0% |  535 KiB |       162 | `FunctionCodeBlock`          |
 |  4.5% |  479 KiB |    10,225 | `DOMAttributeGetterSetter`   |
-|  4.3% |  454 KiB |       893 | `StructureRareData`          |
-|  2.6% |  272 KiB |        20 | `CSSStyleDeclaration`        |
+|  4.4% |  472 KiB |       893 | `StructureRareData`          |
+|  2.6% |  273 KiB |        20 | `CSSStyleDeclaration`        |
 |  2.5% |  271 KiB |         6 | `InjectedScript`             |
 |  1.8% |  197 KiB |       232 | `FunctionRareData`           |
 |  1.4% |  154 KiB |     3,780 | `Immutable Butterfly`        |
 |  1.0% |  108 KiB |       453 | `RegExp`                     |
 |  1.0% |  104 KiB |        14 | `UnlinkedProgramCodeBlock`   |
 |  1.0% |  102 KiB |     2,226 | `PropertyTable`              |
-|  0.8% | 85.1 KiB |     1,364 | `SymbolTable`                |
+|  0.8% | 87.9 KiB |       205 | `HTMLElement`                |
 
 #### Categories
 
@@ -700,8 +700,8 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
-| 18.9% | 1.97 MiB |     7,600 | `FunctionExecutable`         |
-| 15.6% | 1.62 MiB |     6,041 | `UnlinkedFunctionExecutable` |
+| 19.8% | 2.06 MiB |     7,600 | `FunctionExecutable`         |
+| 15.6% | 1.63 MiB |     6,041 | `UnlinkedFunctionExecutable` |
 | 11.2% | 1.17 MiB |     1,660 | `UnlinkedFunctionCodeBlock`  |
 |  5.0% |  535 KiB |       162 | `FunctionCodeBlock`          |
 |  0.6% | 59.9 KiB |       767 | `NativeExecutable`           |
@@ -709,30 +709,30 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Object shape
 
-|     % |     Size | Instances | Constructor |
-| ----: | -------: | --------: | ----------- |
-| 17.8% | 1.85 MiB |    12,175 | `Structure` |
+|     % |  Size | Instances | Constructor |
+| ----: | ----: | --------: | ----------- |
+| 19.2% | 2 MiB |    12,175 | `Structure` |
 
 ##### Internal
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
-|  7.6% |  811 KiB |     2,030 | `JSLexicalEnvironment`       |
+|  9.0% |  958 KiB |     2,030 | `JSLexicalEnvironment`       |
 |  4.5% |  479 KiB |    10,225 | `DOMAttributeGetterSetter`   |
-|  4.3% |  454 KiB |       893 | `StructureRareData`          |
+|  4.4% |  472 KiB |       893 | `StructureRareData`          |
 |  1.8% |  197 KiB |       232 | `FunctionRareData`           |
 |  1.0% |  104 KiB |        14 | `UnlinkedProgramCodeBlock`   |
 |  1.0% |  102 KiB |     2,226 | `PropertyTable`              |
 |  0.8% | 85.1 KiB |     1,364 | `SymbolTable`                |
 |  0.6% | 67.4 KiB |     2,159 | `CustomGetterSetter`         |
-|  0.5% | 51.7 KiB |       297 | `GetterSetter`               |
+|  0.5% | 57.4 KiB |       297 | `GetterSetter`               |
 |  0.4% | 37.9 KiB |       101 | `JSPropertyNameEnumerator`   |
 |  0.3% | 32.4 KiB |        87 | `UnlinkedEvalCodeBlock`      |
 |  0.2% | 17.5 KiB |       160 | `EvalExecutable`             |
-|  0.1% | 9.18 KiB |        12 | `InjectedScriptHost`         |
+|  0.1% | 10.7 KiB |        12 | `InjectedScriptHost`         |
 |  0.1% | 6.73 KiB |         7 | `JSGlobalLexicalEnvironment` |
+| <0.1% | 4.77 KiB |        12 | `CommandLineAPIHost`         |
 | <0.1% | 4.41 KiB |       282 | `StructureChain`             |
-| <0.1% | 4.22 KiB |        12 | `CommandLineAPIHost`         |
 | <0.1% | 1.45 KiB |        29 | `HashMapBucket`              |
 | <0.1% | 1.22 KiB |         6 | `JSWindowProxy`              |
 
@@ -740,46 +740,46 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                 |
 | ----: | -------: | --------: | --------------------------- |
-| 55.3% | 5.76 MiB |    11,833 | `Object`                    |
-|  9.7% | 1.01 MiB |        14 | `Window`                    |
-|  2.6% |  272 KiB |        20 | `CSSStyleDeclaration`       |
+| 58.7% | 6.11 MiB |    11,833 | `Object`                    |
+| 10.2% | 1.06 MiB |        14 | `Window`                    |
+|  2.6% |  273 KiB |        20 | `CSSStyleDeclaration`       |
 |  2.5% |  271 KiB |         6 | `InjectedScript`            |
-|  0.8% | 83.3 KiB |       205 | `HTMLElement`               |
-|  0.8% | 81.8 KiB |         9 | `Document`                  |
-|  0.5% | 56.5 KiB |        10 | `Element`                   |
+|  0.8% | 87.9 KiB |       205 | `HTMLElement`               |
+|  0.8% | 86.1 KiB |         9 | `Document`                  |
+|  0.6% | 60.5 KiB |        10 | `Element`                   |
 |  0.4% | 43.5 KiB |     1,330 | `DOMRect`                   |
-|  0.3% | 35.8 KiB |       418 | `HTMLDivElement`            |
+|  0.4% | 37.5 KiB |       418 | `HTMLDivElement`            |
 |  0.3% | 34.9 KiB |       468 | `HTMLSpanElement`           |
-|  0.3% | 32.2 KiB |        20 | `Map`                       |
-|  0.3% | 27.9 KiB |       170 | `HTMLAnchorElement`         |
-|  0.2% | 23.3 KiB |         7 | `String`                    |
+|  0.3% | 34.1 KiB |        20 | `Map`                       |
+|  0.3% | 29.2 KiB |       170 | `HTMLAnchorElement`         |
+|  0.2% | 25.9 KiB |         7 | `String`                    |
 |  0.2% | 22.5 KiB |       283 | `HTMLLIElement`             |
-|  0.2% | 17.2 KiB |        77 | `HTMLInputElement`          |
+|  0.2% |   20 KiB |        77 | `HTMLInputElement`          |
+|  0.2% | 16.4 KiB |        76 | `HTMLButtonElement`         |
+|  0.1% | 14.9 KiB |        14 | `Node`                      |
+|  0.1% | 14.8 KiB |        20 | `Promise`                   |
 |  0.1% | 14.5 KiB |         2 | `MultimediaViewerBootstrap` |
-|  0.1% | 14.2 KiB |        76 | `HTMLButtonElement`         |
-|  0.1% | 13.7 KiB |        14 | `Node`                      |
-|  0.1% |   13 KiB |        20 | `Promise`                   |
 |  0.1% |   13 KiB |        16 | `HTMLDocument`              |
 
 ##### Function
 
 |     % |     Size | Instances | Constructor              |
 | ----: | -------: | --------: | ------------------------ |
-| 27.9% | 2.91 MiB |    13,414 | `Function`               |
+| 33.7% | 3.51 MiB |    13,414 | `Function`               |
 | <0.1% |  4.1 KiB |        14 | `AsyncFunction`          |
 | <0.1% | 3.19 KiB |        14 | `AsyncGeneratorFunction` |
 | <0.1% | 3.12 KiB |        14 | `GeneratorFunction`      |
-| <0.1% | 2.65 KiB |        14 | `CallbackObject`         |
+| <0.1% | 3.03 KiB |        14 | `CallbackObject`         |
 | <0.1% |    448 B |        14 | `Callee`                 |
 
 ##### Array
 
-|     % |    Size | Instances | Constructor           |
-| ----: | ------: | --------: | --------------------- |
-|  6.1% | 650 KiB |     7,409 | `Array`               |
-|  1.4% | 154 KiB |     3,780 | `Immutable Butterfly` |
-|  0.1% | 7.5 KiB |         7 | `Array Iterator`      |
-| <0.1% |   294 B |         8 | `SparseArrayValueMap` |
+|     % |     Size | Instances | Constructor           |
+| ----: | -------: | --------: | --------------------- |
+|  7.1% |  754 KiB |     7,409 | `Array`               |
+|  1.4% |  154 KiB |     3,780 | `Immutable Butterfly` |
+|  0.1% | 8.17 KiB |         7 | `Array Iterator`      |
+| <0.1% |    294 B |         8 | `SparseArrayValueMap` |
 
 ##### Regular expression
 
@@ -795,48 +795,48 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                             |
 | ----: | -------: | --------: | ---------------------------------------------------------------- |
-| 84.7% | 4.88 MiB |       294 | `Object ←(several paths)– <root>`                                |
-| 37.5% | 2.16 MiB |         2 | `Object ←.items– Object ←(several paths)– <root>`                |
-|  7.0% |  414 KiB |         2 | `Object ←.jquery– Object ←(several paths)– <root>`               |
-|  3.6% |  210 KiB |         2 | `Object ←.uls– Function ←(several paths)– <root>`                |
-|  3.6% |  210 KiB |         2 | `Object ←.data– Object ←.uls– Function ←(several paths)– <root>` |
+| 79.9% | 4.88 MiB |       294 | `Object ←(several paths)– <root>`                                |
+| 35.3% | 2.16 MiB |         2 | `Object ←.items– Object ←(several paths)– <root>`                |
+|  6.6% |  414 KiB |         2 | `Object ←.jquery– Object ←(several paths)– <root>`               |
+|  3.4% |  210 KiB |         2 | `Object ←.uls– Function ←(several paths)– <root>`                |
+|  3.4% |  210 KiB |         2 | `Object ←.data– Object ←.uls– Function ←(several paths)– <root>` |
 
 ##### `Function`
 
 |     % |     Size | Instances | Path                                                                                                               |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
-| 18.2% |  543 KiB |       734 | `Function ←(several paths)– <root>`                                                                                |
-| 13.9% |  413 KiB |         2 | `Function ←.declarator– Object ←.jquery– Object ←(several paths)– <root>`                                          |
-|  3.9% |  115 KiB |       711 | `Function ← Window ←(several paths)– <root>`                                                                       |
-|  3.3% | 98.4 KiB |         6 | `Function ←.CommandLineAPI– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
-|  3.1% | 91.1 KiB |         1 | `Function ←.articleTitleInformation– Object ←(several paths)– <root>`                                              |
+| 15.1% |  543 KiB |       734 | `Function ←(several paths)– <root>`                                                                                |
+| 11.5% |  413 KiB |         2 | `Function ←.declarator– Object ←.jquery– Object ←(several paths)– <root>`                                          |
+|  3.2% |  115 KiB |       711 | `Function ← Window ←(several paths)– <root>`                                                                       |
+|  2.7% | 98.4 KiB |         6 | `Function ←.CommandLineAPI– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
+|  2.5% | 91.1 KiB |         1 | `Function ←.articleTitleInformation– Object ←(several paths)– <root>`                                              |
 
 ##### `FunctionExecutable`
 
 |     % |     Size | Instances | Path                                                                                                          |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |
-| 20.4% |  413 KiB |         2 | `FunctionExecutable ← Function ←.declarator– Object ←.jquery– Object ←(several paths)– <root>`                |
-|  4.5% |   91 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ←.articleTitleInformation– Object ←(several paths)– <root>` |
-|  4.3% | 86.3 KiB |       434 | `FunctionExecutable ← Function ←(several paths)– <root>`                                                      |
-|  4.3% | 85.9 KiB |         2 | `FunctionExecutable ← Function ←.declarator– Object ←.jquery.uls.data– Object ←(several paths)– <root>`       |
-|  3.9% | 78.4 KiB |       596 | `FunctionExecutable ← Function ← Window ←(several paths)– <root>`                                             |
+| 19.5% |  413 KiB |         2 | `FunctionExecutable ← Function ←.declarator– Object ←.jquery– Object ←(several paths)– <root>`                |
+|  4.3% |   91 KiB |         1 | `FunctionExecutable ← FunctionRareData ← Function ←.articleTitleInformation– Object ←(several paths)– <root>` |
+|  4.1% | 86.3 KiB |       434 | `FunctionExecutable ← Function ←(several paths)– <root>`                                                      |
+|  4.1% | 85.9 KiB |         2 | `FunctionExecutable ← Function ←.declarator– Object ←.jquery.uls.data– Object ←(several paths)– <root>`       |
+|  3.7% | 78.4 KiB |       596 | `FunctionExecutable ← Function ← Window ←(several paths)– <root>`                                             |
 
 ##### `Structure`
 
 |     % |    Size | Instances | Path                                                                              |
 | ----: | ------: | --------: | --------------------------------------------------------------------------------- |
-| 21.3% | 404 KiB |       512 | `Structure ←(several paths)– <root>`                                              |
-| 11.2% | 213 KiB |       170 | `Structure ← Object ←(several paths)– <root>`                                     |
-|  7.6% | 145 KiB |       113 | `Structure ← Structure ← Object ←(several paths)– <root>`                         |
-|  7.0% | 132 KiB |        85 | `Structure ← Structure ← Structure ← Object ←(several paths)– <root>`             |
-|  6.5% | 123 KiB |        68 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– <root>` |
+| 19.8% | 404 KiB |       512 | `Structure ←(several paths)– <root>`                                              |
+| 10.4% | 213 KiB |       170 | `Structure ← Object ←(several paths)– <root>`                                     |
+|  7.1% | 145 KiB |       113 | `Structure ← Structure ← Object ←(several paths)– <root>`                         |
+|  6.5% | 132 KiB |        85 | `Structure ← Structure ← Structure ← Object ←(several paths)– <root>`             |
+|  6.0% | 123 KiB |        68 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– <root>` |
 
 ##### `UnlinkedFunctionExecutable`
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                                             |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 82.2% | 1.33 MiB |     3,207 | `UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                                                                            |
-| 19.5% |  324 KiB |       443 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                   |
+| 82.1% | 1.33 MiB |     3,207 | `UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                                                                            |
+| 19.4% |  324 KiB |       443 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                   |
 |  6.9% |  115 KiB |       108 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                          |
 |  5.3% | 87.7 KiB |        12 | `UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                                                                                                                                 |
 |  1.3% | 22.4 KiB |        25 | `UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>` |
@@ -845,7 +845,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                |
 | ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 89.2% | 1.04 MiB |     1,196 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                   |
+| 89.1% | 1.04 MiB |     1,196 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                                                   |
 | 23.6% |  282 KiB |       265 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                          |
 |  8.8% |  105 KiB |        73 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>` |
 |  7.2% | 86.6 KiB |        10 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedProgramCodeBlock ← <root>`                                                                                                        |
@@ -855,36 +855,36 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |    Size | Instances | Path                                   |
 | ----: | ------: | --------: | -------------------------------------- |
-| 73.5% | 762 KiB |        11 | `Window ←(several paths)– <root>`      |
-| 26.5% | 275 KiB |         2 | `Window ← <root>`                      |
-|  0.1% |   536 B |         1 | `Window ← Structure ← Window ← <root>` |
+| 70.2% | 762 KiB |        11 | `Window ←(several paths)– <root>`      |
+| 25.3% | 275 KiB |         2 | `Window ← <root>`                      |
+| <0.1% |   536 B |         1 | `Window ← Structure ← Window ← <root>` |
 
 ##### `JSLexicalEnvironment`
 
 |     % |     Size | Instances | Path                                                                                    |
 | ----: | -------: | --------: | --------------------------------------------------------------------------------------- |
-| 60.3% |  489 KiB |       203 | `JSLexicalEnvironment ←(several paths)– <root>`                                         |
-| 18.0% |  146 KiB |        91 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– <root>`                  |
-| 14.0% |  114 KiB |        18 | `JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>`                        |
-| 13.6% |  110 KiB |        12 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
-|  4.8% | 38.8 KiB |       152 | `JSLexicalEnvironment ← Function ← <root>`                                              |
+| 51.0% |  489 KiB |       203 | `JSLexicalEnvironment ←(several paths)– <root>`                                         |
+| 15.3% |  146 KiB |        91 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– <root>`                  |
+| 11.9% |  114 KiB |        18 | `JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>`                        |
+| 11.5% |  110 KiB |        12 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
+|  4.1% | 38.8 KiB |       152 | `JSLexicalEnvironment ← Function ← <root>`                                              |
 
 ##### `Array`
 
 |     % |     Size | Instances | Path                                                                                     |
 | ----: | -------: | --------: | ---------------------------------------------------------------------------------------- |
-| 21.1% |  137 KiB |        52 | `Array ←(several paths)– <root>`                                                         |
-|  7.9% | 51.1 KiB |         2 | `Array ←.choiceData– Object ←(several paths)– <root>`                                    |
-|  5.3% | 34.3 KiB |         2 | `Array ←.css– Object ←.style– Object ←.mmv.codex– Object ←(several paths)– <root>`       |
-|  4.7% | 30.7 KiB |         2 | `Array ←(several paths)– Object ←(several paths)– <root>`                                |
-|  3.9% | 25.2 KiB |         2 | `Array ←.css– Object ←.style– Object ←.ext.popups.main– Object ←(several paths)– <root>` |
+| 18.2% |  137 KiB |        52 | `Array ←(several paths)– <root>`                                                         |
+|  6.8% | 51.1 KiB |         2 | `Array ←.choiceData– Object ←(several paths)– <root>`                                    |
+|  4.5% | 34.3 KiB |         2 | `Array ←.css– Object ←.style– Object ←.mmv.codex– Object ←(several paths)– <root>`       |
+|  4.1% | 30.7 KiB |         2 | `Array ←(several paths)– Object ←(several paths)– <root>`                                |
+|  3.3% | 25.2 KiB |         2 | `Array ←.css– Object ←.style– Object ←.ext.popups.main– Object ←(several paths)– <root>` |
 
 ##### `FunctionCodeBlock`
 
 |     % |     Size | Instances | Path                                                                                                                              |
 | ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------- |
 | 25.3% |  135 KiB |        42 | `FunctionCodeBlock ←(several paths)– <root>`                                                                                      |
-| 21.3% |  114 KiB |        33 | `FunctionCodeBlock ← <root>`                                                                                                      |
+| 21.2% |  114 KiB |        33 | `FunctionCodeBlock ← <root>`                                                                                                      |
 | 17.0% | 90.8 KiB |         1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← Function ←.articleTitleInformation– Object ←(several paths)– <root>` |
 | 10.1% | 54.2 KiB |        27 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                                 |
 |  2.4% | 12.9 KiB |         6 | `FunctionCodeBlock ← FunctionExecutable ← Function ←(several paths)– <root>`                                                      |
@@ -903,18 +903,18 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                 |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 26.9% |  122 KiB |         4 | `StructureRareData ← Structure ← Object ←(several paths)– Object ←.mediawiki.base– Object ←(several paths)– <root>`                                                  |
-| 10.8% |   49 KiB |       134 | `StructureRareData ← Structure ←(several paths)– <root>`                                                                                                             |
-|  9.4% | 42.6 KiB |        23 | `StructureRareData ← Structure ← Object ←(several paths)– <root>`                                                                                                    |
-|  6.6% | 29.8 KiB |         6 | `StructureRareData ← Structure ← Object ←.methods– Function ←.CommandLineAPI– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
-|  5.8% | 26.4 KiB |        66 | `StructureRareData ← Structure ← <root>`                                                                                                                             |
+| 25.9% |  122 KiB |         4 | `StructureRareData ← Structure ← Object ←(several paths)– Object ←.mediawiki.base– Object ←(several paths)– <root>`                                                  |
+| 10.4% |   49 KiB |       134 | `StructureRareData ← Structure ←(several paths)– <root>`                                                                                                             |
+|  9.0% | 42.6 KiB |        23 | `StructureRareData ← Structure ← Object ←(several paths)– <root>`                                                                                                    |
+|  6.3% | 29.8 KiB |         6 | `StructureRareData ← Structure ← Object ←.methods– Function ←.CommandLineAPI– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– InjectedScript ← <root>` |
+|  5.6% | 26.4 KiB |        66 | `StructureRareData ← Structure ← <root>`                                                                                                                             |
 
 ##### `CSSStyleDeclaration`
 
 |     % |     Size | Instances | Path                                                                              |
 | ----: | -------: | --------: | --------------------------------------------------------------------------------- |
-| 74.9% |  204 KiB |         3 | `CSSStyleDeclaration ← Structure ←(several paths)– <root>`                        |
-| 25.0% | 67.9 KiB |         1 | `CSSStyleDeclaration ← Structure ← Window ←(several paths)– <root>`               |
+| 74.7% |  204 KiB |         3 | `CSSStyleDeclaration ← Structure ←(several paths)– <root>`                        |
+| 24.9% | 67.9 KiB |         1 | `CSSStyleDeclaration ← Structure ← Window ←(several paths)– <root>`               |
 |  0.1% |    416 B |        13 | `CSSStyleDeclaration ← <root>`                                                    |
 | <0.1% |     64 B |         2 | `CSSStyleDeclaration ←.emptyStyle– JSLexicalEnvironment ←(several paths)– <root>` |
 | <0.1% |     32 B |         1 | `CSSStyleDeclaration ←._cachedContentTextStyle– Object ←(several paths)– <root>`  |
@@ -971,6 +971,24 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 2.3% | 2.34 KiB |        50 | `PropertyTable ← Structure ← Function ←(several paths)– <root>` |
 | 2.3% | 2.34 KiB |        50 | `PropertyTable ← Structure ← <root>`                            |
 
+##### `HTMLElement`
+
+|     % |     Size | Instances | Path                                                            |
+| ----: | -------: | --------: | --------------------------------------------------------------- |
+| 31.1% | 27.3 KiB |         5 | `HTMLElement ←(several paths)– <root>`                          |
+| 24.2% | 21.3 KiB |        27 | `HTMLElement ←.elem– JSLexicalEnvironment ← Function ← <root>`  |
+| 23.3% | 20.5 KiB |         3 | `HTMLElement ←(several paths)– Window ←(several paths)– <root>` |
+|  0.6% |    574 B |         1 | `HTMLElement ← Window ←(several paths)– <root>`                 |
+|  0.6% |    526 B |         1 | `HTMLElement ← Window ← <root>`                                 |
+
+##### `Document`
+
+|     % |     Size | Instances | Path                                                         |
+| ----: | -------: | --------: | ------------------------------------------------------------ |
+| 54.2% | 46.7 KiB |         4 | `Document ←(several paths)– Window ←(several paths)– <root>` |
+| 40.0% | 34.5 KiB |         3 | `Document ←(several paths)– <root>`                          |
+|  0.7% |    578 B |         2 | `Document ← Window ← <root>`                                 |
+
 ##### `SymbolTable`
 
 |     % |     Size | Instances | Path                                                                                                                                                     |
@@ -980,24 +998,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  9.2% | 7.81 KiB |       125 | `SymbolTable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>` |
 |  6.7% | 5.69 KiB |        91 | `SymbolTable ← JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– <root>`                                                                     |
 |  3.3% | 2.81 KiB |        45 | `SymbolTable ←(several paths)– <root>`                                                                                                                   |
-
-##### `HTMLElement`
-
-|     % |     Size | Instances | Path                                                            |
-| ----: | -------: | --------: | --------------------------------------------------------------- |
-| 32.8% | 27.3 KiB |         5 | `HTMLElement ←(several paths)– <root>`                          |
-| 25.6% | 21.3 KiB |        27 | `HTMLElement ←.elem– JSLexicalEnvironment ← Function ← <root>`  |
-| 24.6% | 20.5 KiB |         3 | `HTMLElement ←(several paths)– Window ←(several paths)– <root>` |
-|  0.7% |    574 B |         1 | `HTMLElement ← Window ←(several paths)– <root>`                 |
-|  0.6% |    526 B |         1 | `HTMLElement ← Window ← <root>`                                 |
-
-##### `Document`
-
-|     % |     Size | Instances | Path                                                         |
-| ----: | -------: | --------: | ------------------------------------------------------------ |
-| 57.1% | 46.7 KiB |         4 | `Document ←(several paths)– Window ←(several paths)– <root>` |
-| 42.2% | 34.5 KiB |         3 | `Document ←(several paths)– <root>`                          |
-|  0.7% |    578 B |         2 | `Document ← Window ← <root>`                                 |
 
 ##### `CustomGetterSetter`
 
@@ -1009,6 +1009,15 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 0.3% | 224 B |         7 | `CustomGetterSetter ←.constructor– EventTarget ←(several paths)– <root>`      |
 | 0.2% | 160 B |         5 | `CustomGetterSetter ←.GPUBuffer– Window ←(several paths)– <root>`             |
 
+##### `Element`
+
+|     % |     Size | Instances | Path                                                        |
+| ----: | -------: | --------: | ----------------------------------------------------------- |
+| 50.3% | 30.4 KiB |         4 | `Element ←(several paths)– <root>`                          |
+| 40.3% | 24.4 KiB |         3 | `Element ←(several paths)– Window ←(several paths)– <root>` |
+|  1.8% | 1.11 KiB |         2 | `Element ← Window ←(several paths)– <root>`                 |
+|  0.8% |    522 B |         1 | `Element ← Window ← <root>`                                 |
+
 ##### `NativeExecutable`
 
 |     % |     Size | Instances | Path                                                                                         |
@@ -1019,24 +1028,15 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  0.1% |     80 B |         1 | `NativeExecutable ← Function ←.item– DOMRectList ←(several paths)– <root>`                   |
 |  0.1% |     80 B |         1 | `NativeExecutable ← Function ←.abort– AbortController ←(several paths)– <root>`              |
 
-##### `Element`
-
-|     % |     Size | Instances | Path                                                        |
-| ----: | -------: | --------: | ----------------------------------------------------------- |
-| 53.9% | 30.4 KiB |         4 | `Element ←(several paths)– <root>`                          |
-| 43.2% | 24.4 KiB |         3 | `Element ←(several paths)– Window ←(several paths)– <root>` |
-|  2.0% | 1.11 KiB |         2 | `Element ← Window ←(several paths)– <root>`                 |
-|  0.9% |    522 B |         1 | `Element ← Window ← <root>`                                 |
-
 ##### `GetterSetter`
 
 |    % |     Size | Instances | Path                                                                            |
 | ---: | -------: | --------: | ------------------------------------------------------------------------------- |
-| 6.7% | 3.48 KiB |        35 | `GetterSetter ← Window ←(several paths)– <root>`                                |
-| 5.7% | 2.94 KiB |        28 | `GetterSetter ←(several paths)– <root>`                                         |
-| 4.9% | 2.55 KiB |         2 | `GetterSetter ←.eventInSample– Object ←(several paths)– <root>`                 |
-| 2.8% | 1.43 KiB |         2 | `GetterSetter ←.getCrossSite– Object ←.cookie– Object ←(several paths)– <root>` |
-| 2.6% | 1.35 KiB |         2 | `GetterSetter ←.jqueryMsg– Object ←(several paths)– <root>`                     |
+| 6.1% | 3.48 KiB |        35 | `GetterSetter ← Window ←(several paths)– <root>`                                |
+| 5.1% | 2.94 KiB |        28 | `GetterSetter ←(several paths)– <root>`                                         |
+| 4.4% | 2.55 KiB |         2 | `GetterSetter ←.eventInSample– Object ←(several paths)– <root>`                 |
+| 2.5% | 1.43 KiB |         2 | `GetterSetter ←.getCrossSite– Object ←.cookie– Object ←(several paths)– <root>` |
+| 2.3% | 1.35 KiB |         2 | `GetterSetter ←.jqueryMsg– Object ←(several paths)– <root>`                     |
 
 ##### `DOMRect`
 
@@ -1062,8 +1062,8 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                        |
 | ----: | -------: | --------: | --------------------------------------------------------------------------- |
-| 24.4% | 8.72 KiB |       141 | `HTMLDivElement ← <root>`                                                   |
-| 23.6% | 8.44 KiB |        34 | `HTMLDivElement ←(several paths)– <root>`                                   |
+| 23.3% | 8.72 KiB |       141 | `HTMLDivElement ← <root>`                                                   |
+| 22.5% | 8.44 KiB |        34 | `HTMLDivElement ←(several paths)– <root>`                                   |
 |  0.4% |    144 B |         3 | `HTMLDivElement ←.header– JSLexicalEnvironment ←(several paths)– <root>`    |
 |  0.3% |     96 B |         2 | `HTMLDivElement ←.container– JSLexicalEnvironment ←(several paths)– <root>` |
 |  0.3% |     96 B |         2 | `HTMLDivElement ←.div– JSLexicalEnvironment ←(several paths)– <root>`       |
@@ -1078,38 +1078,38 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  0.7% |    241 B |         1 | `HTMLSpanElement ← Structure ←(several paths)– <root>`                                                                            |
 |  0.2% |     81 B |         1 | `HTMLSpanElement ←[22]– Array ←(several paths)– <root>`                                                                           |
 
+##### `Map`
+
+|     % |     Size | Instances | Path                                                            |
+| ----: | -------: | --------: | --------------------------------------------------------------- |
+| 51.0% | 17.4 KiB |         7 | `Map ←(several paths)– <root>`                                  |
+| 31.6% | 10.8 KiB |         2 | `Map ←.en– Object ←.data– Object ←(several paths)– <root>`      |
+|  3.8% |  1.3 KiB |         2 | `Map ←.tokens– Object ←.user– Object ←(several paths)– <root>`  |
+|  3.8% | 1.28 KiB |         2 | `Map ←.options– Object ←.user– Object ←(several paths)– <root>` |
+|  1.4% |    496 B |         2 | `Map ←.state– Object ←(several paths)– <root>`                  |
+
 ##### `UnlinkedEvalCodeBlock`
 
 |      % |     Size | Instances | Path                             |
 | -----: | -------: | --------: | -------------------------------- |
 | 100.0% | 32.4 KiB |        87 | `UnlinkedEvalCodeBlock ← <root>` |
 
-##### `Map`
-
-|     % |     Size | Instances | Path                                                            |
-| ----: | -------: | --------: | --------------------------------------------------------------- |
-| 53.9% | 17.4 KiB |         7 | `Map ←(several paths)– <root>`                                  |
-| 33.4% | 10.8 KiB |         2 | `Map ←.en– Object ←.data– Object ←(several paths)– <root>`      |
-|  4.0% |  1.3 KiB |         2 | `Map ←.tokens– Object ←.user– Object ←(several paths)– <root>`  |
-|  4.0% | 1.28 KiB |         2 | `Map ←.options– Object ←.user– Object ←(several paths)– <root>` |
-|  1.5% |    496 B |         2 | `Map ←.state– Object ←(several paths)– <root>`                  |
-
 ##### `HTMLAnchorElement`
 
 |     % |     Size | Instances | Path                                                                  |
 | ----: | -------: | --------: | --------------------------------------------------------------------- |
-| 43.2% |   12 KiB |        98 | `HTMLAnchorElement ← <root>`                                          |
-| 24.1% | 6.72 KiB |         6 | `HTMLAnchorElement ←(several paths)– <root>`                          |
-| 10.0% | 2.78 KiB |         9 | `HTMLAnchorElement ←.elem– JSLexicalEnvironment ← Function ← <root>`  |
-|  6.0% | 1.67 KiB |         1 | `HTMLAnchorElement ←(several paths)– Window ←(several paths)– <root>` |
-|  1.9% |    532 B |         1 | `HTMLAnchorElement ← Window ← <root>`                                 |
+| 41.3% |   12 KiB |        98 | `HTMLAnchorElement ← <root>`                                          |
+| 23.0% | 6.72 KiB |         6 | `HTMLAnchorElement ←(several paths)– <root>`                          |
+|  9.6% | 2.78 KiB |         9 | `HTMLAnchorElement ←.elem– JSLexicalEnvironment ← Function ← <root>`  |
+|  5.7% | 1.67 KiB |         1 | `HTMLAnchorElement ←(several paths)– Window ←(several paths)– <root>` |
+|  1.8% |    532 B |         1 | `HTMLAnchorElement ← Window ← <root>`                                 |
 
 ##### `String`
 
 |     % |     Size | Instances | Path                                       |
 | ----: | -------: | --------: | ------------------------------------------ |
-| 51.5% |   12 KiB |         4 | `String ← Window ←(several paths)– <root>` |
-| 48.5% | 11.3 KiB |         3 | `String ←(several paths)– <root>`          |
+| 46.3% |   12 KiB |         4 | `String ← Window ←(several paths)– <root>` |
+| 43.7% | 11.3 KiB |         3 | `String ←(several paths)– <root>`          |
 
 ##### `HTMLLIElement`
 
@@ -1121,6 +1121,16 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 1.5% | 337 B |         1 | `HTMLLIElement ← Structure ← Window ←(several paths)– <root>` |
 | 1.5% | 337 B |         1 | `HTMLLIElement ← Structure ←(several paths)– <root>`          |
 
+##### `HTMLInputElement`
+
+|     % |     Size | Instances | Path                                                                 |
+| ----: | -------: | --------: | -------------------------------------------------------------------- |
+| 30.9% | 6.18 KiB |         2 | `HTMLInputElement ← Structure ←(several paths)– <root>`              |
+| 18.7% | 3.75 KiB |        15 | `HTMLInputElement ←(several paths)– <root>`                          |
+| 14.7% | 2.93 KiB |         1 | `HTMLInputElement ←(several paths)– Window ←(several paths)– <root>` |
+|  4.2% |    864 B |        18 | `HTMLInputElement ← <root>`                                          |
+|  3.3% |    675 B |         1 | `HTMLInputElement ← Window ←(several paths)– <root>`                 |
+
 ##### `EvalExecutable`
 
 |     % |   Size | Instances | Path                                                                                                                          |
@@ -1131,50 +1141,40 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  1.3% |  224 B |         2 | `EvalExecutable ← FunctionExecutable ← Function ←.declarator– Object ←.mediawiki.ForeignApi– Object ←(several paths)– <root>` |
 |  1.3% |  224 B |         2 | `EvalExecutable ←(several paths)– Object ←.mediawiki.visibleTimeout– Object ←(several paths)– <root>`                         |
 
-##### `HTMLInputElement`
+##### `HTMLButtonElement`
 
-|     % |     Size | Instances | Path                                                                 |
-| ----: | -------: | --------: | -------------------------------------------------------------------- |
-| 35.9% | 6.18 KiB |         2 | `HTMLInputElement ← Structure ←(several paths)– <root>`              |
-| 21.7% | 3.75 KiB |        15 | `HTMLInputElement ←(several paths)– <root>`                          |
-| 17.0% | 2.93 KiB |         1 | `HTMLInputElement ←(several paths)– Window ←(several paths)– <root>` |
-|  4.9% |    864 B |        18 | `HTMLInputElement ← <root>`                                          |
-|  3.8% |    675 B |         1 | `HTMLInputElement ← Window ←(several paths)– <root>`                 |
+|     % |     Size | Instances | Path                                                                                           |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------- |
+| 41.9% | 6.86 KiB |        11 | `HTMLButtonElement ←(several paths)– <root>`                                                   |
+| 11.8% | 1.93 KiB |        20 | `HTMLButtonElement ←(several paths)– Object ←.FormMetadataJS– Window ←(several paths)– <root>` |
+|  7.1% | 1.16 KiB |         1 | `HTMLButtonElement ← Structure ←(several paths)– <root>`                                       |
+|  6.1% |    1 KiB |         1 | `HTMLButtonElement ←(several paths)– Window ←(several paths)– <root>`                          |
+|  4.6% |    768 B |        16 | `HTMLButtonElement ← <root>`                                                                   |
+
+##### `Node`
+
+|     % |     Size | Instances | Path                                                     |
+| ----: | -------: | --------: | -------------------------------------------------------- |
+| 47.2% | 7.01 KiB |         4 | `Node ←(several paths)– <root>`                          |
+| 33.9% | 5.03 KiB |         3 | `Node ←(several paths)– Window ←(several paths)– <root>` |
+|  7.8% | 1.15 KiB |         5 | `Node ← Window ←(several paths)– <root>`                 |
+|  3.3% |    498 B |         2 | `Node ← Window ← <root>`                                 |
+
+##### `Promise`
+
+|     % |     Size | Instances | Path                                                                                                                                                                             |
+| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 44.8% | 6.61 KiB |         1 | `Promise ←.promise– Object ←.preview– Object ←.u– JSLexicalEnvironment ←(several paths)– <root>`                                                                                 |
+| 40.9% | 6.05 KiB |         1 | `Promise ←.i– JSLexicalEnvironment ← Function ←.abort– Promise ←.promise– Object ←.preview– Object ←.u– JSLexicalEnvironment ←(several paths)– <root>`                           |
+| 19.5% | 2.88 KiB |         1 | `Promise ←.capturedPromise– JSLexicalEnvironment ← Function ←.t– JSLexicalEnvironment ← Function ← <root>`                                                                       |
+| 10.3% | 1.52 KiB |         2 | `Promise ←(several paths)– <root>`                                                                                                                                               |
+|  8.6% | 1.27 KiB |         1 | `Promise ←.promise– Object ←.globalContext– Object ←.context– Object ← Promise ←.capturedPromise– JSLexicalEnvironment ← Function ←.t– JSLexicalEnvironment ← Function ← <root>` |
 
 ##### `MultimediaViewerBootstrap`
 
 |      % |     Size | Instances | Path                                                 |
 | -----: | -------: | --------: | ---------------------------------------------------- |
 | 100.0% | 14.5 KiB |         2 | `MultimediaViewerBootstrap ←(several paths)– <root>` |
-
-##### `HTMLButtonElement`
-
-|     % |     Size | Instances | Path                                                                                           |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------- |
-| 48.2% | 6.86 KiB |        11 | `HTMLButtonElement ←(several paths)– <root>`                                                   |
-| 13.5% | 1.93 KiB |        20 | `HTMLButtonElement ←(several paths)– Object ←.FormMetadataJS– Window ←(several paths)– <root>` |
-|  8.1% | 1.16 KiB |         1 | `HTMLButtonElement ← Structure ←(several paths)– <root>`                                       |
-|  7.0% |    1 KiB |         1 | `HTMLButtonElement ←(several paths)– Window ←(several paths)– <root>`                          |
-|  5.3% |    768 B |        16 | `HTMLButtonElement ← <root>`                                                                   |
-
-##### `Node`
-
-|     % |     Size | Instances | Path                                                     |
-| ----: | -------: | --------: | -------------------------------------------------------- |
-| 51.2% | 7.01 KiB |         4 | `Node ←(several paths)– <root>`                          |
-| 36.8% | 5.03 KiB |         3 | `Node ←(several paths)– Window ←(several paths)– <root>` |
-|  8.4% | 1.15 KiB |         5 | `Node ← Window ←(several paths)– <root>`                 |
-|  3.6% |    498 B |         2 | `Node ← Window ← <root>`                                 |
-
-##### `Promise`
-
-|     % |     Size | Instances | Path                                                                                                                                                                             |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 50.7% | 6.61 KiB |         1 | `Promise ←.promise– Object ←.preview– Object ←.u– JSLexicalEnvironment ←(several paths)– <root>`                                                                                 |
-| 46.4% | 6.05 KiB |         1 | `Promise ←.i– JSLexicalEnvironment ← Function ←.abort– Promise ←.promise– Object ←.preview– Object ←.u– JSLexicalEnvironment ←(several paths)– <root>`                           |
-| 22.0% | 2.88 KiB |         1 | `Promise ←.capturedPromise– JSLexicalEnvironment ← Function ←.t– JSLexicalEnvironment ← Function ← <root>`                                                                       |
-| 11.7% | 1.52 KiB |         2 | `Promise ←(several paths)– <root>`                                                                                                                                               |
-|  9.7% | 1.27 KiB |         1 | `Promise ←.promise– Object ←.globalContext– Object ←.context– Object ← Promise ←.capturedPromise– JSLexicalEnvironment ← Function ←.t– JSLexicalEnvironment ← Function ← <root>` |
 
 ##### `HTMLDocument`
 
@@ -1188,17 +1188,17 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `InjectedScriptHost`
 
-|      % |     Size | Instances | Path                                                           |
-| -----: | -------: | --------: | -------------------------------------------------------------- |
-| 100.0% | 9.18 KiB |         6 | `InjectedScriptHost ← <root>`                                  |
-|  90.8% | 8.34 KiB |         6 | `InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>` |
+|     % |     Size | Instances | Path                                                           |
+| ----: | -------: | --------: | -------------------------------------------------------------- |
+| 86.1% | 9.18 KiB |         6 | `InjectedScriptHost ← <root>`                                  |
+| 78.2% | 8.34 KiB |         6 | `InjectedScriptHost ← Structure ← InjectedScriptHost ← <root>` |
 
 ##### `Array Iterator`
 
 |     % |     Size | Instances | Path                                               |
 | ----: | -------: | --------: | -------------------------------------------------- |
-| 84.4% | 6.33 KiB |         5 | `Array Iterator ← Window ←(several paths)– <root>` |
-| 15.6% | 1.17 KiB |         2 | `Array Iterator ← Window ← <root>`                 |
+| 77.5% | 6.33 KiB |         5 | `Array Iterator ← Window ←(several paths)– <root>` |
+| 14.3% | 1.17 KiB |         2 | `Array Iterator ← Window ← <root>`                 |
 
 ##### `JSGlobalLexicalEnvironment`
 
@@ -1206,6 +1206,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 | ----: | -------: | --------: | -------------------------------------------------------------- |
 | 89.5% | 6.02 KiB |         4 | `JSGlobalLexicalEnvironment ←(several paths)– <root>`          |
 | 10.5% |    720 B |         3 | `JSGlobalLexicalEnvironment ← Window ←(several paths)– <root>` |
+
+##### `CommandLineAPIHost`
+
+|     % |     Size | Instances | Path                                                           |
+| ----: | -------: | --------: | -------------------------------------------------------------- |
+| 88.5% | 4.22 KiB |         6 | `CommandLineAPIHost ← <root>`                                  |
+| 70.9% | 3.38 KiB |         6 | `CommandLineAPIHost ← Structure ← CommandLineAPIHost ← <root>` |
 
 ##### `StructureChain`
 
@@ -1216,13 +1223,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 5.7% | 256 B |        16 | `StructureChain ← Structure ← Function ←(several paths)– <root>`                  |
 | 5.7% | 256 B |        16 | `StructureChain ← Structure ← Object ←.messages– Object ←(several paths)– <root>` |
 | 5.3% | 240 B |        15 | `StructureChain ← Structure ←(several paths)– <root>`                             |
-
-##### `CommandLineAPIHost`
-
-|      % |     Size | Instances | Path                                                           |
-| -----: | -------: | --------: | -------------------------------------------------------------- |
-| 100.0% | 4.22 KiB |         6 | `CommandLineAPIHost ← <root>`                                  |
-|  80.0% | 3.38 KiB |         6 | `CommandLineAPIHost ← Structure ← CommandLineAPIHost ← <root>` |
 
 ##### `AsyncFunction`
 
@@ -1255,11 +1255,11 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |  Size | Instances | Path                                                                                                                                                        |
 | ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 31.4% | 854 B |         1 | `CallbackObject ←.ReaderArticleFinderJSController– Window ←(several paths)– <root>`                                                                         |
-| 27.3% | 742 B |         1 | `CallbackObject ←[0]– Array ←._oneTimeCodeFieldLabelPatternMatchers– Object ←.FormMetadataJS– Window ←(several paths)– <root>`                              |
-| 24.4% | 662 B |         1 | `CallbackObject ← Structure ← CallbackObject ←.ReaderArticleFinderJSController– Window ←(several paths)– <root>`                                            |
-| 20.3% | 550 B |         1 | `CallbackObject ← Structure ← CallbackObject ←[0]– Array ←._oneTimeCodeFieldLabelPatternMatchers– Object ←.FormMetadataJS– Window ←(several paths)– <root>` |
-| 16.5% | 448 B |         2 | `CallbackObject ←.browser– Window ← <root>`                                                                                                                 |
+| 27.5% | 854 B |         1 | `CallbackObject ←.ReaderArticleFinderJSController– Window ←(several paths)– <root>`                                                                         |
+| 23.9% | 742 B |         1 | `CallbackObject ←[0]– Array ←._oneTimeCodeFieldLabelPatternMatchers– Object ←.FormMetadataJS– Window ←(several paths)– <root>`                              |
+| 21.4% | 662 B |         1 | `CallbackObject ← Structure ← CallbackObject ←.ReaderArticleFinderJSController– Window ←(several paths)– <root>`                                            |
+| 17.7% | 550 B |         1 | `CallbackObject ← Structure ← CallbackObject ←[0]– Array ←._oneTimeCodeFieldLabelPatternMatchers– Object ←.FormMetadataJS– Window ←(several paths)– <root>` |
+| 14.5% | 448 B |         2 | `CallbackObject ←.browser– Window ← <root>`                                                                                                                 |
 
 ##### `ProgramExecutable`
 

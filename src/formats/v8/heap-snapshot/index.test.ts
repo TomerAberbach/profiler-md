@@ -3,6 +3,7 @@ import {
   functionTables,
   largestStringsTables,
   retainedNodeTables,
+  retainedSizeTables,
   selfSizeRetainerPathTables,
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
@@ -319,6 +320,49 @@ const makeStringSnapshot = (value: string) =>
     strings: [``, `MyClass`, value],
   })
 
+// A synthetic root retaining two `Owner` nodes, which both reference one
+// `Shared` node holding an `Array` node of `arraySize` bytes. Neither `Owner`
+// dominates the `Shared` node, though only the two keep it reachable.
+const makeSharedSnapshot = (arraySize: number) => {
+  const object = (
+    name: number,
+    id: number,
+    selfSize: number,
+    edgeCount: number,
+  ) => makeV8Node({ type: NODE_TYPE_OBJECT, name, id, selfSize, edgeCount })
+  const property = (name: number, toOrdinal: number) =>
+    makeV8Edge({
+      type: EDGE_TYPE_PROPERTY,
+      nameOrIndex: name,
+      toNode: 6 * toOrdinal,
+    })
+  return makeV8Snapshot({
+    nodeCount: 5,
+    edgeCount: 5,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }),
+      ...object(1, 3, 24, 1),
+      ...object(1, 5, 24, 1),
+      ...object(2, 7, 16, 1),
+      ...object(3, 9, arraySize, 0),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }),
+      ...property(4, 3),
+      ...property(4, 3),
+      ...property(5, 4),
+    ],
+    strings: [``, `Owner`, `Shared`, `Array`, `shared`, `data`],
+  })
+}
+
 describe(`convert`, () => {
   test(`formats all sections`, () => {
     const md = convertJsonToMd(
@@ -597,6 +641,37 @@ describe(`convert`, () => {
       [
         expect.objectContaining({ Constructor: `parent` }),
         expect.objectContaining({ Constructor: `child` }),
+      ],
+    ])
+  })
+
+  test(`a constructor's retained size counts the nodes its instances retain only together`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeSharedSnapshot(800),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(retainedSizeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `864 B`,
+          Instances: `2`,
+          Constructor: `Owner`,
+        },
+        {
+          '%': `94.4%`,
+          Size: `816 B`,
+          Instances: `1`,
+          Constructor: `Shared`,
+        },
+        {
+          '%': `92.6%`,
+          Size: `800 B`,
+          Instances: `1`,
+          Constructor: `Array`,
+        },
       ],
     ])
   })
@@ -1094,6 +1169,49 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
     rowAt(`b ←.x– a`),
     rowAt(`c ←.y– b ←.x– a`),
     rowAt(`xx ← (GC root)`),
+  ])
+})
+
+test(`diffProfiles ranks a constructor by the change in the nodes its instances retain only together`, () => {
+  const md = diffProfiles(
+    {
+      data: JSON.stringify(makeSharedSnapshot(800)),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      data: JSON.stringify(makeSharedSnapshot(1600)),
+      format: `v8-heap-snapshot`,
+    },
+    { baseURL: null },
+  )
+
+  expect(rankingTables(md, `Retained size`, `Regressions`)).toStrictEqual([
+    [
+      {
+        Change: `+92.6%`,
+        Delta: `+800 B`,
+        '%': `100.0%`,
+        Size: `864 B → 1.63 KiB`,
+        Instances: `2`,
+        Constructor: `Owner`,
+      },
+      {
+        Change: `+98.0%`,
+        Delta: `+800 B`,
+        '%': `94.4% → 97.1%`,
+        Size: `816 B → 1.58 KiB`,
+        Instances: `1`,
+        Constructor: `Shared`,
+      },
+      {
+        Change: `+100.0%`,
+        Delta: `+800 B`,
+        '%': `92.6% → 96.2%`,
+        Size: `800 B → 1.56 KiB`,
+        Instances: `1`,
+        Constructor: `Array`,
+      },
+    ],
   ])
 })
 

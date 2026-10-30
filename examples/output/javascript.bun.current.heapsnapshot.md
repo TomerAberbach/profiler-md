@@ -249,13 +249,13 @@ Constructors with the most instance bytes, including nodes only the instances ke
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
 | 89.3% | 1.33 MiB |         1 | `GlobalObject`                     |
-| 40.8% |  623 KiB |     1,367 | `Object`                           |
+| 43.6% |  666 KiB |     1,367 | `Object`                           |
 |  3.4% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
 |  3.4% | 52.1 KiB |         1 | `url `                             |
 |  1.5% | 22.4 KiB |         1 | `ModuleLoader`                     |
+|  1.2% | 18.4 KiB |         2 | `WriteStream`                      |
 |  1.1% | 16.8 KiB |        10 | `Map`                              |
 |  1.0% | 14.9 KiB |         1 | `ReadStream`                       |
-|  0.6% | 8.66 KiB |         2 | `WriteStream`                      |
 |  0.3% |  4.9 KiB |         1 | `console`                          |
 |  0.3% | 4.88 KiB |         1 | `Prototype`                        |
 |  0.3% | 4.87 KiB |         1 | `Math`                             |
@@ -278,12 +278,12 @@ Categories accounting for at least 1.0% of self size.
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
 | 89.3% | 1.33 MiB |         1 | `GlobalObject`                     |
-| 40.8% |  623 KiB |     1,367 | `Object`                           |
+| 43.6% |  666 KiB |     1,367 | `Object`                           |
 |  3.4% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
 |  3.4% | 52.1 KiB |         1 | `url `                             |
+|  1.2% | 18.4 KiB |         2 | `WriteStream`                      |
 |  1.1% | 16.8 KiB |        10 | `Map`                              |
 |  1.0% | 14.9 KiB |         1 | `ReadStream`                       |
-|  0.6% | 8.66 KiB |         2 | `WriteStream`                      |
 |  0.3% |  4.9 KiB |         1 | `console`                          |
 |  0.3% | 4.88 KiB |         1 | `Prototype`                        |
 |  0.3% | 4.87 KiB |         1 | `Math`                             |
@@ -318,11 +318,11 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                     |
 | ----: | -------: | --------: | ------------------------------------------------------------------------ |
-| 73.6% |  458 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
-| 70.9% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject`                       |
-| 12.0% | 74.9 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
-|  8.2% |   51 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-|  2.2% | 13.8 KiB |         1 | `Object ← GlobalObject`                                                  |
+| 68.8% |  458 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
+| 66.3% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject`                       |
+| 11.2% | 74.9 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
+|  7.7% |   51 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|  2.1% | 13.8 KiB |         1 | `Object ← GlobalObject`                                                  |
 
 ##### `InternalModuleRegistry`
 
@@ -342,6 +342,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 | -----: | -------: | --------: | ------------------------------------- |
 | 100.0% | 22.4 KiB |         1 | `ModuleLoader ←.Loader– GlobalObject` |
 
+##### `WriteStream`
+
+|     % |     Size | Instances | Path                                                 |
+| ----: | -------: | --------: | ---------------------------------------------------- |
+| 23.8% | 4.38 KiB |         1 | `WriteStream ←.stdout– url  ←.process– GlobalObject` |
+| 23.3% | 4.28 KiB |         1 | `WriteStream ←.stderr– url  ←.process– GlobalObject` |
+
 ##### `Map`
 
 |     % |     Size | Instances | Path                                                  |
@@ -357,13 +364,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 |      % |     Size | Instances | Path                                               |
 | -----: | -------: | --------: | -------------------------------------------------- |
 | 100.0% | 14.9 KiB |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
-
-##### `WriteStream`
-
-|     % |     Size | Instances | Path                                                 |
-| ----: | -------: | --------: | ---------------------------------------------------- |
-| 50.6% | 4.38 KiB |         1 | `WriteStream ←.stdout– url  ←.process– GlobalObject` |
-| 49.4% | 4.28 KiB |         1 | `WriteStream ←.stderr– url  ←.process– GlobalObject` |
 
 ##### `console`
 
@@ -467,11 +467,11 @@ Functions with the most instance bytes, including nodes only the instances keep 
 
 |    % | Retained | Instances | Paths | Name                 | Example path                                                                                           |
 | ---: | -------: | --------: | ----: | -------------------- | ------------------------------------------------------------------------------------------------------ |
-| 4.5% | 68.2 KiB |       374 |   345 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
+| 5.5% | 83.8 KiB |       374 |   345 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
 | 0.6% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 0.5% | 7.18 KiB |        10 |    10 | `SafeIterator`       | `SafeIterator ←(several paths)– GlobalObject`                                                          |
 | 0.4% | 6.21 KiB |         1 |     1 | `duplexPair`         | `duplexPair ←(several paths)– GlobalObject`                                                            |
 | 0.4% | 5.95 KiB |        41 |    28 | `AsyncFunction`      | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject`                           |
-| 0.4% | 5.87 KiB |        10 |    10 | `SafeIterator`       | `SafeIterator ←(several paths)– GlobalObject`                                                          |
 | 0.3% | 5.12 KiB |         1 |     1 | `SafeMap`            | `SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`            |
 | 0.3% |  4.9 KiB |         1 |     1 | `SafeSet`            | `SafeSet ←(several paths)– GlobalObject`                                                               |
 | 0.3% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `requestInstantiate ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject`                         |
@@ -479,7 +479,7 @@ Functions with the most instance bytes, including nodes only the instances keep 
 | 0.2% |  3.8 KiB |         2 |     1 | `compose`            | `compose ←(several paths)– GlobalObject`                                                               |
 | 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `Object ← (GC root)`                                                                                   |
 | 0.2% | 3.12 KiB |         1 |     1 | `PassThrough`        | `PassThrough ←(several paths)– GlobalObject`                                                           |
-| 0.2% | 3.06 KiB |        25 |    24 | `anonymous`          | `anonymous ←.charCodeAt– String ← GlobalObject`                                                        |
+| 0.2% |  3.1 KiB |        25 |    24 | `anonymous`          | `anonymous ←.charCodeAt– String ← GlobalObject`                                                        |
 | 0.2% | 3.04 KiB |         2 |     2 | `pipeline`           | `pipeline ←.pipeline– Object ←(several paths)– GlobalObject`                                           |
 | 0.2% | 2.95 KiB |        85 |    54 | `get`                | `get ← GetterSetter ←.self– GlobalObject`                                                              |
 | 0.2% | 2.49 KiB |         1 |     1 | `Stream`             | `Stream ←(several paths)– GlobalObject`                                                                |
@@ -496,11 +496,11 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % |  Self | Name                        | Path                                                                                                                   |
 | ---: | ----: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 0.7% | 484 B | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject`                         |
-| 0.5% | 375 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject` |
-| 0.2% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableByteStreamController– GlobalObject`                                         |
-| 0.2% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBReader– GlobalObject`                                             |
-| 0.2% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBRequest– GlobalObject`                                            |
+| 0.6% | 484 B | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject`                         |
+| 0.4% | 375 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject` |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableByteStreamController– GlobalObject`                                         |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBReader– GlobalObject`                                             |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBRequest– GlobalObject`                                            |
 
 #### `matchesGlob`
 
@@ -511,6 +511,16 @@ Retained nodes with the largest contribution to each function's retained size.
 |  1.5% |    128 B | `FunctionExecutable`         | `FunctionExecutable ← matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                                                  |
 |  1.5% |    128 B | `FunctionExecutable`         | `FunctionExecutable ← FunctionExecutable ← matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                             |
 |  1.1% |     96 B | `UnlinkedFunctionExecutable` | `UnlinkedFunctionExecutable ← FunctionExecutable ← matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                     |
+
+#### `SafeIterator`
+
+|    % | Self | Name   | Path                                                                                                                                                                         |
+| ---: | ---: | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                         |
+| 1.3% | 96 B | `call` | `call ←.next_– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                           |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.keys– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`    |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.values– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`  |
 
 #### `duplexPair`
 
@@ -531,16 +541,6 @@ Retained nodes with the largest contribution to each function's retained size.
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rmdir– Object ←(several paths)– GlobalObject`    |
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rm– Object ←(several paths)– GlobalObject`       |
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.lutimes– Object ←(several paths)– GlobalObject`  |
-
-#### `SafeIterator`
-
-|    % | Self | Name   | Path                                                                                                                                                                         |
-| ---: | ---: | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.6% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                         |
-| 1.6% | 96 B | `call` | `call ←.next_– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                           |
-| 1.6% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
-| 1.6% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.keys– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`    |
-| 1.6% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.values– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`  |
 
 #### `SafeMap`
 
@@ -616,11 +616,11 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % | Self | Name               | Path                                                                             |
 | ---: | ---: | ------------------ | -------------------------------------------------------------------------------- |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←(several paths)– GlobalObject`                    |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.charCodeAt– String ← GlobalObject`               |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.substr– String ← GlobalObject`                   |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.endsWith– String ← GlobalObject`                 |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.isView– ArrayBuffer ←.ArrayBuffer– GlobalObject` |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←(several paths)– GlobalObject`                    |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.charCodeAt– String ← GlobalObject`               |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.substr– String ← GlobalObject`                   |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.endsWith– String ← GlobalObject`                 |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.isView– ArrayBuffer ←.ArrayBuffer– GlobalObject` |
 
 #### `pipeline`
 

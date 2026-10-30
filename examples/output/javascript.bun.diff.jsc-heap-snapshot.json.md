@@ -75,32 +75,35 @@ Constructors with the largest increase in instance bytes, including nodes only t
 | Change |       Delta |             % |                Size |     Instances | Constructor          |
 | -----: | ----------: | ------------: | ------------------: | ------------: | -------------------- |
 |  +6.6% | +82.138 KiB | 83.7% → 89.1% |  1.22 MiB → 1.3 MiB |             1 | `GlobalObject`       |
-|  +0.6% |  +1.468 KiB | 15.8% → 15.9% |   236 KiB → 237 KiB | 1,862 → 1,875 | `Structure`          |
-|  +0.3% |  +1.467 KiB |         31.8% |   475 KiB → 476 KiB |           931 | `FunctionExecutable` |
+|  +0.3% |  +2.263 KiB | 44.2% → 44.3% |   661 KiB → 663 KiB |         1,732 | `Function`           |
+|  +0.6% |  +1.515 KiB | 15.9% → 16.0% |   238 KiB → 239 KiB | 1,862 → 1,875 | `Structure`          |
+|  +0.3% |  +1.466 KiB | 37.1% → 37.2% |   554 KiB → 556 KiB |           931 | `FunctionExecutable` |
 |  +1.1% |      +224 B |   1.3% → 1.4% | 20.2 KiB → 20.4 KiB |           103 | `StructureRareData`  |
+|  +0.7% |      +112 B |          1.1% | 16.6 KiB → 16.7 KiB |             2 | `WriteStream`        |
 |  +0.5% |       +96 B |          1.2% | 18.1 KiB → 18.2 KiB |     389 → 391 | `PropertyTable`      |
-|  +0.6% |       +48 B |          0.5% | 7.63 KiB → 7.67 KiB |            70 | `AsyncFunction`      |
-|    ~0% |        +3 B | 29.9% → 29.8% |             446 KiB |         1,077 | `Array`              |
+|  +0.6% |       +48 B |          0.5% |  8.05 KiB → 8.1 KiB |            70 | `AsyncFunction`      |
+|    ~0% |        +3 B |         29.9% |             447 KiB |         1,077 | `Array`              |
 |    ~0% |        +3 B |          1.3% |            18.9 KiB |             1 | `Process`            |
 
 ##### Code
 
-| Change |      Delta |     % |              Size | Instances | Constructor          |
-| -----: | ---------: | ----: | ----------------: | --------: | -------------------- |
-|  +0.3% | +1.467 KiB | 31.8% | 475 KiB → 476 KiB |       931 | `FunctionExecutable` |
+| Change |      Delta |             % |              Size | Instances | Constructor          |
+| -----: | ---------: | ------------: | ----------------: | --------: | -------------------- |
+|  +0.3% | +1.466 KiB | 37.1% → 37.2% | 554 KiB → 556 KiB |       931 | `FunctionExecutable` |
 
 ##### Object shape
 
 | Change |      Delta |             % |              Size |     Instances | Constructor |
 | -----: | ---------: | ------------: | ----------------: | ------------: | ----------- |
-|  +0.6% | +1.468 KiB | 15.8% → 15.9% | 236 KiB → 237 KiB | 1,862 → 1,875 | `Structure` |
+|  +0.6% | +1.515 KiB | 15.9% → 16.0% | 238 KiB → 239 KiB | 1,862 → 1,875 | `Structure` |
 
 ##### Object
 
-| Change |       Delta |             % |               Size | Instances | Constructor    |
-| -----: | ----------: | ------------: | -----------------: | --------: | -------------- |
-|  +6.6% | +82.138 KiB | 83.7% → 89.1% | 1.22 MiB → 1.3 MiB |         1 | `GlobalObject` |
-|    ~0% |        +3 B |          1.3% |           18.9 KiB |         1 | `Process`      |
+| Change |       Delta |             % |                Size | Instances | Constructor    |
+| -----: | ----------: | ------------: | ------------------: | --------: | -------------- |
+|  +6.6% | +82.138 KiB | 83.7% → 89.1% |  1.22 MiB → 1.3 MiB |         1 | `GlobalObject` |
+|  +0.7% |      +112 B |          1.1% | 16.6 KiB → 16.7 KiB |         2 | `WriteStream`  |
+|    ~0% |        +3 B |          1.3% |            18.9 KiB |         1 | `Process`      |
 
 ##### Internal
 
@@ -111,25 +114,26 @@ Constructors with the largest increase in instance bytes, including nodes only t
 
 ##### Function
 
-| Change | Delta |    % |                Size | Instances | Constructor     |
-| -----: | ----: | ---: | ------------------: | --------: | --------------- |
-|  +0.6% | +48 B | 0.5% | 7.63 KiB → 7.67 KiB |        70 | `AsyncFunction` |
+| Change |      Delta |             % |               Size | Instances | Constructor     |
+| -----: | ---------: | ------------: | -----------------: | --------: | --------------- |
+|  +0.3% | +2.263 KiB | 44.2% → 44.3% |  661 KiB → 663 KiB |     1,732 | `Function`      |
+|  +0.6% |      +48 B |          0.5% | 8.05 KiB → 8.1 KiB |        70 | `AsyncFunction` |
 
 ##### Array
 
-| Change | Delta |             % |    Size | Instances | Constructor |
-| -----: | ----: | ------------: | ------: | --------: | ----------- |
-|    ~0% |  +3 B | 29.9% → 29.8% | 446 KiB |     1,077 | `Array`     |
+| Change | Delta |     % |    Size | Instances | Constructor |
+| -----: | ----: | ----: | ------: | --------: | ----------- |
+|    ~0% |  +3 B | 29.9% | 447 KiB |     1,077 | `Array`     |
 
 #### Improvements
 
 Constructors with the largest decrease in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
-##### Function
+##### Object
 
-| Change |  Delta |             % |              Size | Instances | Constructor |
-| -----: | -----: | ------------: | ----------------: | --------: | ----------- |
-|  -0.1% | -240 B | 19.0% → 18.9% | 284 KiB → 283 KiB |     1,732 | `Function`  |
+| Change |      Delta |             % |              Size | Instances | Constructor |
+| -----: | ---------: | ------------: | ----------------: | --------: | ----------- |
+|  -0.8% | -5.375 KiB | 44.2% → 43.8% | 661 KiB → 655 KiB |     1,373 | `Object`    |
 
 #### Retainer paths
 
@@ -141,25 +145,35 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -----: | ----------: | -----: | -----------------: | --------: | ----------------------- |
 |  +6.6% | +82.138 KiB | 100.0% | 1.22 MiB → 1.3 MiB |         1 | `GlobalObject ← <root>` |
 
+##### `Function`
+
+|  Change |      Delta |            % |                Size | Instances | Path                                               |
+| ------: | ---------: | -----------: | ------------------: | --------: | -------------------------------------------------- |
+|  -46.4% | -6.416 KiB |  2.1% → 1.1% | 13.8 KiB → 7.42 KiB |   48 → 19 | `Function ←(several paths)– <root>`                |
+|   -7.9% | -5.474 KiB | 10.5% → 9.6% |   69.4 KiB → 64 KiB | 255 → 233 | `Function ← GlobalObject ← <root>`                 |
+|   +8.1% | +4.161 KiB |  7.8% → 8.4% | 51.6 KiB → 55.8 KiB | 240 → 261 | `Function ←(several paths)– GlobalObject ← <root>` |
+| +507.1% | +1.386 KiB | <0.1% → 0.3% |    280 B → 1.66 KiB |    4 → 15 | `Function ← GetterSetter ← GlobalObject ← <root>`  |
+| removed | -1.386 KiB |  0.2% → 0.0% |      1.39 KiB → 0 B |    11 → 0 | `Function ← GetterSetter ←(several paths)– <root>` |
+
 ##### `Structure`
 
 |  Change |       Delta |             % |                Size | Instances | Path                                                                     |
 | ------: | ----------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------ |
-|  -72.3% | -10.359 KiB |   6.1% → 1.7% | 14.3 KiB → 3.97 KiB |   75 → 21 | `Structure ←(several paths)– <root>`                                     |
-|  +20.9% | +10.218 KiB | 20.8% → 25.0% |   49 KiB → 59.2 KiB | 183 → 236 | `Structure ←(several paths)– GlobalObject ← <root>`                      |
-|  +20.2% |  +5.218 KiB | 11.0% → 13.1% |   25.8 KiB → 31 KiB |   12 → 14 | `Structure ← Object ←(several paths)– GlobalObject ← <root>`             |
+|  -72.3% | -10.359 KiB |   6.0% → 1.7% | 14.3 KiB → 3.97 KiB |   75 → 21 | `Structure ←(several paths)– <root>`                                     |
+|  +20.9% | +10.218 KiB | 20.6% → 24.7% |   49 KiB → 59.2 KiB | 183 → 236 | `Structure ←(several paths)– GlobalObject ← <root>`                      |
+|  +20.2% |  +5.218 KiB | 10.9% → 13.0% |   25.8 KiB → 31 KiB |   12 → 14 | `Structure ← Object ←(several paths)– GlobalObject ← <root>`             |
 | removed |  -5.218 KiB |   2.2% → 0.0% |      5.22 KiB → 0 B |     2 → 0 | `Structure ← Object ←(several paths)– <root>`                            |
-|  +20.1% |  +4.812 KiB | 10.2% → 12.1% |   24 KiB → 28.8 KiB |     7 → 8 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>` |
+|  +20.1% |  +4.812 KiB | 10.1% → 12.0% |   24 KiB → 28.8 KiB |     7 → 8 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>` |
 
 ##### `FunctionExecutable`
 
 | Change |       Delta |             % |                Size | Instances | Path                                                                    |
 | -----: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------- |
-| +13.6% | +35.055 KiB | 54.3% → 61.4% |   257 KiB → 293 KiB | 402 → 456 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`            |
-| -36.3% | -33.587 KiB | 19.5% → 12.4% | 92.5 KiB → 58.9 KiB |  143 → 89 | `FunctionExecutable ←(several paths)– <root>`                           |
-| -13.1% |  -6.218 KiB |  10.0% → 8.6% | 47.3 KiB → 41.1 KiB | 203 → 175 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                 |
-| -41.5% |      -988 B |   0.5% → 0.3% | 2.32 KiB → 1.36 KiB |     6 → 3 | `FunctionExecutable ← Function ←(several paths)– <root>`                |
-| +11.5% |      +860 B |   1.5% → 1.7% | 7.29 KiB → 8.13 KiB |   10 → 12 | `FunctionExecutable ← Function ←(several paths)– GlobalObject ← <root>` |
+| +13.6% | +35.055 KiB | 46.4% → 52.6% |   257 KiB → 293 KiB | 402 → 456 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`            |
+| -36.3% | -33.587 KiB | 16.7% → 10.6% | 92.5 KiB → 58.9 KiB |  143 → 89 | `FunctionExecutable ←(several paths)– <root>`                           |
+| -13.1% |  -6.218 KiB |   8.5% → 7.4% | 47.3 KiB → 41.1 KiB | 203 → 175 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                 |
+| -41.5% |      -988 B |   0.4% → 0.2% | 2.32 KiB → 1.36 KiB |     6 → 3 | `FunctionExecutable ← Function ←(several paths)– <root>`                |
+| +11.5% |      +860 B |   1.3% → 1.5% | 7.29 KiB → 8.13 KiB |   10 → 12 | `FunctionExecutable ← Function ←(several paths)– GlobalObject ← <root>` |
 
 ##### `StructureRareData`
 
@@ -185,7 +199,7 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 | Change | Delta |           % |          Size | Instances | Path                                    |
 | -----: | ----: | ----------: | ------------: | --------: | --------------------------------------- |
-|  +8.6% | +48 B | 7.2% → 7.7% | 559 B → 607 B |         1 | `AsyncFunction ← GlobalObject ← <root>` |
+|  +8.6% | +48 B | 6.8% → 7.3% | 559 B → 607 B |         1 | `AsyncFunction ← GlobalObject ← <root>` |
 
 ##### `Array`
 
@@ -204,12 +218,12 @@ Retainer paths with the largest change in contribution to each constructor's ret
 |     new | +18.913 KiB | 0.0% → 100.0% | 0 B → 18.9 KiB |     0 → 1 | `Process ←.process– GlobalObject ← <root>` |
 | removed |  -18.91 KiB | 100.0% → 0.0% | 18.9 KiB → 0 B |     1 → 0 | `Process ← GlobalObject ← <root>`          |
 
-##### `Function`
+##### `Object`
 
-|  Change |      Delta |             % |                Size | Instances | Path                                               |
-| ------: | ---------: | ------------: | ------------------: | --------: | -------------------------------------------------- |
-|  -46.4% | -6.416 KiB |   4.9% → 2.6% | 13.8 KiB → 7.42 KiB |   48 → 19 | `Function ←(several paths)– <root>`                |
-|   -7.9% | -5.474 KiB | 24.5% → 22.6% |   69.4 KiB → 64 KiB | 255 → 233 | `Function ← GlobalObject ← <root>`                 |
-|   +8.1% | +4.161 KiB | 18.2% → 19.7% | 51.6 KiB → 55.8 KiB | 240 → 261 | `Function ←(several paths)– GlobalObject ← <root>` |
-| +507.1% | +1.386 KiB |   0.1% → 0.6% |    280 B → 1.66 KiB |    4 → 15 | `Function ← GetterSetter ← GlobalObject ← <root>`  |
-| removed | -1.386 KiB |   0.5% → 0.0% |      1.39 KiB → 0 B |    11 → 0 | `Function ← GetterSetter ←(several paths)– <root>` |
+|  Change |       Delta |            % |                Size | Instances | Path                                                                   |
+| ------: | ----------: | -----------: | ------------------: | --------: | ---------------------------------------------------------------------- |
+|  -91.1% | -12.673 KiB |  2.1% → 0.2% | 13.9 KiB → 1.24 KiB |     4 → 1 | `Object ←(several paths)– <root>`                                      |
+|  +20.6% | +12.673 KiB | 9.3% → 11.3% | 61.6 KiB → 74.3 KiB |   23 → 26 | `Object ←(several paths)– GlobalObject ← <root>`                       |
+| removed |  -4.145 KiB |  0.6% → 0.0% |      4.15 KiB → 0 B |     1 → 0 | `Object ←.versions– Process ← GlobalObject ← <root>`                   |
+|     new |  +4.145 KiB |  0.0% → 0.6% |      0 B → 4.15 KiB |     0 → 1 | `Object ←.versions– Process ←.process– GlobalObject ← <root>`          |
+| +156.0% |  +3.411 KiB |  0.3% → 0.9% |  2.19 KiB → 5.6 KiB |     3 → 4 | `Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>` |

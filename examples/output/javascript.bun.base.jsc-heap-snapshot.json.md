@@ -572,25 +572,25 @@ Constructors with the most instance bytes, including nodes only the instances ke
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
 | 83.7% | 1.22 MiB |         1 | `GlobalObject`               |
-| 41.5% |  620 KiB |     1,373 | `Object`                     |
-| 31.8% |  475 KiB |       931 | `FunctionExecutable`         |
-| 29.9% |  446 KiB |     1,077 | `Array`                      |
-| 19.0% |  284 KiB |     1,732 | `Function`                   |
+| 44.2% |  661 KiB |     1,732 | `Function`                   |
+| 44.2% |  661 KiB |     1,373 | `Object`                     |
+| 37.1% |  554 KiB |       931 | `FunctionExecutable`         |
+| 29.9% |  447 KiB |     1,077 | `Array`                      |
 | 17.9% |  267 KiB |       122 | `FunctionCodeBlock`          |
-| 15.8% |  236 KiB |     1,862 | `Structure`                  |
+| 15.9% |  238 KiB |     1,862 | `Structure`                  |
 |  6.1% | 90.9 KiB |       121 | `UnlinkedFunctionCodeBlock`  |
 |  5.8% | 86.7 KiB |       925 | `UnlinkedFunctionExecutable` |
 |  3.4% | 50.9 KiB |       653 | `NativeExecutable`           |
 |  3.3% | 49.5 KiB |         1 | `InternalModuleRegistry`     |
-|  1.8% | 26.6 KiB |       170 | `JSLexicalEnvironment`       |
+|  1.8% | 26.9 KiB |       170 | `JSLexicalEnvironment`       |
 |  1.5% | 22.4 KiB |         1 | `ModuleLoader`               |
 |  1.3% | 20.2 KiB |       103 | `StructureRareData`          |
 |  1.3% | 18.9 KiB |         1 | `Process`                    |
 |  1.2% | 18.1 KiB |       389 | `PropertyTable`              |
 |  1.2% | 17.5 KiB |       210 | `FunctionRareData`           |
 |  1.1% | 16.8 KiB |        10 | `Map`                        |
+|  1.1% | 16.6 KiB |         2 | `WriteStream`                |
 |  1.1% | 16.5 KiB |        10 | `Cell Butterfly`             |
-|  1.1% | 15.8 KiB |       147 | `GetterSetter`               |
 
 #### Categories
 
@@ -600,7 +600,7 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                      |
 | ----: | -------: | --------: | -------------------------------- |
-| 31.8% |  475 KiB |       931 | `FunctionExecutable`             |
+| 37.1% |  554 KiB |       931 | `FunctionExecutable`             |
 | 17.9% |  267 KiB |       122 | `FunctionCodeBlock`              |
 |  6.1% | 90.9 KiB |       121 | `UnlinkedFunctionCodeBlock`      |
 |  5.8% | 86.7 KiB |       925 | `UnlinkedFunctionExecutable`     |
@@ -615,23 +615,23 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |    Size | Instances | Constructor |
 | ----: | ------: | --------: | ----------- |
-| 15.8% | 236 KiB |     1,862 | `Structure` |
+| 15.9% | 238 KiB |     1,862 | `Structure` |
 
 ##### Object
 
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
 | 83.7% | 1.22 MiB |         1 | `GlobalObject`                     |
-| 41.5% |  620 KiB |     1,373 | `Object`                           |
+| 44.2% |  661 KiB |     1,373 | `Object`                           |
 |  3.3% | 49.5 KiB |         1 | `InternalModuleRegistry`           |
 |  1.3% | 18.9 KiB |         1 | `Process`                          |
 |  1.1% | 16.8 KiB |        10 | `Map`                              |
+|  1.1% | 16.6 KiB |         2 | `WriteStream`                      |
 |  1.0% | 15.1 KiB |         1 | `ReadStream`                       |
-|  0.6% | 9.16 KiB |         2 | `WriteStream`                      |
+|  0.6% | 9.41 KiB |         3 | `ReadableStream`                   |
 |  0.3% | 4.89 KiB |         1 | `console`                          |
 |  0.3% | 4.88 KiB |         1 | `Prototype`                        |
 |  0.3% | 4.86 KiB |         1 | `Math`                             |
-|  0.3% | 4.83 KiB |         3 | `ReadableStream`                   |
 |  0.3% | 4.45 KiB |         1 | `String`                           |
 |  0.2% | 2.98 KiB |         2 | `Iterator`                         |
 |  0.2% | 2.95 KiB |         2 | `NodeJSFS`                         |
@@ -646,12 +646,12 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                  |
 | ----: | -------: | --------: | ---------------------------- |
-|  1.8% | 26.6 KiB |       170 | `JSLexicalEnvironment`       |
+|  1.8% | 26.9 KiB |       170 | `JSLexicalEnvironment`       |
 |  1.3% | 20.2 KiB |       103 | `StructureRareData`          |
 |  1.2% | 18.1 KiB |       389 | `PropertyTable`              |
 |  1.2% | 17.5 KiB |       210 | `FunctionRareData`           |
 |  1.1% | 16.5 KiB |        10 | `Cell Butterfly`             |
-|  1.1% | 15.8 KiB |       147 | `GetterSetter`               |
+|  1.1% | 16.3 KiB |       147 | `GetterSetter`               |
 |  0.8% | 11.3 KiB |       185 | `SymbolTable`                |
 |  0.1% | 1.44 KiB |        46 | `CustomGetterSetter`         |
 |  0.1% |    768 B |        16 | `DOMAttributeGetterSetter`   |
@@ -665,8 +665,8 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor              |
 | ----: | -------: | --------: | ------------------------ |
-| 19.0% |  284 KiB |     1,732 | `Function`               |
-|  0.5% | 7.63 KiB |        70 | `AsyncFunction`          |
+| 44.2% |  661 KiB |     1,732 | `Function`               |
+|  0.5% | 8.05 KiB |        70 | `AsyncFunction`          |
 | <0.1% |    488 B |         3 | `GeneratorFunction`      |
 | <0.1% |    466 B |         2 | `AsyncGeneratorFunction` |
 | <0.1% |     96 B |         4 | `Callee`                 |
@@ -675,7 +675,7 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor           |
 | ----: | -------: | --------: | --------------------- |
-| 29.9% |  446 KiB |     1,077 | `Array`               |
+| 29.9% |  447 KiB |     1,077 | `Array`               |
 |  0.1% | 1.03 KiB |        34 | `SparseArrayValueMap` |
 | <0.1% |    464 B |         1 | `Array Iterator`      |
 
@@ -689,52 +689,52 @@ Retainer paths with the largest contribution to each constructor's retained size
 | -----: | -------: | --------: | ----------------------- |
 | 100.0% | 1.22 MiB |         1 | `GlobalObject ← <root>` |
 
+##### `Function`
+
+|     % |     Size | Instances | Path                                                                                 |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
+| 10.5% | 69.4 KiB |       255 | `Function ← GlobalObject ← <root>`                                                   |
+|  7.8% | 51.6 KiB |       240 | `Function ←(several paths)– GlobalObject ← <root>`                                   |
+|  2.1% | 13.8 KiB |        48 | `Function ←(several paths)– <root>`                                                  |
+|  1.5% | 9.63 KiB |        12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|  0.8% | 5.12 KiB |         1 | `Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>`        |
+
 ##### `Object`
 
 |     % |     Size | Instances | Path                                                        |
 | ----: | -------: | --------: | ----------------------------------------------------------- |
-| 73.9% |  458 KiB |         1 | `Object ←.__retained– GlobalObject ← <root>`                |
-| 71.2% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject ← <root>` |
-|  9.9% | 61.6 KiB |        23 | `Object ←(several paths)– GlobalObject ← <root>`            |
-|  7.8% | 48.2 KiB |        17 | `Object ← InternalModuleRegistry ← GlobalObject ← <root>`   |
-|  2.2% | 13.9 KiB |         4 | `Object ←(several paths)– <root>`                           |
+| 69.4% |  458 KiB |         1 | `Object ←.__retained– GlobalObject ← <root>`                |
+| 66.8% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject ← <root>` |
+|  9.3% | 61.6 KiB |        23 | `Object ←(several paths)– GlobalObject ← <root>`            |
+|  7.3% | 48.2 KiB |        17 | `Object ← InternalModuleRegistry ← GlobalObject ← <root>`   |
+|  2.1% | 13.9 KiB |         4 | `Object ←(several paths)– <root>`                           |
 
 ##### `FunctionExecutable`
 
 |     % |     Size | Instances | Path                                                                                                      |
 | ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------- |
-| 54.3% |  257 KiB |       402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                              |
-| 19.5% | 92.5 KiB |       143 | `FunctionExecutable ←(several paths)– <root>`                                                             |
-| 10.0% | 47.3 KiB |       203 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                                   |
-|  3.1% | 14.8 KiB |         8 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`     |
-|  1.7% | 8.18 KiB |         1 | `FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+| 46.4% |  257 KiB |       402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                              |
+| 16.7% | 92.5 KiB |       143 | `FunctionExecutable ←(several paths)– <root>`                                                             |
+|  8.5% | 47.3 KiB |       203 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                                   |
+|  2.7% | 14.8 KiB |         8 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`     |
+|  1.5% | 8.18 KiB |         1 | `FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
 
 ##### `Array`
 
 |     % |     Size | Instances | Path                                                                                                                          |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------- |
-| 98.6% |  440 KiB |         1 | `Array ←.statuses– Object ←.data– Object ←.__retained– GlobalObject ← <root>`                                                 |
+| 98.5% |  440 KiB |         1 | `Array ←.statuses– Object ←.data– Object ←.__retained– GlobalObject ← <root>`                                                 |
 |  1.1% | 4.69 KiB |         1 | `Array ←(several paths)– <root>`                                                                                              |
 |  0.3% | 1.51 KiB |         1 | `Array ←.media– Object ←.entities– Object ←[64]– Array ←.statuses– Object ←.data– Object ←.__retained– GlobalObject ← <root>` |
 |  0.2% | 1.08 KiB |         1 | `Array ←.media– Object ←.entities– Object ←[98]– Array ←.statuses– Object ←.data– Object ←.__retained– GlobalObject ← <root>` |
 |  0.2% | 1.08 KiB |         1 | `Array ←.media– Object ←.entities– Object ←[4]– Array ←.statuses– Object ←.data– Object ←.__retained– GlobalObject ← <root>`  |
-
-##### `Function`
-
-|     % |     Size | Instances | Path                                                                                 |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
-| 24.5% | 69.4 KiB |       255 | `Function ← GlobalObject ← <root>`                                                   |
-| 18.2% | 51.6 KiB |       240 | `Function ←(several paths)– GlobalObject ← <root>`                                   |
-|  4.9% | 13.8 KiB |        48 | `Function ←(several paths)– <root>`                                                  |
-|  3.4% | 9.63 KiB |        12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
-|  1.8% | 5.12 KiB |         1 | `Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>`        |
 
 ##### `FunctionCodeBlock`
 
 |     % |     Size | Instances | Path                                                                                                                                                               |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 60.1% |  161 KiB |        52 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                                                                   |
-| 20.9% | 55.8 KiB |        11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                                                                  |
+| 20.8% | 55.8 KiB |        11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                                                                  |
 |  5.2% | 13.8 KiB |         7 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                          |
 |  2.8% |  7.4 KiB |         1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
 |  2.4% | 6.35 KiB |         1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                 |
@@ -743,11 +743,11 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                             |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------ |
-| 20.8% |   49 KiB |       183 | `Structure ←(several paths)– GlobalObject ← <root>`                                              |
-| 11.0% | 25.8 KiB |        12 | `Structure ← Object ←(several paths)– GlobalObject ← <root>`                                     |
-| 10.2% |   24 KiB |         7 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>`                         |
+| 20.6% |   49 KiB |       183 | `Structure ←(several paths)– GlobalObject ← <root>`                                              |
+| 10.9% | 25.8 KiB |        12 | `Structure ← Object ←(several paths)– GlobalObject ← <root>`                                     |
+| 10.1% |   24 KiB |         7 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>`                         |
 |  9.8% | 23.2 KiB |         7 | `Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>`             |
-|  9.5% | 22.4 KiB |         6 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>` |
+|  9.4% | 22.4 KiB |         6 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>` |
 
 ##### `UnlinkedFunctionCodeBlock`
 
@@ -789,10 +789,10 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                         |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 46.1% | 12.3 KiB |        23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                                               |
-|  9.2% | 2.44 KiB |         8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← <root>`                                                                    |
-|  5.8% | 1.53 KiB |         5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                        |
-|  5.4% | 1.43 KiB |         2 | `JSLexicalEnvironment ←(several paths)– <root>`                                                                                              |
+| 45.6% | 12.3 KiB |        23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                                               |
+|  9.1% | 2.44 KiB |         8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← <root>`                                                                    |
+|  5.7% | 1.53 KiB |         5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                        |
+|  5.3% | 1.43 KiB |         2 | `JSLexicalEnvironment ←(several paths)– <root>`                                                                                              |
 |  2.3% |    630 B |         1 | `JSLexicalEnvironment ← Function ←.entries– Object ←.prototype– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
 
 ##### `ModuleLoader`
@@ -847,6 +847,12 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  0.7% |    128 B |         4 | `Map ← (GC root)`                                        |
 |  0.2% |     32 B |         1 | `Map ← GlobalObject ← <root>`                            |
 
+##### `WriteStream`
+
+|     % |     Size | Instances | Path                                                  |
+| ----: | -------: | --------: | ----------------------------------------------------- |
+| 55.3% | 9.16 KiB |         2 | `WriteStream ←(several paths)– GlobalObject ← <root>` |
+
 ##### `Cell Butterfly`
 
 |     % |   Size | Instances | Path                                                                      |
@@ -861,11 +867,11 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------- |
-| 11.0% | 1.73 KiB |        11 | `GetterSetter ←(several paths)– <root>`                                             |
-|  3.6% |    576 B |         5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← <root>`          |
-|  2.6% |    416 B |         4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← <root>`             |
-|  2.5% |    408 B |         4 | `GetterSetter ← GlobalObject ← <root>`                                              |
-|  2.1% |    342 B |         2 | `GetterSetter ←.maxByteLength– ArrayBuffer ←(several paths)– GlobalObject ← <root>` |
+| 10.6% | 1.73 KiB |        11 | `GetterSetter ←(several paths)– <root>`                                             |
+|  3.4% |    576 B |         5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← <root>`          |
+|  2.5% |    416 B |         4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← <root>`             |
+|  2.4% |    408 B |         4 | `GetterSetter ← GlobalObject ← <root>`                                              |
+|  2.0% |    342 B |         2 | `GetterSetter ←.maxByteLength– ArrayBuffer ←(several paths)– GlobalObject ← <root>` |
 
 ##### `ReadStream`
 
@@ -883,21 +889,23 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  7.2% |    832 B |        13 | `SymbolTable ← SymbolTable ←(several paths)– GlobalObject ← <root>`              |
 |  3.9% |    448 B |         7 | `SymbolTable ← SymbolTable ←(several paths)– <root>`                             |
 
-##### `WriteStream`
+##### `ReadableStream`
 
-|      % |     Size | Instances | Path                                                  |
-| -----: | -------: | --------: | ----------------------------------------------------- |
-| 100.0% | 9.16 KiB |         2 | `WriteStream ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Instances | Path                                      |
+| ----: | -------: | --------: | ----------------------------------------- |
+| 31.2% | 2.93 KiB |         1 | `ReadableStream ←(several paths)– <root>` |
+| 13.7% | 1.29 KiB |         1 | `ReadableStream ← <root>`                 |
+|  6.5% |    625 B |         1 | `ReadableStream ← GlobalObject ← <root>`  |
 
 ##### `AsyncFunction`
 
 |     % |     Size | Instances | Path                                                                                  |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------- |
-| 32.4% | 2.47 KiB |        23 | `AsyncFunction ←(several paths)– GlobalObject ← <root>`                               |
-|  7.2% |    559 B |         1 | `AsyncFunction ← GlobalObject ← <root>`                                               |
-|  4.0% |    311 B |         1 | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject ← <root>` |
-|  3.1% |    240 B |         1 | `AsyncFunction ←.constructor– AsyncFunction ← GlobalObject ← <root>`                  |
-|  2.5% |    195 B |         2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← <root>`               |
+| 30.7% | 2.47 KiB |        23 | `AsyncFunction ←(several paths)– GlobalObject ← <root>`                               |
+|  6.8% |    559 B |         1 | `AsyncFunction ← GlobalObject ← <root>`                                               |
+|  3.8% |    311 B |         1 | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject ← <root>` |
+|  2.9% |    240 B |         1 | `AsyncFunction ←.constructor– AsyncFunction ← GlobalObject ← <root>`                  |
+|  2.4% |    195 B |         2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← <root>`               |
 
 ##### `console`
 
@@ -916,14 +924,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 |      % |     Size | Instances | Path                                 |
 | -----: | -------: | --------: | ------------------------------------ |
 | 100.0% | 4.86 KiB |         1 | `Math ←.Math– GlobalObject ← <root>` |
-
-##### `ReadableStream`
-
-|     % |     Size | Instances | Path                                      |
-| ----: | -------: | --------: | ----------------------------------------- |
-| 60.7% | 2.93 KiB |         1 | `ReadableStream ←(several paths)– <root>` |
-| 26.7% | 1.29 KiB |         1 | `ReadableStream ← <root>`                 |
-| 12.6% |    625 B |         1 | `ReadableStream ← GlobalObject ← <root>`  |
 
 ##### `String`
 

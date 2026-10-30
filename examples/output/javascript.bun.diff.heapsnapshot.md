@@ -38,8 +38,9 @@ Constructors with the largest increase in instance bytes, including nodes only t
 |    +6.6% | +84.572 KiB | 83.9% → 89.3% | 1.25 MiB → 1.33 MiB |         1 | `GlobalObject`        |
 | +1375.0% |      +880 B |  <0.1% → 0.1% |        64 B → 944 B |         1 | `FixedCircularBuffer` |
 |  +916.7% |      +880 B |  <0.1% → 0.1% |        96 B → 976 B |         1 | `FixedQueue`          |
-|    +0.1% |      +608 B |         40.8% |   622 KiB → 623 KiB |     1,367 | `Object`              |
+|    +0.1% |      +384 B |         43.6% |             666 KiB |     1,367 | `Object`              |
 |    +0.5% |      +272 B |          3.4% | 51.9 KiB → 52.1 KiB |         1 | `url `                |
+|    +1.5% |      +272 B |          1.2% | 18.1 KiB → 18.4 KiB |         2 | `WriteStream`         |
 
 #### Retainer paths
 
@@ -67,11 +68,11 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |  Change |       Delta |            % |                Size | Instances | Path                                                                                                                      |
 | ------: | ----------: | -----------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------- |
-|  +21.6% | +13.291 KiB | 9.9% → 12.0% | 61.6 KiB → 74.9 KiB |   23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                   |
-|  -87.2% | -12.698 KiB |  2.3% → 0.3% | 14.6 KiB → 1.87 KiB |     8 → 5 | `Object ← (GC root)`                                                                                                      |
+|  +21.6% | +13.291 KiB | 9.2% → 11.2% | 61.6 KiB → 74.9 KiB |   23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                   |
+|  -87.2% | -12.698 KiB |  2.2% → 0.3% | 14.6 KiB → 1.87 KiB |     8 → 5 | `Object ← (GC root)`                                                                                                      |
 | removed |      -401 B |  0.1% → 0.0% |         401 B → 0 B |     1 → 0 | `Object ←.homeObject– EventEmitterAsyncResource ←.EventEmitterAsyncResource– EventEmitter`                                |
 |     new |      +401 B |  0.0% → 0.1% |         0 B → 401 B |     0 → 1 | `Object ←.homeObject– EventEmitterAsyncResource ←.EventEmitterAsyncResource– EventEmitter ←(several paths)– GlobalObject` |
-|  -81.0% |      -272 B | 0.1% → <0.1% |        336 B → 64 B |         1 | `Object ←.scheduler– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                              |
+|  -81.0% |      -272 B |        <0.1% |        336 B → 64 B |         1 | `Object ←.scheduler– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                              |
 
 ##### `url `
 
