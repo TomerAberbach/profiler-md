@@ -1681,8 +1681,12 @@ const formatDiffGauges = (
   if (diff.gauges.length === 0) {
     return []
   }
+  // A gauge one side lacks has no level to change from or to, so it ranks
+  // above every change in level.
   const gauges = selectTopN(diff.gauges, options.topN, ({ base, current }) =>
-    relativeChange(base?.last, current?.last),
+    base && current
+      ? relativeChange(base.last, current.last)
+      : Number.MAX_VALUE,
   )
   const hasMean = gauges.some(
     ({ base, current }) =>
@@ -1707,6 +1711,7 @@ const formatDiffGauges = (
           current: current && { name, gauge: current, trend },
         }
       }),
+      { missingSide: `empty` },
     ),
   ]
 }

@@ -2,7 +2,13 @@ import { formatMilliseconds } from '../../helpers/format.ts'
 import { formatCategory } from '../format.ts'
 import { formatValue, metricCell } from '../measure.ts'
 import { MILLISECONDS_METRIC } from '../metrics.ts'
-import { codeCell, countCell, percentCell, textCell } from '../table.ts'
+import {
+  codeCell,
+  countCell,
+  emptyCell,
+  percentCell,
+  textCell,
+} from '../table.ts'
 import type { Cell, Column, Table } from '../table.ts'
 import type {
   AggregatedTraceAmount,
@@ -402,7 +408,7 @@ export const gaugeColumns = ({
             header: { content: `Mean`, align: `right` },
             // An untimed gauge has no mean among gauges that do.
             cellOf: ({ gauge: { timing, metric } }) =>
-              timing ? metricCell(timing.mean, metric) : textCell(``),
+              timing ? metricCell(timing.mean, metric) : emptyCell,
           } satisfies Column<GaugeRow>,
         ]
       : []),

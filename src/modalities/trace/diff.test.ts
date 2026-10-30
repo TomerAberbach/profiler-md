@@ -905,24 +905,47 @@ describe(`gauges`, () => {
       [
         {
           Gauge: `load`,
-          Change: `new`,
-          Delta: `+7`,
-          Readings: `0 → 1`,
-          Min: `0 → 7`,
-          Max: `0 → 7`,
-          First: `0 → 7`,
-          Last: `0 → 7`,
+          Change: `removed`,
+          Delta: ``,
+          Readings: `1`,
+          Min: `2 KiB`,
+          Max: `2 KiB`,
+          First: `2 KiB`,
+          Last: `2 KiB`,
           Trend: `▄`,
         },
         {
           Gauge: `load`,
+          Change: `new`,
+          Delta: ``,
+          Readings: `1`,
+          Min: `7`,
+          Max: `7`,
+          First: `7`,
+          Last: `7`,
+          Trend: `▄`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows a gauge only one side records as removed, whatever its level`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([reading(`heap`, 0)]),
+      makeAggregatedTrace([]),
+    )
+
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
+      [
+        {
+          Gauge: `heap`,
           Change: `removed`,
-          Delta: `-2 KiB`,
-          Readings: `1 → 0`,
-          Min: `2 KiB → 0 B`,
-          Max: `2 KiB → 0 B`,
-          First: `2 KiB → 0 B`,
-          Last: `2 KiB → 0 B`,
+          Delta: ``,
+          Readings: `1`,
+          Min: `0 B`,
+          Max: `0 B`,
+          First: `0 B`,
+          Last: `0 B`,
           Trend: `▄`,
         },
       ],
@@ -948,12 +971,12 @@ describe(`gauges`, () => {
         {
           Gauge: `worker / heap`,
           Change: `new`,
-          Delta: `+30 B`,
-          Readings: `0 → 1`,
-          Min: `0 B → 30 B`,
-          Max: `0 B → 30 B`,
-          First: `0 B → 30 B`,
-          Last: `0 B → 30 B`,
+          Delta: ``,
+          Readings: `1`,
+          Min: `30 B`,
+          Max: `30 B`,
+          First: `30 B`,
+          Last: `30 B`,
           Trend: `▄`,
         },
         {
@@ -990,6 +1013,56 @@ describe(`gauges`, () => {
           First: `10 B → 30 B`,
           Last: `10 B → 30 B`,
           Trend: `▁ → █`,
+        },
+      ],
+    ])
+  })
+  test(`ranks a gauge only one side records above a change in level`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([reading(`heap`, 100), reading(`stack`, 0)]),
+      makeAggregatedTrace([reading(`heap`, 150)]),
+      resolveProfileToMdOptions({ topN: 1 }),
+    )
+
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
+      [
+        {
+          Gauge: `stack`,
+          Change: `removed`,
+          Delta: ``,
+          Readings: `1`,
+          Min: `0 B`,
+          Max: `0 B`,
+          First: `0 B`,
+          Last: `0 B`,
+          Trend: `▄`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows the mean of a gauge only one side times as missing on the other`, () => {
+    const md = traceDiffMd(
+      makeAggregatedTrace([reading(`heap`, 100)]),
+      makeAggregatedTrace([
+        reading(`heap`, 100, { time: 0 }),
+        reading(`heap`, 200, { time: 10 }),
+      ]),
+    )
+
+    expect(tablesAt(md, [`Gauges`])).toStrictEqual([
+      [
+        {
+          Gauge: `heap`,
+          Change: `+100.0%`,
+          Delta: `+100 B`,
+          Readings: `1 → 2`,
+          Min: `100 B`,
+          Mean: `— → 100 B`,
+          Max: `100 B → 200 B`,
+          First: `100 B`,
+          Last: `100 B → 200 B`,
+          Trend: `▁ → ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█`,
         },
       ],
     ])

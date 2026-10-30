@@ -106,6 +106,40 @@ test(`formatDiffTable treats an absent current side as zero and falls back to ba
 `)
 })
 
+test(`formatDiffTable reads a row only one side has as new or removed, whatever its value`, () => {
+  const markdown = mdastToMarkdown([
+    formatDiffTable(columns, [
+      { current: { name: `added`, size: 0, count: 3, total: 100 } },
+      { base: { name: `removed`, size: 0, count: 2, total: 100 } },
+    ]),
+  ])
+
+  expect(markdown).toBe(`|  Change | Delta |    % | Size | Count | Name    |
+| ------: | ----: | ---: | ---: | ----: | ------- |
+|     new |   0\u{A0}B | 0.0% |  0\u{A0}B | 0 → 3 | added   |
+| removed |   0\u{A0}B | 0.0% |  0\u{A0}B | 2 → 0 | removed |
+`)
+})
+
+test(`formatDiffTable shows only the present side's values when a missing side is empty`, () => {
+  const markdown = mdastToMarkdown([
+    formatDiffTable(
+      columns,
+      [
+        { current: { name: `added`, size: 0, count: 3, total: 100 } },
+        { base: { name: `removed`, size: 40, count: 2, total: 100 } },
+      ],
+      { missingSide: `empty` },
+    ),
+  ])
+
+  expect(markdown).toBe(`|  Change | Delta |     % | Size | Count | Name    |
+| ------: | ----: | ----: | ---: | ----: | ------- |
+|     new |       |  0.0% |  0\u{A0}B |     3 | added   |
+| removed |       | 40.0% | 40\u{A0}B |     2 | removed |
+`)
+})
+
 test(`formatDiffTable collapses unchanged value cells to a single value`, () => {
   const markdown = mdastToMarkdown([
     formatDiffTable(columns, [

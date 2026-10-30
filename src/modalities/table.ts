@@ -47,6 +47,8 @@ export type Cell =
       formatDelta: (value: number) => string
     }
   | { type: `text`; children: PhrasingContent[] }
+  /** A numeric cell's side that has no value. */
+  | { type: `empty` }
   | {
       type: `location`
       location: SourceLocation | undefined
@@ -74,6 +76,8 @@ export const textCell = (children: PhrasingContent[] | string): Cell => ({
 
 export const codeCell = (value: string): Cell => textCell([inlineCode(value)])
 
+export const emptyCell: Cell = { type: `empty` }
+
 /**
  * A location cell, which a diff formats from both sides' locations because a
  * diff pairs entities whose positions may differ.
@@ -98,6 +102,8 @@ const formatCell = (cell: Cell): PhrasingContent[] => {
       return [text(cell.format(cell.value))]
     case `text`:
       return cell.children
+    case `empty`:
+      return []
     case `location`:
       return [inlineCode(formatSourceLocation(cell.location, cell.options))]
   }
@@ -109,13 +115,15 @@ const formatCell = (cell: Cell): PhrasingContent[] => {
  * {@link Column.changeDeltaBefore} column.
  *
  * The two sides' cells line up by column, so each numeric cell formats its own
- * `base → current` arrow and a missing side reads as `0`. A location cell
- * formats both sides' locations, and a text cell takes the present side's
- * content, with a preference for current.
+ * `base → current` arrow, with `—` for a side whose cell is empty. A location
+ * cell formats both sides' locations, and a text cell takes the present side's
+ * content, with a preference for current. `Change` reads `new` or `removed` for
+ * a row only one side has.
  */
 export const formatDiffTable = <Row>(
   columns: Table<Row>,
   rows: Diff<Row>[],
+  { missingSide = `zero` }: DiffTableOptions = {},
 ): MdastTable => {
   const primaryIndex = columns.findIndex(column => column.primary)
   if (primaryIndex === -1) {
@@ -133,56 +141,98 @@ export const formatDiffTable = <Row>(
       ...headers.slice(changeDeltaIndex),
     ],
     rows.map(row =>
-      formatDiffRow(columns, row, primaryIndex, changeDeltaIndex),
+      formatDiffRow(columns, row, {
+        primaryIndex,
+        changeDeltaIndex,
+        missingSide,
+      }),
     ),
   )
 }
 
+export type DiffTableOptions = {
+  /**
+   * How a numeric cell reads a side the row lacks: as `0`, which suits a cost
+   * the side did not incur, or as `empty`, which suits a level the side never
+   * recorded. An `empty` side leaves `Delta` empty and shows the present side's
+   * value alone.
+   */
+  missingSide?: MissingSide
+}
+
+type MissingSide = `zero` | `empty`
+
 const formatDiffRow = <Row>(
   columns: Table<Row>,
   { base, current }: Diff<Row>,
-  primaryIndex: number,
-  changeDeltaIndex: number,
+  {
+    primaryIndex,
+    changeDeltaIndex,
+    missingSide,
+  }: {
+    primaryIndex: number
+    changeDeltaIndex: number
+    missingSide: MissingSide
+  },
 ): PhrasingContent[][] => {
   const baseCells = base && columns.map(column => column.cellOf(base))
   const currentCells = current && columns.map(column => column.cellOf(current))
   const present = (currentCells ?? baseCells)!
-  const cells = present.map((cell, index) =>
-    formatDiffCell(cell, baseCells?.[index], currentCells?.[index]),
-  )
+  const isPaired = baseCells !== undefined && currentCells !== undefined
+  const unpairedChange = currentCells ? `new` : `removed`
 
+  if (!isPaired && missingSide === `empty`) {
+    const cells = present.map(formatCell)
+    return [
+      ...cells.slice(0, changeDeltaIndex),
+      [text(unpairedChange)],
+      [],
+      ...cells.slice(changeDeltaIndex),
+    ]
+  }
+
+  const cells = present.map((_, index) =>
+    formatDiffCell(baseCells?.[index], currentCells?.[index]),
+  )
   const baseValue = numericValue(baseCells?.[primaryIndex])
   const currentValue = numericValue(currentCells?.[primaryIndex])
   const delta = currentValue - baseValue
   const primary = present[primaryIndex]!
   const formatPrimaryDelta =
     primary.type === `number` ? primary.formatDelta : String
+  const change = isPaired
+    ? formatPercentChange(baseValue, currentValue)
+    : unpairedChange
 
   return [
     ...cells.slice(0, changeDeltaIndex),
-    [text(formatPercentChange(baseValue, currentValue))],
+    [text(change)],
     [text(formatSigned(delta, formatPrimaryDelta(Math.abs(delta))))],
     ...cells.slice(changeDeltaIndex),
   ]
 }
 
+/** Formats a column's cells from both sides, at least one of them present. */
 const formatDiffCell = (
-  present: Cell,
   base: Cell | undefined,
   current: Cell | undefined,
 ): PhrasingContent[] => {
+  const present =
+    current && current.type !== `empty` ? current : (base ?? current)!
   switch (present.type) {
     case `number`:
       return [
         text(
           formatArrow(
-            present.format(numericValue(base)),
-            present.format(numericValue(current)),
+            formatSideValue(base, present),
+            formatSideValue(current, present),
           ),
         ),
       ]
     case `text`:
       return present.children
+    case `empty`:
+      return []
     case `location`:
       return [
         inlineCode(
@@ -195,6 +245,12 @@ const formatDiffCell = (
       ]
   }
 }
+
+/** A side the row lacks reads as `0`, and a side whose cell is empty as `—`. */
+const formatSideValue = (
+  cell: Cell | undefined,
+  present: Cell & { type: `number` },
+): string => (cell?.type === `empty` ? `—` : present.format(numericValue(cell)))
 
 const numericValue = (cell: Cell | undefined): number =>
   cell?.type === `number` ? cell.value : 0
