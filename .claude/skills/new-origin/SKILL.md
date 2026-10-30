@@ -27,8 +27,7 @@ $ARGUMENTS
      markerless (`isMarkerEntry: () => false`, like `gperftools`). If the
      format's own metadata identifies the writer (a recorder's event-type
      definitions, a self-identification field like speedscope's `exporter`),
-     have the format's parser set the parsed input's `originHint` (see the
-     pprof, jfr, callgrind, and perf parsers)
+     have the format's parser set the parsed input's `originHint`
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
      plus profiler-specific rules. Order the chain so every rule with positive
      evidence runs before `locationlessCategory`. Map the profiler's own
