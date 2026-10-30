@@ -1,10 +1,14 @@
 import { JumboJSON } from 'jumbo-json'
-import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
+import {
+  classifyStreamFailures,
+  concatUint8Arrays,
+  streamToUint8Array,
+} from '../helpers/bytes.ts'
 import type { ParsedInput } from '../modalities/registry.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
 import { FormatParseError, toFormatRejectionError } from './error.ts'
 import { RecordTallyCounts } from './record-tally.ts'
-import type { FormatSpec, RecordTally } from './spec.ts'
+import type { BinaryFormatSpec, FormatSpec, RecordTally } from './spec.ts'
 
 export type ParseResult = {
   parsed: ParsedInput[]
@@ -51,7 +55,8 @@ export const parseAsFormatAsync = async (
     return await runParseAsync(formatSpec, async recordTally =>
       formatSpec.type === `json`
         ? formatSpec.parse(await parseJsonAsync(data), recordTally)
-        : formatSpec.parseAsync(
+        : parseBinaryStream(
+            formatSpec,
             guardStreamReads(dataToStream(data)),
             recordTally,
           ),
@@ -61,6 +66,15 @@ export const parseAsFormatAsync = async (
     throw toFormatRejectionError(formatSpec, error)
   }
 }
+
+export const parseBinaryStream = async (
+  formatSpec: BinaryFormatSpec,
+  stream: ReadableStream<Uint8Array>,
+  recordTally: RecordTally,
+): Promise<ParsedInput[]> =>
+  formatSpec.parseAsync
+    ? formatSpec.parseAsync(stream, recordTally)
+    : formatSpec.parse(await streamToUint8Array(stream), recordTally)
 
 export const runParse = (
   formatSpec: FormatSpec,

@@ -11,13 +11,12 @@ export type BinaryFormatSpec = FormatMeta &
     type: `binary`
 
     /**
-     * Parses a byte stream, the streaming analogue of {@link Parse.parse}.
-     *
-     * Formats that can stream (e.g. line-based text) should consume the stream
-     * incrementally; formats whose parser needs all bytes at once can buffer
-     * the stream and delegate.
+     * Parses a byte stream, the streaming analogue of {@link Parse.parse}, for
+     * a format that can consume its stream incrementally (e.g. line-based
+     * text). Omit it when the parser needs all the bytes at once, and the
+     * pipeline buffers the stream for {@link Parse.parse}.
      */
-    parseAsync: (
+    parseAsync?: (
       stream: ReadableStream<Uint8Array>,
       recordTally: RecordTally,
     ) => Promise<ParsedInput[]>

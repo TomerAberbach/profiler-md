@@ -11,7 +11,11 @@ export const selectTopN = <Value>(
   }
 
   const heap = new MaxHeap(values, select)
-  return Array.from({ length: topN }, () => heap.pop()!)
+  const top = new Array<Value>(topN)
+  for (let i = 0; i < topN; i++) {
+    top[i] = heap.pop()!
+  }
+  return top
 }
 
 class MaxHeap<Value> {

@@ -11,7 +11,7 @@ export const decompressGzipStream: CompressionRuntime[`decompressGzipStream`] =
   stream => {
     if (typeof DecompressionStream === `undefined`) {
       throw new ProfilerMdError(
-        `cannot decompress a gzip input in this runtime: it has no DecompressionStream, so decompress the input first`,
+        `cannot decompress a gzip input in this runtime because it has no DecompressionStream\n  hint: decompress the input first`,
       )
     }
     return stream.pipeThrough(new DecompressionStream(`gzip`))

@@ -68,7 +68,7 @@ function* jfrChunks(
   let position = 0
   while (
     position + CHUNK_HEADER_SIZE <= bytes.length &&
-    view.getUint32(position) === MAGIC
+    view.getUint32(position) === JFR_MAGIC
   ) {
     const size = Number(view.getBigInt64(position + CHUNK_SIZE_FIELD))
     if (size < CHUNK_HEADER_SIZE) {
@@ -108,7 +108,7 @@ async function* jfrChunksAsync(
 
       while (queue.length >= CHUNK_HEADER_SIZE) {
         const size = queue.int64(CHUNK_SIZE_FIELD)
-        if (queue.uint32(0) !== MAGIC || size < CHUNK_HEADER_SIZE) {
+        if (queue.uint32(0) !== JFR_MAGIC || size < CHUNK_HEADER_SIZE) {
           let byteCount = queue.length
           for (
             let read = await reader.read();
@@ -1591,7 +1591,7 @@ const flattenStackTrace = (object: Record<string, unknown>): FlatStackTrace => {
 }
 
 /** The 4-byte magic that begins every JFR chunk: `FLR\0`. */
-const MAGIC = 0x464c5200
+export const JFR_MAGIC = 0x464c5200
 
 const CHUNK_HEADER_SIZE = 68
 

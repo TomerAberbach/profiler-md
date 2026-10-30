@@ -1,4 +1,3 @@
-import { streamToUint8Array } from '../../../helpers/bytes.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -14,26 +13,16 @@ import { costCentreStackFrame } from '../cost-centre.ts'
  * Parses a GHC eventlog, written by a program run with `+RTS -l`, into the
  * time profile its cost-centre samples record.
  *
+ * The cost centres a sample references are defined earlier in the log, so the
+ * parser reads the log in two passes, holding its bytes rather than every
+ * sample the first pass parses.
+ *
  * @see https://downloads.haskell.org/ghc/latest/docs/users_guide/eventlog-formats.html
  */
 export const parseGhcEventlog = (
   bytes: Uint8Array,
   recordTally: RecordTally,
 ): CallStackProfile[] => [new Eventlog(bytes).profile(recordTally)]
-
-/**
- * Like {@link parseGhcEventlog}, but consumes the log from a stream.
- *
- * The cost centres a sample references are defined earlier in the log, so
- * building the frames takes a pass the observations then reference. The stream
- * is read into memory for the second pass, rather than holding every parsed
- * sample from the first.
- */
-export const parseGhcEventlogAsync = async (
-  stream: ReadableStream<Uint8Array>,
-  recordTally: RecordTally,
-): Promise<CallStackProfile[]> =>
-  parseGhcEventlog(await streamToUint8Array(stream), recordTally)
 
 type EventlogCostCentres = {
   frames: StackFrame[]

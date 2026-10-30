@@ -577,7 +577,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`buffer-then-parse parseAsync matches sync conversion`, async () => {
+  test(`a buffered stream converts like the bytes`, async () => {
     const data = makePprof({
       functions: [
         { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },

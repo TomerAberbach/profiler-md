@@ -1,9 +1,8 @@
-import { streamToUint8Array } from '../../../helpers/bytes.ts'
 import type { CallStackProfile } from '../../../modalities/call-stack-profile/index.ts'
 import type { RecordTally } from '../../spec.ts'
 import { PerfFile } from './file.ts'
 
-export { hasPerfMagic } from './file.ts'
+export { PERF_MAGIC, SWAPPED_PERF_MAGIC, V1_PERF_MAGIC } from './file.ts'
 
 /**
  * Parses a `perf.data` file into one call stack profile per sampled event.
@@ -22,9 +21,3 @@ export const parsePerf = (
   bytes: Uint8Array,
   recordTally: RecordTally,
 ): CallStackProfile[] => new PerfFile(bytes, recordTally).toProfiles()
-
-export const parsePerfAsync = async (
-  stream: ReadableStream<Uint8Array>,
-  recordTally: RecordTally,
-): Promise<CallStackProfile[]> =>
-  parsePerf(await streamToUint8Array(stream), recordTally)
