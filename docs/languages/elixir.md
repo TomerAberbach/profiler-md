@@ -48,6 +48,7 @@ eflambe:apply({my_module, my_function, [Arg1, Arg2]}, [{output_format, brendan_g
 
 ### Overhead
 
-Keep the call small. eflambe traces every function call instead of sampling, so
-output grows with the number of calls. A single invocation over a large input
-can produce hundreds of MB.
+Keep the profiled call small and its stack shallow. eflambe traces every
+function call and writes each one's full stack, so output and peak memory grow
+with the number of calls times the stack depth. See
+[Stratus3D/eflambe#52](https://github.com/Stratus3D/eflambe/issues/52).
