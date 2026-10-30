@@ -23,7 +23,7 @@ export const NO_IP_SAMPLE_TYPE = 0x126
 export const STACK_USER_SAMPLE_TYPE = 0x2000
 
 /** One recorded event, as a built file describes it. */
-export type PerfEvent = {
+type PerfEvent = {
   type?: number
   config?: number
   samplePeriod?: number
@@ -36,7 +36,7 @@ export type PerfEvent = {
 }
 
 /** A feature section, by the bit that declares it in the file header. */
-export type PerfFeature = { bit: number; payload: Uint8Array }
+type PerfFeature = { bit: number; payload: Uint8Array }
 
 export const makePerf = ({
   events = [{}],
@@ -289,7 +289,7 @@ export const eventDescFeature = (
 }
 
 /** An address a call chain names, as a number or as its halves. */
-export type Address = number | readonly [number, number]
+type Address = number | readonly [number, number]
 
 /** A little-endian cursor over the bytes being built. */
 class Writer {

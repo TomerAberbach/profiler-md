@@ -30,7 +30,7 @@ import { CliError } from './error.ts'
  * Every flag except those the conversion reads elsewhere, so that a flag added
  * to the CLI without being passed here fails to compile.
  */
-export type BuildOptionsFlags = Omit<
+type BuildOptionsFlags = Omit<
   CLIArgs,
   `help` | `output` | `format` | `origin` | `pager` | `color` | `input`
 > & {

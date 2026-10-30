@@ -54,7 +54,7 @@ export const categoryColumns: Table<CategoryRow> = [
 ]
 
 /** A constructor's row on one side. */
-export type ConstructorRow = SizeRow & {
+type ConstructorRow = SizeRow & {
   entity: LabeledEntity
   instanceCount: number
 }
@@ -73,7 +73,7 @@ export const constructorColumns = (
 ]
 
 /** An instance group's row. */
-export type InstanceGroupRow = SizeRow & {
+type InstanceGroupRow = SizeRow & {
   instanceCount: number
   retainerPath: string
 }
@@ -115,7 +115,7 @@ export const functionColumns = (
 ]
 
 /** A retained node's row, located at its function or constructor. */
-export type RetainedRow = SizeRow & {
+type RetainedRow = SizeRow & {
   entity: LabeledEntity
   path: string
 }
@@ -154,7 +154,7 @@ export const stringColumns = (hasValues: boolean): Table<NodeRow> => [
   { header: `Path`, cellOf: row => codeCell(row.path) },
 ]
 
-export type LabeledEntity = {
+type LabeledEntity = {
   name?: string
   nameLocation?: FileReference
   location?: SourceLocation

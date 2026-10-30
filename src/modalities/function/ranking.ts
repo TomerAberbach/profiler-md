@@ -67,7 +67,7 @@ export type FunctionDirection<Func> = {
 }
 
 /** What a ranking passes to the breakdowns of the functions it shows. */
-export type Breakdown<Direction, Func, RankingMeasure> = {
+type Breakdown<Direction, Func, RankingMeasure> = {
   direction: Direction
   funcs: Func[]
   measure: RankingMeasure
@@ -76,11 +76,9 @@ export type Breakdown<Direction, Func, RankingMeasure> = {
 }
 
 /** What a single input's ranking passes to its breakdowns. */
-export type HottestBreakdown<Direction, Func> = Breakdown<
-  Direction,
-  Func,
-  Measure
-> & { context: ProfileToMdContext }
+type HottestBreakdown<Direction, Func> = Breakdown<Direction, Func, Measure> & {
+  context: ProfileToMdContext
+}
 
 /** A function a {@link FunctionRanking} ranks. */
 type RankedFunction<LineMetrics> = DeepReadonly<AggregatedProfileEntry> &

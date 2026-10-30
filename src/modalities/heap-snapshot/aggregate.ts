@@ -686,7 +686,7 @@ const computeRetainedNodes = (
 }
 
 /** A shown retained node, and the instance retaining it. */
-export type ShownRetainedNode = {
+type ShownRetainedNode = {
   node: AggregatedHeapSnapshotNode
   instanceOrdinal: number
 }

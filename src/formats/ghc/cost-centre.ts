@@ -4,7 +4,7 @@ import type { StackFrame } from '../../modalities/stack-frame.ts'
  * A cost centre: the annotation GHC's runtime attributes ticks and allocation
  * to, present in every format the runtime writes.
  */
-export type GhcCostCentre = {
+type GhcCostCentre = {
   /** The binding the cost centre covers, e.g. `lbsToTokens`. */
   label: string
 

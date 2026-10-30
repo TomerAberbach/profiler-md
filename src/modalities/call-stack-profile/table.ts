@@ -17,7 +17,7 @@ import { textCell } from '../table.ts'
 import type { Table } from '../table.ts'
 import type { AggregatedCallStackProfileFunction } from './aggregate.ts'
 
-export type CallStackRow = MeasureRow & {
+type CallStackRow = MeasureRow & {
   frames: ShownFrame[]
 }
 

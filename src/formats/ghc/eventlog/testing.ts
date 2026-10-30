@@ -1,6 +1,6 @@
 import { concatUint8Arrays } from '../../../helpers/bytes.ts'
 
-export type EventlogCostCentre = {
+type EventlogCostCentre = {
   id: number
   label: string
   module: string
@@ -8,7 +8,7 @@ export type EventlogCostCentre = {
 }
 
 /** A cost-centre stack sample, as cost-centre IDs innermost first. */
-export type EventlogSample = number[]
+type EventlogSample = number[]
 
 /**
  * Builds an eventlog containing {@link costCentres} and {@link samples}, in the

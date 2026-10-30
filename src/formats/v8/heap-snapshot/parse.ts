@@ -115,11 +115,10 @@ export const parseV8HeapSnapshot = (
       `edges length is not a multiple of the ${fieldLayout.edgeFieldCount} edge fields, got: ${edges.length}`,
     )
   }
-  // DevTools derives the counts from the arrays rather than reading them, so
+  // DevTools derives the node count from the array rather than reading it, so
   // the parser does too. The parsed JSON is the parser's own.
   const nodeCount = nodes.length / fieldLayout.nodeFieldCount
   snapshot.snapshot.node_count = nodeCount
-  snapshot.snapshot.edge_count = edges.length / fieldLayout.edgeFieldCount
 
   const { nodeAdjacencyGraph, edgeCount } = computeNodeAdjacencyGraph(
     snapshot,
