@@ -58,8 +58,9 @@ Constructors with the largest increase in instance bytes, including nodes only t
 | Change |        Delta |             % |                Size |     Instances | Constructor              |
 | -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------ |
 | +40.1% | +512.377 KiB | 83.4% → 91.5% | 1.25 MiB → 1.75 MiB |             1 | `GlobalObject`           |
-| +68.3% | +423.753 KiB | 40.5% → 53.4% |  620 KiB → 1.02 MiB | 1,367 → 2,631 | `Object`                 |
+| +63.8% | +423.535 KiB | 43.4% → 55.6% |  664 KiB → 1.06 MiB | 1,367 → 2,631 | `Object`                 |
 |  +5.7% |   +2.828 KiB |   3.2% → 2.7% | 49.5 KiB → 52.3 KiB |             1 | `InternalModuleRegistry` |
+|  +0.3% |        +48 B |   1.2% → 0.9% | 18.3 KiB → 18.4 KiB |             2 | `WriteStream`            |
 |  +0.1% |        +48 B |   3.4% → 2.7% |            52.4 KiB |             1 | `url `                   |
 
 #### Improvements
@@ -86,11 +87,11 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |  Change |        Delta |             % |                Size | Instances | Path                                                                    |
 | ------: | -----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------- |
-| removed | -441.566 KiB |  71.2% → 0.0% |       442 KiB → 0 B |     1 → 0 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-|     new | +422.866 KiB |  0.0% → 40.5% |       0 B → 423 KiB |     0 → 1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
-|     new | +422.866 KiB |  0.0% → 40.5% |       0 B → 423 KiB |     0 → 1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
-|  +92.0% | +421.519 KiB | 73.9% → 84.3% |   458 KiB → 880 KiB |         1 | `Object ←.__retained– GlobalObject`                                     |
-|  -87.2% |  -12.698 KiB |   2.3% → 0.2% | 14.6 KiB → 1.87 KiB |     8 → 5 | `Object ← (GC root)`                                                    |
+| removed | -441.566 KiB |  66.5% → 0.0% |       442 KiB → 0 B |     1 → 0 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB |     0 → 1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB |     0 → 1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+|  +92.0% | +421.519 KiB | 69.0% → 80.9% |   458 KiB → 880 KiB |         1 | `Object ←.__retained– GlobalObject`                                     |
+|  -87.2% |  -12.698 KiB |   2.2% → 0.2% | 14.6 KiB → 1.87 KiB |     8 → 5 | `Object ← (GC root)`                                                    |
 
 ##### `InternalModuleRegistry`
 

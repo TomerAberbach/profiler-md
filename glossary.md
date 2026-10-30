@@ -143,29 +143,30 @@ of any modality.
 
 ## Heap snapshot
 
-| Term                    | Definition                                                                                                                                          | Aliases to avoid                        |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| **Node**                | A vertex in a heap snapshot                                                                                                                         | object                                  |
-| **Edge**                | A directed link from one node to another                                                                                                            | reference, pointer                      |
-| **Any-element edge**    | A retainer path edge, formatted `[]`, standing for any element of an array                                                                          | wildcard element                        |
-| **Ordinal**             | A node's dense sequential index, used to address nodes in typed-array structures                                                                    | id, index                               |
-| **Declared type**       | A type name a format records for a node, which the origin maps to a category                                                                        | raw type, type name                     |
-| **GC root**             | The synthetic node from which all reachable nodes are retained                                                                                      | root node, root                         |
-| **Dominator**           | A node that lies on every path from the GC root to another node                                                                                     | —                                       |
-| **Self size**           | Bytes allocated directly for a node, not counting referenced nodes                                                                                  | size, shallow size                      |
-| **Retained size**       | Bytes that would be freed if a node and all nodes it exclusively dominates were garbage collected                                                   | size, deep size, total size (of a node) |
-| **Held size**           | The summed self size of every node in a heap snapshot                                                                                               | total size                              |
-| **Retainer path**       | The dominator-guided chain of steps from a node back toward the GC root, or toward one of its dominators                                            | retention path, chain                   |
-| **Retainer hop**        | A node's immediate dominator and the dominator's edge to it, before internal nodes are trimmed                                                      | link, parent                            |
-| **Retainer**            | The node at the other end of a retainer path step's edge, one hop toward the GC root                                                                | —                                       |
-| **Several retainers**   | A retainer path step whose retainer holds no edge to the node, which it retains through the node's several retainers, formatted `←(several paths)–` | indirect retention                      |
-| **Internal node**       | A VM bookkeeping node that never points to user code, trimmed from retainer paths                                                                   | hidden node                             |
-| **Outermost instance**  | An instance that no other instance of the same set dominates                                                                                        | root instance, top instance             |
-| **Instance group**      | A constructor's instances that share a retainer path                                                                                                | —                                       |
-| **Retained node**       | A node an instance exclusively dominates                                                                                                            | retained object                         |
-| **Retained node group** | A function's retained nodes that share a name, a category, a location, and a retainer path within the instance retaining them                       | —                                       |
-| **Retainer group**      | One side's nodes of an entity that share a retainer path, summed into one diff row                                                                  | —                                       |
-| **Largest**             | Describes the entities with the highest size in a heap snapshot                                                                                     | top, hottest                            |
+| Term                      | Definition                                                                                                                                          | Aliases to avoid                        |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| **Node**                  | A vertex in a heap snapshot                                                                                                                         | object                                  |
+| **Edge**                  | A directed link from one node to another                                                                                                            | reference, pointer                      |
+| **Any-element edge**      | A retainer path edge, formatted `[]`, standing for any element of an array                                                                          | wildcard element                        |
+| **Ordinal**               | A node's dense sequential index, used to address nodes in typed-array structures                                                                    | id, index                               |
+| **Declared type**         | A type name a format records for a node, which the origin maps to a category                                                                        | raw type, type name                     |
+| **GC root**               | The synthetic node from which all reachable nodes are retained                                                                                      | root node, root                         |
+| **Dominator**             | A node that lies on every path from the GC root to another node                                                                                     | —                                       |
+| **Self size**             | Bytes allocated directly for a node, not counting referenced nodes                                                                                  | size, shallow size                      |
+| **Retained size**         | Bytes that would be freed if a node and all nodes it exclusively dominates were garbage collected                                                   | size, deep size, total size (of a node) |
+| **Minimum retained size** | A lower bound on an entity's retained size: the nodes its outermost instances dominate, and each node that only those point to                      | approximate retained size               |
+| **Held size**             | The summed self size of every node in a heap snapshot                                                                                               | total size                              |
+| **Retainer path**         | The dominator-guided chain of steps from a node back toward the GC root, or toward one of its dominators                                            | retention path, chain                   |
+| **Retainer hop**          | A node's immediate dominator and the dominator's edge to it, before internal nodes are trimmed                                                      | link, parent                            |
+| **Retainer**              | The node at the other end of a retainer path step's edge, one hop toward the GC root                                                                | —                                       |
+| **Several retainers**     | A retainer path step whose retainer holds no edge to the node, which it retains through the node's several retainers, formatted `←(several paths)–` | indirect retention                      |
+| **Internal node**         | A VM bookkeeping node that never points to user code, trimmed from retainer paths                                                                   | hidden node                             |
+| **Outermost instance**    | An instance that no other instance of the same set dominates                                                                                        | root instance, top instance             |
+| **Instance group**        | A constructor's instances that share a retainer path                                                                                                | —                                       |
+| **Retained node**         | A node an instance exclusively dominates                                                                                                            | retained object                         |
+| **Retained node group**   | A function's retained nodes that share a name, a category, a location, and a retainer path within the instance retaining them                       | —                                       |
+| **Retainer group**        | One side's nodes of an entity that share a retainer path, summed into one diff row                                                                  | —                                       |
+| **Largest**               | Describes the entities with the highest size in a heap snapshot                                                                                     | top, hottest                            |
 
 ## Trace
 
@@ -307,8 +308,11 @@ of any modality.
 - A heap snapshot **entity** aggregates one or more **nodes**. A constructor or
   function **entity**'s **nodes** are its **instances**, and a string **entity**
   is exactly one **node**
-- An **entity**'s **retained size** and **retained nodes** come from its
-  **outermost instances** only
+- An **entity**'s **retained size** counts every node its **instances** keep
+  reachable, alone or together. Its **retained nodes** come from its **outermost
+  instances** only
+- A **ranking** by **retained size** selects its **entities** by their **minimum
+  retained size**, then computes the **retained size** of those it selected
 - A **ranking** shows **entities** under an **entity section**, split into
   **partitions**, with **breakdowns** under each **entity**
 - A **diff** pairs each **base** **entity** with at most one **current**
