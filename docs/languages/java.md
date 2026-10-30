@@ -117,7 +117,9 @@ asprof -e nativemem -d 30 -f native.jfr <pid>
 ```
 
 `--alloc <bytes>` and `--nativemem <bytes>` set the sampling interval for the
-heap and native variants.
+heap and native variants. Without `--nativemem`, async-profiler records every
+malloc and free, so a recording of a JVM's startup alone takes tens of
+megabytes.
 
 ## Heap dumps
 
