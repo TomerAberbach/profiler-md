@@ -84,6 +84,11 @@ export const formatMeasureSections = <M extends { metric: Metric }>(
         ),
   )
 
+/** The most rows a breakdown shows, a quarter of the top N. */
+export const breakdownLimit = ({
+  topN,
+}: Pick<FormattingProfileToMdOptions, `topN`>): number => Math.ceil(topN / 4)
+
 /**
  * The note shown in place of a measure's sections when the input recorded no
  * value for it, e.g. a heap profile dumped when nothing was retained.

@@ -6,7 +6,7 @@ import {
   isBaseURLInferableLocation,
   isBelowURL,
 } from '../location.ts'
-import { matchDiffedFunctions } from '../modalities/diff.ts'
+import { matchDiffedInputEntries } from '../modalities/diff.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'
 import type { AggregatedInput, Modality } from '../modalities/registry.ts'
 import type { EntityLocation } from '../modalities/spec.ts'
@@ -236,9 +236,10 @@ const differOnlyByMatchEntry = (
   const { entryMatchKeys } = options
   return base.inputs.some((baseInput, index) => {
     const currentInput = current.inputs[index]!
-    return matchDiffedFunctions(
+    return matchDiffedInputEntries(
       entriesBelow(baseInput, base.baseURL),
       entriesBelow(currentInput, current.baseURL),
+      ({ entries }) => entries,
       options,
     ).some(
       diff =>
@@ -253,8 +254,8 @@ const differOnlyByMatchEntry = (
 const entriesBelow = (
   input: AggregatedInput,
   baseURL: URL,
-): { functions: ProfileEntry[]; context: ProfileToMdContext } => ({
-  functions: Iterator.from(modalitySpecOf(input).entries(input))
+): { entries: ProfileEntry[]; context: ProfileToMdContext } => ({
+  entries: Iterator.from(modalitySpecOf(input).entries(input))
     .filter(entry => isBelowURL(entry.location, baseURL))
     .toArray(),
   context: input.context,

@@ -6,7 +6,7 @@ import {
   codeCell,
   countCell,
   emptyCell,
-  percentCell,
+  shareCell,
   textCell,
 } from '../table.ts'
 import type { Cell, Column, Table } from '../table.ts'
@@ -84,12 +84,11 @@ const shareColumns = <Row>({
           {
             header: { content: `%`, align: `right` },
             changeDeltaBefore: hasChange,
-            cellOf: row => {
-              const total = totalOf(row)
-              return percentCell(
-                total ? (hasValue ? valueOf(row) : countOf(row)) / total : 0,
-              )
-            },
+            cellOf: row =>
+              shareCell(
+                hasValue ? valueOf(row) : countOf(row),
+                totalOf(row) ?? 0,
+              ),
           } satisfies Column<Row>,
         ]
       : []),
@@ -306,7 +305,7 @@ export const instanceColumns = ({
 }): Table<InstanceRow> => [
   {
     header: { content: `%`, align: `right` },
-    cellOf: ({ time, total }) => percentCell(total ? time / total : 0),
+    cellOf: ({ time, total }) => shareCell(time, total),
   },
   {
     header: { content: `Time`, align: `right` },

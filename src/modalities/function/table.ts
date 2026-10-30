@@ -8,7 +8,7 @@ import { formatCategory } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
 import type { Metric } from '../metric.ts'
-import { codeCell, locationCell, percentCell, textCell } from '../table.ts'
+import { codeCell, locationCell, shareCell, textCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type { MeasureColumns } from './measure.ts'
 
@@ -85,7 +85,7 @@ export const measureColumns = ({
   {
     header: { content: `%`, align: `right` },
     changeDeltaBefore: true,
-    cellOf: row => percentCell(row.total ? row.value / row.total : 0),
+    cellOf: row => shareCell(row.value, row.total),
   },
   ...(type === `count`
     ? []
@@ -139,8 +139,7 @@ export const categoryColumns = (
     {
       header: { content: `%`, align: `right` },
       changeDeltaBefore: true,
-      cellOf: row =>
-        percentCell(row.total ? primaryValueOf(row) / row.total : 0),
+      cellOf: row => shareCell(primaryValueOf(row), row.total),
     },
     ...metrics.map((metric, index): Column<CategoryRow> => ({
       header: { content: columnNouns[index]!, align: `right` },

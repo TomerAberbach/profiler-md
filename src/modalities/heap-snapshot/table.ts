@@ -7,7 +7,7 @@ import {
   codeCell,
   countCell,
   locationCell,
-  percentCell,
+  shareCell,
   textCell,
 } from '../table.ts'
 import type { Table } from '../table.ts'
@@ -31,7 +31,7 @@ const sizeColumns = (sizeLabel: string): Table<SizeRow> => [
   {
     header: { content: `%`, align: `right` },
     changeDeltaBefore: true,
-    cellOf: row => percentCell(row.total ? row.size / row.total : 0),
+    cellOf: row => shareCell(row.size, row.total),
   },
   {
     header: { content: sizeLabel, align: `right` },

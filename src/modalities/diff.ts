@@ -32,17 +32,24 @@ export type DiffSides = {
   current: { context: ProfileToMdContext }
 }
 
-/** Matches two inputs' functions by their match keys under each input's context. */
-export const matchDiffedFunctions = <Func extends ProfileEntry>(
-  base: { functions: Func[]; context: ProfileToMdContext },
-  current: { functions: Func[]; context: ProfileToMdContext },
+/**
+ * Matches the entries {@link entriesOf} reads from two inputs by their match
+ * keys under each input's context.
+ */
+export const matchDiffedInputEntries = <
+  Input extends { context: ProfileToMdContext },
+  Entry extends ProfileEntry,
+>(
+  base: Input,
+  current: Input,
+  entriesOf: (input: Input) => Entry[],
   { entryMatchKeys }: Pick<NormalizedProfileToMdOptions, `entryMatchKeys`>,
-): EntryDiff<Func>[] =>
+): EntryDiff<Entry>[] =>
   matchDiffedEntries(
-    base.functions,
-    current.functions,
-    func => entryMatchKeys(func, base.context),
-    func => entryMatchKeys(func, current.context),
+    entriesOf(base),
+    entriesOf(current),
+    entry => entryMatchKeys(entry, base.context),
+    entry => entryMatchKeys(entry, current.context),
   )
 
 /**
@@ -701,22 +708,29 @@ export type FunctionIdMatcher = <Value>(
  * Returns a function that pairs each side's values keyed by function ID by the
  * function diff each side's ID belongs to.
  */
-export const functionIdMatcher = (
-  functionDiffs: readonly Diff<{ id: number }>[],
-): FunctionIdMatcher => {
-  const idToIndex = functionIdIndexes(functionDiffs)
-  return (base, current) => [
+export const functionIdMatcher =
+  ({
+    functions,
+    functionIdIndexes,
+  }: {
+    functions: readonly Diff<{ id: number }>[]
+    functionIdIndexes: FunctionIdIndexes
+  }): FunctionIdMatcher =>
+  (base, current) => [
     ...matchDiffedMaps(
       Iterator.from(base ?? []).map(
-        ([id, value]) => [functionDiffs[idToIndex.base[id]!]!, value] as const,
+        ([id, value]) =>
+          [functions[functionIdIndexes.base[id]!]!, value] as const,
       ),
       Iterator.from(current ?? []).map(
         ([id, value]) =>
-          [functionDiffs[idToIndex.current[id]!]!, value] as const,
+          [functions[functionIdIndexes.current[id]!]!, value] as const,
       ),
     ).values(),
   ]
-}
+
+/** Each side's function IDs mapped to the index of their function diff. */
+export type FunctionIdIndexes = { base: number[]; current: number[] }
 
 /**
  * Maps each side's function IDs to the index in {@link functionDiffs} of the
@@ -724,7 +738,7 @@ export const functionIdMatcher = (
  */
 export const functionIdIndexes = (
   functionDiffs: readonly Diff<{ id: number }>[],
-): { base: number[]; current: number[] } => {
+): FunctionIdIndexes => {
   // Sparse arrays, since IDs are sequential within a side.
   const base: number[] = []
   const current: number[] = []

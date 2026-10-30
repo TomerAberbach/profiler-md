@@ -3,10 +3,11 @@ import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
 } from '../../options.ts'
-import type { Diff } from '../diff.ts'
+import type { Diff, FunctionIdIndexes } from '../diff.ts'
 import {
   copyMergedIdentities,
-  matchDiffedFunctions,
+  functionIdIndexes,
+  matchDiffedInputEntries,
   matchDiffedMaps,
 } from '../diff.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
@@ -42,6 +43,9 @@ export type AggregatedCallStackProfileDiff = {
 
   /** Functions called in either profile, matched across the two. */
   functions: AggregatedCallStackProfileFunctionDiff[]
+
+  /** Each side's function IDs mapped to their index in {@link functions}. */
+  functionIdIndexes: FunctionIdIndexes
 }
 
 /**
@@ -78,7 +82,12 @@ export const diffAggregatedCallStackProfiles = (
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 
-  const matches = matchDiffedFunctions(base, current, options)
+  const matches = matchDiffedInputEntries(
+    base,
+    current,
+    ({ functions }) => functions,
+    options,
+  )
   copyMergedIdentities(matches)
   const functions = matches.map(({ base: baseFunc, current: currentFunc }) => {
     const { name, location, category } = (currentFunc ?? baseFunc)!
@@ -95,6 +104,7 @@ export const diffAggregatedCallStackProfiles = (
       current.categoryToMetrics,
     ),
     functions,
+    functionIdIndexes: functionIdIndexes(functions),
   }
 }
 

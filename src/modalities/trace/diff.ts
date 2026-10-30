@@ -1,5 +1,5 @@
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { matchDiffedFunctions, matchDiffedMaps } from '../diff.ts'
+import { matchDiffedInputEntries, matchDiffedMaps } from '../diff.ts'
 import type { Diff } from '../diff.ts'
 import { metricsEqual } from '../metric.ts'
 import type {
@@ -72,20 +72,18 @@ const matchEvents = <
   eventsOf: (trace: AggregatedTrace) => Event[],
   options: FormattingProfileToMdOptions,
 ): AggregatedTraceEventDiff<Event>[] =>
-  matchDiffedFunctions(
-    { functions: eventsOf(base), context: base.context },
-    { functions: eventsOf(current), context: current.context },
-    options,
-  ).map(({ base: baseEvent, current: currentEvent }) => {
-    const event = (currentEvent ?? baseEvent)!
-    return {
-      name: event.name,
-      category: event.category,
-      async: event.type === `span` && event.async,
-      base: baseEvent,
-      current: currentEvent,
-    }
-  })
+  matchDiffedInputEntries(base, current, eventsOf, options).map(
+    ({ base: baseEvent, current: currentEvent }) => {
+      const event = (currentEvent ?? baseEvent)!
+      return {
+        name: event.name,
+        category: event.category,
+        async: event.type === `span` && event.async,
+        base: baseEvent,
+        current: currentEvent,
+      }
+    },
+  )
 
 /**
  * A gauge measuring different things on each side stays unpaired, since an

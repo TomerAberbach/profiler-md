@@ -1,7 +1,6 @@
 import type { RootContent } from 'mdast'
 import {
   formatArrow,
-  formatChange,
   formatCount,
   formatCountArrow,
   formatMilliseconds,
@@ -22,9 +21,11 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
+import { formatChange } from '../change.ts'
 import { matchDiffedMaps } from '../diff.ts'
 import type { Diff } from '../diff.ts'
 import {
+  breakdownLimit,
   formatDiffMeasureSections,
   rankingSentence,
   resolveEntryFilter,
@@ -537,9 +538,6 @@ const indexTrace = ({ threads, spans }: AggregatedTrace): TraceIndex => ({
 
 const eventHeading = (headingLevel: number, { name }: { name: string }) =>
   heading(headingLevel, [inlineCode(name)])
-
-const breakdownLimit = ({ topN }: FormattingProfileToMdOptions): number =>
-  Math.ceil(topN / 4)
 
 const formatSpanBreakdowns = ({
   spans,

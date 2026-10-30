@@ -3,8 +3,12 @@ import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
 } from '../../options.ts'
-import type { Diff } from '../diff.ts'
-import { matchDiffedFunctions, matchDiffedMaps } from '../diff.ts'
+import type { Diff, FunctionIdIndexes } from '../diff.ts'
+import {
+  functionIdIndexes,
+  matchDiffedInputEntries,
+  matchDiffedMaps,
+} from '../diff.ts'
 import type { DiffMetric } from '../metric.ts'
 import { matchDiffedMetrics } from '../metric.ts'
 import type {
@@ -26,6 +30,9 @@ export type AggregatedCallGraphDiff = {
     Diff<AggregatedCallGraphCategoryMetrics>
   >
   functions: AggregatedCallGraphFunctionDiff[]
+
+  /** Each side's function IDs mapped to their index in {@link functions}. */
+  functionIdIndexes: FunctionIdIndexes
 }
 
 /**
@@ -59,12 +66,15 @@ export const diffAggregatedCallGraphs = (
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 
-  const functions = matchDiffedFunctions(base, current, options).map(
-    ({ base: baseFunc, current: currentFunc }) => {
-      const { name, location, category } = (currentFunc ?? baseFunc)!
-      return { name, location, category, base: baseFunc, current: currentFunc }
-    },
-  )
+  const functions = matchDiffedInputEntries(
+    base,
+    current,
+    ({ functions }) => functions,
+    options,
+  ).map(({ base: baseFunc, current: currentFunc }) => {
+    const { name, location, category } = (currentFunc ?? baseFunc)!
+    return { name, location, category, base: baseFunc, current: currentFunc }
+  })
 
   return {
     base,
@@ -75,5 +85,6 @@ export const diffAggregatedCallGraphs = (
       current.categoryToMetrics,
     ),
     functions,
+    functionIdIndexes: functionIdIndexes(functions),
   }
 }

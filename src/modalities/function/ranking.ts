@@ -20,6 +20,7 @@ import {
 } from '../category.ts'
 import type { Diff, DiffedLine, DiffSides, LineMatcher } from '../diff.ts'
 import {
+  breakdownLimit,
   formatDiffMeasureSections,
   formatFunctionHeading,
   FUNCTION_NOUN,
@@ -324,7 +325,7 @@ const selectHottestLines = <
       lines.push({ line, value, count })
     }
   }
-  return selectTopN(lines, Math.ceil(options.topN / 4), ({ value }) => value)
+  return selectTopN(lines, breakdownLimit(options), ({ value }) => value)
 }
 
 /** The diffing counterpart to {@link formatHottestFunctions}. */
@@ -554,7 +555,7 @@ const selectChangedLines = <LineMetrics>(
         (line.current ? lineValueOf(measure.current, line.current) : 0) -
         (line.base ? lineValueOf(measure.base, line.base) : 0),
     })),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     ({ change }) => change,
   )
 

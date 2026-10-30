@@ -5,14 +5,13 @@ import {
   formatBytesDelta,
   formatCount,
   formatPercent,
-  formatPercentChange,
-  formatSigned,
 } from '../helpers/format.ts'
 import { inlineCode, table, text } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
 import { formatSourceLocation, formatSourceLocationDiff } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { FormattingProfileToMdOptions } from '../options.ts'
+import { formatPercentChange, formatSigned } from './change.ts'
 import type { Diff } from './diff.ts'
 
 /** A table's columns over a shared row type. */
@@ -61,8 +60,9 @@ export const numberCell = (
   formatDelta: (value: number) => string = format,
 ): Cell => ({ type: `number`, value, format, formatDelta })
 
-export const percentCell = (fraction: number): Cell =>
-  numberCell(fraction, formatPercent)
+/** {@link value}'s share of {@link total}, or 0% of a zero total. */
+export const shareCell = (value: number, total: number): Cell =>
+  numberCell(total ? value / total : 0, formatPercent)
 
 export const countCell = (count: number): Cell => numberCell(count, formatCount)
 
