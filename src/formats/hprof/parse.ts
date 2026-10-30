@@ -1,5 +1,4 @@
 import { DynamicTypedArray } from '../../helpers/array.ts'
-import { streamToUint8Array } from '../../helpers/bytes.ts'
 import { nodeAdjacencyGraphFromSuccessors } from '../../modalities/heap-snapshot/graph.ts'
 import type {
   HeapSnapshot,
@@ -29,12 +28,6 @@ export const parseHprof = (
   const nodes = readNodes(dump, recordTally)
   return [buildHeapSnapshot(dump, nodes, recordTally)]
 }
-
-export const parseHprofAsync = async (
-  stream: ReadableStream<Uint8Array>,
-  recordTally: RecordTally,
-): Promise<HeapSnapshot[]> =>
-  parseHprof(await streamToUint8Array(stream), recordTally)
 
 /** A parsed dump's header and the records read from a single pass over it. */
 type Dump = {

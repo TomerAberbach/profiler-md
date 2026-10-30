@@ -97,6 +97,9 @@ $ARGUMENTS
       lone count metric, populate `Observation.count` with no metrics. Set
       `countMetric` from step 4
     - Keep `matches` strict enough not to claim other text or JSON
+    - For a binary format, define `parseAsync` only when the parser reads the
+      stream incrementally (e.g. line-based text). Without it, the pipeline
+      buffers the stream for `parse`
     - Test `matches`, `parse` rejections, end-to-end conversion with the helpers
       in `src/formats/testing.ts` and the modality's `testing.ts`, and the
       tricky behaviors the real inputs exposed

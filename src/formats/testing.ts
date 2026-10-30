@@ -6,7 +6,7 @@ import { aggregatePreparedInputs, prepareParseResult } from './aggregate.ts'
 import { parseExampleFilename } from './examples.ts'
 import { formatAggregatedInputs } from './format.ts'
 import type { Format } from './index.ts'
-import { runParse, runParseAsync } from './parse.ts'
+import { parseBinaryStream, runParse, runParseAsync } from './parse.ts'
 import type { ParseResult } from './parse.ts'
 import type {
   BinaryFormatSpec,
@@ -145,7 +145,7 @@ export const convertToMdAsync = async (
   convertParseResultToMd(
     formatSpec,
     await runParseAsync(formatSpec, recordTally =>
-      formatSpec.parseAsync(stream, recordTally),
+      parseBinaryStream(formatSpec, stream, recordTally),
     ),
     options,
   )

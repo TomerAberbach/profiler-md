@@ -941,22 +941,16 @@ export class PerfFile {
   }
 }
 
-/** Returns whether {@link bytes} begins with a magic of any format version. */
-export const hasPerfMagic = (bytes: Uint8Array): boolean =>
-  startsWith(bytes, PERF_MAGIC) ||
-  startsWith(bytes, SWAPPED_PERF_MAGIC) ||
-  startsWith(bytes, V1_PERF_MAGIC)
-
 /** `PERFILE2`, the magic every `perf.data` file begins with. */
-const PERF_MAGIC = Uint8Array.from([
+export const PERF_MAGIC = Uint8Array.from([
   0x50, 0x45, 0x52, 0x46, 0x49, 0x4c, 0x45, 0x32,
 ])
 
 /** The same magic written by a machine of the opposite byte order. */
-const SWAPPED_PERF_MAGIC = Uint8Array.from([...PERF_MAGIC].reverse())
+export const SWAPPED_PERF_MAGIC = Uint8Array.from([...PERF_MAGIC].reverse())
 
 /** `PERFFILE`, the magic of the retired first version of the format. */
-const V1_PERF_MAGIC = Uint8Array.from([
+export const V1_PERF_MAGIC = Uint8Array.from([
   0x50, 0x45, 0x52, 0x46, 0x46, 0x49, 0x4c, 0x45,
 ])
 

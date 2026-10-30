@@ -10,35 +10,21 @@
  * possible-JSON so the parser makes the call.
  */
 export const maybeJson = (data: string | Uint8Array): boolean => {
-  const start = byteOrderMarkLength(data)
-
-  const end = Math.min(data.length, start + MAYBE_JSON_PREFIX_LENGTH)
-  for (let i = start; i < end; i++) {
-    // Code units, not code points: the loop only advances past ASCII
-    // whitespace, so it never steps into the middle of a surrogate pair.
-    // eslint-disable-next-line unicorn/prefer-code-point
-    const code = typeof data === `string` ? data.charCodeAt(i) : data[i]!
-    switch (code) {
-      // JSON whitespace: tab, line feed, carriage return, space.
-      case 0x09:
-      case 0x0a:
-      case 0x0d:
-      case 0x20:
-        continue
-      case 0x7b: // {
-      case 0x5b: // [
-      case 0x22: // "
-      case 0x2d: // -
-      case 0x74: // `t(rue)`
-      case 0x66: // `f(alse)`
-      case 0x6e: // `n(ull)`
-        return true
-      default:
-        // 0-9
-        return code >= 0x30 && code <= 0x39
-    }
+  const code = firstNonWhitespaceCode(data, MAYBE_JSON_PREFIX_LENGTH)
+  switch (code) {
+    case undefined:
+    case 0x7b: // {
+    case 0x5b: // [
+    case 0x22: // "
+    case 0x2d: // -
+    case 0x74: // `t(rue)`
+    case 0x66: // `f(alse)`
+    case 0x6e: // `n(ull)`
+      return true
+    default:
+      // 0-9
+      return code >= 0x30 && code <= 0x39
   }
-  return true
 }
 
 /** {@link maybeJson} for a `Blob`, reading only the scanned prefix. */
@@ -58,27 +44,8 @@ const MAYBE_JSON_PREFIX_LENGTH = 1024
  * failed JSON parse is worth reporting as the reason the input was unusable.
  */
 export const startsJsonDocument = (data: string | Uint8Array): boolean => {
-  const start = byteOrderMarkLength(data)
-
-  const end = Math.min(data.length, start + START_JSON_DOCUMENT_PREFIX_LENGTH)
-  for (let i = start; i < end; i++) {
-    // eslint-disable-next-line unicorn/prefer-code-point
-    const code = typeof data === `string` ? data.charCodeAt(i) : data[i]!
-    switch (code) {
-      // JSON whitespace: tab, line feed, carriage return, space.
-      case 0x09:
-      case 0x0a:
-      case 0x0d:
-      case 0x20:
-        continue
-      case 0x7b: // {
-      case 0x5b: // [
-        return true
-      default:
-        return false
-    }
-  }
-  return false
+  const code = firstNonWhitespaceCode(data, START_JSON_DOCUMENT_PREFIX_LENGTH)
+  return code === 0x7b || code === 0x5b // { or [
 }
 
 /** {@link startsJsonDocument} for a `Blob`, reading only the scanned prefix. */
@@ -90,6 +57,36 @@ export const startsJsonDocumentAsync = async (data: Blob): Promise<boolean> =>
   )
 
 const START_JSON_DOCUMENT_PREFIX_LENGTH = 16
+
+/**
+ * The code of {@link data}'s first character that isn't JSON whitespace,
+ * within its first {@link prefixLength} characters after any byte order mark,
+ * or `undefined` when they are all whitespace.
+ */
+const firstNonWhitespaceCode = (
+  data: string | Uint8Array,
+  prefixLength: number,
+): number | undefined => {
+  const start = byteOrderMarkLength(data)
+  const end = Math.min(data.length, start + prefixLength)
+  for (let i = start; i < end; i++) {
+    // Code units, not code points: the loop only advances past ASCII
+    // whitespace, so it never steps into the middle of a surrogate pair.
+    // eslint-disable-next-line unicorn/prefer-code-point
+    const code = typeof data === `string` ? data.charCodeAt(i) : data[i]!
+    switch (code) {
+      // JSON whitespace: tab, line feed, carriage return, space.
+      case 0x09:
+      case 0x0a:
+      case 0x0d:
+      case 0x20:
+        continue
+      default:
+        return code
+    }
+  }
+  return undefined
+}
 
 // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include one
 const byteOrderMarkLength = (data: string | Uint8Array): number =>

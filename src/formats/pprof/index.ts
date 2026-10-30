@@ -1,4 +1,3 @@
-import { streamToUint8Array } from '../../helpers/bytes.ts'
 import type { BinaryFormatSpec } from '../spec.ts'
 import { matchesPprof } from './matches.ts'
 import { parsePprof } from './parse.ts'
@@ -24,7 +23,4 @@ export const pprofFormatSpec = {
   type: `binary`,
   matches: matchesPprof,
   parse: parsePprof,
-  // `pprof-format` decodes only a complete buffer.
-  parseAsync: async (stream, recordTally) =>
-    parsePprof(await streamToUint8Array(stream), recordTally),
 } as const satisfies BinaryFormatSpec
