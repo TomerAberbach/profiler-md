@@ -9,7 +9,7 @@ import type {
   FormattingProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import { matchHeapSnapshotEdgeNameForOrigin } from '../../origins/index.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import type { Diff, DiffedMatchKeys, EntryDiff } from '../diff.ts'
 import {
   copyMergedIdentities,
@@ -790,7 +790,7 @@ export const retainerEdgeMatchKey = (
   { origin }: ProfileToMdContext,
 ): string =>
   formatRetainerEdge(edge, ({ name }) =>
-    matchHeapSnapshotEdgeNameForOrigin(name, origin),
+    originSpecOf(origin).matchHeapSnapshotEdgeName(name),
   )
 
 /** Whether two locations are at one position, or both have no line. */

@@ -7,7 +7,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../options.ts'
-import { functionIdentityForContext } from '../origins/index.ts'
+import { originSpecOf } from '../origins/index.ts'
 
 /**
  * A diff of matched entries. `byPosition` is true when several entries on
@@ -960,7 +960,7 @@ const definitionLineOf = (
 ): number | undefined => {
   const line = func?.location?.line
   return Number.isFinite(line) &&
-    functionIdentityForContext(context) === `definition`
+    originSpecOf(context.origin).functionIdentity === `definition`
     ? line
     : undefined
 }

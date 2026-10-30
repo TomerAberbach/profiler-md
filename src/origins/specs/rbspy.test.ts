@@ -2,7 +2,6 @@ import { describe, expect, test } from 'vitest'
 import type { Format } from '../../formats/registry.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
-import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 
@@ -215,6 +214,8 @@ describe(`categorizeEntry`, () => {
 })
 
 describe(`matchEntry`, () => {
+  const { matchEntry } = rbspyOriginSpec
+
   test.each([
     [`an anonymous class`, `#<Class:0xffff758f5f00>#call`, `#<Class>#call`],
     [`an anonymous module`, `#<Module:0xffff758f67c0>#call`, `#<Module>#call`],
@@ -224,9 +225,9 @@ describe(`matchEntry`, () => {
       `#<Object>.call`,
     ],
   ])(`strips the heap address of %s`, (_description, name, expected) => {
-    expect(
-      matchEntryForOrigin(located(name, `/app/lib/foo.rb`), `rbspy`),
-    ).toStrictEqual({ name: expected })
+    expect(matchEntry(located(name, `/app/lib/foo.rb`))).toStrictEqual({
+      name: expected,
+    })
   })
 
   test.each([
@@ -253,7 +254,7 @@ describe(`matchEntry`, () => {
   ])(
     `strips the hash and object id of a compiled template with %s`,
     (_description, name, expected) => {
-      expect(matchEntryForOrigin(named(name), `rbspy`)).toStrictEqual({
+      expect(matchEntry(named(name))).toStrictEqual({
         name: expected,
       })
     },
@@ -281,7 +282,7 @@ describe(`matchEntry`, () => {
       `/usr/local/lib/ruby/gems/3.4.0/gems/rack/lib/rack.rb`,
     ],
   ])(`strips the version of %s`, (_description, path, expected) => {
-    expect(matchEntryForOrigin(located(`call`, path), `rbspy`)).toStrictEqual({
+    expect(matchEntry(located(`call`, path))).toStrictEqual({
       location: expected,
     })
   })
@@ -290,8 +291,6 @@ describe(`matchEntry`, () => {
     [`a constant-named owner`, `Gem::Specification.each_spec`],
     [`a method name ending in digits`, `Digest::SHA2#update_1_2`],
   ])(`%s matches by its own name`, (_description, name) => {
-    expect(
-      matchEntryForOrigin(located(name, `/app/lib/foo.rb`), `rbspy`),
-    ).toBeUndefined()
+    expect(matchEntry(located(name, `/app/lib/foo.rb`))).toBeUndefined()
   })
 })

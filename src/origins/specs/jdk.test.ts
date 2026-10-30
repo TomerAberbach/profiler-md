@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, logicalEntry } from '../testing.ts'
 import { jdkOriginSpec } from './jdk.ts'
 
@@ -100,24 +99,22 @@ describe(`categorizeHeapSnapshotConstructor`, () => {
 })
 
 describe(`matchEntry`, () => {
+  const { matchEntry } = jdkOriginSpec
+
   test(`strips a lambda runtime address from the location`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         logicalEntry(
           `apply(Object, Object)`,
           `JavaKMeans$$Lambda.0x000000b801205218`,
         ),
-        `jdk`,
       ),
     ).toStrictEqual({ location: `JavaKMeans$$Lambda` })
   })
 
   test(`strips a hidden class's runtime address from a heap dump's name`, () => {
     expect(
-      matchEntryForOrigin(
-        logicalEntry(`JavaKMeans$$Lambda+0x000000b801205218`),
-        `jdk`,
-      ),
+      matchEntry(logicalEntry(`JavaKMeans$$Lambda+0x000000b801205218`)),
     ).toStrictEqual({ name: `JavaKMeans$$Lambda` })
   })
 
@@ -139,7 +136,7 @@ describe(`matchEntry`, () => {
     ({ location, expected }) => {
       const entry = logicalEntry(`invoke(Object)`, location)
 
-      const match = matchEntryForOrigin(entry, `jdk`)
+      const match = matchEntry(entry)
 
       expect(match).toStrictEqual({ location: expected })
     },
@@ -147,19 +144,18 @@ describe(`matchEntry`, () => {
 
   test(`strips the random ID from an extracted jansi library`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         logicalEntry(
           `Java_org_fusesource_jansi_internal_CLibrary_init`,
           `jansi-2.4.0-a2f0bf3ff9fce776-libjansi.jnilib`,
         ),
-        `jdk`,
       ),
     ).toStrictEqual({ location: `jansi-2.4.0-libjansi.jnilib` })
   })
 
   test(`strips an adapter runtime address from the name`, () => {
-    expect(
-      matchEntryForOrigin(logicalEntry(`I2C/C2I adapters(0xba)`), `jdk`),
-    ).toStrictEqual({ name: `I2C/C2I adapters` })
+    expect(matchEntry(logicalEntry(`I2C/C2I adapters(0xba)`))).toStrictEqual({
+      name: `I2C/C2I adapters`,
+    })
   })
 })

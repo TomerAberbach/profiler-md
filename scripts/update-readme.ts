@@ -10,7 +10,7 @@ import type { Format } from '../src/formats/index.ts'
 import { capitalizeFirst } from '../src/helpers/format.ts'
 import { profileToMd } from '../src/index.ts'
 import { DEVICON_VERSION, languageAliasToPrimary } from '../src/languages.ts'
-import { originTitle } from '../src/origins/index.ts'
+import { originSpecOf } from '../src/origins/index.ts'
 
 const check = process.argv.includes(`--check`)
 
@@ -63,7 +63,7 @@ const exampleLabel = (
   includeLanguage: boolean,
 ): string => {
   const originAndConfiguration = [
-    originTitle(example.origin),
+    originSpecOf(example.origin).title,
     exampleConfigName(example.config),
   ]
     .filter(Boolean)

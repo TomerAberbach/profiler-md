@@ -6,10 +6,7 @@
  * while the nodes are consumed, and resolve that key to a category afterwards.
  */
 
-import {
-  categorizeHeapSnapshotConstructorForOrigin,
-  categorizeHeapSnapshotDeclaredTypeForOrigin,
-} from '../../origins/index.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import type { Origin } from '../../origins/index.ts'
 import type { NodeCategoryStats } from './aggregate.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from './type.ts'
@@ -249,13 +246,15 @@ export class CategoryKeys {
    * can hold thousands of them.
    */
   public newResolver(origin: Origin): CategoryResolver {
+    const {
+      categorizeHeapSnapshotConstructor,
+      categorizeHeapSnapshotDeclaredType,
+    } = originSpecOf(origin)
     const declaredTypeToCategory = new Map<string, HeapSnapshotNodeCategory>()
     const ofDeclaredType = (declaredType: string): HeapSnapshotNodeCategory => {
       let category = declaredTypeToCategory.get(declaredType)
       if (category === undefined) {
-        category =
-          categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ??
-          `object`
+        category = categorizeHeapSnapshotDeclaredType(declaredType) ?? `object`
         declaredTypeToCategory.set(declaredType, category)
       }
       return category
@@ -268,8 +267,7 @@ export class CategoryKeys {
       ofUnresolved: ({ category, declaredType }) =>
         category ??
         (declaredType === undefined ? `unknown` : ofDeclaredType(declaredType)),
-      ofConstructor: name =>
-        categorizeHeapSnapshotConstructorForOrigin(name, origin),
+      ofConstructor: categorizeHeapSnapshotConstructor,
     }
   }
 }

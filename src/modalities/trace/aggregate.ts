@@ -2,11 +2,9 @@ import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import {
-  categorizeTraceEventForOrigin,
-  traceEventNormalizerForContext,
-} from '../../origins/index.ts'
-import type { OriginDetector } from '../../origins/index.ts'
+import { originSpecOf } from '../../origins/index.ts'
+import type { OriginDetector, ResolvedOriginSpec } from '../../origins/index.ts'
+import type { NormalizedTraceEvent } from '../../origins/spec.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
 import { EXCLUSIVE_TRACE_EVENT_CATEGORIES } from './type.ts'
@@ -273,7 +271,8 @@ export class TraceAggregator implements InputAggregator<AggregatedTrace> {
 class EventsAggregator {
   readonly #trace: Trace
   readonly #context: ProfileToMdContext
-  readonly #normalize: ReturnType<typeof traceEventNormalizerForContext>
+  readonly #normalize: (event: TraceEvent) => NormalizedTraceEvent
+  readonly #categorize: ResolvedOriginSpec[`categorizeTraceEvent`]
   readonly #scale: number
 
   readonly #nameToSpan = new Map<string, AggregatedTraceSpan>()
@@ -316,7 +315,11 @@ class EventsAggregator {
   public constructor(trace: Trace, context: ProfileToMdContext) {
     this.#trace = trace
     this.#context = context
-    this.#normalize = traceEventNormalizerForContext(context)
+    const { normalizeTraceEvent, categorizeTraceEvent } = originSpecOf(
+      context.origin,
+    )
+    this.#normalize = event => normalizeTraceEvent(event, context.format)
+    this.#categorize = categorizeTraceEvent
     this.#scale = trace.millisecondsPerTimeUnit
     const nameToThread = new Map<string, AggregatedTraceThread>()
     this.#parsedThreads = trace.threads.map(({ name }) => {
@@ -380,7 +383,7 @@ class EventsAggregator {
       return
     }
 
-    const normalized = this.#normalize ? this.#normalize(parsed) : parsed
+    const normalized = this.#normalize(parsed)
     if (normalized === null) {
       if (parsed.type === `span`) {
         this.#droppedSpanToParent.set(
@@ -698,10 +701,7 @@ class EventsAggregator {
   }
 
   #categoryOf(event: TraceEvent): TraceEventCategory {
-    return (
-      event.category ??
-      categorizeTraceEventForOrigin(event, this.#context.origin)
-    )
+    return event.category ?? this.#categorize(event)
   }
 }
 

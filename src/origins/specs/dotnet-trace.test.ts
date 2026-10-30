@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
-import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 
@@ -201,24 +200,22 @@ describe(`categorizeEntry`, () => {
 })
 
 describe(`matchEntry`, () => {
+  const { matchEntry } = dotnetTraceOriginSpec
+
   test(`strips the method table addresses from a signature`, () => {
     expect(
-      matchEntryForOrigin(
+      matchEntry(
         typeEntry(
           `Regex2_Scan(pMT: 0x105526b78, pMT: 0x104f4f7f0<wchar>)`,
           `dynamicClass`,
         ),
-        `dotnet-trace`,
       ),
     ).toStrictEqual({ name: `Regex2_Scan(pMT, pMT<wchar>)` })
   })
 
   test(`an entry without an address has no entry match`, () => {
     expect(
-      matchEntryForOrigin(
-        typeEntry(`Main(String[])`, `Profile.Program`),
-        `dotnet-trace`,
-      ),
+      matchEntry(typeEntry(`Main(String[])`, `Profile.Program`)),
     ).toBeUndefined()
   })
 })
