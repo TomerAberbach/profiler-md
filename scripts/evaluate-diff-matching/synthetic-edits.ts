@@ -1,5 +1,5 @@
 import { HASH_SEED, mixHash } from '../../src/helpers/intern.ts'
-import { matchDiffedFunctions } from '../../src/modalities/diff.ts'
+import { matchDiffedInputEntries } from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
 import { positionOf, sourceReferencePositionOf } from './position.ts'
@@ -73,7 +73,12 @@ const pickEditedSourceReference = (
   random: () => number,
 ): string | undefined => {
   const sourceReferences = new Set<string>()
-  for (const diff of matchDiffedFunctions<Func>(base, current, options)) {
+  for (const diff of matchDiffedInputEntries(
+    base,
+    current,
+    ({ functions }): Func[] => functions,
+    options,
+  )) {
     const sourceReference =
       diff.byPosition &&
       sourceReferencePositionOf(diff.current?.location)?.sourceReference

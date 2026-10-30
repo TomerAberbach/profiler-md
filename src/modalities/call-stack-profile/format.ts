@@ -3,7 +3,6 @@ import {
   capitalizeFirst,
   formatArrow,
   formatBytes,
-  formatChange,
   formatConjunction,
   formatCount,
   formatMicroseconds,
@@ -22,9 +21,11 @@ import type {
   ProfileToMdContext,
 } from '../../options.ts'
 import { sortDiffCategories } from '../category.ts'
-import { functionIdIndexes, functionIdMatcher, lineMatcher } from '../diff.ts'
+import { formatChange } from '../change.ts'
+import { functionIdMatcher, lineMatcher } from '../diff.ts'
 import type { Diff, FunctionIdMatcher } from '../diff.ts'
 import {
+  breakdownLimit,
   diffRankingSentence,
   formatBaseURLNote,
   formatDiffPartitionSections,
@@ -438,7 +439,7 @@ const formatFunctionHottestNeighbors = ({
       neighborRowsOf(measure, func, neighbors),
       ([, row]) => row,
     ).filter(row => options.showEntry(row.func, context) && row.value > 0),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     row => row.value,
   )
   if (hottestRows.length === 0) {
@@ -611,7 +612,7 @@ export const formatCallStackProfileDiff = (
   const headingLevel = 1
   const measures = diffMeasuresOf(diff)
   const matchLines = lineMatcher(diff)
-  const matchFunctionIds = functionIdMatcher(diff.functions)
+  const matchFunctionIds = functionIdMatcher(diff)
   const sectionOptions = resolveEntryFilter({
     options,
     formatsAnyEntry:
@@ -700,10 +701,9 @@ const matchDiffedCallStacks = (
   diff: AggregatedCallStackProfileDiff,
   shownByIndex: boolean[],
 ): DiffedCallStack[] => {
-  const idToIndex = functionIdIndexes(diff.functions)
   const keys = newCallStackKeyInterner()
   const mergeSide = (side: keyof Diff<unknown>) => {
-    const sideIdToIndex = idToIndex[side]
+    const sideIdToIndex = diff.functionIdIndexes[side]
     const shownById = sideShownById(diff, side, sideIdToIndex, shownByIndex)
     return mergeShownCallStacks(
       diff[side],
@@ -962,7 +962,7 @@ const selectChangedNeighborRows = ({
         options.showEntry,
       ),
     ),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     ({ base, current }) => (current?.value ?? 0) - (base?.value ?? 0),
   )
 

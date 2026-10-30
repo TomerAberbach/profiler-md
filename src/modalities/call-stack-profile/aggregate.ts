@@ -434,17 +434,8 @@ class ObservationsAggregator {
           : this.#functions.executingLine(leafIndex)
     }
 
-    let lineMetrics
-    if (leafLine !== undefined) {
-      lineMetrics = callee.lineToMetrics.get(leafLine)
-      if (!lineMetrics) {
-        lineMetrics = {
-          count: 0,
-          values: new Float64Array(this.#metrics.length),
-        }
-        callee.lineToMetrics.set(leafLine, lineMetrics)
-      }
-    }
+    const lineMetrics =
+      leafLine === undefined ? undefined : this.#lineMetricsOf(callee, leafLine)
 
     this.#totalCount += count
     callStack.selfCount += count
@@ -468,19 +459,24 @@ class ObservationsAggregator {
       return
     }
     for (const { line, count, values } of lines) {
-      let lineMetrics = func.lineToMetrics.get(line)
-      if (!lineMetrics) {
-        lineMetrics = {
-          count: 0,
-          values: new Float64Array(this.#metrics.length),
-        }
-        func.lineToMetrics.set(line, lineMetrics)
-      }
+      const lineMetrics = this.#lineMetricsOf(func, line)
       lineMetrics.count += count
       for (let i = 0; i < values.length; i++) {
         lineMetrics.values[i]! += values[i]!
       }
     }
+  }
+
+  #lineMetricsOf(
+    func: AggregatedCallStackProfileFunction,
+    line: number,
+  ): AggregatedCallStackProfileLineMetrics {
+    let lineMetrics = func.lineToMetrics.get(line)
+    if (!lineMetrics) {
+      lineMetrics = { count: 0, values: new Float64Array(this.#metrics.length) }
+      func.lineToMetrics.set(line, lineMetrics)
+    }
+    return lineMetrics
   }
 
   #getOrCreateCallStack(

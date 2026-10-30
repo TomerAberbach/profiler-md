@@ -1,9 +1,5 @@
 import type { RootContent } from 'mdast'
-import {
-  capitalizeFirst,
-  formatChange,
-  formatConjunction,
-} from '../../helpers/format.ts'
+import { capitalizeFirst, formatConjunction } from '../../helpers/format.ts'
 import { selectTopN } from '../../helpers/heap.ts'
 import {
   formatSectionGroup,
@@ -15,9 +11,11 @@ import type {
   ProfileToMdContext,
 } from '../../options.ts'
 import { sortDiffCategories } from '../category.ts'
+import { formatChange } from '../change.ts'
 import { functionIdMatcher, lineMatcher } from '../diff.ts'
 import type { FunctionIdMatcher } from '../diff.ts'
 import {
+  breakdownLimit,
   formatBaseURLNote,
   formatFunctionHeading,
   formatMeasureSections,
@@ -233,7 +231,7 @@ const formatHottestArcs = ({
       .map(([, row]) => row)
       .filter(row => options.showEntry(row.func, context) && row.value > 0)
       .toArray(),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     ({ value }) => value,
   )
   if (hottestArcs.length === 0) {
@@ -256,7 +254,7 @@ export const formatCallGraphDiff = (
   const headingLevel = 1
   const measures = diffMeasuresOf(diff)
   const matchLines = lineMatcher(diff)
-  const matchFunctionIds = functionIdMatcher(diff.functions)
+  const matchFunctionIds = functionIdMatcher(diff)
   const sectionOptions = resolveEntryFilter({
     options,
     formatsAnyEntry:
@@ -439,7 +437,7 @@ const formatDiffFunctionArcs = ({
         options.showEntry,
       ),
     ),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     ({ base, current }) => (current?.value ?? 0) - (base?.value ?? 0),
   )
   if (changedArcs.length === 0) {

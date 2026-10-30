@@ -3,7 +3,6 @@ import {
   formatArrow,
   formatBytes,
   formatBytesDelta,
-  formatChange,
   formatCount,
   formatCountArrow,
 } from '../../helpers/format.ts'
@@ -26,8 +25,10 @@ import {
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
+import { formatChange } from '../change.ts'
 import type { EntryDiff } from '../diff.ts'
 import {
+  breakdownLimit,
   formatBaseURLNote,
   formatDiffMeasureSections,
   rankingSentence,
@@ -614,7 +615,7 @@ const formatLargestConstructorInstances = ({
       ),
       shownPaths.pathOf(snapshot),
     ),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     sizeOf,
   )
   if (largestInstanceGroups.length === 0) {
@@ -699,7 +700,7 @@ const formatFunctionRetainedNodes = ({
       shownRetainedNodes(fn.instanceOrdinals, snapshot, options),
       ({ node }) => node,
     ),
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     node => node.selfSize,
   )
   if (retainedNodes.length === 0) {
@@ -1118,7 +1119,7 @@ const formatDiffEntityGroups = <
 }): RootContent[] => {
   const changedGroups = selectLargestChanges(
     groupDiffs,
-    Math.ceil(options.topN / 4),
+    breakdownLimit(options),
     ({ base, current }) =>
       (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0),
   )

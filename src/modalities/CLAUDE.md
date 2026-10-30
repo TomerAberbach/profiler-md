@@ -11,6 +11,7 @@ modalities
 ├── metric.ts             # Recorded metric types, constructors, and equality
 ├── metrics.ts            # The named metric constants, and parsing of an input's unit/name strings to them
 ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
+├── change.ts             # Diff notation: a change's sign, its percentage, and `new` and `removed`
 ├── <modality>/           # One per modality (e.g. heap-snapshot): aggregate.ts, diff.ts, table.ts, format.ts, and modality.ts, its registered ModalitySpec
 └── trace/gc.ts           # A shared trace event constructor: one per event several formats record, so each names its category, attributes, and gauges alike
 ```

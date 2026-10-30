@@ -5,7 +5,7 @@ import {
   countCell,
   formatDiffTable,
   formatTable,
-  percentCell,
+  shareCell,
   textCell,
 } from './table.ts'
 import type { Table } from './table.ts'
@@ -19,7 +19,7 @@ type Row = { name: string; size: number; count: number; total: number }
 const columns: Table<Row> = [
   {
     header: { content: `%`, align: `right` },
-    cellOf: row => percentCell(row.size / row.total),
+    cellOf: row => shareCell(row.size, row.total),
   },
   {
     header: { content: `Size`, align: `right` },
@@ -162,7 +162,7 @@ test(`formatDiffTable inserts Change and Delta before the changeDeltaBefore colu
     {
       header: { content: `%`, align: `right` },
       changeDeltaBefore: true,
-      cellOf: row => percentCell(row.size / row.total),
+      cellOf: row => shareCell(row.size, row.total),
     },
     {
       header: { content: `Size`, align: `right` },

@@ -1,5 +1,8 @@
 import { sourceReferencePathOrName } from '../../src/location.ts'
-import { lineMatcher, matchDiffedFunctions } from '../../src/modalities/diff.ts'
+import {
+  lineMatcher,
+  matchDiffedInputEntries,
+} from '../../src/modalities/diff.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import type { Func, FunctionInput } from './inputs.ts'
 import {
@@ -52,7 +55,12 @@ export const evaluate = (
   sourceReferenceMap?: SourceReferenceMap,
 ): Evaluation => {
   const start = performance.now()
-  const diffs = matchDiffedFunctions<Func>(base, current, options)
+  const diffs = matchDiffedInputEntries(
+    base,
+    current,
+    ({ functions }): Func[] => functions,
+    options,
+  )
   const evaluation = emptyEvaluation(performance.now() - start)
   const currentByPosition = functionsByPosition(current)
   const currentBySourceReference =

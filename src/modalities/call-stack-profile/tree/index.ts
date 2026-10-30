@@ -2,7 +2,6 @@ import type { RootContent } from 'mdast'
 import { selectTopN } from '../../../helpers/heap.ts'
 import { code, paragraph } from '../../../helpers/markdown.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
-import { functionIdIndexes } from '../../diff.ts'
 import { selectLargestChanges, unchangedDiffSentence } from '../../format.ts'
 import type { DiffMeasure, Measure } from '../../function/index.ts'
 import type {
@@ -221,7 +220,6 @@ const diffCallTreeInput = (
     id,
     name,
   }))
-  const idToIndex = functionIdIndexes(diff.functions)
   const sides = [`base`, `current`] as const
   // Reused across call stacks, so mapping a stack's frames allocates nothing.
   const frames: TreeFunction[] = []
@@ -238,7 +236,7 @@ const diffCallTreeInput = (
     forEachCallStack: visit => {
       for (const [side, name] of sides.entries()) {
         const sideMeasure = measure[name]
-        const sideIdToIndex = idToIndex[name]
+        const sideIdToIndex = diff.functionIdIndexes[name]
         for (const callStack of diff[name].callStacks) {
           frames.length = 0
           for (const frame of callStack.frames) {
