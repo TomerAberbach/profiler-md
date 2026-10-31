@@ -1,12 +1,16 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
-import { protocolCategory } from '../categorize.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import type { ProfileEntry } from '../../options.ts'
+import {
+  ANONYMOUS_FUNCTION_NAME,
+  hasProtocol,
+  protocolCategory,
+} from '../categorize.ts'
 import {
   hasNodeModulesPath,
   NODE_PROTOCOLS,
   v8JavaScriptCategory,
 } from '../javascript.ts'
-import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
 
 /**
@@ -56,7 +60,7 @@ export const nodePprofOriginSpec = {
     const { line, column } = packed.groups!
     return {
       ...input,
-      name: `(anonymous)`,
+      name: ANONYMOUS_FUNCTION_NAME,
       ...(input.definition
         ? {
             definition: {

@@ -13,6 +13,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../options.ts'
+import { ANONYMOUS_FUNCTION_NAME } from '../origins/categorize.ts'
 import { originSpecOf } from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
 
@@ -307,7 +308,7 @@ const makeStackFrameFunction = (
   key: string,
 ): StackFrameFunction => ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  name: frame.name || `(anonymous)`,
+  name: frame.name || ANONYMOUS_FUNCTION_NAME,
   location: makeSourceLocation(identifying, identifying?.position),
   key,
 })

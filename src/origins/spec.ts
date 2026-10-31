@@ -1,7 +1,7 @@
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import type { FunctionCategory } from '../modalities/category-sets.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
 import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
@@ -10,7 +10,7 @@ import type {
   TraceEventCategory,
   TraceEventWithReadings,
 } from '../modalities/trace/type.ts'
-import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
+import type { EntryMatch, ProfileEntry } from '../options.ts'
 
 /**
  * The internal spec of an origin: a distinct profiler tool or runtime that
@@ -369,9 +369,3 @@ export const normalizeSpeedscopeExecutingLine = (
     executing: { line: position.line },
   }
 }
-
-export const hasProtocol = (
-  location: DeepReadonly<SourceLocation> | undefined,
-  protocols: string[],
-): boolean =>
-  location?.type === `absolute` && protocols.includes(location.url.protocol)

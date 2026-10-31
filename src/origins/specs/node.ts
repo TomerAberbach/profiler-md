@@ -4,7 +4,7 @@ import type {
   TraceEvent,
   TraceEventCategory,
 } from '../../modalities/trace/type.ts'
-import { protocolCategory } from '../categorize.ts'
+import { hasProtocol, protocolCategory } from '../categorize.ts'
 import {
   hasNodeModulesPath,
   javaScriptConstructorCategory,
@@ -12,7 +12,6 @@ import {
   NODE_PROTOCOLS,
   v8JavaScriptCategory,
 } from '../javascript.ts'
-import { hasProtocol } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
 import {
   normalizeV8TraceEvent,

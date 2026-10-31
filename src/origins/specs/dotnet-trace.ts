@@ -1,6 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import { matchEntryFromRules } from '../spec.ts'
 import type { EntryMatchRule, OriginSpec } from '../spec.ts'

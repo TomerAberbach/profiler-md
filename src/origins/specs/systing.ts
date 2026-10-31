@@ -1,6 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import { nativeMatchEntry, nativeNormalizeStackFrame } from '../native.ts'

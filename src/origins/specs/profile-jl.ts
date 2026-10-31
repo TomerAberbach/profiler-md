@@ -19,7 +19,8 @@ export const profileJlOriginSpec = {
     name !== undefined &&
     JULIA_MEMORY_NODES.has(name),
   categorizeEntry: categorizeGenericEntry,
-  categorizeHeapSnapshotDeclaredType: juliaTypeCategory,
+  categorizeHeapSnapshotDeclaredType: declaredType =>
+    juliaTypeCategory(declaredType),
 } as const satisfies OriginSpec
 
 /**
@@ -31,9 +32,9 @@ export const profileJlOriginSpec = {
  * Julia's runtime and standard library define. A name none of them matches is a
  * struct, which the format categorizes as an object.
  */
-function juliaTypeCategory(
+const juliaTypeCategory = (
   declaredType: string,
-): HeapSnapshotNodeCategory | undefined {
+): HeapSnapshotNodeCategory | undefined => {
   // The runtime's own C structs, named for the C type rather than the Julia
   // one, are the only names that can't be a program's type.
   if (declaredType.startsWith(`jl_`)) {

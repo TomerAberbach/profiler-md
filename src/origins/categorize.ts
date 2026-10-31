@@ -1,7 +1,8 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
-import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import { hasProtocol } from './spec.ts'
+import type { SourceLocation } from '../location.ts'
+import type { FunctionCategory } from '../modalities/category-sets.ts'
+import type { ProfileEntry } from '../options.ts'
 
 /**
  * The categorization for origins with no runtime-specific conventions: only
@@ -112,8 +113,8 @@ export const locationlessCategory = ({
   return name === ANONYMOUS_FUNCTION_NAME ? `unknown` : `native`
 }
 
-/** The name {@link parseStackFrameFunction} gives a frame the profiler left unnamed. */
-const ANONYMOUS_FUNCTION_NAME = `(anonymous)`
+/** The name of a function whose frame the profiler left unnamed. */
+export const ANONYMOUS_FUNCTION_NAME = `(anonymous)`
 
 /**
  * Categorizes a frame whose location is a shared library as `native`. A
@@ -162,3 +163,9 @@ export const oursIfLocatedCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory =>
   location ? `ours` : `unknown`
+
+export const hasProtocol = (
+  location: DeepReadonly<SourceLocation> | undefined,
+  protocols: string[],
+): boolean =>
+  location?.type === `absolute` && protocols.includes(location.url.protocol)

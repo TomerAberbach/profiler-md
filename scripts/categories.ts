@@ -19,11 +19,12 @@ import { openInputAsBlob } from '../src/cli/input.ts'
 import { profileToMdAsync } from '../src/formats/index.ts'
 import type { DeepReadonly } from '../src/helpers/types.ts'
 import { FUNCTION_CATEGORY_SET } from '../src/modalities/category-sets.ts'
+import type { FunctionCategory } from '../src/modalities/category-sets.ts'
 import { formatCategory } from '../src/modalities/format.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORY_SET } from '../src/modalities/heap-snapshot/type.ts'
 import { CATEGORY_SETS } from '../src/modalities/registry.ts'
 import type { EntryCategory } from '../src/modalities/registry.ts'
-import type { FunctionCategory, ProfileEntry } from '../src/options.ts'
+import type { ProfileEntry } from '../src/options.ts'
 import { defaultCategorizeFunctions } from '../src/options.ts'
 
 const OUTPUT_DIRECTORY = `examples/output`

@@ -14,10 +14,10 @@ import {
 } from '../languages.ts'
 import { LOG_LEVELS } from '../logger.ts'
 import { FUNCTION_CATEGORY_SET } from '../modalities/category-sets.ts'
+import type { FunctionCategory } from '../modalities/category-sets.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import type { EntryCategory } from '../modalities/registry.ts'
 import { DEFAULT_MIN_CATEGORY_SHARE, DEFAULT_TOP_N } from '../options.ts'
-import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { DEFAULT_LOG_LEVEL, defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
 import {

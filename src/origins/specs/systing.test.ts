@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import type { FunctionCategory } from '../../options.ts'
+import type { FunctionCategory } from '../../modalities/category-sets.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { systingOriginSpec } from './systing.ts'
 
