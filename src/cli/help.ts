@@ -20,8 +20,7 @@ import {
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import { origins } from '../origins/index.ts'
 import { stdoutSupportsColor } from './ansis.ts'
-import { helpTopics, inputParser, program } from './cli.ts'
-import { CliError } from './error.ts'
+import { inputParser, program } from './cli.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import { languages } from './languages.ts'
 import type { Language } from './languages.ts'
@@ -73,9 +72,9 @@ const resolveHelpTopic = (topic: string): HelpTopic => {
   if (Object.hasOwn(formatToSpec, topic)) {
     return { type: `format`, format: topic as Format }
   }
-  throw new CliError(
-    `--help: expected one of ${helpTopics.join(`, `)}, got: ${topic}`,
-    2,
+  // The flag's parser accepts only a language or format topic.
+  throw new Error(
+    `help topic is neither a language nor a format, got: ${topic}`,
   )
 }
 

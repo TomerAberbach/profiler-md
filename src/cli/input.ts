@@ -1,7 +1,7 @@
 import { createReadStream, openAsBlob } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { blob } from 'node:stream/consumers'
-import { CliError } from './error.ts'
+import { CliError, errorCodeOf } from './error.ts'
 
 export const openInputAsBlob = async (
   filePath: string | undefined,
@@ -16,7 +16,7 @@ export const openInputAsBlob = async (
   try {
     stats = await stat(filePath)
   } catch (error) {
-    if (error instanceof Error && `code` in error && error.code === `ENOENT`) {
+    if (errorCodeOf(error) === `ENOENT`) {
       throw new CliError(`cannot read ${filePath}: no such file`, 1, {
         cause: error,
       })

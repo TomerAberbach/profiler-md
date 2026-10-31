@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process'
 import { join } from 'node:path'
+import { LOG_LEVEL_ENV } from './log.ts'
 
 type CliResult = { status: number | null; stdout: string; stderr: string }
 
@@ -15,7 +16,7 @@ export const runCli = (
       env: {
         ...process.env,
         // The developer's shell must not set the log level under test
-        PROFILER_MD_LOG: undefined,
+        [LOG_LEVEL_ENV]: undefined,
         NODE_COMPILE_CACHE: compileCachePath,
         ...env,
       },

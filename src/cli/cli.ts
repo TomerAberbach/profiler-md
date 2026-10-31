@@ -298,7 +298,7 @@ const diffingFlags = object(`Diffing`, {
 const languageIds = languageMetas.flatMap(([id, meta]) =>
   languageIdsOf(id, meta),
 )
-export const helpTopics = [
+const helpTopics = [
   ...formats,
   ...languageIds,
   ...languageExtensionToPrimary.keys(),

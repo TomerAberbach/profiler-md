@@ -20,30 +20,21 @@ import {
   sourceReferencePathOrName,
 } from '../location.ts'
 import { normalizeLogger } from '../logger.ts'
-import type { Logger, LogLevel } from '../logger.ts'
+import type { Logger } from '../logger.ts'
 import type { EntryCategory } from '../modalities/registry.ts'
 import { formatRegexRule } from './cli.ts'
-import type { RegexCategory, RegexReplacement } from './cli.ts'
+import type { CLIArgs, RegexCategory, RegexReplacement } from './cli.ts'
 import { CliError } from './error.ts'
 
 /**
- * Every flag the options are built from, each required so that a flag added to
- * the CLI without being passed here fails to compile.
+ * Every flag except those the conversion reads elsewhere, so that a flag added
+ * to the CLI without being passed here fails to compile.
  */
-export type BuildOptionsFlags = {
-  topN: number | undefined
-  minCategoryShare: number | undefined
-  baseURL: string | undefined
-  sourceMaps: readonly string[]
-  matchName: readonly RegexReplacement[]
-  matchLocation: readonly RegexReplacement[]
-  category: readonly RegexCategory[]
-  hide: readonly RegExp[]
-  show: readonly RegExp[]
-  hideCategory: readonly EntryCategory[]
-  showCategory: readonly EntryCategory[]
+export type BuildOptionsFlags = Omit<
+  CLIArgs,
+  `help` | `output` | `format` | `origin` | `pager` | `color` | `input`
+> & {
   logger: Logger
-  logLevel: LogLevel
   /** Whether a CURRENT profile was passed to diff against. */
   diff: boolean
 }
