@@ -113,7 +113,7 @@ describe(`formatHeapSnapshot`, () => {
         {
           '%': `70.0%`,
           Size: `70 B`,
-          Instances: `3`,
+          Nodes: `3`,
           Path: `(unknown) ←.p– Holder`,
         },
       ],

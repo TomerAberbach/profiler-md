@@ -17,7 +17,7 @@ Held 1.5 MiB → 1.91 MiB (+424.347 KiB, +27.7%) over 16,751 → 23,701 nodes
 | Big number         |   0.0% |          0 B |         <0.1% |                32 B |              1 |
 | Synthetic          |      — |          0 B |          0.0% |                 0 B |              1 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -39,13 +39,13 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Object`
 
-|  Change |  Delta |           % |                Size | Instances | Path                                                                                                                         |
-| ------: | -----: | ----------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- |
-|  -44.8% | -543 B | 1.2% → 0.4% |    1.18 KiB → 668 B |     8 → 5 | `Object ← (GC root)`                                                                                                         |
-|  +22.7% | +543 B | 2.4% → 1.6% | 2.33 KiB → 2.86 KiB |   23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                      |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |     1 → 0 | `Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |     1 → 0 | `Object ←.user– Object ←[49]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |     1 → 0 | `Object ←.user– Object ←[55]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+|  Change |  Delta |           % |                Size |   Nodes | Path                                                                                                                         |
+| ------: | -----: | ----------: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
+|  -44.8% | -543 B | 1.2% → 0.4% |    1.18 KiB → 668 B |   8 → 5 | `Object ← (GC root)`                                                                                                         |
+|  +22.7% | +543 B | 2.4% → 1.6% | 2.33 KiB → 2.86 KiB | 23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                      |
+| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[49]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[55]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
 
 ### Retained size
 
@@ -79,37 +79,43 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `GlobalObject`
 
-| Change |        Delta |      % |                Size | Instances | Path                       |
-| -----: | -----------: | -----: | ------------------: | --------: | -------------------------- |
-| +40.1% | +512.377 KiB | 100.0% | 1.25 MiB → 1.75 MiB |         1 | `GlobalObject ← (GC root)` |
+| Change |        Delta |      % |                Size | Nodes | Path                       |
+| -----: | -----------: | -----: | ------------------: | ----: | -------------------------- |
+| +40.1% | +512.377 KiB | 100.0% | 1.25 MiB → 1.75 MiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `Object`
 
-|  Change |        Delta |             % |                Size | Instances | Path                                                                    |
-| ------: | -----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------- |
-| removed | -441.566 KiB |  66.5% → 0.0% |       442 KiB → 0 B |     1 → 0 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB |     0 → 1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
-|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB |     0 → 1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
-|  +92.0% | +421.519 KiB | 69.0% → 80.9% |   458 KiB → 880 KiB |         1 | `Object ←.__retained– GlobalObject`                                     |
-|  -87.2% |  -12.698 KiB |   2.2% → 0.2% | 14.6 KiB → 1.87 KiB |     8 → 5 | `Object ← (GC root)`                                                    |
+|  Change |        Delta |             % |                Size | Nodes | Path                                                                    |
+| ------: | -----------: | ------------: | ------------------: | ----: | ----------------------------------------------------------------------- |
+| removed | -441.566 KiB |  66.5% → 0.0% |       442 KiB → 0 B | 1 → 0 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB | 0 → 1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+|     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB | 0 → 1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+|  +92.0% | +421.519 KiB | 69.0% → 80.9% |   458 KiB → 880 KiB |     1 | `Object ←.__retained– GlobalObject`                                     |
+|  -87.2% |  -12.698 KiB |   2.2% → 0.2% | 14.6 KiB → 1.87 KiB | 8 → 5 | `Object ← (GC root)`                                                    |
 
 ##### `InternalModuleRegistry`
 
-| Change |      Delta |      % |                Size | Instances | Path                                                            |
-| -----: | ---------: | -----: | ------------------: | --------: | --------------------------------------------------------------- |
-|  +5.7% | +2.828 KiB | 100.0% | 49.5 KiB → 52.3 KiB |         1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| Change |      Delta |      % |                Size | Nodes | Path                                                            |
+| -----: | ---------: | -----: | ------------------: | ----: | --------------------------------------------------------------- |
+|  +5.7% | +2.828 KiB | 100.0% | 49.5 KiB → 52.3 KiB |     1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 
 ##### `url `
 
-| Change | Delta |      % |     Size | Instances | Path                           |
-| -----: | ----: | -----: | -------: | --------: | ------------------------------ |
-|  +0.1% | +48 B | 100.0% | 52.4 KiB |         1 | `url  ←.process– GlobalObject` |
+| Change | Delta |      % |     Size | Nodes | Path                           |
+| -----: | ----: | -----: | -------: | ----: | ------------------------------ |
+|  +0.1% | +48 B | 100.0% | 52.4 KiB |     1 | `url  ←.process– GlobalObject` |
+
+##### `WriteStream`
+
+| Change | Delta |             % |                Size |  Nodes | Path                                                                   |
+| -----: | ----: | ------------: | ------------------: | -----: | ---------------------------------------------------------------------- |
+|  +0.8% | +64 B | 42.0% → 42.2% | 7.69 KiB → 7.75 KiB | 10 → 6 | `Structure ←(several WriteStream paths)– url  ←.process– GlobalObject` |
 
 ##### `FixedQueue`
 
-| Change |  Delta |      % |         Size | Instances | Path                                        |
-| -----: | -----: | -----: | -----------: | --------: | ------------------------------------------- |
-| -82.9% | -464 B | 100.0% | 560 B → 96 B |         1 | `FixedQueue ←(several paths)– GlobalObject` |
+| Change |  Delta |      % |         Size | Nodes | Path                                        |
+| -----: | -----: | -----: | -----------: | ----: | ------------------------------------------- |
+| -82.9% | -464 B | 100.0% | 560 B → 96 B |     1 | `FixedQueue ←(several paths)– GlobalObject` |
 
 ## Largest functions
 

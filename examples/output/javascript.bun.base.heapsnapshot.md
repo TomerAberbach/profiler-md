@@ -17,7 +17,7 @@ Held 1.5 MiB over 16,751 nodes and 44,867 edges.
 | Big number         | <0.1% |     32 B |     1 |
 | Synthetic          |  0.0% |      0 B |     1 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -89,158 +89,158 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Object`
 
-|    % |     Size | Instances | Path                                                                     |
-| ---: | -------: | --------: | ------------------------------------------------------------------------ |
-| 2.4% | 2.33 KiB |        23 | `Object ←(several paths)– GlobalObject`                                  |
-| 1.7% | 1.64 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-| 1.2% | 1.18 KiB |         8 | `Object ← (GC root)`                                                     |
-| 0.2% |    225 B |         1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
-| 0.2% |    182 B |         1 | `Object ← GlobalObject`                                                  |
+|    % |     Size | Nodes | Path                                                                     |
+| ---: | -------: | ----: | ------------------------------------------------------------------------ |
+| 2.4% | 2.33 KiB |    23 | `Object ←(several paths)– GlobalObject`                                  |
+| 1.7% | 1.64 KiB |    17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 1.2% | 1.18 KiB |     8 | `Object ← (GC root)`                                                     |
+| 0.2% |    225 B |     1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
+| 0.2% |    182 B |     1 | `Object ← GlobalObject`                                                  |
 
 ##### `ModuleRecord`
 
-|      % |     Size | Instances | Path                       |
-| -----: | -------: | --------: | -------------------------- |
-| 100.0% | 27.6 KiB |         4 | `ModuleRecord ← (GC root)` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 27.6 KiB |     4 | `ModuleRecord ← (GC root)` |
 
 ##### `GlobalObject`
 
-|      % |     Size | Instances | Path                       |
-| -----: | -------: | --------: | -------------------------- |
-| 100.0% | 10.3 KiB |         1 | `GlobalObject ← (GC root)` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 10.3 KiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `InternalModuleRegistry`
 
-|      % |     Size | Instances | Path                                                            |
-| -----: | -------: | --------: | --------------------------------------------------------------- |
-| 100.0% | 1.19 KiB |         1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|      % |     Size | Nodes | Path                                                            |
+| -----: | -------: | ----: | --------------------------------------------------------------- |
+| 100.0% | 1.19 KiB |     1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 
 ##### `NodeJSFS`
 
-|     % |     Size | Instances | Path                                      |
-| ----: | -------: | --------: | ----------------------------------------- |
-| 90.9% | 1.04 KiB |         1 | `NodeJSFS ←(several paths)– GlobalObject` |
-|  9.1% |    106 B |         1 | `NodeJSFS ← Structure ← GlobalObject`     |
+|     % |     Size | Nodes | Path                                      |
+| ----: | -------: | ----: | ----------------------------------------- |
+| 90.9% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject` |
+|  9.1% |    106 B |     1 | `NodeJSFS ← Structure ← GlobalObject`     |
 
 ##### `FileSink`
 
-|     % |  Size | Instances | Path                                                                                  |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------- |
-| 48.3% | 376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
-| 48.3% | 376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
-|  3.5% |  27 B |         1 | `FileSink ← Structure ← GlobalObject`                                                 |
+|     % |  Size | Nodes | Path                                                                                  |
+| ----: | ----: | ----: | ------------------------------------------------------------------------------------- |
+| 48.3% | 376 B |     1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 48.3% | 376 B |     1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
+|  3.5% |  27 B |     1 | `FileSink ← Structure ← GlobalObject`                                                 |
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |  Size | Instances | Path                                           |
-| ----: | ----: | --------: | ---------------------------------------------- |
-| 95.9% | 632 B |         1 | `FileInternalReadableStreamSource ← (GC root)` |
-|  4.1% |  27 B |         1 | `FileInternalReadableStreamSource ← Structure` |
+|     % |  Size | Nodes | Path                                           |
+| ----: | ----: | ----: | ---------------------------------------------- |
+| 95.9% | 632 B |     1 | `FileInternalReadableStreamSource ← (GC root)` |
+|  4.1% |  27 B |     1 | `FileInternalReadableStreamSource ← Structure` |
 
 ##### `Blob`
 
-|     % |  Size | Instances | Path                                  |
-| ----: | ----: | --------: | ------------------------------------- |
-| 90.4% | 328 B |         1 | `Blob ← GlobalObject`                 |
-|  9.6% |  35 B |         1 | `Blob ←(several paths)– GlobalObject` |
+|     % |  Size | Nodes | Path                                  |
+| ----: | ----: | ----: | ------------------------------------- |
+| 90.4% | 328 B |     1 | `Blob ← GlobalObject`                 |
+|  9.6% |  35 B |     1 | `Blob ←(several paths)– GlobalObject` |
 
 ##### `Map`
 
-|     % |  Size | Instances | Path                                                                                                                                                                 |
-| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 38.9% | 128 B |         4 | `Map ← (GC root)`                                                                                                                                                    |
-| 12.5% |  41 B |         1 | `Map ←(several paths)– GlobalObject`                                                                                                                                 |
-|  9.7% |  32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                                                                                     |
-|  9.7% |  32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject`                                                                     |
-|  9.7% |  32 B |         1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|     % |  Size | Nodes | Path                                                                                                                                                                 |
+| ----: | ----: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.9% | 128 B |     4 | `Map ← (GC root)`                                                                                                                                                    |
+| 12.5% |  41 B |     1 | `Map ←(several paths)– GlobalObject`                                                                                                                                 |
+|  9.7% |  32 B |     1 | `Map ←.requireMap– GlobalObject`                                                                                                                                     |
+|  9.7% |  32 B |     1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject`                                                                     |
+|  9.7% |  32 B |     1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 
 ##### `Promise (fulfilled: Object)`
 
-|      % |  Size | Instances | Path                                      |
-| -----: | ----: | --------: | ----------------------------------------- |
-| 100.0% | 256 B |         8 | `Promise (fulfilled: Object) ← (GC root)` |
+|      % |  Size | Nodes | Path                                      |
+| -----: | ----: | ----: | ----------------------------------------- |
+| 100.0% | 256 B |     8 | `Promise (fulfilled: Object) ← (GC root)` |
 
 ##### `WriteStream`
 
-|     % |  Size | Instances | Path                                                 |
-| ----: | ----: | --------: | ---------------------------------------------------- |
-| 50.0% | 121 B |         1 | `WriteStream ←.stderr– url  ←.process– GlobalObject` |
-| 50.0% | 121 B |         1 | `WriteStream ←.stdout– url  ←.process– GlobalObject` |
+|     % |  Size | Nodes | Path                                                 |
+| ----: | ----: | ----: | ---------------------------------------------------- |
+| 50.0% | 121 B |     1 | `WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 50.0% | 121 B |     1 | `WriteStream ←.stdout– url  ←.process– GlobalObject` |
 
 ##### `url `
 
-|      % |  Size | Instances | Path                           |
-| -----: | ----: | --------: | ------------------------------ |
-| 100.0% | 213 B |         1 | `url  ←.process– GlobalObject` |
+|      % |  Size | Nodes | Path                           |
+| -----: | ----: | ----: | ------------------------------ |
+| 100.0% | 213 B |     1 | `url  ←.process– GlobalObject` |
 
 ##### `Promise (fulfilled: JSSourceCode)`
 
-|      % |  Size | Instances | Path                                            |
-| -----: | ----: | --------: | ----------------------------------------------- |
-| 100.0% | 128 B |         4 | `Promise (fulfilled: JSSourceCode) ← (GC root)` |
+|      % |  Size | Nodes | Path                                            |
+| -----: | ----: | ----: | ----------------------------------------------- |
+| 100.0% | 128 B |     4 | `Promise (fulfilled: JSSourceCode) ← (GC root)` |
 
 ##### `Set`
 
-|     % | Size | Instances | Path                                                                                                              |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------- |
-| 40.7% | 44 B |         1 | `Set ←(several paths)– GlobalObject`                                                                              |
-| 29.6% | 32 B |         1 | `Set ←.allowedNodeEnvironmentFlags– url  ←.process– GlobalObject`                                                 |
-| 29.6% | 32 B |         1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
+|     % | Size | Nodes | Path                                                                                                              |
+| ----: | ---: | ----: | ----------------------------------------------------------------------------------------------------------------- |
+| 40.7% | 44 B |     1 | `Set ←(several paths)– GlobalObject`                                                                              |
+| 29.6% | 32 B |     1 | `Set ←.allowedNodeEnvironmentFlags– url  ←.process– GlobalObject`                                                 |
+| 29.6% | 32 B |     1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
 
 ##### `Callee`
 
-|      % | Size | Instances | Path                    |
-| -----: | ---: | --------: | ----------------------- |
-| 100.0% | 96 B |         3 | `Callee ← GlobalObject` |
+|      % | Size | Nodes | Path                    |
+| -----: | ---: | ----: | ----------------------- |
+| 100.0% | 96 B |     3 | `Callee ← GlobalObject` |
 
 ##### `ReadStream`
 
-|      % | Size | Instances | Path                                               |
-| -----: | ---: | --------: | -------------------------------------------------- |
-| 100.0% | 91 B |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
+|      % | Size | Nodes | Path                                               |
+| -----: | ---: | ----: | -------------------------------------------------- |
+| 100.0% | 91 B |     1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
 
 ##### `ReadableStream`
 
-|      % | Size | Instances | Path                         |
-| -----: | ---: | --------: | ---------------------------- |
-| 100.0% | 89 B |         2 | `ReadableStream ← (GC root)` |
+|      % | Size | Nodes | Path                         |
+| -----: | ---: | ----: | ---------------------------- |
+| 100.0% | 89 B |     2 | `ReadableStream ← (GC root)` |
 
 ##### `String`
 
-|      % | Size | Instances | Path                    |
-| -----: | ---: | --------: | ----------------------- |
-| 100.0% | 70 B |         1 | `String ← GlobalObject` |
+|      % | Size | Nodes | Path                    |
+| -----: | ---: | ----: | ----------------------- |
+| 100.0% | 70 B |     1 | `String ← GlobalObject` |
 
 ##### `ModuleNamespaceObject`
 
-|      % | Size | Instances | Path                                |
-| -----: | ---: | --------: | ----------------------------------- |
-| 100.0% | 65 B |         1 | `ModuleNamespaceObject ← (GC root)` |
+|      % | Size | Nodes | Path                                |
+| -----: | ---: | ----: | ----------------------------------- |
+| 100.0% | 65 B |     1 | `ModuleNamespaceObject ← (GC root)` |
 
 ##### `Promise (fulfilled)`
 
-|      % | Size | Instances | Path                              |
-| -----: | ---: | --------: | --------------------------------- |
-| 100.0% | 64 B |         2 | `Promise (fulfilled) ← (GC root)` |
+|      % | Size | Nodes | Path                              |
+| -----: | ---: | ----: | --------------------------------- |
+| 100.0% | 64 B |     2 | `Promise (fulfilled) ← (GC root)` |
 
 ##### `Math`
 
-|      % | Size | Instances | Path                        |
-| -----: | ---: | --------: | --------------------------- |
-| 100.0% | 62 B |         1 | `Math ←.Math– GlobalObject` |
+|      % | Size | Nodes | Path                        |
+| -----: | ---: | ----: | --------------------------- |
+| 100.0% | 62 B |     1 | `Math ←.Math– GlobalObject` |
 
 ##### `Prototype`
 
-|      % | Size | Instances | Path                       |
-| -----: | ---: | --------: | -------------------------- |
-| 100.0% | 54 B |         1 | `Prototype ← GlobalObject` |
+|      % | Size | Nodes | Path                       |
+| -----: | ---: | ----: | -------------------------- |
+| 100.0% | 54 B |     1 | `Prototype ← GlobalObject` |
 
 ##### `Iterator`
 
-|     % | Size | Instances | Path                                  |
-| ----: | ---: | --------: | ------------------------------------- |
-| 62.0% | 31 B |         1 | `Iterator ← GlobalObject`             |
-| 38.0% | 19 B |         1 | `Iterator ← Structure ← GlobalObject` |
+|     % | Size | Nodes | Path                                  |
+| ----: | ---: | ----: | ------------------------------------- |
+| 62.0% | 31 B |     1 | `Iterator ← GlobalObject`             |
+| 38.0% | 19 B |     1 | `Iterator ← Structure ← GlobalObject` |
 
 ### Retained size
 
@@ -310,156 +310,159 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `GlobalObject`
 
-|      % |     Size | Instances | Path                       |
-| -----: | -------: | --------: | -------------------------- |
-| 100.0% | 1.25 MiB |         1 | `GlobalObject ← (GC root)` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 1.25 MiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `Object`
 
-|     % |     Size | Instances | Path                                                                     |
-| ----: | -------: | --------: | ------------------------------------------------------------------------ |
-| 69.0% |  458 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
-| 66.5% |  442 KiB |         1 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject`  |
-|  9.4% | 62.2 KiB |        23 | `Object ←(several paths)– GlobalObject`                                  |
-|  7.3% | 48.2 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-|  2.2% | 14.6 KiB |         8 | `Object ← (GC root)`                                                     |
+|     % |     Size | Nodes | Path                                                                     |
+| ----: | -------: | ----: | ------------------------------------------------------------------------ |
+| 69.0% |  458 KiB |     1 | `Object ←.__retained– GlobalObject`                                      |
+| 66.5% |  442 KiB |     1 | `Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject`  |
+|  9.4% | 62.2 KiB |    23 | `Object ←(several paths)– GlobalObject`                                  |
+|  7.3% | 48.2 KiB |    17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|  2.8% | 18.7 KiB |    33 | `FunctionExecutable ←(several Object paths)– GlobalObject`               |
 
 ##### `url `
 
-|      % |     Size | Instances | Path                           |
-| -----: | -------: | --------: | ------------------------------ |
-| 100.0% | 52.4 KiB |         1 | `url  ←.process– GlobalObject` |
+|      % |     Size | Nodes | Path                           |
+| -----: | -------: | ----: | ------------------------------ |
+| 100.0% | 52.4 KiB |     1 | `url  ←.process– GlobalObject` |
 
 ##### `InternalModuleRegistry`
 
-|      % |     Size | Instances | Path                                                            |
-| -----: | -------: | --------: | --------------------------------------------------------------- |
-| 100.0% | 49.5 KiB |         1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|      % |     Size | Nodes | Path                                                            |
+| -----: | -------: | ----: | --------------------------------------------------------------- |
+| 100.0% | 49.5 KiB |     1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 
 ##### `ModuleLoader`
 
-|      % |     Size | Instances | Path                                  |
-| -----: | -------: | --------: | ------------------------------------- |
-| 100.0% | 22.4 KiB |         1 | `ModuleLoader ←.Loader– GlobalObject` |
+|      % |     Size | Nodes | Path                                  |
+| -----: | -------: | ----: | ------------------------------------- |
+| 100.0% | 22.4 KiB |     1 | `ModuleLoader ←.Loader– GlobalObject` |
 
 ##### `WriteStream`
 
-|     % |     Size | Instances | Path                                                 |
-| ----: | -------: | --------: | ---------------------------------------------------- |
-| 23.9% | 4.38 KiB |         1 | `WriteStream ←.stdout– url  ←.process– GlobalObject` |
-| 23.4% | 4.28 KiB |         1 | `WriteStream ←.stderr– url  ←.process– GlobalObject` |
+|     % |     Size | Nodes | Path                                                                                    |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------- |
+| 42.0% | 7.69 KiB |    10 | `Structure ←(several WriteStream paths)– url  ←.process– GlobalObject`                  |
+| 23.9% | 4.38 KiB |     1 | `WriteStream ←.stdout– url  ←.process– GlobalObject`                                    |
+| 23.4% | 4.28 KiB |     1 | `WriteStream ←.stderr– url  ←.process– GlobalObject`                                    |
+|  5.1% |    955 B |     1 | `UnlinkedFunctionCodeBlock ←(several WriteStream paths)– url  ←.process– GlobalObject`  |
+|  2.6% |    480 B |     5 | `UnlinkedFunctionExecutable ←(several WriteStream paths)– url  ←.process– GlobalObject` |
 
 ##### `Map`
 
-|     % |     Size | Instances | Path                                                  |
-| ----: | -------: | --------: | ----------------------------------------------------- |
-| 95.5% | 16.1 KiB |         1 | `Map ←.byId– Object ←.__retained– GlobalObject`       |
-|  2.0% |    352 B |         1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject` |
-|  1.9% |    329 B |         1 | `Map ←(several paths)– GlobalObject`                  |
-|  0.7% |    128 B |         4 | `Map ← (GC root)`                                     |
-|  0.2% |     32 B |         1 | `Map ←.requireMap– GlobalObject`                      |
+|     % |     Size | Nodes | Path                                                  |
+| ----: | -------: | ----: | ----------------------------------------------------- |
+| 95.5% | 16.1 KiB |     1 | `Map ←.byId– Object ←.__retained– GlobalObject`       |
+|  2.0% |    352 B |     1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject` |
+|  1.9% |    329 B |     1 | `Map ←(several paths)– GlobalObject`                  |
+|  0.7% |    128 B |     4 | `Map ← (GC root)`                                     |
+|  0.2% |     32 B |     1 | `Map ←.requireMap– GlobalObject`                      |
 
 ##### `ReadStream`
 
-|      % |     Size | Instances | Path                                               |
-| -----: | -------: | --------: | -------------------------------------------------- |
-| 100.0% | 15.4 KiB |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
+|      % |     Size | Nodes | Path                                               |
+| -----: | -------: | ----: | -------------------------------------------------- |
+| 100.0% | 15.4 KiB |     1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
 
 ##### `console`
 
-|      % |    Size | Instances | Path                              |
-| -----: | ------: | --------: | --------------------------------- |
-| 100.0% | 4.9 KiB |         1 | `console ←.console– GlobalObject` |
+|      % |    Size | Nodes | Path                              |
+| -----: | ------: | ----: | --------------------------------- |
+| 100.0% | 4.9 KiB |     1 | `console ←.console– GlobalObject` |
 
 ##### `Prototype`
 
-|      % |     Size | Instances | Path                       |
-| -----: | -------: | --------: | -------------------------- |
-| 100.0% | 4.88 KiB |         1 | `Prototype ← GlobalObject` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 4.88 KiB |     1 | `Prototype ← GlobalObject` |
 
 ##### `Math`
 
-|      % |     Size | Instances | Path                        |
-| -----: | -------: | --------: | --------------------------- |
-| 100.0% | 4.87 KiB |         1 | `Math ←.Math– GlobalObject` |
+|      % |     Size | Nodes | Path                        |
+| -----: | -------: | ----: | --------------------------- |
+| 100.0% | 4.87 KiB |     1 | `Math ←.Math– GlobalObject` |
 
 ##### `String`
 
-|      % |     Size | Instances | Path                    |
-| -----: | -------: | --------: | ----------------------- |
-| 100.0% | 4.46 KiB |         1 | `String ← GlobalObject` |
+|      % |     Size | Nodes | Path                    |
+| -----: | -------: | ----: | ----------------------- |
+| 100.0% | 4.46 KiB |     1 | `String ← GlobalObject` |
 
 ##### `ReadableStream`
 
-|      % |     Size | Instances | Path                         |
-| -----: | -------: | --------: | ---------------------------- |
-| 100.0% | 4.22 KiB |         2 | `ReadableStream ← (GC root)` |
+|      % |     Size | Nodes | Path                         |
+| -----: | -------: | ----: | ---------------------------- |
+| 100.0% | 4.22 KiB |     2 | `ReadableStream ← (GC root)` |
 
 ##### `Iterator`
 
-|     % |     Size | Instances | Path                                  |
-| ----: | -------: | --------: | ------------------------------------- |
-| 79.2% | 2.36 KiB |         1 | `Iterator ← GlobalObject`             |
-| 20.8% |    635 B |         1 | `Iterator ← Structure ← GlobalObject` |
+|     % |     Size | Nodes | Path                                  |
+| ----: | -------: | ----: | ------------------------------------- |
+| 79.2% | 2.36 KiB |     1 | `Iterator ← GlobalObject`             |
+| 20.8% |    635 B |     1 | `Iterator ← Structure ← GlobalObject` |
 
 ##### `NodeJSFS`
 
-|     % |     Size | Instances | Path                                      |
-| ----: | -------: | --------: | ----------------------------------------- |
-| 64.8% | 1.92 KiB |         1 | `NodeJSFS ← Structure ← GlobalObject`     |
-| 35.2% | 1.04 KiB |         1 | `NodeJSFS ←(several paths)– GlobalObject` |
+|     % |     Size | Nodes | Path                                      |
+| ----: | -------: | ----: | ----------------------------------------- |
+| 64.8% | 1.92 KiB |     1 | `NodeJSFS ← Structure ← GlobalObject`     |
+| 35.2% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject` |
 
 ##### `Blob`
 
-|     % |     Size | Instances | Path                                  |
-| ----: | -------: | --------: | ------------------------------------- |
-| 86.6% | 2.07 KiB |         1 | `Blob ←(several paths)– GlobalObject` |
-| 13.4% |    328 B |         1 | `Blob ← GlobalObject`                 |
+|     % |     Size | Nodes | Path                                  |
+| ----: | -------: | ----: | ------------------------------------- |
+| 86.6% | 2.07 KiB |     1 | `Blob ←(several paths)– GlobalObject` |
+| 13.4% |    328 B |     1 | `Blob ← GlobalObject`                 |
 
 ##### `ArrayBuffer`
 
-|      % |     Size | Instances | Path                                         |
-| -----: | -------: | --------: | -------------------------------------------- |
-| 100.0% | 2.35 KiB |         2 | `ArrayBuffer ←(several paths)– GlobalObject` |
+|      % |     Size | Nodes | Path                                         |
+| -----: | -------: | ----: | -------------------------------------------- |
+| 100.0% | 2.35 KiB |     2 | `ArrayBuffer ←(several paths)– GlobalObject` |
 
 ##### `EventEmitter`
 
-|      % |     Size | Instances | Path                                          |
-| -----: | -------: | --------: | --------------------------------------------- |
-| 100.0% | 2.17 KiB |         1 | `EventEmitter ←(several paths)– GlobalObject` |
+|      % |     Size | Nodes | Path                                          |
+| -----: | -------: | ----: | --------------------------------------------- |
+| 100.0% | 2.17 KiB |     1 | `EventEmitter ←(several paths)– GlobalObject` |
 
 ##### `FileSink`
 
-|     % |     Size | Instances | Path                                                                                  |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------- |
-| 62.6% | 1.23 KiB |         1 | `FileSink ← Structure ← GlobalObject`                                                 |
-| 18.7% |    376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
-| 18.7% |    376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
+|     % |     Size | Nodes | Path                                                                                  |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------- |
+| 62.6% | 1.23 KiB |     1 | `FileSink ← Structure ← GlobalObject`                                                 |
+| 18.7% |    376 B |     1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 18.7% |    376 B |     1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |     Size | Instances | Path                                           |
-| ----: | -------: | --------: | ---------------------------------------------- |
-| 67.4% | 1.27 KiB |         1 | `FileInternalReadableStreamSource ← Structure` |
-| 32.6% |    632 B |         1 | `FileInternalReadableStreamSource ← (GC root)` |
+|     % |     Size | Nodes | Path                                           |
+| ----: | -------: | ----: | ---------------------------------------------- |
+| 67.4% | 1.27 KiB |     1 | `FileInternalReadableStreamSource ← Structure` |
+| 32.6% |    632 B |     1 | `FileInternalReadableStreamSource ← (GC root)` |
 
 ##### `Stats`
 
-|      % |     Size | Instances | Path                                   |
-| -----: | -------: | --------: | -------------------------------------- |
-| 100.0% | 1.23 KiB |         1 | `Stats ←(several paths)– GlobalObject` |
+|      % |     Size | Nodes | Path                                   |
+| -----: | -------: | ----: | -------------------------------------- |
+| 100.0% | 1.23 KiB |     1 | `Stats ←(several paths)– GlobalObject` |
 
 ##### `AsyncDisposableStack`
 
-|      % |     Size | Instances | Path                                                  |
-| -----: | -------: | --------: | ----------------------------------------------------- |
-| 100.0% | 1.16 KiB |         1 | `AsyncDisposableStack ←(several paths)– GlobalObject` |
+|      % |     Size | Nodes | Path                                                  |
+| -----: | -------: | ----: | ----------------------------------------------------- |
+| 100.0% | 1.16 KiB |     1 | `AsyncDisposableStack ←(several paths)– GlobalObject` |
 
 ##### `ModuleRecord`
 
-|    % |     Size | Instances | Path                       |
-| ---: | -------: | --------: | -------------------------- |
-| 0.0% | 27.6 KiB |         4 | `ModuleRecord ← (GC root)` |
+|    % |     Size | Nodes | Path                       |
+| ---: | -------: | ----: | -------------------------- |
+| 0.0% | 27.6 KiB |     4 | `ModuleRecord ← (GC root)` |
 
 ## Largest functions
 
@@ -494,13 +497,13 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `Function`
 
-|    % |  Self | Name                        | Path                                                                                                                   |
-| ---: | ----: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 484 B | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject`                         |
-| 0.4% | 375 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject` |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.createFIFO– GlobalObject`                                                             |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.internalRequire– GlobalObject`                                                        |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.loadEsmIntoCjs– GlobalObject`                                                         |
+|    % |     Self | Name                        | Path                                                                                                                   |
+| ---: | -------: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 3.4% | 2.84 KiB | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ←(several Function paths)– WriteStream ←.stdout– url  ←.process– GlobalObject` |
+| 3.3% | 2.75 KiB | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ←(several Function paths)– WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 2.9% | 2.46 KiB | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ←(several Function paths)– (GC root)`                                          |
+| 1.2% |  1,002 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several Function paths)– (GC root)`                  |
+| 1.1% |    955 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several Function paths)– url  ←.process– GlobalObject`                                    |
 
 #### `matchesGlob`
 
@@ -514,13 +517,13 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `SafeIterator`
 
-|    % | Self | Name   | Path                                                                                                                                                                                                                                    |
-| ---: | ---: | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.3% | 96 B | `call` | `call ←.next_– JSLexicalEnvironment ← SafeIterator ←.SafeStringIterator– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                                                                        |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeStringIterator– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                                                                      |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.Symbol.iterator– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.values– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`          |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.keys– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`            |
+|    % |  Self | Name        | Path                                                                                                    |
+| ---: | ----: | ----------- | ------------------------------------------------------------------------------------------------------- |
+| 1.5% | 112 B | `Structure` | `Structure ←(several SafeIterator paths)– GlobalObject`                                                 |
+| 1.5% | 112 B | `Structure` | `Structure ← Structure ←(several SafeIterator paths)– GlobalObject`                                     |
+| 1.5% | 112 B | `Structure` | `Structure ← Structure ← Structure ←(several SafeIterator paths)– GlobalObject`                         |
+| 1.5% | 112 B | `Structure` | `Structure ← Structure ← Structure ← Structure ←(several SafeIterator paths)– GlobalObject`             |
+| 1.5% | 112 B | `Structure` | `Structure ← Structure ← Structure ← Structure ← Structure ←(several SafeIterator paths)– GlobalObject` |
 
 #### `duplexPair`
 

@@ -48,27 +48,29 @@ import type {
   AggregatedHeapSnapshotString,
   RetainerPathEdge,
   RetainerPathStep,
+  ShownRetainedNode,
 } from './aggregate.ts'
 import {
   formatRetainerEdgeLabel,
   formatRetainerLabel,
   formatRetainerName,
+  GC_ROOT_NAME,
   shownRetainedNodes,
 } from './aggregate.ts'
 import {
   diffRetainerPaths,
-  groupInstancesByPath,
-  matchConstructorInstanceGroups,
+  groupConstructorNodes,
+  matchConstructorRetainerGroups,
   matchFunctionRetainedNodeGroups,
   RetainerPaths,
 } from './diff.ts'
 import type {
   AggregatedHeapSnapshotDiff,
   AggregatedHeapSnapshotEntityDiff,
+  DiffedConstructorRetainerGroup,
   DiffedHeapSnapshotConstructor,
   DiffedHeapSnapshotEntity,
   DiffedHeapSnapshotFunction,
-  DiffedInstanceGroup,
   DiffRetainerPaths,
   PathSnapshot,
   RetainerGroup,
@@ -76,9 +78,9 @@ import type {
 import {
   categoryColumns,
   constructorColumns,
+  constructorRetainerGroupColumns,
   displayName,
   functionColumns,
-  instanceGroupColumns,
   retainedColumns,
   stringColumns,
 } from './table.ts'
@@ -303,6 +305,10 @@ class ShownRetainerPaths {
     this.#paths = paths
   }
 
+  public get paths(): RetainerPaths {
+    return this.#paths
+  }
+
   /**
    * Runs {@link build} with a new instance reading nodes' paths from
    * {@link paths} and formatting them under its options, as {@link record}
@@ -340,10 +346,40 @@ class ShownRetainerPaths {
 
   /** Formats the retainer path of a node of {@link snapshot}. */
   public ofNode(snapshot: PathSnapshot, nodeOrdinal: number): string {
-    return this.ofSteps(
+    return this.ofPath(
       snapshot.retainerOf(nodeOrdinal),
-      this.#paths.stepsOf(this.pathOf(snapshot)(nodeOrdinal)),
+      this.pathOf(snapshot)(nodeOrdinal),
     )
+  }
+
+  /** Formats the retainer path with the ID {@link path} from {@link node}. */
+  public ofPath(
+    node: { name?: string; nameLocation?: FileReference },
+    path: number,
+  ): string {
+    return this.ofSteps(node, this.#paths.stepsOf(path))
+  }
+
+  /**
+   * Formats the retainer path of a function's retained node, which for a node
+   * through a jointly retained node records the function's several paths.
+   */
+  public ofRetainedNode(
+    snapshot: PathSnapshot,
+    { node, retainingOrdinal, isJointlyRetained }: ShownRetainedNode,
+    functionName: string,
+  ): string {
+    return isJointlyRetained
+      ? this.ofPath(
+          snapshot.retainerOf(node.id),
+          this.#paths.pathThroughJointlyRetainedNodeIn(
+            snapshot,
+            node.id,
+            retainingOrdinal,
+            functionName,
+          ),
+        )
+      : this.ofNode(snapshot, node.id)
   }
 
   /**
@@ -363,7 +399,7 @@ class ShownRetainerPaths {
       formatRetainerName({ ...node, name: node.name ?? `` }, this.#options) ||
       `(unknown)`
     return steps.length === 0
-      ? `${nodeName} ← (GC root)`
+      ? `${nodeName} ← ${GC_ROOT_NAME}`
       : steps.reduce((path, { edge, retainer }) => {
           for (const edgeTypes of this.#recordings) {
             edgeTypes.add(edge.type)
@@ -375,16 +411,16 @@ class ShownRetainerPaths {
 }
 
 /**
- * The note explaining a step through several retainers, which any section
- * showing retainer paths can contain.
+ * The note explaining the several retainers and several instance paths steps,
+ * which any section showing retainer paths can contain.
  */
 const formatSeveralPathsNote = (
   edgeTypes: ReadonlySet<RetainerPathEdgeType>,
 ): RootContent[] =>
-  edgeTypes.has(`several-retainers`)
+  edgeTypes.has(`several-retainers`) || edgeTypes.has(`several-instance-paths`)
     ? [
         paragraph(
-          phrasing`${inlineCode(`B ←(several paths)– A`)} means ${inlineCode(`A`)} retains ${inlineCode(`B`)} only through other nodes, along several paths.`,
+          phrasing`${inlineCode(`B ←(several paths)– A`)} means ${inlineCode(`A`)} retains ${inlineCode(`B`)} only through other nodes, and ${inlineCode(`(several C paths)`)} means every path passes through an instance of ${inlineCode(`C`)}, though no single instance retains ${inlineCode(`B`)}.`,
         ),
       ]
     : []
@@ -609,17 +645,12 @@ const formatLargestConstructorInstances = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const { sizeOf } = size
-  const largestInstanceGroups = selectTopN(
-    groupInstancesByPath(
-      constructor.instances.filter(instance =>
-        options.showEntry(instance, snapshot.context),
-      ),
-      shownPaths.pathOf(snapshot),
-    ),
+  const largestRetainerGroups = selectTopN(
+    constructorRetainerGroups(constructor, snapshot, size, shownPaths, options),
     breakdownLimit(options),
     sizeOf,
   )
-  if (largestInstanceGroups.length === 0) {
+  if (largestRetainerGroups.length === 0) {
     return []
   }
 
@@ -627,16 +658,40 @@ const formatLargestConstructorInstances = ({
   return [
     formatEntityHeading(5, constructor, hasLocation, options),
     formatTable(
-      instanceGroupColumns,
-      largestInstanceGroups.map(group => ({
+      constructorRetainerGroupColumns,
+      largestRetainerGroups.map(group => ({
         size: sizeOf(group),
         total: constructorSize,
-        instanceCount: group.instanceCount,
-        retainerPath: shownPaths.ofNode(snapshot, group.nodeOrdinal),
+        nodeCount: group.nodeCount,
+        retainerPath: shownPaths.ofPath(
+          snapshot.retainerOf(group.nodeOrdinal),
+          group.path,
+        ),
       })),
     ),
   ]
 }
+
+/**
+ * Includes jointly retained nodes only for retained size, because they have no
+ * self size.
+ */
+const constructorRetainerGroups = (
+  constructor: AggregatedHeapSnapshotConstructor,
+  snapshot: AggregatedHeapSnapshot,
+  size: ConstructorSize,
+  shownPaths: ShownRetainerPaths,
+  options: FormattingProfileToMdOptions,
+) =>
+  groupConstructorNodes(
+    snapshot,
+    size === RETAINED_SIZE
+      ? constructor
+      : { instances: constructor.instances, jointlyRetainedOrdinals: [] },
+    formatRetainerName(constructor, options),
+    shownPaths.paths,
+    options,
+  )
 
 const formatLargestFunctions = ({
   snapshot,
@@ -697,23 +752,24 @@ const formatFunctionRetainedNodes = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const retainedNodes = selectTopN(
-    Array.from(shownRetainedNodes(fn, snapshot, options), ({ node }) => node),
+    [...shownRetainedNodes(fn, snapshot, options)],
     breakdownLimit(options),
-    node => node.selfSize,
+    ({ node }) => node.selfSize,
   )
   if (retainedNodes.length === 0) {
     return []
   }
 
+  const functionName = formatRetainerName(fn, options)
   return [
     formatEntityHeading(4, fn, hasLocation, options),
     formatTable(
       retainedColumns(`Path`, hasLocation, options),
-      retainedNodes.map(node => ({
-        entity: node,
-        size: node.selfSize,
+      retainedNodes.map(retainedNode => ({
+        entity: retainedNode.node,
+        size: retainedNode.node.selfSize,
         total: fn.retainedSize,
-        path: shownPaths.ofNode(snapshot, node.id),
+        path: shownPaths.ofRetainedNode(snapshot, retainedNode, functionName),
       })),
     ),
   ]
@@ -799,7 +855,7 @@ const formatDiffConstructors = ({
     minCategoryShare: options.minCategoryShare,
   })
 
-  const instanceGroupDiffs = memoizeInstanceGroupDiffs(
+  const constructorRetainerGroupDiffs = memoizeConstructorRetainerGroupDiffs(
     diff,
     retainerPaths,
     options,
@@ -812,8 +868,7 @@ const formatDiffConstructors = ({
         diff,
         hasLocation,
         categories,
-        instanceGroupDiffs,
-        paths: retainerPaths.paths,
+        constructorRetainerGroupDiffs,
         shownPaths,
         options,
         size: SELF_SIZE,
@@ -822,8 +877,7 @@ const formatDiffConstructors = ({
         diff,
         hasLocation,
         categories,
-        instanceGroupDiffs,
-        paths: retainerPaths.paths,
+        constructorRetainerGroupDiffs,
         shownPaths,
         options,
         size: RETAINED_SIZE,
@@ -832,33 +886,33 @@ const formatDiffConstructors = ({
   )
 }
 
-type InstanceGroupDiffs = (
+type ConstructorRetainerGroupDiffs = (
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
-) => EntryDiff<DiffedInstanceGroup>[]
+) => EntryDiff<DiffedConstructorRetainerGroup>[]
 
 /**
- * Pairs each constructor's instance groups once, because both rankings break
- * down the same instances.
+ * Pairs each constructor's retainer groups once, because both rankings break
+ * down the same groups.
  */
-const memoizeInstanceGroupDiffs = (
+const memoizeConstructorRetainerGroupDiffs = (
   diff: AggregatedHeapSnapshotDiff,
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
-): InstanceGroupDiffs => {
-  const constructorToInstanceGroupDiffs = new Map<
+): ConstructorRetainerGroupDiffs => {
+  const constructorToRetainerGroupDiffs = new Map<
     AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
-    EntryDiff<DiffedInstanceGroup>[]
+    EntryDiff<DiffedConstructorRetainerGroup>[]
   >()
   return constructor => {
-    let groupDiffs = constructorToInstanceGroupDiffs.get(constructor)
+    let groupDiffs = constructorToRetainerGroupDiffs.get(constructor)
     if (!groupDiffs) {
-      groupDiffs = matchConstructorInstanceGroups(
+      groupDiffs = matchConstructorRetainerGroups(
         diff,
         constructor,
         retainerPaths,
         options,
       )
-      constructorToInstanceGroupDiffs.set(constructor, groupDiffs)
+      constructorToRetainerGroupDiffs.set(constructor, groupDiffs)
     }
     return groupDiffs
   }
@@ -868,8 +922,7 @@ const formatDiffSizeConstructors = ({
   diff,
   hasLocation,
   categories,
-  instanceGroupDiffs,
-  paths,
+  constructorRetainerGroupDiffs,
   shownPaths,
   options,
   size,
@@ -877,8 +930,7 @@ const formatDiffSizeConstructors = ({
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   categories: HeapSnapshotNodeCategory[]
-  instanceGroupDiffs: InstanceGroupDiffs
-  paths: RetainerPaths
+  constructorRetainerGroupDiffs: ConstructorRetainerGroupDiffs
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
   size: ConstructorSize
@@ -918,8 +970,7 @@ const formatDiffSizeConstructors = ({
         constructors.flatMap(constructor =>
           formatDiffConstructorInstances({
             constructor,
-            groupDiffs: instanceGroupDiffs(constructor),
-            paths,
+            groupDiffs: constructorRetainerGroupDiffs(constructor),
             sizeOf,
             shownPaths,
             hasLocation,
@@ -933,15 +984,13 @@ const formatDiffSizeConstructors = ({
 const formatDiffConstructorInstances = ({
   constructor,
   groupDiffs,
-  paths,
   sizeOf,
   shownPaths,
   hasLocation,
   options,
 }: {
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>
-  groupDiffs: EntryDiff<DiffedInstanceGroup>[]
-  paths: RetainerPaths
+  groupDiffs: EntryDiff<DiffedConstructorRetainerGroup>[]
   sizeOf: ConstructorSize[`sizeOf`]
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
@@ -953,12 +1002,12 @@ const formatDiffConstructorInstances = ({
     sizeOf,
     totalOf: sizeOf,
     headingLevel: 5,
-    columns: instanceGroupColumns,
+    columns: constructorRetainerGroupColumns,
     rowOf: (group, size, total) => ({
       size,
       total,
-      instanceCount: group.instanceCount,
-      retainerPath: shownPaths.ofSteps(constructor, paths.stepsOf(group.path)),
+      nodeCount: group.nodeCount,
+      retainerPath: shownPaths.ofPath(group.node ?? constructor, group.path),
     }),
     hasLocation,
     options,

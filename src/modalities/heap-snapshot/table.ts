@@ -72,21 +72,21 @@ export const constructorColumns = (
   ...entityColumns(`Constructor`, hasLocation, options),
 ]
 
-/** An instance group's row. */
-type InstanceGroupRow = SizeRow & {
-  instanceCount: number
+/** An instance group's row, or a jointly retained node group's. */
+type ConstructorRetainerGroupRow = SizeRow & {
+  nodeCount: number
   retainerPath: string
 }
 
-/** The columns of the largest instance groups table. */
-export const instanceGroupColumns: Table<InstanceGroupRow> = [
-  ...sizeColumns(`Size`),
-  {
-    header: { content: `Instances`, align: `right` },
-    cellOf: row => countCell(row.instanceCount),
-  },
-  { header: `Path`, cellOf: row => codeCell(row.retainerPath) },
-]
+export const constructorRetainerGroupColumns: Table<ConstructorRetainerGroupRow> =
+  [
+    ...sizeColumns(`Size`),
+    {
+      header: { content: `Nodes`, align: `right` },
+      cellOf: row => countCell(row.nodeCount),
+    },
+    { header: `Path`, cellOf: row => codeCell(row.retainerPath) },
+  ]
 
 /** A function's row on one side. */
 export type FunctionRow = SizeRow & {

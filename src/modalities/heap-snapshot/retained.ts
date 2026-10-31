@@ -43,6 +43,13 @@ export type EntityRetention = {
    * nodes are disjoint, and contain those of the entity's instances not listed.
    */
   outermostInstanceOrdinals: number[]
+
+  /**
+   * The nodes other than instances that the entity retains and whose immediate
+   * dominators it does not. No single instance dominates one, so at least two
+   * instances are on the paths to it.
+   */
+  jointlyRetainedOrdinals: number[]
 }
 
 type EntityRetentionsArgs = {
@@ -190,6 +197,7 @@ class OutermostNodeFinder {
       this.#retentions[entityIndex] = {
         retainedSize: 0,
         outermostInstanceOrdinals: [],
+        jointlyRetainedOrdinals: [],
       }
     }
     this.#entityIndexToOutermostPreorderIndices = new Array<
@@ -283,6 +291,7 @@ class OutermostNodeFinder {
         !this.#isReachedAvoiding(entityIndex, nodeOrdinal, preorderIndex)
       ) {
         this.#pushRetainingEntity(entityIndex)
+        this.#retentions[entityIndex]!.jointlyRetainedOrdinals.push(nodeOrdinal)
       }
     }
   }
