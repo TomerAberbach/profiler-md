@@ -15,7 +15,7 @@ Held 1.47 MiB → 1.88 MiB (+421.522 KiB, +28.1%) over 16,720 → 23,643 node
 | Regular expression |   0.0% |         0 B |         <0.1% |             352 B |              4 |
 | Native             |   0.0% |         0 B |         <0.1% |              59 B |              2 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -155,25 +155,31 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -----: | -----------: | -----: | -----------------: | --------: | ----------------------- |
 | +25.5% | +340.317 KiB | 100.0% | 1.3 MiB → 1.64 MiB |         1 | `GlobalObject ← <root>` |
 
+##### `WriteStream`
+
+| Change |      Delta |             % |                Size | Instances | Path                                                            |
+| -----: | ---------: | ------------: | ------------------: | --------: | --------------------------------------------------------------- |
+| +36.6% | +2.031 KiB | 33.3% → 40.5% | 5.55 KiB → 7.58 KiB |           | `Structure ←(several WriteStream paths)– GlobalObject ← <root>` |
+
 ##### `Function`
 
-|  Change |       Delta |            % |                Size | Instances | Path                                                                          |
-| ------: | ----------: | -----------: | ------------------: | --------: | ----------------------------------------------------------------------------- |
-|  -76.9% | -54.767 KiB | 10.7% → 2.5% | 71.2 KiB → 16.5 KiB |  264 → 56 | `Function ← GlobalObject ← <root>`                                            |
-| +110.1% |  +8.166 KiB |  1.1% → 2.3% | 7.42 KiB → 15.6 KiB |   19 → 51 | `Function ←(several paths)– <root>`                                           |
-| removed |  -4.488 KiB |  0.7% → 0.0% |      4.49 KiB → 0 B |     1 → 0 | `Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← <root>`         |
-|     new |  +4.488 KiB |  0.0% → 0.7% |      0 B → 4.49 KiB |     0 → 1 | `Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← <root>` |
-|   -7.3% |  -4.083 KiB |  8.4% → 7.8% | 55.7 KiB → 51.6 KiB | 261 → 240 | `Function ←(several paths)– GlobalObject ← <root>`                            |
+|  Change |       Delta |             % |                Size | Instances | Path                                                                          |
+| ------: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------- |
+|  -76.9% | -54.767 KiB |  10.7% → 2.5% | 71.2 KiB → 16.5 KiB |  264 → 56 | `Function ← GlobalObject ← <root>`                                            |
+|  -13.1% | -33.587 KiB | 38.5% → 33.4% |   256 KiB → 222 KiB |           | `FunctionExecutable ←(several Function paths)– GlobalObject ← <root>`         |
+| +804.7% | +33.587 KiB |   0.6% → 5.7% | 4.17 KiB → 37.8 KiB |           | `FunctionExecutable ←(several Function paths)– <root>`                        |
+| +110.1% |  +8.166 KiB |   1.1% → 2.3% | 7.42 KiB → 15.6 KiB |   19 → 51 | `Function ←(several paths)– <root>`                                           |
+|  -13.8% |  -4.875 KiB |   5.3% → 4.6% | 35.3 KiB → 30.5 KiB |           | `UnlinkedFunctionExecutable ←(several Function paths)– GlobalObject ← <root>` |
 
 ##### `FunctionExecutable`
 
-|  Change |       Delta |             % |                Size | Instances | Path                                                                                               |
-| ------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------- |
-|  -79.0% | -37.273 KiB |   8.5% → 1.8% | 47.2 KiB → 9.88 KiB |  204 → 31 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                            |
-|  +57.0% | +33.587 KiB | 10.6% → 16.6% | 58.9 KiB → 92.5 KiB |  89 → 143 | `FunctionExecutable ←(several paths)– <root>`                                                      |
-|  -11.5% | -33.587 KiB | 52.6% → 46.4% |   293 KiB → 259 KiB | 456 → 402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                       |
-| removed |  -4.457 KiB |   0.8% → 0.0% |      4.46 KiB → 0 B |     1 → 0 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← <root>`         |
-|     new |  +4.457 KiB |   0.0% → 0.8% |      0 B → 4.46 KiB |     0 → 1 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← <root>` |
+| Change |       Delta |             % |                Size | Instances | Path                                                                                    |
+| -----: | ----------: | ------------: | ------------------: | --------: | --------------------------------------------------------------------------------------- |
+| -79.0% | -37.273 KiB |   8.5% → 1.8% | 47.2 KiB → 9.88 KiB |  204 → 31 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                 |
+| +57.0% | +33.587 KiB | 10.6% → 16.6% | 58.9 KiB → 92.5 KiB |  89 → 143 | `FunctionExecutable ←(several paths)– <root>`                                           |
+| -11.5% | -33.587 KiB | 52.6% → 46.4% |   293 KiB → 259 KiB | 456 → 402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                            |
+| -11.8% |  -4.875 KiB |   7.4% → 6.5% | 41.3 KiB → 36.4 KiB |           | `UnlinkedFunctionExecutable ←(several FunctionExecutable paths)– GlobalObject ← <root>` |
+| +59.8% |  +4.875 KiB |   1.5% → 2.3% |   8.16 KiB → 13 KiB |           | `UnlinkedFunctionExecutable ←(several FunctionExecutable paths)– <root>`                |
 
 ##### `Structure`
 

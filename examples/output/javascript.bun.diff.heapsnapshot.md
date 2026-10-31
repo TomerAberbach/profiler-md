@@ -17,7 +17,7 @@ Held 1.5 MiB → 1.91 MiB (+424.347 KiB, +27.7%) over 16,751 → 23,701 nodes
 | Big number         |   0.0% |          0 B |         <0.1% |                32 B |              1 |
 | Synthetic          |      — |          0 B |          0.0% |                 0 B |              1 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -60,8 +60,8 @@ Constructors with the largest increase in instance bytes, including nodes only t
 | +40.1% | +512.377 KiB | 83.4% → 91.5% | 1.25 MiB → 1.75 MiB |             1 | `GlobalObject`           |
 | +63.8% | +423.535 KiB | 43.4% → 55.6% |  664 KiB → 1.06 MiB | 1,367 → 2,631 | `Object`                 |
 |  +5.7% |   +2.828 KiB |   3.2% → 2.7% | 49.5 KiB → 52.3 KiB |             1 | `InternalModuleRegistry` |
-|  +0.3% |        +48 B |   1.2% → 0.9% | 18.3 KiB → 18.4 KiB |             2 | `WriteStream`            |
 |  +0.1% |        +48 B |   3.4% → 2.7% |            52.4 KiB |             1 | `url `                   |
+|  +0.3% |        +48 B |   1.2% → 0.9% | 18.3 KiB → 18.4 KiB |             2 | `WriteStream`            |
 
 #### Improvements
 
@@ -104,6 +104,13 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | Change | Delta |      % |     Size | Instances | Path                           |
 | -----: | ----: | -----: | -------: | --------: | ------------------------------ |
 |  +0.1% | +48 B | 100.0% | 52.4 KiB |         1 | `url  ←.process– GlobalObject` |
+
+##### `WriteStream`
+
+|  Change | Delta |             % |                Size | Instances | Path                                                                        |
+| ------: | ----: | ------------: | ------------------: | --------: | --------------------------------------------------------------------------- |
+|   +0.8% | +64 B | 42.0% → 42.2% | 7.69 KiB → 7.75 KiB |           | `Structure ←(several WriteStream paths)– url  ←.process– GlobalObject`      |
+| removed | -16 B |   0.1% → 0.0% |          16 B → 0 B |           | `StructureChain ←(several WriteStream paths)– url  ←.process– GlobalObject` |
 
 ##### `FixedQueue`
 

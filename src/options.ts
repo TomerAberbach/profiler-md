@@ -245,6 +245,15 @@ export type NormalizedProfileToMdOptions = {
     entry: DeepReadonly<AggregatedProfileEntry>,
     context: ProfileToMdContext,
   ) => boolean
+
+  /**
+   * {@link showEntry} without its cache, for an entry built per call, whose
+   * identity no later call shares.
+   */
+  showEntryUncached: (
+    entry: DeepReadonly<AggregatedProfileEntry>,
+    context: ProfileToMdContext,
+  ) => boolean
 }
 
 /**
@@ -353,6 +362,7 @@ export const normalizeProfileToMdOptions = ({
       return categories
     },
     showEntry: cacheEntryFunction(showEntry),
+    showEntryUncached: showEntry,
   }
 }
 

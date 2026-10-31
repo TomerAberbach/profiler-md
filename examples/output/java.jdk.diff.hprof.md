@@ -13,7 +13,7 @@ Held 13.4 MiB → 13 MiB (-359.266 KiB, -2.6%) over 700,699 → 704,147 nodes
 | Regular expression |   0.0% |          0 B |         <0.1% |               333 B |                 3 |
 | Synthetic          |      — |          0 B |          0.0% |                 0 B |                 1 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -575,12 +575,12 @@ Constructors with the largest increase in instance bytes, including nodes only t
 |  +3.0% | +15.929 KiB |   3.9% → 4.1% |   533 KiB → 549 KiB |   5,825 → 5,826 | `java.util.LinkedHashMap`                       |
 | +11.8% | +14.724 KiB |   0.9% → 1.0% |   124 KiB → 139 KiB |              38 | `java.util.LinkedHashSet`                       |
 | +11.6% | +14.724 KiB |   0.9% → 1.1% |   127 KiB → 141 KiB |               2 | `org.renaissance.core.ModuleLoader`             |
+| +18.3% | +14.479 KiB |   0.6% → 0.7% | 79.3 KiB → 93.7 KiB |              27 | `org.renaissance.core.BenchmarkDescriptor`      |
 |  +9.0% | +12.937 KiB |   1.1% → 1.2% |   144 KiB → 157 KiB |   1,937 → 1,776 | `int[]`                                         |
 |  +9.6% | +11.862 KiB |   0.9% → 1.0% |   123 KiB → 135 KiB |   1,191 → 1,323 | `java.util.LinkedHashMap$Entry`                 |
 | +44.4% | +11.664 KiB |   0.2% → 0.3% | 26.3 KiB → 37.9 KiB |       116 → 167 | `java.lang.invoke.LambdaForm$Name[]`            |
 | +19.0% | +10.562 KiB |   0.4% → 0.5% | 55.6 KiB → 66.2 KiB |               1 | `jdk.internal.util.ReferencedKeySet`            |
 | +19.0% | +10.562 KiB |   0.4% → 0.5% | 55.6 KiB → 66.2 KiB |               1 | `jdk.internal.util.ReferencedKeyMap`            |
-| +44.3% |  +9.132 KiB |          0.2% | 20.6 KiB → 29.7 KiB |       317 → 463 | `java.lang.invoke.LambdaForm$Name`              |
 
 ##### Array
 
@@ -612,28 +612,28 @@ Constructors with the largest increase in instance bytes, including nodes only t
 
 ##### Object
 
-|  Change |       Delta |           % |                Size |     Instances | Constructor                                   |
-| ------: | ----------: | ----------: | ------------------: | ------------: | --------------------------------------------- |
-|  +32.4% | +39.193 KiB | 0.9% → 1.2% |   121 KiB → 160 KiB |     624 → 767 | `java.lang.invoke.MethodType`                 |
-|   +4.6% | +27.894 KiB | 4.4% → 4.8% |   606 KiB → 634 KiB |     119 → 122 | `java.util.concurrent.ConcurrentHashMap`      |
-|   +4.8% | +23.187 KiB | 3.5% → 3.8% |   483 KiB → 506 KiB | 6,259 → 6,631 | `java.util.concurrent.ConcurrentHashMap$Node` |
-|  +14.1% | +19.728 KiB | 1.0% → 1.2% |   139 KiB → 159 KiB |             2 | `java.net.URLClassLoader`                     |
-|  +41.3% | +19.308 KiB | 0.3% → 0.5% | 46.7 KiB → 66.1 KiB |     162 → 229 | `java.lang.invoke.MethodTypeForm`             |
-|  +50.3% | +18.625 KiB | 0.3% → 0.4% | 37.1 KiB → 55.7 KiB |     111 → 162 | `java.lang.invoke.LambdaForm`                 |
-|   +3.0% | +15.929 KiB | 3.9% → 4.1% |   533 KiB → 549 KiB | 5,825 → 5,826 | `java.util.LinkedHashMap`                     |
-|  +11.8% | +14.724 KiB | 0.9% → 1.0% |   124 KiB → 139 KiB |            38 | `java.util.LinkedHashSet`                     |
-|  +11.6% | +14.724 KiB | 0.9% → 1.1% |   127 KiB → 141 KiB |             2 | `org.renaissance.core.ModuleLoader`           |
-|   +9.6% | +11.862 KiB | 0.9% → 1.0% |   123 KiB → 135 KiB | 1,191 → 1,323 | `java.util.LinkedHashMap$Entry`               |
-|  +19.0% | +10.562 KiB | 0.4% → 0.5% | 55.6 KiB → 66.2 KiB |             1 | `jdk.internal.util.ReferencedKeySet`          |
-|  +19.0% | +10.562 KiB | 0.4% → 0.5% | 55.6 KiB → 66.2 KiB |             1 | `jdk.internal.util.ReferencedKeyMap`          |
-|  +44.3% |  +9.132 KiB |        0.2% | 20.6 KiB → 29.7 KiB |     317 → 463 | `java.lang.invoke.LambdaForm$Name`            |
-|  +19.6% |  +7.725 KiB | 0.3% → 0.4% | 39.3 KiB → 47.1 KiB |     711 → 848 | `java.lang.invoke.MemberName`                 |
-|  +11.4% |  +7.362 KiB |        0.5% | 64.8 KiB → 72.1 KiB |             1 | `org.renaissance.core.BenchmarkSuite`         |
-|  +11.6% |  +7.362 KiB |        0.5% | 63.3 KiB → 70.7 KiB |             4 | `java.util.Optional`                          |
-|  +26.6% |  +5.941 KiB |        0.2% | 22.3 KiB → 28.3 KiB |     627 → 796 | `jdk.internal.util.WeakReferenceKey`          |
-|  +58.8% |  +5.234 KiB |        0.1% |  8.9 KiB → 14.1 KiB |       17 → 27 | `java.lang.invoke.Invokers`                   |
-|   +0.6% |  +4.644 KiB | 6.1% → 6.3% |   829 KiB → 834 KiB |            10 | `java.util.zip.ZipFile$Source`                |
-| +280.4% |   +4.21 KiB |       <0.1% |  1.5 KiB → 5.71 KiB |        8 → 27 | `java.lang.invoke.LambdaFormEditor$Transform` |
+| Change |       Delta |           % |                Size |     Instances | Constructor                                   |
+| -----: | ----------: | ----------: | ------------------: | ------------: | --------------------------------------------- |
+| +32.4% | +39.193 KiB | 0.9% → 1.2% |   121 KiB → 160 KiB |     624 → 767 | `java.lang.invoke.MethodType`                 |
+|  +4.6% | +27.894 KiB | 4.4% → 4.8% |   606 KiB → 634 KiB |     119 → 122 | `java.util.concurrent.ConcurrentHashMap`      |
+|  +4.8% | +23.187 KiB | 3.5% → 3.8% |   483 KiB → 506 KiB | 6,259 → 6,631 | `java.util.concurrent.ConcurrentHashMap$Node` |
+| +14.1% | +19.728 KiB | 1.0% → 1.2% |   139 KiB → 159 KiB |             2 | `java.net.URLClassLoader`                     |
+| +41.3% | +19.308 KiB | 0.3% → 0.5% | 46.7 KiB → 66.1 KiB |     162 → 229 | `java.lang.invoke.MethodTypeForm`             |
+| +50.3% | +18.625 KiB | 0.3% → 0.4% | 37.1 KiB → 55.7 KiB |     111 → 162 | `java.lang.invoke.LambdaForm`                 |
+|  +3.0% | +15.929 KiB | 3.9% → 4.1% |   533 KiB → 549 KiB | 5,825 → 5,826 | `java.util.LinkedHashMap`                     |
+| +11.8% | +14.724 KiB | 0.9% → 1.0% |   124 KiB → 139 KiB |            38 | `java.util.LinkedHashSet`                     |
+| +11.6% | +14.724 KiB | 0.9% → 1.1% |   127 KiB → 141 KiB |             2 | `org.renaissance.core.ModuleLoader`           |
+| +18.3% | +14.479 KiB | 0.6% → 0.7% | 79.3 KiB → 93.7 KiB |            27 | `org.renaissance.core.BenchmarkDescriptor`    |
+|  +9.6% | +11.862 KiB | 0.9% → 1.0% |   123 KiB → 135 KiB | 1,191 → 1,323 | `java.util.LinkedHashMap$Entry`               |
+| +19.0% | +10.562 KiB | 0.4% → 0.5% | 55.6 KiB → 66.2 KiB |             1 | `jdk.internal.util.ReferencedKeySet`          |
+| +19.0% | +10.562 KiB | 0.4% → 0.5% | 55.6 KiB → 66.2 KiB |             1 | `jdk.internal.util.ReferencedKeyMap`          |
+| +44.3% |  +9.132 KiB |        0.2% | 20.6 KiB → 29.7 KiB |     317 → 463 | `java.lang.invoke.LambdaForm$Name`            |
+| +19.6% |  +7.725 KiB | 0.3% → 0.4% | 39.3 KiB → 47.1 KiB |     711 → 848 | `java.lang.invoke.MemberName`                 |
+| +11.4% |  +7.362 KiB |        0.5% | 64.8 KiB → 72.1 KiB |             1 | `org.renaissance.core.BenchmarkSuite`         |
+| +11.6% |  +7.362 KiB |        0.5% | 63.3 KiB → 70.7 KiB |             4 | `java.util.Optional`                          |
+| +26.6% |  +5.941 KiB |        0.2% | 22.3 KiB → 28.3 KiB |     627 → 796 | `jdk.internal.util.WeakReferenceKey`          |
+| +58.8% |  +5.234 KiB |        0.1% |  8.9 KiB → 14.1 KiB |       17 → 27 | `java.lang.invoke.Invokers`                   |
+|  +0.6% |  +4.644 KiB | 6.1% → 6.3% |   829 KiB → 834 KiB |            10 | `java.util.zip.ZipFile$Source`                |
 
 ##### String
 
@@ -702,21 +702,23 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `java.lang.Class`
 
-|    Change |       Delta |             % |              Size |     Instances | Path                                                                                                               |
-| --------: | ----------: | ------------: | ----------------: | ------------: | ------------------------------------------------------------------------------------------------------------------ |
-|     +5.1% | +45.724 KiB | 73.4% → 73.7% | 888 KiB → 934 KiB | 1,835 → 1,855 | `java.lang.Class ← (GC root)`                                                                                      |
-|    -99.8% | -16.074 KiB |  1.3% → <0.1% |   16.1 KiB → 40 B |             2 | `java.lang.Class ←[169]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
-| +12828.1% | +16.035 KiB |  <0.1% → 1.3% |  128 B → 16.2 KiB |             2 | `java.lang.Class ←[171]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
-|    -98.3% |  -1.359 KiB |  0.1% → <0.1% |   1.38 KiB → 24 B |         2 → 1 | `java.lang.Class ←[164]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
-|  +8650.0% |  +1.351 KiB |  <0.1% → 0.1% |   16 B → 1.37 KiB |             2 | `java.lang.Class ←[166]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
+|    Change |       Delta |             % |                Size |     Instances | Path                                                                                                               |
+| --------: | ----------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------------------------------------------------------ |
+|     +5.1% | +45.724 KiB | 73.4% → 73.7% |   888 KiB → 934 KiB | 1,835 → 1,855 | `java.lang.Class ← (GC root)`                                                                                      |
+|    -99.8% | -16.074 KiB |  1.3% → <0.1% |     16.1 KiB → 40 B |             2 | `java.lang.Class ←[169]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
+| +12828.1% | +16.035 KiB |  <0.1% → 1.3% |    128 B → 16.2 KiB |             2 | `java.lang.Class ←[171]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader` |
+|    +42.6% |  +3.704 KiB |   0.7% → 1.0% | 8.71 KiB → 12.4 KiB |               | `java.lang.invoke.LambdaForm ←(several java.lang.Class paths)– (GC root)`                                          |
+|     +3.5% |  +1.947 KiB |          4.6% | 56.2 KiB → 58.1 KiB |               | `java.lang.invoke.MethodType ←(several java.lang.Class paths)– (GC root)`                                          |
 
 ##### `java.lang.invoke.MethodType`
 
-|  Change |      Delta |             % |               Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ------: | ---------: | ------------: | -----------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-|  +32.0% | +25.33 KiB | 65.6% → 65.3% | 79.2 KiB → 105 KiB | 618 → 761 | `java.lang.invoke.MethodType ← (GC root)`                                                                                                                                                                                                                                                                                                                                                                                      |
-| removed |      -48 B |  <0.1% → 0.0% |         48 B → 0 B |     1 → 0 | `java.lang.invoke.MethodType ←.referent– jdk.internal.util.WeakReferenceKey ←.key– java.util.concurrent.ConcurrentHashMap$Node ←.next– java.util.concurrent.ConcurrentHashMap$Node ←[414]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType` |
-|     new |      +48 B |  0.0% → <0.1% |         0 B → 48 B |     0 → 1 | `java.lang.invoke.MethodType ←.referent– jdk.internal.util.WeakReferenceKey ←.key– java.util.concurrent.ConcurrentHashMap$Node ←[414]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType`                                                     |
+| Change |       Delta |             % |                Size | Instances | Path                                                                                      |
+| -----: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------- |
+| +32.0% |  +25.33 KiB | 65.6% → 65.3% |  79.2 KiB → 105 KiB | 618 → 761 | `java.lang.invoke.MethodType ← (GC root)`                                                 |
+| +36.6% | +12.792 KiB | 28.9% → 29.8% |   35 KiB → 47.8 KiB |           | `java.lang.invoke.MethodTypeForm ←(several java.lang.invoke.MethodType paths)– (GC root)` |
+| +18.9% |      +730 B |   3.1% → 2.8% | 3.78 KiB → 4.49 KiB |           | `java.lang.invoke.LambdaForm ←(several java.lang.invoke.MethodType paths)– (GC root)`     |
+| +11.2% |      +192 B |   1.4% → 1.2% | 1.67 KiB → 1.86 KiB |           | `java.lang.Class[] ←(several java.lang.invoke.MethodType paths)– (GC root)`               |
+| +18.2% |       +88 B |   0.4% → 0.3% |       484 B → 572 B |           | `java.lang.invoke.MemberName ←(several java.lang.invoke.MethodType paths)– (GC root)`     |
 
 ##### `java.lang.String`
 
@@ -744,9 +746,9 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -----: | ---------: | -----------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | +26.5% | +13.05 KiB |  8.1% → 9.8% | 49.3 KiB → 62.3 KiB |         2 | `java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– java.net.URLClassLoader`                                                                                           |
 | +17.4% | +9.648 KiB | 9.1% → 10.3% | 55.5 KiB → 65.1 KiB |         1 | `java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType` |
+|  +4.4% | +1.276 KiB |         4.8% |   29 KiB → 30.2 KiB |           | `java.lang.String ←(several java.util.concurrent.ConcurrentHashMap paths)– (GC root)`                                                                                         |
 |  +2.1% |     +799 B |  6.1% → 5.9% | 36.9 KiB → 37.6 KiB |         1 | `java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– jdk.internal.loader.ClassLoaders$AppClassLoader`                                                                   |
 | +17.3% |     +604 B |         0.6% |  3.4 KiB → 3.99 KiB |         2 | `java.util.concurrent.ConcurrentHashMap ←.packages– java.net.URLClassLoader`                                                                                                  |
-| +16.7% |     +601 B |         0.6% | 3.52 KiB → 4.11 KiB |     6 → 7 | `java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain`                                                  |
 
 ##### `java.util.concurrent.ConcurrentHashMap$Node[]`
 
@@ -754,25 +756,26 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -----: | ---------: | -----------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | +26.6% | +13.05 KiB |  8.2% → 9.9% | 49.1 KiB → 62.2 KiB |         2 | `java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– java.net.URLClassLoader`                                                                                           |
 | +17.4% | +9.648 KiB | 9.3% → 10.4% |   55.4 KiB → 65 KiB |         1 | `java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType` |
+|  +4.4% | +1.276 KiB |         4.8% |   29 KiB → 30.2 KiB |           | `java.lang.String ←(several java.util.concurrent.ConcurrentHashMap$Node[] paths)– (GC root)`                                                                                                                                         |
 |  +2.1% |     +799 B |  6.2% → 6.0% | 36.8 KiB → 37.6 KiB |         1 | `java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– jdk.internal.loader.ClassLoaders$AppClassLoader`                                                                   |
 | +18.2% |     +604 B |  0.5% → 0.6% | 3.24 KiB → 3.83 KiB |         2 | `java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.packages– java.net.URLClassLoader`                                                                                                  |
-| +25.0% |     +569 B |         0.4% | 2.23 KiB → 2.78 KiB |         2 | `java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.package2certs– java.net.URLClassLoader`                                                                                             |
 
 ##### `java.util.concurrent.ConcurrentHashMap$Node`
 
-|  Change |  Delta |            % |                Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------: | -----: | -----------: | ------------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     new | +390 B |  0.0% → 0.1% |         0 B → 390 B |     0 → 1 | `java.util.concurrent.ConcurrentHashMap$Node ←[8]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– java.lang.WeakPairMap ←.exports– class java.lang.Module$ReflectionData`                                                                                                                                                                                                         |
-|  +16.7% | +389 B |         0.5% | 2.28 KiB → 2.66 KiB |     6 → 7 | `java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain`                                                                                                                                                                                                   |
-|     new | +280 B |  0.0% → 0.1% |         0 B → 280 B |     0 → 2 | `java.util.concurrent.ConcurrentHashMap$Node ←[12]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.perms– java.io.FilePermissionCollection ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain` |
-| +302.4% | +254 B | <0.1% → 0.1% |        84 B → 338 B |     1 → 2 | `java.util.concurrent.ConcurrentHashMap$Node ←[815]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– java.net.URLClassLoader`                                                                                                                                                                                                                                          |
-| +389.3% | +218 B | <0.1% → 0.1% |        56 B → 274 B |     1 → 2 | `java.util.concurrent.ConcurrentHashMap$Node ←[586]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– java.net.URLClassLoader`                                                                                                                                                                                                                                          |
+|  Change |      Delta |            % |                Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------: | ---------: | -----------: | ------------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +4.4% | +1.276 KiB |         6.0% |   29 KiB → 30.2 KiB |           | `java.lang.String ←(several java.util.concurrent.ConcurrentHashMap$Node paths)– (GC root)`                                                                                                                                                                                                                                                                                                                                              |
+|     new |     +390 B |  0.0% → 0.1% |         0 B → 390 B |     0 → 1 | `java.util.concurrent.ConcurrentHashMap$Node ←[8]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– java.lang.WeakPairMap ←.exports– class java.lang.Module$ReflectionData`                                                                                                                                                                                                         |
+|  +16.7% |     +389 B |         0.5% | 2.28 KiB → 2.66 KiB |     6 → 7 | `java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain`                                                                                                                                                                                                   |
+|     new |     +280 B |  0.0% → 0.1% |         0 B → 280 B |     0 → 2 | `java.util.concurrent.ConcurrentHashMap$Node ←[12]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.perms– java.io.FilePermissionCollection ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain` |
+| +302.4% |     +254 B | <0.1% → 0.1% |        84 B → 338 B |     1 → 2 | `java.util.concurrent.ConcurrentHashMap$Node ←[815]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.parallelLockMap– java.net.URLClassLoader`                                                                                                                                                                                                                                          |
 
 ##### `java.net.URLClassLoader`
 
-| Change |       Delta |             % |              Size | Instances | Path                                  |
-| -----: | ----------: | ------------: | ----------------: | --------: | ------------------------------------- |
-| +13.9% | +19.295 KiB | 99.6% → 99.4% | 139 KiB → 158 KiB |         2 | `java.net.URLClassLoader ← (GC root)` |
+| Change |       Delta |             % |              Size | Instances | Path                                                                   |
+| -----: | ----------: | ------------: | ----------------: | --------: | ---------------------------------------------------------------------- |
+| +13.9% | +19.295 KiB | 99.6% → 99.4% | 139 KiB → 158 KiB |         2 | `java.net.URLClassLoader ← (GC root)`                                  |
+| +84.1% |      +443 B |   0.4% → 0.6% |     527 B → 970 B |           | `java.lang.String ←(several java.net.URLClassLoader paths)– (GC root)` |
 
 ##### `java.lang.invoke.MethodTypeForm`
 
@@ -827,6 +830,12 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | +11.6% | +7.362 KiB | 50.0% | 63.3 KiB → 70.7 KiB |         1 | `org.renaissance.core.ModuleLoader ← (GC root)`                                                                     |
 | +11.6% | +7.362 KiB | 50.0% | 63.3 KiB → 70.7 KiB |         1 | `org.renaissance.core.ModuleLoader ←.value– java.util.Optional ←.moduleLoader– org.renaissance.core.BenchmarkSuite` |
 
+##### `org.renaissance.core.BenchmarkDescriptor`
+
+| Change |       Delta |             % |                Size | Instances | Path                                                                                     |
+| -----: | ----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------- |
+| +18.4% | +14.479 KiB | 99.2% → 99.3% | 78.6 KiB → 93.1 KiB |           | `java.util.HashMap ←(several org.renaissance.core.BenchmarkDescriptor paths)– (GC root)` |
+
 ##### `int[]`
 
 |  Change |       Delta |             % |                Size | Instances | Path                                                                                                                                         |
@@ -868,16 +877,6 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | Change |       Delta |      % |                Size | Instances | Path                                                                                                                            |
 | -----: | ----------: | -----: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------- |
 | +19.0% | +10.562 KiB | 100.0% | 55.6 KiB → 66.2 KiB |         1 | `jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType` |
-
-##### `java.lang.invoke.LambdaForm$Name`
-
-|  Change |      Delta |             % |                Size | Instances | Path                                                                                                             |
-| ------: | ---------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------- |
-| +111.7% | +2.093 KiB |  9.1% → 13.3% | 1.88 KiB → 3.97 KiB |   18 → 40 | `java.lang.invoke.LambdaForm$Name ←[6]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
-|  +46.7% | +1.416 KiB | 14.7% → 14.9% | 3.03 KiB → 4.45 KiB |   33 → 56 | `java.lang.invoke.LambdaForm$Name ←[5]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
-|  +47.6% | +1.373 KiB | 14.0% → 14.3% | 2.88 KiB → 4.26 KiB |   39 → 60 | `java.lang.invoke.LambdaForm$Name ←[4]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
-|  +79.4% |     +800 B |   4.8% → 5.9% |  1,008 B → 1.77 KiB |   10 → 20 | `java.lang.invoke.LambdaForm$Name ←[7]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
-|  +29.3% |     +738 B | 11.9% → 10.7% | 2.46 KiB → 3.18 KiB |   38 → 53 | `java.lang.invoke.LambdaForm$Name ←[3]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
 
 ##### `java.lang.invoke.MethodHandle[]`
 
@@ -976,6 +975,16 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -72.0% | -562.14 KiB | 20.0% → 5.6% | 781 KiB → 219 KiB | 100,005 → 28,051 | `java.lang.Double ←[1]– java.lang.Double[]` |
 | -72.0% | -562.14 KiB | 20.0% → 5.6% | 781 KiB → 219 KiB | 100,005 → 28,051 | `java.lang.Double ←[0]– java.lang.Double[]` |
 
+##### `java.lang.invoke.LambdaForm$Name`
+
+|  Change |      Delta |             % |                Size | Instances | Path                                                                                                             |
+| ------: | ---------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------- |
+| +111.7% | +2.093 KiB |  9.1% → 13.3% | 1.88 KiB → 3.97 KiB |   18 → 40 | `java.lang.invoke.LambdaForm$Name ←[6]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
+|  +46.7% | +1.416 KiB | 14.7% → 14.9% | 3.03 KiB → 4.45 KiB |   33 → 56 | `java.lang.invoke.LambdaForm$Name ←[5]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
+|  +47.6% | +1.373 KiB | 14.0% → 14.3% | 2.88 KiB → 4.26 KiB |   39 → 60 | `java.lang.invoke.LambdaForm$Name ←[4]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
+|  +79.4% |     +800 B |   4.8% → 5.9% |  1,008 B → 1.77 KiB |   10 → 20 | `java.lang.invoke.LambdaForm$Name ←[7]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
+|  +29.3% |     +738 B | 11.9% → 10.7% | 2.46 KiB → 3.18 KiB |   38 → 53 | `java.lang.invoke.LambdaForm$Name ←[3]– java.lang.invoke.LambdaForm$Name[] ←.names– java.lang.invoke.LambdaForm` |
+
 ##### `java.lang.invoke.MemberName`
 
 |  Change |      Delta |             % |                Size | Instances | Path                                                                                                                                                                                                         |
@@ -1020,35 +1029,25 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | -----: | ---------: | -----: | ----------------: | --------: | ------------------------------------------ |
 |  +0.6% | +4.644 KiB | 100.0% | 829 KiB → 834 KiB |        10 | `java.util.zip.ZipFile$Source ← (GC root)` |
 
-##### `java.lang.invoke.LambdaFormEditor$Transform`
-
-|   Change |      Delta |            % |            Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                            |
-| -------: | ---------: | -----------: | --------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +5492.9% | +3.003 KiB | 3.6% → 53.5% | 56 B → 3.06 KiB |     1 → 3 | `java.lang.invoke.LambdaFormEditor$Transform ←[0]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm`                                                                                                                                                                                                                                                                 |
-|      new | +1.478 KiB | 0.0% → 25.9% |  0 B → 1.48 KiB |     0 → 1 | `java.lang.invoke.LambdaFormEditor$Transform ←[1]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm ←.referent– java.lang.invoke.LambdaFormEditor$Transform ←[0]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm`                                                                                                       |
-|      new | +1.152 KiB | 0.0% → 20.2% |  0 B → 1.15 KiB |     0 → 1 | `java.lang.invoke.LambdaFormEditor$Transform ←.transformCache– java.lang.invoke.LambdaForm ←.referent– java.lang.invoke.LambdaFormEditor$Transform ←[1]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm ←.referent– java.lang.invoke.LambdaFormEditor$Transform ←[0]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm` |
-|      new | +1.121 KiB | 0.0% → 19.6% |  0 B → 1.12 KiB |     0 → 1 | `java.lang.invoke.LambdaFormEditor$Transform ←[0]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm ←.referent– java.lang.invoke.LambdaFormEditor$Transform ←[0]– java.lang.invoke.LambdaFormEditor$Transform[] ←.transformCache– java.lang.invoke.LambdaForm`                                                                                                       |
-| +1425.0% |     +798 B | 3.6% → 14.6% |    56 B → 854 B |     1 → 6 | `java.lang.invoke.LambdaFormEditor$Transform ←.transformCache– java.lang.invoke.LambdaForm`                                                                                                                                                                                                                                                                                                                     |
-
 ##### `java.util.ArrayList`
 
-|  Change |        Delta |            % |               Size | Instances | Path                                                                                                                                                                          |
-| ------: | -----------: | -----------: | -----------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +674.8% |   +5.494 MiB | 8.7% → 72.4% | 834 KiB → 6.31 MiB |     2 → 5 | `java.util.ArrayList ← (GC root)`                                                                                                                                             |
-| removed |  -115.14 KiB |  1.2% → 0.0% |      115 KiB → 0 B |    17 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←[1]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
-| removed | -107.679 KiB |  1.1% → 0.0% |      108 KiB → 0 B |    15 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap` |
-| removed | -107.632 KiB |  1.1% → 0.0% |      108 KiB → 0 B |    15 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                |
-| removed | -107.632 KiB |  1.1% → 0.0% |      108 KiB → 0 B |    15 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←[6]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
+|  Change |        Delta |             % |                Size | Instances | Path                                                                                                                                                                          |
+| ------: | -----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -72.6% |   -5.537 MiB | 82.0% → 24.0% | 7.63 MiB → 2.09 MiB |           | `java.lang.Double[] ←(several java.util.ArrayList paths)– (GC root)`                                                                                                          |
+| +674.8% |   +5.494 MiB |  8.7% → 72.4% |  834 KiB → 6.31 MiB |     2 → 5 | `java.util.ArrayList ← (GC root)`                                                                                                                                             |
+| removed |  -115.14 KiB |   1.2% → 0.0% |       115 KiB → 0 B |    17 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←[1]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
+| removed | -107.679 KiB |   1.1% → 0.0% |       108 KiB → 0 B |    15 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap` |
+| removed | -107.632 KiB |   1.1% → 0.0% |       108 KiB → 0 B |    15 → 0 | `java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                |
 
 ##### `java.lang.Object[]`
 
-|  Change |        Delta |            % |               Size | Instances | Path                                                                                                                                                                                                            |
-| ------: | -----------: | -----------: | -----------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +674.8% |   +5.494 MiB | 8.3% → 67.8% | 834 KiB → 6.31 MiB |     2 → 3 | `java.lang.Object[] ←.elementData– java.util.ArrayList`                                                                                                                                                         |
-| removed | -114.875 KiB |  1.1% → 0.0% |      115 KiB → 0 B |    17 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←[1]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
-| removed | -107.445 KiB |  1.1% → 0.0% |      107 KiB → 0 B |    15 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap` |
-| removed | -107.398 KiB |  1.1% → 0.0% |      107 KiB → 0 B |    15 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                |
-| removed | -107.398 KiB |  1.1% → 0.0% |      107 KiB → 0 B |    15 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←[6]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
+|  Change |        Delta |             % |                Size | Instances | Path                                                                                                                                                                                                            |
+| ------: | -----------: | ------------: | ------------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +674.8% |   +5.494 MiB |  8.3% → 67.8% |  834 KiB → 6.31 MiB |     2 → 3 | `java.lang.Object[] ←.elementData– java.util.ArrayList`                                                                                                                                                         |
+|  -72.0% |   -5.489 MiB | 77.3% → 23.0% | 7.63 MiB → 2.14 MiB |           | `java.lang.Double[] ←(several java.lang.Object[] paths)– (GC root)`                                                                                                                                             |
+| removed | -114.875 KiB |   1.1% → 0.0% |       115 KiB → 0 B |    17 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←[1]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                                               |
+| removed | -107.445 KiB |   1.1% → 0.0% |       107 KiB → 0 B |    15 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap` |
+| removed | -107.398 KiB |   1.1% → 0.0% |       107 KiB → 0 B |    15 → 0 | `java.lang.Object[] ←.elementData– java.util.ArrayList ←.value– java.util.HashMap$Node ←.next– java.util.HashMap$Node ←[5]– java.util.HashMap$Node[] ←.table– java.util.HashMap`                                |
 
 ##### `java.util.HashMap$Node[]`
 
@@ -1082,9 +1081,10 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`
 
-| Change |        Delta |      % |               Size | Instances | Path                                                                   |
-| -----: | -----------: | -----: | -----------------: | --------: | ---------------------------------------------------------------------- |
-| -98.7% | -210.605 KiB | 100.0% | 213 KiB → 2.69 KiB |   35 → 43 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask ← (GC root)` |
+|  Change |        Delta |            % |               Size | Instances | Path                                                                                                       |
+| ------: | -----------: | -----------: | -----------------: | --------: | ---------------------------------------------------------------------------------------------------------- |
+|  -98.7% | -210.605 KiB |       100.0% | 213 KiB → 2.69 KiB |   35 → 43 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask ← (GC root)`                                     |
+| removed |        -56 B | <0.1% → 0.0% |         56 B → 0 B |           | `java.util.ArrayList ←(several org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask paths)– (GC root)` |
 
 ##### `java.util.concurrent.ForkJoinPool$WorkQueue`
 

@@ -8,13 +8,13 @@ import type {
 import {
   diffAggregatedHeapSnapshots,
   diffRetainerPaths,
-  groupConstructorInstances,
+  groupConstructorNodes,
   groupFunctionRetainedNodes,
   matchRetainerGroups,
   retainerEdgeMatchKey,
 } from '../../src/modalities/heap-snapshot/diff.ts'
 import type {
-  DiffedInstanceGroup,
+  DiffedConstructorRetainerGroup,
   DiffedRetainedNodeGroup,
   RetainerGroup,
   RetainerPaths,
@@ -55,7 +55,7 @@ export const retainerGroupInputs = (
   current: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
 ): {
-  instanceGroups: RetainerGroupInput<DiffedInstanceGroup>
+  instanceGroups: RetainerGroupInput<DiffedConstructorRetainerGroup>
   retainedNodeGroups: RetainerGroupInput<DiffedRetainedNodeGroup>
 } => {
   const diff = diffAggregatedHeapSnapshots(base, current, options)
@@ -79,13 +79,7 @@ export const retainerGroupInputs = (
       current,
       paths: retainerPaths.paths,
       sets: setsOf(diff.constructors, (constructor, side) =>
-        groupConstructorInstances(
-          diff,
-          constructor,
-          side,
-          retainerPaths,
-          options,
-        ),
+        groupConstructorNodes(diff, constructor, side, retainerPaths, options),
       ),
     },
     retainedNodeGroups: {

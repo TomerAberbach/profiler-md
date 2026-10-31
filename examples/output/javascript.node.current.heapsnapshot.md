@@ -22,7 +22,7 @@ Held 5.57 MiB over 76,227 nodes and 308,335 edges.
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-node-heap-snapshot/`.
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -636,23 +636,23 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                    |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 20.0% |  252 KiB |       125 | `system / Context ← (GC root)`                                                                                          |
-|  5.7% |   72 KiB |         1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)`                                    |
-|  0.8% | 10.6 KiB |         1 | `system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
-|  0.5% | 5.96 KiB |        44 | `system / Context ←(several paths)– Object`                                                                             |
-|  0.2% | 2.97 KiB |         8 | `system / Context ←.context– logger (node:internal/util/debuglog:120:18) ←.debug– system / Context`                     |
+|     % |     Size | Instances | Path                                                                                 |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
+| 20.5% |  259 KiB |           | `Object ←(several system / Context paths)– (GC root)`                                |
+| 20.0% |  252 KiB |       125 | `system / Context ← (GC root)`                                                       |
+| 16.5% |  209 KiB |           | `BuiltinModule ←(several system / Context paths)– (GC root)`                         |
+|  7.7% | 97.7 KiB |           | `Map ←(several system / Context paths)– (GC root)`                                   |
+|  5.7% |   72 KiB |         1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)` |
 
 ##### `Array` (`<unknown>`)
 
-|    % |     Size | Instances | Path                                                                                                                                                 |
-| ---: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 8.4% | 50.7 KiB |       200 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
-| 2.7% |   16 KiB |         1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
-| 2.4% | 14.6 KiB |        20 | `Array ← (GC root)`                                                                                                                                  |
-| 2.3% | 13.8 KiB |       200 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
-| 1.9% | 11.7 KiB |        12 | `Array ←.media– Object ←.entities– Object`                                                                                                           |
+|     % |     Size | Instances | Path                                                                                                                                                 |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 73.4% |  443 KiB |           | `Object ←(several Array paths)– (GC root)`                                                                                                           |
+|  8.4% | 50.7 KiB |       200 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
+|  2.7% |   16 KiB |         1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
+|  2.4% | 14.6 KiB |        20 | `Array ← (GC root)`                                                                                                                                  |
+|  2.3% | 13.8 KiB |       200 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
 
 ##### `Map` (`<unknown>`)
 
@@ -706,9 +706,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `console` (`<unknown>`)
 
-|     % |     Size | Instances | Path                  |
-| ----: | -------: | --------: | --------------------- |
-| 88.4% | 20.5 KiB |         2 | `console ← (GC root)` |
+|     % |     Size | Instances | Path                                            |
+| ----: | -------: | --------: | ----------------------------------------------- |
+| 88.4% | 20.5 KiB |         2 | `console ← (GC root)`                           |
+|  0.5% |    120 B |           | `context ←(several console paths)– (GC root)`   |
+|  0.5% |    120 B |           | `timeStamp ←(several console paths)– (GC root)` |
+|  0.5% |    120 B |           | `timeEnd ←(several console paths)– (GC root)`   |
+|  0.5% |    120 B |           | `time ←(several console paths)– (GC root)`      |
 
 ##### `NodeEnvironmentFlagsSet` (`node:internal/process/per_thread:438:16`)
 
@@ -1039,30 +1043,30 @@ Retained nodes with the largest contribution to each function's retained size.
 |    % |     Self | Name                       | Location    | Path                                                                                                                                                                                                                          |
 | ---: | -------: | -------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 6.7% |   14 KiB | `array`                    | `<unknown>` | `array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`                                                                                                                                              |
-| 1.5% | 3.06 KiB | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`                             |
 | 1.5% | 3.06 KiB | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.asyncWrapProviders– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.308– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 1.5% | 3.06 KiB | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`                             |
 | 0.7% |  1.5 KiB | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1121– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`   |
-| 0.6% | 1.22 KiB | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1031– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`   |
+| 0.6% | 1.22 KiB | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.467– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`    |
 
 #### `NodeError` (`node:internal/errors:437:20`)
 
-|    % |  Self | Name                  | Location    | Path                                                                                               |
-| ---: | ----: | --------------------- | ----------- | -------------------------------------------------------------------------------------------------- |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:437:20)` |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20)`     |
+|    % |  Self | Name                  | Location    | Path                                                                                                                                     |
+| ---: | ----: | --------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20) ←.ERR_CRYPTO_SCRYPT_NOT_SUPPORTED– Object` |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:437:20) ←.ERR_HTTP2_INVALID_ORIGIN– Object`    |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20) ←.ERR_HTTP_TRAILER_INVALID– Object`        |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20) ←.ERR_HTTP_SOCKET_ENCODING– Object`        |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:437:20) ←.ERR_WORKER_MESSAGING_ERRORED– Object`    |
 
 #### `NodeError` (`node:internal/errors:498:20`)
 
-|    % |  Self | Name                  | Location    | Path                                                                                               |
-| ---: | ----: | --------------------- | ----------- | -------------------------------------------------------------------------------------------------- |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:498:20)` |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20)`     |
-| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20)`     |
+|    % |  Self | Name                  | Location    | Path                                                                                                                                |
+| ---: | ----: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_INVALID_HTTP_TOKEN– Object` |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_HTTP2_SESSION_ERROR– Object`    |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_PROXY_TUNNEL– Object`           |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_INSPECTOR_COMMAND– Object`      |
+| 0.2% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_WORKER_OUT_OF_MEMORY– Object`   |
 
 #### `internalBinding` (`node:internal/bootstrap/realm:185:45`)
 
@@ -1076,33 +1080,33 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `NodeError` (`node:internal/errors:466:20`)
 
-|    % |  Self | Name                  | Location    | Path                                                                                                                                                      |
-| ---: | ----: | --------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– RangeError ←.prototype– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
-| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:466:20)`                                                            |
-| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                        |
-| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                        |
-| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_HTTP2_STREAM_CANCEL– Object`                          |
+|    % |  Self | Name                  | Location    | Path                                                                                                                                           |
+| ---: | ----: | --------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_TEST_FAILURE– Object`                      |
+| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_VM_MODULE_LINK_FAILURE– Object`            |
+| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_WORKER_PATH– Object`                   |
+| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_ENCODING_INVALID_ENCODED_DATA– Object` |
+| 0.6% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Error ←.prototype– NodeError (node:internal/errors:466:20) ←.ERR_TLS_CERT_ALTNAME_INVALID– Object`          |
 
 #### `native_bind` (`<unknown>`)
 
-|    % |  Self | Name                  | Location    | Path                                                               |
-| ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------ |
-| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind`                    |
-| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind`                    |
-| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind`                    |
-| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind`                    |
-| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.timeLog– console` |
+|    % |  Self | Name                  | Location    | Path                                                                                                  |
+| ---: | ----: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------- |
+| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.bound_argument_1– native_bind ←.groupEnd– console`   |
+| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.groupEnd– console`                                   |
+| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.bound_argument_1– native_bind ←.countReset– console` |
+| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.countReset– console`                                 |
+| 0.7% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– native_bind ←.<symbol kFormatForStderr>– console`                  |
 
 #### `deprecated` (`node:internal/util:187:22`)
 
-|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                                     |
-| ---: | ----: | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22)`                                                                                                                                                                               |
-| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22)`                                                                                                                                                                               |
-| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22)`                                                                                                                                                                               |
-| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22)`                                                                                                                                                                               |
-| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←._unrefActive– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1298– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                                  |
+| ---: | ----: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←.isString– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←.isBuffer– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←.isNumber– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←.isBoolean– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 0.9% | 256 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:187:22) ←.isError– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`   |
 
 #### `Interface` (`node:internal/readline/interface:350:1`)
 
@@ -1116,23 +1120,23 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `HideStackFramesError` (`node:internal/errors:407:16`)
 
-|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
-| ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                                                                                                        |
-| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                                                                                                       |
-| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                                                                                                        |
-| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
-| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                                                                                                        |
+|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                       |
+| ---: | ----: | --------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                                                                                              |
+| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:498:20) ←.ERR_INVALID_HTTP_TOKEN– Object`             |
+| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:498:20) ←.ERR_HTTP_INVALID_HEADER_VALUE– Object`      |
+| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:466:20) ←.ERR_INVALID_CHAR– Object`                   |
+| 1.3% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:437:20) ←.ERR_HTTP2_PSEUDOHEADER_NOT_ALLOWED– Object` |
 
 #### `wrappedFn` (`node:internal/errors:535:21`)
 
-|    % | Self | Name                      | Location                          | Path                                                                                                                                                                                 |
-| ---: | ---: | ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0.8% | 72 B | `system / FeedbackVector` | `<unknown>`                       | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (node:internal/validators:162:40) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)` |
-| 0.7% | 64 B | `genericNodeError`        | `node:internal/errors:981:67`     | `genericNodeError ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                      |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/validators:162:40` | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                           |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/fs/utils:730:42`   | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                           |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/validators:443:45` | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                           |
+|    % |  Self | Name                       | Location                      | Path                                                                                                                                                                                 |
+| ---: | ----: | -------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1.3% | 120 B | `system / DescriptorArray` | `<unknown>`                   | `system / DescriptorArray ←.descriptors– system / Map ←(several wrappedFn paths)– (GC root)`                                                                                         |
+| 1.1% | 104 B | `system / FeedbackVector`  | `<unknown>`                   | `system / FeedbackVector ←.value– system / FeedbackCell ←(several wrappedFn paths)– (GC root)`                                                                                       |
+| 0.8% |  72 B | `system / FeedbackVector`  | `<unknown>`                   | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (node:internal/validators:162:40) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)` |
+| 0.8% |  72 B | `system / Map`             | `<unknown>`                   | `system / Map ←(several wrappedFn paths)– (GC root)`                                                                                                                                 |
+| 0.7% |  64 B | `genericNodeError`         | `node:internal/errors:981:67` | `genericNodeError ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                      |
 
 #### `inspect` (`node:internal/util/inspect:354:17`)
 
@@ -1148,40 +1152,52 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % |  Self | Name                       | Location    | Path                                                                                                                                                          |
 | ---: | ----: | -------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 7.9% | 672 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Module (node:internal/modules/cjs/loader:332:16)`                                                |
 | 7.9% | 672 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.builtinModules– Module (node:internal/modules/cjs/loader:332:16)`                                                      |
+| 7.9% | 672 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Module (node:internal/modules/cjs/loader:332:16)`                                                |
 | 5.2% | 448 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)`                                                      |
-| 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←.set parent– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)` |
+| 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←._debug– Module (node:internal/modules/cjs/loader:332:16)`                         |
 | 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←.get parent– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)` |
+
+#### `(anonymous)` (`node:internal/errors:452:27`)
+
+|    % | Self | Name                    | Location    | Path                                                            |
+| ---: | ---: | ----------------------- | ----------- | --------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several (anonymous) paths)– (GC root)` |
+
+#### `(anonymous)` (`node:internal/errors:448:28`)
+
+|    % | Self | Name                    | Location    | Path                                                            |
+| ---: | ---: | ----------------------- | ----------- | --------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several (anonymous) paths)– (GC root)` |
 
 #### `(anonymous)` (`<unknown>`)
 
-|    % |  Self | Name                       | Location    | Path                                                                      |
-| ---: | ----: | -------------------------- | ----------- | ------------------------------------------------------------------------- |
-| 3.2% | 264 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)` |
-| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
-| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
-| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
-| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
+|    % |  Self | Name                       | Location                  | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---: | ----: | -------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3.2% | 264 B | `system / DescriptorArray` | `<unknown>`               | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>`               | `(object properties) ←.properties– Object ←.prototype– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>`               | `(object properties) ←.properties– Object ←.prototype– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 1.4% | 120 B | `array`                    | `<unknown>`               | `array ←.parameters_and_registers– Generator (node:internal/modules/run_main:105:47) ←.extension– system / Context ←(several paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several (anonymous) paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)` |
+| 1.3% | 104 B | `URLContext`               | `node:internal/url:175:1` | `URLContext ←.#context– URL (node:internal/url:802:14) ←(several paths)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several (anonymous) paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                                                                 |
 
 #### `SafeIterator` (`node:internal/per_context/primordials:330:16`)
 
 |    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
 | ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
-| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
-| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
-| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
 | 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Map`  |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Set`    |
 
 #### `(anonymous)` (`node:internal/per_context/primordials:385:32`)
 
 |    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
 | ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
-| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
 | 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Map`  |
-| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Set` |
+| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
+| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
+| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Set`    |
 | 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Set`  |
 
 #### `NodeError` (`node:internal/errors:395:16`)
@@ -1193,6 +1209,18 @@ Retained nodes with the largest contribution to each function's retained size.
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– SystemError (node:internal/errors:276:14) ←.prototype– NodeError (node:internal/errors:395:16)`                                                                          |
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– NodeError (node:internal/errors:395:16) ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:395:16)` |
 | 1.9% | 144 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– NodeError (node:internal/errors:395:16)`                                                                                                       |
+
+#### `toString` (`node:internal/errors:456:17`)
+
+|    % | Self | Name                    | Location    | Path                                                         |
+| ---: | ---: | ----------------------- | ----------- | ------------------------------------------------------------ |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several toString paths)– (GC root)` |
+
+#### `NodeError` (`node:internal/errors:434:36`)
+
+|    % | Self | Name                    | Location    | Path                                                          |
+| ---: | ---: | ----------------------- | ----------- | ------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several NodeError paths)– (GC root)` |
 
 ## Largest strings
 

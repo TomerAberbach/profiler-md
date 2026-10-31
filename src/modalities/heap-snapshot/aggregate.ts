@@ -4,6 +4,7 @@ import {
   sourceReferenceKind,
 } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
+import type { Logger } from '../../logger.ts'
 import type {
   AggregationProfileToMdOptions,
   FormattingProfileToMdOptions,
@@ -21,11 +22,11 @@ import type { CategoryResolver } from './categorize.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
-  attributeEntityMinRetainedSizes,
+  computeDominatorTreePreorder,
+  computeEntityRetentions,
   computeNodeOrdinalToRetainedSize,
-  newInstancesRetainedSizeOf,
-  newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
+import type { DominatorTreePreorder, EntityRetention } from './retained.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
@@ -55,24 +56,12 @@ export type AggregatedHeapSnapshot = {
   strings: AggregatedHeapSnapshotString[]
 
   /**
-   * Of the given distinct instance ordinals, those of the reachable instances
-   * that no other given instance dominates. Their retained nodes are disjoint,
-   * and contain every other reachable instance's.
+   * What each given set of distinct instance ordinals retains, alone or
+   * together. No node may be in two sets.
    */
-  outermostInstanceOrdinalsOf: (
-    instanceOrdinals: readonly number[],
-  ) => readonly number[]
-
-  /**
-   * Bytes allocated for a constructor's or function's instances, as well as
-   * all nodes that would be freed if every instance were garbage collected,
-   * including the nodes the instances retain only together. Memoized per
-   * entity.
-   *
-   * It walks the snapshot's nodes for an entity with several outermost
-   * instances, so call it only for the entities the Markdown shows.
-   */
-  retainedSizeOf: (entity: RetainingEntity) => number
+  retentionsOf: (
+    instanceOrdinalSets: readonly (readonly number[])[],
+  ) => EntityRetention[]
 
   /**
    * The first hop of a node's retainer path along its dominators, or
@@ -85,9 +74,16 @@ export type AggregatedHeapSnapshot = {
   /** The node as a retainer path step shows it. */
   retainerOf: (nodeOrdinal: number) => RetainerNode
 
+  nodeOf: (
+    nodeOrdinal: number,
+    options: FormattingProfileToMdOptions,
+  ) => AggregatedHeapSnapshotNode
+
+  /** The non-internal nodes the node dominates, and the node when asked to. */
   retainedNodesOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
+    { includesNode }?: { includesNode?: boolean },
   ) => AggregatedHeapSnapshotNode[]
 }
 
@@ -97,52 +93,30 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
-export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity &
-  MinRetainedSize & {
-    name: string
+export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
+  name: string
 
-    /**
-     * What this constructor's instances hold: the category the origin assigns
-     * to its class, falling back to the category holding the most of their
-     * self size.
-     */
-    category: HeapSnapshotNodeCategory
-    instances: AggregatedHeapSnapshotNode[]
-  }
-
-export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity &
-  MinRetainedSize & {
-    /**
-     * The ordinal of the instance with the largest individual retained size,
-     * which is the instance the function's rows show.
-     */
-    id: number
-    name: string
-
-    /**
-     * What this function holds, taken from the instance {@link id}
-     * identifies.
-     */
-    category: HeapSnapshotNodeCategory
-    instanceOrdinals: number[]
-  }
-
-/** A constructor's or function's instances, in a snapshot or a diff side. */
-export type RetainingEntity = MinRetainedSize &
-  (
-    | { instances: readonly { id: number }[] }
-    | { instanceOrdinals: readonly number[] }
-  )
-
-type MinRetainedSize = {
   /**
-   * A lower bound on {@link AggregatedHeapSnapshot.retainedSizeOf}, computed
-   * for every entity. It sums the retained sizes of the outermost instances and
-   * of each node no instance dominates whose every predecessor is an instance
-   * or a node one dominates.
+   * What this constructor's instances hold: the category the origin assigns to
+   * its class, falling back to the category holding the most of their self
+   * size.
    */
-  minRetainedSize: number
-}
+  category: HeapSnapshotNodeCategory
+  instances: AggregatedHeapSnapshotNode[]
+} & EntityRetention
+
+export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
+  /**
+   * The ordinal of the instance with the largest individual retained size,
+   * which is the instance the function's rows show.
+   */
+  id: number
+  name: string
+
+  /** What this function holds, taken from the instance {@link id} identifies. */
+  category: HeapSnapshotNodeCategory
+  instanceOrdinals: number[]
+} & EntityRetention
 
 export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
   /** What this string holds: its representation in the heap. */
@@ -168,6 +142,13 @@ export type AggregatedHeapSnapshotEntity = {
   selfSize: number
 
   category: HeapSnapshotNodeCategory
+
+  /**
+   * Bytes allocated for the entity's nodes, as well as all nodes that would be
+   * freed if they were garbage collected. A lower bound on a graph that exceeds
+   * the work limit of {@link computeEntityRetentions}.
+   */
+  retainedSize: number
 
   location?: SourceLocation
 }
@@ -210,10 +191,14 @@ export type RetainerPathStep = {
  * A retainer path step's edge. A path that groups the elements of an array
  * records an element edge as any element. A step whose retainer holds no edge
  * to the node, which it retains through the node's several retainers, records
- * several retainers.
+ * several retainers. On a step to a node that an entity's instances retain only
+ * together, it records that every path passes through an instance of the entity.
  */
 export type RetainerPathEdge =
-  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
+  | RetainerEdge
+  | { type: `any-element` }
+  | { type: `several-retainers` }
+  | { type: `several-instance-paths`; entityName: string }
 
 /**
  * Aggregates one {@link HeapSnapshot}.
@@ -242,6 +227,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
 
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
   readonly #nodeOrdinalToRetainedSize: Float64Array
+  #hasLoggedLowerBound = false
 
   readonly #constructors: AggregatedHeapSnapshotConstructor[] = []
   readonly #keyToConstructorIndex = new Map<string, number>()
@@ -375,8 +361,10 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         // `aggregate` assigns this once the origin is known.
         category: `object`,
         selfSize: 0,
-        minRetainedSize: 0,
+        retainedSize: 0,
         instances: [],
+        outermostInstanceOrdinals: [],
+        jointlyRetainedOrdinals: [],
       }
       this.#constructors.push(constructor)
       this.#keyToConstructorIndex.set(key, constructorIndex)
@@ -421,8 +409,10 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         // `aggregate` assigns this once the origin is known.
         category: `function`,
         selfSize: 0,
-        minRetainedSize: 0,
+        retainedSize: 0,
         instanceOrdinals: [],
+        outermostInstanceOrdinals: [],
+        jointlyRetainedOrdinals: [],
       })
       this.#keyToFunctionIndex.set(key, functionIndex)
     }
@@ -449,6 +439,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       // `aggregate` assigns this once the origin is known.
       category: `string`,
       selfSize,
+      retainedSize: selfSize,
     })
     this.#entityCategorizer.addStringNode(categoryKey)
   }
@@ -457,20 +448,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
-    attributeEntityMinRetainedSizes(
-      this.#nodeOrdinalToRetainedSize,
-      this.#nodeAdjacencyGraph,
-      this.#immediateDominatorGraph,
-      this.#nodeOrdinalToConstructorIndex,
-      this.#constructors,
-    )
-    attributeEntityMinRetainedSizes(
-      this.#nodeOrdinalToRetainedSize,
-      this.#nodeAdjacencyGraph,
-      this.#immediateDominatorGraph,
-      this.#nodeOrdinalToFunctionIndex,
-      this.#functions,
-    )
+    const preorder = computeDominatorTreePreorder(this.#immediateDominatorGraph)
+    this.#assignRetentions(preorder, options.logger)
 
     const categories = this.#categoryKeys.newResolver(context.origin)
     this.#entityCategorizer.categorize(
@@ -482,9 +461,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const categoryOf = this.#newNodeCategorizer(categories)
     this.#categorizeNodes(categoryOf)
 
-    const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
-      this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
-    )
+    const nodeOf = this.#newNodeBuilder(categoryOf)
+
     return {
       type: `heap-snapshot`,
       context,
@@ -495,29 +473,91 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
-      outermostInstanceOrdinalsOf,
-      retainedSizeOf: newEntityRetainedSizeOf(
-        newInstancesRetainedSizeOf(
-          this.#nodeAdjacencyGraph,
-          this.#nodeOrdinalToRetainedSize,
-          this.#selfSizeOf,
-          outermostInstanceOrdinalsOf,
+      retentionsOf: instanceOrdinalSets =>
+        this.#computeRetentions(
+          preorder,
+          this.#newNodeOrdinalToSetIndex(instanceOrdinalSets),
+          instanceOrdinalSets.length,
+          options.logger,
         ),
-      ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
-      retainedNodesOf: (nodeOrdinal, options) =>
+      nodeOf,
+      retainedNodesOf: (nodeOrdinal, options, { includesNode = false } = {}) =>
         computeRetainedNodes(
           nodeOrdinal,
           this.#immediateDominatorGraph,
-          this.#nodeOrdinalToRetainedSize,
-          this.#selfSizeOf,
-          ordinal => formatRetainerName(this.#retainerOf(ordinal), options),
           this.#isInternalNode,
-          this.#entityLocationOf,
-          categoryOf,
+          ordinal => nodeOf(ordinal, options),
+          includesNode,
         ),
     }
+  }
+
+  /**
+   * Assigns the constructors' and functions' retentions from one pass, because
+   * a node is an instance of at most one of them.
+   */
+  #assignRetentions(preorder: DominatorTreePreorder, logger: Logger): void {
+    const entities = [...this.#constructors, ...this.#functions]
+    const retentions = this.#computeRetentions(
+      preorder,
+      this.#newNodeOrdinalToEntityIndex(),
+      entities.length,
+      logger,
+    )
+    for (const [index, entity] of entities.entries()) {
+      Object.assign(entity, retentions[index])
+    }
+  }
+
+  /** Indexes the constructors, then the functions, as one list of entities. */
+  #newNodeOrdinalToEntityIndex(): Int32Array {
+    const constructorCount = this.#constructors.length
+    const nodeOrdinalToEntityIndex = new Int32Array(
+      this.#nodeOrdinalToConstructorIndex,
+    )
+    for (let ordinal = 0; ordinal < this.#nodeCount; ordinal++) {
+      const functionIndex = this.#nodeOrdinalToFunctionIndex[ordinal]!
+      if (functionIndex !== -1) {
+        nodeOrdinalToEntityIndex[ordinal] = constructorCount + functionIndex
+      }
+    }
+    return nodeOrdinalToEntityIndex
+  }
+
+  #newNodeOrdinalToSetIndex(
+    instanceOrdinalSets: readonly (readonly number[])[],
+  ): Int32Array {
+    const nodeOrdinalToSetIndex = new Int32Array(this.#nodeCount).fill(-1)
+    for (const [setIndex, ordinals] of instanceOrdinalSets.entries()) {
+      for (const ordinal of ordinals) {
+        nodeOrdinalToSetIndex[ordinal] = setIndex
+      }
+    }
+    return nodeOrdinalToSetIndex
+  }
+
+  #computeRetentions(
+    preorder: DominatorTreePreorder,
+    nodeOrdinalToEntityIndex: Int32Array,
+    entityCount: number,
+    logger: Logger,
+  ): EntityRetention[] {
+    const { retentions, isLowerBound } = computeEntityRetentions({
+      nodeOrdinalToRetainedSize: this.#nodeOrdinalToRetainedSize,
+      nodeAdjacencyGraph: this.#nodeAdjacencyGraph,
+      preorder,
+      nodeOrdinalToEntityIndex,
+      entityCount,
+    })
+    if (isLowerBound && !this.#hasLoggedLowerBound) {
+      this.#hasLoggedLowerBound = true
+      logger.info?.(
+        `retained sizes are lower bounds because the heap exceeded the work limit for nodes that instances retain only together`,
+      )
+    }
+    return retentions
   }
 
   /**
@@ -556,23 +596,19 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       }
     }
   }
-}
 
-const newEntityRetainedSizeOf = (
-  instancesRetainedSizeOf: (instanceOrdinals: readonly number[]) => number,
-): ((entity: RetainingEntity) => number) => {
-  const entityToRetainedSize = new WeakMap<RetainingEntity, number>()
-  return entity => {
-    let retainedSize = entityToRetainedSize.get(entity)
-    if (retainedSize === undefined) {
-      retainedSize = instancesRetainedSizeOf(
-        `instances` in entity
-          ? entity.instances.map(({ id }) => id)
-          : entity.instanceOrdinals,
-      )
-      entityToRetainedSize.set(entity, retainedSize)
-    }
-    return retainedSize
+  #newNodeBuilder(
+    categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
+  ): AggregatedHeapSnapshot[`nodeOf`] {
+    return (ordinal, options) => ({
+      type: `node`,
+      id: ordinal,
+      name: formatRetainerName(this.#retainerOf(ordinal), options),
+      category: categoryOf(ordinal),
+      selfSize: this.#selfSizeOf(ordinal),
+      retainedSize: this.#nodeOrdinalToRetainedSize[ordinal]!,
+      location: this.#entityLocationOf(ordinal),
+    })
   }
 }
 
@@ -624,7 +660,11 @@ const computeRetainerHop = (
   return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
 }
 
-const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
+export const GC_ROOT_NAME = `(GC root)`
+
+export const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = {
+  type: `several-retainers`,
+}
 
 /**
  * An entity's effective location: its explicit location, falling back to its
@@ -681,6 +721,8 @@ export const formatRetainerEdge = (
       return `[]`
     case `several-retainers`:
       return `(several paths)`
+    case `several-instance-paths`:
+      return `(several ${edge.entityName} paths)`
     case `labeled`:
       return edge.label
     case `unlabeled`:
@@ -694,79 +736,82 @@ const computeRetainedNodes = (
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
-  nodeOrdinalToRetainedSize: Float64Array,
-  selfSizeOf: (nodeOrdinal: number) => number,
-  nameOf: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
-  locationOf: (nodeOrdinal: number) => SourceLocation | undefined,
-  categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
+  nodeOf: (nodeOrdinal: number) => AggregatedHeapSnapshotNode,
+  includesNode: boolean,
 ): AggregatedHeapSnapshotNode[] => {
   const retainedNodes: AggregatedHeapSnapshotNode[] = []
 
   const dominateeOrdinals: number[] = []
-  const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
-  const childEndOffset =
-    immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
-  for (let offset = childStartOffset; offset < childEndOffset; offset++) {
-    dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
-  }
-
-  while (dominateeOrdinals.length > 0) {
-    const current = dominateeOrdinals.pop()!
-    if (!isInternalNode(current)) {
-      retainedNodes.push({
-        type: `node`,
-        id: current,
-        name: nameOf(current),
-        category: categoryOf(current),
-        selfSize: selfSizeOf(current),
-        retainedSize: nodeOrdinalToRetainedSize[current]!,
-        location: locationOf(current),
-      })
-    }
-
-    const dominateeStartOffset =
-      immediateDominateeOrdinalToStartOffset[current]!
-    const dominateeEndOffset =
-      immediateDominateeOrdinalToStartOffset[current + 1]!
+  const pushDominatees = (ordinal: number) => {
+    const endOffset = immediateDominateeOrdinalToStartOffset[ordinal + 1]!
     for (
-      let offset = dominateeStartOffset;
-      offset < dominateeEndOffset;
+      let offset = immediateDominateeOrdinalToStartOffset[ordinal]!;
+      offset < endOffset;
       offset++
     ) {
       dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
     }
   }
 
+  if (includesNode) {
+    dominateeOrdinals.push(nodeOrdinal)
+  } else {
+    pushDominatees(nodeOrdinal)
+  }
+  while (dominateeOrdinals.length > 0) {
+    const current = dominateeOrdinals.pop()!
+    if (!isInternalNode(current)) {
+      retainedNodes.push(nodeOf(current))
+    }
+    pushDominatees(current)
+  }
+
   return retainedNodes
 }
 
-/** A shown retained node, and the instance retaining it. */
-type ShownRetainedNode = {
+/** A shown retained node, and the outermost node of the entity retaining it. */
+export type ShownRetainedNode = {
   node: AggregatedHeapSnapshotNode
-  instanceOrdinal: number
+
+  retainingOrdinal: number
+
+  /** Whether {@link retainingOrdinal} is a jointly retained node. */
+  isJointlyRetained: boolean
 }
 
 /**
- * Yields each shown node the outermost of the distinct {@link instanceOrdinals}
- * retain, and the instance retaining it.
+ * Yields each shown node the entity retains, other than its outermost instances:
+ * those instances' retained nodes, and the entity's jointly retained nodes with
+ * their retained nodes.
  */
 export function* shownRetainedNodes(
-  instanceOrdinals: readonly number[],
   {
-    outermostInstanceOrdinalsOf,
+    outermostInstanceOrdinals,
+    jointlyRetainedOrdinals,
+  }: Pick<
+    EntityRetention,
+    `outermostInstanceOrdinals` | `jointlyRetainedOrdinals`
+  >,
+  {
     retainedNodesOf,
     context,
-  }: Pick<
-    AggregatedHeapSnapshot,
-    `outermostInstanceOrdinalsOf` | `retainedNodesOf` | `context`
-  >,
+  }: Pick<AggregatedHeapSnapshot, `retainedNodesOf` | `context`>,
   options: FormattingProfileToMdOptions,
 ): Iterable<ShownRetainedNode> {
-  for (const instanceOrdinal of outermostInstanceOrdinalsOf(instanceOrdinals)) {
-    for (const node of retainedNodesOf(instanceOrdinal, options)) {
-      if (options.showEntry(node, context)) {
-        yield { node, instanceOrdinal }
+  for (const retainingOrdinal of outermostInstanceOrdinals) {
+    for (const node of retainedNodesOf(retainingOrdinal, options)) {
+      if (options.showEntryUncached(node, context)) {
+        yield { node, retainingOrdinal, isJointlyRetained: false }
+      }
+    }
+  }
+  for (const retainingOrdinal of jointlyRetainedOrdinals) {
+    for (const node of retainedNodesOf(retainingOrdinal, options, {
+      includesNode: true,
+    })) {
+      if (options.showEntryUncached(node, context)) {
+        yield { node, retainingOrdinal, isJointlyRetained: true }
       }
     }
   }

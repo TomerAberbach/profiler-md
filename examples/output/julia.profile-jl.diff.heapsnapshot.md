@@ -16,7 +16,7 @@ Held 135 MiB → 136 MiB (+1.2 MiB, +0.9%) over 1,716,917 → 1,715,213 nodes
 | Native             |   0.0% |          0 B |         <0.1% |                48 B |                 3 |
 | Synthetic          |   0.0% |          0 B |         <0.1% |                16 B |                19 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 

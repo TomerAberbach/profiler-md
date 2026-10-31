@@ -27,14 +27,19 @@ import type {
   RetainerHop,
   RetainerPathEdge,
   RetainerPathStep,
+  ShownRetainedNode,
 } from './aggregate.ts'
 import {
   formatRetainerEdge,
   formatRetainerEdgeLabel,
   formatRetainerLabel,
+  formatRetainerName,
+  GC_ROOT_NAME,
   nodeKey,
+  SEVERAL_RETAINERS_EDGE,
   shownRetainedNodes,
 } from './aggregate.ts'
+import type { EntityRetention } from './retained.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 export type AggregatedHeapSnapshotDiff = {
@@ -56,16 +61,18 @@ export type AggregatedHeapSnapshotDiff = {
 }
 
 export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<
-  Pick<AggregatedHeapSnapshotConstructor, `minRetainedSize`> & {
+  {
+    name: string
     instances: AggregatedHeapSnapshotNode[]
-  }
+  } & EntityRetention
 >
 
 /** A function's side, with its instances' node ordinals. */
 export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<
-  Pick<AggregatedHeapSnapshotFunction, `minRetainedSize`> & {
+  {
+    name: string
     instanceOrdinals: number[]
-  }
+  } & EntityRetention
 >
 
 /**
@@ -108,34 +115,73 @@ export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
-): AggregatedHeapSnapshotDiff => ({
-  base,
-  current,
-  nodeCategoryToStats: matchDiffedMaps(
-    base.nodeCategoryToStats,
-    current.nodeCategoryToStats,
-  ),
-  constructors: matchDiffedEntities(
+): AggregatedHeapSnapshotDiff => {
+  const constructors = matchDiffedEntities(
     base,
     current,
     snapshot => snapshot.constructors,
     mergeConstructors,
     options,
-  ),
-  functions: matchDiffedEntities(
+  )
+  const functions = matchDiffedEntities(
     base,
     current,
     snapshot => snapshot.functions,
     mergeFunctions,
     options,
-  ),
-  strings: entityDiffsFromMatches(
-    matchDiffedMaps(
-      mergeStrings(base.strings),
-      mergeStrings(current.strings),
-    ).values(),
-  ),
-})
+  )
+  assignMergedRetentions(base, `base`, constructors, functions)
+  assignMergedRetentions(current, `current`, constructors, functions)
+  return {
+    base,
+    current,
+    nodeCategoryToStats: matchDiffedMaps(
+      base.nodeCategoryToStats,
+      current.nodeCategoryToStats,
+    ),
+    constructors,
+    functions,
+    strings: entityDiffsFromMatches(
+      matchDiffedMaps(
+        mergeStrings(base.strings),
+        mergeStrings(current.strings),
+      ).values(),
+    ),
+  }
+}
+
+/**
+ * Assigns a side's merged constructors' and functions' retentions from one pass,
+ * so they count the nodes their unmerged entities retain only together.
+ */
+const assignMergedRetentions = (
+  { retentionsOf }: Pick<AggregatedHeapSnapshot, `retentionsOf`>,
+  side: `base` | `current`,
+  constructors: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>[],
+  functions: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>[],
+): void => {
+  const mergedEntities: EntityRetention[] = []
+  const instanceOrdinalSets: number[][] = []
+  for (const { [side]: constructor } of constructors) {
+    if (constructor?.merged) {
+      mergedEntities.push(constructor)
+      instanceOrdinalSets.push(constructor.instances.map(({ id }) => id))
+    }
+  }
+  for (const { [side]: func } of functions) {
+    if (func?.merged) {
+      mergedEntities.push(func)
+      instanceOrdinalSets.push(func.instanceOrdinals)
+    }
+  }
+  if (mergedEntities.length === 0) {
+    return
+  }
+  const retentions = retentionsOf(instanceOrdinalSets)
+  for (const [index, entity] of mergedEntities.entries()) {
+    Object.assign(entity, retentions[index])
+  }
+}
 
 /**
  * Pairs the sides' entities by match key and, where several share one, by
@@ -225,10 +271,9 @@ const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
  * by. The JVM includes an address in the names of the hidden classes it
  * generates for lambdas, so one class's lambdas share a match key.
  *
- * A merged constructor takes the entry match's name its members share, because
- * each member's own name contains the per-run part they differ in. Merged
- * members can be categorized differently, so it takes the category of its
- * largest member.
+ * A merged constructor takes the entry match's name its unmerged entities
+ * share, because each one's own name contains the per-run part they differ in.
+ * They can be categorized differently, so it takes the category of the largest.
  */
 const mergeConstructors = (
   constructors: AggregatedHeapSnapshotConstructor[],
@@ -236,8 +281,8 @@ const mergeConstructors = (
   options: FormattingProfileToMdOptions,
 ): DiffedHeapSnapshotConstructor[] => {
   const largestSelfSizes = new Map<DiffedHeapSnapshotConstructor, number>()
-  // A merged constructor shares its first member's instances until another
-  // member merges into it.
+  // A merged constructor shares its first unmerged entity's instances until
+  // another unmerged entity merges into it.
   const copiedInstances = new Set<DiffedHeapSnapshotConstructor>()
   return mergeLinelessEntities({
     entities: constructors,
@@ -252,16 +297,17 @@ const mergeConstructors = (
         location: constructor.location,
         category: constructor.category,
         selfSize: constructor.selfSize,
-        minRetainedSize: constructor.minRetainedSize,
+        retainedSize: constructor.retainedSize,
         instanceCount: constructor.instances.length,
         instances: constructor.instances,
+        outermostInstanceOrdinals: constructor.outermostInstanceOrdinals,
+        jointlyRetainedOrdinals: constructor.jointlyRetainedOrdinals,
       }
       largestSelfSizes.set(diffed, constructor.selfSize)
       return diffed
     },
     merge: (merged, constructor) => {
       merged.selfSize += constructor.selfSize
-      merged.minRetainedSize += constructor.minRetainedSize
       merged.instanceCount += constructor.instances.length
       if (!copiedInstances.has(merged)) {
         merged.instances = [...merged.instances]
@@ -299,13 +345,14 @@ const mergeFunctions = (
       location: func.location,
       category: func.category,
       selfSize: func.selfSize,
-      minRetainedSize: func.minRetainedSize,
+      retainedSize: func.retainedSize,
       instanceCount: func.instanceOrdinals.length,
       instanceOrdinals: [...func.instanceOrdinals],
+      outermostInstanceOrdinals: func.outermostInstanceOrdinals,
+      jointlyRetainedOrdinals: func.jointlyRetainedOrdinals,
     }),
     merge: (merged, func) => {
       merged.selfSize += func.selfSize
-      merged.minRetainedSize += func.minRetainedSize
       merged.instanceCount += func.instanceOrdinals.length
       merged.instanceOrdinals.push(...func.instanceOrdinals)
     },
@@ -315,6 +362,8 @@ const mergeFunctions = (
  * Converts a side's entities to their diffed form, merging each entity that
  * has no line and that the other side lacks into the first such entity that
  * shares its match key, which then takes the entry match's name and location.
+ * {@link diffAggregatedHeapSnapshots} assigns a merged entity's retention once
+ * both kinds of entity have merged.
  */
 const mergeLinelessEntities = <
   Entity extends AggregatedHeapSnapshotEntity,
@@ -364,6 +413,7 @@ const mergeLinelessEntities = <
       diffed.push(first)
     }
   }
+
   return diffed
 }
 
@@ -387,6 +437,7 @@ const mergeStrings = (
     const merged = valueToString.get(string.name)
     if (merged) {
       merged.selfSize += string.selfSize
+      merged.retainedSize += string.selfSize
       merged.instanceCount++
     } else {
       valueToString.set(string.name, {
@@ -395,6 +446,7 @@ const mergeStrings = (
         name: string.name,
         category: string.category,
         selfSize: string.selfSize,
+        retainedSize: string.selfSize,
         instanceCount: 1,
       })
     }
@@ -606,9 +658,12 @@ export class RetainerPaths {
     }
   }
 
-  /** Interns the path of {@link steps}, from the node outward. */
-  public pathOfSteps(steps: readonly RetainerPathStep[]): number {
-    let path = RetainerPaths.ROOT
+  /** Interns the path of {@link steps}, from the node outward, then {@link rest}. */
+  public pathOfSteps(
+    steps: readonly RetainerPathStep[],
+    rest: number = RetainerPaths.ROOT,
+  ): number {
+    let path = rest
     for (let index = steps.length - 1; index >= 0; index--) {
       const { edge, retainer } = steps[index]!
       path = this.#intern(
@@ -619,6 +674,58 @@ export class RetainerPaths {
       )
     }
     return path
+  }
+
+  /**
+   * Interns the retainer path of a jointly retained node of {@link snapshot},
+   * whose first step records that every path passes through an instance of the
+   * entity.
+   */
+  public pathOfJointlyRetainedNodeIn(
+    snapshot: PathSnapshot,
+    nodeOrdinal: number,
+    entityName: string,
+  ): number {
+    const path = this.pathOfNodeIn(snapshot)(nodeOrdinal)
+    // A path drops its trailing step through an internal node, leaving none.
+    const retainer = this.#steps[path]?.retainer ?? GC_ROOT_RETAINER
+    return this.#intern(
+      { type: `several-instance-paths`, entityName },
+      retainer,
+      path === RetainerPaths.ROOT ? path : this.#rests[path]!,
+      formatRetainerLabel(retainer, this.options),
+    )
+  }
+
+  /**
+   * Interns the retainer path of a node of {@link snapshot} that
+   * {@link jointlyRetainedOrdinal} dominates, or the node itself, through the
+   * path of that jointly retained node.
+   */
+  public pathThroughJointlyRetainedNodeIn(
+    snapshot: PathSnapshot,
+    nodeOrdinal: number,
+    jointlyRetainedOrdinal: number,
+    entityName: string,
+  ): number {
+    const pathOf = this.pathOfNodeIn(snapshot)
+    const steps = this.stepsOf(pathOf(nodeOrdinal))
+    return this.pathOfSteps(
+      steps.slice(
+        0,
+        steps.length - this.stepsOf(pathOf(jointlyRetainedOrdinal)).length,
+      ),
+      this.pathOfJointlyRetainedNodeIn(
+        snapshot,
+        jointlyRetainedOrdinal,
+        entityName,
+      ),
+    )
+  }
+
+  /** Interns {@link path} extended by {@link step} at its outer end. */
+  public pathEndingWith(path: number, step: RetainerPathStep): number {
+    return this.pathOfSteps([...this.stepsOf(path), step])
   }
 
   /** The steps of a path, from the node outward. */
@@ -783,6 +890,8 @@ const keepsRetainerStep = (internal: boolean, isRestEmpty: boolean): boolean =>
 
 const ANY_ELEMENT_EDGE: RetainerPathEdge = { type: `any-element` }
 
+const GC_ROOT_RETAINER: RetainerNode = { id: 0, name: GC_ROOT_NAME }
+
 /**
  * The key a retainer edge matches by, with the run-varying identifier the
  * origin strips from a property's name stripped.
@@ -821,8 +930,12 @@ export type RetainerGroup = {
   node?: AggregatedHeapSnapshotNode
 }
 
+export type DiffedConstructorRetainerGroup =
+  DiffedInstanceGroup | DiffedJointlyRetainedNodeGroup
+
 /** One side's instances of a constructor that share a retainer path. */
-export type DiffedInstanceGroup = RetainerGroup & {
+type DiffedInstanceGroup = RetainerGroup & {
+  node?: undefined
   instanceCount: number
 
   /**
@@ -832,23 +945,36 @@ export type DiffedInstanceGroup = RetainerGroup & {
   retainedSize: number
 }
 
-/** Pairs a constructor's shown instance groups across a diff's sides. */
-export const matchConstructorInstanceGroups = (
+/**
+ * One side's jointly retained nodes of a constructor that share a retainer path,
+ * name, category, and location. They are not instances, so they add no instance
+ * count and no self size.
+ */
+type DiffedJointlyRetainedNodeGroup = RetainerGroup & {
+  node: AggregatedHeapSnapshotNode
+  instanceCount?: undefined
+  selfSize: 0
+
+  retainedSize: number
+}
+
+/** Pairs a constructor's shown retainer groups across a diff's sides. */
+export const matchConstructorRetainerGroups = (
   diff: AggregatedHeapSnapshotDiff,
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
-): EntryDiff<DiffedInstanceGroup>[] =>
+): EntryDiff<DiffedConstructorRetainerGroup>[] =>
   matchRetainerGroups(
     {
-      base: groupConstructorInstances(
+      base: groupConstructorNodes(
         diff,
         constructor,
         `base`,
         retainerPaths,
         options,
       ),
-      current: groupConstructorInstances(
+      current: groupConstructorNodes(
         diff,
         constructor,
         `current`,
@@ -861,32 +987,87 @@ export const matchConstructorInstanceGroups = (
     options,
   )
 
-/** Groups one side's shown instances of a constructor by their retainer paths. */
-export const groupConstructorInstances = (
+/**
+ * Groups one side's shown instances of a constructor by their retainer paths,
+ * and its jointly retained nodes by theirs.
+ */
+export const groupConstructorNodes = (
   diff: AggregatedHeapSnapshotDiff,
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>,
   side: `base` | `current`,
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
-): DiffedInstanceGroup[] => {
-  const { context } = diff[side]
-  return groupInstancesByPath(
-    (constructor[side]?.instances ?? []).filter(instance =>
-      options.showEntry(instance, context),
+): DiffedConstructorRetainerGroup[] => {
+  const snapshot = diff[side]
+  const { context } = snapshot
+  return [
+    ...groupInstancesByPath(
+      (constructor[side]?.instances ?? []).filter(instance =>
+        options.showEntry(instance, context),
+      ),
+      retainerPaths.paths.pathOfNodeIn(snapshot),
     ),
-    retainerPaths.paths.pathOfNodeIn(diff[side]),
-  )
+    ...groupJointlyRetainedNodes(
+      snapshot,
+      constructor[side]?.jointlyRetainedOrdinals ?? [],
+      formatRetainerName(constructor, options),
+      retainerPaths.paths,
+      options,
+    ),
+  ]
 }
 
-/** Instances that share a retainer path, and the first of them. */
-type InstanceGroup = DiffedInstanceGroup & { nodeOrdinal: number }
+/**
+ * Groups an entity's shown jointly retained nodes by their names, categories,
+ * locations, and retainer paths.
+ */
+export const groupJointlyRetainedNodes = (
+  snapshot: PathSnapshot & Pick<AggregatedHeapSnapshot, `nodeOf` | `context`>,
+  jointlyRetainedOrdinals: readonly number[],
+  entityName: string,
+  paths: RetainerPaths,
+  options: FormattingProfileToMdOptions,
+): WithFirstOrdinal<DiffedJointlyRetainedNodeGroup>[] => {
+  const keyToGroup = new Map<
+    number | string,
+    WithFirstOrdinal<DiffedJointlyRetainedNodeGroup>
+  >()
+  for (const nodeOrdinal of jointlyRetainedOrdinals) {
+    const node = snapshot.nodeOf(nodeOrdinal, options)
+    if (!options.showEntryUncached(node, snapshot.context)) {
+      continue
+    }
+    const path = paths.pathOfJointlyRetainedNodeIn(
+      snapshot,
+      nodeOrdinal,
+      entityName,
+    )
+    const key = retainerGroupKey(path, node)
+    let group = keyToGroup.get(key)
+    if (!group) {
+      group = {
+        path,
+        node,
+        nodeOrdinal,
+        selfSize: 0,
+        retainedSize: 0,
+      }
+      keyToGroup.set(key, group)
+    }
+    group.retainedSize += node.retainedSize
+  }
+  return [...keyToGroup.values()]
+}
+
+/** A group of a constructor's nodes, and the first of them. */
+type WithFirstOrdinal<Group> = Group & { nodeOrdinal: number }
 
 /** Groups {@link instances} by the retainer paths {@link pathOf} interns. */
 export const groupInstancesByPath = (
   instances: readonly AggregatedHeapSnapshotNode[],
   pathOf: (nodeOrdinal: number) => number,
-): InstanceGroup[] => {
-  const pathToGroup = new Map<number, InstanceGroup>()
+): WithFirstOrdinal<DiffedInstanceGroup>[] => {
+  const pathToGroup = new Map<number, WithFirstOrdinal<DiffedInstanceGroup>>()
   for (const instance of instances) {
     const path = pathOf(instance.id)
     let group = pathToGroup.get(path)
@@ -956,14 +1137,15 @@ export const groupFunctionRetainedNodes = (
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
 ): DiffedRetainedNodeGroup[] => {
-  const pathWithin = retainerPaths.within[side]
+  const entity = fn[side]
+  if (!entity) {
+    return []
+  }
+  const pathOf = newRetainedNodePathOf(entity, side, retainerPaths)
   const keyToGroup = new Map<number | string, DiffedRetainedNodeGroup>()
-  for (const { node, instanceOrdinal } of shownRetainedNodes(
-    fn[side]?.instanceOrdinals ?? [],
-    diff[side],
-    options,
-  )) {
-    const path = pathWithin(node.id, instanceOrdinal)
+  for (const retainedNode of shownRetainedNodes(entity, diff[side], options)) {
+    const { node } = retainedNode
+    const path = pathOf(retainedNode)
     const key = retainerGroupKey(path, node)
     const group = keyToGroup.get(key)
     if (group) {
@@ -973,6 +1155,29 @@ export const groupFunctionRetainedNodes = (
     }
   }
   return [...keyToGroup.values()]
+}
+
+/**
+ * Returns the function that interns a function's retained node's path within
+ * what retains it. A jointly retained node's path ends at the function, whose
+ * instances retain it through several paths.
+ */
+const newRetainedNodePathOf = (
+  fn: DiffedHeapSnapshotFunction,
+  side: `base` | `current`,
+  { within }: DiffRetainerPaths,
+): ((retainedNode: ShownRetainedNode) => number) => {
+  const pathWithin = within[side]
+  const stepToFunction: RetainerPathStep = {
+    edge: SEVERAL_RETAINERS_EDGE,
+    retainer: { id: fn.id, name: fn.name, location: fn.location },
+  }
+  return ({ node, retainingOrdinal, isJointlyRetained }) => {
+    const path = pathWithin(node.id, retainingOrdinal)
+    return isJointlyRetained
+      ? within.paths.pathEndingWith(path, stepToFunction)
+      : path
+  }
 }
 
 /**

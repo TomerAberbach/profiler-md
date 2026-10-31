@@ -15,7 +15,7 @@ Held 10.4 MiB (+14.46 KiB, +0.1%) over 109,569 → 109,640 nodes and 307,833 �
 | Symbol             |   0.0% |         0 B |         <0.1% |               448 B |              28 |
 | Native             |   0.0% |         0 B |         <0.1% |               231 B |               7 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -263,23 +263,23 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `JSLexicalEnvironment`
 
-|  Change |       Delta |             % |               Size | Instances | Path                                                                                             |
-| ------: | ----------: | ------------: | -----------------: | --------: | ------------------------------------------------------------------------------------------------ |
-|   +5.3% | +25.826 KiB | 51.0% → 51.4% |  489 KiB → 514 KiB | 203 → 204 | `JSLexicalEnvironment ←(several paths)– <root>`                                                  |
-|  -48.7% |   -1.71 KiB |   0.4% → 0.2% | 3.52 KiB → 1.8 KiB |     2 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>`            |
-|     new |   +1.71 KiB |   0.0% → 0.2% |     0 B → 1.71 KiB |     0 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.testKitchen– Object ←(several paths)– <root>`   |
-|  +90.6% |  +1.359 KiB |   0.2% → 0.3% | 1.5 KiB → 2.86 KiB |     1 → 2 | `JSLexicalEnvironment ← Function ←[2]– Array ←.c– JSLexicalEnvironment ←(several paths)– <root>` |
-| removed |  -1.359 KiB |   0.1% → 0.0% |     1.36 KiB → 0 B |     1 → 0 | `JSLexicalEnvironment ← Function ←[2]– Array ←.p– JSLexicalEnvironment ←(several paths)– <root>` |
+|  Change |       Delta |             % |                Size | Instances | Path                                                                                             |
+| ------: | ----------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------ |
+|   +5.3% | +25.826 KiB | 51.0% → 51.4% |   489 KiB → 514 KiB | 203 → 204 | `JSLexicalEnvironment ←(several paths)– <root>`                                                  |
+| +125.9% |  +15.97 KiB |   1.3% → 2.9% | 12.7 KiB → 28.7 KiB |           | `FunctionExecutable ←(several JSLexicalEnvironment paths)– <root>`                               |
+|  -48.7% |   -1.71 KiB |   0.4% → 0.2% |  3.52 KiB → 1.8 KiB |     2 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>`            |
+|     new |   +1.71 KiB |   0.0% → 0.2% |      0 B → 1.71 KiB |     0 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.testKitchen– Object ←(several paths)– <root>`   |
+|  +90.6% |  +1.359 KiB |   0.2% → 0.3% |  1.5 KiB → 2.86 KiB |     1 → 2 | `JSLexicalEnvironment ← Function ←[2]– Array ←.c– JSLexicalEnvironment ←(several paths)– <root>` |
 
 ##### `Function`
 
 |   Change |       Delta |             % |                Size | Instances | Path                                                                             |
 | -------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
+|   +62.5% | +15.271 KiB |   0.7% → 1.1% | 24.4 KiB → 39.7 KiB |           | `FunctionExecutable ←(several Function paths)– <root>`                           |
 |    +2.7% | +14.878 KiB | 15.1% → 15.4% |   543 KiB → 558 KiB | 734 → 743 | `Function ←(several paths)– <root>`                                              |
 |   +54.4% | +13.435 KiB |   0.7% → 1.1% | 24.7 KiB → 38.1 KiB | 163 → 253 | `Function ← Window ← <root>`                                                     |
 |    +8.8% | +10.067 KiB |   3.2% → 3.4% |   115 KiB → 125 KiB | 711 → 762 | `Function ← Window ←(several paths)– <root>`                                     |
 | +3337.5% |  +8.343 KiB |  <0.1% → 0.2% |    256 B → 8.59 KiB |     1 → 2 | `Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– <root>` |
-| +2068.8% |  +5.171 KiB |  <0.1% → 0.1% |    256 B → 5.42 KiB |     1 → 2 | `Function ←.anyFailed– JSLexicalEnvironment ←(several paths)– <root>`            |
 
 ##### `FunctionRareData`
 
@@ -307,9 +307,9 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | ------: | ----------: | -----------: | ------------------: | --------: | ------------------------------------------------------------------------- |
 | +125.6% | +13.088 KiB |  0.2% → 0.4% | 10.4 KiB → 23.5 KiB |     1 → 2 | `Object ←.:– Object ←(several paths)– <root>`                             |
 | removed | -13.088 KiB |  0.2% → 0.0% |      13.1 KiB → 0 B |     1 → 0 | `Object ←.filters– Object ←(several paths)– <root>`                       |
+|  +73.3% | +12.939 KiB |  0.3% → 0.5% | 17.7 KiB → 30.6 KiB |           | `FunctionExecutable ←(several Object paths)– <root>`                      |
 |  -40.5% |  -5.076 KiB |  0.2% → 0.1% | 12.5 KiB → 7.45 KiB |     5 → 3 | `Object ←.prototype– Function ←(several paths)– InjectedScript ← <root>`  |
 | +204.4% |  +5.076 KiB | <0.1% → 0.1% | 2.48 KiB → 7.56 KiB |     1 → 3 | `Object ←.homeObject– Function ←(several paths)– InjectedScript ← <root>` |
-|  -46.8% |  -4.054 KiB |         0.1% | 8.67 KiB → 4.62 KiB |     2 → 1 | `Object ←.tk– Object ←(several paths)– <root>`                            |
 
 ##### `Node`
 
@@ -403,12 +403,19 @@ Retainer paths with the largest change in contribution to each constructor's ret
 |   -2.4% |     -198 B |          1.1% | 8.13 KiB → 7.94 KiB |         2 | `Array ←.fns– JSLexicalEnvironment ←(several paths)– Object ←.postEdit– Object ←.hooks– JSLexicalEnvironment ←(several paths)– <root>` |
 | removed |     -104 B |  <0.1% → 0.0% |         104 B → 0 B |     1 → 0 | `Array ←.colgroup– Object ←.wrapMap– JSLexicalEnvironment ←(several paths)– <root>`                                                    |
 
+##### `HTMLParagraphElement`
+
+|  Change |  Delta |            % |        Size | Instances | Path                                                                              |
+| ------: | -----: | -----------: | ----------: | --------: | --------------------------------------------------------------------------------- |
+| removed | -256 B | 11.0% → 0.0% | 256 B → 0 B |           | `Structure ←(several HTMLParagraphElement paths)– Array ←(several paths)– <root>` |
+
 ##### `HTMLAnchorElement`
 
 |  Change |      Delta |             % |                Size | Instances | Path                                                                  |
 | ------: | ---------: | ------------: | ------------------: | --------: | --------------------------------------------------------------------- |
 |  +24.9% | +1.674 KiB | 23.0% → 28.9% | 6.72 KiB → 8.39 KiB |     6 → 7 | `HTMLAnchorElement ←(several paths)– <root>`                          |
 | removed | -1.674 KiB |   5.7% → 0.0% |      1.67 KiB → 0 B |     1 → 0 | `HTMLAnchorElement ←(several paths)– Window ←(several paths)– <root>` |
+|  -29.4% |     -160 B |   1.8% → 1.3% |       544 B → 384 B |           | `Structure ←(several HTMLAnchorElement paths)– <root>`                |
 
 ##### `Range`
 
@@ -426,9 +433,10 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `HTMLHeadingElement`
 
-| Change |  Delta |             % |          Size | Instances | Path                                          |
-| -----: | -----: | ------------: | ------------: | --------: | --------------------------------------------- |
-| +32.8% | +144 B | 16.5% → 22.1% | 439 B → 583 B |         2 | `HTMLHeadingElement ←(several paths)– <root>` |
+|  Change |  Delta |             % |          Size | Instances | Path                                                    |
+| ------: | -----: | ------------: | ------------: | --------: | ------------------------------------------------------- |
+| removed | -160 B |   6.0% → 0.0% |   160 B → 0 B |           | `Structure ←(several HTMLHeadingElement paths)– <root>` |
+|  +32.8% | +144 B | 16.5% → 22.1% | 439 B → 583 B |         2 | `HTMLHeadingElement ←(several paths)– <root>`           |
 
 ##### `StructureChain`
 

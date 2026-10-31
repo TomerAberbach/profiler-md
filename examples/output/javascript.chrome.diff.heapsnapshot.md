@@ -20,7 +20,7 @@ Held 3.15 MiB → 3.03 MiB (-122.748 KiB, -3.8%) over 67,919 → 67,887 nodes
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -238,13 +238,13 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `Object` (`<unknown>`)
 
-|  Change |        Delta |            % |               Size | Instances | Path                                                                                                                                         |
-| ------: | -----------: | -----------: | -----------------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -88.0% | -328.015 KiB | 33.3% → 2.9% | 373 KiB → 44.8 KiB |   48 → 32 | `Object ← (GC root)`                                                                                                                         |
-|     new | +260.562 KiB | 0.0% → 16.9% |      0 B → 261 KiB |     0 → 1 | `Object ←.d3– Window / http://127.0.0.1:52789`                                                                                               |
-|     new |  +67.761 KiB |  0.0% → 4.4% |     0 B → 67.8 KiB |    0 → 15 | `Object ←(several paths)– Window / http://127.0.0.1:52789`                                                                                   |
-| removed |  -30.007 KiB |  2.7% → 0.0% |       30 KiB → 0 B |     1 → 0 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                   |
-|     new |  +29.976 KiB |  0.0% → 1.9% |       0 B → 30 KiB |     0 → 1 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82034) ←.Su– system / Context ←(several paths)– Window / http://127.0.0.1:52789` |
+| Change |        Delta |            % |               Size | Instances | Path                                                                              |
+| -----: | -----------: | -----------: | -----------------: | --------: | --------------------------------------------------------------------------------- |
+| -88.0% | -328.015 KiB | 33.3% → 2.9% | 373 KiB → 44.8 KiB |   48 → 32 | `Object ← (GC root)`                                                              |
+|    new | +282.789 KiB | 0.0% → 18.3% |      0 B → 283 KiB |           | `system / Context ←(several Object paths)– Window / http://127.0.0.1:52789`       |
+|    new | +260.562 KiB | 0.0% → 16.9% |      0 B → 261 KiB |     0 → 1 | `Object ←.d3– Window / http://127.0.0.1:52789`                                    |
+|    new |  +67.761 KiB |  0.0% → 4.4% |     0 B → 67.8 KiB |    0 → 15 | `Object ←(several paths)– Window / http://127.0.0.1:52789`                        |
+|    new |  +30.359 KiB |  0.0% → 2.0% |     0 B → 30.4 KiB |           | `(shared function info) ←(several Object paths)– Window / http://127.0.0.1:52789` |
 
 ##### `SVGGElement` (`<unknown>`)
 
@@ -307,9 +307,9 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | --------: | -----------: | ------------: | --------------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
 |   -100.0% | -385.949 KiB | 76.8% → <0.1% |  386 KiB → 80 B |    32 → 4 | `system / Context ← (GC root)`                                                                                     |
 | +59829.8% | +282.789 KiB |  0.1% → 71.0% | 484 B → 283 KiB |    1 → 28 | `system / Context ←(several paths)– Window / http://127.0.0.1:52789`                                               |
+|   removed |  -14.074 KiB |   2.8% → 0.0% |  14.1 KiB → 0 B |           | `(shared function info) ←(several system / Context paths)– (GC root)`                                              |
+|       new |  +13.937 KiB |   0.0% → 3.5% |  0 B → 13.9 KiB |           | `(shared function info) ←(several system / Context paths)– Window / http://127.0.0.1:52789`                        |
 |   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
-|   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
-|   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
 
 ##### `Float32Array` (`<unknown>`)
 
@@ -441,7 +441,7 @@ Retained nodes with the largest change in contribution to each function's retain
 |    new | +100 B | 0.0% → 5.3% | 0 B → 100 B | `system / BytecodeArray`   | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:196180) ←.lineEnd– Object ←.prototype– Um (./node_modules/d3/dist/d3.min.js:2:193552)` |
 |    new |  +80 B | 0.0% → 4.2% |  0 B → 80 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.prototype– Um (./node_modules/d3/dist/d3.min.js:2:193552)`                                                                      |
 |    new |  +52 B | 0.0% → 2.8% |  0 B → 52 B | `system / BytecodeArray`   | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:196109) ←.areaEnd– Object ←.prototype– Um (./node_modules/d3/dist/d3.min.js:2:193552)` |
-|    new |  +48 B | 0.0% → 2.5% |  0 B → 48 B | `point`                    | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:196295) ←.point– Object ←.prototype– Um (./node_modules/d3/dist/d3.min.js:2:193552)`                                                       |
+|    new |  +48 B | 0.0% → 2.5% |  0 B → 48 B | `areaStart`                | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:196076) ←.areaStart– Object ←.prototype– Um (./node_modules/d3/dist/d3.min.js:2:193552)`                                           |
 
 #### `au` (`./node_modules/d3/dist/d3.min.js:2:79110`)
 
@@ -450,48 +450,48 @@ Retained nodes with the largest change in contribution to each function's retain
 |    new | +352 B | 0.0% → 29.6% | 0 B → 352 B | `code`                         | `<unknown>` | `code ←.instruction_stream– (code) ←.code– au (./node_modules/d3/dist/d3.min.js:2:79110)`                                                             |
 |    new | +192 B | 0.0% → 16.2% | 0 B → 192 B | `(instruction stream for au)`  | `<unknown>` | `(instruction stream for au) ←.instruction_stream– (code for au) ←.trusted_function_data– au ←.shared– au (./node_modules/d3/dist/d3.min.js:2:79110)` |
 |    new |  +92 B |  0.0% → 7.7% |  0 B → 92 B | `system / ProtectedFixedArray` | `<unknown>` | `system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– au (./node_modules/d3/dist/d3.min.js:2:79110)`                                    |
-|    new |  +64 B |  0.0% → 5.4% |  0 B → 64 B | `(code)`                       | `<unknown>` | `(code) ←.code– au (./node_modules/d3/dist/d3.min.js:2:79110)`                                                                                        |
 |    new |  +64 B |  0.0% → 5.4% |  0 B → 64 B | `(code for au)`                | `<unknown>` | `(code for au) ←.trusted_function_data– au ←.shared– au (./node_modules/d3/dist/d3.min.js:2:79110)`                                                   |
+|    new |  +64 B |  0.0% → 5.4% |  0 B → 64 B | `(code)`                       | `<unknown>` | `(code) ←.code– au (./node_modules/d3/dist/d3.min.js:2:79110)`                                                                                        |
 
 #### `Jx` (`./node_modules/d3/dist/d3.min.js:2:210278`)
 
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:210346) ←.areaStart– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:210583) ←.lineEnd– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:210379) ←.areaEnd– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:210416) ←.lineStart– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:210698) ←.point– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:210379) ←.areaEnd– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:210583) ←.lineEnd– Object ←.prototype– Jx (./node_modules/d3/dist/d3.min.js:2:210278)`       |
 
 #### `Xx` (`./node_modules/d3/dist/d3.min.js:2:206588`)
 
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:206658) ←.areaStart– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:206820) ←.lineEnd– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:206691) ←.areaEnd– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:206728) ←.lineStart– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206935) ←.point– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:206691) ←.areaEnd– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:206820) ←.lineEnd– Object ←.prototype– Xx (./node_modules/d3/dist/d3.min.js:2:206588)`       |
 
 #### `Wx` (`./node_modules/d3/dist/d3.min.js:2:207850`)
 
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:207918) ←.areaStart– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:208155) ←.lineEnd– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:207951) ←.areaEnd– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:207988) ←.lineStart– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:208380) ←.point– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:207951) ←.areaEnd– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:208155) ←.lineEnd– Object ←.prototype– Wx (./node_modules/d3/dist/d3.min.js:2:207850)`       |
 
 #### `Yx` (`./node_modules/d3/dist/d3.min.js:2:204737`)
 
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:204807) ←.areaStart– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204969) ←.lineEnd– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:204840) ←.areaEnd– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:204877) ←.lineStart– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:205191) ←.point– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:204840) ←.areaEnd– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204969) ←.lineEnd– Object ←.prototype– Yx (./node_modules/d3/dist/d3.min.js:2:204737)`       |
 
 #### `ym` (`./node_modules/d3/dist/d3.min.js:2:192478`)
 
@@ -508,20 +508,20 @@ Retained nodes with the largest change in contribution to each function's retain
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:215014) ←.areaStart– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:215138) ←.lineEnd– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:215047) ←.areaEnd– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:215084) ←.lineStart– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:215365) ←.point– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:215047) ←.areaEnd– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:215138) ←.lineEnd– Object ←.prototype– lw (./node_modules/d3/dist/d3.min.js:2:212348)`       |
 
 #### `fw` (`./node_modules/d3/dist/d3.min.js:2:211922`)
 
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`                                                      |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:214426) ←.areaStart– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)` |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:214538) ←.lineEnd– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`       |
-|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:214459) ←.areaEnd– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:214496) ←.lineStart– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)` |
 |    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:214940) ←.point– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`             |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:214459) ←.areaEnd– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`       |
+|    new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:214538) ←.lineEnd– Object ←.prototype– fw (./node_modules/d3/dist/d3.min.js:2:211922)`       |
 
 #### `Gm` (`./node_modules/d3/dist/d3.min.js:2:196504`)
 
@@ -529,8 +529,8 @@ Retained nodes with the largest change in contribution to each function's retain
 | ------: | -----: | -----------: | ----------: | ------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |     new | +224 B | 0.0% → 20.2% | 0 B → 224 B | `(object properties)`    | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)`                                                      |
 | removed |  -64 B | 29.1% → 0.0% |  64 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– Gm ←.shared– Gm (./node_modules/d3/dist/d3.min.js:2:196484)`                                               |
-|     new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaStart`              | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:197452) ←.areaStart– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)` |
-|     new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineEnd`                | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:197584) ←.lineEnd– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)`       |
+|     new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `lineStart`              | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:197540) ←.lineStart– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)` |
+|     new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `point`                  | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:197624) ←.point– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)`             |
 |     new |  +48 B |  0.0% → 4.3% |  0 B → 48 B | `areaEnd`                | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:197496) ←.areaEnd– Object ←.prototype– Gm (./node_modules/d3/dist/d3.min.js:2:196504)`       |
 
 #### `Kx` (`./node_modules/d3/dist/d3.min.js:2:209010`)
@@ -538,9 +538,9 @@ Retained nodes with the largest change in contribution to each function's retain
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 27.1% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`                                                      |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:209323) ←.lineEnd– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`       |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:209617) ←.point– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`             |
 |    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:209102) ←.lineStart– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)` |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:209617) ←.point– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`             |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:209323) ←.lineEnd– Object ←.prototype– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`       |
 |    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `Kx`                  | `<unknown>` | `Kx ←.shared– Kx (./node_modules/d3/dist/d3.min.js:2:209010)`                                                                                               |
 
 #### `jx` (`./node_modules/d3/dist/d3.min.js:2:205618`)
@@ -548,9 +548,9 @@ Retained nodes with the largest change in contribution to each function's retain
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 27.1% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)`                                                      |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:205858) ←.lineEnd– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)`       |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206152) ←.point– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)`             |
 |    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:205712) ←.lineStart– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)` |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206152) ←.point– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)`             |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:205858) ←.lineEnd– Object ←.prototype– jx (./node_modules/d3/dist/d3.min.js:2:205618)`       |
 |    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `jx`                  | `<unknown>` | `jx ←.shared– jx (./node_modules/d3/dist/d3.min.js:2:205618)`                                                                                               |
 
 #### `Ix` (`./node_modules/d3/dist/d3.min.js:2:201749`)
@@ -558,9 +558,9 @@ Retained nodes with the largest change in contribution to each function's retain
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +128 B | 0.0% → 17.7% | 0 B → 128 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)`                                                      |
-|    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:204088) ←.lineStart– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)` |
-|    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204154) ←.lineEnd– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)`       |
 |    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:204417) ←.point– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)`             |
+|    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204154) ←.lineEnd– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)`       |
+|    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:204088) ←.lineStart– Object ←.prototype– Ix (./node_modules/d3/dist/d3.min.js:2:201749)` |
 |    new |  +48 B |  0.0% → 6.6% |  0 B → 48 B | `Ix`                  | `<unknown>` | `Ix ←.shared– Ix (./node_modules/d3/dist/d3.min.js:2:201749)`                                                                                               |
 
 #### `nw` (`./node_modules/d3/dist/d3.min.js:2:211383`)
@@ -568,9 +568,9 @@ Retained nodes with the largest change in contribution to each function's retain
 | Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | -----: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +224 B | 0.0% → 27.1% | 0 B → 224 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`                                                      |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:213119) ←.lineEnd– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`       |
-|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:213176) ←.point– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`             |
 |    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:213085) ←.lineStart– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)` |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:213176) ←.point– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`             |
+|    new |  +48 B |  0.0% → 5.8% |  0 B → 48 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:213119) ←.lineEnd– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`       |
 |    new |  +40 B |  0.0% → 4.8% |  0 B → 40 B | `system / Map`        | `<unknown>` | `system / Map ←.map– Object ←.prototype– nw (./node_modules/d3/dist/d3.min.js:2:211383)`                                                                    |
 
 #### `tx` (`./node_modules/d3/dist/d3.min.js:2:198280`)
@@ -579,9 +579,9 @@ Retained nodes with the largest change in contribution to each function's retain
 | -----: | ----: | ----------: | ---------: | -------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |    new | +68 B | 0.0% → 9.3% | 0 B → 68 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)`                            |
 |    new | +68 B | 0.0% → 9.3% | 0 B → 68 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– tx (./node_modules/d3/dist/d3.min.js:2:198280)`                                                |
-|    new | +48 B | 0.0% → 6.6% | 0 B → 48 B | `point`                    | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:198342) ←.point– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)`             |
-|    new | +48 B | 0.0% → 6.6% | 0 B → 48 B | `lineEnd`                  | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:198333) ←.lineEnd– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)`       |
 |    new | +48 B | 0.0% → 6.6% | 0 B → 48 B | `lineStart`                | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:198309) ←.lineStart– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)` |
+|    new | +48 B | 0.0% → 6.6% | 0 B → 48 B | `lineEnd`                  | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:198333) ←.lineEnd– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)`       |
+|    new | +48 B | 0.0% → 6.6% | 0 B → 48 B | `point`                    | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:198342) ←.point– Object ←.prototype– tx (./node_modules/d3/dist/d3.min.js:2:198280)`             |
 
 #### `km` (`./node_modules/d3/dist/d3.min.js:2:192703`)
 
@@ -590,18 +590,18 @@ Retained nodes with the largest change in contribution to each function's retain
 |    new | +72 B | 0.0% → 11.9% | 0 B → 72 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)`                                                                                                                        |
 |    new | +64 B | 0.0% → 10.6% | 0 B → 64 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)` |
 |    new | +56 B |  0.0% → 9.3% | 0 B → 56 B | `system / ScopeInfo`     | `<unknown>` | `system / ScopeInfo ←.name_or_scope_info– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)`                                                                                                                               |
-|    new | +48 B |  0.0% → 7.9% | 0 B → 48 B | `(shared function info)` | `<unknown>` | `(shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)`                                                 |
 |    new | +48 B |  0.0% → 7.9% | 0 B → 48 B | `(shared function info)` | `<unknown>` | `(shared function info) ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)`                                                                 |
+|    new | +48 B |  0.0% → 7.9% | 0 B → 48 B | `(shared function info)` | `<unknown>` | `(shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– km ←.shared– km (./node_modules/d3/dist/d3.min.js:2:192703)`                                                 |
 
 #### `Ux` (`./node_modules/d3/dist/d3.min.js:2:201718`)
 
 | Change | Delta |             % |          Self | Name                  | Location                                    | Path to function                                                                                                                                            |
 | -----: | ----: | ------------: | ------------: | --------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | +75.0% | +96 B | 17.7% → 20.2% | 128 B → 224 B | `(object properties)` | `<unknown>`                                 | `(object properties) ←.properties– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)`                                                      |
-|    new | +48 B |   0.0% → 4.3% |    0 B → 48 B | `areaStart`           | `<unknown>`                                 | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:203455) ←.areaStart– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)` |
 |    new | +48 B |   0.0% → 4.3% |    0 B → 48 B | `areaEnd`             | `<unknown>`                                 | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:203488) ←.areaEnd– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)`       |
-|    new | +32 B |   0.0% → 2.9% |    0 B → 32 B | `areaStart`           | `./node_modules/d3/dist/d3.min.js:2:203455` | `areaStart ←.areaStart– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)`                                                                 |
+|    new | +48 B |   0.0% → 4.3% |    0 B → 48 B | `areaStart`           | `<unknown>`                                 | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:203455) ←.areaStart– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)` |
 |    new | +32 B |   0.0% → 2.9% |    0 B → 32 B | `areaEnd`             | `./node_modules/d3/dist/d3.min.js:2:203488` | `areaEnd ←.areaEnd– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)`                                                                     |
+|    new | +32 B |   0.0% → 2.9% |    0 B → 32 B | `areaStart`           | `./node_modules/d3/dist/d3.min.js:2:203455` | `areaStart ←.areaStart– Object ←.prototype– Ux (./node_modules/d3/dist/d3.min.js:2:201718)`                                                                 |
 
 #### `update` (`./node_modules/d3/dist/d3.min.js:2:82533`)
 
@@ -630,8 +630,8 @@ Retained nodes with the largest change in contribution to each function's retain
 | removed | -252 B | 12.8% → 0.0% | 252 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)`                                                                                                                    |
 | removed | -248 B | 12.6% → 0.0% | 248 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– u ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)`                                  |
 | removed | -104 B |  5.3% → 0.0% | 104 B → 0 B | `system / ScopeInfo`     | `<unknown>` | `system / ScopeInfo ←.name_or_scope_info– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)`                                                                                                                           |
-| removed |  -88 B |  4.5% → 0.0% |  88 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Builtins)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)` |
 | removed |  -88 B |  4.5% → 0.0% |  88 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(GC roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)` |
+| removed |  -88 B |  4.5% → 0.0% |  88 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Builtins)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Bm ←.shared– Bm (./node_modules/d3/dist/d3.min.js:2:193620)` |
 
 #### `qm` (`./node_modules/d3/dist/d3.min.js:2:193482`)
 
@@ -641,47 +641,47 @@ Retained nodes with the largest change in contribution to each function's retain
 | removed | -100 B | 5.3% → 0.0% | 100 B → 0 B | `system / BytecodeArray`   | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:196131) ←.lineEnd– Object ←.prototype– qm (./node_modules/d3/dist/d3.min.js:2:193503)` |
 | removed |  -80 B | 4.2% → 0.0% |  80 B → 0 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.prototype– qm (./node_modules/d3/dist/d3.min.js:2:193503)`                                                                      |
 | removed |  -52 B | 2.8% → 0.0% |  52 B → 0 B | `system / BytecodeArray`   | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:196060) ←.areaEnd– Object ←.prototype– qm (./node_modules/d3/dist/d3.min.js:2:193503)` |
-| removed |  -48 B | 2.5% → 0.0% |  48 B → 0 B | `point`                    | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:196246) ←.point– Object ←.prototype– qm (./node_modules/d3/dist/d3.min.js:2:193503)`                                                       |
+| removed |  -48 B | 2.5% → 0.0% |  48 B → 0 B | `areaStart`                | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:196027) ←.areaStart– Object ←.prototype– qm (./node_modules/d3/dist/d3.min.js:2:193503)`                                           |
 
 #### `Ym` (`./node_modules/d3/dist/d3.min.js:2:193669`)
 
-|  Change |  Delta |             % |          Self | Name                     | Location    | Path to function                                                                                                                                                                                                                         |
-| ------: | -----: | ------------: | ------------: | ------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed | -444 B |  12.9% → 0.0% |   444 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– f ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                          |
-|     new | +248 B |  0.0% → 12.6% |   0 B → 248 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– u ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:193669)`                                          |
-|  -35.7% | -140 B | 11.4% → 12.8% | 392 B → 252 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:193669)`                                                                                                                            |
-| removed |  -96 B |   2.8% → 0.0% |    96 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Handle scope)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`     |
-| removed |  -88 B |   2.6% → 0.0% |    88 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(External strings)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)` |
+|  Change |  Delta |             % |          Self | Name                     | Location    | Path to function                                                                                                                                                                                                                     |
+| ------: | -----: | ------------: | ------------: | ------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| removed | -444 B |  12.9% → 0.0% |   444 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– f ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                      |
+|     new | +248 B |  0.0% → 12.6% |   0 B → 248 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– u ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:193669)`                                      |
+|  -35.7% | -140 B | 11.4% → 12.8% | 392 B → 252 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:193669)`                                                                                                                        |
+| removed |  -96 B |   2.8% → 0.0% |    96 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Handle scope)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)` |
+| removed |  -88 B |   2.6% → 0.0% |    88 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)` |
 
 #### `Qx` (`./node_modules/d3/dist/d3.min.js:2:210229`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `Qx`                  | `<unknown>` | `Qx ←.shared– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`                                                                                               |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:210297) ←.areaStart– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:210534) ←.lineEnd– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:210367) ←.lineStart– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)` |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:210649) ←.point– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`             |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:210330) ←.areaEnd– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:210534) ←.lineEnd– Object ←.prototype– Qx (./node_modules/d3/dist/d3.min.js:2:210229)`       |
 
 #### `Xm` (`./node_modules/d3/dist/d3.min.js:2:196455`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `Xm`                  | `<unknown>` | `Xm ←.shared– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`                                                                                               |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:197403) ←.areaStart– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:197535) ←.lineEnd– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:197491) ←.lineStart– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)` |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:197575) ←.point– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`             |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:197447) ←.areaEnd– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:197535) ←.lineEnd– Object ←.prototype– Xm (./node_modules/d3/dist/d3.min.js:2:196455)`       |
 
 #### `Hx` (`./node_modules/d3/dist/d3.min.js:2:206539`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `Hx`                  | `<unknown>` | `Hx ←.shared– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`                                                                                               |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:206609) ←.areaStart– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:206771) ←.lineEnd– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:206679) ←.lineStart– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)` |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206886) ←.point– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`             |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:206642) ←.areaEnd– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:206771) ←.lineEnd– Object ←.prototype– Hx (./node_modules/d3/dist/d3.min.js:2:206539)`       |
 
 #### `gm` (`./node_modules/d3/dist/d3.min.js:2:192429`)
 
@@ -698,40 +698,40 @@ Retained nodes with the largest change in contribution to each function's retain
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:204758) ←.areaStart– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204920) ←.lineEnd– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`       |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:204791) ←.areaEnd– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:204828) ←.lineStart– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)` |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:205142) ←.point– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`             |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:204791) ←.areaEnd– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:204920) ←.lineEnd– Object ←.prototype– Bx (./node_modules/d3/dist/d3.min.js:2:204688)`       |
 
 #### `Vx` (`./node_modules/d3/dist/d3.min.js:2:207395`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:207869) ←.areaStart– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:208106) ←.lineEnd– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`       |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:207902) ←.areaEnd– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:207939) ←.lineStart– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)` |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:208331) ←.point– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`             |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:207902) ←.areaEnd– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:208106) ←.lineEnd– Object ←.prototype– Vx (./node_modules/d3/dist/d3.min.js:2:207801)`       |
 
 #### `Rx` (`./node_modules/d3/dist/d3.min.js:2:201499`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:201773) ←.areaStart– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:201917) ←.lineEnd– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`       |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:201806) ←.areaEnd– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:201843) ←.lineStart– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)` |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:202133) ←.point– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`             |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:201806) ←.areaEnd– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:201917) ←.lineEnd– Object ←.prototype– Rx (./node_modules/d3/dist/d3.min.js:2:201607)`       |
 
 #### `sw` (`./node_modules/d3/dist/d3.min.js:2:211953`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 20.2% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`                                                      |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaStart`           | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:214965) ←.areaStart– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)` |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:215089) ←.lineEnd– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`       |
-| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:214998) ←.areaEnd– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:215035) ←.lineStart– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)` |
 | removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:215316) ←.point– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`             |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `areaEnd`             | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:214998) ←.areaEnd– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`       |
+| removed |  -48 B |  4.3% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:215089) ←.lineEnd– Object ←.prototype– sw (./node_modules/d3/dist/d3.min.js:2:212299)`       |
 
 #### `a` (`./node_modules/d3/dist/d3.min.js:2:78474`)
 
@@ -749,8 +749,8 @@ Retained nodes with the largest change in contribution to each function's retain
 | ------: | ----: | ----------: | ---------: | -------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -92 B | 9.3% → 0.0% | 92 B → 0 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)`                            |
 | removed | -68 B | 6.9% → 0.0% | 68 B → 0 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– Qm (./node_modules/d3/dist/d3.min.js:2:197651)`                                                |
-| removed | -48 B | 4.9% → 0.0% | 48 B → 0 B | `point`                    | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:197871) ←.point– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)`             |
-| removed | -48 B | 4.9% → 0.0% | 48 B → 0 B | `lineEnd`                  | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:197766) ←.lineEnd– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)`       |
+| removed | -48 B | 4.9% → 0.0% | 48 B → 0 B | `areaStart`                | `<unknown>` | `areaStart ←.shared– areaStart (./node_modules/d3/dist/d3.min.js:2:197692) ←.areaStart– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)` |
+| removed | -48 B | 4.9% → 0.0% | 48 B → 0 B | `areaEnd`                  | `<unknown>` | `areaEnd ←.shared– areaEnd (./node_modules/d3/dist/d3.min.js:2:197715) ←.areaEnd– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)`       |
 | removed | -48 B | 4.9% → 0.0% | 48 B → 0 B | `lineStart`                | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:197742) ←.lineStart– Object ←.prototype– Qm (./node_modules/d3/dist/d3.min.js:2:197651)` |
 
 #### `Lx` (`./node_modules/d3/dist/d3.min.js:2:205569`)
@@ -758,40 +758,40 @@ Retained nodes with the largest change in contribution to each function's retain
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 27.1% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`                                                      |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `Lx`                  | `<unknown>` | `Lx ←.shared– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`                                                                                               |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:205809) ←.lineEnd– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`       |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206103) ←.point– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`             |
 | removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:205663) ←.lineStart– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)` |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:206103) ←.point– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`             |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:205809) ←.lineEnd– Object ←.prototype– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`       |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `Lx`                  | `<unknown>` | `Lx ←.shared– Lx (./node_modules/d3/dist/d3.min.js:2:205569)`                                                                                               |
 
 #### `tw` (`./node_modules/d3/dist/d3.min.js:2:211334`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 27.1% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)`                                                      |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `tw`                  | `<unknown>` | `tw ←.shared– tw (./node_modules/d3/dist/d3.min.js:2:211334)`                                                                                               |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:213070) ←.lineEnd– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)`       |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:213127) ←.point– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)`             |
 | removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:213036) ←.lineStart– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)` |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:213127) ←.point– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)`             |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:213070) ←.lineEnd– Object ←.prototype– tw (./node_modules/d3/dist/d3.min.js:2:211334)`       |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `tw`                  | `<unknown>` | `tw ←.shared– tw (./node_modules/d3/dist/d3.min.js:2:211334)`                                                                                               |
 
 #### `Zx` (`./node_modules/d3/dist/d3.min.js:2:208961`)
 
 |  Change |  Delta |            % |        Self | Name                  | Location    | Path to function                                                                                                                                            |
 | ------: | -----: | -----------: | ----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed | -224 B | 27.1% → 0.0% | 224 B → 0 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`                                                      |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `Zx`                  | `<unknown>` | `Zx ←.shared– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`                                                                                               |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:209274) ←.lineEnd– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`       |
-| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:209568) ←.point– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`             |
 | removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineStart`           | `<unknown>` | `lineStart ←.shared– lineStart (./node_modules/d3/dist/d3.min.js:2:209053) ←.lineStart– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)` |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `point`               | `<unknown>` | `point ←.shared– point (./node_modules/d3/dist/d3.min.js:2:209568) ←.point– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`             |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `lineEnd`             | `<unknown>` | `lineEnd ←.shared– lineEnd (./node_modules/d3/dist/d3.min.js:2:209274) ←.lineEnd– Object ←.prototype– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`       |
+| removed |  -48 B |  5.8% → 0.0% |  48 B → 0 B | `Zx`                  | `<unknown>` | `Zx ←.shared– Zx (./node_modules/d3/dist/d3.min.js:2:208961)`                                                                                               |
 
 #### `uw` (`./node_modules/d3/dist/d3.min.js:2:211852`)
 
 |  Change |  Delta |             % |         Self | Name                  | Location    | Path to function                                                                                                                                                        |
 | ------: | -----: | ------------: | -----------: | --------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  -64.3% | -144 B | 22.8% → 21.1% | 224 B → 80 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211852)`                                                                  |
-| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `moveTo`              | `<unknown>` | `moveTo ←.shared– moveTo (./node_modules/d3/dist/d3.min.js:2:214137) ←.moveTo– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)`                      |
-| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `bezierCurveTo`       | `<unknown>` | `bezierCurveTo ←.shared– bezierCurveTo (./node_modules/d3/dist/d3.min.js:2:214288) ←.bezierCurveTo– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)` |
-| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `closePath`           | `<unknown>` | `closePath ←.shared– closePath (./node_modules/d3/dist/d3.min.js:2:214188) ←.closePath– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)`             |
 | removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `lineTo`              | `<unknown>` | `lineTo ←.shared– lineTo (./node_modules/d3/dist/d3.min.js:2:214233) ←.lineTo– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)`                      |
+| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `closePath`           | `<unknown>` | `closePath ←.shared– closePath (./node_modules/d3/dist/d3.min.js:2:214188) ←.closePath– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)`             |
+| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `bezierCurveTo`       | `<unknown>` | `bezierCurveTo ←.shared– bezierCurveTo (./node_modules/d3/dist/d3.min.js:2:214288) ←.bezierCurveTo– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)` |
+| removed |  -48 B |   4.9% → 0.0% |   48 B → 0 B | `moveTo`              | `<unknown>` | `moveTo ←.shared– moveTo (./node_modules/d3/dist/d3.min.js:2:214137) ←.moveTo– Object ←.prototype– uw (./node_modules/d3/dist/d3.min.js:2:211842)`                      |
 
 #### `Nm` (`./node_modules/d3/dist/d3.min.js:2:192650`)
 
@@ -800,8 +800,8 @@ Retained nodes with the largest change in contribution to each function's retain
 | removed | -72 B | 11.8% → 0.0% | 72 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)`                                                                                                                        |
 | removed | -64 B | 10.5% → 0.0% | 64 B → 0 B | `system / BytecodeArray` | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)` |
 | removed | -56 B |  9.2% → 0.0% | 56 B → 0 B | `system / ScopeInfo`     | `<unknown>` | `system / ScopeInfo ←.name_or_scope_info– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)`                                                                                                                               |
-| removed | -48 B |  7.9% → 0.0% | 48 B → 0 B | `(shared function info)` | `<unknown>` | `(shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)`                                                 |
 | removed | -48 B |  7.9% → 0.0% | 48 B → 0 B | `(shared function info)` | `<unknown>` | `(shared function info) ← (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)`                                                                 |
+| removed | -48 B |  7.9% → 0.0% | 48 B → 0 B | `(shared function info)` | `<unknown>` | `(shared function info) ←.(Bootstrapper)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Nm ←.shared– Nm (./node_modules/d3/dist/d3.min.js:2:192654)`                                                 |
 
 ## Largest strings
 
