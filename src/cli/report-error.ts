@@ -10,7 +10,7 @@ import { stderrSupportsColor } from './ansis.ts'
 import { CliError } from './error.ts'
 import { getUsageHint } from './help.ts'
 
-export type ReportErrorOptions = {
+type ReportErrorOptions = {
   logger: Logger
   logLevel: LogLevel
 }

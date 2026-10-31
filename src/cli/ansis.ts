@@ -15,7 +15,7 @@ export const isTTY = (stream: NodeJS.WriteStream): boolean =>
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
   Boolean(stream.isTTY)
 
-export type MakeAnsisOptions = {
+type MakeAnsisOptions = {
   /** Whether the stream the styled text is written to is a TTY. */
   isTTY: boolean
 }

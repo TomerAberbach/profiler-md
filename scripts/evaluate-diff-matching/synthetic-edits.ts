@@ -101,7 +101,7 @@ export const pickRandom = (
 }
 
 /** Returns where an edit moved a position, or `undefined` if it deleted it. */
-export type Edit = (position: Position) => Position | undefined
+type Edit = (position: Position) => Position | undefined
 
 /**
  * Composes a few seeded edits between or within the lines of {@link positions}:

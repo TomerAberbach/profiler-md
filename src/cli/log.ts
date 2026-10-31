@@ -35,7 +35,7 @@ const parseLogLevelEnv = (raw: string | undefined): LogLevel | undefined => {
     : undefined
 }
 
-export type CliLogger = Required<Logger> & {
+type CliLogger = Required<Logger> & {
   /**
    * Writes an empty line to stderr if the logger wrote a line since the last
    * separation, so output that follows on the same terminal starts apart from

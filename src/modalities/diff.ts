@@ -783,7 +783,7 @@ type LineDiffableFunction<Metrics> = {
 }
 
 /** A diff's two sides, with the functions whose executing lines it pairs. */
-export type LineDiffSides<Metrics> = {
+type LineDiffSides<Metrics> = {
   [Side in keyof DiffSides]: DiffSides[Side] & {
     functions: readonly LineDiffableFunction<Metrics>[]
   }

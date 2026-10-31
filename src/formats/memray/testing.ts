@@ -1,6 +1,6 @@
 import { ByteBuffer } from '../../helpers/testing.ts'
 
-export type MemrayTestHeader = {
+type MemrayTestHeader = {
   /** `PY_VERSION_HEX` of the traced interpreter. Defaults to 3.11.0. */
   pythonVersion?: number
 
@@ -15,7 +15,7 @@ export type MemrayTestHeader = {
 /** The thread a test's records are on unless they name another. */
 export const MAIN_THREAD_ID = 1000
 
-export type MemrayTestCodeObject = {
+type MemrayTestCodeObject = {
   id: number
   functionName: string
   filename: string
@@ -140,7 +140,7 @@ export const makeMemray = ({
 }
 
 /** A stack's totals in a capture written with `--aggregate`. */
-export type MemrayTestAggregatedAllocation = {
+type MemrayTestAggregatedAllocation = {
   /** The stack's index, as {@link makeAggregatedMemray}'s `stacks` numbers them. */
   stack: number
 

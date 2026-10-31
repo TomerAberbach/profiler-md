@@ -95,7 +95,7 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] =>
           : [],
       )
 
-export type HelpTextOptions = {
+type HelpTextOptions = {
   colors?: boolean
 }
 

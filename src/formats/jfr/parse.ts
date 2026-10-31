@@ -273,9 +273,6 @@ type Jfr = {
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
 type JfrMethod = {
-  /** A unique sequential index identifying this method. */
-  id: number
-
   /** The method name with its parameter types, e.g. `compute(int, String)`. */
   name: string
 
@@ -1459,7 +1456,6 @@ class ChunkResolver {
     if (index === undefined) {
       index = this.#methods.length
       this.#methods.push({
-        id: index,
         name: jvmMethodDisplayName(bareName, descriptor),
         className,
       })

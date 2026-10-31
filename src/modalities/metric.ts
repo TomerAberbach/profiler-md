@@ -61,7 +61,7 @@ export type MetricPhrases = {
   pastParticipleVerbPhrase: string
 }
 
-export type CountMetricOptions = {
+type CountMetricOptions = {
   /**
    * Which direction of change in the count is an improvement.
    *

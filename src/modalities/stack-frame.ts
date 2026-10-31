@@ -205,8 +205,8 @@ export class StackFrameFunctionTable {
 
   public constructor(
     frames: (StackFrame | null)[],
-    identity: FunctionIdentity = `definition`,
-    isTruncationMarker: (index: number) => boolean = () => false,
+    identity: FunctionIdentity,
+    isTruncationMarker: (index: number) => boolean,
   ) {
     this.#frames = frames
     this.#functions = new StackFrameFunctions(frames, identity)
@@ -247,9 +247,8 @@ export class StackFrameFunctionTable {
 
 export const parseStackFrameFunction = (
   frame: StackFrame,
-  identity: FunctionIdentity = `definition`,
 ): StackFrameFunction => {
-  const identifying = identifyingReference(frame, identity)
+  const identifying = identifyingReference(frame, `definition`)
   return makeStackFrameFunction(
     frame,
     identifying,

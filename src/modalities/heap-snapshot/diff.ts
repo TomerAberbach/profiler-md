@@ -877,7 +877,7 @@ export const groupConstructorInstances = (
 }
 
 /** Instances that share a retainer path, and the first of them. */
-export type InstanceGroup = DiffedInstanceGroup & { nodeOrdinal: number }
+type InstanceGroup = DiffedInstanceGroup & { nodeOrdinal: number }
 
 /** Groups {@link instances} by the retainer paths {@link pathOf} interns. */
 export const groupInstancesByPath = (

@@ -81,7 +81,7 @@ export const subsectionDiffCategories = <Entry, Category extends string>({
   )
 
 /** The entities a ranking displays, overall and within each category. */
-export type EntityRanking<Entity> = {
+type EntityRanking<Entity> = {
   rankedEntities: Entity[]
   categoryRankings: { category: EntryCategory; entities: Entity[] }[]
   displayedEntities: Entity[]
@@ -277,7 +277,7 @@ const largerSideShares = <Category extends string>({
 }
 
 /** A measure that orders a diff's categories, and each side's total of it. */
-export type DiffCategoryMeasure<Stats> = {
+type DiffCategoryMeasure<Stats> = {
   valueOf: (stats: Stats, side: keyof Diff<Stats>) => number
   baseTotal: number
   currentTotal: number

@@ -26,7 +26,7 @@ export const committedPairs = (filter?: string): ExampleDiffPair[] =>
     .filter(({ base }) => !filter || base.includes(filter))
     .sort((left, right) => left.base.localeCompare(right.base))
 
-export type ScoredInputPair =
+type ScoredInputPair =
   | { type: `function`; base: FunctionInput; current: FunctionInput }
   | {
       type: `heap-snapshot`

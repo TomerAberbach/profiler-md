@@ -213,7 +213,7 @@ type DiffEntityCategories<Entity> = {
  * A diff's ranking of entities by one measure: the entities whose value
  * increased and decreased the most, overall and within each category.
  */
-export type DiffEntityRanking<Entity> = {
+type DiffEntityRanking<Entity> = {
   increases: ActiveDiffEntity<Entity>[]
   decreases: ActiveDiffEntity<Entity>[]
   categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
@@ -578,13 +578,13 @@ const shownDiffEntities = <Entity>(
   )
 
 /** One of a diff's two rankings: the change it ranks, and its heading. */
-export type DiffRanking = {
+type DiffRanking = {
   change: DiffChange
   title: string
 }
 
 /** A direction of change between a diff's two sides. */
-export type DiffChange = `increase` | `decrease`
+type DiffChange = `increase` | `decrease`
 
 /**
  * The two rankings a diff shows for a measure in {@link improvement}'s metric,
