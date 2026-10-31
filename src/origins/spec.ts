@@ -64,6 +64,17 @@ export type OriginSpec = {
   isMarkerEntry: (entry: DeepReadonly<ProfileEntry>) => boolean
 
   /**
+   * Returns whether a parser's origin hint names this origin besides its ID,
+   * which always does. The hint is the writer's name as the format's metadata
+   * spells it (e.g. speedscope's `exporter` or an executable's
+   * filename), so a writer that names itself in several formats checks the
+   * `format` param.
+   *
+   * Defaults to accepting only the ID when omitted.
+   */
+  isOriginHint?: (hint: string, format: Format) => boolean
+
+  /**
    * Returns the category of {@link entry} under this origin's runtime
    * conventions.
    *

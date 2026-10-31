@@ -1026,25 +1026,20 @@ describe(`convert`, () => {
   })
 
   describe(`origin`, () => {
-    test.each([`node`, `clang`, `tsc`])(
-      `a process named %s hints its origin`,
-      name => {
-        convertTraceEvents([
-          processName(1, name),
-          { ph: `X`, name: `task`, pid: 1, tid: 1, ts: 0, dur: 1000 },
-        ])
-
-        expectLogs(hintedOriginLogs(name))
-      },
-    )
-
-    test(`a process name is matched whatever its case`, () => {
+    test.each([
+      [`node`, `node`],
+      [`clang`, `clang`],
+      [`tsc`, `tsc`],
+      [`clang-19`, `clang`],
+      [`Node`, `node`],
+      [`CLANG-CL.EXE`, `clang`],
+    ])(`a process named %s hints %s`, (name, origin) => {
       convertTraceEvents([
-        processName(1, `Node`),
+        processName(1, name),
         { ph: `X`, name: `task`, pid: 1, tid: 1, ts: 0, dur: 1000 },
       ])
 
-      expectLogs(hintedOriginLogs(`node`))
+      expectLogs(hintedOriginLogs(origin))
     })
 
     test(`a process named for no origin falls back to chrome`, () => {

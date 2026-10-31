@@ -207,6 +207,9 @@ describe(`convert`, () => {
   test.each([
     [`py-spy@0.4.0`, `py-spy`],
     [`rbspy@0.51.0`, `rbspy`],
+    [`Excimer`, `excimer`],
+    [`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`, `dotnet-trace`],
+    [`pyinstrument`, `pyinstrument`],
   ])(
     `the %s exporter resolves a markerless profile to %s`,
     (exporter, origin) => {

@@ -27,7 +27,12 @@ $ARGUMENTS
      markerless (`isMarkerEntry: () => false`, like `gperftools`). If the
      format's own metadata identifies the writer (a recorder's event-type
      definitions, a self-identification field like speedscope's `exporter`),
-     have the format's parser set the parsed input's `originHint`
+     have the format's parser set the parsed input's `originHint`: the writer's
+     name as the metadata states it, or the origin's ID where the metadata
+     identifies the writer by its structure
+   - `isOriginHint`: when the writer's name differs from the origin's ID (e.g.
+     `py-spy@0.4.0` or `clang-19`), accept it here, checking the `format` param
+     where the writer names itself in several formats
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
      plus profiler-specific rules. Order the chain so every rule with positive
      evidence runs before `locationlessCategory`. Map the profiler's own

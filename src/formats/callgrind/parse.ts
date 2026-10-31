@@ -557,7 +557,7 @@ class CallgrindProfileBuilder {
     }
     this.#pendingCall.skip()
 
-    const originHint = creatorOriginHint(this.#creator)
+    const originHint = this.#creator
     const functions = [...this.#functions.values()]
     return [
       {
@@ -721,18 +721,6 @@ const mapValues = <K>(map: Map<K, number[]>, key: K): number[] => {
     map.set(key, values)
   }
   return values
-}
-
-const creatorOriginHint = (creator: string | undefined): string | undefined => {
-  if (creator === undefined) {
-    return undefined
-  }
-  // A native frame from Valgrind looks like one from any other native profiler.
-  if (creator.startsWith(`callgrind`)) {
-    return `valgrind`
-  }
-  // A pure-Ruby rbspy capture has no `[c function]` marker frame.
-  return creator === `rbspy` ? `rbspy` : undefined
 }
 
 const callgrindEventMetric = (

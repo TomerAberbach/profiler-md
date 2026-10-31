@@ -4,11 +4,27 @@ import { determineOrigin } from '../testing.ts'
 import { clangOriginSpec } from './clang.ts'
 
 describe(`detection`, () => {
-  test(`detects Clang by the process name origin hint`, () => {
-    expect(
-      determineOrigin({ format: `trace-event`, entries: [], hint: `clang` }),
-    ).toBe(`clang`)
+  test.each([
+    `clang`,
+    `clang-19`,
+    `clang++`,
+    `clang.exe`,
+    `clang++.exe`,
+    `clang-cl.exe`,
+  ])(`detects Clang by the process name origin hint %s`, hint => {
+    expect(determineOrigin({ format: `trace-event`, entries: [], hint })).toBe(
+      `clang`,
+    )
   })
+
+  test.each([`clangd`, `clang-tidy`, `clang-format`, `clang-19.1`, `clang-`])(
+    `falls back past Clang for the hint %s`,
+    hint => {
+      expect(
+        determineOrigin({ format: `trace-event`, entries: [], hint }),
+      ).toBe(`chrome`)
+    },
+  )
 
   test(`markerless: an unhinted trace falls back past Clang`, () => {
     expect(determineOrigin({ format: `trace-event`, entries: [] })).toBe(

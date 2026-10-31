@@ -64,7 +64,7 @@ describe(`detection`, () => {
     expect(
       determineOrigin({
         format: `speedscope`,
-        hint: `excimer`,
+        hint: `Excimer`,
         entries: [relativeEntry(`run`, `/var/www/index.php`)],
       }),
     ).toBe(`excimer`)

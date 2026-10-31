@@ -55,6 +55,7 @@ const originSourceKey = (
  * An explicit origin skips detection.
  */
 export class OriginDetector {
+  readonly #format: Format
   readonly #candidates: readonly ResolvedOriginSpec[]
   readonly #fallback: ResolvedOriginSpec
   /**
@@ -75,6 +76,7 @@ export class OriginDetector {
     { id: format, fallbackOrigin }: { id: Format; fallbackOrigin: Origin },
     origin?: Origin,
   ) {
+    this.#format = format
     this.#fallback = originSpecOf(fallbackOrigin)
     if (origin !== undefined) {
       this.#candidates = []
@@ -136,16 +138,16 @@ export class OriginDetector {
    * pointing at an origin whose entries carry no marker.
    *
    * A hint outranks every marker entry, because it is the writer identifying
-   * itself. A specified origin and an earlier hint ignore it, and so does an
-   * ID that isn't a candidate for the format.
+   * itself. A specified origin and an earlier hint ignore it, and so does a
+   * hint no candidate for the format accepts.
    */
-  public hint(origin: string): void {
+  public hint(hint: string): void {
     if (this.#match.type === `specified` || this.#match.type === `hint`) {
       return
     }
 
-    const candidate = this.#candidates.find(
-      candidate => candidate.id === origin,
+    const candidate = this.#candidates.find(candidate =>
+      candidate.isOriginHint(hint, this.#format),
     )
     if (candidate) {
       this.#match = { type: `hint`, origin: candidate.id }
@@ -251,6 +253,8 @@ const resolveOriginSpec = (
   matchEntry: spec.matchEntry ?? (() => undefined),
   normalizeStackFrame: spec.normalizeStackFrame ?? (frame => frame),
   isTruncationMarker: spec.isTruncationMarker ?? (() => false),
+  isOriginHint: (hint, format) =>
+    hint === spec.id || (spec.isOriginHint?.(hint, format) ?? false),
   functionIdentity: spec.functionIdentity ?? `definition`,
   normalizeTraceEvent: spec.normalizeTraceEvent ?? (event => event),
   categorizeTraceEvent: event => spec.categorizeTraceEvent?.(event) ?? `other`,
