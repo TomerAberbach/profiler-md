@@ -1,9 +1,10 @@
-import { readdirSync, rmSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
 import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
 import { exampleDiffPairs } from '../../src/formats/examples.ts'
 import type { ExampleDiffPair } from '../../src/formats/examples.ts'
+import { describeReconversion } from './reconversion.ts'
 import type { ExampleResult, ExampleTask } from './worker.ts'
 
 type Example = { name: string; inputs: string[] }
@@ -63,39 +64,45 @@ const convertExamples = async (examples: Example[]): Promise<boolean> => {
 
   const workers = Array.from(
     { length: Math.min(availableParallelism(), examples.length) },
-    () =>
-      new Worker(new URL(`worker.ts`, import.meta.url), {
-        workerData: { check },
-      }),
+    createWorker,
   )
 
-  const failed = await convertOnWorkers(workers, examples)
+  const failure = await convertOnWorkers(workers, examples)
 
   await Promise.all(workers.map(worker => worker.terminate()))
-  return failed
+  if (failure?.markdown !== undefined) {
+    await reportFreshConversion(failure.task, failure.markdown)
+  }
+  return failure !== undefined
 }
 
-/** Stops at the first failed example, resolving to whether one failed. */
+const createWorker = (): Worker =>
+  new Worker(new URL(`worker.ts`, import.meta.url), { workerData: { check } })
+
+type Failure = { task: ExampleTask; markdown: string | undefined }
+
+/** Stops at the first failed example, resolving to its failure if one failed. */
 const convertOnWorkers = (
   workers: Worker[],
   examples: Example[],
-): Promise<boolean> => {
+): Promise<Failure | undefined> => {
   let nextIndex = 0
   let done = 0
   let failed = false
-  return new Promise<boolean>((resolve, reject) => {
+  return new Promise<Failure | undefined>((resolve, reject) => {
     for (const worker of workers) {
+      let task: ExampleTask | undefined
       const sendNext = (): void => {
         if (nextIndex >= examples.length) {
           if (done === examples.length) {
-            resolve(false)
+            resolve(undefined)
           }
           return
         }
 
         const { name, inputs } = examples[nextIndex]!
         nextIndex++
-        const task: ExampleTask = {
+        task = {
           exampleName: name,
           inputPaths: inputs.map(filename => join(`examples/input`, filename)),
         }
@@ -118,12 +125,41 @@ const convertOnWorkers = (
           `${result.exampleName} failed:\n${result.failure}\n`,
         )
         failed = true
-        resolve(true)
+        resolve({ task: task!, markdown: result.markdown })
       })
       worker.on(`error`, reject)
       sendNext()
     }
   })
+}
+
+/**
+ * Converts a failed example again on a worker that converted nothing before
+ * it, so a failure that depends on a worker's history reads differently from
+ * one the inputs determine.
+ */
+const reportFreshConversion = async (
+  task: ExampleTask,
+  markdown: string,
+): Promise<void> => {
+  const worker = createWorker()
+  const result = await new Promise<ExampleResult>((resolve, reject) => {
+    worker.once(`message`, resolve)
+    worker.once(`error`, reject)
+    worker.postMessage(task)
+  })
+  await worker.terminate()
+
+  const committed = readFileSync(
+    join(`examples/output`, `${task.exampleName}.md`),
+    `utf8`,
+  )
+  const again = describeReconversion({
+    again: result.failure === undefined ? committed : result.markdown!,
+    first: markdown,
+    committed,
+  })
+  process.stderr.write(`converted again on a fresh worker: ${again}\n`)
 }
 
 const reportConverted = (
