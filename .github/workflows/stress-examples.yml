@@ -6,7 +6,7 @@ on:
 
 jobs:
   stress:
-    name: Stress (Node.js v${{ matrix.nodejs }} ${{ matrix.flags }})
+    name: Stress (Node.js v${{ matrix.nodejs }}, copy ${{ matrix.copy }})
     timeout-minutes: 75
     runs-on: ubuntu-latest
     permissions:
@@ -16,16 +16,13 @@ jobs:
         include:
           - nodejs: 24.22.1
             flags: ''
-          # Optimizes every function but those named `aggregate`, with both of
-          # V8's optimizing compilers.
+            copy: 1
           - nodejs: 24.22.1
-            flags: --maglev-filter=-aggregate --turbo-filter=-aggregate
+            flags: ''
+            copy: 2
           - nodejs: 24.22.1
-            flags: --no-use-osr
-          - nodejs: 24.22.1
-            flags: --no-maglev-osr
-          - nodejs: 24.22.1
-            flags: --no-concurrent-osr
+            flags: ''
+            copy: 3
       fail-fast: false
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
