@@ -3,6 +3,9 @@ import { readFileSync, writeFileSync } from 'node:fs'
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { enableCompileCache } from 'node:module'
 import { join } from 'node:path'
+// Experimental, though present since Node 22.15.
+// eslint-disable-next-line node/no-unsupported-features/node-builtins
+import { diff } from 'node:util'
 import { parentPort, workerData } from 'node:worker_threads'
 import type { ProfileToMdOptions } from '../../src/options.ts'
 import { compileCachePath } from '../helpers/compile-cache.ts'
@@ -69,7 +72,45 @@ const checkExample = (
 
   return existing === markdown
     ? undefined
-    : `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.`
+    : `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.\n${formatLineDiff(existing, markdown)}`
 }
+
+const CONTEXT_LINES = 2
+
+/**
+ * Formats the lines that differ from {@link existing} to {@link markdown} as
+ * unified diff hunks, so a failure in CI shows the change without a rerun.
+ */
+const formatLineDiff = (existing: string, markdown: string): string => {
+  const lines = diff(existing.split(`\n`), markdown.split(`\n`))
+  const changed = lines.map(([operation]) => operation !== 0)
+  const shown = changed.map((_, index) =>
+    changed
+      .slice(Math.max(0, index - CONTEXT_LINES), index + CONTEXT_LINES + 1)
+      .includes(true),
+  )
+
+  const output: string[] = []
+  let existingLine = 1
+  let markdownLine = 1
+  for (const [index, [operation, line]] of lines.entries()) {
+    if (shown[index] && !shown[index - 1]) {
+      output.push(`@@ -${existingLine} +${markdownLine} @@`)
+    }
+    if (shown[index]) {
+      output.push(`${OPERATION_PREFIXES[operation]}${line}`)
+    }
+    if (operation !== -1) {
+      existingLine++
+    }
+    if (operation !== 1) {
+      markdownLine++
+    }
+  }
+  return output.join(`\n`)
+}
+
+// `util.diff` marks a line only in its first array 1 and only in its second -1.
+const OPERATION_PREFIXES = { [-1]: `+`, 0: ` `, 1: `-` }
 
 parentPort!.on(`message`, updateExample)
