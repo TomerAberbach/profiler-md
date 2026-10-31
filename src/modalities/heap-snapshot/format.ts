@@ -31,13 +31,19 @@ import {
   breakdownLimit,
   formatBaseURLNote,
   formatDiffMeasureSections,
+  rankDiffEntities,
   rankingSentence,
   resolveEntryFilter,
   selectDiffEntities,
   selectLargestChanges,
   showDiffEntity,
 } from '../format.ts'
-import type { DiffMeasureSectionsArgs } from '../format.ts'
+import type {
+  ActiveDiffEntity,
+  DiffEntityCategories,
+  DiffEntityRanking,
+  DiffMeasureSectionsArgs,
+} from '../format.ts'
 import { BYTES_METRIC } from '../metrics.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
@@ -48,6 +54,7 @@ import type {
   AggregatedHeapSnapshotString,
   RetainerPathEdge,
   RetainerPathStep,
+  RetainingEntity,
 } from './aggregate.ts'
 import {
   formatRetainerEdgeLabel,
@@ -437,9 +444,23 @@ const formatLargestConstructors = ({
 
 /** One constructor size, self or retained. */
 type ConstructorSize = {
-  sizeOf: (node: { selfSize: number; retainedSize: number }) => number
+  /** A constructor's size in {@link snapshot}. */
+  sizeOf: (
+    constructor: SizedEntity,
+    snapshot: Pick<AggregatedHeapSnapshot, `retainedSizeOf`>,
+  ) => number
+
+  /**
+   * A size at most {@link sizeOf}, which selects the constructors a ranking
+   * computes {@link sizeOf} for.
+   */
+  minSizeOf: (constructor: SizedEntity) => number
+
+  groupSizeOf: (group: { selfSize: number; retainedSize: number }) => number
   prose: RankingProse
 }
+
+type SizedEntity = RetainingEntity & { selfSize: number }
 
 /** A ranking's heading, and the prose naming what it ranks and by what. */
 type RankingProse = {
@@ -455,7 +476,9 @@ type RankingProse = {
 const RETAINED_DESCRIPTION = `instance bytes, including nodes only the instances keep alive`
 
 const SELF_SIZE: ConstructorSize = {
-  sizeOf: node => node.selfSize,
+  sizeOf: constructor => constructor.selfSize,
+  minSizeOf: constructor => constructor.selfSize,
+  groupSizeOf: group => group.selfSize,
   prose: {
     headingLevel: 3,
     title: `Self size`,
@@ -466,7 +489,9 @@ const SELF_SIZE: ConstructorSize = {
 }
 
 const RETAINED_SIZE: ConstructorSize = {
-  sizeOf: node => node.retainedSize,
+  sizeOf: (constructor, snapshot) => snapshot.retainedSizeOf(constructor),
+  minSizeOf: constructor => constructor.minRetainedSize,
+  groupSizeOf: group => group.retainedSize,
   prose: {
     headingLevel: 3,
     title: `Retained size`,
@@ -541,15 +566,18 @@ const formatLargestSizeConstructors = ({
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
-  const { sizeOf, prose } = size
+  const { prose } = size
+  const sizeOf = (constructor: AggregatedHeapSnapshotConstructor) =>
+    size.sizeOf(constructor, snapshot)
   const { heldSize, constructors, context } = snapshot
 
-  const ranking = rankEntities({
+  const ranking = rankEntitiesBySize({
     entities: constructors.filter(constructor =>
       options.showEntry(constructor, context),
     ),
     categories,
-    valueOf: sizeOf,
+    minSizeOf: size.minSizeOf,
+    sizeOf,
     topN: options.topN,
   })
   if (ranking.rankedEntities.length === 0) {
@@ -561,7 +589,7 @@ const formatLargestSizeConstructors = ({
       formatLargestConstructorInstances({
         constructor,
         snapshot,
-        sizeOf,
+        size,
         shownPaths,
         hasLocation,
         options,
@@ -596,14 +624,14 @@ const formatLargestSizeConstructors = ({
 const formatLargestConstructorInstances = ({
   constructor,
   snapshot,
-  sizeOf,
+  size,
   shownPaths,
   hasLocation,
   options,
 }: {
   constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
-  sizeOf: ConstructorSize[`sizeOf`]
+  size: ConstructorSize
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
@@ -616,19 +644,19 @@ const formatLargestConstructorInstances = ({
       shownPaths.pathOf(snapshot),
     ),
     breakdownLimit(options),
-    sizeOf,
+    size.groupSizeOf,
   )
   if (largestInstanceGroups.length === 0) {
     return []
   }
 
-  const constructorSize = sizeOf(constructor)
+  const constructorSize = size.sizeOf(constructor, snapshot)
   return [
     formatEntityHeading(5, constructor, hasLocation, options),
     formatTable(
       instanceGroupColumns,
       largestInstanceGroups.map(group => ({
-        size: sizeOf(group),
+        size: size.groupSizeOf(group),
         total: constructorSize,
         instanceCount: group.instanceCount,
         retainerPath: shownPaths.ofNode(snapshot, group.nodeOrdinal),
@@ -651,9 +679,13 @@ const formatLargestFunctions = ({
   const { functions, context } = snapshot
 
   const largestFunctions = selectTopN(
-    functions.filter(fn => options.showEntry(fn, context)),
+    selectTopN(
+      functions.filter(fn => options.showEntry(fn, context)),
+      options.topN,
+      fn => fn.minRetainedSize,
+    ),
     options.topN,
-    fn => fn.retainedSize,
+    snapshot.retainedSizeOf,
   )
   if (largestFunctions.length === 0) {
     return []
@@ -714,7 +746,7 @@ const formatFunctionRetainedNodes = ({
       retainedNodes.map(node => ({
         entity: node,
         size: node.selfSize,
-        total: fn.retainedSize,
+        total: snapshot.retainedSizeOf(fn),
         path: shownPaths.ofNode(snapshot, node.id),
       })),
     ),
@@ -885,28 +917,32 @@ const formatDiffSizeConstructors = ({
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
-  const { sizeOf, prose } = size
-  const ranking = selectDiffEntities(
-    diff.constructors.map(entity => ({
-      entity,
-      baseValue: entity.base ? sizeOf(entity.base) : 0,
-      currentValue: entity.current ? sizeOf(entity.current) : 0,
-    })),
+  const { prose } = size
+  const ranking = selectDiffEntitiesBySize({
+    entities: diff.constructors,
     diff,
     options,
-    { categories, categoryOf: entity => entity.category },
-  )
+    categories: { categories, categoryOf: entity => entity.category },
+    minSizeOf: size.minSizeOf,
+    sizeOf: size.sizeOf,
+  })
 
-  const sideRowOf = (total: number, entity?: DiffedHeapSnapshotEntity) =>
+  const sideRowOf = (
+    snapshot: AggregatedHeapSnapshot,
+    entity?: DiffedHeapSnapshotConstructor,
+  ) =>
     entity && {
       entity,
-      size: sizeOf(entity),
-      total,
+      size: size.sizeOf(entity, snapshot),
+      total: snapshot.heldSize,
       instanceCount: entity.instanceCount,
     }
-  const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
-    base: sideRowOf(diff.base.heldSize, base),
-    current: sideRowOf(diff.current.heldSize, current),
+  const rowOf = ({
+    base,
+    current,
+  }: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>) => ({
+    base: sideRowOf(diff.base, base),
+    current: sideRowOf(diff.current, current),
   })
 
   return formatDiffEntitySections({
@@ -919,10 +955,11 @@ const formatDiffSizeConstructors = ({
         retainerPathsHeader(size, `with the largest change in`),
         constructors.flatMap(constructor =>
           formatDiffConstructorInstances({
+            diff,
             constructor,
             groupDiffs: instanceGroupDiffs(constructor),
             paths,
-            sizeOf,
+            size,
             shownPaths,
             hasLocation,
             options,
@@ -933,18 +970,20 @@ const formatDiffSizeConstructors = ({
 }
 
 const formatDiffConstructorInstances = ({
+  diff,
   constructor,
   groupDiffs,
   paths,
-  sizeOf,
+  size,
   shownPaths,
   hasLocation,
   options,
 }: {
+  diff: AggregatedHeapSnapshotDiff
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>
   groupDiffs: EntryDiff<DiffedInstanceGroup>[]
   paths: RetainerPaths
-  sizeOf: ConstructorSize[`sizeOf`]
+  size: ConstructorSize
   shownPaths: ShownRetainerPaths
   hasLocation: boolean
   options: FormattingProfileToMdOptions
@@ -952,8 +991,8 @@ const formatDiffConstructorInstances = ({
   formatDiffEntityGroups({
     entity: constructor,
     groupDiffs,
-    sizeOf,
-    totalOf: sizeOf,
+    sizeOf: size.groupSizeOf,
+    totalOf: side => size.sizeOf(constructor[side]!, diff[side]),
     headingLevel: 5,
     columns: instanceGroupColumns,
     rowOf: (group, size, total) => ({
@@ -979,15 +1018,13 @@ const formatDiffFunctions = ({
   shownPaths: ShownRetainerPaths
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const ranking = selectDiffEntities(
-    diff.functions.map(entity => ({
-      entity,
-      baseValue: entity.base ? entity.base.retainedSize : 0,
-      currentValue: entity.current ? entity.current.retainedSize : 0,
-    })),
+  const ranking = selectDiffEntitiesBySize({
+    entities: diff.functions,
     diff,
     options,
-  )
+    minSizeOf: fn => fn.minRetainedSize,
+    sizeOf: (fn, snapshot) => snapshot.retainedSizeOf(fn),
+  })
 
   const rowOf = ({
     base,
@@ -1035,7 +1072,7 @@ const functionRowOf = (
   shownPaths: ShownRetainerPaths,
 ): FunctionRow => ({
   entity,
-  size: entity.retainedSize,
+  size: snapshot.retainedSizeOf(entity),
   total: snapshot.heldSize,
   instanceCount: entity.instanceOrdinals.length,
   pathCount: new Set(entity.instanceOrdinals.map(shownPaths.pathOf(snapshot)))
@@ -1067,7 +1104,7 @@ const formatDiffFunctionRetainedNodes = ({
       options,
     ),
     sizeOf: group => group.selfSize,
-    totalOf: side => side.retainedSize,
+    totalOf: side => diff[side].retainedSizeOf(fn[side]!),
     headingLevel: 4,
     columns: retainedColumns(`Path to function`, hasLocation, options),
     rowOf: (group, size, total) => ({
@@ -1109,8 +1146,8 @@ const formatDiffEntityGroups = <
   groupDiffs: EntryDiff<Group>[]
   sizeOf: (group: Group) => number
 
-  /** The size a group's share is of. */
-  totalOf: (entity: Entity) => number
+  /** The size a group's share is of, on a side the entity is present on. */
+  totalOf: (side: `base` | `current`) => number
   headingLevel: Heading[`depth`]
   columns: Table<Row>
   rowOf: (group: Group, size: number, total: number) => Row
@@ -1127,15 +1164,15 @@ const formatDiffEntityGroups = <
     return []
   }
 
-  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
-    side && group && rowOf(group, sizeOf(group), totalOf(side))
+  const sideRowOf = (side: `base` | `current`, group: Group | undefined) =>
+    entity[side] && group && rowOf(group, sizeOf(group), totalOf(side))
   return [
     formatEntityHeading(headingLevel, entity, hasLocation, options),
     formatDiffTable(
       columns,
       changedGroups.map(({ base, current }) => ({
-        base: sideRowOf(entity.base, base),
-        current: sideRowOf(entity.current, current),
+        base: sideRowOf(`base`, base),
+        current: sideRowOf(`current`, current),
       })),
     ),
   ]
@@ -1197,6 +1234,94 @@ const nodeRowOf = (
   total: snapshot.heldSize,
   path: shownPaths.ofNode(snapshot, entity.id),
 })
+
+/**
+ * Ranks entities by {@link sizeOf}, computing it only for the entities
+ * {@link minSizeOf}, a size at most {@link sizeOf}, ranks.
+ */
+const rankEntitiesBySize = <
+  Entity extends { category: HeapSnapshotNodeCategory },
+>({
+  entities,
+  categories,
+  minSizeOf,
+  sizeOf,
+  topN,
+}: {
+  entities: Entity[]
+  categories: HeapSnapshotNodeCategory[]
+  minSizeOf: (entity: Entity) => number
+  sizeOf: (entity: Entity) => number
+  topN: number
+}) =>
+  rankEntities({
+    entities: rankEntities({ entities, categories, valueOf: minSizeOf, topN })
+      .displayedEntities,
+    categories,
+    valueOf: sizeOf,
+    topN,
+  })
+
+/**
+ * Ranks diffed entities by the change in {@link sizeOf}, computing it only for
+ * the entities the change in {@link minSizeOf}, a size at most
+ * {@link sizeOf}, ranks.
+ */
+const selectDiffEntitiesBySize = <Entity extends DiffedHeapSnapshotEntity>({
+  entities,
+  diff,
+  options,
+  categories,
+  minSizeOf,
+  sizeOf,
+}: {
+  entities: AggregatedHeapSnapshotEntityDiff<Entity>[]
+  diff: AggregatedHeapSnapshotDiff
+  options: FormattingProfileToMdOptions
+  categories?: DiffEntityCategories<AggregatedHeapSnapshotEntityDiff<Entity>>
+  minSizeOf: (entity: Entity) => number
+  sizeOf: (entity: Entity, snapshot: AggregatedHeapSnapshot) => number
+}): DiffEntityRanking<AggregatedHeapSnapshotEntityDiff<Entity>> => {
+  const selected = selectDiffEntities(
+    entities.map(entity => ({
+      entity,
+      baseValue: entity.base ? minSizeOf(entity.base) : 0,
+      currentValue: entity.current ? minSizeOf(entity.current) : 0,
+    })),
+    diff,
+    options,
+    categories,
+  )
+  const displayed = new Set(
+    [
+      selected.increases,
+      selected.decreases,
+      ...selected.categoryRankings.flatMap(({ increases, decreases }) => [
+        increases,
+        decreases,
+      ]),
+    ].flatMap(items => items.map(({ entity }) => entity)),
+  )
+  return {
+    ...rankDiffEntities(
+      Array.from(
+        displayed,
+        (
+          entity,
+        ): ActiveDiffEntity<AggregatedHeapSnapshotEntityDiff<Entity>> => ({
+          entity,
+          baseValue: entity.base ? sizeOf(entity.base, diff.base) : 0,
+          currentValue: entity.current
+            ? sizeOf(entity.current, diff.current)
+            : 0,
+        }),
+      ),
+      options,
+      categories,
+    ),
+    hasActive: selected.hasActive,
+  }
+}
 
 /**
  * Formats one diffed entity ranking under its {@link RankingProse}.

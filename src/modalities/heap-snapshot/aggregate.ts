@@ -21,8 +21,9 @@ import type { CategoryResolver } from './categorize.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
-  attributeEntityRetainedSizes,
+  attributeEntityMinRetainedSizes,
   computeNodeOrdinalToRetainedSize,
+  newInstancesRetainedSizeOf,
   newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
 import type {
@@ -63,6 +64,17 @@ export type AggregatedHeapSnapshot = {
   ) => readonly number[]
 
   /**
+   * Bytes allocated for a constructor's or function's instances, as well as
+   * all nodes that would be freed if every instance were garbage collected,
+   * including the nodes the instances retain only together. Memoized per
+   * entity.
+   *
+   * It takes a pass over the snapshot for an entity with several outermost
+   * instances, so call it only for the entities the Markdown shows.
+   */
+  retainedSizeOf: (entity: RetainingEntity) => number
+
+  /**
    * The first hop of a node's retainer path along its dominators, or
    * `undefined` for the GC root, a node without predecessors, and an
    * unreachable node. Following each hop's
@@ -85,29 +97,52 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
-export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity & {
-  name: string
+export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotEntity &
+  MinRetainedSize & {
+    name: string
 
+    /**
+     * What this constructor's instances hold: the category the origin assigns
+     * to its class, falling back to the category holding the most of their
+     * self size.
+     */
+    category: HeapSnapshotNodeCategory
+    instances: AggregatedHeapSnapshotNode[]
+  }
+
+export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity &
+  MinRetainedSize & {
+    /**
+     * The ordinal of the instance with the largest individual retained size,
+     * which is the instance the function's rows show.
+     */
+    id: number
+    name: string
+
+    /**
+     * What this function holds, taken from the instance {@link id}
+     * identifies.
+     */
+    category: HeapSnapshotNodeCategory
+    instanceOrdinals: number[]
+  }
+
+/** A constructor's or function's instances, in a snapshot or a diff side. */
+export type RetainingEntity = MinRetainedSize &
+  (
+    | { instances: readonly { id: number }[] }
+    | { instanceOrdinals: readonly number[] }
+  )
+
+type MinRetainedSize = {
   /**
-   * What this constructor's instances hold: the category the origin assigns to
-   * its class, falling back to the category holding the most of their self
-   * size.
+   * A lower bound on {@link AggregatedHeapSnapshot.retainedSizeOf}, computed
+   * for every entity, by which a ranking selects the entities to compute the
+   * retained size of. It sums the retained sizes of the outermost instances and
+   * of each node no instance dominates whose every predecessor is an instance
+   * or a node one dominates.
    */
-  category: HeapSnapshotNodeCategory
-  instances: AggregatedHeapSnapshotNode[]
-}
-
-export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
-  /**
-   * The ordinal of the instance with the largest individual retained size,
-   * which is the instance the function's rows show.
-   */
-  id: number
-  name: string
-
-  /** What this function holds, taken from the instance {@link id} identifies. */
-  category: HeapSnapshotNodeCategory
-  instanceOrdinals: number[]
+  minRetainedSize: number
 }
 
 export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
@@ -134,12 +169,6 @@ export type AggregatedHeapSnapshotEntity = {
   selfSize: number
 
   category: HeapSnapshotNodeCategory
-
-  /**
-   * Bytes allocated for the entity's nodes, as well as all nodes that would be
-   * freed if they were garbage collected.
-   */
-  retainedSize: number
 
   location?: SourceLocation
 }
@@ -347,7 +376,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         // `aggregate` assigns this once the origin is known.
         category: `object`,
         selfSize: 0,
-        retainedSize: 0,
+        minRetainedSize: 0,
         instances: [],
       }
       this.#constructors.push(constructor)
@@ -393,7 +422,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         // `aggregate` assigns this once the origin is known.
         category: `function`,
         selfSize: 0,
-        retainedSize: 0,
+        minRetainedSize: 0,
         instanceOrdinals: [],
       })
       this.#keyToFunctionIndex.set(key, functionIndex)
@@ -421,7 +450,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       // `aggregate` assigns this once the origin is known.
       category: `string`,
       selfSize,
-      retainedSize: selfSize,
     })
     this.#entityCategorizer.addStringNode(categoryKey)
   }
@@ -430,14 +458,16 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
-    attributeEntityRetainedSizes(
+    attributeEntityMinRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
+      this.#nodeAdjacencyGraph,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToConstructorIndex,
       this.#constructors,
     )
-    attributeEntityRetainedSizes(
+    attributeEntityMinRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
+      this.#nodeAdjacencyGraph,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToFunctionIndex,
       this.#functions,
@@ -453,6 +483,9 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const categoryOf = this.#newNodeCategorizer(categories)
     this.#categorizeNodes(categoryOf)
 
+    const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
+      this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+    )
     return {
       type: `heap-snapshot`,
       context,
@@ -463,8 +496,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
-      outermostInstanceOrdinalsOf: newOutermostInstanceOrdinalsOf(
-        this.#immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+      outermostInstanceOrdinalsOf,
+      retainedSizeOf: newEntityRetainedSizeOf(
+        newInstancesRetainedSizeOf(
+          this.#nodeAdjacencyGraph,
+          this.#nodeOrdinalToRetainedSize,
+          this.#selfSizeOf,
+          outermostInstanceOrdinalsOf,
+        ),
       ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
@@ -517,6 +556,24 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         instance.category = categoryOf(instance.id)
       }
     }
+  }
+}
+
+const newEntityRetainedSizeOf = (
+  instancesRetainedSizeOf: (instanceOrdinals: readonly number[]) => number,
+): ((entity: RetainingEntity) => number) => {
+  const entityToRetainedSize = new WeakMap<RetainingEntity, number>()
+  return entity => {
+    let retainedSize = entityToRetainedSize.get(entity)
+    if (retainedSize === undefined) {
+      retainedSize = instancesRetainedSizeOf(
+        `instances` in entity
+          ? entity.instances.map(({ id }) => id)
+          : entity.instanceOrdinals,
+      )
+      entityToRetainedSize.set(entity, retainedSize)
+    }
+    return retainedSize
   }
 }
 
