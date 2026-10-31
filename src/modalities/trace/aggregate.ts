@@ -334,10 +334,7 @@ class EventsAggregator {
   }
 
   public aggregate(): AggregatedTrace {
-    let position = 0
-    for (const parsed of this.#trace.events) {
-      this.#aggregateParsed(parsed, position++)
-    }
+    this.#aggregateEvents()
     this.#closeSpansOutside(undefined)
 
     const spans = [
@@ -364,6 +361,16 @@ class EventsAggregator {
       gauges: [...this.#keyToGauge.values()].map(readings =>
         aggregateGauge(readings, this.#start, this.#end - this.#start),
       ),
+    }
+  }
+
+  // Kept out of `aggregate`, because Node.js 24's V8 sometimes miscompiles
+  // `aggregate` when it switches into Maglev's code partway through this loop,
+  // and the trace then reports a wrong duration.
+  #aggregateEvents(): void {
+    let position = 0
+    for (const parsed of this.#trace.events) {
+      this.#aggregateParsed(parsed, position++)
     }
   }
 
