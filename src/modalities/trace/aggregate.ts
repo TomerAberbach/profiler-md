@@ -334,10 +334,7 @@ class EventsAggregator {
   }
 
   public aggregate(): AggregatedTrace {
-    let position = 0
-    for (const parsed of this.#trace.events) {
-      this.#aggregateParsed(parsed, position++)
-    }
+    this.#aggregateEvents()
     this.#closeSpansOutside(undefined)
 
     const spans = [
@@ -364,6 +361,18 @@ class EventsAggregator {
       gauges: [...this.#keyToGauge.values()].map(readings =>
         aggregateGauge(readings, this.#start, this.#end - this.#start),
       ),
+    }
+  }
+
+  // Kept out of `aggregate`, so V8 never switches into Maglev's code for
+  // `aggregate` partway through this loop. Node.js 24's V8 rebuilds the object
+  // `aggregate` returns when that code bails out, sharing its floating-point
+  // field across calls, so a later trace's duration overwrites an earlier one's:
+  // https://github.com/nodejs/node/issues/66457
+  #aggregateEvents(): void {
+    let position = 0
+    for (const parsed of this.#trace.events) {
+      this.#aggregateParsed(parsed, position++)
     }
   }
 
