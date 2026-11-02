@@ -1020,6 +1020,7 @@ const formatDiffConstructorInstances = ({
     entity: constructor,
     groupDiffs,
     sizeOf,
+    countOf: group => group.nodeCount,
     totalOf: sizeOf,
     headingLevel: 5,
     columns: constructorRetainerGroupColumns,
@@ -1168,6 +1169,7 @@ const formatDiffEntityGroups = <
   entity,
   groupDiffs,
   sizeOf,
+  countOf = () => 0,
   totalOf,
   headingLevel,
   columns,
@@ -1178,6 +1180,12 @@ const formatDiffEntityGroups = <
   entity: AggregatedHeapSnapshotEntityDiff<Entity>
   groupDiffs: EntryDiff<Group>[]
   sizeOf: (group: Group) => number
+
+  /**
+   * The group's instances, which rank a group whose size did not change below
+   * every group whose size did.
+   */
+  countOf?: (group: Group) => number
 
   /** The size a group's share is of. */
   totalOf: (entity: Entity) => number
@@ -1196,7 +1204,11 @@ const formatDiffEntityGroups = <
     groupDiffs,
     breakdownLimit(options),
     ({ base, current }) =>
-      (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0),
+      // Falls back to the change in instances where the size did not change,
+      // scaled so it ranks below any change in size, which is at least 1 B.
+      (current ? sizeOf(current) : 0) - (base ? sizeOf(base) : 0) ||
+      Number.EPSILON *
+        ((current ? countOf(current) : 0) - (base ? countOf(base) : 0)),
   )
   if (changedGroups.length === 0) {
     return []
@@ -1261,7 +1273,7 @@ const formatDiffStrings = ({
 
   return formatDiffEntitySections({
     prose: STRINGS_PROSE,
-    // Diffed strings are matched by value, so they always have a value.
+    // A diff merges strings with no known value into one row, named for that.
     columns: stringColumns(true),
     ranking,
     rowOf,

@@ -564,7 +564,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     ).toStrictEqual([])
   })
 
-  test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
+  test(`groups strings by value, merging duplicates and those without a known value`, () => {
     const base = makeAggregatedHeapSnapshot({
       strings: [
         makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 50 }),
@@ -586,6 +586,14 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     )
     expect(rankingTables(md, `Largest strings`, `Improvements`)).toStrictEqual([
       [
+        {
+          Change: `removed`,
+          Delta: `-999 B`,
+          '%': `92.6% → 0.0%`,
+          Size: `999 B → 0 B`,
+          Value: `(unknown value)`,
+          Path: `(unknown) ← (GC root)`,
+        },
         {
           Change: `-37.5%`,
           Delta: `-30 B`,

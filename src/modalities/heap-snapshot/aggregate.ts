@@ -128,6 +128,9 @@ export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotEntity & {
 } & EntityRetention
 
 export type AggregatedHeapSnapshotString = AggregatedHeapSnapshotEntity & {
+  /** The whole string value, where the name truncates it. */
+  fullValue?: string
+
   /** What this string holds: its representation in the heap. */
   category: HeapSnapshotNodeCategory
 }
@@ -447,6 +450,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       type: `node`,
       id: nodeOrdinal,
       name: node.name,
+      fullValue: node.fullValue,
       // `aggregate` assigns this once the origin is known.
       category: `string`,
       selfSize,

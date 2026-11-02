@@ -439,3 +439,15 @@ Retainer paths with the largest change in contribution to each constructor's ret
 |   -6.7% | -16 B | 5.3% → 5.0% | 240 B → 224 B | 15 → 14 | `StructureChain ← Structure ←(several paths)– (GC root)`                                                                                                       |
 |  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← EventFactory ←.eventFactory– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)`             |
 |  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← ExposureLogTracker ←.exposureLogTracker– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)` |
+
+## Largest strings
+
+### Regressions
+
+Strings with the largest increase in bytes. Categories account for at least 1.0% of self size on the base or the current side.
+
+#### String
+
+| Change |  Delta |             % |     Size | Value             | Path                                                                     |
+| -----: | -----: | ------------: | -------: | ----------------- | ------------------------------------------------------------------------ |
+|    ~0% | +527 B | 32.6% → 32.5% | 3.39 MiB | `(unknown value)` | `string ←.name– Function ←.register– Object ←(several paths)– (GC root)` |

@@ -599,14 +599,23 @@ function* v8SnapshotNodes(
         break
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
-      case fieldLayout.nodeTypeConcatenatedString:
+      case fieldLayout.nodeTypeConcatenatedString: {
+        const value =
+          snapshot.strings[
+            snapshot.nodes[
+              nodeOrdinal * fieldLayout.nodeFieldCount +
+                fieldLayout.nodeNameOffset
+            ]!
+          ]!
         yield {
           category,
           declaredType,
           type: `string`,
-          name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
+          name: formatString(value),
+          fullValue: value.length > MAX_STRING_LENGTH ? value : undefined,
         }
         break
+      }
       default:
         yield { category, declaredType }
     }
