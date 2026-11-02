@@ -192,6 +192,41 @@ run_memray_for_side() {
   memray_rundir[$side]=$dir
 }
 
+# CPython 3.10 encodes a code object's line table differently from both 3.11
+# and 3.9, so one capture traces Black under the official 3.10 image.
+MEMRAY_PY310_IMAGE="python:3.10.22-slim-bookworm"
+
+declare -A memray_py310_rundir=()
+run_memray_py310_for_side() {
+  local side=$1
+  [[ -n "${memray_py310_rundir[$side]:-}" ]] && return 0
+  local dir="$WORKDIR/python-memray-py310-$side"
+  mkdir -p "$dir"
+  fetch_pydecimal || return 1
+  cp "$TARGET" "$dir/_pydecimal.py" || return 1
+
+  notice "Profiling black with memray under Python 3.10 ($side)"
+  DOCKER_IMAGE="$MEMRAY_PY310_IMAGE" docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends git
+
+      git clone --quiet --depth 1 --branch "$BLACK_VERSION" \
+        https://github.com/psf/black /src/black
+
+      python -m venv /venv
+      /venv/bin/pip install --quiet "memray==$MEMRAY_V13_VERSION"
+      /venv/bin/pip install --quiet -e /src/black
+
+      cp /out/_pydecimal.py /tmp/work.py
+      /venv/bin/memray run --force -o /out/py310.memray.bin -m black /tmp/work.py
+    ' -e MEMRAY_V13_VERSION="$MEMRAY_V13_VERSION" \
+    -e BLACK_VERSION="${BLACK_VERSION[$side]}" || return 1
+
+  memray_py310_rundir[$side]=$dir
+}
+
 # pyinstrument samples from inside the interpreter and exports speedscope with
 # its default frame selection, which keeps the frames above pyinstrument's 1%
 # threshold and absorbs the rest into their parents. --show-all keeps every
@@ -345,6 +380,13 @@ copy_memray_capture() {
   cp "${memray_rundir[$side]}/$name" "$out"
 }
 
+# capture_fn for emit: $1=out  $2=side
+copy_memray_py310_capture() {
+  local out=$1 side=$2
+  run_memray_py310_for_side "$side" || return 1
+  cp "${memray_py310_rundir[$side]}/py310.memray.bin" "$out"
+}
+
 # capture_fn for emit: $1=out  $2=side  $3=in-container filename
 copy_tachyon_profile() {
   local out=$1 side=$2 name=$3
@@ -391,6 +433,8 @@ for side in base current; do
     copy_memray_capture "$side" native.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.v13.$side.memray.bin" \
     copy_memray_capture "$side" v13.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.py310.$side.memray.bin" \
+    copy_memray_py310_capture "$side"
   try emit "$GENERATED_INPUTS/python.pyinstrument.$side.speedscope.json" \
     copy_pyinstrument_profile "$side" default.speedscope.json
   for config in "${TACHYON_BLACK_CONFIGS[@]%% *}"; do

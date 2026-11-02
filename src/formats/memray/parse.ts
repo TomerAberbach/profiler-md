@@ -1528,13 +1528,13 @@ const lineNumberOf = (
       firstLineNumber,
     )
   }
-  return lineNumberFromLineDeltas(
-    lineTable,
-    header.pythonVersion >= 0x03_0a_00_00
-      ? instructionOffset * 2
-      : instructionOffset,
-    firstLineNumber,
-  )
+  return header.pythonVersion >= 0x03_0a_00_00
+    ? lineNumberFromLineRanges(
+        lineTable,
+        instructionOffset * 2,
+        firstLineNumber,
+      )
+    : lineNumberFromLineDeltas(lineTable, instructionOffset, firstLineNumber)
 }
 
 /**
@@ -1612,12 +1612,38 @@ const LOCATION_NO_COLUMNS = 13
 const LOCATION_LONG = 14
 const LOCATION_NONE = 15
 
-/** The line delta a 3.10-and-earlier line table encodes for an unlined range. */
+/** The line delta a line table of pairs encodes for an unlined range. */
 const NO_LINE_NUMBER = -0x80
 
 /**
- * Reads a 3.10-and-earlier line table, a series of pairs advancing the offset
- * and the line, up to the pair covering {@link byteOffset}.
+ * Reads a 3.10 line table, a series of pairs each stating a range's length and
+ * the line delta that applies to that range.
+ *
+ * @see https://github.com/python/cpython/blob/3.10/Objects/codeobject.c
+ */
+const lineNumberFromLineRanges = (
+  lineTable: Uint8Array,
+  byteOffset: number,
+  firstLineNumber: number,
+): number | undefined => {
+  let line = firstLineNumber
+  let end = 0
+  for (let index = 0; index + 1 < lineTable.length; index += 2) {
+    end += lineTable[index]!
+    const delta = (lineTable[index + 1]! << 24) >> 24
+    if (delta !== NO_LINE_NUMBER) {
+      line += delta
+    }
+    if (byteOffset < end) {
+      return delta === NO_LINE_NUMBER ? undefined : line
+    }
+  }
+  return undefined
+}
+
+/**
+ * Reads a line table from before 3.10, a series of pairs advancing the offset
+ * and then the line, up to the pair that starts past {@link byteOffset}.
  */
 const lineNumberFromLineDeltas = (
   lineTable: Uint8Array,
