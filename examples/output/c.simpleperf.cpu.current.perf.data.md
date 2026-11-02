@@ -232,8 +232,8 @@ Functions with the most time spent within the function and its callees.
 | 99.9% |   1.60s |   1,599 | `0x9f1e`  | `./zstd`                               |
 | 99.9% |   1.60s |   1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | 99.9% |   1.60s |   1,599 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 99.0% |   1.58s |   1,585 | `0x1162e` | `./zstd`                               |
-| 99.0% |   1.58s |   1,585 | `0x1671e` | `./zstd`                               |
+| 99.0% |   1.59s |   1,585 | `0x1162e` | `./zstd`                               |
+| 99.0% |   1.59s |   1,585 | `0x1671e` | `./zstd`                               |
 | 81.9% |   1.31s |   1,311 | `0x62a5e` | `./zstd`                               |
 | 78.1% |   1.25s |   1,251 | `0x5a3f2` | `./zstd`                               |
 | 17.8% | 285.3ms |     285 | `0x17e36` | `./zstd`                               |
@@ -259,8 +259,8 @@ Categories accounting for at least 1.0% of self time.
 |     % |    Time | Samples | Function  | Location |
 | ----: | ------: | ------: | --------- | -------- |
 | 99.9% |   1.60s |   1,599 | `0x9f1e`  | `./zstd` |
-| 99.0% |   1.58s |   1,585 | `0x1162e` | `./zstd` |
-| 99.0% |   1.58s |   1,585 | `0x1671e` | `./zstd` |
+| 99.0% |   1.59s |   1,585 | `0x1162e` | `./zstd` |
+| 99.0% |   1.59s |   1,585 | `0x1671e` | `./zstd` |
 | 81.9% |   1.31s |   1,311 | `0x62a5e` | `./zstd` |
 | 78.1% |   1.25s |   1,251 | `0x5a3f2` | `./zstd` |
 | 17.8% | 285.3ms |     285 | `0x17e36` | `./zstd` |
@@ -299,7 +299,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location |
 | -----: | ----: | ------: | --------- | -------- |
-| 100.0% | 1.58s |   1,585 | `0x1671e` | `./zstd` |
+| 100.0% | 1.59s |   1,585 | `0x1671e` | `./zstd` |
 
 ##### `0x1671e` (`./zstd`)
 
@@ -454,7 +454,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee    | Location |
 | -----: | ----: | ------: | --------- | -------- |
-| 100.0% | 1.58s |   1,585 | `0x1162e` | `./zstd` |
+| 100.0% | 1.59s |   1,585 | `0x1162e` | `./zstd` |
 
 ##### `0x62a5e` (`./zstd`)
 

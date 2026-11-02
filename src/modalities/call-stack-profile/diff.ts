@@ -74,7 +74,11 @@ export const diffAggregatedCallStackProfiles = (
   current: AggregatedCallStackProfile,
   options: FormattingProfileToMdOptions,
 ): AggregatedCallStackProfileDiff => {
-  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
+  const metrics = matchDiffedMetrics(
+    base.metrics,
+    current.metrics,
+    options.logger,
+  )
   if (
     metrics.length === 0 &&
     (base.metrics.length > 0 || current.metrics.length > 0)

@@ -7,6 +7,7 @@ import {
   calleesTables,
   callersTables,
   categoryRankingTables,
+  expectLogs,
   linesTables,
   rankingTables,
   totalCallersTables,
@@ -192,6 +193,9 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.metrics[0]!.metric.type).toBe(`time`)
+    expectLogs([
+      `warn: diff omits metrics only the base side measures, got: ${BYTES_METRIC.phrases.pastParticipleVerbPhrase}`,
+    ])
   })
 
   test(`throws on no matching metrics`, () => {

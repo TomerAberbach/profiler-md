@@ -61,7 +61,11 @@ export const diffAggregatedCallGraphs = (
   current: AggregatedCallGraph,
   options: FormattingProfileToMdOptions,
 ): AggregatedCallGraphDiff => {
-  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
+  const metrics = matchDiffedMetrics(
+    base.metrics,
+    current.metrics,
+    options.logger,
+  )
   if (metrics.length === 0) {
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }

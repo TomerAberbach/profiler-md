@@ -1,11 +1,11 @@
 # CPU profile
 
-Took 3.61s over 3,619 samples (1.0ms per sample).
+Took 3.62s over 3,619 samples (1.0ms per sample).
 
 | Category         |     % |  Time | Samples |
 | ---------------- | ----: | ----: | ------: |
 | Third-party      | 60.2% | 2.18s |   2,180 |
-| Standard library | 39.8% | 1.43s |   1,439 |
+| Standard library | 39.8% | 1.44s |   1,439 |
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-rust-profile/src/`.
 
@@ -16,19 +16,19 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-rust
 Call paths to the hottest functions.
 
 ```
-└── 3.61s (100.0%) _main
-    └── 3.61s (100.0%) std::rt::lang_start_internal
-        └── 3.61s (100.0%) std::rt::lang_start::{{closure}} at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs
-            └── 3.61s (100.0%) std::sys::backtrace::__rust_begin_short_backtrace at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs
-                └── 3.61s (100.0%) core::ops::function::FnOnce::call_once at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs
-                    └── 3.61s (100.0%) json_bench::main at ./profile.rs
-                        └── 3.61s (100.0%) json_bench::workload
-                            ├── 2.03s (56.3%) serde_json::de::from_str at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs
-                            │   └── 2.03s (56.3%) serde_json::de::from_trait
-                            │       └── 2.03s (56.3%) serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs
-                            │           └── … 2.03s (56.3%) <&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs
+└── 3.62s (100.0%) _main
+    └── 3.62s (100.0%) std::rt::lang_start_internal
+        └── 3.62s (100.0%) std::rt::lang_start::{{closure}} at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs
+            └── 3.62s (100.0%) std::sys::backtrace::__rust_begin_short_backtrace at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs
+                └── 3.62s (100.0%) core::ops::function::FnOnce::call_once at /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs
+                    └── 3.62s (100.0%) json_bench::main at ./profile.rs
+                        └── 3.62s (100.0%) json_bench::workload
+                            ├── 2.04s (56.3%) serde_json::de::from_str at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs
+                            │   └── 2.04s (56.3%) serde_json::de::from_trait
+                            │       └── 2.04s (56.3%) serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs
+                            │           └── … 2.04s (56.3%) <&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs
                             │               ├── 1.79s (49.5%) <serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs
-                            │               │   ├── 1.04s (28.9%) serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs
+                            │               │   ├── 1.05s (28.9%) serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs
                             │               │   ├── 718.0ms (19.8%) serde_core::de::MapAccess::next_entry at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs
                             │               │   │   └── 718.0ms (19.8%) serde_core::de::MapAccess::next_entry_seed
                             │               │   │       ├── 690.0ms (19.1%) <serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed at ../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs
@@ -67,7 +67,7 @@ Functions with the most time spent within the function body, excluding callees.
 |     % |    Time | Samples | Function                                                                                            | Location                                                                                                              |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | 29.6% |   1.07s |   1,072 | `core::mem::drop`                                                                                   | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/mod.rs`                                         |
-| 28.9% |   1.04s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                      | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
+| 28.9% |   1.05s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                      | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
 | 25.0% | 904.0ms |     904 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                    | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
 |  9.4% | 339.0ms |     339 | `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop`                  | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs`                          |
 |  1.7% |  61.0ms |      61 | `<serde_json::ser::MapKeySerializer<W,F> as serde_core::ser::Serializer>::serialize_str`            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/ser.rs`       |
@@ -92,7 +92,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                                                                            | Location                                                                                                              |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| 28.9% |   1.04s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                      | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
+| 28.9% |   1.05s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                      | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
 | 25.0% | 904.0ms |     904 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                    | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
 |  1.7% |  61.0ms |      61 | `<serde_json::ser::MapKeySerializer<W,F> as serde_core::ser::Serializer>::serialize_str`            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/ser.rs`       |
 |  1.5% |  54.0ms |      54 | `serde_json::value::ser::<impl serde_core::ser::Serialize for serde_json::value::Value>::serialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/ser.rs` |
@@ -129,7 +129,7 @@ Lines with the largest contribution to each function's self time.
 
 |      % |  Time | Samples | Location                                                                                                            |
 | -----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.04s |   1,046 | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs:128` |
+| 100.0% | 1.05s |   1,046 | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs:128` |
 
 ##### `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
@@ -235,7 +235,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |      % |  Time | Samples | Caller                                                                                                                                                      | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.04s |   1,046 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 1.05s |   1,046 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
@@ -335,26 +335,26 @@ Functions with the most time spent within the function and its callees.
 
 |      % |  Time | Samples | Function                                                                                                                                                    | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `core::ops::function::FnOnce::call_once`                                                                                                                    | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`                                   |
-| 100.0% | 3.61s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace`                                                                                                         | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`                                   |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start::{{closure}}`                                                                                                                          | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`                                              |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start_internal`                                                                                                                              | `<unknown>`                                                                                                          |
-| 100.0% | 3.61s |   3,619 | `_main`                                                                                                                                                     | `<unknown>`                                                                                                          |
-| 100.0% | 3.61s |   3,618 | `json_bench::workload`                                                                                                                                      | `./profile.rs`                                                                                                       |
-| 100.0% | 3.61s |   3,618 | `json_bench::main`                                                                                                                                          | `./profile.rs`                                                                                                       |
-|  56.3% | 2.03s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
-|  56.3% | 2.03s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any`                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
-|  56.3% | 2.03s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize`                                                       | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
-|  56.3% | 2.03s |   2,036 | `serde_json::de::from_trait`                                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
-|  56.3% | 2.03s |   2,036 | `serde_json::de::from_str`                                                                                                                                  | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
-|  56.2% | 2.03s |   2,035 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
-|  56.2% | 2.03s |   2,035 | `serde_core::de::MapAccess::next_value`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
+| 100.0% | 3.62s |   3,619 | `core::ops::function::FnOnce::call_once`                                                                                                                    | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`                                   |
+| 100.0% | 3.62s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace`                                                                                                         | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`                                   |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start::{{closure}}`                                                                                                                          | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`                                              |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start_internal`                                                                                                                              | `<unknown>`                                                                                                          |
+| 100.0% | 3.62s |   3,619 | `_main`                                                                                                                                                     | `<unknown>`                                                                                                          |
+| 100.0% | 3.62s |   3,618 | `json_bench::workload`                                                                                                                                      | `./profile.rs`                                                                                                       |
+| 100.0% | 3.62s |   3,618 | `json_bench::main`                                                                                                                                          | `./profile.rs`                                                                                                       |
+|  56.3% | 2.04s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+|  56.3% | 2.04s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any`                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
+|  56.3% | 2.04s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize`                                                       | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+|  56.3% | 2.04s |   2,036 | `serde_json::de::from_trait`                                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
+|  56.3% | 2.04s |   2,036 | `serde_json::de::from_str`                                                                                                                                  | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
+|  56.2% | 2.04s |   2,035 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
+|  56.2% | 2.04s |   2,035 | `serde_core::de::MapAccess::next_value`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
 |  56.2% | 2.03s |   2,034 | `<serde_json::de::SeqAccess<R> as serde_core::de::SeqAccess>::next_element_seed`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
 |  56.2% | 2.03s |   2,034 | `serde_core::de::SeqAccess::next_element`                                                                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
 |  56.2% | 2.03s |   2,034 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_seq` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
-|  41.9% | 1.51s |   1,518 | `serde_core::de::MapAccess::next_entry_seed`                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
-|  41.9% | 1.51s |   1,518 | `serde_core::de::MapAccess::next_entry`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
-|  41.9% | 1.51s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
+|  41.9% | 1.52s |   1,518 | `serde_core::de::MapAccess::next_entry_seed`                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
+|  41.9% | 1.52s |   1,518 | `serde_core::de::MapAccess::next_entry`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`   |
+|  41.9% | 1.52s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
 
 #### Categories
 
@@ -364,20 +364,20 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                                                                                                                                    | Location                                                                                                              |
 | ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| 56.3% |   2.03s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`  |
-| 56.3% |   2.03s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any`                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
-| 56.3% |   2.03s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize`                                                       | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`  |
-| 56.3% |   2.03s |   2,036 | `serde_json::de::from_trait`                                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
-| 56.3% |   2.03s |   2,036 | `serde_json::de::from_str`                                                                                                                                  | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
-| 56.2% |   2.03s |   2,035 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
-| 56.2% |   2.03s |   2,035 | `serde_core::de::MapAccess::next_value`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
+| 56.3% |   2.04s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`  |
+| 56.3% |   2.04s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any`                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
+| 56.3% |   2.04s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize`                                                       | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`  |
+| 56.3% |   2.04s |   2,036 | `serde_json::de::from_trait`                                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
+| 56.3% |   2.04s |   2,036 | `serde_json::de::from_str`                                                                                                                                  | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
+| 56.2% |   2.04s |   2,035 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
+| 56.2% |   2.04s |   2,035 | `serde_core::de::MapAccess::next_value`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
 | 56.2% |   2.03s |   2,034 | `<serde_json::de::SeqAccess<R> as serde_core::de::SeqAccess>::next_element_seed`                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
 | 56.2% |   2.03s |   2,034 | `serde_core::de::SeqAccess::next_element`                                                                                                                   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
 | 56.2% |   2.03s |   2,034 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_seq` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`  |
-| 41.9% |   1.51s |   1,518 | `serde_core::de::MapAccess::next_entry_seed`                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
-| 41.9% |   1.51s |   1,518 | `serde_core::de::MapAccess::next_entry`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
-| 41.9% |   1.51s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
-| 28.9% |   1.04s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
+| 41.9% |   1.52s |   1,518 | `serde_core::de::MapAccess::next_entry_seed`                                                                                                                | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
+| 41.9% |   1.52s |   1,518 | `serde_core::de::MapAccess::next_entry`                                                                                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`    |
+| 41.9% |   1.52s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`        |
+| 28.9% |   1.05s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert`                                                                              | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`       |
 |  4.6% | 168.0ms |     168 | `serde_core::ser::SerializeMap::serialize_entry`                                                                                                            | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/ser/mod.rs`   |
 |  4.6% | 168.0ms |     168 | `serde_json::value::ser::<impl serde_core::ser::Serialize for serde_json::value::Value>::serialize`                                                         | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/ser.rs` |
 |  4.6% | 168.0ms |     168 | `<serde_json::ser::Compound<W,F> as serde_core::ser::SerializeMap>::serialize_value`                                                                        | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/ser.rs`       |
@@ -389,9 +389,9 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function                                                                                                                                                                                                                                                                | Location                                                                                      |
 | -----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% |   3.61s |   3,619 | `core::ops::function::FnOnce::call_once`                                                                                                                                                                                                                                | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`            |
-| 100.0% |   3.61s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace`                                                                                                                                                                                                                     | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`            |
-| 100.0% |   3.61s |   3,619 | `std::rt::lang_start::{{closure}}`                                                                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`                       |
+| 100.0% |   3.62s |   3,619 | `core::ops::function::FnOnce::call_once`                                                                                                                                                                                                                                | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs`            |
+| 100.0% |   3.62s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace`                                                                                                                                                                                                                     | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`            |
+| 100.0% |   3.62s |   3,619 | `std::rt::lang_start::{{closure}}`                                                                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`                       |
 |  39.1% |   1.41s |   1,414 | `core::mem::drop`                                                                                                                                                                                                                                                       | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/mod.rs`                 |
 |  39.1% |   1.41s |   1,414 | `<alloc::collections::btree::map::BTreeMap<K,V,A> as core::ops::drop::Drop>::drop`                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs`  |
 |  39.1% |   1.41s |   1,414 | `core::ptr::drop_in_place<alloc::collections::btree::map::BTreeMap<alloc::string::String,serde_json::value::Value>>`                                                                                                                                                    | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
@@ -399,13 +399,13 @@ Categories accounting for at least 1.0% of self time.
 |  39.1% |   1.41s |   1,414 | `core::ptr::drop_in_place<serde_json::value::Value>`                                                                                                                                                                                                                    | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
 |  39.1% |   1.41s |   1,414 | `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop`                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs`  |
 |  39.1% |   1.41s |   1,414 | `core::ptr::drop_in_place<alloc::collections::btree::map::IntoIter<alloc::string::String,serde_json::value::Value>>`                                                                                                                                                    | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
-|  38.9% |   1.40s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop`                                                                                                                                                                                                             | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs`        |
-|  38.9% |   1.40s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop`                 | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
-|  38.9% |   1.40s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
-|  38.9% |   1.40s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val`                                                              | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
-|  38.9% |   1.40s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>`                                                                                                                                                                                                                  | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
-|  38.9% |   1.40s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop`                                                                                                                                                                                                                 | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs`                |
-|  38.9% |   1.40s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>`                                                                                                                                                                                                   | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
+|  38.9% |   1.41s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop`                                                                                                                                                                                                             | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs`        |
+|  38.9% |   1.41s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop`                 | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+|  38.9% |   1.41s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
+|  38.9% |   1.41s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val`                                                              | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+|  38.9% |   1.41s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>`                                                                                                                                                                                                                  | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
+|  38.9% |   1.41s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop`                                                                                                                                                                                                                 | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs`                |
+|  38.9% |   1.41s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>`                                                                                                                                                                                                   | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                 |
 |   4.6% | 168.0ms |     168 | `core::iter::traits::iterator::Iterator::try_for_each::call::{{closure}}`                                                                                                                                                                                               | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/iter/traits/iterator.rs`    |
 |   4.6% | 168.0ms |     168 | `core::iter::traits::iterator::Iterator::try_fold`                                                                                                                                                                                                                      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/iter/traits/iterator.rs`    |
 |   4.6% | 168.0ms |     168 | `core::iter::traits::iterator::Iterator::try_for_each`                                                                                                                                                                                                                  | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/iter/traits/iterator.rs`    |
@@ -418,83 +418,83 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                                              | Location                                                                           |
 | -----: | ----: | ------: | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs` |
+| 100.0% | 3.62s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs` |
 
 ##### `std::sys::backtrace::__rust_begin_short_backtrace` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`)
 
 |      % |  Time | Samples | Caller                             | Location                                                                |
 | -----: | ----: | ------: | ---------------------------------- | ----------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start::{{closure}}` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs` |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start::{{closure}}` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs` |
 
 ##### `std::rt::lang_start::{{closure}}` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`)
 
 |      % |  Time | Samples | Caller                         | Location    |
 | -----: | ----: | ------: | ------------------------------ | ----------- |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start_internal` | `<unknown>` |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start_internal` | `<unknown>` |
 
 ##### `std::rt::lang_start_internal` (`<unknown>`)
 
 |      % |  Time | Samples | Caller  | Location    |
 | -----: | ----: | ------: | ------- | ----------- |
-| 100.0% | 3.61s |   3,619 | `_main` | `<unknown>` |
+| 100.0% | 3.62s |   3,619 | `_main` | `<unknown>` |
 
 ##### `json_bench::workload` (`./profile.rs`)
 
 |      % |  Time | Samples | Caller             | Location       |
 | -----: | ----: | ------: | ------------------ | -------------- |
-| 100.0% | 3.61s |   3,618 | `json_bench::main` | `./profile.rs` |
+| 100.0% | 3.62s |   3,618 | `json_bench::main` | `./profile.rs` |
 
 ##### `json_bench::main` (`./profile.rs`)
 
 |      % |  Time | Samples | Caller                                   | Location                                                                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,618 | `core::ops::function::FnOnce::call_once` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs` |
+| 100.0% | 3.62s |   3,618 | `core::ops::function::FnOnce::call_once` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs` |
 
 ##### `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`)
 
 |      % |  Time | Samples | Caller                                                                                    | Location                                                                                                       |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+| 100.0% | 2.04s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 2.04s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`)
 
 |      % |  Time | Samples | Caller                                                                           | Location                                                                                                           |
 | -----: | ----: | ------: | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 2.03s |   2,036 | `serde_json::de::from_trait`                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`     |
+| 100.0% | 2.04s |   2,036 | `serde_json::de::from_trait`                                                     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`     |
 |  99.9% | 2.03s |   2,034 | `serde_core::de::MapAccess::next_value`                                          | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
-|  89.8% | 1.82s |   1,828 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+|  89.8% | 1.83s |   1,828 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
 
 ##### `serde_json::de::from_trait` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Caller                     | Location                                                                                                       |
 | -----: | ----: | ------: | -------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `serde_json::de::from_str` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+| 100.0% | 2.04s |   2,036 | `serde_json::de::from_str` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `serde_json::de::from_str` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Caller                 | Location       |
 | -----: | ----: | ------: | ---------------------- | -------------- |
-| 100.0% | 2.03s |   2,036 | `json_bench::workload` | `./profile.rs` |
+| 100.0% | 2.04s |   2,036 | `json_bench::workload` | `./profile.rs` |
 
 ##### `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                                           | Location                                                                                                       |
 | -----: | ----: | ------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | 100.0% | 2.03s |   2,034 | `<serde_json::de::SeqAccess<R> as serde_core::de::SeqAccess>::next_element_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
-|  74.5% | 1.51s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+|  74.5% | 1.52s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed`   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 |   0.4% | 9.0ms |       9 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_key_seed`     | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `serde_core::de::MapAccess::next_value` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                                                                      | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,035 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 2.04s |   2,035 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `<serde_json::de::SeqAccess<R> as serde_core::de::SeqAccess>::next_element_seed` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
@@ -518,19 +518,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                                  | Location                                                                                                           |
 | -----: | ----: | ------: | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.51s |   1,518 | `serde_core::de::MapAccess::next_entry` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+| 100.0% | 1.52s |   1,518 | `serde_core::de::MapAccess::next_entry` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
 
 ##### `serde_core::de::MapAccess::next_entry` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                                                                      | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.51s |   1,518 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 1.52s |   1,518 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Caller                                       | Location                                                                                                           |
 | -----: | ----: | ------: | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.51s |   1,517 | `serde_core::de::MapAccess::next_entry_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+| 100.0% | 1.52s |   1,517 | `serde_core::de::MapAccess::next_entry_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
 
 ##### `core::mem::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/mod.rs`)
 
@@ -561,8 +561,8 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Caller                                                      | Location                                                                               |
 | -----: | ----: | ------: | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | 100.0% | 1.41s |   1,414 | `json_bench::workload`                                      | `./profile.rs`                                                                         |
-|  99.6% | 1.40s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs` |
-|  99.6% | 1.40s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>`      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`          |
+|  99.6% | 1.41s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs` |
+|  99.6% | 1.41s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>`      | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`          |
 
 ##### `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs`)
 
@@ -580,49 +580,49 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                                                                                                                                                                                                                                                  | Location                                                                                      |
 | -----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+| 100.0% | 1.41s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
 
 ##### `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                                                                                                                                                                                  | Location                                                                      |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                                                                                                                     | Location                                                                                      |
 | -----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+| 100.0% | 1.41s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
 
 ##### `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs`)
 
 |      % |  Time | Samples | Caller                                                                             | Location                                                                                     |
 | -----: | ----: | ------: | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs` |
+| 100.0% | 1.41s |   1,409 | `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs` |
 
 ##### `core::ptr::drop_in_place<[serde_json::value::Value]>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                  | Location                                                                       |
 | -----: | ----: | ------: | ------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| 100.0% | 1.40s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs` |
 
 ##### `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs`)
 
 |      % |  Time | Samples | Caller                                                                | Location                                                                      |
 | -----: | ----: | ------: | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Caller                                               | Location                                                                      |
 | -----: | ----: | ------: | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`)
 
 |      % |  Time | Samples | Caller                                                                                                                                                      | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 1.04s |   1,046 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 1.05s |   1,046 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `serde_core::ser::SerializeMap::serialize_entry` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/ser/mod.rs`)
 
@@ -688,37 +688,37 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee             | Location       |
 | -----: | ----: | ------: | ------------------ | -------------- |
-| 100.0% | 3.61s |   3,618 | `json_bench::main` | `./profile.rs` |
+| 100.0% | 3.62s |   3,618 | `json_bench::main` | `./profile.rs` |
 
 ##### `std::sys::backtrace::__rust_begin_short_backtrace` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs`)
 
 |      % |  Time | Samples | Callee                                   | Location                                                                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `core::ops::function::FnOnce::call_once` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs` |
+| 100.0% | 3.62s |   3,619 | `core::ops::function::FnOnce::call_once` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ops/function.rs` |
 
 ##### `std::rt::lang_start::{{closure}}` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`)
 
 |      % |  Time | Samples | Callee                                              | Location                                                                           |
 | -----: | ----: | ------: | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs` |
+| 100.0% | 3.62s |   3,619 | `std::sys::backtrace::__rust_begin_short_backtrace` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/sys/backtrace.rs` |
 
 ##### `std::rt::lang_start_internal` (`<unknown>`)
 
 |      % |  Time | Samples | Callee                             | Location                                                                |
 | -----: | ----: | ------: | ---------------------------------- | ----------------------------------------------------------------------- |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start::{{closure}}` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs` |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start::{{closure}}` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs` |
 
 ##### `_main` (`<unknown>`)
 
 |      % |  Time | Samples | Callee                         | Location    |
 | -----: | ----: | ------: | ------------------------------ | ----------- |
-| 100.0% | 3.61s |   3,619 | `std::rt::lang_start_internal` | `<unknown>` |
+| 100.0% | 3.62s |   3,619 | `std::rt::lang_start_internal` | `<unknown>` |
 
 ##### `json_bench::workload` (`./profile.rs`)
 
 |     % |    Time | Samples | Callee                                               | Location                                                                                                        |
 | ----: | ------: | ------: | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| 56.3% |   2.03s |   2,036 | `serde_json::de::from_str`                           | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`  |
+| 56.3% |   2.04s |   2,036 | `serde_json::de::from_str`                           | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`  |
 | 39.1% |   1.41s |   1,414 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`                                   |
 |  4.6% | 168.0ms |     168 | `serde_json::ser::to_string`                         | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/ser.rs` |
 
@@ -726,22 +726,22 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                 | Location       |
 | -----: | ----: | ------: | ---------------------- | -------------- |
-| 100.0% | 3.61s |   3,618 | `json_bench::workload` | `./profile.rs` |
+| 100.0% | 3.62s |   3,618 | `json_bench::workload` | `./profile.rs` |
 
 ##### `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs`)
 
 |      % |  Time | Samples | Callee                                                                         | Location                                                                                                           |
 | -----: | ----: | ------: | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 2.03s |   2,035 | `serde_core::de::MapAccess::next_value`                                        | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
-|  74.6% | 1.51s |   1,518 | `serde_core::de::MapAccess::next_entry`                                        | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
-|  51.4% | 1.04s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`    |
+| 100.0% | 2.04s |   2,035 | `serde_core::de::MapAccess::next_value`                                        | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+|  74.6% | 1.52s |   1,518 | `serde_core::de::MapAccess::next_entry`                                        | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+|  51.4% | 1.05s |   1,046 | `serde_json::map::Map<alloc::string::String,serde_json::value::Value>::insert` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/map.rs`    |
 |   0.1% | 2.0ms |       2 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_key_seed`   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`     |
 
 ##### `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Callee                                                                                                                                                      | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 2.04s |   2,036 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_map` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 |  99.9% | 2.03s |   2,034 | `<serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize::ValueVisitor as serde_core::de::Visitor>::visit_seq` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 |   0.2% | 5.0ms |       5 | `<serde_json::read::StrRead as serde_json::read::Read>::parse_str`                                                                                          | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/read.rs`     |
 |   0.1% | 2.0ms |       2 | `serde_json::de::Deserializer<R>::parse_any_number`                                                                                                         | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`       |
@@ -750,25 +750,25 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                                                                                    | Location                                                                                                       |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+| 100.0% | 2.04s |   2,036 | `<&mut serde_json::de::Deserializer<R> as serde_core::de::Deserializer>::deserialize_any` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `serde_json::de::from_trait` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Callee                                                                                                | Location                                                                                                             |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 100.0% | 2.04s |   2,036 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 
 ##### `serde_json::de::from_str` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Callee                       | Location                                                                                                       |
 | -----: | ----: | ------: | ---------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.03s |   2,036 | `serde_json::de::from_trait` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+| 100.0% | 2.04s |   2,036 | `serde_json::de::from_trait` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
 |     % |  Time | Samples | Callee                                                                                                | Location                                                                                                             |
 | ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 89.8% | 1.82s |   1,828 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
+| 89.8% | 1.83s |   1,828 | `serde_json::value::de::<impl serde_core::de::Deserialize for serde_json::value::Value>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/value/de.rs` |
 |  0.4% | 9.0ms |       9 | `serde_core::de::impls::<impl serde_core::de::Deserialize for alloc::string::String>::deserialize`    | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/impls.rs` |
 
 ##### `serde_core::de::MapAccess::next_value` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
@@ -800,20 +800,20 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee                                                                         | Location                                                                                                       |
 | ----: | -----: | ------: | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| 99.9% |  1.51s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
+| 99.9% |  1.52s |   1,517 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 |  1.8% | 28.0ms |      28 | `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_key_seed`   | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs` |
 
 ##### `serde_core::de::MapAccess::next_entry` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs`)
 
 |      % |  Time | Samples | Callee                                       | Location                                                                                                           |
 | -----: | ----: | ------: | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.51s |   1,518 | `serde_core::de::MapAccess::next_entry_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+| 100.0% | 1.52s |   1,518 | `serde_core::de::MapAccess::next_entry_seed` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
 
 ##### `<serde_json::de::MapAccess<R> as serde_core::de::MapAccess>::next_value_seed` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.141/src/de.rs`)
 
 |      % |  Time | Samples | Callee                                                                           | Location                                                                                                           |
 | -----: | ----: | ------: | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.51s |   1,517 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
+| 100.0% | 1.52s |   1,517 | `<core::marker::PhantomData<T> as serde_core::de::DeserializeSeed>::deserialize` | `../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/de/mod.rs` |
 
 ##### `core::mem::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/mod.rs`)
 
@@ -844,13 +844,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Callee                                                                                           | Location                                                                      |
 | -----: | ----: | ------: | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
 | 100.0% | 1.41s |   1,414 | `core::ptr::drop_in_place<serde_json::map::Map<alloc::string::String,serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
-|  99.6% | 1.40s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>`                            | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+|  99.6% | 1.41s |   1,409 | `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>`                            | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `<alloc::collections::btree::map::IntoIter<K,V,A> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/map.rs`)
 
 |     % |  Time | Samples | Callee                                                                                                                                                                                                     | Location                                                                                      |
 | ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 99.6% | 1.40s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+| 99.6% | 1.41s |   1,409 | `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
 
 ##### `core::ptr::drop_in_place<alloc::collections::btree::map::IntoIter<alloc::string::String,serde_json::value::Value>>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
@@ -862,43 +862,43 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                                               | Location                                                                      |
 | -----: | ----: | ------: | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs`)
 
 |      % |  Time | Samples | Callee                                                      | Location                                                                               |
 | -----: | ----: | ------: | ----------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs` |
+| 100.0% | 1.41s |   1,409 | `core::mem::maybe_uninit::MaybeUninit<T>::assume_init_drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/mem/maybe_uninit.rs` |
 
 ##### `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Callee                                                                                                                                                                                                                                                  | Location                                                                                      |
 | -----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
+| 100.0% | 1.41s |   1,409 | `<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<T> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs` |
 
 ##### `alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/collections/btree/node.rs`)
 
 |      % |  Time | Samples | Callee                                                                                                                                                                                                                                                                  | Location                                                                      |
 | -----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<alloc::collections::btree::node::Handle<alloc::collections::btree::node::NodeRef<alloc::collections::btree::node::marker::Dying,K,V,NodeType>,alloc::collections::btree::node::marker::KV>::drop_key_val::Dropper<serde_json::value::Value>>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `core::ptr::drop_in_place<[serde_json::value::Value]>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Callee                                               | Location                                                                      |
 | -----: | ----: | ------: | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<serde_json::value::Value>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs`)
 
 |      % |  Time | Samples | Callee                                                 | Location                                                                      |
 | -----: | ----: | ------: | ------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `core::ptr::drop_in_place<[serde_json::value::Value]>` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs` |
 
 ##### `core::ptr::drop_in_place<alloc::vec::Vec<serde_json::value::Value>>` (`/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/ptr/mod.rs`)
 
 |      % |  Time | Samples | Callee                                                  | Location                                                                       |
 | -----: | ----: | ------: | ------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| 100.0% | 1.40s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs` |
+| 100.0% | 1.41s |   1,409 | `<alloc::vec::Vec<T,A> as core::ops::drop::Drop>::drop` | `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/alloc/src/vec/mod.rs` |
 
 ##### `serde_core::ser::SerializeMap::serialize_entry` (`../../profiler-md-rust-cargo-home/registry/src/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228/src/ser/mod.rs`)
 

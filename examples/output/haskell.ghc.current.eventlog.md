@@ -1,6 +1,6 @@
 # Wall time profile
 
-Took 4.18s over 4,186 samples (1.0ms per sample).
+Took 4.19s over 4,186 samples (1.0ms per sample).
 
 | Category          |     % |   Time | Samples |
 | ----------------- | ----: | -----: | ------: |
@@ -16,7 +16,7 @@ Call paths to the hottest functions.
 
 ```
 ├── 2.97s (71.0%) Main.main at Profile.hs:146:1
-│   ├── 2.72s (65.2%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
+│   ├── 2.73s (65.2%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
 │   │   ├── 1.89s (45.2%, self 37.7%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
 │   │   │   ├── 157.0ms (3.8%) Data.Aeson.Internal.Text.unsafeDecodeASCII at src/Data/Aeson/Internal/Text.hs:29:1
 │   │   │   ├── 82.0ms (2.0%) Data.Aeson.Internal.Unescape.unescapeText at src/Data/Aeson/Internal/Unescape.hs:34:1
@@ -64,7 +64,7 @@ Functions with the most wall time spent within the function body, excluding call
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 37.9% |   1.58s |   1,585 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 37.9% |   1.59s |   1,585 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 28.5% |   1.19s |   1,193 | `GC.GC`                                           | `<unknown>`                                       |
 | 12.0% | 503.0ms |     503 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
 |  4.8% | 199.0ms |     199 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
@@ -93,7 +93,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 37.9% |   1.58s |   1,585 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 37.9% |   1.59s |   1,585 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 12.0% | 503.0ms |     503 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
 |  4.8% | 199.0ms |     199 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 |  3.8% | 157.0ms |     157 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
@@ -128,7 +128,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |      % |  Time | Samples | Caller                             | Location                          |
 | -----: | ----: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 1.58s |   1,585 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 100.0% | 1.59s |   1,585 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`)
 
@@ -255,7 +255,7 @@ Functions with the most wall time spent within the function and its callees.
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
 | 71.0% |   2.97s |   2,974 | `Main.main`                                       | `Profile.hs:146:1`                                |
-| 65.6% |   2.74s |   2,745 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
+| 65.6% |   2.75s |   2,745 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
 | 45.4% |   1.90s |   1,901 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 28.5% |   1.19s |   1,193 | `GC.GC`                                           | `<unknown>`                                       |
 | 20.1% | 843.0ms |     843 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
@@ -284,7 +284,7 @@ Categories accounting for at least 1.0% of self time.
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
 | 71.0% |   2.97s |   2,974 | `Main.main`                                       | `Profile.hs:146:1`                                |
-| 65.6% |   2.74s |   2,745 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
+| 65.6% |   2.75s |   2,745 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
 | 45.4% |   1.90s |   1,901 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 20.1% | 843.0ms |     843 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 | 12.0% | 503.0ms |     503 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
@@ -318,7 +318,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Caller           | Location           |
 | ----: | -----: | ------: | ---------------- | ------------------ |
-| 99.4% |  2.72s |   2,729 | `Main.main`      | `Profile.hs:146:1` |
+| 99.4% |  2.73s |   2,729 | `Main.main`      | `Profile.hs:146:1` |
 |  0.6% | 16.0ms |      16 | `Main.roundTrip` | `Profile.hs:139:1` |
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
@@ -439,7 +439,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                             | Location                          |
 | ----: | ------: | ------: | ---------------------------------- | --------------------------------- |
-| 91.8% |   2.72s |   2,729 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 91.8% |   2.73s |   2,729 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 |  5.2% | 154.0ms |     154 | `Main.keywords`                    | `Profile.hs:136:1`                |
 |  1.6% |  49.0ms |      49 | `Main.roundTrip`                   | `Profile.hs:139:1`                |
 |  1.1% |  33.0ms |      33 | `Main.summarize`                   | `Profile.hs:118:1`                |
@@ -551,7 +551,7 @@ Common call stack: `Main.main` (`Profile.hs:146:1`)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 37.7% |   1.57s |   1,578 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 37.7% |   1.58s |   1,578 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | 12.0% | 502.0ms |     502 | `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 |  4.8% | 199.0ms |     199 | `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 |  3.8% | 157.0ms |     157 | `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |

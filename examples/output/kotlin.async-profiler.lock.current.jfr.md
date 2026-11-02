@@ -1,10 +1,10 @@
 # Lock contention profile
 
-Blocked 1.18s over 982 contentions (1.2ms per contention).
+Blocked 1.19s over 982 contentions (1.2ms per contention).
 
 | Category         |     % |  Time | Contentions |
 | ---------------- | ----: | ----: | ----------: |
-| Ours             | 99.9% | 1.18s |         973 |
+| Ours             | 99.9% | 1.19s |         973 |
 | Standard library |  0.1% | 1.1ms |           9 |
 
 `…` stands for omitted frames.
@@ -14,10 +14,10 @@ Blocked 1.18s over 982 contentions (1.2ms per contention).
 Call paths to the hottest functions.
 
 ```
-└── … 1.18s (99.7%, self 0.7%) generateFile(JvmBackendContext, IrFile, List, boolean) at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
+└── … 1.19s (99.7%, self 0.7%) generateFile(JvmBackendContext, IrFile, List, boolean) at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
     ├── 1.12s (94.3%) generate() at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen
-    │   ├── 1.08s (91.5%) generateMethod(IrFunction, SourceMapper)
-    │   │   ├── 1.01s (85.7%, self 73.3%) generateMethodNode(IrFunction)
+    │   ├── 1.09s (91.5%) generateMethod(IrFunction, SourceMapper)
+    │   │   ├── 1.02s (85.7%, self 73.3%) generateMethodNode(IrFunction)
     │   │   │   └── … 148.0ms (12.4%, self 3.8%) doGenerate(ReifiedTypeParametersUsages) at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen
     │   │   │       ├── … 66.9ms (5.6%) visitStatementContainer(IrStatementContainer, BlockInfo) at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen
     │   │   │       │   └── … 61.9ms (5.2%) visitReturn(IrReturn, BlockInfo) at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen
@@ -380,17 +380,17 @@ Functions with the most time blocked within the function and its callees.
 
 |      % |    Time | Contentions | Function                                                                                                          | Location                                                                          |
 | -----: | ------: | ----------: | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 100.0% |   1.18s |         982 | `runWorker(ThreadPoolExecutor$Worker)`                                                                            | `java.util.concurrent.ThreadPoolExecutor`                                         |
-| 100.0% |   1.18s |         982 | `run()`                                                                                                           | `java.util.concurrent.ThreadPoolExecutor$Worker`                                  |
-| 100.0% |   1.18s |         982 | `runWith(Object, Runnable)`                                                                                       | `java.lang.Thread`                                                                |
-| 100.0% |   1.18s |         982 | `run()`                                                                                                           | `java.lang.Thread`                                                                |
-|  99.9% |   1.18s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-|  99.9% |   1.18s |         974 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
-|  99.9% |   1.18s |         974 | `run()`                                                                                                           | `java.util.concurrent.CompletableFuture$AsyncRun`                                 |
-|  99.7% |   1.18s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+| 100.0% |   1.19s |         982 | `runWorker(ThreadPoolExecutor$Worker)`                                                                            | `java.util.concurrent.ThreadPoolExecutor`                                         |
+| 100.0% |   1.19s |         982 | `run()`                                                                                                           | `java.util.concurrent.ThreadPoolExecutor$Worker`                                  |
+| 100.0% |   1.19s |         982 | `runWith(Object, Runnable)`                                                                                       | `java.lang.Thread`                                                                |
+| 100.0% |   1.19s |         982 | `run()`                                                                                                           | `java.lang.Thread`                                                                |
+|  99.9% |   1.19s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+|  99.9% |   1.19s |         974 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
+|  99.9% |   1.19s |         974 | `run()`                                                                                                           | `java.util.concurrent.CompletableFuture$AsyncRun`                                 |
+|  99.7% |   1.19s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 |  94.3% |   1.12s |         716 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
-|  91.5% |   1.08s |         667 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
-|  85.7% |   1.01s |         482 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+|  91.5% |   1.09s |         667 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+|  85.7% |   1.02s |         482 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  17.4% | 206.6ms |         395 | `doGenerate(ReifiedTypeParametersUsages)`                                                                         | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
 |  17.4% | 206.6ms |         395 | `generate(ReifiedTypeParametersUsages)`                                                                           | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
 |  17.4% | 206.6ms |         395 | `generate$default(FunctionCodegen, ReifiedTypeParametersUsages, int, Object)`                                     | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
@@ -409,12 +409,12 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Contentions | Function                                                                                                          | Location                                                                          |
 | ----: | ------: | ----------: | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 99.9% |   1.18s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-| 99.9% |   1.18s |         974 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
-| 99.7% |   1.18s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+| 99.9% |   1.19s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+| 99.9% |   1.19s |         974 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
+| 99.7% |   1.19s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 | 94.3% |   1.12s |         716 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
-| 91.5% |   1.08s |         667 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
-| 85.7% |   1.01s |         482 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 91.5% |   1.09s |         667 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 85.7% |   1.02s |         482 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 | 17.4% | 206.6ms |         395 | `doGenerate(ReifiedTypeParametersUsages)`                                                                         | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
 | 17.4% | 206.6ms |         395 | `generate(ReifiedTypeParametersUsages)`                                                                           | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
 | 17.4% | 206.6ms |         395 | `generate$default(FunctionCodegen, ReifiedTypeParametersUsages, int, Object)`                                     | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`                        |
@@ -438,43 +438,43 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller  | Location                                         |
 | -----: | ----: | ----------: | ------- | ------------------------------------------------ |
-| 100.0% | 1.18s |         982 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
+| 100.0% | 1.19s |         982 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
 
 ##### `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`)
 
 |      % |  Time | Contentions | Caller                      | Location           |
 | -----: | ----: | ----------: | --------------------------- | ------------------ |
-| 100.0% | 1.18s |         982 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+| 100.0% | 1.19s |         982 | `runWith(Object, Runnable)` | `java.lang.Thread` |
 
 ##### `runWith(Object, Runnable)` (`java.lang.Thread`)
 
 |      % |  Time | Contentions | Caller  | Location           |
 | -----: | ----: | ----------: | ------- | ------------------ |
-| 100.0% | 1.18s |         982 | `run()` | `java.lang.Thread` |
+| 100.0% | 1.19s |         982 | `run()` | `java.lang.Thread` |
 
 ##### `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
 |      % |  Time | Contentions | Caller  | Location                                                                          |
 | -----: | ----: | ----------: | ------- | --------------------------------------------------------------------------------- |
-| 100.0% | 1.18s |         974 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
+| 100.0% | 1.19s |         974 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
 
 ##### `run()` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220`)
 
 |      % |  Time | Contentions | Caller  | Location                                          |
 | -----: | ----: | ----------: | ------- | ------------------------------------------------- |
-| 100.0% | 1.18s |         974 | `run()` | `java.util.concurrent.CompletableFuture$AsyncRun` |
+| 100.0% | 1.19s |         974 | `run()` | `java.util.concurrent.CompletableFuture$AsyncRun` |
 
 ##### `run()` (`java.util.concurrent.CompletableFuture$AsyncRun`)
 
 |      % |  Time | Contentions | Caller                                 | Location                                  |
 | -----: | ----: | ----------: | -------------------------------------- | ----------------------------------------- |
-| 100.0% | 1.18s |         974 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
+| 100.0% | 1.19s |         974 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
 
 ##### `generateFile(JvmBackendContext, IrFile, List, boolean)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
 |      % |  Time | Contentions | Caller                                                                                                            | Location                                               |
 | -----: | ----: | ----------: | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.18s |         942 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 100.0% | 1.19s |         942 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 
 ##### `generate()` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
@@ -486,13 +486,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller       | Location                                                |
 | -----: | ----: | ----------: | ------------ | ------------------------------------------------------- |
-| 100.0% | 1.08s |         667 | `generate()` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
+| 100.0% | 1.09s |         667 | `generate()` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
 
 ##### `generateMethodNode(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
 |      % |   Time | Contentions | Caller                                      | Location                                                             |
 | -----: | -----: | ----------: | ------------------------------------------- | -------------------------------------------------------------------- |
-| 100.0% |  1.01s |         482 | `generateMethod(IrFunction, SourceMapper)`  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`              |
+| 100.0% |  1.02s |         482 | `generateMethod(IrFunction, SourceMapper)`  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`              |
 |   5.7% | 58.6ms |           2 | `compileInlineFunction(JvmMethodSignature)` | `org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline` |
 
 ##### `doGenerate(ReifiedTypeParametersUsages)` (`org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`)
@@ -591,45 +591,45 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Contentions | Callee      | Location                                          |
 | ----: | ----: | ----------: | ----------- | ------------------------------------------------- |
-| 99.9% | 1.18s |         974 | `run()`     | `java.util.concurrent.CompletableFuture$AsyncRun` |
+| 99.9% | 1.19s |         974 | `run()`     | `java.util.concurrent.CompletableFuture$AsyncRun` |
 |  0.1% | 1.1ms |           8 | `getTask()` | `java.util.concurrent.ThreadPoolExecutor`         |
 
 ##### `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`)
 
 |      % |  Time | Contentions | Callee                                 | Location                                  |
 | -----: | ----: | ----------: | -------------------------------------- | ----------------------------------------- |
-| 100.0% | 1.18s |         982 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
+| 100.0% | 1.19s |         982 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
 
 ##### `runWith(Object, Runnable)` (`java.lang.Thread`)
 
 |      % |  Time | Contentions | Callee  | Location                                         |
 | -----: | ----: | ----------: | ------- | ------------------------------------------------ |
-| 100.0% | 1.18s |         982 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
+| 100.0% | 1.19s |         982 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
 
 ##### `run()` (`java.lang.Thread`)
 
 |      % |  Time | Contentions | Callee                      | Location           |
 | -----: | ----: | ----------: | --------------------------- | ------------------ |
-| 100.0% | 1.18s |         982 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+| 100.0% | 1.19s |         982 | `runWith(Object, Runnable)` | `java.lang.Thread` |
 
 ##### `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
 |     % |  Time | Contentions | Callee                                                   | Location                                               |
 | ----: | ----: | ----------: | -------------------------------------------------------- | ------------------------------------------------------ |
-| 99.8% | 1.18s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 99.8% | 1.19s |         942 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 |  0.2% | 2.8ms |          32 | `getUnitStats()`                                         | `org.jetbrains.kotlin.util.PerformanceManager`         |
 
 ##### `run()` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220`)
 
 |      % |  Time | Contentions | Callee                                                                                                            | Location                                               |
 | -----: | ----: | ----------: | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.18s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 100.0% | 1.19s |         974 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 
 ##### `run()` (`java.util.concurrent.CompletableFuture$AsyncRun`)
 
 |      % |  Time | Contentions | Callee  | Location                                                                          |
 | -----: | ----: | ----------: | ------- | --------------------------------------------------------------------------------- |
-| 100.0% | 1.18s |         974 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
+| 100.0% | 1.19s |         974 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x0000009801890220` |
 
 ##### `generateFile(JvmBackendContext, IrFile, List, boolean)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
@@ -642,7 +642,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Contentions | Callee                                     | Location                                                |
 | ----: | -----: | ----------: | ------------------------------------------ | ------------------------------------------------------- |
-| 97.1% |  1.08s |         667 | `generateMethod(IrFunction, SourceMapper)` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
+| 97.1% |  1.09s |         667 | `generateMethod(IrFunction, SourceMapper)` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
 |  2.7% | 30.0ms |          47 | `generateAnnotations()`                    | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
 |  0.2% |  2.4ms |           2 | `generateField(IrField)`                   | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen` |
 
@@ -650,7 +650,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Contentions | Callee                                                                   | Location                                                            |
 | ----: | -----: | ----------: | ------------------------------------------------------------------------ | ------------------------------------------------------------------- |
-| 93.7% |  1.01s |         482 | `generateMethodNode(IrFunction)`                                         | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`             |
+| 93.7% |  1.02s |         482 | `generateMethodNode(IrFunction)`                                         | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`             |
 |  1.9% | 21.1ms |          36 | `getMetadataSerializer()`                                                | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`             |
 |  1.9% | 20.3ms |          89 | `accept(MethodVisitor)`                                                  | `org.jetbrains.org.objectweb.asm.tree.MethodNode`                   |
 |  1.4% | 15.0ms |          41 | `newMethod(JvmDeclarationOrigin, int, String, String, String, String[])` | `org.jetbrains.kotlin.codegen.DelegatingClassBuilder`               |

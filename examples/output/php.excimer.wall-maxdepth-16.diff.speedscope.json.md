@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Took 3.92s → 3.69s (-224.00ms, -5.7%) over 3,124 → 3,134 samples (1.3ms → 1.2ms per sample).
+Took 3.92s → 3.70s (-224.00ms, -5.7%) over 3,124 → 3,134 samples (1.3ms → 1.2ms per sample).
 
 | Category    | Change |     Delta |             % |              Time |       Samples |
 | ----------- | -----: | --------: | ------------: | ----------------: | ------------: |
@@ -18,13 +18,13 @@ Call stacks missing their outermost callers account for 23.0% → 22.5% of the t
 Call paths to the hottest and most changed functions.
 
 ```
-├── … 3.01s → 2.85s (76.8% → 77.3%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
-│   ├── 2.83s → 2.84s (72.3% → 76.9%) Composer\Console\Application::doRun at ./composer/src/Composer/Console/Application.php
-│   │   ├── … 2.57s → 2.61s (65.6% → 70.8%) Symfony\Component\Console\Command\Command::run at ./composer/vendor/symfony/console/Command/Command.php
+├── … 3.01s → 2.86s (76.8% → 77.3%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
+│   ├── 2.84s → 2.85s (72.3% → 76.9%) Composer\Console\Application::doRun at ./composer/src/Composer/Console/Application.php
+│   │   ├── … 2.57s → 2.62s (65.6% → 70.8%) Symfony\Component\Console\Command\Command::run at ./composer/vendor/symfony/console/Command/Command.php
 │   │   │   ├── 2.55s → 2.60s (65.1% → 70.3%) Composer\Command\DumpAutoloadCommand::execute at ./composer/src/Composer/Command/DumpAutoloadCommand.php
-│   │   │   │   └── 2.55s → 2.59s (65.1% → 70.3%) Composer\Autoload\AutoloadGenerator::dump at ./composer/src/Composer/Autoload/AutoloadGenerator.php
-│   │   │   │       ├── 2.40s → 2.45s (61.4% → 66.3%, self 1.6%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths at ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
-│   │   │   │       │   ├── 2.22s → 2.27s (56.8% → 61.5%, self 16.1% → 17.9%) Composer\ClassMapGenerator\PhpFileParser::findClasses at ./composer/vendor/composer/class-map-generator/src/PhpFileParser.php
+│   │   │   │   └── 2.55s → 2.60s (65.1% → 70.3%) Composer\Autoload\AutoloadGenerator::dump at ./composer/src/Composer/Autoload/AutoloadGenerator.php
+│   │   │   │       ├── 2.41s → 2.45s (61.4% → 66.3%, self 1.6%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths at ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+│   │   │   │       │   ├── 2.23s → 2.27s (56.8% → 61.5%, self 16.1% → 17.9%) Composer\ClassMapGenerator\PhpFileParser::findClasses at ./composer/vendor/composer/class-map-generator/src/PhpFileParser.php
 │   │   │   │       │   │   ├── 1.43s (36.5% → 38.7%, self 10.8% → 11.5%) Composer\ClassMapGenerator\PhpFileCleaner::clean at ./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php
 │   │   │   │       │   │   │   ├── 793.0ms → 804.0ms (20.2% → 21.7%, self 2.5%) Composer\ClassMapGenerator\PhpFileCleaner::match
 │   │   │   │       │   │   │   │   └── 694.0ms → 713.0ms (17.7% → 19.3%, self 3.3% → 4.2%) Composer\Pcre\Preg::isMatchStrictGroups at ./composer/vendor/composer/pcre/src/Preg.php
@@ -727,15 +727,15 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |    Delta |             % |              Time |       Samples | Function                                                                   | Location                                                                       |
 | ------: | -------: | ------------: | ----------------: | ------------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-|   +1.4% | +34.00ms | 61.9% → 66.6% |     2.42s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                    | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`         |
-|   +0.9% | +25.00ms | 71.5% → 76.5% |     2.80s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute`                            | `./composer/src/Composer/Command/DumpAutoloadCommand.php`                      |
-|   +0.8% | +23.00ms | 71.5% → 76.5% |     2.80s → 2.82s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump`                                | `./composer/src/Composer/Autoload/AutoloadGenerator.php`                       |
+|   +1.4% | +34.00ms | 61.9% → 66.6% |     2.43s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                    | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`         |
+|   +0.9% | +25.00ms | 71.5% → 76.5% |     2.81s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute`                            | `./composer/src/Composer/Command/DumpAutoloadCommand.php`                      |
+|   +0.8% | +23.00ms | 71.5% → 76.5% |     2.81s → 2.83s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump`                                | `./composer/src/Composer/Autoload/AutoloadGenerator.php`                       |
 |  +13.2% | +21.00ms |   4.1% → 4.9% | 159.0ms → 180.0ms |     159 → 180 | `Composer\Pcre\Preg::matchAll`                                             | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
-|   +0.7% | +19.00ms | 67.8% → 72.4% |     2.66s → 2.67s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths`                  | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`     |
+|   +0.7% | +19.00ms | 67.8% → 72.4% |     2.66s → 2.68s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths`                  | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`     |
 |  +71.4% | +15.00ms |   0.5% → 1.0% |   21.0ms → 36.0ms |       21 → 36 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath`              | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`     |
 |     new | +10.00ms |   0.0% → 0.3% |      0ms → 10.0ms |        0 → 10 | `(anonymous)`                                                              | `./composer/src/Composer/Console/Application.php:349`                          |
 |   +8.3% | +10.00ms |   3.1% → 3.5% | 121.0ms → 131.0ms |     121 → 131 | `Composer\Pcre\Preg::matchAllStrictGroups`                                 | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
-|   +0.3% |  +9.00ms | 73.2% → 77.8% |     2.86s → 2.87s | 2,868 → 2,878 | `Symfony\Component\Console\Application::doRun`                             | `./composer/vendor/symfony/console/Application.php`                            |
+|   +0.3% |  +9.00ms | 73.2% → 77.8% |     2.87s → 2.88s | 2,868 → 2,878 | `Symfony\Component\Console\Application::doRun`                             | `./composer/vendor/symfony/console/Application.php`                            |
 |   +0.9% |  +8.00ms | 23.6% → 25.3% | 926.0ms → 934.0ms |     926 → 934 | `Composer\Pcre\Preg::isMatchStrictGroups`                                  | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
 | +166.7% |  +5.00ms |   0.1% → 0.2% |     3.0ms → 8.0ms |         3 → 8 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::current`    | `./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`     |
 |  +36.4% |  +4.00ms |   0.3% → 0.4% |   11.0ms → 15.0ms |       11 → 15 | `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc`                   | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`        |
@@ -752,12 +752,12 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |    Delta |             % |              Time |       Samples | Function                                                                   | Location                                                                                |
 | ------: | -------: | ------------: | ----------------: | ------------: | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-|   +1.4% | +34.00ms | 61.9% → 66.6% |     2.42s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                    | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`                  |
+|   +1.4% | +34.00ms | 61.9% → 66.6% |     2.43s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                    | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`                  |
 |  +13.2% | +21.00ms |   4.1% → 4.9% | 159.0ms → 180.0ms |     159 → 180 | `Composer\Pcre\Preg::matchAll`                                             | `./composer/vendor/composer/pcre/src/Preg.php`                                          |
-|   +0.7% | +19.00ms | 67.8% → 72.4% |     2.66s → 2.67s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths`                  | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`              |
+|   +0.7% | +19.00ms | 67.8% → 72.4% |     2.66s → 2.68s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths`                  | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`              |
 |  +71.4% | +15.00ms |   0.5% → 1.0% |   21.0ms → 36.0ms |       21 → 36 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath`              | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`              |
 |   +8.3% | +10.00ms |   3.1% → 3.5% | 121.0ms → 131.0ms |     121 → 131 | `Composer\Pcre\Preg::matchAllStrictGroups`                                 | `./composer/vendor/composer/pcre/src/Preg.php`                                          |
-|   +0.3% |  +9.00ms | 73.2% → 77.8% |     2.86s → 2.87s | 2,868 → 2,878 | `Symfony\Component\Console\Application::doRun`                             | `./composer/vendor/symfony/console/Application.php`                                     |
+|   +0.3% |  +9.00ms | 73.2% → 77.8% |     2.87s → 2.88s | 2,868 → 2,878 | `Symfony\Component\Console\Application::doRun`                             | `./composer/vendor/symfony/console/Application.php`                                     |
 |   +0.9% |  +8.00ms | 23.6% → 25.3% | 926.0ms → 934.0ms |     926 → 934 | `Composer\Pcre\Preg::isMatchStrictGroups`                                  | `./composer/vendor/composer/pcre/src/Preg.php`                                          |
 | +166.7% |  +5.00ms |   0.1% → 0.2% |     3.0ms → 8.0ms |         3 → 8 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::current`    | `./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`              |
 |  +36.4% |  +4.00ms |   0.3% → 0.4% |   11.0ms → 15.0ms |       11 → 15 | `Composer\ClassMapGenerator\PhpFileCleaner::skipHeredoc`                   | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`                 |
@@ -777,8 +777,8 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |    Delta |             % |          Time |       Samples | Function                                                  | Location                                                  |
 | ------: | -------: | ------------: | ------------: | ------------: | --------------------------------------------------------- | --------------------------------------------------------- |
-|   +0.9% | +25.00ms | 71.5% → 76.5% | 2.80s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute`           | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
-|   +0.8% | +23.00ms | 71.5% → 76.5% | 2.80s → 2.82s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump`               | `./composer/src/Composer/Autoload/AutoloadGenerator.php`  |
+|   +0.9% | +25.00ms | 71.5% → 76.5% | 2.81s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute`           | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
+|   +0.8% | +23.00ms | 71.5% → 76.5% | 2.81s → 2.83s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump`               | `./composer/src/Composer/Autoload/AutoloadGenerator.php`  |
 |     new | +10.00ms |   0.0% → 0.3% |  0ms → 10.0ms |        0 → 10 | `(anonymous)`                                             | `./composer/src/Composer/Console/Application.php:349`     |
 |  +50.0% |  +3.00ms |          0.2% | 6.0ms → 9.0ms |         6 → 9 | `Composer\Util\Silencer::suppress`                        | `./composer/src/Composer/Util/Silencer.php`               |
 |  +60.0% |  +3.00ms |   0.1% → 0.2% | 5.0ms → 8.0ms |         5 → 8 | `Composer\Util\Filesystem::filePutContentsIfModified`     | `./composer/src/Composer/Util/Filesystem.php`             |
@@ -805,13 +805,13 @@ Functions with the largest decrease in time spent within the function and its ca
 | Change |     Delta |             % |              Time |       Samples | Function                                                      | Location                                                       |
 | -----: | --------: | ------------: | ----------------: | ------------: | ------------------------------------------------------------- | -------------------------------------------------------------- |
 |  -5.4% | -177.00ms | 83.4% → 83.7% |     3.27s → 3.09s | 2,888 → 2,910 | `Symfony\Component\Console\Application::run`                  | `./composer/vendor/symfony/console/Application.php`            |
-|  -5.4% | -177.00ms | 83.2% → 83.5% |     3.26s → 3.08s | 2,882 → 2,904 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
+|  -5.4% | -177.00ms | 83.2% → 83.5% |     3.27s → 3.09s | 2,882 → 2,904 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
 | -95.9% | -162.00ms |   4.3% → 0.2% |   169.0ms → 7.0ms |         1 → 2 | `Symfony\Component\Console\Terminal::getHeight`               | `./composer/vendor/symfony/console/Terminal.php`               |
 | -92.5% | -161.00ms |   4.4% → 0.4% |  174.0ms → 13.0ms |         2 → 3 | `Symfony\Component\Console\Terminal::readFromProcess`         | `./composer/vendor/symfony/console/Terminal.php`               |
 | -92.5% | -161.00ms |   4.4% → 0.4% |  174.0ms → 13.0ms |         2 → 3 | `Symfony\Component\Console\Terminal::getSttyColumns`          | `./composer/vendor/symfony/console/Terminal.php`               |
 | -92.5% | -161.00ms |   4.4% → 0.4% |  174.0ms → 13.0ms |         2 → 3 | `Symfony\Component\Console\Terminal::initDimensionsUsingStty` | `./composer/vendor/symfony/console/Terminal.php`               |
 | -92.5% | -161.00ms |   4.4% → 0.4% |  174.0ms → 13.0ms |         2 → 3 | `Symfony\Component\Console\Terminal::initDimensions`          | `./composer/vendor/symfony/console/Terminal.php`               |
-|  -5.1% | -154.00ms | 77.0% → 77.5% |     3.01s → 2.86s | 2,635 → 2,681 | `(anonymous)`                                                 | `./profile.php`                                                |
+|  -5.1% | -154.00ms | 77.0% → 77.5% |     3.02s → 2.87s | 2,635 → 2,681 | `(anonymous)`                                                 | `./profile.php`                                                |
 |  -7.6% |  -51.00ms | 17.1% → 16.7% | 670.0ms → 619.0ms |     256 → 239 | `Composer\Factory::createComposer`                            | `./composer/src/Composer/Factory.php`                          |
 |  -7.7% |  -51.00ms | 17.0% → 16.6% | 666.0ms → 615.0ms |     252 → 235 | `Composer\Command\BaseCommand::tryComposer`                   | `./composer/src/Composer/Command/BaseCommand.php`              |
 |  -7.5% |  -49.00ms | 16.6% → 16.3% | 653.0ms → 604.0ms |     244 → 228 | `Composer\Command\BaseCommand::initialize`                    | `./composer/src/Composer/Command/BaseCommand.php`              |
@@ -843,8 +843,8 @@ Functions with the largest decrease in time spent within the function and its ca
 |  -4.2% |  -22.00ms | 13.5% → 13.7% | 530.0ms → 508.0ms |     530 → 508 | `Composer\Pcre\Preg::match`                                                     | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
 |  -3.5% |  -20.00ms | 14.7% → 15.1% | 577.0ms → 557.0ms |     164 → 177 | `Symfony\Component\Process\Pipes\UnixPipes::readAndWrite`                       | `./composer/vendor/symfony/process/Pipes/UnixPipes.php`                        |
 | -10.2% |  -20.00ms |   5.0% → 4.8% | 197.0ms → 177.0ms |     197 → 177 | `Composer\ClassMapGenerator\PhpFileCleaner::skipString`                         | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`        |
-|  -1.0% |  -17.00ms | 41.7% → 43.8% |     1.63s → 1.61s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`                              | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`        |
-|  -0.5% |  -16.00ms | 84.8% → 89.5% |     3.32s → 3.31s | 3,019 → 3,031 | `Symfony\Component\Console\Command\Command::run`                                | `./composer/vendor/symfony/console/Command/Command.php`                        |
+|  -1.0% |  -17.00ms | 41.7% → 43.8% |     1.64s → 1.62s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`                              | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php`        |
+|  -0.5% |  -16.00ms | 84.8% → 89.5% |     3.33s → 3.31s | 3,019 → 3,031 | `Symfony\Component\Console\Command\Command::run`                                | `./composer/vendor/symfony/console/Command/Command.php`                        |
 |  -1.9% |  -15.00ms | 20.2% → 21.0% | 792.0ms → 777.0ms |     792 → 777 | `Composer\Pcre\Preg::matchStrictGroups`                                         | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
 | -23.6% |  -13.00ms |   1.4% → 1.1% |   55.0ms → 42.0ms |       55 → 42 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct`     | `./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`     |
 | -68.4% |  -13.00ms |   0.5% → 0.2% |    19.0ms → 6.0ms |        19 → 6 | `Composer\Pcre\Preg::replaceCallback`                                           | `./composer/vendor/composer/pcre/src/Preg.php`                                 |
@@ -854,8 +854,8 @@ Functions with the largest decrease in time spent within the function and its ca
 
 |  Change |     Delta |             % |              Time |       Samples | Function                                                      | Location                                                       |
 | ------: | --------: | ------------: | ----------------: | ------------: | ------------------------------------------------------------- | -------------------------------------------------------------- |
-|   -5.4% | -177.00ms | 83.2% → 83.5% |     3.26s → 3.08s | 2,882 → 2,904 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
-|   -5.1% | -154.00ms | 77.0% → 77.5% |     3.01s → 2.86s | 2,635 → 2,681 | `(anonymous)`                                                 | `./profile.php`                                                |
+|   -5.4% | -177.00ms | 83.2% → 83.5% |     3.27s → 3.09s | 2,882 → 2,904 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
+|   -5.1% | -154.00ms | 77.0% → 77.5% |     3.02s → 2.87s | 2,635 → 2,681 | `(anonymous)`                                                 | `./profile.php`                                                |
 |   -7.6% |  -51.00ms | 17.1% → 16.7% | 670.0ms → 619.0ms |     256 → 239 | `Composer\Factory::createComposer`                            | `./composer/src/Composer/Factory.php`                          |
 |   -7.7% |  -51.00ms | 17.0% → 16.6% | 666.0ms → 615.0ms |     252 → 235 | `Composer\Command\BaseCommand::tryComposer`                   | `./composer/src/Composer/Command/BaseCommand.php`              |
 |   -7.5% |  -49.00ms | 16.6% → 16.3% | 653.0ms → 604.0ms |     244 → 228 | `Composer\Command\BaseCommand::initialize`                    | `./composer/src/Composer/Command/BaseCommand.php`              |
@@ -868,7 +868,7 @@ Functions with the largest decrease in time spent within the function and its ca
 |   -7.3% |  -46.00ms | 16.0% → 15.7% | 627.0ms → 581.0ms |     213 → 201 | `Composer\Util\ProcessExecutor::execute`                      | `./composer/src/Composer/Util/ProcessExecutor.php`             |
 |  -12.4% |  -31.00ms |   6.3% → 5.9% | 249.0ms → 218.0ms |       39 → 44 | `Composer\Util\Silencer::call`                                | `./composer/src/Composer/Util/Silencer.php`                    |
 |   -5.8% |  -24.00ms | 10.6% → 10.5% | 414.0ms → 390.0ms |      100 → 95 | `Composer\Package\Version\VersionGuesser::guessGitVersion`    | `./composer/src/Composer/Package/Version/VersionGuesser.php`   |
-|   -0.5% |  -15.00ms | 79.0% → 83.4% |     3.09s → 3.08s | 2,888 → 2,910 | `Composer\Console\Application::doRun`                         | `./composer/src/Composer/Console/Application.php`              |
+|   -0.5% |  -15.00ms | 79.0% → 83.4% |     3.10s → 3.08s | 2,888 → 2,910 | `Composer\Console\Application::doRun`                         | `./composer/src/Composer/Console/Application.php`              |
 |  -16.3% |  -13.00ms |   2.0% → 1.8% |   80.0ms → 67.0ms |       80 → 67 | `Composer\Util\Filesystem::findShortestPath`                  | `./composer/src/Composer/Util/Filesystem.php`                  |
 | removed |  -10.00ms |   0.3% → 0.0% |      10.0ms → 0ms |        10 → 0 | `(anonymous)`                                                 | `./composer/src/Composer/Console/Application.php:353`          |
 |   -6.7% |   -9.00ms |          3.4% | 134.0ms → 125.0ms |       33 → 29 | `Composer\Package\Version\VersionGuesser::versionFromGitTags` | `./composer/src/Composer/Package/Version/VersionGuesser.php`   |
@@ -883,19 +883,19 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |       Samples | Caller                                                    | Location                                                                   |
 | -----: | -------: | -----: | ------------: | ------------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
-|  +1.4% | +34.00ms | 100.0% | 2.42s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+|  +1.4% | +34.00ms | 100.0% | 2.43s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
 
 ##### `Composer\Command\DumpAutoloadCommand::execute` (`./composer/src/Composer/Command/DumpAutoloadCommand.php`)
 
 | Change |    Delta |      % |          Time |       Samples | Caller                                           | Location                                                |
 | -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------------ | ------------------------------------------------------- |
-|  +0.9% | +25.00ms | 100.0% | 2.80s → 2.83s | 2,805 → 2,830 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
+|  +0.9% | +25.00ms | 100.0% | 2.81s → 2.83s | 2,805 → 2,830 | `Symfony\Component\Console\Command\Command::run` | `./composer/vendor/symfony/console/Command/Command.php` |
 
 ##### `Composer\Autoload\AutoloadGenerator::dump` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
 
 | Change |    Delta |      % |          Time |       Samples | Caller                                          | Location                                                  |
 | -----: | -------: | -----: | ------------: | ------------: | ----------------------------------------------- | --------------------------------------------------------- |
-|  +0.8% | +23.00ms | 100.0% | 2.80s → 2.82s | 2,805 → 2,828 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
+|  +0.8% | +23.00ms | 100.0% | 2.81s → 2.83s | 2,805 → 2,828 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
 
 ##### `Composer\Pcre\Preg::matchAll` (`./composer/vendor/composer/pcre/src/Preg.php`)
 
@@ -908,7 +908,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |       Samples | Caller                                      | Location                                                 |
 | -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------- | -------------------------------------------------------- |
-|  +0.7% | +19.00ms | 100.0% | 2.66s → 2.67s | 2,660 → 2,679 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+|  +0.7% | +19.00ms | 100.0% | 2.66s → 2.68s | 2,660 → 2,679 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
 
 ##### `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath` (`./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`)
 
@@ -932,7 +932,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |             % |          Time |       Samples | Caller                                | Location                                          |
 | -----: | -------: | ------------: | ------------: | ------------: | ------------------------------------- | ------------------------------------------------- |
-|  +0.8% | +24.00ms | 98.8% → 99.4% | 2.83s → 2.86s | 2,836 → 2,860 | `Composer\Console\Application::doRun` | `./composer/src/Composer/Console/Application.php` |
+|  +0.8% | +24.00ms | 98.8% → 99.4% | 2.84s → 2.86s | 2,836 → 2,860 | `Composer\Console\Application::doRun` | `./composer/src/Composer/Console/Application.php` |
 
 ##### `Composer\Pcre\Preg::isMatchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
 
@@ -1130,13 +1130,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |     % |          Time |       Samples | Caller                              | Location                                          |
 | -----: | --------: | ----: | ------------: | ------------: | ----------------------------------- | ------------------------------------------------- |
-|  -5.4% | -177.00ms | 99.8% | 3.26s → 3.08s | 2,882 → 2,904 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
+|  -5.4% | -177.00ms | 99.8% | 3.27s → 3.09s | 2,882 → 2,904 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
 
 ##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
 
 | Change |     Delta |             % |          Time |       Samples | Caller        | Location        |
 | -----: | --------: | ------------: | ------------: | ------------: | ------------- | --------------- |
-|  -5.1% | -153.00ms | 92.2% → 92.6% | 3.01s → 2.85s | 2,628 → 2,674 | `(anonymous)` | `./profile.php` |
+|  -5.1% | -153.00ms | 92.2% → 92.6% | 3.01s → 2.86s | 2,628 → 2,674 | `(anonymous)` | `./profile.php` |
 
 ##### `Symfony\Component\Console\Terminal::getHeight` (`./composer/vendor/symfony/console/Terminal.php`)
 
@@ -1295,7 +1295,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |       Samples | Caller                                                  | Location                                                               |
 | -----: | -------: | -----: | ------------: | ------------: | ------------------------------------------------------- | ---------------------------------------------------------------------- |
-|  -1.0% | -17.00ms | 100.0% | 1.63s → 1.61s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
+|  -1.0% | -17.00ms | 100.0% | 1.64s → 1.62s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileParser::findClasses` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php` |
 
 ##### `Symfony\Component\Console\Command\Command::run` (`./composer/vendor/symfony/console/Command/Command.php`)
 
@@ -1339,7 +1339,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |     % |          Time |       Samples | Caller                                       | Location                                            |
 | -----: | -------: | ----: | ------------: | ------------: | -------------------------------------------- | --------------------------------------------------- |
-|  -0.5% | -16.00ms | 99.9% | 3.09s → 3.08s | 2,886 → 2,907 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+|  -0.5% | -16.00ms | 99.9% | 3.10s → 3.08s | 2,886 → 2,907 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
 
 ##### `Composer\Util\Filesystem::findShortestPath` (`./composer/src/Composer/Util/Filesystem.php`)
 
@@ -1379,7 +1379,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |             % |              Time |       Samples | Callee                                                    | Location                                                                |
 | -----: | -------: | ------------: | ----------------: | ------------: | --------------------------------------------------------- | ----------------------------------------------------------------------- |
-|  -1.0% | -17.00ms | 67.3% → 65.7% |     1.63s → 1.61s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`        | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
+|  -1.0% | -17.00ms | 67.3% → 65.7% |     1.64s → 1.62s | 1,635 → 1,618 | `Composer\ClassMapGenerator\PhpFileCleaner::clean`        | `./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php` |
 |  +8.3% | +10.00ms |   5.0% → 5.3% | 121.0ms → 131.0ms |     121 → 131 | `Composer\Pcre\Preg::matchAllStrictGroups`                | `./composer/vendor/composer/pcre/src/Preg.php`                          |
 | +19.0% |  +8.00ms |   1.7% → 2.0% |   42.0ms → 50.0ms |       42 → 50 | `Composer\Pcre\Preg::matchAll`                            | `./composer/vendor/composer/pcre/src/Preg.php`                          |
 |    new |  +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `Composer\ClassMapGenerator\PhpFileParser::getExtraTypes` | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`  |
@@ -1388,14 +1388,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |              % |          Time |       Samples | Callee                                      | Location                                                 |
 | -----: | -------: | -------------: | ------------: | ------------: | ------------------------------------------- | -------------------------------------------------------- |
-|  +0.8% | +23.00ms | 100.0% → 99.9% | 2.80s → 2.82s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
+|  +0.8% | +23.00ms | 100.0% → 99.9% | 2.81s → 2.83s | 2,805 → 2,828 | `Composer\Autoload\AutoloadGenerator::dump` | `./composer/src/Composer/Autoload/AutoloadGenerator.php` |
 |    new |  +1.00ms |   0.0% → <0.1% |   0ms → 1.0ms |         0 → 1 | `Composer\IO\ConsoleIO::write`              | `./composer/src/Composer/IO/ConsoleIO.php`               |
 
 ##### `Composer\Autoload\AutoloadGenerator::dump` (`./composer/src/Composer/Autoload/AutoloadGenerator.php`)
 
 |  Change |    Delta |             % |            Time |       Samples | Callee                                                    | Location                                                                   |
 | ------: | -------: | ------------: | --------------: | ------------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
-|   +0.7% | +19.00ms | 94.8% → 94.7% |   2.66s → 2.67s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
+|   +0.7% | +19.00ms | 94.8% → 94.7% |   2.66s → 2.68s | 2,660 → 2,679 | `Composer\ClassMapGenerator\ClassMapGenerator::scanPaths` | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php` |
 |  -20.0% |  -4.00ms |   0.7% → 0.6% | 20.0ms → 16.0ms |       20 → 16 | `Composer\Autoload\AutoloadGenerator::getStaticFile`      | `./composer/src/Composer/Autoload/AutoloadGenerator.php`                   |
 |  +60.0% |  +3.00ms |   0.2% → 0.3% |   5.0ms → 8.0ms |         5 → 8 | `Composer\Util\Filesystem::filePutContentsIfModified`     | `./composer/src/Composer/Util/Filesystem.php`                              |
 | +200.0% |  +2.00ms |  <0.1% → 0.1% |   1.0ms → 3.0ms |         1 → 3 | `Composer\Util\Filesystem::safeCopy`                      | `./composer/src/Composer/Util/Filesystem.php`                              |
@@ -1411,7 +1411,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |    Delta |             % |            Time |       Samples | Callee                                                                          | Location                                                                       |
 | ------: | -------: | ------------: | --------------: | ------------: | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-|   +1.4% | +34.00ms | 91.3% → 91.9% |   2.42s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                         | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`         |
+|   +1.4% | +34.00ms | 91.3% → 91.9% |   2.43s → 2.46s | 2,428 → 2,462 | `Composer\ClassMapGenerator\PhpFileParser::findClasses`                         | `./composer/vendor/composer/class-map-generator/src/PhpFileParser.php`         |
 |  +71.4% | +15.00ms |   0.8% → 1.3% | 21.0ms → 36.0ms |       21 → 36 | `Composer\ClassMapGenerator\ClassMapGenerator::normalizePath`                   | `./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php`     |
 |  -21.8% | -12.00ms |   2.1% → 1.6% | 55.0ms → 43.0ms |       55 → 43 | `Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::getChildren` | `./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php` |
 |  -57.1% |  -8.00ms |   0.5% → 0.2% |  14.0ms → 6.0ms |        14 → 6 | `Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::next`            | `./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php`     |
@@ -1433,7 +1433,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |            % |          Time |       Samples | Callee                                                 | Location                                            |
 | ------: | ------: | -----------: | ------------: | ------------: | ------------------------------------------------------ | --------------------------------------------------- |
-|   +0.3% | +8.00ms |        99.9% | 2.86s → 2.87s | 2,866 → 2,875 | `Symfony\Component\Console\Application::doRunCommand`  | `./composer/vendor/symfony/console/Application.php` |
+|   +0.3% | +8.00ms |        99.9% | 2.87s → 2.88s | 2,866 → 2,875 | `Symfony\Component\Console\Application::doRunCommand`  | `./composer/vendor/symfony/console/Application.php` |
 | +100.0% | +1.00ms | <0.1% → 0.1% | 1.0ms → 2.0ms |         1 → 2 | `Symfony\Component\Console\Application::getDefinition` | `./composer/vendor/symfony/console/Application.php` |
 
 ##### `Composer\Pcre\Preg::isMatchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
@@ -1567,14 +1567,14 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |     Delta |             % |            Time |       Samples | Callee                                          | Location                                          |
 | -----: | --------: | ------------: | --------------: | ------------: | ----------------------------------------------- | ------------------------------------------------- |
 | -95.9% | -162.00ms |   5.2% → 0.2% | 169.0ms → 7.0ms |         1 → 2 | `Symfony\Component\Console\Terminal::getHeight` | `./composer/vendor/symfony/console/Terminal.php`  |
-|  -0.5% |  -16.00ms | 94.7% → 99.6% |   3.09s → 3.08s | 2,886 → 2,907 | `Composer\Console\Application::doRun`           | `./composer/src/Composer/Console/Application.php` |
+|  -0.5% |  -16.00ms | 94.7% → 99.6% |   3.10s → 3.08s | 2,886 → 2,907 | `Composer\Console\Application::doRun`           | `./composer/src/Composer/Console/Application.php` |
 | +20.0% |   +1.00ms |          0.2% |   5.0ms → 6.0ms |             1 | `Symfony\Component\Console\Terminal::getWidth`  | `./composer/vendor/symfony/console/Terminal.php`  |
 
 ##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
 
 | Change |     Delta |      % |          Time |       Samples | Callee                                       | Location                                            |
 | -----: | --------: | -----: | ------------: | ------------: | -------------------------------------------- | --------------------------------------------------- |
-|  -5.4% | -177.00ms | 100.0% | 3.26s → 3.08s | 2,882 → 2,904 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+|  -5.4% | -177.00ms | 100.0% | 3.27s → 3.09s | 2,882 → 2,904 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
 
 ##### `Symfony\Component\Console\Terminal::getHeight` (`./composer/vendor/symfony/console/Terminal.php`)
 
@@ -1604,7 +1604,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |          Time |       Samples | Callee                                      | Location                                          |
 | -----: | --------: | ------------: | ------------: | ------------: | ------------------------------------------- | ------------------------------------------------- |
-|  -5.1% | -153.00ms | 99.7% → 99.8% | 3.01s → 2.85s | 2,628 → 2,674 | `Composer\Console\Application::run`         | `./composer/src/Composer/Console/Application.php` |
+|  -5.1% | -153.00ms | 99.7% → 99.8% | 3.01s → 2.86s | 2,628 → 2,674 | `Composer\Console\Application::run`         | `./composer/src/Composer/Console/Application.php` |
 | -66.7% |   -2.00ms |  0.1% → <0.1% | 3.0ms → 1.0ms |         3 → 1 | `Composer\Autoload\ClassLoader::loadClass`  | `./composer/vendor/composer/ClassLoader.php`      |
 | +66.7% |   +2.00ms |   0.1% → 0.2% | 3.0ms → 5.0ms |         3 → 5 | `Composer\Console\Application::__construct` | `./composer/src/Composer/Console/Application.php` |
 | -50.0% |   -1.00ms |  0.1% → <0.1% | 2.0ms → 1.0ms |             1 | `(anonymous)`                               | `./composer/src/bootstrap.php`                    |
@@ -1753,7 +1753,7 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |    Delta |             % |              Time |       Samples | Callee                                          | Location                                                  |
 | -----: | -------: | ------------: | ----------------: | ------------: | ----------------------------------------------- | --------------------------------------------------------- |
 |  -7.9% | -41.00ms | 15.7% → 14.5% | 522.0ms → 481.0ms |     214 → 201 | `Composer\Command\BaseCommand::initialize`      | `./composer/src/Composer/Command/BaseCommand.php`         |
-|  +0.9% | +25.00ms | 84.3% → 85.5% |     2.80s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
+|  +0.9% | +25.00ms | 84.3% → 85.5% |     2.81s → 2.83s | 2,805 → 2,830 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
 
 ##### `Composer\Pcre\Preg::matchStrictGroups` (`./composer/vendor/composer/pcre/src/Preg.php`)
 
@@ -1783,7 +1783,7 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |    Delta |             % |              Time |       Samples | Callee                                         | Location                                            |
 | -----: | -------: | ------------: | ----------------: | ------------: | ---------------------------------------------- | --------------------------------------------------- |
 | -15.2% | -37.00ms |   7.8% → 6.7% | 243.0ms → 206.0ms |       33 → 32 | `Composer\Util\Silencer::call`                 | `./composer/src/Composer/Util/Silencer.php`         |
-|  +0.8% | +24.00ms | 91.5% → 92.7% |     2.83s → 2.86s | 2,836 → 2,860 | `Symfony\Component\Console\Application::doRun` | `./composer/vendor/symfony/console/Application.php` |
+|  +0.8% | +24.00ms | 91.5% → 92.7% |     2.84s → 2.86s | 2,836 → 2,860 | `Symfony\Component\Console\Application::doRun` | `./composer/vendor/symfony/console/Application.php` |
 | -35.3% |  -6.00ms |   0.5% → 0.4% |   17.0ms → 11.0ms |       16 → 11 | `Symfony\Component\Console\Application::find`  | `./composer/vendor/symfony/console/Application.php` |
 |    new |  +2.00ms |   0.0% → 0.1% |       0ms → 2.0ms |         0 → 2 | `Composer\Util\Platform::getCwd`               | `./composer/src/Composer/Util/Platform.php`         |
 | +50.0% |  +1.00ms |          0.1% |     2.0ms → 3.0ms |         2 → 3 | `Composer\Autoload\ClassLoader::loadClass`     | `./composer/vendor/composer/ClassLoader.php`        |

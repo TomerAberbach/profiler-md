@@ -129,10 +129,10 @@ describe(`parse`, () => {
     )
   })
 
-  test(`rejects a truncated record`, () => {
+  test(`rejects a dump cut before its first heap dump record`, () => {
     expect(() =>
       hprofFormatSpec.parse(holderGraph.subarray(0, 40), noopRecordTally),
-    ).toThrow(/truncated record/u)
+    ).toThrow(`no heap dump records`)
   })
 
   test(`rejects a sub-record tag the format doesn't define`, () => {
@@ -564,6 +564,26 @@ describe(`malformed dumps`, () => {
     expectLogs([
       ...originLogs,
       `warn: skipped 20 bytes from a heap dump sub-record running past its record to that record's end`,
+    ])
+  })
+
+  test(`reads a dump cut inside a heap dump record, with a warning`, () => {
+    const complete = convert(holderGraph)
+    expectLogs(originLogs)
+
+    const md = convert(
+      makeHprof({ ...HOLDER_GRAPH, heapSuffix: truncatedSubRecord }).subarray(
+        0,
+        // The HEAP DUMP END record, and the last byte of the heap dump record.
+        -10,
+      ),
+    )
+
+    expect(md).toBe(complete)
+    expectLogs([
+      ...originLogs,
+      `warn: skipped 19 bytes from a heap dump sub-record running past its record to that record's end`,
+      `warn: the input ends before the end of its last record`,
     ])
   })
 

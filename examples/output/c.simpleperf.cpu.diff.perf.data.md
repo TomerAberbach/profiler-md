@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 1.38s → 1.60s (+215.22ms, +15.5%) over 1,386 → 1,601 samples (1.0ms per sample).
+Took 1.39s → 1.60s (+215.22ms, +15.5%) over 1,386 → 1,601 samples (1.0ms per sample).
 
 | Category |  Change |     Delta |             % |          Time |       Samples |
 | -------- | ------: | --------: | ------------: | ------------: | ------------: |
@@ -15,8 +15,8 @@ Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 Call paths to the hottest and most changed functions.
 
 ```
-└── 1.38s → 1.60s (99.9%) 0xebf5a at /usr/lib/aarch64-linux-gnu/libc.so.6
-    └── 1.38s → 1.60s (99.9%) 0x8202e
+└── 1.39s → 1.60s (99.9%) 0xebf5a at /usr/lib/aarch64-linux-gnu/libc.so.6
+    └── 1.39s → 1.60s (99.9%) 0x8202e
         ├── 0ms → 1.60s (0.0% → 99.9%) 0x9f1e at ./zstd
         │   ├── 0ms → 1.31s (0.0% → 81.9%) 0x62a5e
         │   │   ├── 0ms → 1.30s (0.0% → 81.3%) 0x1671e
@@ -36,7 +36,7 @@ Call paths to the hottest and most changed functions.
         │   │   │       └── 0ms → 182.2ms (0.0% → 11.4%) 65 more callees, led by (0.0% → 1.1%) 0x61b3e
         │   │   └── 0ms → 5.0ms (0.0% → 0.3%) 0x168b6
         │   └── 0ms → 288.3ms (0.0% → 18.0%) 3 more callees, led by (0.0% → 17.8%) 0x62d32
-        └── 1.38s → 0ms (99.9% → 0.0%) 0x9cee at ./zstd
+        └── 1.39s → 0ms (99.9% → 0.0%) 0x9cee at ./zstd
             ├── 1.15s → 0ms (83.0% → 0.0%) 0x61402
             │   ├── 1.14s → 0ms (82.4% → 0.0%) 0x1601e
             │   │   └── 1.14s → 0ms (82.4% → 0.0%) 0x1108e
@@ -379,9 +379,9 @@ Functions with the largest increase in time spent within the function and its ca
 
 | Change |     Delta |            % |          Time |       Samples | Function  | Location                               |
 | -----: | --------: | -----------: | ------------: | ------------: | --------- | -------------------------------------- |
-|    new |   +1.600s | 0.0% → 99.9% |   0ms → 1.60s |     0 → 1,599 | `0x9f1e`  | `./zstd`                               |
-|    new |   +1.586s | 0.0% → 99.0% |   0ms → 1.58s |     0 → 1,585 | `0x1162e` | `./zstd`                               |
-|    new |   +1.586s | 0.0% → 99.0% |   0ms → 1.58s |     0 → 1,585 | `0x1671e` | `./zstd`                               |
+|    new |   +1.601s | 0.0% → 99.9% |   0ms → 1.60s |     0 → 1,599 | `0x9f1e`  | `./zstd`                               |
+|    new |   +1.587s | 0.0% → 99.0% |   0ms → 1.59s |     0 → 1,585 | `0x1162e` | `./zstd`                               |
+|    new |   +1.587s | 0.0% → 99.0% |   0ms → 1.59s |     0 → 1,585 | `0x1671e` | `./zstd`                               |
 |    new |   +1.312s | 0.0% → 81.9% |   0ms → 1.31s |     0 → 1,311 | `0x62a5e` | `./zstd`                               |
 |    new |   +1.252s | 0.0% → 78.1% |   0ms → 1.25s |     0 → 1,251 | `0x5a3f2` | `./zstd`                               |
 |    new | +285.29ms | 0.0% → 17.8% | 0ms → 285.3ms |       0 → 285 | `0x17e36` | `./zstd`                               |
@@ -389,8 +389,8 @@ Functions with the largest increase in time spent within the function and its ca
 |    new | +282.28ms | 0.0% → 17.6% | 0ms → 282.3ms |       0 → 282 | `0x60980` | `./zstd`                               |
 |    new | +247.25ms | 0.0% → 15.4% | 0ms → 247.2ms |       0 → 247 | `0x60c38` | `./zstd`                               |
 |    new | +227.23ms | 0.0% → 14.2% | 0ms → 227.2ms |       0 → 227 | `0x609c8` | `./zstd`                               |
-| +15.5% | +215.22ms |        99.9% | 1.38s → 1.60s | 1,384 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| +15.5% | +215.22ms |        99.9% | 1.38s → 1.60s | 1,384 → 1,599 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +15.5% | +215.22ms |        99.9% | 1.39s → 1.60s | 1,384 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +15.5% | +215.22ms |        99.9% | 1.39s → 1.60s | 1,384 → 1,599 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 |    new | +186.19ms | 0.0% → 11.6% | 0ms → 186.2ms |       0 → 186 | `0x60c5c` | `./zstd`                               |
 |    new |  +83.08ms |  0.0% → 5.2% |  0ms → 83.1ms |        0 → 83 | `0x609b8` | `./zstd`                               |
 |    new |  +53.05ms |  0.0% → 3.3% |  0ms → 53.1ms |        0 → 53 | `0x60c90` | `./zstd`                               |
@@ -404,9 +404,9 @@ Functions with the largest increase in time spent within the function and its ca
 
 | Change |     Delta |            % |          Time |   Samples | Function  | Location |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | -------- |
-|    new |   +1.600s | 0.0% → 99.9% |   0ms → 1.60s | 0 → 1,599 | `0x9f1e`  | `./zstd` |
-|    new |   +1.586s | 0.0% → 99.0% |   0ms → 1.58s | 0 → 1,585 | `0x1162e` | `./zstd` |
-|    new |   +1.586s | 0.0% → 99.0% |   0ms → 1.58s | 0 → 1,585 | `0x1671e` | `./zstd` |
+|    new |   +1.601s | 0.0% → 99.9% |   0ms → 1.60s | 0 → 1,599 | `0x9f1e`  | `./zstd` |
+|    new |   +1.587s | 0.0% → 99.0% |   0ms → 1.59s | 0 → 1,585 | `0x1162e` | `./zstd` |
+|    new |   +1.587s | 0.0% → 99.0% |   0ms → 1.59s | 0 → 1,585 | `0x1671e` | `./zstd` |
 |    new |   +1.312s | 0.0% → 81.9% |   0ms → 1.31s | 0 → 1,311 | `0x62a5e` | `./zstd` |
 |    new |   +1.252s | 0.0% → 78.1% |   0ms → 1.25s | 0 → 1,251 | `0x5a3f2` | `./zstd` |
 |    new | +285.29ms | 0.0% → 17.8% | 0ms → 285.3ms |   0 → 285 | `0x17e36` | `./zstd` |
@@ -433,11 +433,11 @@ Functions with the largest decrease in time spent within the function and its ca
 
 |  Change |     Delta |            % |          Time |   Samples | Function  | Location |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | -------- |
-| removed |   -1.385s | 99.9% → 0.0% |   1.38s → 0ms | 1,384 → 0 | `0x9cee`  | `./zstd` |
+| removed |   -1.385s | 99.9% → 0.0% |   1.39s → 0ms | 1,384 → 0 | `0x9cee`  | `./zstd` |
 | removed |   -1.370s | 98.8% → 0.0% |   1.37s → 0ms | 1,369 → 0 | `0x1108e` | `./zstd` |
 | removed |   -1.370s | 98.8% → 0.0% |   1.37s → 0ms | 1,369 → 0 | `0x1601e` | `./zstd` |
 | removed |   -1.152s | 83.0% → 0.0% |   1.15s → 0ms | 1,151 → 0 | `0x61402` | `./zstd` |
-| removed |   -1.056s | 76.1% → 0.0% |   1.05s → 0ms | 1,055 → 0 | `0x59272` | `./zstd` |
+| removed |   -1.056s | 76.1% → 0.0% |   1.06s → 0ms | 1,055 → 0 | `0x59272` | `./zstd` |
 | removed | -234.23ms | 16.9% → 0.0% | 234.2ms → 0ms |   234 → 0 | `0x5f800` | `./zstd` |
 | removed | -231.23ms | 16.7% → 0.0% | 231.2ms → 0ms |   231 → 0 | `0x17766` | `./zstd` |
 | removed | -231.23ms | 16.7% → 0.0% | 231.2ms → 0ms |   231 → 0 | `0x616b6` | `./zstd` |
@@ -462,13 +462,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
-|    new | +1.600s | 0.0% → 100.0% | 0ms → 1.60s | 0 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new | +1.601s | 0.0% → 100.0% | 0ms → 1.60s | 0 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x1162e` (`./zstd`)
 
 | Change |   Delta |             % |        Time |   Samples | Caller    | Location |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | -------- |
-|    new | +1.586s | 0.0% → 100.0% | 0ms → 1.58s | 0 → 1,585 | `0x1671e` | `./zstd` |
+|    new | +1.587s | 0.0% → 100.0% | 0ms → 1.59s | 0 → 1,585 | `0x1671e` | `./zstd` |
 
 ##### `0x1671e` (`./zstd`)
 
@@ -525,7 +525,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |      % |          Time |       Samples | Caller    | Location                               |
 | -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
-| +15.5% | +215.22ms | 100.0% | 1.38s → 1.60s | 1,384 → 1,599 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +15.5% | +215.22ms | 100.0% | 1.39s → 1.60s | 1,384 → 1,599 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x60c5c` (`./zstd`)
 
@@ -594,7 +594,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
-| removed | -1.385s | 100.0% → 0.0% | 1.38s → 0ms | 1,384 → 0 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| removed | -1.385s | 100.0% → 0.0% | 1.39s → 0ms | 1,384 → 0 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x1108e` (`./zstd`)
 
@@ -741,7 +741,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |        Time |   Samples | Callee    | Location |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | -------- |
-|    new | +1.586s | 0.0% → 100.0% | 0ms → 1.58s | 0 → 1,585 | `0x1162e` | `./zstd` |
+|    new | +1.587s | 0.0% → 100.0% | 0ms → 1.59s | 0 → 1,585 | `0x1162e` | `./zstd` |
 
 ##### `0x62a5e` (`./zstd`)
 
@@ -780,14 +780,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Callee   | Location |
 | ------: | ------: | ------------: | ----------: | --------: | -------- | -------- |
-|     new | +1.600s | 0.0% → 100.0% | 0ms → 1.60s | 0 → 1,599 | `0x9f1e` | `./zstd` |
-| removed | -1.385s | 100.0% → 0.0% | 1.38s → 0ms | 1,384 → 0 | `0x9cee` | `./zstd` |
+|     new | +1.601s | 0.0% → 100.0% | 0ms → 1.60s | 0 → 1,599 | `0x9f1e` | `./zstd` |
+| removed | -1.385s | 100.0% → 0.0% | 1.39s → 0ms | 1,384 → 0 | `0x9cee` | `./zstd` |
 
 ##### `0xebf5a` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 | Change |     Delta |      % |          Time |       Samples | Callee    | Location                               |
 | -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
-| +15.5% | +215.22ms | 100.0% | 1.38s → 1.60s | 1,384 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +15.5% | +215.22ms | 100.0% | 1.39s → 1.60s | 1,384 → 1,599 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x61b3e` (`./zstd`)
 
