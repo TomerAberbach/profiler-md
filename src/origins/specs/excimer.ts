@@ -17,6 +17,9 @@ export const excimerOriginSpec = {
   id: `excimer`,
   title: `Excimer`,
   formats: [`collapsed`, `speedscope`],
+  // A speedscope entry stands for every timer event of a run of one stack, so
+  // the entries count no samples.
+  countMetric: format => (format === `speedscope` ? null : undefined),
   isMarkerEntry: ({ name }) =>
     name !== undefined &&
     (CLOSURE_FRAME.test(name) ||
