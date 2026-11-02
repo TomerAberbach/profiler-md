@@ -559,6 +559,7 @@ class CallgrindProfileBuilder {
             this.#eventIndices.has(SYSTEM_CPU_TIME_EVENT),
           ),
         ),
+        callCountMetric: CALLS,
         frames: functions.map(callgrindStackFrame),
         functions: functions.map(callGraphFunction),
       },
@@ -823,6 +824,9 @@ const sourceOf = (file: string): UnresolvedSourceReference | undefined =>
     : { type: `file`, urlOrPath: file }
 
 const UNKNOWN = `???`
+
+/** What one unit of a `calls=` line's count measures. */
+const CALLS = countMetricOf(`call`, { improvement: `decrease` })
 
 const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
   selfValues: func.selfValues,

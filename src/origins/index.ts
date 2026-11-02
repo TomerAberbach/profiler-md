@@ -2,8 +2,9 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId, sourceReferenceKind } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { Metric } from '../modalities/metric.ts'
 import type { TraceEventCategory } from '../modalities/trace/type.ts'
-import type { ProfileEntry } from '../options.ts'
+import type { ProfileEntry, ProfileToMdContext } from '../options.ts'
 import type { OriginSpec } from './spec.ts'
 import { originSpecs } from './specs/index.ts'
 
@@ -20,6 +21,19 @@ export type Origin = RegisteredOriginSpec[`id`]
 /** The spec of {@link origin}. */
 export const originSpecOf = (origin: Origin): ResolvedOriginSpec =>
   originToSpec.get(origin)!
+
+/**
+ * What one unit of an input's count measures: the origin's answer where the
+ * format's origins disagree, and {@link parsed}, the format's answer,
+ * otherwise.
+ */
+export const resolveCountMetric = (
+  parsed: Metric | null,
+  { origin, format }: ProfileToMdContext,
+): Metric | null => {
+  const originCountMetric = originSpecOf(origin).countMetric(format)
+  return originCountMetric === undefined ? parsed : originCountMetric
+}
 
 /**
  * Whether two locations are one source under their origins' entry matches,

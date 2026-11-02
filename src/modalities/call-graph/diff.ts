@@ -9,8 +9,8 @@ import {
   matchDiffedInputEntries,
   matchDiffedMaps,
 } from '../diff.ts'
-import type { DiffMetric } from '../metric.ts'
-import { matchDiffedMetrics } from '../metric.ts'
+import type { DiffMetric, Metric } from '../metric.ts'
+import { matchDiffedMetric, matchDiffedMetrics } from '../metric.ts'
 import type {
   AggregatedCallGraph,
   AggregatedCallGraphCategoryMetrics,
@@ -23,6 +23,12 @@ export type AggregatedCallGraphDiff = {
 
   /** Metrics recorded in both the base and current call graphs. */
   metrics: DiffMetric[]
+
+  /**
+   * The count metric of both sides' call counts, or `null` when either side's
+   * call counts measure nothing or the sides' count metrics differ.
+   */
+  callCountMetric: Metric | null
 
   /** Each side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s. */
   categoryToMetrics: Map<
@@ -84,6 +90,10 @@ export const diffAggregatedCallGraphs = (
     base,
     current,
     metrics,
+    callCountMetric: matchDiffedMetric(
+      base.callCountMetric,
+      current.callCountMetric,
+    ),
     categoryToMetrics: matchDiffedMaps(
       base.categoryToMetrics,
       current.categoryToMetrics,

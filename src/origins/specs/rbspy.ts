@@ -77,6 +77,10 @@ export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
   isMarkerEntry: entry => isRbspyStackFrame(entry.name),
+  // Its callgrind export counts an arc's calls as the runs of consecutive samples
+  // whose stacks contain the arc, so calls shorter than the sampling interval
+  // merge or go uncounted.
+  countMetric: format => (format === `callgrind` ? null : undefined),
   // A pure-Ruby capture has no `[c function]` marker frame. Rbspy states its
   // ID in a callgrind `creator:` header and its versioned name in a speedscope
   // `exporter` field.

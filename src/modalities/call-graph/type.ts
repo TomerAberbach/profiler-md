@@ -19,6 +19,13 @@ export type CallGraph = {
   metrics: Metric[]
 
   /**
+   * What one unit of an arc's {@link CallGraphArc.callCount} measures, or
+   * `null` when the call counts measure nothing (counts the profiler estimated
+   * rather than recorded).
+   */
+  callCountMetric: Metric | null
+
+  /**
    * Each function's frame record (name and definition location),
    * index-aligned with {@link CallGraph.functions}. The aggregator merges
    * functions whose normalized frame records share an identity.

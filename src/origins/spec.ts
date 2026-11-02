@@ -115,14 +115,15 @@ export type OriginSpec = {
   ) => HeapSnapshotNodeCategory | undefined
 
   /**
-   * What one unit of {@link format}'s observation count measures, overriding
-   * the format's own answer for an origin that counts something else. For
-   * example, eflambe writes one collapsed count per microsecond of traced
-   * time, where every other collapsed profiler writes one per sample.
+   * What one unit of {@link format}'s count measures (a call stack profile's
+   * observation count, or a call graph's call count), overriding the format's
+   * own answer for an origin that counts something else. For example, eflambe
+   * writes one collapsed count per microsecond of traced time, where every
+   * other collapsed profiler writes one per sample.
    *
-   * This is the same field as `CallStackProfile.countMetric`, so `null` states
-   * that the counts measure nothing. A format whose origins agree sets it in the
-   * parser instead.
+   * This is the same field as `CallStackProfile.countMetric` and
+   * `CallGraph.callCountMetric`, so `null` states that the counts measure nothing.
+   * A format whose origins agree sets it in the parser instead.
    */
   countMetric?: (format: Format) => Metric | null | undefined
 
