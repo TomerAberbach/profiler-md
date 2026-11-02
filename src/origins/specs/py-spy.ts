@@ -1,6 +1,7 @@
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { categorizeCPythonEntry, pythonStdlibCategory } from '../cpython.ts'
 import {
+  matchEntryFromRules,
   normalizeSpeedscopeExecutingLine,
   packedLocationNormalizer,
   placeholderPathNormalizer,
@@ -21,6 +22,11 @@ export const pySpyOriginSpec = {
     FRAME.test(entry.name ?? ``) || pythonStdlibCategory(entry) !== undefined,
   isOriginHint: hint => hint.startsWith(`py-spy@`),
   categorizeEntry: categorizeCPythonEntry,
+  // A `--native` frame py-spy could not symbolicate is named by its absolute
+  // address, which differs per run, so a diff pairs the addresses as one function.
+  matchEntry: matchEntryFromRules({
+    name: [[/^0x[0-9a-f]+$/u, `(unsymbolized)`]],
+  }),
   // Py-spy emits one frame per executing line in both shapes: packed into a
   // collapsed name, or as a located speedscope frame whose `line` needs
   // reinterpreting as the executing line.

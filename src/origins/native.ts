@@ -2,8 +2,14 @@ import type { StackFrame } from '../modalities/stack-frame.ts'
 import { GO_LOCATION_MATCH_RULES } from './go.ts'
 import { RUST_LOCATION_MATCH_RULES } from './rust.ts'
 import { matchEntryFromRules } from './spec.ts'
+import type { EntryMatchRule } from './spec.ts'
 import { swiftPlaceholderPathNormalizer } from './swift.ts'
 import { ZIG_NAME_MATCH_RULES } from './zig.ts'
+
+export const NATIVE_LOCATION_MATCH_RULES: readonly EntryMatchRule[] = [
+  ...RUST_LOCATION_MATCH_RULES,
+  ...GO_LOCATION_MATCH_RULES,
+]
 
 /**
  * Matches a native profiler's entry across profiles by each compiled language's
@@ -12,7 +18,7 @@ import { ZIG_NAME_MATCH_RULES } from './zig.ts'
  */
 export const nativeMatchEntry = matchEntryFromRules({
   name: ZIG_NAME_MATCH_RULES,
-  location: [...RUST_LOCATION_MATCH_RULES, ...GO_LOCATION_MATCH_RULES],
+  location: NATIVE_LOCATION_MATCH_RULES,
 })
 
 /**

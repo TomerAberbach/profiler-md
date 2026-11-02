@@ -4,10 +4,13 @@ import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
-import { nativeMatchEntry, nativeNormalizeStackFrame } from '../native.ts'
-import { packedLocationNormalizer } from '../spec.ts'
+import {
+  NATIVE_LOCATION_MATCH_RULES,
+  nativeNormalizeStackFrame,
+} from '../native.ts'
+import { matchEntryFromRules, packedLocationNormalizer } from '../spec.ts'
 import type { OriginSpec } from '../spec.ts'
-import { zigStdlibCategory } from '../zig.ts'
+import { ZIG_NAME_MATCH_RULES, zigStdlibCategory } from '../zig.ts'
 
 export const systingOriginSpec = {
   id: `systing`,
@@ -30,7 +33,15 @@ export const systingOriginSpec = {
     // source location.
     locationlessCategory(entry) ??
     `ours`,
-  matchEntry: nativeMatchEntry,
+  matchEntry: matchEntryFromRules({
+    name: [
+      ...ZIG_NAME_MATCH_RULES,
+      // An unsymbolized address differs per run, so a diff pairs a module's
+      // addresses as one function.
+      [/^0x[0-9a-f]+ (?<module>\([^()]*\))$/u, `unknown $<module>`],
+    ],
+    location: NATIVE_LOCATION_MATCH_RULES,
+  }),
   normalizeStackFrame: input =>
     nativeNormalizeStackFrame(unpackStackFrame(input)),
 } as const satisfies OriginSpec
@@ -75,7 +86,7 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
 
   const native = NATIVE_FRAME.exec(input.name ?? ``)
   if (native) {
-    const { func, inner } = native.groups!
+    const { func, inner, address } = native.groups!
     // The packed line is where the frame was executing, because it comes from
     // the sampled address. Drop the module, because the source location
     // names the code better, except a bracketed label module, which selects
@@ -94,8 +105,13 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
     // No source info: keep systing's own `name (module)` form, minus
     // the address (which would fragment one function into an entry per
     // sampled address). The module distinguishes same-named symbols across
-    // binaries and determines the category for label modules.
-    return { name: `${func!} (${inner!})` }
+    // binaries and determines the category for label modules. An unsymbolized
+    // frame in a binary keeps the address, the only thing naming its function.
+    return {
+      name: `${
+        func === UNSYMBOLIZED_NAME && !LABEL.test(inner!) ? address! : func!
+      } (${inner!})`,
+    }
   }
 
   return unpackPythonFrame(input)
@@ -116,7 +132,11 @@ const unpackStackFrame = (input: StackFrame): StackFrame => {
  * data is untrusted input. No other supported profiler suffixes every frame
  * with `<0x…>`, so the trailing address marks a systing frame.
  */
-const NATIVE_FRAME = /^(?<func>.+) \((?<inner>[^()]*[^()\s])\) <0x[0-9a-f]+>$/u
+const NATIVE_FRAME =
+  /^(?<func>.+) \((?<inner>[^()]*[^()\s])\) <(?<address>0x[0-9a-f]+)>$/u
+
+/** What systing names a frame it could not symbolize. */
+const UNSYMBOLIZED_NAME = `unknown`
 
 const MODULE_LOCATION_LINE =
   /^(?<module>.+) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u

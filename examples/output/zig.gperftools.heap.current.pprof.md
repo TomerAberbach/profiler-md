@@ -116,7 +116,7 @@ Functions with the most bytes allocated within the function and its callees.
 | 99.2% | 1.55 GiB | 236,160 | `start.callMain`                                                    | `/opt/zig/lib/std/start.zig:696`                  |
 | 99.2% | 1.55 GiB | 236,160 | `start.callMainWithArgs`                                            | `/opt/zig/lib/std/start.zig:629`                  |
 | 99.2% | 1.55 GiB | 236,160 | `main`                                                              | `/opt/zig/lib/std/start.zig:641`                  |
-| 99.1% | 1.55 GiB | 235,245 | `(anonymous)`                                                       | `<unknown>`                                       |
+| 99.1% | 1.55 GiB | 235,245 | `0x27743`                                                           | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | 99.0% | 1.55 GiB | 233,580 | `__libc_start_main`                                                 | `<unknown>`                                       |
 | 98.8% | 1.55 GiB | 232,380 | `_start`                                                            | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
 | 74.5% | 1.17 GiB | 190,395 | `heap.c_allocator_impl.alloc`                                       | `/opt/zig/lib/std/heap.zig:208`                   |
@@ -186,11 +186,11 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `main` (`/opt/zig/lib/std/start.zig:641`)
 
-|     % |     Size | Objects | Caller        | Location    |
-| ----: | -------: | ------: | ------------- | ----------- |
-| 99.9% | 1.55 GiB | 235,245 | `(anonymous)` | `<unknown>` |
+|     % |     Size | Objects | Caller    | Location                               |
+| ----: | -------: | ------: | --------- | -------------------------------------- |
+| 99.9% | 1.55 GiB | 235,245 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |     % |     Size | Objects | Caller              | Location    |
 | ----: | -------: | ------: | ------------------- | ----------- |
@@ -342,7 +342,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | -------: | ------: | ------------------------ | -------------------------------- |
 | 100.0% | 1.55 GiB | 236,160 | `start.callMainWithArgs` | `/opt/zig/lib/std/start.zig:629` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |     Size | Objects | Callee | Location                         |
 | -----: | -------: | ------: | ------ | -------------------------------- |
@@ -350,9 +350,9 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |     Size | Objects | Callee        | Location    |
-| -----: | -------: | ------: | ------------- | ----------- |
-| 100.0% | 1.55 GiB | 233,580 | `(anonymous)` | `<unknown>` |
+|      % |     Size | Objects | Callee    | Location                               |
+| -----: | -------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.55 GiB | 233,580 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
@@ -457,7 +457,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 Call stacks with the most bytes allocated in their leaf frame.
 
-Common call stack: `profile.main` (`./profile.zig:11`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:696`) ← `start.callMainWithArgs` (629) ← `main` (641) ← `(anonymous)` ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
+Common call stack: `profile.main` (`./profile.zig:11`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:696`) ← `start.callMainWithArgs` (629) ← `main` (641) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
 |     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

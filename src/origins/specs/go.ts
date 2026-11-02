@@ -31,12 +31,13 @@ export const goOriginSpec = {
     // no location is a raw address the profiler never symbolized.
     locationlessCategory(entry) ??
     goPackageCategory(entry),
-  // A threadcreate profile's stacks repeat a placeholder for a zero PC that has
-  // neither a function nor a line, so it is no frame of the program.
-  // https://github.com/golang/go/issues/6104
+  // A threadcreate profile's stacks repeat a zero PC's address minus one, which
+  // is no frame of the program. https://github.com/golang/go/issues/6104
   normalizeStackFrame: input =>
-    input.name || input.definition || input.executing ? input : null,
+    input.name === ZERO_PC_PLACEHOLDER ? null : input,
 } as const satisfies OriginSpec
+
+const ZERO_PC_PLACEHOLDER = `0xffffffffffffffff`
 
 /**
  * Categorizes the runtime's stand-ins for a stack it did not record, such as
