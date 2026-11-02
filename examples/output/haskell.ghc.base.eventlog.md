@@ -1,12 +1,12 @@
 # Wall time profile
 
-Took 3.59s over 3,592 samples (1.0ms per sample).
+Took 3.75s over 3,759 samples (1.0ms per sample).
 
 | Category          |     % |   Time | Samples |
 | ----------------- | ----: | -----: | ------: |
-| Ours              | 69.7% |  2.50s |   2,503 |
-| Garbage collector | 29.9% |  1.07s |   1,075 |
-| Native            |  0.4% | 14.0ms |      14 |
+| Ours              | 69.1% |  2.59s |   2,599 |
+| Garbage collector | 30.3% |  1.13s |   1,139 |
+| Native            |  0.6% | 21.0ms |      21 |
 
 `…` stands for omitted frames.
 
@@ -15,46 +15,46 @@ Took 3.59s over 3,592 samples (1.0ms per sample).
 Call paths to the hottest functions.
 
 ```
-├── 2.50s (69.7%) Main.main at Profile.hs:146:1
-│   ├── 2.29s (64.0%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
-│   │   ├── 1.56s (43.6%, self 37.2%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
-│   │   │   ├── 111.0ms (3.1%) Data.Aeson.Internal.Text.unsafeDecodeASCII at src/Data/Aeson/Internal/Text.hs:29:1
-│   │   │   ├── 62.0ms (1.7%) Data.Integer.Conversion.byteStringToInteger at src/Data/Integer/Conversion.hs:104:1
-│   │   │   └── 55.0ms (1.5%) Data.Aeson.Internal.Unescape.unescapeText at src/Data/Aeson/Internal/Unescape.hs:34:1
-│   │   └── 733.0ms (20.4%, self 4.1%) Data.Aeson.Decoding.Conversion.toResultValue at src/Data/Aeson/Decoding/Conversion.hs:51:1
-│   │       ├── 482.0ms (13.4%) Data.Aeson.KeyMap.fromList at src/Data/Aeson/KeyMap.hs:247:1
-│   │       └── … 103.0ms (2.9%) Data.Aeson.Types.FromJSON.withObject at src/Data/Aeson/Types/FromJSON.hs:720:1
-│   │           └── 99.0ms (2.8%) Data.Aeson.Types.FromJSON..: at 849:1
-│   │               └── 92.0ms (2.6%) Data.Aeson.Types.FromJSON.explicitParseField at 917:1
-│   │                   ├── 28.0ms (0.8%) Data.Aeson.Types.Internal.<?> at src/Data/Aeson/Types/Internal.hs:659:1
-│   │                   │   ├── 9.0ms (0.3%) Data.Aeson.Types.FromJSON.withText at src/Data/Aeson/Types/FromJSON.hs:731:1
-│   │                   │   │   └── 5.0ms (0.1%) Main.parseJSONList at Profile.hs:71:10
-│   │                   │   │       └── 5.0ms (0.1%) Data.Aeson.Types.FromJSON.withArray at src/Data/Aeson/Types/FromJSON.hs:742:1
-│   │                   │   ├── 4.0ms (0.1%) Data.Aeson.Types.Internal.prependFailure at 681:1
-│   │                   │   │   └── 4.0ms (0.1%) Data.Aeson.Types.Internal.modifyFailure at 671:1
-│   │                   │   └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON..:? at src/Data/Aeson/Types/FromJSON.hs:859:1
-│   │                   │       └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON.explicitParseFieldMaybe at 923:1
-│   │                   ├── 25.0ms (0.7%) Data.Aeson.KeyMap.lookup at src/Data/Aeson/KeyMap.hs:178:1
-│   │                   ├── 15.0ms (0.4%) Data.Scientific.toBoundedInteger at src/Data/Scientific.hs:772:1
-│   │                   │   ├── 4.0ms (0.1%) Utils.magnitude at src/Utils.hs:78:1
-│   │                   │   └── 4.0ms (0.1%) Data.Scientific.normalize at 1102:1
-│   │                   └── 5.0ms (0.1%) Main.parseJSONList at Profile.hs:50:10
-│   ├── 126.0ms (3.5%, self 3.1%) Main.keywords at 136:1
-│   │   └── 15.0ms (0.4%) Main.tally at 112:1
-│   ├── 54.0ms (1.5%) Main.roundTrip at 139:1
-│   │   ├── 29.0ms (0.8%) Data.Aeson.encode at src/Data/Aeson.hs:187:1
-│   │   │   └── … 25.0ms (0.7%) Data.Aeson.Encoding.Builder.encodeToBuilder at src/Data/Aeson/Encoding/Builder.hs:68:1
-│   │   │       ├── 23.0ms (0.6%) Data.Aeson.Encoding.Builder.object at 96:1
-│   │   │       │   └── 14.0ms (0.4%) Data.Aeson.Encoding.Builder.text at 109:1
-│   │   │       │       └── 6.0ms (0.2%) Data.Aeson.Encoding.Builder.unquoted at 113:1
-│   │   │       └── 2.0ms (0.1%) Data.Aeson.Encoding.Builder.array at 86:1
-│   │   └── 24.0ms (0.7%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
-│   │       └── 13.0ms (0.4%) Data.Aeson.Decoding.Conversion.toResultValue at src/Data/Aeson/Decoding/Conversion.hs:51:1
-│   └── 23.0ms (0.6%) Main.summarize at 118:1
-│       └── 6.0ms (0.2%) Main.top at 115:1
-├── 1.07s (29.9%) GC.GC
-├── 8.0ms (0.2%) PROFILING.OVERHEAD_of
-└── 6.0ms (0.2%) SYSTEM.SYSTEM
+├── 2.59s (69.1%) Main.main at Profile.hs:146:1
+│   ├── 2.38s (63.5%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
+│   │   ├── 1.60s (42.8%, self 35.8%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
+│   │   │   ├── 125.0ms (3.3%) Data.Aeson.Internal.Text.unsafeDecodeASCII at src/Data/Aeson/Internal/Text.hs:29:1
+│   │   │   ├── 70.0ms (1.9%) Data.Aeson.Internal.Unescape.unescapeText at src/Data/Aeson/Internal/Unescape.hs:34:1
+│   │   │   └── 68.0ms (1.8%) Data.Integer.Conversion.byteStringToInteger at src/Data/Integer/Conversion.hs:104:1
+│   │   └── 781.0ms (20.8%, self 4.7%) Data.Aeson.Decoding.Conversion.toResultValue at src/Data/Aeson/Decoding/Conversion.hs:51:1
+│   │       ├── 467.0ms (12.4%) Data.Aeson.KeyMap.fromList at src/Data/Aeson/KeyMap.hs:247:1
+│   │       └── 137.0ms (3.6%) Data.Aeson.Types.FromJSON.ifromJSON at src/Data/Aeson/Types/FromJSON.hs:839:1
+│   │           └── 137.0ms (3.6%) Main.parseJSON at Profile.hs:48:3
+│   │               └── 137.0ms (3.6%) Data.Aeson.Types.FromJSON.withObject at src/Data/Aeson/Types/FromJSON.hs:720:1
+│   │                   ├── 127.0ms (3.4%) Data.Aeson.Types.FromJSON..: at 849:1
+│   │                   │   └── 116.0ms (3.1%, self 0.5%) Data.Aeson.Types.FromJSON.explicitParseField at 917:1
+│   │                   │       ├── 38.0ms (1.0%) Data.Aeson.KeyMap.lookup at src/Data/Aeson/KeyMap.hs:178:1
+│   │                   │       ├── 26.0ms (0.7%) Data.Aeson.Types.Internal.<?> at src/Data/Aeson/Types/Internal.hs:659:1
+│   │                   │       │   ├── 6.0ms (0.2%) Data.Aeson.Types.FromJSON.withText at src/Data/Aeson/Types/FromJSON.hs:731:1
+│   │                   │       │   └── 5.0ms (0.1%) Data.Aeson.Types.Internal.prependFailure at 681:1
+│   │                   │       │       └── 5.0ms (0.1%) Data.Aeson.Types.Internal.modifyFailure at 671:1
+│   │                   │       ├── 13.0ms (0.3%) Data.Scientific.toBoundedInteger at src/Data/Scientific.hs:772:1
+│   │                   │       │   ├── 3.0ms (0.1%) Utils.magnitude at src/Utils.hs:78:1
+│   │                   │       │   └── 2.0ms (0.1%) Data.Scientific.normalize at 1102:1
+│   │                   │       ├── 6.0ms (0.2%) Main.parseJSONList at Profile.hs:50:10
+│   │                   │       │   └── 6.0ms (0.2%) Data.Aeson.Types.FromJSON.withArray at src/Data/Aeson/Types/FromJSON.hs:742:1
+│   │                   │       │       └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON.parseIndexedJSON at 171:1
+│   │                   │       └── 6.0ms (0.2%) Data.Aeson.Types.Internal.prependFailure at src/Data/Aeson/Types/Internal.hs:681:1
+│   │                   └── 3.0ms (0.1%) Data.Aeson.Types.FromJSON..:? at 859:1
+│   │                       └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON.explicitParseFieldMaybe at 923:1
+│   ├── 150.0ms (4.0%, self 3.5%) Main.keywords at 136:1
+│   │   └── 20.0ms (0.5%) Main.tally at 112:1
+│   ├── … 23.0ms (0.6%) Main.toEncoding at Profile.hs:83:10
+│   │   ├── … 19.0ms (0.5%) Data.Aeson.Encoding.Builder.object at src/Data/Aeson/Encoding/Builder.hs:96:1
+│   │   │   ├── 12.0ms (0.3%) Data.Aeson.Encoding.Builder.text at 109:1
+│   │   │   │   └── 4.0ms (0.1%) Data.Aeson.Encoding.Builder.unquoted at 113:1
+│   │   │   └── 2.0ms (0.1%) Data.Aeson.Encoding.Builder.array at 86:1
+│   │   └── 3.0ms (0.1%) Main.toJSON at 84:3
+│   └── 21.0ms (0.6%) Main.summarize at 118:1
+│       └── 4.0ms (0.1%) Main.top at 115:1
+├── 1.13s (30.3%) GC.GC
+├── 12.0ms (0.3%) SYSTEM.SYSTEM
+└── 9.0ms (0.2%) PROFILING.OVERHEAD_of
 ```
 
 ## Hottest functions
@@ -65,26 +65,26 @@ Functions with the most wall time spent within the function body, excluding call
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 37.4% |   1.34s |   1,345 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 29.9% |   1.07s |   1,075 | `GC.GC`                                           | `<unknown>`                                       |
-| 13.5% | 484.0ms |     484 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
-|  4.2% | 150.0ms |     150 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
-|  3.2% | 114.0ms |     114 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
-|  3.1% | 111.0ms |     111 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
-|  1.7% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
-|  1.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
-|  0.7% |  26.0ms |      26 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
-|  0.5% |  19.0ms |      19 | `Main.tally`                                      | `Profile.hs:112:1`                                |
-|  0.5% |  18.0ms |      18 | `Data.Aeson.Types.FromJSON.withArray`             | `src/Data/Aeson/Types/FromJSON.hs:742:1`          |
-|  0.4% |  16.0ms |      16 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
-|  0.4% |  13.0ms |      13 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
-|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
-|  0.3% |   9.0ms |       9 | `Data.Aeson.Types.FromJSON.withText`              | `src/Data/Aeson/Types/FromJSON.hs:731:1`          |
-|  0.2% |   8.0ms |       8 | `Data.Aeson.Encoding.Builder.object`              | `src/Data/Aeson/Encoding/Builder.hs:96:1`         |
+| 35.9% |   1.34s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 30.3% |   1.13s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
+| 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
+|  4.7% | 178.0ms |     178 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
+|  3.5% | 130.0ms |     130 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
+|  3.3% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
+|  1.9% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
+|  1.8% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
+|  1.1% |  40.0ms |      40 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+|  0.6% |  23.0ms |      23 | `Main.tally`                                      | `Profile.hs:112:1`                                |
+|  0.6% |  21.0ms |      21 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
+|  0.4% |  16.0ms |      16 | `Data.Aeson.Types.FromJSON.withArray`             | `src/Data/Aeson/Types/FromJSON.hs:742:1`          |
+|  0.4% |  14.0ms |      14 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
+|  0.3% |  12.0ms |      12 | `SYSTEM.SYSTEM`                                   | `<unknown>`                                       |
+|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  0.2% |   9.0ms |       9 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
+|  0.2% |   9.0ms |       9 | `PROFILING.OVERHEAD_of`                           | `<unknown>`                                       |
+|  0.2% |   8.0ms |       8 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
 |  0.2% |   8.0ms |       8 | `Data.Scientific.toBoundedInteger`                | `src/Data/Scientific.hs:772:1`                    |
-|  0.2% |   8.0ms |       8 | `PROFILING.OVERHEAD_of`                           | `<unknown>`                                       |
-|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
-|  0.2% |   7.0ms |       7 | `Data.Aeson.Encoding.Builder.text`                | `src/Data/Aeson/Encoding/Builder.hs:109:1`        |
+|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON.withText`              | `src/Data/Aeson/Types/FromJSON.hs:731:1`          |
 
 #### Categories
 
@@ -94,32 +94,32 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 37.4% |   1.34s |   1,345 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 13.5% | 484.0ms |     484 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
-|  4.2% | 150.0ms |     150 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
-|  3.2% | 114.0ms |     114 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
-|  3.1% | 111.0ms |     111 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
-|  1.7% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
-|  1.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
-|  0.7% |  26.0ms |      26 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
-|  0.5% |  19.0ms |      19 | `Main.tally`                                      | `Profile.hs:112:1`                                |
-|  0.5% |  18.0ms |      18 | `Data.Aeson.Types.FromJSON.withArray`             | `src/Data/Aeson/Types/FromJSON.hs:742:1`          |
-|  0.4% |  16.0ms |      16 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
-|  0.4% |  13.0ms |      13 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
-|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
-|  0.3% |   9.0ms |       9 | `Data.Aeson.Types.FromJSON.withText`              | `src/Data/Aeson/Types/FromJSON.hs:731:1`          |
-|  0.2% |   8.0ms |       8 | `Data.Aeson.Encoding.Builder.object`              | `src/Data/Aeson/Encoding/Builder.hs:96:1`         |
+| 35.9% |   1.34s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
+|  4.7% | 178.0ms |     178 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
+|  3.5% | 130.0ms |     130 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
+|  3.3% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
+|  1.9% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
+|  1.8% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
+|  1.1% |  40.0ms |      40 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+|  0.6% |  23.0ms |      23 | `Main.tally`                                      | `Profile.hs:112:1`                                |
+|  0.6% |  21.0ms |      21 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
+|  0.4% |  16.0ms |      16 | `Data.Aeson.Types.FromJSON.withArray`             | `src/Data/Aeson/Types/FromJSON.hs:742:1`          |
+|  0.4% |  14.0ms |      14 | `Main.summarize`                                  | `Profile.hs:118:1`                                |
+|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  0.2% |   9.0ms |       9 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
+|  0.2% |   8.0ms |       8 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
 |  0.2% |   8.0ms |       8 | `Data.Scientific.toBoundedInteger`                | `src/Data/Scientific.hs:772:1`                    |
-|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON.withText`              | `src/Data/Aeson/Types/FromJSON.hs:731:1`          |
 |  0.2% |   7.0ms |       7 | `Data.Aeson.Encoding.Builder.text`                | `src/Data/Aeson/Encoding/Builder.hs:109:1`        |
-|  0.2% |   6.0ms |       6 | `Data.Aeson.Encoding.Builder.unquoted`            | `src/Data/Aeson/Encoding/Builder.hs:113:1`        |
-|  0.2% |   6.0ms |       6 | `Main.top`                                        | `Profile.hs:115:1`                                |
+|  0.2% |   6.0ms |       6 | `Data.Aeson.Types.Internal.prependFailure`        | `src/Data/Aeson/Types/Internal.hs:681:1`          |
+|  0.1% |   5.0ms |       5 | `Data.Aeson.Types.Internal.modifyFailure`         | `src/Data/Aeson/Types/Internal.hs:671:1`          |
 
 ##### Garbage collector
 
 |     % |  Time | Samples | Function | Location    |
 | ----: | ----: | ------: | -------- | ----------- |
-| 29.9% | 1.07s |   1,075 | `GC.GC`  | `<unknown>` |
+| 30.3% | 1.13s |   1,139 | `GC.GC`  | `<unknown>` |
 
 #### Callers
 
@@ -129,97 +129,96 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |      % |  Time | Samples | Caller                             | Location                          |
 | -----: | ----: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 1.34s |   1,345 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 100.0% | 1.34s |   1,348 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`)
 
-|     % |    Time | Samples | Caller                                         | Location                                     |
-| ----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
-| 99.8% | 483.0ms |     483 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
-|  0.2% |   1.0ms |       1 | `Main.toJSON`                                  | `Profile.hs:84:3`                            |
+|      % |    Time | Samples | Caller                                         | Location                                     |
+| -----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
+| 100.0% | 468.0ms |     468 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
 
 ##### `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`)
 
 |      % |    Time | Samples | Caller                             | Location                          |
 | -----: | ------: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 150.0ms |     150 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
-
-##### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
-
-|      % |    Time | Samples | Caller                                            | Location                                          |
-| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 114.0ms |     114 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 100.0% | 178.0ms |     178 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Main.keywords` (`Profile.hs:136:1`)
 
 |      % |    Time | Samples | Caller      | Location           |
 | -----: | ------: | ------: | ----------- | ------------------ |
-| 100.0% | 111.0ms |     111 | `Main.main` | `Profile.hs:146:1` |
+| 100.0% | 130.0ms |     130 | `Main.main` | `Profile.hs:146:1` |
 
-##### `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`)
+##### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
 
-|      % |   Time | Samples | Caller                                            | Location                                          |
-| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 62.0ms |      62 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+|      % |    Time | Samples | Caller                                            | Location                                          |
+| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 125.0ms |     125 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 
 ##### `Data.Aeson.Internal.Unescape.unescapeText` (`src/Data/Aeson/Internal/Unescape.hs:34:1`)
 
 |      % |   Time | Samples | Caller                                            | Location                                          |
 | -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 55.0ms |      55 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 100.0% | 70.0ms |      70 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`)
+
+|      % |   Time | Samples | Caller                                            | Location                                          |
+| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 68.0ms |      68 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 
 ##### `Data.Aeson.KeyMap.lookup` (`src/Data/Aeson/KeyMap.hs:178:1`)
 
-|      % |   Time | Samples | Caller                                         | Location                                 |
-| -----: | -----: | ------: | ---------------------------------------------- | ---------------------------------------- |
-| 100.0% | 26.0ms |      26 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+|     % |   Time | Samples | Caller                                              | Location                                 |
+| ----: | -----: | ------: | --------------------------------------------------- | ---------------------------------------- |
+| 97.5% | 39.0ms |      39 | `Data.Aeson.Types.FromJSON.explicitParseField`      | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+|  2.5% |  1.0ms |       1 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1` |
 
 ##### `Main.tally` (`Profile.hs:112:1`)
 
 |     % |   Time | Samples | Caller           | Location           |
 | ----: | -----: | ------: | ---------------- | ------------------ |
-| 78.9% | 15.0ms |      15 | `Main.keywords`  | `Profile.hs:136:1` |
-| 21.1% |  4.0ms |       4 | `Main.summarize` | `Profile.hs:118:1` |
-
-##### `Data.Aeson.Types.FromJSON.withArray` (`src/Data/Aeson/Types/FromJSON.hs:742:1`)
-
-|     % |   Time | Samples | Caller               | Location            |
-| ----: | -----: | ------: | -------------------- | ------------------- |
-| 55.6% | 10.0ms |      10 | `Main.parseJSONList` | `Profile.hs:71:10`  |
-| 22.2% |  4.0ms |       4 | `Main.parseJSONList` | `Profile.hs:108:10` |
-| 22.2% |  4.0ms |       4 | `Main.parseJSONList` | `Profile.hs:50:10`  |
+| 87.0% | 20.0ms |      20 | `Main.keywords`  | `Profile.hs:136:1` |
+| 13.0% |  3.0ms |       3 | `Main.summarize` | `Profile.hs:118:1` |
 
 ##### `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`)
 
 |      % |   Time | Samples | Caller                         | Location                                 |
 | -----: | -----: | ------: | ------------------------------ | ---------------------------------------- |
-| 100.0% | 16.0ms |      16 | `Data.Aeson.Types.FromJSON..:` | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
+| 100.0% | 21.0ms |      21 | `Data.Aeson.Types.FromJSON..:` | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
+
+##### `Data.Aeson.Types.FromJSON.withArray` (`src/Data/Aeson/Types/FromJSON.hs:742:1`)
+
+|     % |   Time | Samples | Caller               | Location            |
+| ----: | -----: | ------: | -------------------- | ------------------- |
+| 68.8% | 11.0ms |      11 | `Main.parseJSONList` | `Profile.hs:71:10`  |
+| 25.0% |  4.0ms |       4 | `Main.parseJSONList` | `Profile.hs:50:10`  |
+|  6.3% |  1.0ms |       1 | `Main.parseJSONList` | `Profile.hs:108:10` |
 
 ##### `Main.summarize` (`Profile.hs:118:1`)
 
 |      % |   Time | Samples | Caller      | Location           |
 | -----: | -----: | ------: | ----------- | ------------------ |
-| 100.0% | 13.0ms |      13 | `Main.main` | `Profile.hs:146:1` |
+| 100.0% | 14.0ms |      14 | `Main.main` | `Profile.hs:146:1` |
+
+##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
+
+|      % |   Time | Samples | Caller                                 | Location                                 |
+| -----: | -----: | ------: | -------------------------------------- | ---------------------------------------- |
+| 100.0% | 11.0ms |      11 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
 
 ##### `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`)
 
-|      % |   Time | Samples | Caller                                         | Location                                 |
-| -----: | -----: | ------: | ---------------------------------------------- | ---------------------------------------- |
-| 100.0% | 11.0ms |      11 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+|      % |  Time | Samples | Caller                                         | Location                                 |
+| -----: | ----: | ------: | ---------------------------------------------- | ---------------------------------------- |
+| 100.0% | 9.0ms |       9 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
-##### `Data.Aeson.Types.FromJSON.withText` (`src/Data/Aeson/Types/FromJSON.hs:731:1`)
+##### `Data.Aeson.Types.FromJSON.withObject` (`src/Data/Aeson/Types/FromJSON.hs:720:1`)
 
-|     % |  Time | Samples | Caller                                              | Location                                 |
-| ----: | ----: | ------: | --------------------------------------------------- | ---------------------------------------- |
-| 55.6% | 5.0ms |       5 | `Data.Aeson.Types.Internal.<?>`                     | `src/Data/Aeson/Types/Internal.hs:659:1` |
-| 33.3% | 3.0ms |       3 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1` |
-| 11.1% | 1.0ms |       1 | `Data.Aeson.Types.Internal.modifyFailure`           | `src/Data/Aeson/Types/Internal.hs:671:1` |
-
-##### `Data.Aeson.Encoding.Builder.object` (`src/Data/Aeson/Encoding/Builder.hs:96:1`)
-
-|      % |  Time | Samples | Caller                                        | Location                                  |
-| -----: | ----: | ------: | --------------------------------------------- | ----------------------------------------- |
-| 100.0% | 8.0ms |       8 | `Data.Aeson.Encoding.Builder.encodeToBuilder` | `src/Data/Aeson/Encoding/Builder.hs:68:1` |
+|     % |  Time | Samples | Caller           | Location          |
+| ----: | ----: | ------: | ---------------- | ----------------- |
+| 87.5% | 7.0ms |       7 | `Main.parseJSON` | `Profile.hs:48:3` |
+| 12.5% | 1.0ms |       1 | `Main.parseJSON` | `Profile.hs:96:3` |
 
 ##### `Data.Scientific.toBoundedInteger` (`src/Data/Scientific.hs:772:1`)
 
@@ -227,11 +226,13 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ---------------------------------------------- | ---------------------------------------- |
 | 100.0% | 8.0ms |       8 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
-##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
+##### `Data.Aeson.Types.FromJSON.withText` (`src/Data/Aeson/Types/FromJSON.hs:731:1`)
 
-|      % |  Time | Samples | Caller                                 | Location                                 |
-| -----: | ----: | ------: | -------------------------------------- | ---------------------------------------- |
-| 100.0% | 7.0ms |       7 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+|     % |  Time | Samples | Caller                                              | Location                                 |
+| ----: | ----: | ------: | --------------------------------------------------- | ---------------------------------------- |
+| 42.9% | 3.0ms |       3 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1` |
+| 42.9% | 3.0ms |       3 | `Data.Aeson.Types.Internal.<?>`                     | `src/Data/Aeson/Types/Internal.hs:659:1` |
+| 14.3% | 1.0ms |       1 | `Data.Aeson.Types.FromJSON.explicitParseField`      | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
 ##### `Data.Aeson.Encoding.Builder.text` (`src/Data/Aeson/Encoding/Builder.hs:109:1`)
 
@@ -240,17 +241,17 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 85.7% | 6.0ms |       6 | `Data.Aeson.Encoding.Builder.object` | `src/Data/Aeson/Encoding/Builder.hs:96:1` |
 | 14.3% | 1.0ms |       1 | `Data.Aeson.Encoding.Builder.array`  | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
 
-##### `Data.Aeson.Encoding.Builder.unquoted` (`src/Data/Aeson/Encoding/Builder.hs:113:1`)
+##### `Data.Aeson.Types.Internal.prependFailure` (`src/Data/Aeson/Types/Internal.hs:681:1`)
 
-|      % |  Time | Samples | Caller                             | Location                                   |
-| -----: | ----: | ------: | ---------------------------------- | ------------------------------------------ |
-| 100.0% | 6.0ms |       6 | `Data.Aeson.Encoding.Builder.text` | `src/Data/Aeson/Encoding/Builder.hs:109:1` |
+|      % |  Time | Samples | Caller                                         | Location                                 |
+| -----: | ----: | ------: | ---------------------------------------------- | ---------------------------------------- |
+| 100.0% | 6.0ms |       6 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
-##### `Main.top` (`Profile.hs:115:1`)
+##### `Data.Aeson.Types.Internal.modifyFailure` (`src/Data/Aeson/Types/Internal.hs:671:1`)
 
-|      % |  Time | Samples | Caller           | Location           |
-| -----: | ----: | ------: | ---------------- | ------------------ |
-| 100.0% | 6.0ms |       6 | `Main.summarize` | `Profile.hs:118:1` |
+|      % |  Time | Samples | Caller                                     | Location                                 |
+| -----: | ----: | ------: | ------------------------------------------ | ---------------------------------------- |
+| 100.0% | 5.0ms |       5 | `Data.Aeson.Types.Internal.prependFailure` | `src/Data/Aeson/Types/Internal.hs:681:1` |
 
 ### Total time
 
@@ -258,26 +259,26 @@ Functions with the most wall time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 69.7% |   2.50s |   2,503 | `Main.main`                                       | `Profile.hs:146:1`                                |
-| 64.6% |   2.32s |   2,322 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
-| 43.9% |   1.57s |   1,576 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 29.9% |   1.07s |   1,075 | `GC.GC`                                           | `<unknown>`                                       |
-| 20.8% | 746.0ms |     746 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
-| 13.5% | 484.0ms |     484 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
-|  3.5% | 126.0ms |     126 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
-|  3.2% | 114.0ms |     114 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
-|  3.1% | 113.0ms |     113 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
-|  3.1% | 113.0ms |     113 | `Data.Aeson.Types.FromJSON.ifromJSON`             | `src/Data/Aeson/Types/FromJSON.hs:839:1`          |
-|  3.0% | 109.0ms |     109 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
-|  2.9% | 103.0ms |     103 | `Main.parseJSON`                                  | `Profile.hs:48:3`                                 |
-|  2.8% | 102.0ms |     102 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
-|  1.7% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
-|  1.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
-|  1.5% |  54.0ms |      54 | `Main.roundTrip`                                  | `Profile.hs:139:1`                                |
-|  0.9% |  32.0ms |      32 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
-|  0.8% |  29.0ms |      29 | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
-|  0.8% |  28.0ms |      28 | `Main.toEncoding`                                 | `Profile.hs:83:10`                                |
-|  0.7% |  26.0ms |      26 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+| 69.1% |   2.59s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
+| 63.9% |   2.40s |   2,401 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
+| 42.9% |   1.61s |   1,611 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 30.3% |   1.13s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
+| 21.0% | 790.0ms |     790 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
+| 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
+|  4.0% | 150.0ms |     150 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
+|  3.8% | 144.0ms |     144 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
+|  3.8% | 144.0ms |     144 | `Data.Aeson.Types.FromJSON.ifromJSON`             | `src/Data/Aeson/Types/FromJSON.hs:839:1`          |
+|  3.6% | 137.0ms |     137 | `Main.parseJSON`                                  | `Profile.hs:48:3`                                 |
+|  3.5% | 133.0ms |     133 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  3.3% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
+|  3.2% | 122.0ms |     122 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
+|  1.9% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
+|  1.8% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
+|  1.1% |  40.0ms |      40 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+|  1.0% |  36.0ms |      36 | `Main.roundTrip`                                  | `Profile.hs:139:1`                                |
+|  0.7% |  28.0ms |      28 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
+|  0.6% |  23.0ms |      23 | `Main.toEncoding`                                 | `Profile.hs:83:10`                                |
+|  0.6% |  23.0ms |      23 | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
 
 #### Categories
 
@@ -287,32 +288,32 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 69.7% |   2.50s |   2,503 | `Main.main`                                       | `Profile.hs:146:1`                                |
-| 64.6% |   2.32s |   2,322 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
-| 43.9% |   1.57s |   1,576 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 20.8% | 746.0ms |     746 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
-| 13.5% | 484.0ms |     484 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
-|  3.5% | 126.0ms |     126 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
-|  3.2% | 114.0ms |     114 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
-|  3.1% | 113.0ms |     113 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
-|  3.1% | 113.0ms |     113 | `Data.Aeson.Types.FromJSON.ifromJSON`             | `src/Data/Aeson/Types/FromJSON.hs:839:1`          |
-|  3.0% | 109.0ms |     109 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
-|  2.9% | 103.0ms |     103 | `Main.parseJSON`                                  | `Profile.hs:48:3`                                 |
-|  2.8% | 102.0ms |     102 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
-|  1.7% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
-|  1.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
-|  1.5% |  54.0ms |      54 | `Main.roundTrip`                                  | `Profile.hs:139:1`                                |
-|  0.9% |  32.0ms |      32 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
-|  0.8% |  29.0ms |      29 | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
-|  0.8% |  28.0ms |      28 | `Main.toEncoding`                                 | `Profile.hs:83:10`                                |
-|  0.7% |  26.0ms |      26 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
-|  0.7% |  25.0ms |      25 | `Data.Aeson.Encoding.Builder.encodeToBuilder`     | `src/Data/Aeson/Encoding/Builder.hs:68:1`         |
+| 69.1% |   2.59s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
+| 63.9% |   2.40s |   2,401 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
+| 42.9% |   1.61s |   1,611 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 21.0% | 790.0ms |     790 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
+| 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
+|  4.0% | 150.0ms |     150 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
+|  3.8% | 144.0ms |     144 | `Data.Aeson.Types.FromJSON.withObject`            | `src/Data/Aeson/Types/FromJSON.hs:720:1`          |
+|  3.8% | 144.0ms |     144 | `Data.Aeson.Types.FromJSON.ifromJSON`             | `src/Data/Aeson/Types/FromJSON.hs:839:1`          |
+|  3.6% | 137.0ms |     137 | `Main.parseJSON`                                  | `Profile.hs:48:3`                                 |
+|  3.5% | 133.0ms |     133 | `Data.Aeson.Types.FromJSON..:`                    | `src/Data/Aeson/Types/FromJSON.hs:849:1`          |
+|  3.3% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`      | `src/Data/Aeson/Internal/Text.hs:29:1`            |
+|  3.2% | 122.0ms |     122 | `Data.Aeson.Types.FromJSON.explicitParseField`    | `src/Data/Aeson/Types/FromJSON.hs:917:1`          |
+|  1.9% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText`       | `src/Data/Aeson/Internal/Unescape.hs:34:1`        |
+|  1.8% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger`     | `src/Data/Integer/Conversion.hs:104:1`            |
+|  1.1% |  40.0ms |      40 | `Data.Aeson.KeyMap.lookup`                        | `src/Data/Aeson/KeyMap.hs:178:1`                  |
+|  1.0% |  36.0ms |      36 | `Main.roundTrip`                                  | `Profile.hs:139:1`                                |
+|  0.7% |  28.0ms |      28 | `Data.Aeson.Types.Internal.<?>`                   | `src/Data/Aeson/Types/Internal.hs:659:1`          |
+|  0.6% |  23.0ms |      23 | `Main.toEncoding`                                 | `Profile.hs:83:10`                                |
+|  0.6% |  23.0ms |      23 | `Data.Aeson.encode`                               | `src/Data/Aeson.hs:187:1`                         |
+|  0.6% |  23.0ms |      23 | `Main.tally`                                      | `Profile.hs:112:1`                                |
 
 ##### Garbage collector
 
 |     % |  Time | Samples | Function | Location    |
 | ----: | ----: | ------: | -------- | ----------- |
-| 29.9% | 1.07s |   1,075 | `GC.GC`  | `<unknown>` |
+| 30.3% | 1.13s |   1,139 | `GC.GC`  | `<unknown>` |
 
 #### Callers
 
@@ -322,118 +323,119 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Caller           | Location           |
 | ----: | -----: | ------: | ---------------- | ------------------ |
-| 99.0% |  2.29s |   2,298 | `Main.main`      | `Profile.hs:146:1` |
-|  1.0% | 24.0ms |      24 | `Main.roundTrip` | `Profile.hs:139:1` |
+| 99.5% |  2.38s |   2,388 | `Main.main`      | `Profile.hs:146:1` |
+|  0.5% | 13.0ms |      13 | `Main.roundTrip` | `Profile.hs:139:1` |
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
 
 |      % |  Time | Samples | Caller                             | Location                          |
 | -----: | ----: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 1.57s |   1,576 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 100.0% | 1.61s |   1,611 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`)
 
 |      % |    Time | Samples | Caller                             | Location                          |
 | -----: | ------: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 746.0ms |     746 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 100.0% | 790.0ms |     790 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`)
 
-|     % |    Time | Samples | Caller                                         | Location                                     |
-| ----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
-| 99.8% | 483.0ms |     483 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
-|  0.2% |   1.0ms |       1 | `Main.toJSON`                                  | `Profile.hs:84:3`                            |
+|      % |    Time | Samples | Caller                                         | Location                                     |
+| -----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
+| 100.0% | 468.0ms |     468 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
 
 ##### `Main.keywords` (`Profile.hs:136:1`)
 
 |      % |    Time | Samples | Caller      | Location           |
 | -----: | ------: | ------: | ----------- | ------------------ |
-| 100.0% | 126.0ms |     126 | `Main.main` | `Profile.hs:146:1` |
-
-##### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
-
-|      % |    Time | Samples | Caller                                            | Location                                          |
-| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 114.0ms |     114 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 100.0% | 150.0ms |     150 | `Main.main` | `Profile.hs:146:1` |
 
 ##### `Data.Aeson.Types.FromJSON.withObject` (`src/Data/Aeson/Types/FromJSON.hs:720:1`)
 
 |     % |    Time | Samples | Caller           | Location          |
 | ----: | ------: | ------: | ---------------- | ----------------- |
-| 91.2% | 103.0ms |     103 | `Main.parseJSON` | `Profile.hs:48:3` |
-|  8.8% |  10.0ms |      10 | `Main.parseJSON` | `Profile.hs:96:3` |
+| 95.1% | 137.0ms |     137 | `Main.parseJSON` | `Profile.hs:48:3` |
+|  4.9% |   7.0ms |       7 | `Main.parseJSON` | `Profile.hs:96:3` |
 
 ##### `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`)
 
 |      % |    Time | Samples | Caller                                         | Location                                     |
 | -----: | ------: | ------: | ---------------------------------------------- | -------------------------------------------- |
-| 100.0% | 113.0ms |     113 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
-
-##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
-
-|      % |    Time | Samples | Caller                                 | Location                                 |
-| -----: | ------: | ------: | -------------------------------------- | ---------------------------------------- |
-| 100.0% | 109.0ms |     109 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+| 100.0% | 144.0ms |     144 | `Data.Aeson.Decoding.Conversion.toResultValue` | `src/Data/Aeson/Decoding/Conversion.hs:51:1` |
 
 ##### `Main.parseJSON` (`Profile.hs:48:3`)
 
 |      % |    Time | Samples | Caller                                | Location                                 |
 | -----: | ------: | ------: | ------------------------------------- | ---------------------------------------- |
-| 100.0% | 103.0ms |     103 | `Data.Aeson.Types.FromJSON.ifromJSON` | `src/Data/Aeson/Types/FromJSON.hs:839:1` |
+| 100.0% | 137.0ms |     137 | `Data.Aeson.Types.FromJSON.ifromJSON` | `src/Data/Aeson/Types/FromJSON.hs:839:1` |
+
+##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
+
+|      % |    Time | Samples | Caller                                 | Location                                 |
+| -----: | ------: | ------: | -------------------------------------- | ---------------------------------------- |
+| 100.0% | 133.0ms |     133 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+
+##### `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`)
+
+|      % |    Time | Samples | Caller                                            | Location                                          |
+| -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 125.0ms |     125 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 
 ##### `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`)
 
 |      % |    Time | Samples | Caller                         | Location                                 |
 | -----: | ------: | ------: | ------------------------------ | ---------------------------------------- |
-| 100.0% | 102.0ms |     102 | `Data.Aeson.Types.FromJSON..:` | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
-
-##### `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`)
-
-|      % |   Time | Samples | Caller                                            | Location                                          |
-| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 62.0ms |      62 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 100.0% | 122.0ms |     122 | `Data.Aeson.Types.FromJSON..:` | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
 
 ##### `Data.Aeson.Internal.Unescape.unescapeText` (`src/Data/Aeson/Internal/Unescape.hs:34:1`)
 
 |      % |   Time | Samples | Caller                                            | Location                                          |
 | -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 100.0% | 55.0ms |      55 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 100.0% | 70.0ms |      70 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`)
+
+|      % |   Time | Samples | Caller                                            | Location                                          |
+| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------- |
+| 100.0% | 68.0ms |      68 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+
+##### `Data.Aeson.KeyMap.lookup` (`src/Data/Aeson/KeyMap.hs:178:1`)
+
+|     % |   Time | Samples | Caller                                              | Location                                 |
+| ----: | -----: | ------: | --------------------------------------------------- | ---------------------------------------- |
+| 97.5% | 39.0ms |      39 | `Data.Aeson.Types.FromJSON.explicitParseField`      | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+|  2.5% |  1.0ms |       1 | `Data.Aeson.Types.FromJSON.explicitParseFieldMaybe` | `src/Data/Aeson/Types/FromJSON.hs:923:1` |
 
 ##### `Main.roundTrip` (`Profile.hs:139:1`)
 
 |      % |   Time | Samples | Caller      | Location           |
 | -----: | -----: | ------: | ----------- | ------------------ |
-| 100.0% | 54.0ms |      54 | `Main.main` | `Profile.hs:146:1` |
+| 100.0% | 36.0ms |      36 | `Main.main` | `Profile.hs:146:1` |
 
 ##### `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`)
 
 |      % |   Time | Samples | Caller                                         | Location                                 |
 | -----: | -----: | ------: | ---------------------------------------------- | ---------------------------------------- |
-| 100.0% | 32.0ms |      32 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
-
-##### `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`)
-
-|      % |   Time | Samples | Caller           | Location           |
-| -----: | -----: | ------: | ---------------- | ------------------ |
-| 100.0% | 29.0ms |      29 | `Main.roundTrip` | `Profile.hs:139:1` |
+| 100.0% | 28.0ms |      28 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
 ##### `Main.toEncoding` (`Profile.hs:83:10`)
 
 |      % |   Time | Samples | Caller              | Location                  |
 | -----: | -----: | ------: | ------------------- | ------------------------- |
-| 100.0% | 28.0ms |      28 | `Data.Aeson.encode` | `src/Data/Aeson.hs:187:1` |
+| 100.0% | 23.0ms |      23 | `Data.Aeson.encode` | `src/Data/Aeson.hs:187:1` |
 
-##### `Data.Aeson.KeyMap.lookup` (`src/Data/Aeson/KeyMap.hs:178:1`)
+##### `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`)
 
-|      % |   Time | Samples | Caller                                         | Location                                 |
-| -----: | -----: | ------: | ---------------------------------------------- | ---------------------------------------- |
-| 100.0% | 26.0ms |      26 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+|      % |   Time | Samples | Caller           | Location           |
+| -----: | -----: | ------: | ---------------- | ------------------ |
+| 100.0% | 23.0ms |      23 | `Main.roundTrip` | `Profile.hs:139:1` |
 
-##### `Data.Aeson.Encoding.Builder.encodeToBuilder` (`src/Data/Aeson/Encoding/Builder.hs:68:1`)
+##### `Main.tally` (`Profile.hs:112:1`)
 
-|      % |   Time | Samples | Caller                               | Location                                    |
-| -----: | -----: | ------: | ------------------------------------ | ------------------------------------------- |
-| 100.0% | 25.0ms |      25 | `Data.Aeson.Encoding.Internal.value` | `src/Data/Aeson/Encoding/Internal.hs:441:1` |
+|     % |   Time | Samples | Caller           | Location           |
+| ----: | -----: | ------: | ---------------- | ------------------ |
+| 87.0% | 20.0ms |      20 | `Main.keywords`  | `Profile.hs:136:1` |
+| 13.0% |  3.0ms |       3 | `Main.summarize` | `Profile.hs:118:1` |
 
 #### Callees
 
@@ -443,110 +445,103 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                             | Location                          |
 | ----: | ------: | ------: | ---------------------------------- | --------------------------------- |
-| 91.8% |   2.29s |   2,298 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
-|  5.0% | 126.0ms |     126 | `Main.keywords`                    | `Profile.hs:136:1`                |
-|  2.2% |  54.0ms |      54 | `Main.roundTrip`                   | `Profile.hs:139:1`                |
-|  0.9% |  23.0ms |      23 | `Main.summarize`                   | `Profile.hs:118:1`                |
+| 91.9% |   2.38s |   2,388 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+|  5.8% | 150.0ms |     150 | `Main.keywords`                    | `Profile.hs:136:1`                |
+|  1.4% |  36.0ms |      36 | `Main.roundTrip`                   | `Profile.hs:139:1`                |
+|  0.8% |  21.0ms |      21 | `Main.summarize`                   | `Profile.hs:118:1`                |
 
 ##### `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)
 
 |     % |    Time | Samples | Callee                                            | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 67.9% |   1.57s |   1,576 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 32.1% | 746.0ms |     746 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
+| 67.1% |   1.61s |   1,611 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 32.9% | 790.0ms |     790 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
 
 |    % |    Time | Samples | Callee                                        | Location                                   |
 | ---: | ------: | ------: | --------------------------------------------- | ------------------------------------------ |
-| 7.2% | 114.0ms |     114 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`  | `src/Data/Aeson/Internal/Text.hs:29:1`     |
-| 3.9% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger` | `src/Data/Integer/Conversion.hs:104:1`     |
-| 3.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText`   | `src/Data/Aeson/Internal/Unescape.hs:34:1` |
+| 7.8% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII`  | `src/Data/Aeson/Internal/Text.hs:29:1`     |
+| 4.3% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText`   | `src/Data/Aeson/Internal/Unescape.hs:34:1` |
+| 4.2% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger` | `src/Data/Integer/Conversion.hs:104:1`     |
 
 ##### `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`)
 
 |     % |    Time | Samples | Callee                                | Location                                 |
 | ----: | ------: | ------: | ------------------------------------- | ---------------------------------------- |
-| 64.7% | 483.0ms |     483 | `Data.Aeson.KeyMap.fromList`          | `src/Data/Aeson/KeyMap.hs:247:1`         |
-| 15.1% | 113.0ms |     113 | `Data.Aeson.Types.FromJSON.ifromJSON` | `src/Data/Aeson/Types/FromJSON.hs:839:1` |
+| 59.2% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`          | `src/Data/Aeson/KeyMap.hs:247:1`         |
+| 18.2% | 144.0ms |     144 | `Data.Aeson.Types.FromJSON.ifromJSON` | `src/Data/Aeson/Types/FromJSON.hs:839:1` |
 
 ##### `Main.keywords` (`Profile.hs:136:1`)
 
 |     % |   Time | Samples | Callee       | Location           |
 | ----: | -----: | ------: | ------------ | ------------------ |
-| 11.9% | 15.0ms |      15 | `Main.tally` | `Profile.hs:112:1` |
+| 13.3% | 20.0ms |      20 | `Main.tally` | `Profile.hs:112:1` |
 
 ##### `Data.Aeson.Types.FromJSON.withObject` (`src/Data/Aeson/Types/FromJSON.hs:720:1`)
 
 |     % |    Time | Samples | Callee                          | Location                                 |
 | ----: | ------: | ------: | ------------------------------- | ---------------------------------------- |
-| 96.5% | 109.0ms |     109 | `Data.Aeson.Types.FromJSON..:`  | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
-|  0.9% |   1.0ms |       1 | `Data.Aeson.Types.FromJSON..:?` | `src/Data/Aeson/Types/FromJSON.hs:859:1` |
+| 92.4% | 133.0ms |     133 | `Data.Aeson.Types.FromJSON..:`  | `src/Data/Aeson/Types/FromJSON.hs:849:1` |
+|  2.1% |   3.0ms |       3 | `Data.Aeson.Types.FromJSON..:?` | `src/Data/Aeson/Types/FromJSON.hs:859:1` |
 
 ##### `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`)
 
 |     % |    Time | Samples | Callee           | Location          |
 | ----: | ------: | ------: | ---------------- | ----------------- |
-| 91.2% | 103.0ms |     103 | `Main.parseJSON` | `Profile.hs:48:3` |
-|  8.8% |  10.0ms |      10 | `Main.parseJSON` | `Profile.hs:96:3` |
-
-##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
-
-|     % |    Time | Samples | Callee                                         | Location                                 |
-| ----: | ------: | ------: | ---------------------------------------------- | ---------------------------------------- |
-| 93.6% | 102.0ms |     102 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
+| 95.1% | 137.0ms |     137 | `Main.parseJSON` | `Profile.hs:48:3` |
+|  4.9% |   7.0ms |       7 | `Main.parseJSON` | `Profile.hs:96:3` |
 
 ##### `Main.parseJSON` (`Profile.hs:48:3`)
 
 |      % |    Time | Samples | Callee                                 | Location                                 |
 | -----: | ------: | ------: | -------------------------------------- | ---------------------------------------- |
-| 100.0% | 103.0ms |     103 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+| 100.0% | 137.0ms |     137 | `Data.Aeson.Types.FromJSON.withObject` | `src/Data/Aeson/Types/FromJSON.hs:720:1` |
+
+##### `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`)
+
+|     % |    Time | Samples | Callee                                         | Location                                 |
+| ----: | ------: | ------: | ---------------------------------------------- | ---------------------------------------- |
+| 91.7% | 122.0ms |     122 | `Data.Aeson.Types.FromJSON.explicitParseField` | `src/Data/Aeson/Types/FromJSON.hs:917:1` |
 
 ##### `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`)
 
 |     % |   Time | Samples | Callee                             | Location                                 |
 | ----: | -----: | ------: | ---------------------------------- | ---------------------------------------- |
-| 31.4% | 32.0ms |      32 | `Data.Aeson.Types.Internal.<?>`    | `src/Data/Aeson/Types/Internal.hs:659:1` |
-| 25.5% | 26.0ms |      26 | `Data.Aeson.KeyMap.lookup`         | `src/Data/Aeson/KeyMap.hs:178:1`         |
-| 15.7% | 16.0ms |      16 | `Data.Scientific.toBoundedInteger` | `src/Data/Scientific.hs:772:1`           |
-|  4.9% |  5.0ms |       5 | `Main.parseJSONList`               | `Profile.hs:50:10`                       |
-|  2.9% |  3.0ms |       3 | `Main.parseJSONList`               | `Profile.hs:71:10`                       |
+| 32.0% | 39.0ms |      39 | `Data.Aeson.KeyMap.lookup`         | `src/Data/Aeson/KeyMap.hs:178:1`         |
+| 23.0% | 28.0ms |      28 | `Data.Aeson.Types.Internal.<?>`    | `src/Data/Aeson/Types/Internal.hs:659:1` |
+| 11.5% | 14.0ms |      14 | `Data.Scientific.toBoundedInteger` | `src/Data/Scientific.hs:772:1`           |
+|  4.9% |  6.0ms |       6 | `Main.parseJSONList`               | `Profile.hs:50:10`                       |
+|  4.9% |  6.0ms |       6 | `Main.parseJSONList`               | `Profile.hs:71:10`                       |
 
 ##### `Main.roundTrip` (`Profile.hs:139:1`)
 
 |     % |   Time | Samples | Callee                             | Location                          |
 | ----: | -----: | ------: | ---------------------------------- | --------------------------------- |
-| 53.7% | 29.0ms |      29 | `Data.Aeson.encode`                | `src/Data/Aeson.hs:187:1`         |
-| 44.4% | 24.0ms |      24 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 63.9% | 23.0ms |      23 | `Data.Aeson.encode`                | `src/Data/Aeson.hs:187:1`         |
+| 36.1% | 13.0ms |      13 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`)
 
-|     % |   Time | Samples | Callee                                     | Location                                 |
-| ----: | -----: | ------: | ------------------------------------------ | ---------------------------------------- |
-| 31.3% | 10.0ms |      10 | `Data.Aeson.Types.FromJSON.withText`       | `src/Data/Aeson/Types/FromJSON.hs:731:1` |
-| 21.9% |  7.0ms |       7 | `Data.Aeson.Types.Internal.prependFailure` | `src/Data/Aeson/Types/Internal.hs:681:1` |
-|  6.3% |  2.0ms |       2 | `Main.parseJSONList`                       | `Profile.hs:71:10`                       |
-|  6.3% |  2.0ms |       2 | `Data.Aeson.Types.FromJSON..:?`            | `src/Data/Aeson/Types/FromJSON.hs:859:1` |
-
-##### `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`)
-
-|     % |   Time | Samples | Callee            | Location           |
-| ----: | -----: | ------: | ----------------- | ------------------ |
-| 96.6% | 28.0ms |      28 | `Main.toEncoding` | `Profile.hs:83:10` |
+|     % |  Time | Samples | Callee                                     | Location                                 |
+| ----: | ----: | ------: | ------------------------------------------ | ---------------------------------------- |
+| 25.0% | 7.0ms |       7 | `Data.Aeson.Types.Internal.prependFailure` | `src/Data/Aeson/Types/Internal.hs:681:1` |
+| 21.4% | 6.0ms |       6 | `Data.Aeson.Types.FromJSON.withText`       | `src/Data/Aeson/Types/FromJSON.hs:731:1` |
+| 14.3% | 4.0ms |       4 | `Main.parseJSONList`                       | `Profile.hs:71:10`                       |
+|  7.1% | 2.0ms |       2 | `Data.Aeson.Types.FromJSON..:?`            | `src/Data/Aeson/Types/FromJSON.hs:859:1` |
 
 ##### `Main.toEncoding` (`Profile.hs:83:10`)
 
 |     % |   Time | Samples | Callee                               | Location                                    |
 | ----: | -----: | ------: | ------------------------------------ | ------------------------------------------- |
-| 89.3% | 25.0ms |      25 | `Data.Aeson.Encoding.Internal.value` | `src/Data/Aeson/Encoding/Internal.hs:441:1` |
-| 10.7% |  3.0ms |       3 | `Main.toJSON`                        | `Profile.hs:84:3`                           |
+| 87.0% | 20.0ms |      20 | `Data.Aeson.Encoding.Internal.value` | `src/Data/Aeson/Encoding/Internal.hs:441:1` |
+| 13.0% |  3.0ms |       3 | `Main.toJSON`                        | `Profile.hs:84:3`                           |
 
-##### `Data.Aeson.Encoding.Builder.encodeToBuilder` (`src/Data/Aeson/Encoding/Builder.hs:68:1`)
+##### `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`)
 
-|     % |   Time | Samples | Callee                               | Location                                  |
-| ----: | -----: | ------: | ------------------------------------ | ----------------------------------------- |
-| 92.0% | 23.0ms |      23 | `Data.Aeson.Encoding.Builder.object` | `src/Data/Aeson/Encoding/Builder.hs:96:1` |
-|  8.0% |  2.0ms |       2 | `Data.Aeson.Encoding.Builder.array`  | `src/Data/Aeson/Encoding/Builder.hs:86:1` |
+|      % |   Time | Samples | Callee            | Location           |
+| -----: | -----: | ------: | ----------------- | ------------------ |
+| 100.0% | 23.0ms |      23 | `Main.toEncoding` | `Profile.hs:83:10` |
 
 ## Hottest call stacks
 
@@ -554,25 +549,25 @@ Call stacks with the most wall time spent in their leaf frame.
 
 Common call stack: `Main.main` (`Profile.hs:146:1`)
 
-|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 37.2% |   1.33s |   1,337 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 13.4% | 482.0ms |     482 | `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  4.1% | 148.0ms |     148 | `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  3.1% | 111.0ms |     111 | `Main.keywords` (`Profile.hs:136:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  3.1% | 111.0ms |     111 | `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  1.7% |  62.0ms |      62 | `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  1.5% |  55.0ms |      55 | `Data.Aeson.Internal.Unescape.unescapeText` (`src/Data/Aeson/Internal/Unescape.hs:34:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  0.7% |  25.0ms |      25 | `Data.Aeson.KeyMap.lookup` (`src/Data/Aeson/KeyMap.hs:178:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                               |
-|  0.4% |  15.0ms |      15 | `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                               |
-|  0.4% |  15.0ms |      15 | `Main.tally` (`Profile.hs:112:1`) ← `Main.keywords` (136:1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  0.4% |  13.0ms |      13 | `Main.summarize` (`Profile.hs:118:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                  |
-|  0.2% |   8.0ms |       8 | `Data.Aeson.Encoding.Builder.object` (`src/Data/Aeson/Encoding/Builder.hs:96:1`) ← `Data.Aeson.Encoding.Builder.encodeToBuilder` (68:1) ← `Data.Aeson.Encoding.Internal.value` (`src/Data/Aeson/Encoding/Internal.hs:441:1`) ← `Main.toEncoding` (`Profile.hs:83:10`) ← `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.2% |   8.0ms |       8 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                        |
-|  0.2% |   7.0ms |       7 | `Data.Scientific.toBoundedInteger` (`src/Data/Scientific.hs:772:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                         |
-|  0.2% |   6.0ms |       6 | `Data.Aeson.Encoding.Builder.text` (`src/Data/Aeson/Encoding/Builder.hs:109:1`) ← `Data.Aeson.Encoding.Builder.object` (96:1) ← `Data.Aeson.Encoding.Builder.encodeToBuilder` (68:1) ← `Data.Aeson.Encoding.Internal.value` (`src/Data/Aeson/Encoding/Internal.hs:441:1`) ← `Main.toEncoding` (`Profile.hs:83:10`) ← `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                                                                                                         |
-|  0.2% |   6.0ms |       6 | `Data.Aeson.Encoding.Builder.unquoted` (`src/Data/Aeson/Encoding/Builder.hs:113:1`) ← `Data.Aeson.Encoding.Builder.text` (109:1) ← `Data.Aeson.Encoding.Builder.object` (96:1) ← `Data.Aeson.Encoding.Builder.encodeToBuilder` (68:1) ← `Data.Aeson.Encoding.Internal.value` (`src/Data/Aeson/Encoding/Internal.hs:441:1`) ← `Main.toEncoding` (`Profile.hs:83:10`) ← `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                                                        |
-|  0.2% |   6.0ms |       6 | `Main.top` (`Profile.hs:115:1`) ← `Main.summarize` (118:1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.1% |   5.0ms |       5 | `Data.Aeson.Types.FromJSON.withArray` (`src/Data/Aeson/Types/FromJSON.hs:742:1`) ← `Main.parseJSONList` (`Profile.hs:71:10`) ← `Data.Aeson.Types.FromJSON.withText` (`src/Data/Aeson/Types/FromJSON.hs:731:1`) ← `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`) |
+|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 35.8% |   1.34s |   1,344 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 12.4% | 467.0ms |     467 | `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  4.7% | 177.0ms |     177 | `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  3.5% | 130.0ms |     130 | `Main.keywords` (`Profile.hs:136:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  3.3% | 125.0ms |     125 | `Data.Aeson.Internal.Text.unsafeDecodeASCII` (`src/Data/Aeson/Internal/Text.hs:29:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  1.9% |  70.0ms |      70 | `Data.Aeson.Internal.Unescape.unescapeText` (`src/Data/Aeson/Internal/Unescape.hs:34:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|  1.8% |  68.0ms |      68 | `Data.Integer.Conversion.byteStringToInteger` (`src/Data/Integer/Conversion.hs:104:1`) ← `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|  1.0% |  38.0ms |      38 | `Data.Aeson.KeyMap.lookup` (`src/Data/Aeson/KeyMap.hs:178:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                             |
+|  0.5% |  20.0ms |      20 | `Main.tally` (`Profile.hs:112:1`) ← `Main.keywords` (136:1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  0.5% |  19.0ms |      19 | `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                             |
+|  0.4% |  14.0ms |      14 | `Main.summarize` (`Profile.hs:118:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  0.3% |  11.0ms |      11 | `Data.Aeson.Types.FromJSON..:` (`src/Data/Aeson/Types/FromJSON.hs:849:1`) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                      |
+|  0.2% |   9.0ms |       9 | `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                |
+|  0.2% |   8.0ms |       8 | `Data.Scientific.toBoundedInteger` (`src/Data/Scientific.hs:772:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                       |
+|  0.2% |   7.0ms |       7 | `Data.Aeson.Types.FromJSON.withObject` (`src/Data/Aeson/Types/FromJSON.hs:720:1`) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                                                                                                                                                                                                               |
+|  0.2% |   6.0ms |       6 | `Data.Aeson.Types.Internal.prependFailure` (`src/Data/Aeson/Types/Internal.hs:681:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`)                                                                                                                     |
+|  0.2% |   6.0ms |       6 | `Data.Aeson.Encoding.Builder.text` (`src/Data/Aeson/Encoding/Builder.hs:109:1`) ← `Data.Aeson.Encoding.Builder.object` (96:1) ← `Data.Aeson.Encoding.Builder.encodeToBuilder` (68:1) ← `Data.Aeson.Encoding.Internal.value` (`src/Data/Aeson/Encoding/Internal.hs:441:1`) ← `Main.toEncoding` (`Profile.hs:83:10`) ← `Data.Aeson.encode` (`src/Data/Aeson.hs:187:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                       |
+|  0.1% |   4.0ms |       4 | `Data.Aeson.Types.FromJSON.withArray` (`src/Data/Aeson/Types/FromJSON.hs:742:1`) ← `Main.parseJSONList` (`Profile.hs:71:10`) ← `Data.Aeson.Types.Internal.<?>` (`src/Data/Aeson/Types/Internal.hs:659:1`) ← `Data.Aeson.Types.FromJSON.explicitParseField` (`src/Data/Aeson/Types/FromJSON.hs:917:1`) ← `Data.Aeson.Types.FromJSON..:` (849:1) ← `Data.Aeson.Types.FromJSON.withObject` (720:1) ← `Main.parseJSON` (`Profile.hs:48:3`) ← `Data.Aeson.Types.FromJSON.ifromJSON` (`src/Data/Aeson/Types/FromJSON.hs:839:1`) ← `Data.Aeson.Decoding.Conversion.toResultValue` (`src/Data/Aeson/Decoding/Conversion.hs:51:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`) |
+|  0.1% |   4.0ms |       4 | `Main.top` (`Profile.hs:115:1`) ← `Main.summarize` (118:1)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  0.1% |   4.0ms |       4 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`) ← `Data.Aeson.Decoding.eitherDecode` (`src/Data/Aeson/Decoding.hs:79:1`) ← `Main.roundTrip` (`Profile.hs:139:1`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
