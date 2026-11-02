@@ -4,9 +4,9 @@ Took 102.2ms over 91 samples (1.1ms per sample).
 
 | Category         |     % |   Time | Samples |
 | ---------------- | ----: | -----: | ------: |
-| Standard library | 43.2% | 44.2ms |      33 |
+| Standard library | 44.2% | 45.2ms |      34 |
 | Ours             | 30.3% | 31.0ms |      31 |
-| Native           | 26.4% | 27.0ms |      27 |
+| Native           | 25.4% | 26.0ms |      26 |
 
 Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/w/`.
 
@@ -105,6 +105,7 @@ Categories accounting for at least 1.0% of self time.
 | 2.0% |  2.0ms |       2 | `stringsMatchAnyRegularExpressions`                            | `FormMetadata.js:3:8216`                           |
 | 1.0% |  1.0ms |       1 | `parse`                                                        | `<unknown>`                                        |
 | 1.0% |  1.0ms |       1 | `add`                                                          | `<unknown>`                                        |
+| 1.0% |  1.0ms |       1 | `[Symbol.match]`                                               | `<unknown>`                                        |
 | 1.0% |  1.0ms |       1 | `stripCommonPrefix`                                            | `FormMetadata.js:3:6253`                           |
 | 1.0% |  1.0ms |       1 | `autocompleteTokens`                                           | `FormMetadata.js:3:5183`                           |
 | 1.0% |  1.0ms |       1 | `_isAutoFillableTextField`                                     | `FormMetadata.js:3:38801`                          |
@@ -115,7 +116,6 @@ Categories accounting for at least 1.0% of self time.
 | 1.0% |  1.0ms |       1 | `getVisibleNonWhitespaceTextNodes`                             | `__InjectedScript_ReaderArticleFinder.js:12:13801` |
 | 1.0% |  1.0ms |       1 | `cachedElementBoundingRect`                                    | `__InjectedScript_ReaderArticleFinder.js:12:5336`  |
 | 1.0% |  1.0ms |       1 | `pointsForDominantIframeHitTest`                               | `__InjectedScript_ReaderArticleFinder.js:13:1191`  |
-| 1.0% |  1.0ms |       1 | `(anonymous)`                                                  | `__InjectedScript_ReaderArticleFinder.js:12:26535` |
 
 ##### Ours
 
@@ -157,7 +157,6 @@ Categories accounting for at least 1.0% of self time.
 | 1.0% | 1.0ms |       1 | `flatIntoArray`                     | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `querySelector`                     | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `remove`                            | `<unknown>` |
-| 1.0% | 1.0ms |       1 | `[Symbol.match]`                    | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `getComputedStyle`                  | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `stringSplitFast`                   | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `sendBeacon`                        | `<unknown>` |
@@ -215,6 +214,12 @@ Lines with the largest contribution to each function's self time.
 | -----: | ----: | ------: | --------------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12` |
 
+##### `[Symbol.match]` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.0ms |       1 | 1        |
+
 ##### `_isAutoFillableTextField` (`FormMetadata.js:3:38801`)
 
 |      % |  Time | Samples | Location            |
@@ -251,12 +256,6 @@ Lines with the largest contribution to each function's self time.
 | -----: | ----: | ------: | -------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `__InjectedScript_ReaderArticleFinder.js:13` |
 
-##### `(anonymous)` (`__InjectedScript_ReaderArticleFinder.js:12:26535`)
-
-|      % |  Time | Samples | Location                                     |
-| -----: | ----: | ------: | -------------------------------------------- |
-| 100.0% | 1.0ms |       1 | `__InjectedScript_ReaderArticleFinder.js:12` |
-
 ##### `sortDependencies` (`./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:6:612`)
 
 |      % |  Time | Samples | Location                                                                   |
@@ -286,12 +285,6 @@ Lines with the largest contribution to each function's self time.
 |      % |  Time | Samples | Location                                                             |
 | -----: | ----: | ------: | -------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-|      % |  Time | Samples | Location |
-| -----: | ----: | ------: | -------- |
-| 100.0% | 1.0ms |       1 | 1        |
 
 #### Callers
 
@@ -426,6 +419,12 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ----------------- | --------------------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `activateSection` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:26:25` |
 
+##### `[Symbol.match]` (`<unknown>`)
+
+|      % |  Time | Samples | Caller  | Location    |
+| -----: | ----: | ------: | ------- | ----------- |
+| 100.0% | 1.0ms |       1 | `match` | `<unknown>` |
+
 ##### `stripCommonPrefix` (`FormMetadata.js:3:6253`)
 
 |      % |  Time | Samples | Caller                                                | Location                  |
@@ -485,12 +484,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 |      % |  Time | Samples | Caller                  | Location                                          |
 | -----: | ----: | ------: | ----------------------- | ------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `dominantContentIframe` | `__InjectedScript_ReaderArticleFinder.js:13:1342` |
-
-##### `(anonymous)` (`__InjectedScript_ReaderArticleFinder.js:12:26535`)
-
-|      % |  Time | Samples | Caller        | Location                                           |
-| -----: | ----: | ------: | ------------- | -------------------------------------------------- |
-| 100.0% | 1.0ms |       1 | `(anonymous)` | `__InjectedScript_ReaderArticleFinder.js:12:26177` |
 
 ##### `createOptions` (`./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:41:604`)
 
@@ -605,12 +598,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 |      % |  Time | Samples | Caller             | Location                                                                           |
 | -----: | ----: | ------: | ------------------ | ---------------------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `toggleDocClasses` | `./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:44:524` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-|      % |  Time | Samples | Caller  | Location    |
-| -----: | ----: | ------: | ------- | ----------- |
-| 100.0% | 1.0ms |       1 | `match` | `<unknown>` |
 
 ##### `getComputedStyle` (`<unknown>`)
 
@@ -735,7 +722,6 @@ Categories accounting for at least 1.0% of self time.
 | 1.0% | 1.0ms |       1 | `querySelector`                     | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `remove`                            | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `bound processThumbs`               | `<unknown>` |
-| 1.0% | 1.0ms |       1 | `[Symbol.match]`                    | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `bound setupEventHandlers`          | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `getComputedStyle`                  | `<unknown>` |
 | 1.0% | 1.0ms |       1 | `stringSplitFast`                   | `<unknown>` |
@@ -1041,12 +1027,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Caller | Location                                                                         |
 | -----: | ----: | ------: | ------ | -------------------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `add`  | `./load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:4:368` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-|      % |  Time | Samples | Caller  | Location    |
-| -----: | ----: | ------: | ------- | ----------- |
-| 100.0% | 1.0ms |       1 | `match` | `<unknown>` |
 
 ##### `bound setupEventHandlers` (`<unknown>`)
 

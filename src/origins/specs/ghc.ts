@@ -34,6 +34,7 @@ export const ghcOriginSpec = {
   isMarkerEntry: () => false,
   categorizeEntry: entry =>
     runtimeActivityCategory(entry) ??
+    moduleCafCategory(entry) ??
     bootLibraryCategory(entry) ??
     systemDirectoryCategory(entry) ??
     locationlessCategory(entry) ??
@@ -65,6 +66,23 @@ const RUNTIME_ACTIVITY_CATEGORIES = new Map<string, FunctionCategory>([
   [`GC.GC`, `garbage-collector`],
   [`IDLE.IDLE`, `idle`],
 ])
+
+/**
+ * Categorizes a module's CAF cost centre, which GHC locates at no span, by the
+ * module in its name: `stdlib` for the `GHC.` namespace the boot libraries
+ * reserve, and `ours` otherwise, like any other binding a package compiled.
+ */
+const moduleCafCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
+  if (location || !name || !MODULE_CAF.test(name)) {
+    return undefined
+  }
+  return name.startsWith(`GHC.`) ? `stdlib` : `ours`
+}
+
+const MODULE_CAF = /\.CAF(?::.*)?$/u
 
 /**
  * Categorizes a cost centre GHC compiled from its own source tree as `stdlib`.

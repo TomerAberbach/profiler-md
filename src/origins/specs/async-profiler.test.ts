@@ -213,6 +213,15 @@ describe(`categorizeEntry`, () => {
   })
 
   test(`HotSpot GC barrier stubs are the garbage collector`, () => {
+    expect(
+      categorizeEntry(logicalEntry(`G1ParScanThreadState::trim_queue`)),
+    ).toBe(`garbage-collector`)
+    expect(
+      categorizeEntry(logicalEntry(`HeapRegionManager::par_iterate`)),
+    ).toBe(`garbage-collector`)
+    expect(categorizeEntry(logicalEntry(`G1BarrierSetC2::load_at`))).toBe(
+      `native`,
+    )
     expect(categorizeEntry(logicalEntry(`g1_post_barrier_slow`))).toBe(
       `garbage-collector`,
     )

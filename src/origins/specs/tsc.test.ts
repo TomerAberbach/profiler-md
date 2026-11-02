@@ -22,6 +22,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an event of the parse phase is parsing`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `createSourceFile`,
         declaredCategories: [`parse`],
       }),
@@ -32,12 +33,18 @@ describe(`categorizeTraceEvent`, () => {
     `an event of the %s phase is compilation`,
     phase => {
       expect(
-        categorizeTraceEvent({ name: `event`, declaredCategories: [phase] }),
+        categorizeTraceEvent({
+          type: `span`,
+          name: `event`,
+          declaredCategories: [phase],
+        }),
       ).toBe(`compilation`)
     },
   )
 
   test(`an event stating no phase is compilation`, () => {
-    expect(categorizeTraceEvent({ name: `parse` })).toBe(`compilation`)
+    expect(categorizeTraceEvent({ type: `span`, name: `parse` })).toBe(
+      `compilation`,
+    )
   })
 })

@@ -155,7 +155,12 @@ const isHotspotNativeStackFrame = ({
 const JIT_STUB =
   /^(?:vtable stub|itable stub|call_stub|zero_blocks|I2C\/C2I adapters)/u
 
-const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
+/**
+ * G1's generated barriers and its collector's own classes, except the classes
+ * that emit barrier code while a method compiles.
+ */
+const GC_STUB =
+  /^(?:g1_(?:pre|post)_barrier_slow$|G1(?!BarrierSet(?:C[12]|Assembler))|HeapRegion)/u
 
 /**
  * HotSpot's compiler internals: the compile broker and tiering policy, C1's

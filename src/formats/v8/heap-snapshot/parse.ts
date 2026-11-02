@@ -3,7 +3,11 @@ import {
   makeFileReference,
   sourceReferenceToSourceLocation,
 } from '../../../location.ts'
-import type { FileReference, SourceLocation } from '../../../location.ts'
+import type {
+  FileReference,
+  SourceLocation,
+  SourceReference,
+} from '../../../location.ts'
 import { nodeAdjacencyGraphFromSuccessors } from '../../../modalities/heap-snapshot/graph.ts'
 import type { NodeAdjacencyGraph } from '../../../modalities/heap-snapshot/graph.ts'
 import type {
@@ -434,7 +438,7 @@ const computeNodeOrdinalToLocation = (
   )
 
   const nodeOrdinalToLocation = new Array<SourceLocation>(nodeCount)
-  const fileLocationToRef = new Map<string, FileReference | null>()
+  const fileLocationToRef = new Map<string, SourceReference | null>()
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
@@ -448,7 +452,9 @@ const computeNodeOrdinalToLocation = (
 
     let fileReference = fileLocationToRef.get(fileLocation)
     if (fileReference === undefined) {
-      fileReference = makeFileReference(fileLocation)
+      fileReference = CHROME_NATIVE_EXTENSION.test(fileLocation)
+        ? { type: `logical`, name: fileLocation }
+        : makeFileReference(fileLocation)
       fileLocationToRef.set(fileLocation, fileReference ?? null)
     }
     if (!fileReference) {
@@ -467,6 +473,9 @@ const computeNodeOrdinalToLocation = (
 
   return nodeOrdinalToLocation
 }
+
+/** A script Chrome compiled into itself, named `v8/LoadTimes`, not a file. */
+const CHROME_NATIVE_EXTENSION = /^v8\/[A-Za-z]+$/u
 
 /**
  * Resolves each script ID to the script's file location by following one of
@@ -711,10 +720,21 @@ const nodeName = (
       const name =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      return { name, nameLocation: absoluteFileReference(name) }
+      return {
+        name,
+        nameLocation: CPP_QUALIFIED_NAME.test(name)
+          ? undefined
+          : absoluteFileReference(name),
+      }
     }
   }
 }
+
+/**
+ * A C++ class name such as `modulemap::Entry`, which also parses as a URL with
+ * the scheme `modulemap:`.
+ */
+const CPP_QUALIFIED_NAME = /^[^/]*::/u
 
 const formatString = (string: string): string => {
   if (string.length > MAX_STRING_LENGTH) {

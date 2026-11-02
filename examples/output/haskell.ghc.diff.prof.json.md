@@ -952,7 +952,8 @@ Allocated 10.1 GiB → 11.1 GiB (+1.008 GiB, +10.0%) and recorded 18,616,855 
 | Category          | Change |      Delta |     % |                Size |                 Entries |
 | ----------------- | -----: | ---------: | ----: | ------------------: | ----------------------: |
 | Ours              | +10.0% | +1.005 GiB | 99.7% | 10.1 GiB → 11.1 GiB | 18,616,855 → 20,478,505 |
-| Native            | +10.0% | +2.871 MiB |  0.3% | 28.8 MiB → 31.7 MiB |                       0 |
+| Native            | +10.0% | +2.871 MiB |  0.3% | 28.8 MiB → 31.6 MiB |                       0 |
+| Standard library  |   0.0% |        0 B | <0.1% |              39 KiB |                       0 |
 | Garbage collector |   0.0% |        0 B | <0.1% |            1.07 KiB |                       0 |
 
 `…` stands for omitted frames.

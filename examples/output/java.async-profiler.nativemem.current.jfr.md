@@ -123,28 +123,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|      % |     Size | Samples | Function                                  | Location                  |
-| -----: | -------: | ------: | ----------------------------------------- | ------------------------- |
-| 100.0% |  162 MiB |     674 | `malloc_hook`                             | `libasyncProfiler.dylib`  |
-|  99.6% |  162 MiB |     642 | `os::malloc`                              | `libjvm.dylib`            |
-|  99.6% |  162 MiB |     622 | `Thread::call_run`                        | `libjvm.dylib`            |
-|  99.6% |  162 MiB |     622 | `thread_native_entry`                     | `libjvm.dylib`            |
-|  99.6% |  162 MiB |     622 | `_pthread_start`                          | `libsystem_pthread.dylib` |
-|  99.6% |  162 MiB |     622 | `thread_start`                            | `libsystem_pthread.dylib` |
-|  66.6% |  108 MiB |     124 | `AllocateHeap`                            | `libjvm.dylib`            |
-|  66.6% |  108 MiB |      95 | `VM_Operation::evaluate`                  | `libjvm.dylib`            |
-|  66.6% |  108 MiB |      95 | `VMThread::evaluate_operation`            | `libjvm.dylib`            |
-|  66.6% |  108 MiB |      95 | `VMThread::inner_execute`                 | `libjvm.dylib`            |
-|  66.6% |  108 MiB |      95 | `VMThread::run`                           | `libjvm.dylib`            |
-|  66.5% |  108 MiB |      74 | `G1FullGCMarker::G1FullGCMarker`          | `libjvm.dylib`            |
-|  66.5% |  108 MiB |      74 | `G1FullCollector::G1FullCollector`        | `libjvm.dylib`            |
-|  66.5% |  108 MiB |      74 | `G1CollectedHeap::do_full_collection`     | `libjvm.dylib`            |
-|  66.5% |  108 MiB |      74 | `VM_G1CollectFull::doit`                  | `libjvm.dylib`            |
-|  33.0% | 53.7 MiB |     513 | `Chunk::operator new`                     | `libjvm.dylib`            |
-|  33.0% | 53.6 MiB |     511 | `Arena::grow`                             | `libjvm.dylib`            |
-|  33.0% | 53.6 MiB |     515 | `JavaThread::thread_main_inner`           | `libjvm.dylib`            |
-|   1.7% | 2.72 MiB |      83 | `Arena::Arealloc`                         | `libjvm.dylib`            |
-|   0.3% |  517 KiB |      31 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`           |
+|      % |     Size | Samples | Function                                                           | Location                  |
+| -----: | -------: | ------: | ------------------------------------------------------------------ | ------------------------- |
+| 100.0% |  162 MiB |     674 | `malloc_hook`                                                      | `libasyncProfiler.dylib`  |
+|  99.6% |  162 MiB |     642 | `os::malloc`                                                       | `libjvm.dylib`            |
+|  99.6% |  162 MiB |     622 | `Thread::call_run`                                                 | `libjvm.dylib`            |
+|  99.6% |  162 MiB |     622 | `thread_native_entry`                                              | `libjvm.dylib`            |
+|  99.6% |  162 MiB |     622 | `_pthread_start`                                                   | `libsystem_pthread.dylib` |
+|  99.6% |  162 MiB |     622 | `thread_start`                                                     | `libsystem_pthread.dylib` |
+|  66.6% |  108 MiB |     124 | `AllocateHeap`                                                     | `libjvm.dylib`            |
+|  66.6% |  108 MiB |      95 | `VM_Operation::evaluate`                                           | `libjvm.dylib`            |
+|  66.6% |  108 MiB |      95 | `VMThread::evaluate_operation`                                     | `libjvm.dylib`            |
+|  66.6% |  108 MiB |      95 | `VMThread::inner_execute`                                          | `libjvm.dylib`            |
+|  66.6% |  108 MiB |      95 | `VMThread::run`                                                    | `libjvm.dylib`            |
+|  66.5% |  108 MiB |      74 | `VM_G1CollectFull::doit`                                           | `libjvm.dylib`            |
+|  33.0% | 53.7 MiB |     513 | `Chunk::operator new`                                              | `libjvm.dylib`            |
+|  33.0% | 53.6 MiB |     511 | `Arena::grow`                                                      | `libjvm.dylib`            |
+|  33.0% | 53.6 MiB |     515 | `JavaThread::thread_main_inner`                                    | `libjvm.dylib`            |
+|   1.7% | 2.72 MiB |      83 | `Arena::Arealloc`                                                  | `libjvm.dylib`            |
+|   0.3% |  517 KiB |      31 | `Java_java_lang_ClassLoader_defineClass1`                          | `libjava.dylib`           |
+|   0.3% |  448 KiB |      14 | `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` | `libjvm.dylib`            |
+|   0.3% |  448 KiB |      14 | `Parse::do_one_block`                                              | `libjvm.dylib`            |
+|   0.3% |  448 KiB |      14 | `Parse::do_all_blocks`                                             | `libjvm.dylib`            |
 
 #### Callers
 
@@ -294,6 +294,24 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | -----: | ------: | ------: | ------------------------------------------------------------------------------- | ----------------------- |
 | 100.0% | 517 KiB |      31 | `defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String)` | `java.lang.ClassLoader` |
 
+##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                               | Location       |
+| -----: | ------: | ------: | ------------------------------------ | -------------- |
+| 100.0% | 448 KiB |      14 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `Parse::do_one_block` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller                 | Location       |
+| -----: | ------: | ------: | ---------------------- | -------------- |
+| 100.0% | 448 KiB |      14 | `Parse::do_all_blocks` | `libjvm.dylib` |
+
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Caller         | Location       |
+| -----: | ------: | ------: | -------------- | -------------- |
+| 100.0% | 448 KiB |      14 | `Parse::Parse` | `libjvm.dylib` |
+
 #### Callees
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
@@ -430,6 +448,28 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | ----: | -------: | ------: | --------------------------- | ------------------------ |
 | 90.6% |  468 KiB |      25 | `malloc_hook`               | `libasyncProfiler.dylib` |
 |  9.4% | 48.5 KiB |       6 | `JVM_DefineClassWithSource` | `libjvm.dylib`           |
+
+##### `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee        | Location       |
+| -----: | ------: | ------: | ------------- | -------------- |
+| 100.0% | 448 KiB |      14 | `Arena::grow` | `libjvm.dylib` |
+
+##### `Parse::do_one_block` (`libjvm.dylib`)
+
+|     % |    Size | Samples | Callee                   | Location       |
+| ----: | ------: | ------: | ------------------------ | -------------- |
+| 85.7% | 384 KiB |      12 | `Parse::do_call`         | `libjvm.dylib` |
+| 14.3% |  64 KiB |       2 | `Parse::do_one_bytecode` | `libjvm.dylib` |
+| 14.3% |  64 KiB |       2 | `Parse::do_field_access` | `libjvm.dylib` |
+|  7.1% |  32 KiB |       1 | `Parse::do_if`           | `libjvm.dylib` |
+|  7.1% |  32 KiB |       1 | `Parse::array_store`     | `libjvm.dylib` |
+
+##### `Parse::do_all_blocks` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee                | Location       |
+| -----: | ------: | ------: | --------------------- | -------------- |
+| 100.0% | 448 KiB |      14 | `Parse::do_one_block` | `libjvm.dylib` |
 
 ## Hottest call stacks
 

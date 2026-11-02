@@ -88,6 +88,16 @@ describe(`categorizeEntry`, () => {
       expected: `native`,
     },
     {
+      description: `a method with no source file is unknown`,
+      entry: relativeEntry(`#defaultminimum##0`),
+      expected: `unknown`,
+    },
+    {
+      description: `a function the profiler could not resolve is native`,
+      entry: relativeEntry(`[unknown function]`),
+      expected: `native`,
+    },
+    {
       description: `project sources are ours`,
       entry: absoluteEntry(`f`, `file:///work/scripts/profile.jl`),
       expected: `ours`,

@@ -4,8 +4,8 @@ Allocated 114 MiB over 92,777 objects (1.25 KiB per object).
 
 | Category |      % |     Size | Objects |
 | -------- | -----: | -------: | ------: |
-| Native   | 100.0% |  114 MiB |  92,708 |
-| Ours     |  <0.1% | 5.99 KiB |      68 |
+| Native   | 100.0% |  114 MiB |  92,710 |
+| Ours     |  <0.1% | 5.73 KiB |      66 |
 | Unknown  |  <0.1% | 4.25 KiB |       1 |
 
 Paths starting with `./` or `../` are relative to `/src/`.
@@ -88,14 +88,15 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|      % |    Size | Objects | Function                       | Location    |
-| -----: | ------: | ------: | ------------------------------ | ----------- |
-| 100.0% | 114 MiB |  92,700 | `swift_slowAlloc`              | `<unknown>` |
-|  <0.1% |   4 KiB |       1 | `_IO_file_doallocate`          | `<unknown>` |
-|  <0.1% |    72 B |       1 | `fts_open`                     | `<unknown>` |
-|  <0.1% |    64 B |       4 | `swift_getWitnessTable`        | `<unknown>` |
-|  <0.1% |    16 B |       1 | `swift_getForeignTypeMetadata` | `<unknown>` |
-|  <0.1% |    16 B |       1 | `swift_allocBox`               | `<unknown>` |
+|      % |    Size | Objects | Function                        | Location     |
+| -----: | ------: | ------: | ------------------------------- | ------------ |
+| 100.0% | 114 MiB |  92,700 | `swift_slowAlloc`               | `<unknown>`  |
+|  <0.1% |   4 KiB |       1 | `_IO_file_doallocate`           | `<unknown>`  |
+|  <0.1% |   264 B |       2 | `ConformanceState::cacheResult` | `crtstuff.c` |
+|  <0.1% |    72 B |       1 | `fts_open`                      | `<unknown>`  |
+|  <0.1% |    64 B |       4 | `swift_getWitnessTable`         | `<unknown>`  |
+|  <0.1% |    16 B |       1 | `swift_getForeignTypeMetadata`  | `<unknown>`  |
+|  <0.1% |    16 B |       1 | `swift_allocBox`                | `<unknown>`  |
 
 #### Callers
 
@@ -227,28 +228,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|      % |     Size | Objects | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Location    |
-| -----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 100.0% |  114 MiB |  92,700 | `swift_slowAlloc`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | `<unknown>` |
-|  77.7% | 88.4 MiB |  74,973 | `__libc_start_main`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|  72.0% | 81.8 MiB |  71,337 | `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  11.5% | 13.1 MiB |   1,686 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-|   9.5% | 10.8 MiB |  77,098 | `swift_allocObject`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|   3.9% | 4.47 MiB |     948 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|   3.4% | 3.82 MiB |   4,590 | `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-|   3.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
-|   2.7% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
-|   1.9% | 2.16 MiB |     384 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|   1.8% | 2.09 MiB |     390 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC09remapping0C0Qz0A6Syntax03RawC4KindO_tFTW`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|   1.7% | 1.99 MiB |   1,626 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|   1.6% | 1.82 MiB |     198 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c126InitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAoA0ce8Modifiervw12VAoA0c5Tokenw21VAoUSgAoA0c7Genericmnw27VSgAoA0c17FunctionSignaturew9VAoA0cypnw18VSgAoA0c9CodeBlockw10VSgAoA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VAsYSgAsA0c22GenericParameterClauseB0VSgAsA0c17FunctionSignatureB0VAsA0c18GenericWhereClauseB0VSgAsA0c9CodeBlockB0VSgASTf1nnnncn_n` | `<unknown>` |
-|   1.5% | 1.71 MiB |     198 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c74StringLiteralExprB0V_13openingPounds_0G5Quote_8segments_07closingI0_0kH0_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx25VSgAlnlA0cde11SegmentListx12VAlnlolA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsusA0cuv11SegmentListB0VAsusvSTf1nnnncn_n`                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|   1.4% | 1.57 MiB |     276 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw10VAjljA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                           | `<unknown>` |
-|   0.8% |  960 KiB |      84 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-|   0.7% |  819 KiB |     150 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c44LabeledExprListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|   0.5% |  577 KiB |      42 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax013c44ReturnStmtB0V_13returnKeyword_10expression_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw11VAiA0c4Exprw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4ExprB0VSgASTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                                           | `<unknown>` |
-|   0.5% |  552 KiB |      78 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax011c36ExprListB0V8elements5arenaACSayAA0cdw9VG_AA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_SayAA0cuB0VGTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
-|   0.5% |  528 KiB |     108 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c50SwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx17VAjA0cde8ItemListx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n`                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
+|      % |     Size | Objects | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Location                   |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 100.0% |  114 MiB |  92,700 | `swift_slowAlloc`                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `<unknown>`                |
+|  77.7% | 88.4 MiB |  74,973 | `__libc_start_main`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>`                |
+|  72.0% | 81.8 MiB |  71,337 | `_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>`                |
+|  46.1% | 52.4 MiB |  77,600 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm`                                                                                                                                                                                                                                                                       | `Attributes.swift.o`       |
+|  31.1% | 35.3 MiB |  48,150 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm`                                                                                                                                                                                                                                                                                                             | `Attributes.swift.o`       |
+|  11.5% | 13.1 MiB |   1,686 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ`                                                                                                                                                                                                                                                                                                                            | `<unknown>`                |
+|   9.5% | 10.8 MiB |  77,098 | `swift_allocObject`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>`                |
+|   5.1% | 5.79 MiB |     295 | `$s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm`                                                                                                                                                                                                                                           | `_ThreadLocal.swift.o`     |
+|   5.1% | 5.79 MiB |     295 | `$s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n`                                                                                                                                                                                                                                                  | `crtstuff.c`               |
+|   4.6% | 5.24 MiB |   1,008 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw8VAjA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` | `AbsolutePosition.swift.o` |
+|   4.2% |  4.8 MiB |     984 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm`                                      | `AbsolutePosition.swift.o` |
+|   3.9% | 4.47 MiB |     948 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>`                |
+|   3.8% | 4.34 MiB |     726 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm`                                                                                                                                                                               | `AbsolutePosition.swift.o` |
+|   3.4% | 3.82 MiB |   4,590 | `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF`                                                                                                                                                                                                                                                                                                                                                            | `<unknown>`                |
+|   3.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`                                                       | `crtstuff.c`               |
+|   3.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n`                                                                      | `<unknown>`                |
+|   2.8% | 3.17 MiB |     570 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax023c51AvailabilityArgumentB0V_8argument_13trailingComma_5n22AcA0c15UnexpectedNodesw21VSg_AC0E0OAiA0c5Tokenw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvB0V0V0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm`                                                                      | `AbsolutePosition.swift.o` |
+|   2.7% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`                                                                                       | `crtstuff.c`               |
+|   2.7% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n`                                                                                                      | `<unknown>`                |
+|   2.7% | 3.05 MiB |     342 | `$s11SwiftParser0B0V19consumeMemberPeriod12previousNode0A6Syntax018RawUnexpectedNodesH0VSg10unexpected_AF0i5TokenH0V6periodSb04skipD4NametxSg_tAF0ihG8ProtocolRzlFAF0iH0V_Tg5Tm`                                                                                                                                                                                                                                                                                                            | `Attributes.swift.o`       |
 
 #### Callers
 
@@ -381,6 +382,12 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | 70.1% | 35.2 MiB |  48,102 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` | `Attributes.swift.o`                                                         |
 | 32.7% | 16.5 MiB |  33,966 | `$s11SwiftParser0B0V25parseExtensionDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF`                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:517` |
 
+##### `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` (`Attributes.swift.o`)
+
+|     % |     Size | Objects | Caller                                                                                | Location                                                                     |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 99.6% | 35.2 MiB |  48,018 | `$s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:248` |
+
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ` (`<unknown>`)
 
 |     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                   | Location                                                                                          |
@@ -401,6 +408,38 @@ Callers with the largest contribution to each function's total size. Inlining ca
 |  5.7% |  635 KiB |   1,164 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSw_Tg5`                                                        | `<unknown>`          |
 |  2.2% |  239 KiB |   2,958 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax027RawStringLiteralSegmentListQ0V7ElementO_Tg5Tm` | `Attributes.swift.o` |
 
+##### `$s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm` (`_ThreadLocal.swift.o`)
+
+|      % |     Size | Objects | Caller                                                                                                                                                                                                                                     | Location     |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| 100.0% | 5.79 MiB |     295 | `$s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n` | `crtstuff.c` |
+
+##### `$s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Caller                                                                                                        | Location     |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------- | ------------ |
+| 100.0% | 5.79 MiB |     295 | `$sSS20FoundationEssentialsE5bytes8encodingSSSgxh_SSAAE8EncodingVtcSTRzs5UInt8V7ElementRtzlufCAA4DataV_Tt1g5` | `crtstuff.c` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw8VAjA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Location     |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| 41.3% | 2.16 MiB |     384 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                      | `crtstuff.c` |
+| 30.0% | 1.57 MiB |     276 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw10VAjljA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                              | `crtstuff.c` |
+|  9.8% |  528 KiB |     108 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c50SwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx17VAjA0cde8ItemListx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                            | `crtstuff.c` |
+|  7.6% |  408 KiB |      84 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c70FunctionSignatureB0V_15parameterClause_16effectSpecifiers_06returnG0_5n22AcA0c15UnexpectedNodesw20VSg_AA0cd9Parametergw15VAjA0cd6Effectiw16VSgAjA0c6Returngw10VSgAjA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cu9ParameteryB0VAsA0cu16EffectSpecifiersB0VSgAsA0c6ReturnyB0VSgASTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
+|  4.5% |  240 KiB |      60 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax026c62FunctionParameterClauseB0V_9leftParen_10parameters_05rightH0_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx13VAjA0cde4Listx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv4ListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                        | `crtstuff.c` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                   | Location     |
+| ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 69.9% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`    | `crtstuff.c` |
+| 11.7% |  577 KiB |      42 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax013c44ReturnStmtB0V_13returnKeyword_10expression_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw11VAiA0c4Exprw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4ExprB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`                      | `crtstuff.c` |
+| 10.5% |  517 KiB |     156 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax017c49IdentifierTypeB0V_4name_21genericArgumentClause_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw16VAiA0c7Generichiw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c7Genericz6ClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` | `crtstuff.c` |
+|  4.9% |  240 KiB |      24 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax015c31DeclModifierB0V_4name_6detail_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw15VAiA0cde6Detailw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv6DetailB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`                           | `crtstuff.c` |
+|  2.4% |  120 KiB |      12 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax015c39IfConfigDeclB0V_7clauses_10poundEndif_5n22AcA0c15UnexpectedNodesx22VSg_AA0cde10ClauseListx12VAiA0c5Tokenx8VAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuv10ClauseListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnn_n`              | `crtstuff.c` |
+
 ##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
 
 |     % |     Size | Objects | Caller                                                              | Location                                                                  |
@@ -408,11 +447,27 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | 60.0% | 2.68 MiB |     552 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
 | 40.0% | 1.79 MiB |     396 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_TG5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
 
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm` (`AbsolutePosition.swift.o`)
+
+|     % |    Size | Objects | Caller                                                                                                                                                                                                                                                                                                 | Location    |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| 21.6% | 960 KiB |      84 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n`       | `<unknown>` |
+| 18.4% | 819 KiB |     150 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c44LabeledExprListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n`        | `<unknown>` |
+| 12.4% | 552 KiB |      78 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax011c36ExprListB0V8elements5arenaACSayAA0cdw9VG_AA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_SayAA0cuB0VGTf1nnnncn_n`                 | `<unknown>` |
+|  9.2% | 408 KiB |      42 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax023c50KeyPathComponentListB0V8elements5arenaACSayAA0cdefy9VG_AA0cB5r14ChtcfcySryAA0cY9VSgGXEfU_SayAA0cuvwB0VGTf1nnnncn_n` | `<unknown>` |
+|  8.6% | 384 KiB |      72 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c47CodeBlockItemListB0V8elements5arenaACSayAA0cdefy9VG_AA0cB5r14ChtcfcySryAA0cY9VSgGXEfU_SayAA0cuvwB0VGTf1nnnncn_n`    | `<unknown>` |
+
 ##### `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF` (`<unknown>`)
 
 |      % |     Size | Objects | Caller                                                                                                                       | Location                                                                    |
 | -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | 100.0% | 3.82 MiB |   4,590 | `$s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:756` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                                                 | Location    |
+| -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 100.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` | `<unknown>` |
 
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` (`<unknown>`)
 
@@ -420,78 +475,30 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | 100.0% | 3.35 MiB |     732 | `$s11SwiftSyntax020RawDeclReferenceExprB0V_8baseName_13argumentNames_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAiA0cdh9ArgumentsB0VSgAiA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesD.swift:452` |
 
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax023c51AvailabilityArgumentB0V_8argument_13trailingComma_5n22AcA0c15UnexpectedNodesw21VSg_AC0E0OAiA0c5Tokenw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvB0V0V0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|     % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                                            | Location     |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 97.0% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n`             | `crtstuff.c` |
+|  3.0% | 96.9 KiB |      24 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c48ConditionElementB0V_9condition_13trailingComma_5n22AcA0c15UnexpectedNodesw21VSg_AC0D0OAiA0c5Tokenw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvB0V0U0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` | `crtstuff.c` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                                                                 | Location    |
+| -----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 100.0% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n` | `<unknown>` |
+
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n` (`<unknown>`)
 
 |      % |     Size | Objects | Caller                                                                                                                              | Location                                                                                       |
 | -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | 100.0% | 3.07 MiB |     546 | `$s11SwiftSyntax016RawCodeBlockItemB0V_4item_9semicolon_5arenaAcA0c15UnexpectedNodesB0VSg_AC0F0OAiA0c5TokenB0VSgAiA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesC.swift:1829` |
 
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_n` (`<unknown>`)
+##### `$s11SwiftParser0B0V19consumeMemberPeriod12previousNode0A6Syntax018RawUnexpectedNodesH0VSg10unexpected_AF0i5TokenH0V6periodSb04skipD4NametxSg_tAF0ihG8ProtocolRzlFAF0iH0V_Tg5Tm` (`Attributes.swift.o`)
 
-|      % |     Size | Objects | Caller                                                                                                                                                                  | Location                                                                                           |
-| -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| 100.0% | 2.16 MiB |     384 | `$s11SwiftSyntax019RawMemberAccessExprB0V_4base_6period_8declName_5arenaAcA0c15UnexpectedNodesB0VSg_AA0cfB0VSgAjA0c5TokenB0VAjA0c13DeclReferencefB0VAjA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift:1827` |
-
-##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC09remapping0C0Qz0A6Syntax03RawC4KindO_tFTW` (`<unknown>`)
-
-|     % |     Size | Objects | Caller                                                              | Location                                                                  |
-| ----: | -------: | ------: | ------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| 50.7% | 1.06 MiB |     264 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_TG5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
-| 49.3% | 1.03 MiB |     126 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
-
-##### `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA` (`<unknown>`)
-
-|     % |     Size | Objects | Caller                                                                                                                                                                                                       | Location             |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- |
-| 99.9% | 1.98 MiB |   1,602 | `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm` | `Attributes.swift.o` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c126InitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAoA0ce8Modifiervw12VAoA0c5Tokenw21VAoUSgAoA0c7Genericmnw27VSgAoA0c17FunctionSignaturew9VAoA0cypnw18VSgAoA0c9CodeBlockw10VSgAoA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VAsYSgAsA0c22GenericParameterClauseB0VSgAsA0c17FunctionSignatureB0VAsA0c18GenericWhereClauseB0VSgAsA0c9CodeBlockB0VSgASTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Caller                                                                                                                                                                                                                                                                                                                                               | Location                                                                                         |
-| -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.82 MiB |     198 | `$s11SwiftSyntax018RawInitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VAoA0ce8ModifiervB0VAoA0c5TokenB0VAoUSgAoA0c7GenericmnB0VSgAoA0c17FunctionSignatureB0VAoA0cypnB0VSgAoA0c9CodeBlockB0VSgAoA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesGHI.swift:2233` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c74StringLiteralExprB0V_13openingPounds_0G5Quote_8segments_07closingI0_0kH0_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx25VSgAlnlA0cde11SegmentListx12VAlnlolA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsusA0cuv11SegmentListB0VAsusvSTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Caller                                                                                                                                                                                           | Location                                                                                         |
-| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| 100.0% | 1.71 MiB |     198 | `$s11SwiftSyntax020RawStringLiteralExprB0V_13openingPounds_0G5Quote_8segments_07closingI0_0kH0_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAlnlA0cde11SegmentListB0VAlnlolA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift:1261` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw10VAjljA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Caller                                                                                                                                                       | Location                                                                                       |
-| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 1.57 MiB |     276 | `$s11SwiftSyntax012RawCodeBlockB0V_9leftBrace_10statements_05rightG0_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAjA0cde8ItemListB0VAjljA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesC.swift:1899` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Caller                                                                                     | Location                                                                                       |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 960 KiB |      84 | `$s11SwiftSyntax019RawAccessorDeclListB0V8elements5arenaACSayAA0cdeB0VG_AA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesAB.swift:371` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c44LabeledExprListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Caller                                                                                    | Location                                                                                          |
-| -----: | ------: | ------: | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 100.0% | 819 KiB |     150 | `$s11SwiftSyntax018RawLabeledExprListB0V8elements5arenaACSayAA0cdeB0VG_AA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift:592` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax013c44ReturnStmtB0V_13returnKeyword_10expression_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw11VAiA0c4Exprw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4ExprB0VSgASTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Caller                                                                                                                                             | Location                                                                                        |
-| -----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| 100.0% | 577 KiB |      42 | `$s11SwiftSyntax013RawReturnStmtB0V_13returnKeyword_10expression_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAiA0c4ExprB0VSgAiA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift:318` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax011c36ExprListB0V8elements5arenaACSayAA0cdw9VG_AA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_SayAA0cuB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Caller                                                                            | Location                                                                                       |
-| -----: | ------: | ------: | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 552 KiB |      78 | `$s11SwiftSyntax011RawExprListB0V8elements5arenaACSayAA0cdB0VG_AA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift:880` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c50SwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx17VAjA0cde8ItemListx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Caller                                                                                                                                                         | Location                                                                                         |
-| -----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 100.0% | 528 KiB |     108 | `$s11SwiftSyntax018RawSwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAjA0cde8ItemListB0VAjljA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift:2171` |
+|      % |     Size | Objects | Caller                                                                                                                                                                                                                                                      | Location                                                                    |
+| -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 100.0% | 3.05 MiB |     342 | `$s11SwiftParser0B0V27parseDottedExpressionSuffix12previousNode0A6Syntax018RawUnexpectedNodesI0VSg16unexpectedPeriod_AF0j5TokenI0V6periodAF0j17DeclReferenceExprI0V8declNameAF0j21GenericArgumentClauseI0VSg8genericstxSg_tAF0jiH8ProtocolRzlFAF0jsI0V_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:642` |
 
 #### Callees
 
@@ -631,6 +638,14 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | 99.9% | 50.2 MiB |  75,378 | `$s11SwiftParser0B0V19parseMemberDeclList0A6Syntax03Rawd9BlockItemfG0VyF`                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:954`                       |
 |  0.1% |   48 KiB |      12 | `$s11SwiftSyntax014RawMemberBlockB0V_9leftBrace_7members_05rightG0_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VAjA0cde8ItemListB0VAjljA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift:2100` |
 
+##### `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` (`Attributes.swift.o`)
+
+|     % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                       | Location                                                                                         |
+| ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 99.8% | 35.2 MiB |  48,102 | `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF`                                                                                                                                                                                                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:983`                     |
+|  0.3% |   96 KiB |      18 | `$s11SwiftSyntax013RawStructDeclB0V_10attributes_9modifiers_13structKeyword_4name_22genericParameterClause_011inheritanceM0_0k5WhereM0_11memberBlock_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VAoA0ce8ModifiervB0VAoA0c5TokenB0VAouoA0c7GenericlmB0VSgAoA0c11InheritancemB0VSgAoA0cyomB0VSgAoA0c6MemberqB0VAoA0cB5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesQRS.swift:1509` |
+|  0.1% | 25.7 KiB |      48 | `$s11SwiftParser0B0V16parseInheritance0A6Syntax03Rawd6ClauseE0VyF`                                                                                                                                                                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Nominals.swift:278`                         |
+
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ` (`<unknown>`)
 
 |      % |     Size | Objects | Callee                                                                                                                                                                      | Location                                                                      |
@@ -643,6 +658,30 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | -------: | ------: | ----------------- | ----------- |
 | 100.0% | 10.8 MiB |  77,098 | `swift_slowAlloc` | `<unknown>` |
 
+##### `$s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm` (`_ThreadLocal.swift.o`)
+
+|      % |     Size | Objects | Callee                                                                                                                                                                                 | Location     |
+| -----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 100.0% | 5.79 MiB |     295 | `$sSW17withMemoryRebound2to_q0_xm_q0_SRyxGq_YKXEtq_YKs5ErrorR_Ri_zRi_0_r1_lFs5UInt8V_sAD_pSSSgTt1g507$sSRys5f5VGxs5E36_pIgyrzo_ACxsAD_pIegyrzr_lTRSSSg_TG5SRyAFGAGsAD_pIgyrzo_Tf1cn_n` | `crtstuff.c` |
+
+##### `$s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Callee                                                                                                                                                                                                                                            | Location               |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| 100.0% | 5.79 MiB |     295 | `$s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm` | `_ThreadLocal.swift.o` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw8VAjA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|      % |     Size | Objects | Callee                                                                     | Location                                                                        |
+| -----: | -------: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 5.24 MiB |   1,008 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|      % |    Size | Objects | Callee                                                                     | Location                                                                        |
+| -----: | ------: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 4.8 MiB |     984 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99` |
+
 ##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
 
 |     % |     Size | Objects | Callee                                                                                                                                                                                    | Location                                                                      |
@@ -650,11 +689,23 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | 60.1% | 2.69 MiB |     600 | `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingcB5ArenaChtFZTf4nnnnnnd_n` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:572` |
 | 39.9% | 1.78 MiB |     348 | `$s11SwiftParser0B0V15consumeAnyToken0A6Syntax03RaweF0VyF`                                                                                                                                | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:377`        |
 
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm` (`AbsolutePosition.swift.o`)
+
+|      % |     Size | Objects | Callee                                                                     | Location                                                                        |
+| -----: | -------: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 4.34 MiB |     726 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99` |
+
 ##### `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF` (`<unknown>`)
 
 |      % |     Size | Objects | Callee                                                                                                                                  | Location                                                                     |
 | -----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | 100.0% | 3.82 MiB |   4,590 | `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tFTf4dn_n` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:2045` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Location                   |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| 100.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` | `AbsolutePosition.swift.o` |
 
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_n` (`<unknown>`)
 
@@ -662,77 +713,29 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 100.0% | 3.35 MiB |     732 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c48DeclReferenceExprB0V_8baseName_13argumentNames_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx18VAiA0cdh9Argumentsx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuz9ArgumentsB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` | `crtstuff.c` |
 
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax023c51AvailabilityArgumentB0V_8argument_13trailingComma_5n22AcA0c15UnexpectedNodesw21VSg_AC0E0OAiA0c5Tokenw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvB0V0V0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|      % |     Size | Objects | Callee                                                                     | Location                                                                        |
+| -----: | -------: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 3.17 MiB |     570 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99` |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` (`crtstuff.c`)
+
+|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                 | Location                   |
+| -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 100.0% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax023c51AvailabilityArgumentB0V_8argument_13trailingComma_5n22AcA0c15UnexpectedNodesw21VSg_AC0E0OAiA0c5Tokenw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvB0V0V0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` | `AbsolutePosition.swift.o` |
+
 ##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n` (`<unknown>`)
 
 |      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                | Location     |
 | -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | 100.0% | 3.07 MiB |     546 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` | `crtstuff.c` |
 
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_n` (`<unknown>`)
+##### `$s11SwiftParser0B0V19consumeMemberPeriod12previousNode0A6Syntax018RawUnexpectedNodesH0VSg10unexpected_AF0i5TokenH0V6periodSb04skipD4NametxSg_tAF0ihG8ProtocolRzlFAF0iH0V_Tg5Tm` (`Attributes.swift.o`)
 
-|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Location     |
-| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 2.16 MiB |     384 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx8VAjA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
-
-##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC09remapping0C0Qz0A6Syntax03RawC4KindO_tFTW` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                                                                           | Location                                                               |
-| -----: | -------: | ------: | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 100.0% | 2.09 MiB |     390 | `$s11SwiftParser0B0V15consumeAnyToken9remapping0A6Syntax03RaweG0VAF0hE4KindO_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:452` |
-
-##### `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                                                                                                                                                    | Location                                                                 |
-| -----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 100.0% | 1.99 MiB |   1,626 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:227` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c126InitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAoA0ce8Modifiervw12VAoA0c5Tokenw21VAoUSgAoA0c7Genericmnw27VSgAoA0c17FunctionSignaturew9VAoA0cypnw18VSgAoA0c9CodeBlockw10VSgAoA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VAsYSgAsA0c22GenericParameterClauseB0VSgAsA0c17FunctionSignatureB0VAsA0c18GenericWhereClauseB0VSgAsA0c9CodeBlockB0VSgASTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Location     |
-| -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 1.82 MiB |     198 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c126InitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAoA0ce8Modifiervw12VAoA0c5Tokenw21VAoUSgAoA0c7Genericmnw27VSgAoA0c17FunctionSignaturew9VAoA0cypnw18VSgAoA0c9CodeBlockw10VSgAoA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VAsYSgAsA0c22GenericParameterClauseB0VSgAsA0c17FunctionSignatureB0VAsA0c18GenericWhereClauseB0VSgAsA0c9CodeBlockB0VSgASTf1nnnncn_nTf4nnnndnnnnnnnnnnnnnnnnn_n` | `crtstuff.c` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c74StringLiteralExprB0V_13openingPounds_0G5Quote_8segments_07closingI0_0kH0_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx25VSgAlnlA0cde11SegmentListx12VAlnlolA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsusA0cuv11SegmentListB0VAsusvSTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Location     |
-| -----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 1.71 MiB |     198 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c74StringLiteralExprB0V_13openingPounds_0G5Quote_8segments_07closingI0_0kH0_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx25VSgAlnlA0cde11SegmentListx12VAlnlolA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsusA0cuv11SegmentListB0VAsusvSTf1nnnncn_nTf4nnnndnnnnnnnnnnn_n` | `crtstuff.c` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw10VAjljA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                | Location     |
-| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 1.57 MiB |     276 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw10VAjljA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Callee                                                                                                                                                                                                                                                                                                        | Location                   |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| 100.0% | 960 KiB |      84 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm` | `AbsolutePosition.swift.o` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c44LabeledExprListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Callee                                                                                                                                                                                                                                                                                                        | Location                   |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| 100.0% | 819 KiB |     150 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm` | `AbsolutePosition.swift.o` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax013c44ReturnStmtB0V_13returnKeyword_10expression_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw11VAiA0c4Exprw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4ExprB0VSgASTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                              | Location     |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 577 KiB |      42 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax013c44ReturnStmtB0V_13returnKeyword_10expression_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw11VAiA0c4Exprw10VSgAiA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4ExprB0VSgASTf1nnnncn_nTf4nnnndnnnnn_n` | `crtstuff.c` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax011c36ExprListB0V8elements5arenaACSayAA0cdw9VG_AA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_SayAA0cuB0VGTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Callee                                                                                                                                                                                                                                                                                                        | Location                   |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| 100.0% | 552 KiB |      78 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45AccessorDeclListB0V8elements5arenaACSayAA0cdex9VG_AA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_SayAA0cuvB0VGTf1nnnncn_nTf4nnnndg_nTm` | `AbsolutePosition.swift.o` |
-
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c50SwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx17VAjA0cde8ItemListx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_n` (`<unknown>`)
-
-|      % |    Size | Objects | Callee                                                                                                                                                                                                                                                                                                                                                                                                                                  | Location     |
-| -----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 528 KiB |     108 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax018c50SwitchCaseLabelB0V_11caseKeyword_0G5Items_5colon_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx17VAjA0cde8ItemListx10VAjljA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
+|      % |     Size | Objects | Callee                                                                                                                                                                                    | Location                                                                      |
+| -----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 100.0% | 3.05 MiB |     342 | `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingcB5ArenaChtFZTf4nnnnnnd_n` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:572` |
 
 ## Hottest call stacks
 
@@ -767,9 +770,9 @@ Retained 5.82 MiB over 357 objects (16.7 KiB per object).
 
 | Category |     % |     Size | Objects |
 | -------- | ----: | -------: | ------: |
-| Native   | 99.9% | 5.81 MiB |     315 |
+| Native   | 99.9% | 5.81 MiB |     316 |
 | Unknown  |  0.1% | 4.25 KiB |       1 |
-| Ours     |  0.1% | 3.03 KiB |      41 |
+| Ours     | <0.1% | 2.79 KiB |      40 |
 
 Paths starting with `./` or `../` are relative to `/src/`.
 
@@ -835,14 +838,15 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|     % |    Size | Objects | Function                       | Location    |
-| ----: | ------: | ------: | ------------------------------ | ----------- |
-| 99.8% | 5.8 MiB |     307 | `swift_slowAlloc`              | `<unknown>` |
-|  0.1% |   4 KiB |       1 | `_IO_file_doallocate`          | `<unknown>` |
-| <0.1% |    72 B |       1 | `fts_open`                     | `<unknown>` |
-| <0.1% |    64 B |       4 | `swift_getWitnessTable`        | `<unknown>` |
-| <0.1% |    16 B |       1 | `swift_getForeignTypeMetadata` | `<unknown>` |
-| <0.1% |    16 B |       1 | `swift_allocBox`               | `<unknown>` |
+|     % |    Size | Objects | Function                        | Location     |
+| ----: | ------: | ------: | ------------------------------- | ------------ |
+| 99.8% | 5.8 MiB |     307 | `swift_slowAlloc`               | `<unknown>`  |
+|  0.1% |   4 KiB |       1 | `_IO_file_doallocate`           | `<unknown>`  |
+| <0.1% |   248 B |       1 | `ConformanceState::cacheResult` | `crtstuff.c` |
+| <0.1% |    72 B |       1 | `fts_open`                      | `<unknown>`  |
+| <0.1% |    64 B |       4 | `swift_getWitnessTable`         | `<unknown>`  |
+| <0.1% |    16 B |       1 | `swift_getForeignTypeMetadata`  | `<unknown>`  |
+| <0.1% |    16 B |       1 | `swift_allocBox`                | `<unknown>`  |
 
 #### Callers
 
@@ -972,28 +976,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|      % |     Size | Objects | Function                                                                                         | Location    |
-| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
-| 100.0% | 5.81 MiB |     310 | `__libc_start_main`                                                                              | `<unknown>` |
-| 100.0% | 5.81 MiB |     310 | `_start`                                                                                         | `<unknown>` |
-|  99.8% |  5.8 MiB |     307 | `swift_slowAlloc`                                                                                | `<unknown>` |
-|  99.8% |  5.8 MiB |     306 | `swift_allocObject`                                                                              | `<unknown>` |
-|   0.1% | 5.22 KiB |       7 | `$s20FoundationEssentials11FileManagerC0A0E10enumerator6atPathAcDE19DirectoryEnumeratorCSgSS_tF` | `<unknown>` |
-|   0.1% | 4.32 KiB |       2 | `fts_open`                                                                                       | `<unknown>` |
-|   0.1% |    4 KiB |       1 | `_IO_file_doallocate`                                                                            | `<unknown>` |
-|   0.1% |    4 KiB |       1 | `_IO_doallocbuf`                                                                                 | `<unknown>` |
-|   0.1% |    4 KiB |       1 | `_IO_file_overflow`                                                                              | `<unknown>` |
-|   0.1% |    4 KiB |       1 | `_IO_file_xsputn`                                                                                | `<unknown>` |
-|   0.1% |    4 KiB |       1 | `fwrite`                                                                                         | `<unknown>` |
-|  <0.1% |    640 B |      10 | `swift_getCanonicalPrespecializedGenericMetadata`                                                | `<unknown>` |
-|  <0.1% |    480 B |       1 | `CFStringFileSystemEncoding`                                                                     | `<unknown>` |
-|  <0.1% |    480 B |       1 | `CFStringGetFileSystemRepresentation`                                                            | `<unknown>` |
-|  <0.1% |    376 B |       5 | `swift_getTypeByMangledNode`                                                                     | `<unknown>` |
-|  <0.1% |    376 B |       5 | `swift_getTypeByMangledName`                                                                     | `<unknown>` |
-|  <0.1% |    312 B |       3 | `swift_conformsToProtocolCommon`                                                                 | `<unknown>` |
-|  <0.1% |    312 B |       3 | `__swift_instantiateConcreteTypeFromMangledName`                                                 | `<unknown>` |
-|  <0.1% |    300 B |       2 | `$s20FoundationEssentials13URLComponentsV3urlAA3URLVSgvg`                                        | `<unknown>` |
-|  <0.1% |    300 B |       2 | `$s20FoundationEssentials3URLV8filePath13directoryHint10relativeToACSS_AC09DirectoryG0OACSgtcfC` | `<unknown>` |
+|      % |     Size | Objects | Function                                                                                                                                                                                                                                          | Location               |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| 100.0% | 5.81 MiB |     310 | `__libc_start_main`                                                                                                                                                                                                                               | `<unknown>`            |
+| 100.0% | 5.81 MiB |     310 | `_start`                                                                                                                                                                                                                                          | `<unknown>`            |
+|  99.8% |  5.8 MiB |     307 | `swift_slowAlloc`                                                                                                                                                                                                                                 | `<unknown>`            |
+|  99.8% |  5.8 MiB |     306 | `swift_allocObject`                                                                                                                                                                                                                               | `<unknown>`            |
+|  99.6% | 5.79 MiB |     295 | `$s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm` | `_ThreadLocal.swift.o` |
+|  99.6% | 5.79 MiB |     295 | `$s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n`        | `crtstuff.c`           |
+|   0.1% | 5.22 KiB |       7 | `$s20FoundationEssentials11FileManagerC0A0E10enumerator6atPathAcDE19DirectoryEnumeratorCSgSS_tF`                                                                                                                                                  | `<unknown>`            |
+|   0.1% | 4.79 KiB |       3 | `$s20FoundationEssentials11FileManagerC0A0E24NSURLDirectoryEnumeratorC3url7options12errorHandlerAfA3URLV_AC27DirectoryEnumerationOptionsVSbAK_s5Error_ptcSgtcfc`                                                                                  | `crtstuff.c`           |
+|   0.1% | 4.32 KiB |       2 | `fts_open`                                                                                                                                                                                                                                        | `<unknown>`            |
+|   0.1% |    4 KiB |       1 | `_IO_file_doallocate`                                                                                                                                                                                                                             | `<unknown>`            |
+|   0.1% |    4 KiB |       1 | `_IO_doallocbuf`                                                                                                                                                                                                                                  | `<unknown>`            |
+|   0.1% |    4 KiB |       1 | `_IO_file_overflow`                                                                                                                                                                                                                               | `<unknown>`            |
+|   0.1% |    4 KiB |       1 | `_IO_file_xsputn`                                                                                                                                                                                                                                 | `<unknown>`            |
+|   0.1% |    4 KiB |       1 | `fwrite`                                                                                                                                                                                                                                          | `<unknown>`            |
+|  <0.1% | 1.67 KiB |      31 | `swift::threading_impl::once_slow`                                                                                                                                                                                                                | `crtstuff.c`           |
+|  <0.1% | 1.46 KiB |      14 | `__swift_instantiateCanonicalPrespecializedGenericMetadata`                                                                                                                                                                                       | `crtstuff.c`           |
+|  <0.1% |    640 B |      10 | `swift_getCanonicalPrespecializedGenericMetadata`                                                                                                                                                                                                 | `<unknown>`            |
+|  <0.1% |    576 B |      18 | `__swift_instantiateGenericMetadata`                                                                                                                                                                                                              | `crtstuff.c`           |
+|  <0.1% |    480 B |       1 | `CFStringEncodingGetConverter`                                                                                                                                                                                                                    | `crtstuff.c`           |
+|  <0.1% |    480 B |       1 | `CFStringFileSystemEncoding`                                                                                                                                                                                                                      | `<unknown>`            |
 
 #### Callers
 
@@ -1128,6 +1132,12 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | -----: | -------: | ------: | -------------- | -------------------------------- |
 | 100.0% | 5.22 KiB |       7 | `profile_main` | `./Sources/profile/main.swift:1` |
 
+##### `$s20FoundationEssentials11FileManagerC0A0E24NSURLDirectoryEnumeratorC3url7options12errorHandlerAfA3URLV_AC27DirectoryEnumerationOptionsVSbAK_s5Error_ptcSgtcfc` (`crtstuff.c`)
+
+|      % |     Size | Objects | Caller                                                                                           | Location    |
+| -----: | -------: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
+| 100.0% | 4.79 KiB |       3 | `$s20FoundationEssentials11FileManagerC0A0E10enumerator6atPathAcDE19DirectoryEnumeratorCSgSS_tF` | `<unknown>` |
+
 ##### `fts_open` (`<unknown>`)
 
 |      % |     Size | Objects | Caller                                                                                                                                                           | Location     |
@@ -1164,60 +1174,33 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | ------------------------------------------------------------------------------------------- | ------------ |
 | 100.0% | 4 KiB |       1 | `$sSS8withUTF8yxxSRys5UInt8VGKXEKlFSi_Tg5030$ss7_StdoutV5writeyySSFSiSRys5C7VGXEfU_Tf1cn_n` | `crtstuff.c` |
 
+##### `swift::threading_impl::once_slow` (`crtstuff.c`)
+
+|     % |  Size | Objects | Caller                                                | Location       |
+| ----: | ----: | ------: | ----------------------------------------------------- | -------------- |
+| 44.9% | 768 B |      16 | `getCache`                                            | `Metadata.cpp` |
+| 37.4% | 640 B |      10 | `swift_getCanonicalPrespecializedGenericMetadata`     | `<unknown>`    |
+| 12.1% | 208 B |       3 | `$ss11CommandLineO9argumentsSaySSGvgZ`                | `<unknown>`    |
+| 11.2% | 192 B |       4 | `swift_getWitnessTable`                               | `<unknown>`    |
+|  8.4% | 144 B |       3 | `$s20FoundationEssentials11FileManagerC7defaultACvgZ` | `<unknown>`    |
+
 ##### `swift_getCanonicalPrespecializedGenericMetadata` (`<unknown>`)
 
 |      % |  Size | Objects | Caller                                                      | Location     |
 | -----: | ----: | ------: | ----------------------------------------------------------- | ------------ |
 | 100.0% | 640 B |      10 | `__swift_instantiateCanonicalPrespecializedGenericMetadata` | `crtstuff.c` |
 
+##### `CFStringEncodingGetConverter` (`crtstuff.c`)
+
+|      % |  Size | Objects | Caller                       | Location    |
+| -----: | ----: | ------: | ---------------------------- | ----------- |
+| 100.0% | 480 B |       1 | `CFStringFileSystemEncoding` | `<unknown>` |
+
 ##### `CFStringFileSystemEncoding` (`<unknown>`)
 
 |      % |  Size | Objects | Caller                                | Location    |
 | -----: | ----: | ------: | ------------------------------------- | ----------- |
 | 100.0% | 480 B |       1 | `CFStringGetFileSystemRepresentation` | `<unknown>` |
-
-##### `CFStringGetFileSystemRepresentation` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                                                                                                    | Location     |
-| -----: | ----: | ------: | --------------------------------------------------------------------------------------------------------- | ------------ |
-| 100.0% | 480 B |       1 | `$s20FoundationEssentials11FileManagerC0A0E26__fileSystemRepresentation8withPathSPys4Int8VGSS_tKFTf4nd_n` | `crtstuff.c` |
-
-##### `swift_getTypeByMangledNode` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                       | Location    |
-| -----: | ----: | ------: | ---------------------------- | ----------- |
-| 100.0% | 376 B |       5 | `swift_getTypeByMangledName` | `<unknown>` |
-
-##### `swift_getTypeByMangledName` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                                    | Location             |
-| -----: | ----: | ------: | ----------------------------------------- | -------------------- |
-| 100.0% | 376 B |       5 | `swift_getTypeByMangledNameInContextImpl` | `MetadataLookup.cpp` |
-
-##### `swift_conformsToProtocolCommon` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                       | Location     |
-| -----: | ----: | ------: | ---------------------------- | ------------ |
-| 100.0% | 312 B |       3 | `swift::_conformsToProtocol` | `crtstuff.c` |
-
-##### `__swift_instantiateConcreteTypeFromMangledName` (`<unknown>`)
-
-|     % |  Size | Objects | Caller                                                                                                                                                                                                                                               | Location    |
-| ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 79.5% | 248 B |       1 | `$ss17_NativeDictionaryV20_copyOrMoveAndResize8capacity12moveElementsySi_SbtF11SwiftSyntax0L4KindO_SiTg5`                                                                                                                                            | `<unknown>` |
-| 20.5% |  64 B |       2 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftParser18EitherTokenSpecSetOyAH22PureDeclarationKeywordO0P6Syntax019ValueBindingPatternY0VAHE23BindingSpecifierOptionsOG_Tg5` | `<unknown>` |
-
-##### `$s20FoundationEssentials13URLComponentsV3urlAA3URLVSgvg` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                                                                                           | Location    |
-| -----: | ----: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
-| 100.0% | 300 B |       2 | `$s20FoundationEssentials3URLV8filePath13directoryHint10relativeToACSS_AC09DirectoryG0OACSgtcfC` | `<unknown>` |
-
-##### `$s20FoundationEssentials3URLV8filePath13directoryHint10relativeToACSS_AC09DirectoryG0OACSgtcfC` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                                                                                           | Location    |
-| -----: | ----: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
-| 100.0% | 300 B |       2 | `$s20FoundationEssentials11FileManagerC0A0E10enumerator6atPathAcDE19DirectoryEnumeratorCSgSS_tF` | `<unknown>` |
 
 #### Callees
 
@@ -1349,6 +1332,13 @@ Callees with the largest contribution to each function's total size. Inlining ca
 |  5.6% |    300 B |       2 | `$s20FoundationEssentials3URLV8filePath13directoryHint10relativeToACSS_AC09DirectoryG0OACSgtcfC`                                                                 | `<unknown>`  |
 |  2.6% |    137 B |       2 | `swift_allocObject`                                                                                                                                              | `<unknown>`  |
 
+##### `$s20FoundationEssentials11FileManagerC0A0E24NSURLDirectoryEnumeratorC3url7options12errorHandlerAfA3URLV_AC27DirectoryEnumerationOptionsVSbAK_s5Error_ptcSgtcfc` (`crtstuff.c`)
+
+|     % |     Size | Objects | Callee                                                                                                    | Location     |
+| ----: | -------: | ------: | --------------------------------------------------------------------------------------------------------- | ------------ |
+| 90.2% | 4.32 KiB |       2 | `fts_open`                                                                                                | `<unknown>`  |
+|  9.8% |    480 B |       1 | `$s20FoundationEssentials11FileManagerC0A0E26__fileSystemRepresentation8withPathSPys4Int8VGSS_tKFTf4nd_n` | `crtstuff.c` |
+
 ##### `fts_open` (`<unknown>`)
 
 |     % |     Size | Objects | Callee        | Location    |
@@ -1379,60 +1369,46 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | ----------------- | ----------- |
 | 100.0% | 4 KiB |       1 | `_IO_file_xsputn` | `<unknown>` |
 
+##### `swift::threading_impl::once_slow` (`crtstuff.c`)
+
+|     % |  Size | Objects | Callee                                                                                    | Location       |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------- | -------------- |
+| 44.9% | 768 B |      16 | `swift::Lazy::getWithInit()::Data::init`                                                  | `Metadata.cpp` |
+| 37.4% | 640 B |      10 | `cacheCanonicalSpecializedMetadata()::$_0::__invoke`                                      | `Metadata.cpp` |
+| 14.0% | 240 B |       5 | `swift::Lazy::defaultInitCallback`                                                        | `Metadata.cpp` |
+| 12.1% | 208 B |       3 | `$ss11CommandLineO10_arguments_WZ`                                                        | `Swift.o`      |
+|  8.4% | 144 B |       3 | `$s20FoundationEssentials11FileManagerC8_default33_4B6A618D85B5F48D5161F10C5C6F1651LL_WZ` | `crtstuff.c`   |
+
+##### `__swift_instantiateCanonicalPrespecializedGenericMetadata` (`crtstuff.c`)
+
+|     % |  Size | Objects | Callee                                            | Location       |
+| ----: | ----: | ------: | ------------------------------------------------- | -------------- |
+| 57.2% | 856 B |       4 | `_swift_getGenericMetadata`                       | `Metadata.cpp` |
+| 42.8% | 640 B |      10 | `swift_getCanonicalPrespecializedGenericMetadata` | `<unknown>`    |
+
 ##### `swift_getCanonicalPrespecializedGenericMetadata` (`<unknown>`)
 
 |      % |  Size | Objects | Callee                             | Location     |
 | -----: | ----: | ------: | ---------------------------------- | ------------ |
 | 100.0% | 640 B |      10 | `swift::threading_impl::once_slow` | `crtstuff.c` |
 
+##### `__swift_instantiateGenericMetadata` (`crtstuff.c`)
+
+|      % |  Size | Objects | Callee                      | Location       |
+| -----: | ----: | ------: | --------------------------- | -------------- |
+| 100.0% | 576 B |      18 | `_swift_getGenericMetadata` | `Metadata.cpp` |
+
+##### `CFStringEncodingGetConverter` (`crtstuff.c`)
+
+|      % |  Size | Objects | Callee             | Location                      |
+| -----: | ----: | ------: | ------------------ | ----------------------------- |
+| 100.0% | 480 B |       1 | `__CFGetConverter` | `CFStringEncodingConverter.c` |
+
 ##### `CFStringFileSystemEncoding` (`<unknown>`)
 
 |      % |  Size | Objects | Callee                         | Location     |
 | -----: | ----: | ------: | ------------------------------ | ------------ |
 | 100.0% | 480 B |       1 | `CFStringEncodingGetConverter` | `crtstuff.c` |
-
-##### `CFStringGetFileSystemRepresentation` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                       | Location    |
-| -----: | ----: | ------: | ---------------------------- | ----------- |
-| 100.0% | 480 B |       1 | `CFStringFileSystemEncoding` | `<unknown>` |
-
-##### `swift_getTypeByMangledNode` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                                                       | Location             |
-| -----: | ----: | ------: | ------------------------------------------------------------ | -------------------- |
-| 100.0% | 376 B |       5 | `swift::Demangle::__runtime::TypeDecoder::decodeMangledType` | `MetadataLookup.cpp` |
-
-##### `swift_getTypeByMangledName` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                       | Location    |
-| -----: | ----: | ------: | ---------------------------- | ----------- |
-| 100.0% | 376 B |       5 | `swift_getTypeByMangledNode` | `<unknown>` |
-
-##### `swift_conformsToProtocolCommon` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                                                 | Location                  |
-| -----: | ----: | ------: | ------------------------------------------------------ | ------------------------- |
-| 100.0% | 312 B |       3 | `swift_conformsToProtocolMaybeInstantiateSuperclasses` | `ProtocolConformance.cpp` |
-
-##### `__swift_instantiateConcreteTypeFromMangledName` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                                    | Location             |
-| -----: | ----: | ------: | ----------------------------------------- | -------------------- |
-| 100.0% | 312 B |       3 | `swift_getTypeByMangledNameInContextImpl` | `MetadataLookup.cpp` |
-
-##### `$s20FoundationEssentials13URLComponentsV3urlAA3URLVSgvg` (`<unknown>`)
-
-|     % |  Size | Objects | Callee                                                                                                                                                              | Location     |
-| ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 73.3% | 220 B |       1 | `$s20FoundationEssentials13RFC3986ParserV5parse9urlString25encodingInvalidCharacters13compatibilityAA12URLParseInfoCSgSS_SbAA22URLParserCompatibilityVtFZTf4nnnd_n` | `crtstuff.c` |
-| 26.7% |  80 B |       1 | `$s20FoundationEssentials13URLComponentsV01_C0V14computedString33_11F0314687A9D354A8715E6FE5685D0CLLSSSgvg`                                                         | `crtstuff.c` |
-
-##### `$s20FoundationEssentials3URLV8filePath13directoryHint10relativeToACSS_AC09DirectoryG0OACSgtcfC` (`<unknown>`)
-
-|      % |  Size | Objects | Callee                                                    | Location    |
-| -----: | ----: | ------: | --------------------------------------------------------- | ----------- |
-| 100.0% | 300 B |       2 | `$s20FoundationEssentials13URLComponentsV3urlAA3URLVSgvg` | `<unknown>` |
 
 ## Hottest call stacks
 

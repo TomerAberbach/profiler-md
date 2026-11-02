@@ -5,11 +5,11 @@ Collected 1,732 → 1,684 samples (-48 samples, -2.8%).
 | Category          | Change | Delta |             % |   Samples |
 | ----------------- | -----: | ----: | ------------: | --------: |
 | Compiler          |  -3.2% |   -29 | 52.7% → 52.4% | 912 → 883 |
-| Native            |  -8.0% |   -42 | 30.5% → 28.9% | 528 → 486 |
+| Native            |  -7.2% |   -36 | 28.8% → 27.4% | 498 → 462 |
 | Standard library  |  +9.3% |   +25 | 15.6% → 17.5% | 270 → 295 |
+| Garbage collector | -13.3% |    -4 |   1.7% → 1.5% |   30 → 26 |
 | Ours              | -33.3% |    -4 |   0.7% → 0.5% |    12 → 8 |
 | JIT               |   0.0% |     0 |          0.6% |        10 |
-| Garbage collector |    new |    +2 |   0.0% → 0.1% |     0 → 2 |
 
 `…` stands for omitted frames.
 
@@ -136,10 +136,10 @@ Functions with the largest increase in samples collected within the function bod
 |     new |    +2 | 0.0% → 0.1% |   0 → 2 | `Chunk::chop`                                                                                                                | `libjvm.dylib`           |
 |     new |    +2 | 0.0% → 0.1% |   0 → 2 | `MethodHandles::init_MemberName`                                                                                             | `libjvm.dylib`           |
 | +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `resource_allocate_bytes`                                                                                                    | `libjvm.dylib`           |
-|  +50.0% |    +2 | 0.2% → 0.4% |   4 → 6 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                              | `libjvm.dylib`           |
 | +200.0% |    +2 | 0.1% → 0.2% |   1 → 3 | `Arena::Arealloc`                                                                                                            | `libjvm.dylib`           |
 |     new |    +2 | 0.0% → 0.1% |   0 → 2 | `NullCheckEliminator::iterate_one`                                                                                           | `libjvm.dylib`           |
 |     new |    +2 | 0.0% → 0.1% |   0 → 2 | `DataLayout::data_in`                                                                                                        | `libjvm.dylib`           |
+|     new |    +2 | 0.0% → 0.1% |   0 → 2 | `CodeCache::make_marked_nmethods_deoptimized`                                                                                | `libjvm.dylib`           |
 
 ##### Standard library
 
@@ -165,6 +165,16 @@ Functions with the largest increase in samples collected within the function bod
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `generateInnerClass()`                                       | `java.lang.invoke.InnerClassLambdaMetafactory`                        |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `invoke(Class, MethodHandle, String, Object, Object, Class)` | `java.lang.invoke.BootstrapMethodInvoker`                             |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `test(Object)`                                               | `org.codehaus.groovy.reflection.CachedClass$3$$Lambda`                |
+
+##### Garbage collector
+
+| Change | Delta |           % | Samples | Function                                                          | Location       |
+| -----: | ----: | ----------: | ------: | ----------------------------------------------------------------- | -------------- |
+| +50.0% |    +2 | 0.2% → 0.4% |   4 → 6 | `G1ParScanThreadState::trim_queue_to_threshold`                   | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `g1_post_barrier_slow`                                            | `<unknown>`    |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1CardSet::add_card`                                             | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `HeapRegion::block_size`                                          | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` | `libjvm.dylib` |
 
 #### Improvements
 
@@ -229,7 +239,6 @@ Functions with the largest decrease in samples collected within the function bod
 |  -55.6% |    -5 | 0.5% → 0.2% |   9 → 4 | `frame::sender_for_compiled_frame`                                                                                                                       | `libjvm.dylib`            |
 |  -45.5% |    -5 | 0.6% → 0.4% |  11 → 6 | `RegisterMap::RegisterMap`                                                                                                                               | `libjvm.dylib`            |
 |  -33.3% |    -5 | 0.9% → 0.6% | 15 → 10 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`            |
-|  -31.3% |    -5 | 0.9% → 0.7% | 16 → 11 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`            |
 | removed |    -4 | 0.2% → 0.0% |   4 → 0 | `pread`                                                                                                                                                  | `libsystem_kernel.dylib`  |
 |  -22.2% |    -4 | 1.0% → 0.8% | 18 → 14 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                               | `libjvm.dylib`            |
 | removed |    -3 | 0.2% → 0.0% |   3 → 0 | `Continuation::is_continuation_enterSpecial`                                                                                                             | `libjvm.dylib`            |
@@ -242,6 +251,7 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -2 | 0.1% → 0.0% |   2 → 0 | `ClassVerifier::verify_stackmap_table`                                                                                                                   | `libjvm.dylib`            |
 |  -66.7% |    -2 | 0.2% → 0.1% |   3 → 1 | `_isort`                                                                                                                                                 | `libsystem_c.dylib`       |
 | removed |    -2 | 0.1% → 0.0% |   2 → 0 | `ClassFileParser::parse_constant_pool`                                                                                                                   | `libjvm.dylib`            |
+|  -25.0% |    -2 | 0.5% → 0.4% |   8 → 6 | `Dict::Insert`                                                                                                                                           | `libjvm.dylib`            |
 
 ##### Standard library
 
@@ -267,6 +277,18 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `doPrivileged(PrivilegedAction)`                                     | `java.security.AccessController`                      |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `make(MemberName)`                                                   | `java.lang.invoke.DirectMethodHandle`                 |
 | removed |    -1 | 0.1% → 0.0% |   1 → 0 | `getDirectConstructorCommon(Class, MemberName, boolean)`             | `java.lang.invoke.MethodHandles$Lookup`               |
+
+##### Garbage collector
+
+|  Change | Delta |           % | Samples | Function                                          | Location       |
+| ------: | ----: | ----------: | ------: | ------------------------------------------------- | -------------- |
+|  -31.3% |    -5 | 0.9% → 0.7% | 16 → 11 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `G1BarrierSet::write_ref_array_work`              | `libjvm.dylib` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `G1BarrierSetRuntime::write_ref_array_post_entry` | `libjvm.dylib` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `G1CollectedHeap::register_nmethod`               | `libjvm.dylib` |
+|  -50.0% |    -1 |        0.1% |   2 → 1 | `G1ParScanThreadState::start_partial_objarray`    | `libjvm.dylib` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `G1CMTask::drain_local_queue`                     | `libjvm.dylib` |
+| removed |    -1 | 0.1% → 0.0% |   1 → 0 | `G1CardSet::add_to_container`                     | `libjvm.dylib` |
 
 #### Lines
 
@@ -748,15 +770,6 @@ Callers with the largest change in contribution to each function's self samples.
 |     new |    +1 |  0.0% → 33.3% |   0 → 1 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib` |
 |     new |    +1 |  0.0% → 33.3% |   0 → 1 | `TypeInterfaces::intersection_with`        | `libjvm.dylib` |
 
-##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
-
-|  Change | Delta |             % | Samples | Caller                                                             | Location       |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------ | -------------- |
-| +150.0% |    +3 | 50.0% → 83.3% |   2 → 5 | `G1ScanHRForRegionClosure::scan_memregion`                         | `libjvm.dylib` |
-| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `G1ParScanThreadState::steal_and_trim_queue`                       | `libjvm.dylib` |
-|     new |    +1 |  0.0% → 16.7% |   0 → 1 | `G1ParEvacuateFollowersClosure::do_void`                           | `libjvm.dylib` |
-| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `void G1ParCopyClosure<(G1Barrier)0, true>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
-
 ##### `Arena::Arealloc` (`libjvm.dylib`)
 
 |  Change | Delta |             % | Samples | Caller                               | Location       |
@@ -777,6 +790,12 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller                    | Location       |
 | -----: | ----: | ------------: | ------: | ------------------------- | -------------- |
 |    new |    +2 | 0.0% → 100.0% |   0 → 2 | `ciMethodData::load_data` | `libjvm.dylib` |
+
+##### `CodeCache::make_marked_nmethods_deoptimized` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                  | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `Deoptimization::deoptimize_all_marked` | `libjvm.dylib` |
 
 ##### `get()` (`java.lang.ref.SoftReference`)
 
@@ -903,6 +922,40 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller           | Location                                 |
 | -----: | ----: | ------------: | ------: | ---------------- | ---------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `accept(Object)` | `java.util.stream.ReferencePipeline$2$1` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                             | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------ | -------------- |
+| +150.0% |    +3 | 50.0% → 83.3% |   2 → 5 | `G1ScanHRForRegionClosure::scan_memregion`                         | `libjvm.dylib` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `G1ParScanThreadState::steal_and_trim_queue`                       | `libjvm.dylib` |
+|     new |    +1 |  0.0% → 16.7% |   0 → 1 | `G1ParEvacuateFollowersClosure::do_void`                           | `libjvm.dylib` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `void G1ParCopyClosure<(G1Barrier)0, true>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
+
+##### `g1_post_barrier_slow` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Caller                                                                                      | Location                                             |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `toArray()`                                                                                 | `java.lang.PublicMethods`                            |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `G1CardSet::add_card` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                 | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------ | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+
+##### `HeapRegion::block_size` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                          | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
+
+##### `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                       | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1MergeHeapRootsTask::work` | `libjvm.dylib` |
 
 ##### `PhaseChaitin::Split` (`libjvm.dylib`)
 
@@ -1193,6 +1246,14 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ------------------------------- | -------------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `ClassFileParser::parse_stream` | `libjvm.dylib` |
 
+##### `Dict::Insert` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Caller                | Location       |
+| -----: | ----: | -------------: | ------: | --------------------- | -------------- |
+| -50.0% |    -4 | 100.0% → 66.7% |   8 → 4 | `Type::hashcons`      | `libjvm.dylib` |
+|    new |    +1 |   0.0% → 16.7% |   0 → 1 | `ConvI2LNode::Value`  | `libjvm.dylib` |
+|    new |    +1 |   0.0% → 16.7% |   0 → 1 | `TypePtr::interfaces` | `libjvm.dylib` |
+
 ##### `join(PredictionContext, PredictionContext, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
 
 |  Change | Delta |             % | Samples | Caller                                   | Location                                         |
@@ -1318,6 +1379,43 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ---------------------------------------------------------- | --------------------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `getDirectConstructorNoSecurityManager(Class, MemberName)` | `java.lang.invoke.MethodHandles$Lookup` |
 
+##### `G1BarrierSet::write_ref_array_work` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                   | Location           |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | ------------------ |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `copyOfRange(Object[], int, int, Class)` | `java.util.Arrays` |
+
+##### `G1BarrierSetRuntime::write_ref_array_post_entry` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                           | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `arrayof_oop_disjoint_arraycopy` | `<unknown>` |
+
+##### `G1CollectedHeap::register_nmethod` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                 | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `nmethod::new_nmethod` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::start_partial_objarray` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                            | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1ParScanThreadState::trim_queue_to_threshold`   | `libjvm.dylib` |
+
+##### `G1CMTask::drain_local_queue` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                | Location       |
+| ------: | ----: | ------------: | ------: | --------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CMBitMap::iterate` | `libjvm.dylib` |
+
+##### `G1CardSet::add_to_container` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                | Location       |
+| ------: | ----: | ------------: | ------: | --------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CardSet::add_card` | `libjvm.dylib` |
+
 ### Total samples
 
 #### Regressions
@@ -1422,6 +1520,27 @@ Functions with the largest increase in samples collected within the function and
 |  +22.2% |   +10 |   2.6% → 3.3% |   45 → 55 | `visitMethod(MethodNode)`                                                       | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                          |
 |  +14.8% |    +9 |   3.5% → 4.2% |   61 → 70 | `provide(Object)`                                                               | `org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000700108f680` |
 
+##### Garbage collector
+
+| Change | Delta |           % | Samples | Function                                                          | Location       |
+| -----: | ----: | ----------: | ------: | ----------------------------------------------------------------- | -------------- |
+| +71.4% |    +5 | 0.4% → 0.7% |  7 → 12 | `G1ParEvacuateFollowersClosure::do_void`                          | `libjvm.dylib` |
+| +71.4% |    +5 | 0.4% → 0.7% |  7 → 12 | `G1EvacuateRegionsTask::evacuate_live_objects`                    | `libjvm.dylib` |
+|  +7.1% |    +2 | 1.6% → 1.8% | 28 → 30 | `G1ParScanThreadState::trim_queue_to_threshold`                   | `libjvm.dylib` |
+| +66.7% |    +2 | 0.2% → 0.3% |   3 → 5 | `G1ParScanThreadState::steal_and_trim_queue`                      | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `g1_post_barrier_slow`                                            | `<unknown>`    |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `G1RemSet::merge_heap_roots`                                      | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `G1YoungCollector::evacuate_initial_collection_set`               | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `G1YoungCollector::collect`                                       | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper`        | `libjvm.dylib` |
+|    new |    +2 | 0.0% → 0.1% |   0 → 2 | `G1CollectedHeap::do_collection_pause_at_safepoint`               | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1ConcurrentMark::scan_root_region`                              | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1CMRootRegionScanTask::work`                                    | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `HeapRegion::block_size`                                          | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1ParScanThreadState::do_partial_array`                          | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` | `libjvm.dylib` |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `G1MergeHeapRootsTask::work`                                      | `libjvm.dylib` |
+
 #### Improvements
 
 Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
@@ -1476,28 +1595,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Native
 
-| Change | Delta |             % |       Samples | Function                                                                                                                                                        | Location                  |
-| -----: | ----: | ------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-|  -4.2% |   -52 | 70.7% → 69.7% | 1,225 → 1,173 | `_pthread_start`                                                                                                                                                | `libsystem_pthread.dylib` |
-|  -4.2% |   -52 | 70.7% → 69.7% | 1,225 → 1,173 | `thread_start`                                                                                                                                                  | `libsystem_pthread.dylib` |
-|  -4.2% |   -52 | 70.7% → 69.6% | 1,224 → 1,172 | `Thread::call_run`                                                                                                                                              | `libjvm.dylib`            |
-|  -4.2% |   -52 | 70.7% → 69.6% | 1,224 → 1,172 | `thread_native_entry`                                                                                                                                           | `libjvm.dylib`            |
-|  -3.0% |   -35 | 66.6% → 66.4% | 1,154 → 1,119 | `JavaThread::thread_main_inner`                                                                                                                                 | `libjvm.dylib`            |
-| -35.8% |   -19 |   3.1% → 2.0% |       53 → 34 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                                      | `libjvm.dylib`            |
-| -31.5% |   -17 |   3.1% → 2.2% |       54 → 37 | `Java_java_lang_Throwable_fillInStackTrace`                                                                                                                     | `libjava.dylib`           |
-| -45.9% |   -17 |   2.1% → 1.2% |       37 → 20 | `G1EvacuateRegionsTask::scan_roots`                                                                                                                             | `libjvm.dylib`            |
-| -26.2% |   -17 |   3.8% → 2.9% |       65 → 48 | `WorkerThread::run`                                                                                                                                             | `libjvm.dylib`            |
-| -30.2% |   -16 |   3.1% → 2.2% |       53 → 37 | `JVM_FillInStackTrace`                                                                                                                                          | `libjvm.dylib`            |
-| -31.9% |   -15 |   2.7% → 1.9% |       47 → 32 | `G1EvacuateRegionsBaseTask::work`                                                                                                                               | `libjvm.dylib`            |
-| -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `G1ScanHRForRegionClosure::scan_memregion`                                                                                                                      | `libjvm.dylib`            |
-| -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib`            |
-| -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `G1ScanHRForRegionClosure::scan_heap_roots`                                                                                                                     | `libjvm.dylib`            |
-| -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `G1ScanHRForRegionClosure::do_heap_region`                                                                                                                      | `libjvm.dylib`            |
-| -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `G1RemSet::scan_heap_roots`                                                                                                                                     | `libjvm.dylib`            |
-| -53.3% |    -8 |   0.9% → 0.4% |        15 → 7 | `InstanceKlass::link_class_impl`                                                                                                                                | `libjvm.dylib`            |
-| -25.8% |    -8 |   1.8% → 1.4% |       31 → 23 | `tlv_get_addr`                                                                                                                                                  | `libdyld.dylib`           |
-| -53.3% |    -8 |   0.9% → 0.4% |        15 → 7 | `JVM_NewArray`                                                                                                                                                  | `libjvm.dylib`            |
-| -61.5% |    -8 |   0.8% → 0.3% |        13 → 5 | `G1RootProcessor::process_java_roots`                                                                                                                           | `libjvm.dylib`            |
+|  Change | Delta |             % |       Samples | Function                                                                                                                                                        | Location                  |
+| ------: | ----: | ------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+|   -4.2% |   -52 | 70.7% → 69.7% | 1,225 → 1,173 | `_pthread_start`                                                                                                                                                | `libsystem_pthread.dylib` |
+|   -4.2% |   -52 | 70.7% → 69.7% | 1,225 → 1,173 | `thread_start`                                                                                                                                                  | `libsystem_pthread.dylib` |
+|   -4.2% |   -52 | 70.7% → 69.6% | 1,224 → 1,172 | `Thread::call_run`                                                                                                                                              | `libjvm.dylib`            |
+|   -4.2% |   -52 | 70.7% → 69.6% | 1,224 → 1,172 | `thread_native_entry`                                                                                                                                           | `libjvm.dylib`            |
+|   -3.0% |   -35 | 66.6% → 66.4% | 1,154 → 1,119 | `JavaThread::thread_main_inner`                                                                                                                                 | `libjvm.dylib`            |
+|  -35.8% |   -19 |   3.1% → 2.0% |       53 → 34 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                                      | `libjvm.dylib`            |
+|  -31.5% |   -17 |   3.1% → 2.2% |       54 → 37 | `Java_java_lang_Throwable_fillInStackTrace`                                                                                                                     | `libjava.dylib`           |
+|  -26.2% |   -17 |   3.8% → 2.9% |       65 → 48 | `WorkerThread::run`                                                                                                                                             | `libjvm.dylib`            |
+|  -30.2% |   -16 |   3.1% → 2.2% |       53 → 37 | `JVM_FillInStackTrace`                                                                                                                                          | `libjvm.dylib`            |
+|  -37.5% |    -9 |   1.4% → 0.9% |       24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib`            |
+|  -53.3% |    -8 |   0.9% → 0.4% |        15 → 7 | `InstanceKlass::link_class_impl`                                                                                                                                | `libjvm.dylib`            |
+|  -25.8% |    -8 |   1.8% → 1.4% |       31 → 23 | `tlv_get_addr`                                                                                                                                                  | `libdyld.dylib`           |
+|  -53.3% |    -8 |   0.9% → 0.4% |        15 → 7 | `JVM_NewArray`                                                                                                                                                  | `libjvm.dylib`            |
+|  -58.3% |    -7 |   0.7% → 0.3% |        12 → 5 | `InterpreterRuntime::resolve_from_cache`                                                                                                                        | `libjvm.dylib`            |
+| removed |    -7 |   0.4% → 0.0% |         7 → 0 | `Mutex::lock`                                                                                                                                                   | `libjvm.dylib`            |
+|  -46.7% |    -7 |   0.9% → 0.5% |        15 → 8 | `Arena::contains`                                                                                                                                               | `libjvm.dylib`            |
+|  -87.5% |    -7 |   0.5% → 0.1% |         8 → 1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>`                                                                                 | `libjvm.dylib`            |
+|  -53.8% |    -7 |   0.8% → 0.4% |        13 → 6 | `CodeEmitInfo::record_debug_info`                                                                                                                               | `libjvm.dylib`            |
+|  -66.7% |    -6 |   0.5% → 0.2% |         9 → 3 | `InstanceKlass::initialize_impl`                                                                                                                                | `libjvm.dylib`            |
+|  -85.7% |    -6 |   0.4% → 0.1% |         7 → 1 | `InterpreterRuntime::resolve_invoke`                                                                                                                            | `libjvm.dylib`            |
 
 ##### Standard library
 
@@ -1523,6 +1642,31 @@ Functions with the largest decrease in samples collected within the function and
 | -21.2% |    -7 | 1.9% → 1.5% | 33 → 26 | `linkToCallSite(Object, Object)`                                                         | `java.lang.invoke.LambdaForm$MH.0x00000070010c8c00`       |
 | -10.3% |    -6 | 3.3% → 3.1% | 58 → 52 | `setHandleForMetaMethod()`                                                               | `org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector` |
 | -30.0% |    -6 | 1.2% → 0.8% | 20 → 14 | `newInstance(Class, int)`                                                                | `java.lang.reflect.Array`                                 |
+
+##### Garbage collector
+
+|  Change | Delta |           % | Samples | Function                                           | Location       |
+| ------: | ----: | ----------: | ------: | -------------------------------------------------- | -------------- |
+|  -45.9% |   -17 | 2.1% → 1.2% | 37 → 20 | `G1EvacuateRegionsTask::scan_roots`                | `libjvm.dylib` |
+|  -31.9% |   -15 | 2.7% → 1.9% | 47 → 32 | `G1EvacuateRegionsBaseTask::work`                  | `libjvm.dylib` |
+|  -37.5% |    -9 | 1.4% → 0.9% | 24 → 15 | `G1ScanHRForRegionClosure::scan_memregion`         | `libjvm.dylib` |
+|  -37.5% |    -9 | 1.4% → 0.9% | 24 → 15 | `G1ScanHRForRegionClosure::scan_heap_roots`        | `libjvm.dylib` |
+|  -37.5% |    -9 | 1.4% → 0.9% | 24 → 15 | `G1ScanHRForRegionClosure::do_heap_region`         | `libjvm.dylib` |
+|  -37.5% |    -9 | 1.4% → 0.9% | 24 → 15 | `G1RemSet::scan_heap_roots`                        | `libjvm.dylib` |
+|  -61.5% |    -8 | 0.8% → 0.3% |  13 → 5 | `G1RootProcessor::process_java_roots`              | `libjvm.dylib` |
+|  -61.5% |    -8 | 0.8% → 0.3% |  13 → 5 | `G1RootProcessor::evacuate_roots`                  | `libjvm.dylib` |
+| removed |    -4 | 0.2% → 0.0% |   4 → 0 | `G1CodeBlobClosure::do_code_blob`                  | `libjvm.dylib` |
+|  -42.9% |    -3 | 0.4% → 0.2% |   7 → 4 | `G1CLDScanClosure::do_cld`                         | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1ScanAndCountCodeBlobClosure::do_code_blob`      | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1CodeRootSet::nmethods_do`                       | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1ScanCodeRootsClosure::do_heap_region`           | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1CollectedHeap::par_iterate_regions_array`       | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1RemSet::scan_collection_set_code_roots`         | `libjvm.dylib` |
+| removed |    -3 | 0.2% → 0.0% |   3 → 0 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib` |
+| removed |    -2 | 0.1% → 0.0% |   2 → 0 | `G1CollectedHeap::register_nmethod`                | `libjvm.dylib` |
+|  -66.7% |    -2 | 0.2% → 0.1% |   3 → 1 | `G1ParScanThreadState::start_partial_objarray`     | `libjvm.dylib` |
+|   -8.3% |    -2 | 1.4% → 1.3% | 24 → 22 | `G1ParScanThreadState::do_copy_to_survivor_space`  | `libjvm.dylib` |
+|  -25.0% |    -2 | 0.5% → 0.4% |   8 → 6 | `G1CMBitMap::iterate`                              | `libjvm.dylib` |
 
 #### Callers
 
@@ -1949,6 +2093,107 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | ------: | ----------------------------------------------- | --------------------------------------------------- |
 | +14.8% |    +9 | 100.0% | 61 → 70 | `getAndPut(String, MemoizeCache$ValueProvider)` | `org.codehaus.groovy.vmplugin.v8.CacheableCallSite` |
 
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                         | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------------- | -------------- |
+| +71.4% |    +5 | 100.0% |  7 → 12 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                            | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
+| +71.4% |    +5 | 100.0% |  7 → 12 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                              | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | -------------- |
+| +600.0% |    +6 |  3.6% → 23.3% |   1 → 7 | `G1ParEvacuateFollowersClosure::do_void`                            | `libjvm.dylib` |
+|  -33.3% |    -2 | 21.4% → 13.3% |   6 → 4 | `void G1ParCopyClosure<(G1Barrier)1, false>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
+|  -13.3% |    -2 | 53.6% → 43.3% | 15 → 13 | `G1ScanHRForRegionClosure::scan_memregion`                          | `libjvm.dylib` |
+|  +66.7% |    +2 | 10.7% → 16.7% |   3 → 5 | `G1ParScanThreadState::steal_and_trim_queue`                        | `libjvm.dylib` |
+| removed |    -2 |   7.1% → 0.0% |   2 → 0 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::steal_and_trim_queue` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                   | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
+| +66.7% |    +2 | 100.0% |   3 → 5 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `g1_post_barrier_slow` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Caller                                                                                      | Location                                             |
+| -----: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `toArray()`                                                                                 | `java.lang.PublicMethods`                            |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `G1RemSet::merge_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                              | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1YoungCollector::evacuate_initial_collection_set` | `libjvm.dylib` |
+
+##### `G1YoungCollector::evacuate_initial_collection_set` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                      | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
+##### `G1YoungCollector::collect` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                     | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                              | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1CollectedHeap::do_collection_pause_at_safepoint` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                            | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `VM_G1CollectForAllocation::doit` | `libjvm.dylib` |
+
+##### `G1ConcurrentMark::scan_root_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                         | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------ | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1CMRootRegionScanTask::work` | `libjvm.dylib` |
+
+##### `G1CMRootRegionScanTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller              | Location       |
+| -----: | ----: | ------------: | ------: | ------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `HeapRegion::block_size` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                          | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_partial_array` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                          | Location       |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+
+##### `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                       | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1MergeHeapRootsTask::work` | `libjvm.dylib` |
+
+##### `G1MergeHeapRootsTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller              | Location       |
+| -----: | ----: | ------------: | ------: | ------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `WorkerThread::run` | `libjvm.dylib` |
+
 ##### `_pthread_start` (`libsystem_pthread.dylib`)
 
 | Change | Delta |      % |       Samples | Caller         | Location                  |
@@ -2160,35 +2405,11 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -1 |   6.3% → 0.0% |   1 → 0 | `ImplicitNullCheckStub::emit_code` | `libjvm.dylib` |
 |     new |    +1 |  0.0% → 12.5% |   0 → 1 | `LIR_Assembler::ic_call`           | `libjvm.dylib` |
 
-##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                                                                                                                                          | Location       |
-| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
-
 ##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` (`libjvm.dylib`)
 
 | Change | Delta |      % | Samples | Caller                                      | Location       |
 | -----: | ----: | -----: | ------: | ------------------------------------------- | -------------- |
 | -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::scan_heap_roots` | `libjvm.dylib` |
-
-##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                     | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
-
-##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                      | Location       |
-| -----: | ----: | -----: | ------: | --------------------------- | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `G1RemSet::scan_heap_roots` | `libjvm.dylib` |
-
-##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                              | Location       |
-| -----: | ----: | -----: | ------: | ----------------------------------- | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `G1EvacuateRegionsTask::scan_roots` | `libjvm.dylib` |
 
 ##### `InstanceKlass::link_class_impl` (`libjvm.dylib`)
 
@@ -2217,11 +2438,58 @@ Callers with the largest change in contribution to each function's total samples
 |  -50.0% |    -7 | 93.3% → 100.0% |  14 → 7 | `newArray(Class, int)` | `java.lang.reflect.Array` |
 | removed |    -1 |    6.7% → 0.0% |   1 → 0 | `break_stack_range`    | `<unknown>`               |
 
-##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+##### `InterpreterRuntime::resolve_from_cache` (`libjvm.dylib`)
 
-| Change | Delta |      % | Samples | Caller                            | Location       |
-| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
-| -61.5% |    -8 | 100.0% |  13 → 5 | `G1RootProcessor::evacuate_roots` | `libjvm.dylib` |
+|  Change | Delta |            % | Samples | Caller                                            | Location                                   |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------- | ------------------------------------------ |
+| removed |    -2 | 16.7% → 0.0% |   2 → 0 | `invoke(Object, Object)`                          | `java.lang.invoke.LambdaForm$MH`           |
+| removed |    -1 |  8.3% → 0.0% |   1 → 0 | `verifyLocation(String, String)`                  | `jdk.internal.jimage.BasicImageReader`     |
+| removed |    -1 |  8.3% → 0.0% |   1 → 0 | `main(String[])`                                  | `org.codenarc.CodeNarc`                    |
+| removed |    -1 |  8.3% → 0.0% |   1 → 0 | `<clinit>()`                                      | `org.codehaus.groovy.runtime.FormatHelper` |
+| removed |    -1 |  8.3% → 0.0% |   1 → 0 | `newFileChannel(int, UnixPath, String, Set, int)` | `sun.nio.fs.UnixChannelFactory`            |
+
+##### `Mutex::lock` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                 | Location       |
+| ------: | ----: | -----------: | ------: | -------------------------------------- | -------------- |
+| removed |    -3 | 42.9% → 0.0% |   3 → 0 | `ciMethod::find_monomorphic_target`    | `libjvm.dylib` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `InstanceKlass::add_to_hierarchy_impl` | `libjvm.dylib` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `MHN_setCallSiteTargetNormal`          | `libjvm.dylib` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `ciMethod::ciMethod`                   | `libjvm.dylib` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `ciEnv::cache_jvmti_state`             | `libjvm.dylib` |
+
+##### `Arena::contains` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller           | Location       |
+| ------: | ----: | -------------: | ------: | ---------------- | -------------- |
+|  -42.9% |    -6 | 93.3% → 100.0% |  14 → 8 | `Matcher::xform` | `libjvm.dylib` |
+| removed |    -1 |    6.7% → 0.0% |   1 → 0 | `Matcher::match` | `libjvm.dylib` |
+
+##### `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                     | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
+| -87.5% |    -7 | 100.0% |   8 → 1 | `G1ScanHRForRegionClosure::scan_memregion` | `libjvm.dylib` |
+
+##### `CodeEmitInfo::record_debug_info` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                         | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------ | -------------- |
+| -53.8% |    -7 | 100.0% |  13 → 6 | `LIR_Assembler::add_call_info` | `libjvm.dylib` |
+
+##### `InstanceKlass::initialize_impl` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller                              | Location       |
+| ------: | ----: | -------------: | ------: | ----------------------------------- | -------------- |
+| removed |    -3 |   33.3% → 0.0% |   3 → 0 | `LinkResolver::resolve_static_call` | `libjvm.dylib` |
+| removed |    -2 |   22.2% → 0.0% |   2 → 0 | `LinkResolver::resolve_field`       | `libjvm.dylib` |
+|  -25.0% |    -1 | 44.4% → 100.0% |   4 → 3 | `InterpreterRuntime::_new`          | `libjvm.dylib` |
+
+##### `InterpreterRuntime::resolve_invoke` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                   | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
+| -85.7% |    -6 | 100.0% |   7 → 1 | `InterpreterRuntime::resolve_from_cache` | `libjvm.dylib` |
 
 ##### `resolve(byte, MemberName, Class, int, boolean)` (`java.lang.invoke.MemberName$Factory`)
 
@@ -2339,6 +2607,117 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Caller                              | Location                          |
 | -----: | ----: | -----: | ------: | ----------------------------------- | --------------------------------- |
 | -30.0% |    -6 | 100.0% | 20 → 14 | `invokeStatic(Object, Object, int)` | `java.lang.invoke.LambdaForm$DMH` |
+
+##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                          | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                     | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                      | Location       |
+| -----: | ----: | -----: | ------: | --------------------------- | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `G1RemSet::scan_heap_roots` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                              | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------- | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `G1EvacuateRegionsTask::scan_roots` | `libjvm.dylib` |
+
+##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                            | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
+| -61.5% |    -8 | 100.0% |  13 → 5 | `G1RootProcessor::evacuate_roots` | `libjvm.dylib` |
+
+##### `G1RootProcessor::evacuate_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                              | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------- | -------------- |
+| -61.5% |    -8 | 100.0% |  13 → 5 | `G1EvacuateRegionsTask::scan_roots` | `libjvm.dylib` |
+
+##### `G1CodeBlobClosure::do_code_blob` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                        | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------------- | -------------- |
+| removed |    -3 | 75.0% → 0.0% |   3 → 0 | `G1ScanAndCountCodeBlobClosure::do_code_blob` | `libjvm.dylib` |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `frame::oops_code_blob_do`                    | `libjvm.dylib` |
+
+##### `G1CLDScanClosure::do_cld` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                               | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------ | -------------- |
+| -42.9% |    -3 | 100.0% |   7 → 4 | `ClassLoaderDataGraph::roots_cld_do` | `libjvm.dylib` |
+
+##### `G1ScanAndCountCodeBlobClosure::do_code_blob` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `void ConcurrentHashTable<G1CodeRootSetHashTableConfig, (MEMFLAGS)5>::ScanTask::do_safepoint_scan<G1CodeRootSetHashTable::iterate_at_safepoint(CodeBlobClosure*)::'lambda'(nmethod**)>` | `libjvm.dylib` |
+
+##### `G1CodeRootSet::nmethods_do` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1ScanCodeRootsClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ScanCodeRootsClosure::do_heap_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                       | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1CollectedHeap::par_iterate_regions_array` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::par_iterate_regions_array` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                     | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------ | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1RemSet::scan_collection_set_code_roots` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_collection_set_code_roots` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                            | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::register_nmethod` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                 | Location       |
+| ------: | ----: | -----------: | ------: | ---------------------- | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `nmethod::new_nmethod` | `libjvm.dylib` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `nmethod::nmethod`     | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::start_partial_objarray` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                            | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1ParScanThreadState::trim_queue_to_threshold`   | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                          | Location       |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------- | -------------- |
+|  -8.7% |    -2 | 95.8% → 95.5% | 23 → 21 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+
+##### `G1CMBitMap::iterate` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                      | Location       |
+| -----: | ----: | -----: | ------: | --------------------------- | -------------- |
+| -25.0% |    -2 | 100.0% |   8 → 6 | `G1CMTask::do_marking_step` | `libjvm.dylib` |
 
 #### Callees
 
@@ -2830,6 +3209,90 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -------------: | ------: | ------------------------------------------------------------ | ----------------------------------------------- |
 | +13.1% |    +8 | 100.0% → 98.6% | 61 → 69 | `lambda$fromCache$1(IndyInterface$FallbackSupplier, String)` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
 
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                             | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------- | -------------- |
+| +600.0% |    +6 | 14.3% → 58.3% |   1 → 7 | `G1ParScanThreadState::trim_queue_to_threshold`    | `libjvm.dylib` |
+| removed |    -3 |  42.9% → 0.0% |   3 → 0 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib` |
+|  +66.7% |    +2 | 42.9% → 41.7% |   3 → 5 | `G1ParScanThreadState::steal_and_trim_queue`       | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                   | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
+| +71.4% |    +5 | 100.0% |  7 → 12 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                            | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
+|   -8.7% |    -2 | 82.1% → 70.0% | 23 → 21 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
+| removed |    -1 |   3.6% → 0.0% |   1 → 0 | `fwd_copy_drain`                                  | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `G1ParScanThreadState::do_partial_array`          | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `G1ParScanThreadState::start_partial_objarray`    | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 3.3% |   0 → 1 | `fwd_copy_again`                                  | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::steal_and_trim_queue` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                          | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | -------------- |
+| +66.7% |    +2 | 100.0% |   3 → 5 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+
+##### `G1RemSet::merge_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                    | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `WorkerThreads::run_task` | `libjvm.dylib` |
+
+##### `G1YoungCollector::evacuate_initial_collection_set` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                       | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1RemSet::merge_heap_roots` | `libjvm.dylib` |
+
+##### `G1YoungCollector::collect` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                              | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1YoungCollector::evacuate_initial_collection_set` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                      | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                     | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `libjvm.dylib` |
+
+##### `G1ConcurrentMark::scan_root_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                                                                  | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void OopOopIterateDispatch<G1RootRegionScanClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+
+##### `G1CMRootRegionScanTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                               | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------ | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1ConcurrentMark::scan_root_region` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_partial_array` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                   | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>` | `libjvm.dylib` |
+
+##### `G1MergeHeapRootsTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                            | Location       |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` | `libjvm.dylib` |
+
 ##### `_pthread_start` (`libsystem_pthread.dylib`)
 
 | Change | Delta |     % |       Samples | Callee                | Location       |
@@ -3104,36 +3567,11 @@ Callees with the largest change in contribution to each function's total samples
 | -53.8% |    -7 | 81.3% → 75.0% |  13 → 6 | `CodeEmitInfo::record_debug_info`                | `libjvm.dylib` |
 | -33.3% |    -1 | 18.8% → 25.0% |   3 → 2 | `LIR_Assembler::record_non_safepoint_debug_info` | `libjvm.dylib` |
 
-##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Callee                                                                          | Location       |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------- | -------------- |
-| -87.5% |    -7 |  33.3% → 6.7% |   8 → 1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
-| -13.3% |    -2 | 62.5% → 86.7% | 15 → 13 | `G1ParScanThreadState::trim_queue_to_threshold`                                 | `libjvm.dylib` |
-
 ##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` (`libjvm.dylib`)
 
 | Change | Delta |      % | Samples | Callee                                     | Location       |
 | -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
 | -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::scan_memregion` | `libjvm.dylib` |
-
-##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                                                                                                                                          | Location       |
-| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
-
-##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                      | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------------- | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::scan_heap_roots` | `libjvm.dylib` |
-
-##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                     | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
-| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
 
 ##### `InstanceKlass::link_class_impl` (`libjvm.dylib`)
 
@@ -3155,12 +3593,53 @@ Callees with the largest change in contribution to each function's total samples
 | removed |    -1 |   6.7% → 0.0% |   1 → 0 | `ObjArrayKlass::array_klass`           | `libjvm.dylib`            |
 | removed |    -1 |   6.7% → 0.0% |   1 → 0 | `oopDesc::metadata_field`              | `libjvm.dylib`            |
 
-##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+##### `InterpreterRuntime::resolve_from_cache` (`libjvm.dylib`)
 
-| Change | Delta |             % | Samples | Callee                               | Location       |
-| -----: | ----: | ------------: | ------: | ------------------------------------ | -------------- |
-| -83.3% |    -5 | 46.2% → 20.0% |   6 → 1 | `Threads::possibly_parallel_oops_do` | `libjvm.dylib` |
-| -42.9% |    -3 | 53.8% → 80.0% |   7 → 4 | `ClassLoaderDataGraph::roots_cld_do` | `libjvm.dylib` |
+|  Change | Delta |             % | Samples | Callee                                      | Location                  |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- | ------------------------- |
+|  -85.7% |    -6 | 58.3% → 20.0% |   7 → 1 | `InterpreterRuntime::resolve_invoke`        | `libjvm.dylib`            |
+| removed |    -2 |  16.7% → 0.0% |   2 → 0 | `InterpreterRuntime::resolve_get_put`       | `libjvm.dylib`            |
+|  +50.0% |    +1 | 16.7% → 60.0% |   2 → 3 | `InterpreterRuntime::resolve_invokedynamic` | `libjvm.dylib`            |
+| removed |    -1 |   8.3% → 0.0% |   1 → 0 | `InterpreterRuntime::resolve_invokehandle`  | `libjvm.dylib`            |
+|     new |    +1 |  0.0% → 20.0% |   0 → 1 | `pthread_jit_write_protect_np`              | `libsystem_pthread.dylib` |
+
+##### `Mutex::lock` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Callee                              | Location                  |
+| ------: | ----: | -----------: | ------: | ----------------------------------- | ------------------------- |
+| removed |    -6 | 85.7% → 0.0% |   6 → 0 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
+| removed |    -1 | 14.3% → 0.0% |   1 → 0 | `stub:pthread_mutex_trylock`        | `libjvm.dylib`            |
+
+##### `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                           | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------- | -------------- |
+| removed |    -2 |  25.0% → 0.0% |   2 → 0 | `void G1ScanCardClosure::do_oop_work<narrowOop>`                                                                 | `libjvm.dylib` |
+| removed |    -2 |  25.0% → 0.0% |   2 → 0 | `void OopOopIterateDispatch<G1ScanCardClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                | `libjvm.dylib` |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `void OopOopIterateBoundedDispatch<G1ScanCardClosure>::Table::oop_oop_iterate_bounded<ObjArrayKlass, narrowOop>` | `libjvm.dylib` |
+| removed |    -1 |  12.5% → 0.0% |   1 → 0 | `void InstanceRefKlass::oop_oop_iterate_ref_processing<narrowOop, G1ScanCardClosure, AlwaysContains>`            | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `HeapRegion::block_size`                                                                                         | `libjvm.dylib` |
+
+##### `CodeEmitInfo::record_debug_info` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                                           | Location       |
+| ------: | ----: | -------------: | ------: | ------------------------------------------------ | -------------- |
+|  -50.0% |    -6 | 92.3% → 100.0% |  12 → 6 | `IRScopeDebugInfo::record_debug_info`            | `libjvm.dylib` |
+| removed |    -1 |    7.7% → 0.0% |   1 → 0 | `AbstractInterpreter::bytecode_should_reexecute` | `libjvm.dylib` |
+
+##### `InstanceKlass::initialize_impl` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                           | Location       |
+| ------: | ----: | -------------: | ------: | -------------------------------- | -------------- |
+|  -62.5% |    -5 | 88.9% → 100.0% |   8 → 3 | `InstanceKlass::link_class_impl` | `libjvm.dylib` |
+| removed |    -1 |   11.1% → 0.0% |   1 → 0 | `ObjectLocker::~ObjectLocker`    | `libjvm.dylib` |
+
+##### `InterpreterRuntime::resolve_invoke` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                                    | Location       |
+| ------: | ----: | -------------: | ------: | ----------------------------------------- | -------------- |
+|  -83.3% |    -5 | 85.7% → 100.0% |   6 → 1 | `LinkResolver::resolve_invoke`            | `libjvm.dylib` |
+| removed |    -1 |   14.3% → 0.0% |   1 → 0 | `constantPoolHandle::~constantPoolHandle` | `libjvm.dylib` |
 
 ##### `resolve(byte, MemberName, Class, int, boolean)` (`java.lang.invoke.MemberName$Factory`)
 
@@ -3287,6 +3766,117 @@ Callees with the largest change in contribution to each function's total samples
 | -35.7% |    -5 | 70.0% → 64.3% |  14 → 9 | `newArray(Class, int)` | `java.lang.reflect.Array` |
 |    new |    +2 |  0.0% → 14.3% |   0 → 2 | `resolve_static_call`  | `<unknown>`               |
 | -50.0% |    -1 |  10.0% → 7.1% |   2 → 1 | `_new_array_Java`      | `<unknown>`               |
+
+##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                                          | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------- | -------------- |
+| -87.5% |    -7 |  33.3% → 6.7% |   8 → 1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
+| -13.3% |    -2 | 62.5% → 86.7% | 15 → 13 | `G1ParScanThreadState::trim_queue_to_threshold`                                 | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                                                                                                                                          | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                      | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------- | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::scan_heap_roots` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                     | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
+| -37.5% |    -9 | 100.0% | 24 → 15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                               | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------ | -------------- |
+| -83.3% |    -5 | 46.2% → 20.0% |   6 → 1 | `Threads::possibly_parallel_oops_do` | `libjvm.dylib` |
+| -42.9% |    -3 | 53.8% → 80.0% |   7 → 4 | `ClassLoaderDataGraph::roots_cld_do` | `libjvm.dylib` |
+
+##### `G1RootProcessor::evacuate_roots` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------- | -------------- |
+| -61.5% |    -8 | 100.0% |  13 → 5 | `G1RootProcessor::process_java_roots` | `libjvm.dylib` |
+
+##### `G1CodeBlobClosure::do_code_blob` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                          | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------- | -------------- |
+| removed |    -4 | 100.0% → 0.0% |   4 → 0 | `nmethod::oops_do_process_weak` | `libjvm.dylib` |
+
+##### `G1CLDScanClosure::do_cld` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                     | Location       |
+| -----: | ----: | -----: | ------: | -------------------------- | -------------- |
+| -42.9% |    -3 | 100.0% |   7 → 4 | `ClassLoaderData::oops_do` | `libjvm.dylib` |
+
+##### `G1ScanAndCountCodeBlobClosure::do_code_blob` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                            | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1CodeBlobClosure::do_code_blob` | `libjvm.dylib` |
+
+##### `G1CodeRootSet::nmethods_do` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                                                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `void ConcurrentHashTable<G1CodeRootSetHashTableConfig, (MEMFLAGS)5>::ScanTask::do_safepoint_scan<G1CodeRootSetHashTable::iterate_at_safepoint(CodeBlobClosure*)::'lambda'(nmethod**)>` | `libjvm.dylib` |
+
+##### `G1ScanCodeRootsClosure::do_heap_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                       | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1CodeRootSet::nmethods_do` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::par_iterate_regions_array` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1ScanCodeRootsClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_collection_set_code_roots` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                       | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `G1CollectedHeap::par_iterate_regions_array` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                              | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `TaskTerminator::offer_termination` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::register_nmethod` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Callee             | Location       |
+| ------: | ----: | -----------: | ------: | ------------------ | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `nmethod::oops_do` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::start_partial_objarray` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Callee                                                          | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------- | -------------- |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `void G1ScanClosureBase::handle_non_cset_obj_common<narrowOop>` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                       | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| +120.0% |    +6 | 20.8% → 50.0% |  5 → 11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+| removed |    -3 |  12.5% → 0.0% |   3 → 0 | `G1ParScanThreadState::start_partial_objarray`                                                                               | `libjvm.dylib` |
+
+##### `G1CMBitMap::iterate` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                         | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------- | -------------- |
+| -33.3% |    -2 | 75.0% → 66.7% |   6 → 4 | `void G1CMTask::process_grey_task_entry<true>` | `libjvm.dylib` |
 
 ## Hottest call stacks
 

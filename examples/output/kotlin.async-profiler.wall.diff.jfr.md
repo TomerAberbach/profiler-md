@@ -2,14 +2,15 @@
 
 Collected 2,791 → 2,835 samples (+44 samples, +1.6%).
 
-| Category         |  Change | Delta |             % |       Samples |
-| ---------------- | ------: | ----: | ------------: | ------------: |
-| Native           |   +2.5% |   +66 | 93.3% → 94.2% | 2,604 → 2,670 |
-| Compiler         |   -4.7% |    -6 |   4.6% → 4.3% |     129 → 123 |
-| Ours             |   +6.9% |    +2 |   1.0% → 1.1% |       29 → 31 |
-| Standard library |  -35.7% |    -5 |   0.5% → 0.3% |        14 → 9 |
-| Unknown          | removed |   -13 |   0.5% → 0.0% |        13 → 0 |
-| JIT              |    0.0% |     0 |          0.1% |             2 |
+| Category          |  Change | Delta |             % |       Samples |
+| ----------------- | ------: | ----: | ------------: | ------------: |
+| Native            |   +2.6% |   +67 | 93.1% → 94.0% | 2,599 → 2,666 |
+| Compiler          |   -4.7% |    -6 |   4.6% → 4.3% |     129 → 123 |
+| Ours              |   +6.9% |    +2 |   1.0% → 1.1% |       29 → 31 |
+| Standard library  |  -35.7% |    -5 |   0.5% → 0.3% |        14 → 9 |
+| Unknown           | removed |   -13 |   0.5% → 0.0% |        13 → 0 |
+| Garbage collector |  -20.0% |    -1 |   0.2% → 0.1% |         5 → 4 |
+| JIT               |    0.0% |     0 |          0.1% |             2 |
 
 `…` stands for omitted frames.
 
@@ -93,28 +94,28 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### Native
 
-|  Change | Delta |             % |       Samples | Function                                                                                                                                                 | Location                 |
-| ------: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-|   +3.1% |   +40 | 46.8% → 47.4% | 1,305 → 1,345 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib` |
-|   +2.2% |   +22 | 36.0% → 36.2% | 1,004 → 1,026 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib` |
-| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib` |
-| +500.0% |    +5 |  <0.1% → 0.2% |         1 → 6 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`           |
-|  +42.9% |    +3 |   0.3% → 0.4% |        7 → 10 | `inflate_fast`                                                                                                                                           | `libzip.dylib`           |
-|   +2.1% |    +2 |   3.4% → 3.5% |       96 → 98 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib` |
-|   +2.1% |    +2 |   3.4% → 3.5% |       96 → 98 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib` |
-|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `ClassVerifier::verify_method`                                                                                                                           | `libjvm.dylib`           |
-|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `SymbolTable::lookup_only`                                                                                                                               | `libjvm.dylib`           |
-|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `CodeCache::make_marked_nmethods_deoptimized`                                                                                                            | `libjvm.dylib`           |
-|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `__psynch_cvbroad`                                                                                                                                       | `libsystem_kernel.dylib` |
-|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `Dict::doubhash`                                                                                                                                         | `libjvm.dylib`           |
-|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`           |
-| +100.0% |    +1 |  <0.1% → 0.1% |         1 → 2 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                          | `libjvm.dylib`           |
-|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                                                                                 | `libjvm.dylib`           |
-| +100.0% |    +1 |  <0.1% → 0.1% |         1 → 2 | `inflate`                                                                                                                                                | `libzip.dylib`           |
-| +100.0% |    +1 |  <0.1% → 0.1% |         1 → 2 | `ClassFileParser::skip_over_field_signature`                                                                                                             | `libjvm.dylib`           |
-|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `ClassFileParser::parse_constant_pool_entries`                                                                                                           | `libjvm.dylib`           |
-|  +50.0% |    +1 |          0.1% |         2 → 3 | `InstanceKlass::find_method_index`                                                                                                                       | `libjvm.dylib`           |
-|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `ClassVerifier::verify_invoke_instructions`                                                                                                              | `libjvm.dylib`           |
+|  Change | Delta |             % |       Samples | Function                                                                                                                                                 | Location                   |
+| ------: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+|   +3.1% |   +40 | 46.8% → 47.4% | 1,305 → 1,345 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`   |
+|   +2.2% |   +22 | 36.0% → 36.2% | 1,004 → 1,026 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`   |
+| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`   |
+| +500.0% |    +5 |  <0.1% → 0.2% |         1 → 6 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`             |
+|  +42.9% |    +3 |   0.3% → 0.4% |        7 → 10 | `inflate_fast`                                                                                                                                           | `libzip.dylib`             |
+|   +2.1% |    +2 |   3.4% → 3.5% |       96 → 98 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`   |
+|   +2.1% |    +2 |   3.4% → 3.5% |       96 → 98 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`   |
+|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `ClassVerifier::verify_method`                                                                                                                           | `libjvm.dylib`             |
+|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `SymbolTable::lookup_only`                                                                                                                               | `libjvm.dylib`             |
+|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `CodeCache::make_marked_nmethods_deoptimized`                                                                                                            | `libjvm.dylib`             |
+|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `__psynch_cvbroad`                                                                                                                                       | `libsystem_kernel.dylib`   |
+|     new |    +2 |   0.0% → 0.1% |         0 → 2 | `Dict::doubhash`                                                                                                                                         | `libjvm.dylib`             |
+| +100.0% |    +1 |  <0.1% → 0.1% |         1 → 2 | `inflate`                                                                                                                                                | `libzip.dylib`             |
+| +100.0% |    +1 |  <0.1% → 0.1% |         1 → 2 | `ClassFileParser::skip_over_field_signature`                                                                                                             | `libjvm.dylib`             |
+|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `ClassFileParser::parse_constant_pool_entries`                                                                                                           | `libjvm.dylib`             |
+|  +50.0% |    +1 |          0.1% |         2 → 3 | `InstanceKlass::find_method_index`                                                                                                                       | `libjvm.dylib`             |
+|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `ClassVerifier::verify_invoke_instructions`                                                                                                              | `libjvm.dylib`             |
+|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `Mutex::lock`                                                                                                                                            | `libjvm.dylib`             |
+|  +50.0% |    +1 |          0.1% |         2 → 3 | `_platform_memset`                                                                                                                                       | `libsystem_platform.dylib` |
+|     new |    +1 |  0.0% → <0.1% |         0 → 1 | `void G1CMTask::process_grey_task_entry<true>`                                                                                                           | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -199,13 +200,11 @@ Functions with the largest decrease in samples collected within the function bod
 | ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 |  -80.0% |    -4 | 0.2% → <0.1% |   5 → 1 | `tlv_get_addr`                                                                                                                                                                                                                                           | `libdyld.dylib`            |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `os::malloc`                                                                                                                                                                                                                                             | `libjvm.dylib`             |
-| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `G1CardSet::add_to_howl`                                                                                                                                                                                                                                 | `libjvm.dylib`             |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                                                                                                                   | `libjvm.dylib`             |
 |  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `pthread_jit_write_protect_np`                                                                                                                                                                                                                           | `libsystem_pthread.dylib`  |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `forward_copy_longs`                                                                                                                                                                                                                                     | `<unknown>`                |
 |  -28.6% |    -2 |  0.3% → 0.2% |   7 → 5 | `SymbolTable::do_lookup`                                                                                                                                                                                                                                 | `libjvm.dylib`             |
 | removed |    -2 |  0.1% → 0.0% |   2 → 0 | `_platform_memcmp`                                                                                                                                                                                                                                       | `libsystem_platform.dylib` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1BlockOffsetTablePart::update_for_block_work`                                                                                                                                                                                                          | `libjvm.dylib`             |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `nanov2_find_block_and_allocate`                                                                                                                                                                                                                         | `libsystem_malloc.dylib`   |
 |  -33.3% |    -1 |         0.1% |   3 → 2 | `fwd_copy_again`                                                                                                                                                                                                                                         | `libjvm.dylib`             |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `State::_sub_Op_AndI`                                                                                                                                                                                                                                    | `libjvm.dylib`             |
@@ -217,6 +216,8 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::internal_insert_get<SymbolTableLookup, bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::insert<SymbolTableLookup>(Thread*, SymbolTableLookup&, Symbol const&, bool*, bool*)::NOP>` | `libjvm.dylib`             |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `ClassFileParser::parse_constant_pool`                                                                                                                                                                                                                   | `libjvm.dylib`             |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `GrowableArrayWithAllocator<Symbol*, GrowableArray<Symbol*>>::expand_to`                                                                                                                                                                                 | `libjvm.dylib`             |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `PcDescContainer::find_pc_desc_internal`                                                                                                                                                                                                                 | `libjvm.dylib`             |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Bytecode_member_ref::signature`                                                                                                                                                                                                                         | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -643,26 +644,6 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | -------------- | -------------- |
 |    new |    +2 | 0.0% → 100.0% |   0 → 2 | `Dict::Insert` | `libjvm.dylib` |
 
-##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Caller                                          | Location       |
-| -----: | ----: | ------------: | ------: | ----------------------------------------------- | -------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
-
-##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
-
-|  Change | Delta |             % | Samples | Caller                                                              | Location       |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | -------------- |
-|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `G1ScanHRForRegionClosure::scan_memregion`                          | `libjvm.dylib` |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ParScanThreadState::steal_and_trim_queue`                        | `libjvm.dylib` |
-|     new |    +1 |  0.0% → 50.0% |   0 → 1 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Caller                                                                            | Location       |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------- | -------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` | `libjvm.dylib` |
-
 ##### `inflate` (`libzip.dylib`)
 
 |  Change | Delta |      % | Samples | Caller                                          | Location       |
@@ -692,6 +673,28 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller                         | Location       |
 | -----: | ----: | ------------: | ------: | ------------------------------ | -------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ClassVerifier::verify_method` | `libjvm.dylib` |
+
+##### `Mutex::lock` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                 | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `InstanceKlass::add_to_hierarchy_impl` | `libjvm.dylib` |
+
+##### `_platform_memset` (`libsystem_platform.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                          | Location       |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------- | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `PhaseIdealLoop::build_and_optimize`            | `libjvm.dylib` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 33.3% |   0 → 1 | `ciEnv::ciEnv`                                  | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 33.3% |   0 → 1 | `Compilation::compile_method`                   | `libjvm.dylib` |
+|     new |    +1 | 0.0% → 33.3% |   0 → 1 | `MarkBitMap::do_clear`                          | `libjvm.dylib` |
+
+##### `void G1CMTask::process_grey_task_entry<true>` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                | Location       |
+| -----: | ----: | ------------: | ------: | --------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1CMBitMap::iterate` | `libjvm.dylib` |
 
 ##### `PhaseCFG::partial_latency_of_defs` (`libjvm.dylib`)
 
@@ -1009,12 +1012,6 @@ Callers with the largest change in contribution to each function's self samples.
 | removed |    -1 | 50.0% → 0.0% |   1 → 0 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
 | removed |    -1 | 50.0% → 0.0% |   1 → 0 | `PhaseChaitin::Split`          | `libjvm.dylib` |
 
-##### `G1BlockOffsetTablePart::update_for_block_work` (`libjvm.dylib`)
-
-|  Change | Delta |             % | Samples | Caller                                            | Location       |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
-
 ##### `nanov2_find_block_and_allocate` (`libsystem_malloc.dylib`)
 
 |  Change | Delta |             % | Samples | Caller                     | Location                 |
@@ -1080,6 +1077,18 @@ Callers with the largest change in contribution to each function's self samples.
 |  Change | Delta |             % | Samples | Caller                                   | Location       |
 | ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `ClassVerifier::create_temporary_symbol` | `libjvm.dylib` |
+
+##### `PcDescContainer::find_pc_desc_internal` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `vframeStreamCommon::fill_from_frame` | `libjvm.dylib` |
+
+##### `Bytecode_member_ref::signature` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                               | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------ | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `InterpreterRuntime::resolve_invoke` | `libjvm.dylib` |
 
 ##### `LinearScan::build_intervals` (`libjvm.dylib`)
 
@@ -1286,28 +1295,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Native
 
-|  Change | Delta |             % |       Samples | Function                                                      | Location                  |
-| ------: | ----: | ------------: | ------------: | ------------------------------------------------------------- | ------------------------- |
-|   +2.0% |   +47 | 82.5% → 82.9% | 2,302 → 2,349 | `_pthread_start`                                              | `libsystem_pthread.dylib` |
-|   +2.0% |   +47 | 82.5% → 82.9% | 2,302 → 2,349 | `thread_start`                                                | `libsystem_pthread.dylib` |
-|   +2.0% |   +45 | 79.0% → 79.4% | 2,205 → 2,250 | `Thread::call_run`                                            | `libjvm.dylib`            |
-|   +2.0% |   +45 | 79.0% → 79.4% | 2,205 → 2,250 | `thread_native_entry`                                         | `libjvm.dylib`            |
-|   +3.1% |   +40 | 46.8% → 47.4% | 1,305 → 1,345 | `__psynch_cvwait`                                             | `libsystem_kernel.dylib`  |
-|   +3.7% |   +38 | 36.5% → 37.2% | 1,018 → 1,056 | `PlatformMonitor::wait`                                       | `libjvm.dylib`            |
-|   +3.2% |   +24 | 27.0% → 27.4% |     753 → 777 | `Monitor::wait_without_safepoint_check`                       | `libjvm.dylib`            |
-|   +2.2% |   +22 | 36.0% → 36.2% | 1,004 → 1,026 | `semaphore_wait_trap`                                         | `libsystem_kernel.dylib`  |
-|   +2.1% |   +19 | 32.6% → 32.8% |     911 → 930 | `WorkerThread::run`                                           | `libjvm.dylib`            |
-|   +5.3% |   +14 |   9.5% → 9.8% |     265 → 279 | `Monitor::wait`                                               | `libjvm.dylib`            |
-|   +4.3% |   +12 | 10.1% → 10.4% |     282 → 294 | `ConcurrentGCThread::run`                                     | `libjvm.dylib`            |
-|   +1.2% |   +10 | 29.4% → 29.3% |     820 → 830 | `JavaThread::thread_main_inner`                               | `libjvm.dylib`            |
-| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `__psynch_mutexwait`                                          | `libsystem_kernel.dylib`  |
-| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `_pthread_mutex_firstfit_lock_slow`                           | `libsystem_pthread.dylib` |
-|   +8.9% |    +8 |   3.2% → 3.5% |       90 → 98 | `G1ConcurrentRefineThread::run_service`                       | `libjvm.dylib`            |
-|   +7.8% |    +7 |   3.2% → 3.4% |       90 → 97 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib`            |
-|   +2.1% |    +4 |          6.9% |     192 → 196 | `JLI_Launch`                                                  | `libjli.dylib`            |
-|   +2.1% |    +4 |          6.9% |     192 → 196 | `main`                                                        | `java`                    |
-| +400.0% |    +4 |  <0.1% → 0.2% |         1 → 5 | `SharedRuntime::resolve_sub_helper`                           | `libjvm.dylib`            |
-| +400.0% |    +4 |  <0.1% → 0.2% |         1 → 5 | `SharedRuntime::resolve_helper`                               | `libjvm.dylib`            |
+|  Change | Delta |             % |       Samples | Function                                                                                                                                                 | Location                  |
+| ------: | ----: | ------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+|   +2.0% |   +47 | 82.5% → 82.9% | 2,302 → 2,349 | `_pthread_start`                                                                                                                                         | `libsystem_pthread.dylib` |
+|   +2.0% |   +47 | 82.5% → 82.9% | 2,302 → 2,349 | `thread_start`                                                                                                                                           | `libsystem_pthread.dylib` |
+|   +2.0% |   +45 | 79.0% → 79.4% | 2,205 → 2,250 | `Thread::call_run`                                                                                                                                       | `libjvm.dylib`            |
+|   +2.0% |   +45 | 79.0% → 79.4% | 2,205 → 2,250 | `thread_native_entry`                                                                                                                                    | `libjvm.dylib`            |
+|   +3.1% |   +40 | 46.8% → 47.4% | 1,305 → 1,345 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`  |
+|   +3.7% |   +38 | 36.5% → 37.2% | 1,018 → 1,056 | `PlatformMonitor::wait`                                                                                                                                  | `libjvm.dylib`            |
+|   +3.2% |   +24 | 27.0% → 27.4% |     753 → 777 | `Monitor::wait_without_safepoint_check`                                                                                                                  | `libjvm.dylib`            |
+|   +2.2% |   +22 | 36.0% → 36.2% | 1,004 → 1,026 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`  |
+|   +2.1% |   +19 | 32.6% → 32.8% |     911 → 930 | `WorkerThread::run`                                                                                                                                      | `libjvm.dylib`            |
+|   +5.3% |   +14 |   9.5% → 9.8% |     265 → 279 | `Monitor::wait`                                                                                                                                          | `libjvm.dylib`            |
+|   +4.3% |   +12 | 10.1% → 10.4% |     282 → 294 | `ConcurrentGCThread::run`                                                                                                                                | `libjvm.dylib`            |
+|   +1.2% |   +10 | 29.4% → 29.3% |     820 → 830 | `JavaThread::thread_main_inner`                                                                                                                          | `libjvm.dylib`            |
+| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`  |
+| +200.0% |    +8 |   0.1% → 0.4% |        4 → 12 | `_pthread_mutex_firstfit_lock_slow`                                                                                                                      | `libsystem_pthread.dylib` |
+|   +2.1% |    +4 |          6.9% |     192 → 196 | `JLI_Launch`                                                                                                                                             | `libjli.dylib`            |
+|   +2.1% |    +4 |          6.9% |     192 → 196 | `main`                                                                                                                                                   | `java`                    |
+| +400.0% |    +4 |  <0.1% → 0.2% |         1 → 5 | `SharedRuntime::resolve_sub_helper`                                                                                                                      | `libjvm.dylib`            |
+| +400.0% |    +4 |  <0.1% → 0.2% |         1 → 5 | `SharedRuntime::resolve_helper`                                                                                                                          | `libjvm.dylib`            |
+| +200.0% |    +4 |   0.1% → 0.2% |         2 → 6 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`            |
+|     new |    +4 |   0.0% → 0.1% |         0 → 4 | `_pthread_cond_wait`                                                                                                                                     | `libsystem_pthread.dylib` |
 
 ##### Compiler
 
@@ -1388,28 +1397,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Native
 
-|  Change | Delta |            % | Samples | Function                                                                                               | Location        |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------ | --------------- |
-|  -66.7% |    -6 |  0.3% → 0.1% |   9 → 3 | `nmethod::new_nmethod`                                                                                 | `libjvm.dylib`  |
-|  -41.7% |    -5 |  0.4% → 0.2% |  12 → 7 | `PredictedCallGenerator::generate`                                                                     | `libjvm.dylib`  |
-|  -80.0% |    -4 | 0.2% → <0.1% |   5 → 1 | `tlv_get_addr`                                                                                         | `libdyld.dylib` |
-|  -30.8% |    -4 |  0.5% → 0.3% |  13 → 9 | `Parse::do_call`                                                                                       | `libjvm.dylib`  |
-| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib`  |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `os::malloc`                                                                                           | `libjvm.dylib`  |
-|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `G1ConcurrentRebuildAndScrub::rebuild_and_scrub`                                                       | `libjvm.dylib`  |
-|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `G1ConcurrentMarkThread::phase_rebuild_and_scrub`                                                      | `libjvm.dylib`  |
-|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `G1ConcurrentMarkThread::concurrent_mark_cycle_do`                                                     | `libjvm.dylib`  |
-|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::do_one_block`                                                                                  | `libjvm.dylib`  |
-|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::do_all_blocks`                                                                                 | `libjvm.dylib`  |
-|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::Parse`                                                                                         | `libjvm.dylib`  |
-|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `ParseGenerator::generate`                                                                             | `libjvm.dylib`  |
-|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`                               | `libjvm.dylib`  |
-|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region`                     | `libjvm.dylib`  |
-|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `G1RebuildRSAndScrubTask::work`                                                                        | `libjvm.dylib`  |
-|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `InterpreterRuntime::resolve_invoke`                                                                   | `libjvm.dylib`  |
-|  -50.0% |    -3 |  0.2% → 0.1% |   6 → 3 | `InterpreterRuntime::resolve_from_cache`                                                               | `libjvm.dylib`  |
-| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `break_stack_range`                                                                                    | `<unknown>`     |
-|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `nmethod::nmethod`                                                                                     | `libjvm.dylib`  |
+|  Change | Delta |            % | Samples | Function                                                                                                                                                        | Location                  |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+|  -66.7% |    -6 |  0.3% → 0.1% |   9 → 3 | `nmethod::new_nmethod`                                                                                                                                          | `libjvm.dylib`            |
+|  -41.7% |    -5 |  0.4% → 0.2% |  12 → 7 | `PredictedCallGenerator::generate`                                                                                                                              | `libjvm.dylib`            |
+|  -80.0% |    -4 | 0.2% → <0.1% |   5 → 1 | `tlv_get_addr`                                                                                                                                                  | `libdyld.dylib`           |
+|  -30.8% |    -4 |  0.5% → 0.3% |  13 → 9 | `Parse::do_call`                                                                                                                                                | `libjvm.dylib`            |
+| removed |    -4 |  0.1% → 0.0% |   4 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                          | `libjvm.dylib`            |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `os::malloc`                                                                                                                                                    | `libjvm.dylib`            |
+|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::do_one_block`                                                                                                                                           | `libjvm.dylib`            |
+|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::do_all_blocks`                                                                                                                                          | `libjvm.dylib`            |
+|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `Parse::Parse`                                                                                                                                                  | `libjvm.dylib`            |
+|  -20.0% |    -3 |  0.5% → 0.4% | 15 → 12 | `ParseGenerator::generate`                                                                                                                                      | `libjvm.dylib`            |
+|  -60.0% |    -3 |  0.2% → 0.1% |   5 → 2 | `InterpreterRuntime::resolve_invoke`                                                                                                                            | `libjvm.dylib`            |
+|  -50.0% |    -3 |  0.2% → 0.1% |   6 → 3 | `InterpreterRuntime::resolve_from_cache`                                                                                                                        | `libjvm.dylib`            |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `break_stack_range`                                                                                                                                             | `<unknown>`               |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `nmethod::nmethod`                                                                                                                                              | `libjvm.dylib`            |
+|  -40.0% |    -2 |  0.2% → 0.1% |   5 → 3 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib`            |
+| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `AllocateHeap`                                                                                                                                                  | `libjvm.dylib`            |
+|  -28.6% |    -2 |  0.3% → 0.2% |   7 → 5 | `WorkerThreads::run_task`                                                                                                                                       | `libjvm.dylib`            |
+|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `pthread_jit_write_protect_np`                                                                                                                                  | `libsystem_pthread.dylib` |
+| removed |    -2 |  0.1% → 0.0% |   2 → 0 | `forward_copy_longs`                                                                                                                                            | `<unknown>`               |
+|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `CollectedHeap::array_allocate`                                                                                                                                 | `libjvm.dylib`            |
 
 ##### Compiler
 
@@ -1623,6 +1632,19 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -------------: | ------: | ------------------------------------------- | -------------- |
 |     new |    +3 |   0.0% → 60.0% |   0 → 3 | `SharedRuntime::resolve_virtual_call_C`     | `libjvm.dylib` |
 | +100.0% |    +1 | 100.0% → 40.0% |   1 → 2 | `SharedRuntime::resolve_opt_virtual_call_C` | `libjvm.dylib` |
+
+##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller                                             | Location       |
+| ------: | ----: | -------------: | ------: | -------------------------------------------------- | -------------- |
+| +150.0% |    +3 | 100.0% → 83.3% |   2 → 5 | `DebugInformationRecorder::describe_scope`         | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 16.7% |   0 → 1 | `DebugInformationRecorder::serialize_scope_values` | `libjvm.dylib` |
+
+##### `_pthread_cond_wait` (`libsystem_pthread.dylib`)
+
+| Change | Delta |             % | Samples | Caller                  | Location       |
+| -----: | ----: | ------------: | ------: | ----------------------- | -------------- |
+|    new |    +4 | 0.0% → 100.0% |   0 → 4 | `PlatformMonitor::wait` | `libjvm.dylib` |
 
 ##### `Compilation::compile_java_method` (`libjvm.dylib`)
 
@@ -1992,24 +2014,6 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -2 | 66.7% → 0.0% |   2 → 0 | `AllocateHeap`                                                                                                                                                                                                                                           | `libjvm.dylib` |
 | removed |    -1 | 33.3% → 0.0% |   1 → 0 | `bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::internal_insert_get<SymbolTableLookup, bool ConcurrentHashTable<SymbolTableConfig, (MEMFLAGS)11>::insert<SymbolTableLookup>(Thread*, SymbolTableLookup&, Symbol const&, bool*, bool*)::NOP>` | `libjvm.dylib` |
 
-##### `G1ConcurrentRebuildAndScrub::rebuild_and_scrub` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                            | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------------------- | -------------- |
-| -75.0% |    -3 | 100.0% |   4 → 1 | `G1ConcurrentMarkThread::phase_rebuild_and_scrub` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::phase_rebuild_and_scrub` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                             | Location       |
-| -----: | ----: | -----: | ------: | -------------------------------------------------- | -------------- |
-| -75.0% |    -3 | 100.0% |   4 → 1 | `G1ConcurrentMarkThread::concurrent_mark_cycle_do` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::concurrent_mark_cycle_do` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------- | -------------- |
-| -60.0% |    -3 | 100.0% |   5 → 2 | `G1ConcurrentMarkThread::run_service` | `libjvm.dylib` |
-
 ##### `Parse::do_one_block` (`libjvm.dylib`)
 
 | Change | Delta |      % | Samples | Caller                 | Location       |
@@ -2036,25 +2040,6 @@ Callers with the largest change in contribution to each function's total samples
 | -20.0% |    -3 |        100.0% | 15 → 12 | `Compile::Compile`                 | `libjvm.dylib` |
 | -16.7% |    -1 | 40.0% → 41.7% |   6 → 5 | `Parse::do_call`                   | `libjvm.dylib` |
 
-##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
-
-|  Change | Delta |              % | Samples | Caller                                                                             | Location       |
-| ------: | ----: | -------------: | ------: | ---------------------------------------------------------------------------------- | -------------- |
-|  -50.0% |    -2 | 80.0% → 100.0% |   4 → 2 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`  | `libjvm.dylib` |
-| removed |    -1 |   20.0% → 0.0% |   1 → 0 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                           | Location       |
-| -----: | ----: | -----: | ------: | -------------------------------- | -------------- |
-| -60.0% |    -3 | 100.0% |   5 → 2 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::work` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller              | Location       |
-| -----: | ----: | -----: | ------: | ------------------- | -------------- |
-| -60.0% |    -3 | 100.0% |   5 → 2 | `WorkerThread::run` | `libjvm.dylib` |
-
 ##### `InterpreterRuntime::resolve_invoke` (`libjvm.dylib`)
 
 | Change | Delta |      % | Samples | Caller                                   | Location       |
@@ -2076,6 +2061,50 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Caller                 | Location       |
 | -----: | ----: | -----: | ------: | ---------------------- | -------------- |
 | -75.0% |    -3 | 100.0% |   4 → 1 | `nmethod::new_nmethod` | `libjvm.dylib` |
+
+##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                      | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------- | -------------- |
+| -40.0% |    -2 | 100.0% |   5 → 3 | `G1ScanHRForRegionClosure::scan_heap_roots` | `libjvm.dylib` |
+
+##### `AllocateHeap` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                             | Location       |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------- | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `G1CardSet::G1CardSet`                             | `libjvm.dylib` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `PackageEntryTable::locked_create_entry_if_absent` | `libjvm.dylib` |
+
+##### `WorkerThreads::run_task` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                              | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------- | -------------- |
+|  -75.0% |    -3 | 57.1% → 20.0% |   4 → 1 | `G1ConcurrentRebuildAndScrub::rebuild_and_scrub`    | `libjvm.dylib` |
+|  +50.0% |    +1 | 28.6% → 60.0% |   2 → 3 | `G1YoungCollector::evacuate_initial_collection_set` | `libjvm.dylib` |
+| removed |    -1 |  14.3% → 0.0% |   1 → 0 | `G1YoungCollector::post_evacuate_collection_set`    | `libjvm.dylib` |
+|     new |    +1 |  0.0% → 20.0% |   0 → 1 | `G1ConcurrentMark::mark_from_roots`                 | `libjvm.dylib` |
+
+##### `pthread_jit_write_protect_np` (`libsystem_pthread.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                      | Location           |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- | ------------------ |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `jni_GetPrimitiveArrayCritical`             | `libjvm.dylib`     |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `SharedRuntime::resolve_opt_virtual_call_C` | `libjvm.dylib`     |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `InterpreterRuntime::anewarray`             | `libjvm.dylib`     |
+|     new |    +1 | 0.0% → 100.0% |   0 → 1 | `arraycopy(Object, int, Object, int, int)`  | `java.lang.System` |
+
+##### `forward_copy_longs` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                             | Location    |
+| ------: | ----: | -----------: | ------: | ---------------------------------- | ----------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `arrayof_jlong_disjoint_arraycopy` | `<unknown>` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `jbyte_disjoint_arraycopy`         | `<unknown>` |
+
+##### `CollectedHeap::array_allocate` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                            | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------- | -------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `OptoRuntime::new_array_nozero_C` | `libjvm.dylib` |
 
 ##### `LinearScan::build_intervals` (`libjvm.dylib`)
 
@@ -2390,6 +2419,18 @@ Callees with the largest change in contribution to each function's total samples
 |  Change | Delta |      % | Samples | Callee                              | Location       |
 | ------: | ----: | -----: | ------: | ----------------------------------- | -------------- |
 | +400.0% |    +4 | 100.0% |   1 → 5 | `SharedRuntime::resolve_sub_helper` | `libjvm.dylib` |
+
+##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Callee        | Location       |
+| ------: | ----: | -----------: | ------: | ------------- | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `stub:memcmp` | `libjvm.dylib` |
+
+##### `_pthread_cond_wait` (`libsystem_pthread.dylib`)
+
+| Change | Delta |             % | Samples | Callee                              | Location                  |
+| -----: | ----: | ------------: | ------: | ----------------------------------- | ------------------------- |
+|    new |    +4 | 0.0% → 100.0% |   0 → 4 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
 
 ##### `Compilation::compile_java_method` (`libjvm.dylib`)
 
@@ -2796,24 +2837,6 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -----------: | ------: | -------------------------- | ------------------------ |
 | removed |    -1 | 33.3% → 0.0% |   1 → 0 | `nanov2_allocate_outlined` | `libsystem_malloc.dylib` |
 
-##### `G1ConcurrentRebuildAndScrub::rebuild_and_scrub` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                    | Location       |
-| -----: | ----: | -----: | ------: | ------------------------- | -------------- |
-| -75.0% |    -3 | 100.0% |   4 → 1 | `WorkerThreads::run_task` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::phase_rebuild_and_scrub` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                           | Location       |
-| -----: | ----: | -----: | ------: | ------------------------------------------------ | -------------- |
-| -75.0% |    -3 | 100.0% |   4 → 1 | `G1ConcurrentRebuildAndScrub::rebuild_and_scrub` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::concurrent_mark_cycle_do` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Callee                                            | Location       |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
-| -75.0% |    -3 | 80.0% → 50.0% |   4 → 1 | `G1ConcurrentMarkThread::phase_rebuild_and_scrub` | `libjvm.dylib` |
-
 ##### `Parse::do_one_block` (`libjvm.dylib`)
 
 |  Change | Delta |             % | Samples | Callee                   | Location       |
@@ -2843,27 +2866,6 @@ Callees with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Callee         | Location       |
 | -----: | ----: | -----: | ------: | -------------- | -------------- |
 | -20.0% |    -3 | 100.0% | 15 → 12 | `Parse::Parse` | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
-
-|  Change | Delta |            % | Samples | Callee                                                                                                 | Location       |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------ | -------------- |
-| removed |    -4 | 80.0% → 0.0% |   4 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
-| removed |    -1 | 20.0% → 0.0% |   1 → 0 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` | `libjvm.dylib` |
-|     new |    +1 | 0.0% → 50.0% |   0 → 1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_large_object`                         | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` (`libjvm.dylib`)
-
-|  Change | Delta |              % | Samples | Callee                                                                            | Location       |
-| ------: | ----: | -------------: | ------: | --------------------------------------------------------------------------------- | -------------- |
-|  -50.0% |    -2 | 80.0% → 100.0% |   4 → 2 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` | `libjvm.dylib` |
-| removed |    -1 |   20.0% → 0.0% |   1 → 0 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`          | `libjvm.dylib` |
-
-##### `G1RebuildRSAndScrubTask::work` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                           | Location       |
-| -----: | ----: | -----: | ------: | -------------------------------- | -------------- |
-| -60.0% |    -3 | 100.0% |   5 → 2 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
 
 ##### `InterpreterRuntime::resolve_invoke` (`libjvm.dylib`)
 
@@ -2897,6 +2899,30 @@ Callees with the largest change in contribution to each function's total samples
 | removed |    -1 |  25.0% → 0.0% |   1 → 0 | `nmethod::copy_scopes_data`         | `libjvm.dylib`             |
 | removed |    -1 |  25.0% → 0.0% |   1 → 0 | `G1CollectedHeap::register_nmethod` | `libjvm.dylib`             |
 |     new |    +1 | 0.0% → 100.0% |   0 → 1 | `nmethod::finalize_relocations`     | `libjvm.dylib`             |
+
+##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                     | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
+| -40.0% |    -2 | 100.0% |   5 → 3 | `G1ScanHRForRegionClosure::scan_memregion` | `libjvm.dylib` |
+
+##### `AllocateHeap` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee       | Location       |
+| ------: | ----: | ------------: | ------: | ------------ | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `os::malloc` | `libjvm.dylib` |
+
+##### `WorkerThreads::run_task` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                | Location                 |
+| -----: | ----: | -----: | ------: | --------------------- | ------------------------ |
+| -28.6% |    -2 | 100.0% |   7 → 5 | `semaphore_wait_trap` | `libsystem_kernel.dylib` |
+
+##### `CollectedHeap::array_allocate` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                   | Location       |
+| -----: | ----: | -----: | ------: | ------------------------ | -------------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `MemAllocator::allocate` | `libjvm.dylib` |
 
 ##### `LinearScan::build_intervals` (`libjvm.dylib`)
 

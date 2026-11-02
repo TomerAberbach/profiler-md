@@ -1,5 +1,6 @@
 import { once } from '../../helpers/once.ts'
 import {
+  absoluteFileReference,
   formatSourceLocation,
   sourceReferenceId,
   sourceReferenceKind,
@@ -707,7 +708,27 @@ export const formatRetainerLabel = (
 export const formatRetainerName = (
   { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
   options: FormattingProfileToMdOptions,
-): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
+): string =>
+  nameLocation
+    ? formatSourceLocation(nameLocation, options)
+    : formatNameWithTrailingURL(name, options)
+
+/**
+ * Formats the URL ending a name such as `Window / http://127.0.0.1:52789` like
+ * any other file reference, so it is shown relative to the base URL.
+ */
+export const formatNameWithTrailingURL = (
+  name: string,
+  options: FormattingProfileToMdOptions,
+): string => {
+  const { prefix, url } = TRAILING_URL.exec(name)?.groups ?? {}
+  const reference = url === undefined ? undefined : absoluteFileReference(url)
+  return reference
+    ? `${prefix} / ${formatSourceLocation(reference, options)}`
+    : name
+}
+
+const TRAILING_URL = /^(?<prefix>.+) \/ (?<url>[a-z][a-z\d+.-]*:\/\/\S+)$/su
 
 export const formatRetainerEdgeLabel = (
   edge: RetainerPathEdge,

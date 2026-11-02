@@ -1,4 +1,20 @@
+import type { DeepReadonly } from '../helpers/types.ts'
+import type { FunctionCategory } from '../modalities/category-sets.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
+import type { ProfileEntry } from '../options.ts'
+
+/**
+ * Categorizes a regular expression JavaScriptCore names by its literal,
+ * `/source/flags`, with no location, as `regexp`. A function the program defines
+ * has a location.
+ */
+export const jscRegExpCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  !location && name && REGEXP_LITERAL.test(name) ? `regexp` : undefined
+
+const REGEXP_LITERAL = /^\/.+\/[dgimsuvy]*$/su
 
 /**
  * The heap snapshot category of a constructor named {@link name} when

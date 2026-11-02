@@ -607,6 +607,48 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`keeps a C++ class name verbatim, and shows the URL ending a name relative to the base URL`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeObjectSnapshot(
+        `ModuleMap::Entry`,
+        `Window / file:///home/user/project/page.html`,
+      ),
+      normalizeProfileToMdOptions({ baseURL: `file:///home/user/project/` }),
+    )
+
+    expect(selfSizeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `66.7%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Constructor: `ModuleMap::Entry`,
+        },
+        {
+          '%': `33.3%`,
+          Size: `100 B`,
+          Instances: `1`,
+          Constructor: `Window / ./page.html`,
+        },
+      ],
+    ])
+  })
+
+  test(`locates a function in a script Chrome compiled into itself by the script's name`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeClosureSnapshot(`v8/LoadTimes`),
+      normalizeProfileToMdOptions({}),
+    )
+
+    expect(
+      functionTables(md)
+        .flat()
+        .map(({ Location }) => Location),
+    ).toStrictEqual([`v8/LoadTimes:6:11`])
+  })
+
   test(`matchEntry matches functions whose locations differ across snapshots`, () => {
     // The function's script path carries a per-build suffix, so by default the
     // two sides don't match and the function shows as a removed/new pair.

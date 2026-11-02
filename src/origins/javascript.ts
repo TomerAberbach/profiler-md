@@ -88,6 +88,14 @@ const getBuiltinNames = (): ReadonlySet<string> => {
         names.add(key)
       }
     }
+    for (const symbol of Object.getOwnPropertySymbols(object)) {
+      if (
+        typeof Object.getOwnPropertyDescriptor(object, symbol)?.value ===
+        `function`
+      ) {
+        names.add(`[${symbol.description}]`)
+      }
+    }
   }
 
   for (const name of Object.keys(globals.builtin)) {

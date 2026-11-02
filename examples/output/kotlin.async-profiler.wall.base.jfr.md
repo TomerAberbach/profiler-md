@@ -2,14 +2,15 @@
 
 Collected 2,791 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Native           | 93.3% |   2,604 |
-| Compiler         |  4.6% |     129 |
-| Ours             |  1.0% |      29 |
-| Standard library |  0.5% |      14 |
-| Unknown          |  0.5% |      13 |
-| JIT              |  0.1% |       2 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Native            | 93.1% |   2,599 |
+| Compiler          |  4.6% |     129 |
+| Ours              |  1.0% |      29 |
+| Standard library  |  0.5% |      14 |
+| Unknown           |  0.5% |      13 |
+| Garbage collector |  0.2% |       5 |
+| JIT               |  0.1% |       2 |
 
 `…` stands for omitted frames.
 
@@ -108,15 +109,15 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |       3 | `fwd_copy_again`                                                                                       | `libjvm.dylib`             |
 |  0.1% |       3 | `pthread_jit_write_protect_np`                                                                         | `libsystem_pthread.dylib`  |
 |  0.1% |       2 | `os::malloc`                                                                                           | `libjvm.dylib`             |
-|  0.1% |       2 | `G1CardSet::add_to_howl`                                                                               | `libjvm.dylib`             |
 |  0.1% |       2 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib`             |
 |  0.1% |       2 | `forward_copy_longs`                                                                                   | `<unknown>`                |
 |  0.1% |       2 | `InstanceKlass::find_method_index`                                                                     | `libjvm.dylib`             |
 |  0.1% |       2 | `_platform_memcmp`                                                                                     | `libsystem_platform.dylib` |
 |  0.1% |       2 | `_platform_memset`                                                                                     | `libsystem_platform.dylib` |
-| <0.1% |       1 | `G1BlockOffsetTablePart::update_for_block_work`                                                        | `libjvm.dylib`             |
-| <0.1% |       1 | `G1ParScanThreadState::trim_queue_to_threshold`                                                        | `libjvm.dylib`             |
 | <0.1% |       1 | `nanov2_find_block_and_allocate`                                                                       | `libsystem_malloc.dylib`   |
+| <0.1% |       1 | `State::_sub_Op_AndI`                                                                                  | `libjvm.dylib`             |
+| <0.1% |       1 | `unknown`                                                                                              | `<unknown>`                |
+| <0.1% |       1 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -425,12 +426,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | -------------------------------------- | -------------- |
 | 100.0% |       2 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
 
-##### `G1CardSet::add_to_howl` (`libjvm.dylib`)
-
-|      % | Samples | Caller                | Location       |
-| -----: | ------: | --------------------- | -------------- |
-| 100.0% |       2 | `G1CardSet::add_card` | `libjvm.dylib` |
-
 ##### `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                                                   | Location       |
@@ -541,23 +536,29 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ---------------------------------- | -------------- |
 | 100.0% |       2 | `LinearScanWalker::alloc_free_reg` | `libjvm.dylib` |
 
-##### `G1BlockOffsetTablePart::update_for_block_work` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                            | Location       |
-| -----: | ------: | ------------------------------------------------- | -------------- |
-| 100.0% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
-
-##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                       | Location       |
-| -----: | ------: | -------------------------------------------- | -------------- |
-| 100.0% |       1 | `G1ParScanThreadState::steal_and_trim_queue` | `libjvm.dylib` |
-
 ##### `nanov2_find_block_and_allocate` (`libsystem_malloc.dylib`)
 
 |      % | Samples | Caller                     | Location                 |
 | -----: | ------: | -------------------------- | ------------------------ |
 | 100.0% |       1 | `nanov2_allocate_outlined` | `libsystem_malloc.dylib` |
+
+##### `State::_sub_Op_AndI` (`libjvm.dylib`)
+
+|      % | Samples | Caller       | Location       |
+| -----: | ------: | ------------ | -------------- |
+| 100.0% |       1 | `State::DFA` | `libjvm.dylib` |
+
+##### `unknown` (`<unknown>`)
+
+|      % | Samples | Caller    | Location    |
+| -----: | ------: | --------- | ----------- |
+| 100.0% |       1 | `unknown` | `<unknown>` |
+
+##### `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                   | Location       |
+| -----: | ------: | ------------------------------------------------------------------------ | -------------- |
+| 100.0% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` | `libjvm.dylib` |
 
 ##### `zzUnpackcmap_blocks(String, int, int[])` (`org.jetbrains.kotlin.lexer._JetLexer`)
 
@@ -732,8 +733,8 @@ Categories accounting for at least 1.0% of self samples.
 |  3.4% |      96 | `VMThread::run`                            | `libjvm.dylib`            |
 |  3.4% |      96 | `Profiler::timerLoop`                      | `libasyncProfiler.dylib`  |
 |  3.4% |      96 | `JvmtiAgentThread::start_function_wrapper` | `libjvm.dylib`            |
-|  3.4% |      96 | `G1ConcurrentMarkThread::run_service`      | `libjvm.dylib`            |
 |  3.4% |      96 | `mach_msg2_trap`                           | `libsystem_kernel.dylib`  |
+|  3.4% |      96 | `mach_msg_overwrite`                       | `libsystem_kernel.dylib`  |
 
 ##### Compiler
 
@@ -936,17 +937,17 @@ Callers with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | ------------------------------- | -------------- |
 | 100.0% |      96 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
 
-##### `G1ConcurrentMarkThread::run_service` (`libjvm.dylib`)
-
-|      % | Samples | Caller                    | Location       |
-| -----: | ------: | ------------------------- | -------------- |
-| 100.0% |      96 | `ConcurrentGCThread::run` | `libjvm.dylib` |
-
 ##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller               | Location                 |
 | -----: | ------: | -------------------- | ------------------------ |
 | 100.0% |      96 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+
+##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller     | Location                 |
+| -----: | ------: | ---------- | ------------------------ |
+| 100.0% |      96 | `mach_msg` | `libsystem_kernel.dylib` |
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -1310,12 +1311,11 @@ Callees with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | --------------------- | ------------------------ |
 | 100.0% |      96 | `Profiler::timerLoop` | `libasyncProfiler.dylib` |
 
-##### `G1ConcurrentMarkThread::run_service` (`libjvm.dylib`)
+##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Callee                                             | Location       |
-| ----: | ------: | -------------------------------------------------- | -------------- |
-| 94.8% |      91 | `Monitor::wait_without_safepoint_check`            | `libjvm.dylib` |
-|  5.2% |       5 | `G1ConcurrentMarkThread::concurrent_mark_cycle_do` | `libjvm.dylib` |
+|      % | Samples | Callee           | Location                 |
+| -----: | ------: | ---------------- | ------------------------ |
+| 100.0% |      96 | `mach_msg2_trap` | `libsystem_kernel.dylib` |
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 

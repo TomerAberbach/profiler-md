@@ -2,13 +2,14 @@
 
 Collected 5,651 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Ours             | 50.5% |   2,856 |
-| Native           | 35.3% |   1,993 |
-| Standard library | 11.9% |     674 |
-| Compiler         |  1.2% |      67 |
-| JIT              |  1.1% |      61 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Ours              | 50.5% |   2,856 |
+| Native            | 34.3% |   1,939 |
+| Standard library  | 11.9% |     674 |
+| Compiler          |  1.2% |      67 |
+| JIT               |  1.1% |      61 |
+| Garbage collector |  1.0% |      54 |
 
 `…` stands for omitted frames.
 
@@ -118,28 +119,28 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
-|     % | Samples | Function                                           | Location                   |
-| ----: | ------: | -------------------------------------------------- | -------------------------- |
-| 23.8% |   1,345 | `__psynch_cvwait`                                  | `libsystem_kernel.dylib`   |
-|  4.7% |     267 | `forward_copy_longs`                               | `<unknown>`                |
-|  1.2% |      65 | `__psynch_cvsignal`                                | `libsystem_kernel.dylib`   |
-|  0.5% |      26 | `__psynch_mutexwait`                               | `libsystem_kernel.dylib`   |
-|  0.4% |      25 | `semaphore_wait_trap`                              | `libsystem_kernel.dylib`   |
-|  0.3% |      19 | `_platform_bzero`                                  | `libsystem_platform.dylib` |
-|  0.3% |      18 | `arrayof_jint_disjoint_arraycopy`                  | `<unknown>`                |
-|  0.3% |      18 | `G1FullGCMarker::mark_object`                      | `libjvm.dylib`             |
-|  0.3% |      15 | `pthread_jit_write_protect_np`                     | `libsystem_pthread.dylib`  |
-|  0.2% |      12 | `_platform_memset`                                 | `libsystem_platform.dylib` |
-|  0.2% |       9 | `inflate_fast`                                     | `libzip.dylib`             |
-|  0.1% |       8 | `G1RegionMarkStatsCache::add_live_words`           | `libjvm.dylib`             |
-|  0.1% |       6 | `InstanceKlass::find_method_index`                 | `libjvm.dylib`             |
-|  0.1% |       4 | `Unsafe_Park`                                      | `libjvm.dylib`             |
-|  0.1% |       4 | `arrayof_oop_disjoint_arraycopy`                   | `<unknown>`                |
-|  0.1% |       4 | `ObjArrayAllocator::initialize`                    | `libjvm.dylib`             |
-|  0.1% |       4 | `G1FullGCCompactTask::copy_object_to_new_location` | `libjvm.dylib`             |
-|  0.1% |       4 | `_sigtramp`                                        | `libsystem_platform.dylib` |
-|  0.1% |       4 | `__mmap`                                           | `libsystem_kernel.dylib`   |
-|  0.1% |       4 | `semaphore_signal_trap`                            | `libsystem_kernel.dylib`   |
+|     % | Samples | Function                                                                                     | Location                   |
+| ----: | ------: | -------------------------------------------------------------------------------------------- | -------------------------- |
+| 23.8% |   1,345 | `__psynch_cvwait`                                                                            | `libsystem_kernel.dylib`   |
+|  4.7% |     267 | `forward_copy_longs`                                                                         | `<unknown>`                |
+|  1.2% |      65 | `__psynch_cvsignal`                                                                          | `libsystem_kernel.dylib`   |
+|  0.5% |      26 | `__psynch_mutexwait`                                                                         | `libsystem_kernel.dylib`   |
+|  0.4% |      25 | `semaphore_wait_trap`                                                                        | `libsystem_kernel.dylib`   |
+|  0.3% |      19 | `_platform_bzero`                                                                            | `libsystem_platform.dylib` |
+|  0.3% |      18 | `arrayof_jint_disjoint_arraycopy`                                                            | `<unknown>`                |
+|  0.3% |      15 | `pthread_jit_write_protect_np`                                                               | `libsystem_pthread.dylib`  |
+|  0.2% |      12 | `_platform_memset`                                                                           | `libsystem_platform.dylib` |
+|  0.2% |       9 | `inflate_fast`                                                                               | `libzip.dylib`             |
+|  0.1% |       6 | `InstanceKlass::find_method_index`                                                           | `libjvm.dylib`             |
+|  0.1% |       4 | `Unsafe_Park`                                                                                | `libjvm.dylib`             |
+|  0.1% |       4 | `arrayof_oop_disjoint_arraycopy`                                                             | `<unknown>`                |
+|  0.1% |       4 | `ObjArrayAllocator::initialize`                                                              | `libjvm.dylib`             |
+|  0.1% |       4 | `_sigtramp`                                                                                  | `libsystem_platform.dylib` |
+|  0.1% |       4 | `__mmap`                                                                                     | `libsystem_kernel.dylib`   |
+|  0.1% |       4 | `semaphore_signal_trap`                                                                      | `libsystem_kernel.dylib`   |
+|  0.1% |       3 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>` | `libjvm.dylib`             |
+|  0.1% |       3 | `mach_absolute_time`                                                                         | `libsystem_kernel.dylib`   |
+|  0.1% |       3 | `ClassLoaderData::oops_do`                                                                   | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -610,14 +611,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | 16.7% |       3 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`   |
 | 16.7% |       3 | `grow(int)`                         | `java.util.ArrayList` |
 
-##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
-
-|     % | Samples | Caller                                                          | Location       |
-| ----: | ------: | --------------------------------------------------------------- | -------------- |
-| 83.3% |      15 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
-| 11.1% |       2 | `G1FullGCMarker::complete_marking`                              | `libjvm.dylib` |
-|  5.6% |       1 | `G1FullGCMarker::follow_marking_stacks`                         | `libjvm.dylib` |
-
 ##### `pthread_jit_write_protect_np` (`libsystem_pthread.dylib`)
 
 |     % | Samples | Caller                                                              | Location                            |
@@ -654,12 +647,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller                              | Location                            |
 | -----: | ------: | ----------------------------------- | ----------------------------------- |
 | 100.0% |       9 | `runWorker(ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool` |
-
-##### `G1RegionMarkStatsCache::add_live_words` (`libjvm.dylib`)
-
-|      % | Samples | Caller                        | Location       |
-| -----: | ------: | ----------------------------- | -------------- |
-| 100.0% |       8 | `G1FullGCMarker::mark_object` | `libjvm.dylib` |
 
 ##### `forEach(BiConsumer)` (`java.util.HashMap`)
 
@@ -726,12 +713,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------------------------ | -------------- |
 | 100.0% |       4 | `MemAllocator::allocate` | `libjvm.dylib` |
 
-##### `G1FullGCCompactTask::copy_object_to_new_location` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                               | Location       |
-| -----: | ------: | ---------------------------------------------------- | -------------- |
-| 100.0% |       4 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `libjvm.dylib` |
-
 ##### `__mmap` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller                   | Location       |
@@ -762,6 +743,27 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller      | Location                                               |
 | -----: | ------: | ----------- | ------------------------------------------------------ |
 | 100.0% |       3 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |       3 | `G1FullGCPrepareTask::work` | `libjvm.dylib` |
+
+##### `mach_absolute_time` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                | Location            |
+| ----: | ------: | --------------------- | ------------------- |
+| 33.3% |       1 | `gettimeofday`        | `libsystem_c.dylib` |
+| 33.3% |       1 | `os::elapsedTime`     | `libjvm.dylib`      |
+| 33.3% |       1 | `os::elapsed_counter` | `libjvm.dylib`      |
+
+##### `ClassLoaderData::oops_do` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                                                               | Location       |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------- | -------------- |
+| 66.7% |       2 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                                        | `libjvm.dylib` |
+| 33.3% |       1 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
 
 ##### `runWorker(ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool`)
 
@@ -1071,7 +1073,7 @@ Categories accounting for at least 1.0% of self samples.
 |  1.0% |      55 | `MemAllocator::allocate`           | `libjvm.dylib`            |
 |  1.0% |      55 | `CollectedHeap::array_allocate`    | `libjvm.dylib`            |
 |  0.9% |      53 | `InstanceKlass::allocate_objArray` | `libjvm.dylib`            |
-|  0.8% |      47 | `G1FullGCMarker::complete_marking` | `libjvm.dylib`            |
+|  0.7% |      37 | `PlatformMonitor::wait`            | `libjvm.dylib`            |
 
 ##### Standard library
 
@@ -1533,11 +1535,12 @@ Callers with the largest contribution to each function's total samples. Inlining
 | 98.1% |      52 | `OptoRuntime::new_array_C` | `libjvm.dylib` |
 |  1.9% |       1 | `_new_array_Java`          | `<unknown>`    |
 
-##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
 
-|      % | Samples | Caller                   | Location       |
-| -----: | ------: | ------------------------ | -------------- |
-| 100.0% |      47 | `G1FullGCMarkTask::work` | `libjvm.dylib` |
+|     % | Samples | Caller                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 51.4% |      19 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+| 48.6% |      18 | `Monitor::wait`                         | `libjvm.dylib` |
 
 ##### `Compile::Code_Gen` (`libjvm.dylib`)
 
@@ -2121,15 +2124,13 @@ Callees with the largest contribution to each function's total samples. Inlining
 | ----: | ------: | ------------------------------- | -------------- |
 | 98.1% |      52 | `CollectedHeap::array_allocate` | `libjvm.dylib` |
 
-##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
 
-|     % | Samples | Callee                                                                                                     | Location       |
-| ----: | ------: | ---------------------------------------------------------------------------------------------------------- | -------------- |
-| 51.1% |      24 | `G1FullGCMarker::follow_marking_stacks`                                                                    | `libjvm.dylib` |
-| 23.4% |      11 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                            | `libjvm.dylib` |
-| 19.1% |       9 | `TaskTerminator::offer_termination`                                                                        | `libjvm.dylib` |
-|  4.3% |       2 | `G1FullGCMarker::mark_object`                                                                              | `libjvm.dylib` |
-|  2.1% |       1 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` | `libjvm.dylib` |
+|     % | Samples | Callee               | Location                  |
+| ----: | ------: | -------------------- | ------------------------- |
+| 89.2% |      33 | `__psynch_cvwait`    | `libsystem_kernel.dylib`  |
+|  5.4% |       2 | `__gettimeofday`     | `libsystem_kernel.dylib`  |
+|  5.4% |       2 | `_pthread_cond_wait` | `libsystem_pthread.dylib` |
 
 ##### `Compile::Code_Gen` (`libjvm.dylib`)
 

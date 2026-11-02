@@ -618,6 +618,7 @@ Allocated 10.1 GiB and recorded 18,616,855 entries.
 | ----------------- | ----: | -------: | ---------: |
 | Ours              | 99.7% | 10.1 GiB | 18,616,855 |
 | Native            |  0.3% | 28.8 MiB |          0 |
+| Standard library  | <0.1% |   39 KiB |          0 |
 | Garbage collector | <0.1% | 1.07 KiB |          0 |
 
 `…` stands for omitted frames.

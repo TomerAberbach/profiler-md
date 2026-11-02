@@ -218,7 +218,9 @@ export type OriginSpec = {
    * An event whose parser or shared constructor set its category skips this.
    */
   categorizeTraceEvent?: (
-    event: DeepReadonly<Pick<TraceEvent, `name` | `declaredCategories`>>,
+    event: DeepReadonly<
+      Pick<TraceEvent, `type` | `name` | `declaredCategories`>
+    >,
   ) => TraceEventCategory | undefined
 
   /**

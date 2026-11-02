@@ -11,6 +11,7 @@ import {
   textCell,
 } from '../table.ts'
 import type { Table } from '../table.ts'
+import { formatNameWithTrailingURL } from './aggregate.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
 /** A category's row on one side. */
@@ -192,4 +193,6 @@ export const displayName = (
 ): string | undefined =>
   entity.nameLocation
     ? formatSourceLocation(entity.nameLocation, options)
-    : entity.name
+    : entity.name === undefined
+      ? undefined
+      : formatNameWithTrailingURL(entity.name, options)
