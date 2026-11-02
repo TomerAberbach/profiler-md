@@ -1,21 +1,21 @@
 # Heap snapshot
 
-Held 1.49 MiB over 16,748 nodes and 44,856 edges.
+Held 1.91 MiB over 23,701 nodes and 58,968 edges.
 
-| Category           |     % |     Size | Nodes |
-| ------------------ | ----: | -------: | ----: |
-| Code               | 45.3% |  693 KiB | 3,192 |
-| String             | 23.3% |  356 KiB | 6,272 |
-| Object shape       | 13.5% |  206 KiB | 1,883 |
-| Object             |  7.4% |  114 KiB | 1,471 |
-| Internal           |  4.9% | 75.5 KiB |   962 |
-| Function           |  4.3% |   65 KiB | 1,811 |
-| Array              |  1.1% | 16.8 KiB | 1,073 |
-| Symbol             |  0.1% |  1.2 KiB |    77 |
-| Native             | <0.1% |    387 B |     3 |
-| Regular expression | <0.1% |     64 B |     2 |
-| Big number         | <0.1% |     32 B |     1 |
-| Synthetic          |  0.0% |      0 B |     1 |
+| Category           |     % |     Size |  Nodes |
+| ------------------ | ----: | -------: | -----: |
+| Code               | 35.7% |  698 KiB |  3,206 |
+| String             | 34.5% |  674 KiB | 10,885 |
+| Object shape       | 10.5% |  206 KiB |  1,886 |
+| Object             | 10.3% |  201 KiB |  2,735 |
+| Internal           |  3.9% | 75.8 KiB |    965 |
+| Function           |  3.3% | 65.1 KiB |  1,816 |
+| Array              |  1.7% | 33.2 KiB |  2,124 |
+| Symbol             |  0.1% |  1.2 KiB |     77 |
+| Native             | <0.1% |    387 B |      3 |
+| Regular expression | <0.1% |     64 B |      2 |
+| Big number         | <0.1% |     32 B |      1 |
+| Synthetic          |  0.0% |      0 B |      1 |
 
 `B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
 
@@ -27,9 +27,9 @@ Constructors with the most instance bytes, excluding referenced nodes.
 
 |     % |     Size | Instances | Constructor                         |
 | ----: | -------: | --------: | ----------------------------------- |
-|  6.3% | 96.7 KiB |     1,367 | `Object`                            |
-|  1.8% | 27.5 KiB |         4 | `ModuleRecord`                      |
-|  0.7% | 10.3 KiB |         1 | `GlobalObject`                      |
+|  9.4% |  184 KiB |     2,631 | `Object`                            |
+|  1.4% | 27.6 KiB |         4 | `ModuleRecord`                      |
+|  0.5% | 10.3 KiB |         1 | `GlobalObject`                      |
 |  0.1% | 1.19 KiB |         1 | `InternalModuleRegistry`            |
 |  0.1% | 1.14 KiB |         2 | `NodeJSFS`                          |
 | <0.1% |    779 B |         3 | `FileSink`                          |
@@ -42,8 +42,8 @@ Constructors with the most instance bytes, excluding referenced nodes.
 | <0.1% |    128 B |         4 | `Promise (fulfilled: JSSourceCode)` |
 | <0.1% |    108 B |         3 | `Set`                               |
 | <0.1% |     96 B |         3 | `Callee`                            |
+| <0.1% |     91 B |         1 | `ReadStream`                        |
 | <0.1% |     89 B |         2 | `ReadableStream`                    |
-| <0.1% |     89 B |         1 | `ReadStream`                        |
 | <0.1% |     70 B |         1 | `String`                            |
 | <0.1% |     65 B |         1 | `ModuleNamespaceObject`             |
 | <0.1% |     64 B |         2 | `Promise (fulfilled)`               |
@@ -56,8 +56,8 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                         |
 | ----: | -------: | --------: | ----------------------------------- |
-|  6.3% | 96.7 KiB |     1,367 | `Object`                            |
-|  0.7% | 10.3 KiB |         1 | `GlobalObject`                      |
+|  9.4% |  184 KiB |     2,631 | `Object`                            |
+|  0.5% | 10.3 KiB |         1 | `GlobalObject`                      |
 |  0.1% | 1.19 KiB |         1 | `InternalModuleRegistry`            |
 |  0.1% | 1.14 KiB |         2 | `NodeJSFS`                          |
 | <0.1% |    779 B |         3 | `FileSink`                          |
@@ -68,8 +68,8 @@ Categories accounting for at least 1.0% of self size.
 | <0.1% |    213 B |         1 | `url `                              |
 | <0.1% |    128 B |         4 | `Promise (fulfilled: JSSourceCode)` |
 | <0.1% |    108 B |         3 | `Set`                               |
+| <0.1% |     91 B |         1 | `ReadStream`                        |
 | <0.1% |     89 B |         2 | `ReadableStream`                    |
-| <0.1% |     89 B |         1 | `ReadStream`                        |
 | <0.1% |     70 B |         1 | `String`                            |
 | <0.1% |     65 B |         1 | `ModuleNamespaceObject`             |
 | <0.1% |     64 B |         2 | `Promise (fulfilled)`               |
@@ -81,7 +81,7 @@ Categories accounting for at least 1.0% of self size.
 
 |    % |     Size | Instances | Constructor    |
 | ---: | -------: | --------: | -------------- |
-| 1.8% | 27.5 KiB |         4 | `ModuleRecord` |
+| 1.4% | 27.6 KiB |         4 | `ModuleRecord` |
 
 #### Retainer paths
 
@@ -91,17 +91,17 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 |    % |     Size | Instances | Path                                                                     |
 | ---: | -------: | --------: | ------------------------------------------------------------------------ |
-| 3.0% | 2.86 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
-| 1.7% | 1.64 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-| 0.7% |    668 B |         5 | `Object ← (GC root)`                                                     |
-| 0.2% |    225 B |         1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
-| 0.2% |    181 B |         1 | `Object ← GlobalObject`                                                  |
+| 1.6% | 2.86 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
+| 0.9% | 1.64 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 0.4% |    668 B |         5 | `Object ← (GC root)`                                                     |
+| 0.1% |    225 B |         1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
+| 0.1% |    182 B |         1 | `Object ← GlobalObject`                                                  |
 
 ##### `ModuleRecord`
 
 |      % |     Size | Instances | Path                       |
 | -----: | -------: | --------: | -------------------------- |
-| 100.0% | 27.5 KiB |         4 | `ModuleRecord ← (GC root)` |
+| 100.0% | 27.6 KiB |         4 | `ModuleRecord ← (GC root)` |
 
 ##### `GlobalObject`
 
@@ -126,8 +126,8 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 |     % |  Size | Instances | Path                                                                                  |
 | ----: | ----: | --------: | ------------------------------------------------------------------------------------- |
-| 48.3% | 376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
 | 48.3% | 376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 48.3% | 376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
 |  3.5% |  27 B |         1 | `FileSink ← Structure ← GlobalObject`                                                 |
 
 ##### `FileInternalReadableStreamSource`
@@ -146,13 +146,13 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Map`
 
-|     % |  Size | Instances | Path                                                                                                                                                                 |
-| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 38.9% | 128 B |         4 | `Map ← (GC root)`                                                                                                                                                    |
-| 12.5% |  41 B |         1 | `Map ←(several paths)– GlobalObject`                                                                                                                                 |
-|  9.7% |  32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                                                                                     |
-|  9.7% |  32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject`                                                                     |
-|  9.7% |  32 B |         1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+|     % |  Size | Instances | Path                                                                                             |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------ |
+| 38.9% | 128 B |         4 | `Map ← (GC root)`                                                                                |
+| 12.5% |  41 B |         1 | `Map ←(several paths)– GlobalObject`                                                             |
+|  9.7% |  32 B |         1 | `Map ←.requireMap– GlobalObject`                                                                 |
+|  9.7% |  32 B |         1 | `Map ←.statWatchers– JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject` |
+|  9.7% |  32 B |         1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject`                                            |
 
 ##### `Promise (fulfilled: Object)`
 
@@ -184,8 +184,8 @@ Retainer paths with the largest contribution to each constructor's self size.
 |     % | Size | Instances | Path                                                                                                              |
 | ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------- |
 | 40.7% | 44 B |         1 | `Set ←(several paths)– GlobalObject`                                                                              |
-| 29.6% | 32 B |         1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
 | 29.6% | 32 B |         1 | `Set ←.allowedNodeEnvironmentFlags– url  ←.process– GlobalObject`                                                 |
+| 29.6% | 32 B |         1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
 
 ##### `Callee`
 
@@ -193,17 +193,17 @@ Retainer paths with the largest contribution to each constructor's self size.
 | -----: | ---: | --------: | ----------------------- |
 | 100.0% | 96 B |         3 | `Callee ← GlobalObject` |
 
+##### `ReadStream`
+
+|      % | Size | Instances | Path                                               |
+| -----: | ---: | --------: | -------------------------------------------------- |
+| 100.0% | 91 B |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
+
 ##### `ReadableStream`
 
 |      % | Size | Instances | Path                         |
 | -----: | ---: | --------: | ---------------------------- |
 | 100.0% | 89 B |         2 | `ReadableStream ← (GC root)` |
-
-##### `ReadStream`
-
-|      % | Size | Instances | Path                                               |
-| -----: | ---: | --------: | -------------------------------------------------- |
-| 100.0% | 89 B |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
 
 ##### `String`
 
@@ -248,23 +248,23 @@ Constructors with the most instance bytes, including nodes only the instances ke
 
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
-| 89.3% | 1.33 MiB |         1 | `GlobalObject`                     |
-| 40.8% |  623 KiB |     1,367 | `Object`                           |
-|  3.4% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
-|  3.4% | 52.1 KiB |         1 | `url `                             |
-|  1.5% | 22.4 KiB |         1 | `ModuleLoader`                     |
-|  1.1% | 16.8 KiB |        10 | `Map`                              |
-|  1.0% | 14.9 KiB |         1 | `ReadStream`                       |
-|  0.6% | 8.66 KiB |         2 | `WriteStream`                      |
+| 91.5% | 1.75 MiB |         1 | `GlobalObject`                     |
+| 53.4% | 1.02 MiB |     2,631 | `Object`                           |
+|  2.7% | 52.4 KiB |         1 | `url `                             |
+|  2.7% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
+|  1.1% | 22.4 KiB |         1 | `ModuleLoader`                     |
+|  0.9% | 16.8 KiB |        10 | `Map`                              |
+|  0.8% | 15.4 KiB |         1 | `ReadStream`                       |
+|  0.4% | 8.66 KiB |         2 | `WriteStream`                      |
 |  0.3% |  4.9 KiB |         1 | `console`                          |
-|  0.3% | 4.88 KiB |         1 | `Prototype`                        |
-|  0.3% | 4.87 KiB |         1 | `Math`                             |
-|  0.3% | 4.46 KiB |         1 | `String`                           |
-|  0.3% | 4.22 KiB |         2 | `ReadableStream`                   |
+|  0.2% | 4.88 KiB |         1 | `Prototype`                        |
+|  0.2% | 4.87 KiB |         1 | `Math`                             |
+|  0.2% | 4.46 KiB |         1 | `String`                           |
+|  0.2% | 4.22 KiB |         2 | `ReadableStream`                   |
 |  0.2% | 2.98 KiB |         2 | `Iterator`                         |
 |  0.2% | 2.96 KiB |         2 | `NodeJSFS`                         |
-|  0.2% | 2.39 KiB |         2 | `Blob`                             |
-|  0.2% | 2.35 KiB |         2 | `ArrayBuffer`                      |
+|  0.1% | 2.39 KiB |         2 | `Blob`                             |
+|  0.1% | 2.35 KiB |         2 | `ArrayBuffer`                      |
 |  0.1% | 2.17 KiB |         1 | `EventEmitter`                     |
 |  0.1% | 1.96 KiB |         3 | `FileSink`                         |
 |  0.1% | 1.89 KiB |         2 | `FileInternalReadableStreamSource` |
@@ -277,21 +277,21 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                        |
 | ----: | -------: | --------: | ---------------------------------- |
-| 89.3% | 1.33 MiB |         1 | `GlobalObject`                     |
-| 40.8% |  623 KiB |     1,367 | `Object`                           |
-|  3.4% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
-|  3.4% | 52.1 KiB |         1 | `url `                             |
-|  1.1% | 16.8 KiB |        10 | `Map`                              |
-|  1.0% | 14.9 KiB |         1 | `ReadStream`                       |
-|  0.6% | 8.66 KiB |         2 | `WriteStream`                      |
+| 91.5% | 1.75 MiB |         1 | `GlobalObject`                     |
+| 53.4% | 1.02 MiB |     2,631 | `Object`                           |
+|  2.7% | 52.4 KiB |         1 | `url `                             |
+|  2.7% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
+|  0.9% | 16.8 KiB |        10 | `Map`                              |
+|  0.8% | 15.4 KiB |         1 | `ReadStream`                       |
+|  0.4% | 8.66 KiB |         2 | `WriteStream`                      |
 |  0.3% |  4.9 KiB |         1 | `console`                          |
-|  0.3% | 4.88 KiB |         1 | `Prototype`                        |
-|  0.3% | 4.87 KiB |         1 | `Math`                             |
-|  0.3% | 4.46 KiB |         1 | `String`                           |
-|  0.3% | 4.22 KiB |         2 | `ReadableStream`                   |
+|  0.2% | 4.88 KiB |         1 | `Prototype`                        |
+|  0.2% | 4.87 KiB |         1 | `Math`                             |
+|  0.2% | 4.46 KiB |         1 | `String`                           |
+|  0.2% | 4.22 KiB |         2 | `ReadableStream`                   |
 |  0.2% | 2.98 KiB |         2 | `Iterator`                         |
 |  0.2% | 2.96 KiB |         2 | `NodeJSFS`                         |
-|  0.2% | 2.35 KiB |         2 | `ArrayBuffer`                      |
+|  0.1% | 2.35 KiB |         2 | `ArrayBuffer`                      |
 |  0.1% | 2.17 KiB |         1 | `EventEmitter`                     |
 |  0.1% | 1.96 KiB |         3 | `FileSink`                         |
 |  0.1% | 1.89 KiB |         2 | `FileInternalReadableStreamSource` |
@@ -312,29 +312,29 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |      % |     Size | Instances | Path                       |
 | -----: | -------: | --------: | -------------------------- |
-| 100.0% | 1.33 MiB |         1 | `GlobalObject ← (GC root)` |
+| 100.0% | 1.75 MiB |         1 | `GlobalObject ← (GC root)` |
 
 ##### `Object`
 
 |     % |     Size | Instances | Path                                                                     |
 | ----: | -------: | --------: | ------------------------------------------------------------------------ |
-| 73.6% |  458 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
-| 70.9% |  442 KiB |         1 | `Object ←.data– Object ←.__retained– GlobalObject`                       |
-| 12.0% | 74.9 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
-|  8.2% |   51 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-|  2.2% | 13.8 KiB |         1 | `Object ← GlobalObject`                                                  |
+| 84.3% |  880 KiB |         1 | `Object ←.__retained– GlobalObject`                                      |
+| 40.5% |  423 KiB |         1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`  |
+| 40.5% |  423 KiB |         1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`  |
+|  7.1% | 74.3 KiB |        26 | `Object ←(several paths)– GlobalObject`                                  |
+|  4.9% |   51 KiB |        17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+
+##### `url `
+
+|      % |     Size | Instances | Path                           |
+| -----: | -------: | --------: | ------------------------------ |
+| 100.0% | 52.4 KiB |         1 | `url  ←.process– GlobalObject` |
 
 ##### `InternalModuleRegistry`
 
 |      % |     Size | Instances | Path                                                            |
 | -----: | -------: | --------: | --------------------------------------------------------------- |
 | 100.0% | 52.3 KiB |         1 | `InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-
-##### `url `
-
-|      % |     Size | Instances | Path                           |
-| -----: | -------: | --------: | ------------------------------ |
-| 100.0% | 52.1 KiB |         1 | `url  ←.process– GlobalObject` |
 
 ##### `ModuleLoader`
 
@@ -356,7 +356,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |      % |     Size | Instances | Path                                               |
 | -----: | -------: | --------: | -------------------------------------------------- |
-| 100.0% | 14.9 KiB |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
+| 100.0% | 15.4 KiB |         1 | `ReadStream ←.stdin– url  ←.process– GlobalObject` |
 
 ##### `WriteStream`
 
@@ -433,8 +433,8 @@ Retainer paths with the largest contribution to each constructor's retained size
 |     % |     Size | Instances | Path                                                                                  |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------- |
 | 62.6% | 1.23 KiB |         1 | `FileSink ← Structure ← GlobalObject`                                                 |
-| 18.7% |    376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
 | 18.7% |    376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stderr– url  ←.process– GlobalObject` |
+| 18.7% |    376 B |         1 | `FileSink ←.kWriteStreamFastPath– WriteStream ←.stdout– url  ←.process– GlobalObject` |
 
 ##### `FileInternalReadableStreamSource`
 
@@ -459,7 +459,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |    % |     Size | Instances | Path                       |
 | ---: | -------: | --------: | -------------------------- |
-| 0.0% | 27.5 KiB |         4 | `ModuleRecord ← (GC root)` |
+| 0.0% | 27.6 KiB |         4 | `ModuleRecord ← (GC root)` |
 
 ## Largest functions
 
@@ -467,25 +467,25 @@ Functions with the most instance bytes, including nodes only the instances keep 
 
 |    % | Retained | Instances | Paths | Name                 | Example path                                                                                           |
 | ---: | -------: | --------: | ----: | -------------------- | ------------------------------------------------------------------------------------------------------ |
-| 4.5% | 68.2 KiB |       374 |   345 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
-| 0.6% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-| 0.4% | 6.21 KiB |         1 |     1 | `duplexPair`         | `duplexPair ←(several paths)– GlobalObject`                                                            |
-| 0.4% | 5.95 KiB |        41 |    28 | `AsyncFunction`      | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject`                           |
-| 0.4% | 5.87 KiB |        10 |    10 | `SafeIterator`       | `SafeIterator ←(several paths)– GlobalObject`                                                          |
+| 3.5% | 68.3 KiB |       376 |   347 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
+| 0.4% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 0.3% | 6.21 KiB |         1 |     1 | `duplexPair`         | `duplexPair ←(several paths)– GlobalObject`                                                            |
+| 0.3% | 5.95 KiB |        41 |    28 | `AsyncFunction`      | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject`                           |
+| 0.3% | 5.87 KiB |        10 |    10 | `SafeIterator`       | `SafeIterator ←(several paths)– GlobalObject`                                                          |
 | 0.3% | 5.12 KiB |         1 |     1 | `SafeMap`            | `SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`            |
 | 0.3% |  4.9 KiB |         1 |     1 | `SafeSet`            | `SafeSet ←(several paths)– GlobalObject`                                                               |
-| 0.3% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `requestInstantiate ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject`                         |
-| 0.3% | 3.91 KiB |         1 |     1 | `requestSatisfyUtil` | `requestSatisfyUtil ←.requestSatisfyUtil– ModuleLoader ←.Loader– GlobalObject`                         |
+| 0.2% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `requestInstantiate ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject`                         |
+| 0.2% | 3.91 KiB |         1 |     1 | `requestSatisfyUtil` | `requestSatisfyUtil ←.requestSatisfyUtil– ModuleLoader ←.Loader– GlobalObject`                         |
 | 0.2% |  3.8 KiB |         2 |     1 | `compose`            | `compose ←(several paths)– GlobalObject`                                                               |
 | 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `Object ← (GC root)`                                                                                   |
 | 0.2% | 3.12 KiB |         1 |     1 | `PassThrough`        | `PassThrough ←(several paths)– GlobalObject`                                                           |
-| 0.2% | 3.06 KiB |        25 |    24 | `anonymous`          | `anonymous ←.charCodeAt– String ← GlobalObject`                                                        |
+| 0.2% | 3.06 KiB |        25 |    24 | `anonymous`          | `anonymous ←.shift– Array (0) ← GlobalObject`                                                          |
 | 0.2% | 3.04 KiB |         2 |     2 | `pipeline`           | `pipeline ←.pipeline– Object ←(several paths)– GlobalObject`                                           |
 | 0.2% | 2.95 KiB |        85 |    54 | `get`                | `get ← GetterSetter ←.self– GlobalObject`                                                              |
-| 0.2% | 2.49 KiB |         1 |     1 | `Stream`             | `Stream ←(several paths)– GlobalObject`                                                                |
-| 0.2% | 2.39 KiB |         6 |     3 | `forEach`            | `forEach ←(several paths)– GlobalObject`                                                               |
-| 0.2% | 2.36 KiB |        63 |    44 | `set`                | `set ← GetterSetter ←.self– GlobalObject`                                                              |
-| 0.2% | 2.33 KiB |        20 |    20 | `call`               | `call ← (GC root)`                                                                                     |
+| 0.1% | 2.49 KiB |         1 |     1 | `Stream`             | `Stream ←(several paths)– GlobalObject`                                                                |
+| 0.1% | 2.39 KiB |         6 |     3 | `forEach`            | `forEach ←(several paths)– GlobalObject`                                                               |
+| 0.1% | 2.36 KiB |        63 |    44 | `set`                | `set ← GetterSetter ←.self– GlobalObject`                                                              |
+| 0.1% | 2.33 KiB |        20 |    20 | `call`               | `call ← (GC root)`                                                                                     |
 | 0.1% | 2.29 KiB |         1 |     1 | `newRegistryEntry`   | `newRegistryEntry ← GlobalObject`                                                                      |
 
 ### Retained nodes
@@ -526,8 +526,8 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % |  Self | Name                   | Path                                                                                     |
 | ---: | ----: | ---------------------- | ---------------------------------------------------------------------------------------- |
-| 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject` |
 | 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.constructor– AsyncFunction ← GlobalObject`                  |
+| 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject` |
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rmdir– Object ←(several paths)– GlobalObject`    |
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rm– Object ←(several paths)– GlobalObject`       |
 | 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.lutimes– Object ←(several paths)– GlobalObject`  |
@@ -616,11 +616,11 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % | Self | Name               | Path                                                                             |
 | ---: | ---: | ------------------ | -------------------------------------------------------------------------------- |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←(several paths)– GlobalObject`                    |
+| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.shift– Array (0) ← GlobalObject`                 |
+| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.isView– ArrayBuffer ←.ArrayBuffer– GlobalObject` |
 | 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.charCodeAt– String ← GlobalObject`               |
 | 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.substr– String ← GlobalObject`                   |
 | 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.endsWith– String ← GlobalObject`                 |
-| 2.6% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.isView– ArrayBuffer ←.ArrayBuffer– GlobalObject` |
 
 #### `pipeline`
 
@@ -699,25 +699,25 @@ Categories accounting for at least 1.0% of self size.
 
 #### String
 
-|     % |  Size | Value                                                    | Path                                                                                                                                                                                                          |
-| ----: | ----: | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 374 B | `http://atq.ck.valuecommerce.com/servlet/atq/refer…`     | `http://atq.ck.valuecommerce.com/servlet/atq/refer… ←.expanded_url– Object ←[0]– Array (1) ←.urls– Object ←.entities– Object ←[42]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject` |
-| <0.1% | 336 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの… ←.description– Object ←.user– Object ←[25]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                     |
-| <0.1% | 334 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`          |
-| <0.1% | 334 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`          |
-| <0.1% | 332 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔… ←.description– Object ←.user– Object ←[41]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                     |
-| <0.1% | 326 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         … ←.description– Object ←.user– Object ←[8]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                      |
-| <0.1% | 314 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに… ←.description– Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                     |
-| <0.1% | 306 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD… ←.description– Object ←.user– Object ←[57]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                     |
-| <0.1% | 304 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／… ←.description– Object ←.user– Object ←[6]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                      |
-| <0.1% | 304 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み… ←.text– Object ←[0]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                        |
-| <0.1% | 298 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願… ←.description– Object ←.user– Object ←[45]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                    |
-| <0.1% | 298 B | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印…`  | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印… ←.text– Object ←[8]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                         |
-| <0.1% | 296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←[68]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                           |
-| <0.1% | 296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←[75]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                           |
-| <0.1% | 296 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると… ←.text– Object ←.retweeted_status– Object ←[68]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                |
-| <0.1% | 296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←[51]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                           |
-| <0.1% | 296 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると… ←.text– Object ←.retweeted_status– Object ←[75]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                |
-| <0.1% | 296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←[74]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                           |
-| <0.1% | 296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←[58]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                                           |
-| <0.1% | 296 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると… ←.text– Object ←.retweeted_status– Object ←[74]– Array (100) ←.statuses– Object ←.data– Object ←.__retained– GlobalObject`                                |
+|     % |  Size | Value                                                    | Path                                                                                                                                                                                                                               |
+| ----: | ----: | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 374 B | `http://atq.ck.valuecommerce.com/servlet/atq/refer…`     | `http://atq.ck.valuecommerce.com/servlet/atq/refer… ←.expanded_url– Object ←[0]– Array (1) ←.urls– Object ←.entities– Object ←[42]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+| <0.1% | 374 B | `http://atq.ck.valuecommerce.com/servlet/atq/refer…`     | `http://atq.ck.valuecommerce.com/servlet/atq/refer… ←.expanded_url– Object ←[0]– Array (1) ←.urls– Object ←.entities– Object ←[42]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
+| <0.1% | 336 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの… ←.description– Object ←.user– Object ←[25]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 336 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの… ←.description– Object ←.user– Object ←[25]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 334 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`          |
+| <0.1% | 334 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`          |
+| <0.1% | 334 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`          |
+| <0.1% | 334 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま… ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`          |
+| <0.1% | 332 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔… ←.description– Object ←.user– Object ←[41]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 332 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔… ←.description– Object ←.user– Object ←[41]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 326 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         … ←.description– Object ←.user– Object ←[8]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                      |
+| <0.1% | 326 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         … ←.description– Object ←.user– Object ←[8]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                      |
+| <0.1% | 314 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに… ←.description– Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 314 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに… ←.description– Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 306 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD… ←.description– Object ←.user– Object ←[57]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 306 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD… ←.description– Object ←.user– Object ←[57]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                     |
+| <0.1% | 304 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／… ←.description– Object ←.user– Object ←[6]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                      |
+| <0.1% | 304 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み… ←.text– Object ←[0]– Array (100) ←.statuses– Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                                        |
+| <0.1% | 304 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／… ←.description– Object ←.user– Object ←[6]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                      |
+| <0.1% | 304 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み… ←.text– Object ←[0]– Array (100) ←.statuses– Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject`                                                        |

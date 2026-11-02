@@ -223,6 +223,10 @@ const JVM_REASON = `the JVM profilers record class names, which identify no file
  */
 const UNSCORED_PINS: ReadonlyMap<string, string> = new Map([
   [`haskell:SIDE_ITERATIONS`, `it pins how many iterations each side runs`],
+  [
+    `javascript:HEAP_SNAPSHOT_COPIES`,
+    `it pins how many parsed copies of a document each side retains`,
+  ],
   [`elixir:JASON_PIN`, `eflambe records module names, which identify no file`],
   [`csharp:NEWTONSOFT_JSON_VERSION`, DOTNET_TRACE_REASON],
   [`fsharp:ARGU_VERSION`, DOTNET_TRACE_REASON],

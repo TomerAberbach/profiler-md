@@ -2,18 +2,23 @@ import { readFileSync } from 'node:fs'
 import { argv, exit } from 'node:process'
 import { writeHeapSnapshot } from 'node:v8'
 
-const [jsonPath, out] = argv.slice(2)
-if (!jsonPath || !out) {
-  console.error(`usage: heap-snapshot.mjs <json-file> <out.heapsnapshot>`)
+const [jsonPath, out, copies] = argv.slice(2)
+if (!jsonPath || !out || !copies) {
+  console.error(
+    `usage: heap-snapshot.mjs <json-file> <out.heapsnapshot> <copies>`,
+  )
   exit(2)
 }
 
-const data = JSON.parse(readFileSync(jsonPath, `utf8`))
+const documents = []
+for (let i = 0; i < Number(copies); i++) {
+  documents.push(JSON.parse(readFileSync(jsonPath, `utf8`)))
+}
 
 // Derived structures, an id index and a flat list of hashtag strings, give the
 // snapshot Maps, arrays, and many small objects and strings, a realistic
 // retained graph rather than one large blob.
-const statuses = Array.isArray(data.statuses) ? data.statuses : []
+const statuses = documents.flatMap(data => data.statuses)
 const byId = new Map()
 const hashtags = []
 for (const status of statuses) {
@@ -24,6 +29,6 @@ for (const status of statuses) {
 }
 
 // Retain everything on a global so it survives until the snapshot is written.
-globalThis.__retained = { data, byId, hashtags }
+globalThis.__retained = { documents, byId, hashtags }
 
 writeHeapSnapshot(out)
