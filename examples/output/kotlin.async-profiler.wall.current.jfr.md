@@ -1,14 +1,13 @@
 # Sampling profile
 
-Collected 2,696 samples.
+Collected 2,722 samples.
 
 | Category         |     % | Samples |
 | ---------------- | ----: | ------: |
-| Native           | 94.0% |   2,534 |
-| Compiler         |  4.2% |     113 |
-| Ours             |  1.3% |      34 |
-| Unknown          |  0.3% |       7 |
-| Standard library |  0.2% |       6 |
+| Native           | 94.8% |   2,580 |
+| Compiler         |  3.8% |     104 |
+| Ours             |  1.0% |      28 |
+| Standard library |  0.3% |       8 |
 | JIT              |  0.1% |       2 |
 
 `…` stands for omitted frames.
@@ -18,46 +17,46 @@ Collected 2,696 samples.
 Call paths to the hottest functions.
 
 ```
-├── 2,228 samples (82.6%) thread_start at libsystem_pthread.dylib
-│   └── 2,228 samples (82.6%) _pthread_start
-│       ├── 2,134 samples (79.2%) thread_native_entry at libjvm.dylib
-│       │   └── 2,134 samples (79.2%) Thread::call_run
-│       │       ├── 878 samples (32.6%) WorkerThread::run
-│       │       │   └── 871 samples (32.3%, self 35.9% globally) semaphore_wait_trap at libsystem_kernel.dylib
-│       │       ├── 791 samples (29.3%) JavaThread::thread_main_inner
-│       │       │   ├── 328 samples (12.2%) CompileBroker::compiler_thread_loop
-│       │       │   │   ├── … 166 samples (6.2%, self 47.3% globally) __psynch_cvwait at libsystem_kernel.dylib
-│       │       │   │   └── 160 samples (5.9%) CompileBroker::invoke_compiler_on_method
-│       │       │   │       ├── 114 samples (4.2%) C2Compiler::compile_method
-│       │       │   │       │   └── 113 samples (4.2%) Compile::Compile
-│       │       │   │       │       ├── 57 samples (2.1%) Compile::Code_Gen
-│       │       │   │       │       │   ├── 33 samples (1.2%) PhaseChaitin::Register_Allocate
-│       │       │   │       │       │   │   ├── 8 samples (0.3%) PhaseChaitin::build_ifg_physical
-│       │       │   │       │       │   │   ├── 7 samples (0.3%) PhaseChaitin::post_allocate_copy_removal
-│       │       │   │       │       │   │   │   └── 5 samples (0.2%) PhaseChaitin::elide_copy
-│       │       │   │       │       │   │   └── 18 samples (0.7%) 12 more callees, led by (0.1%) PhaseLive::compute
-│       │       │   │       │       │   ├── … 3 samples (0.1%) Arena::contains at libjvm.dylib
-│       │       │   │       │       │   └── … 3 samples (0.1%) PhaseCFG::partial_latency_of_defs at libjvm.dylib
-│       │       │   │       │       ├── 42 samples (1.6%) Compile::Optimize
-│       │       │   │       │       │   ├── 11 samples (0.4%) PhaseCCP::PhaseCCP
-│       │       │   │       │       │   │   └── 9 samples (0.3%) PhaseCCP::analyze
-│       │       │   │       │       │   └── 31 samples (1.1%) 6 more callees, led by (0.6%) PhaseIdealLoop::optimize
-│       │       │   │       │       └── 11 samples (0.4%) ParseGenerator::generate
-│       │       │   │       └── … 41 samples (1.5%) Compilation::compile_java_method at libjvm.dylib
-│       │       │   │           ├── … 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)> at libjvm.dylib
-│       │       │   │           └── 30 samples (1.1%) 2 more callees, led by (0.6%) Compilation::emit_lir
-│       │       │   └── 463 samples (17.2%) 5 more callees, led by (3.4%) ServiceThread::service_thread_entry
-│       │       ├── 279 samples (10.3%) ConcurrentGCThread::run
-│       │       │   └── 279 samples (10.3%) 3 more callees, led by (3.4%) G1ConcurrentMarkThread::run_service
-│       │       └── 186 samples (6.9%) 2 more callees, led by (3.4%) VMThread::run
-│       └── … 93 samples (3.4%) __ulock_wait at libsystem_kernel.dylib
-├── … 93 samples (3.4%) mach_msg2_trap at libsystem_kernel.dylib
+├── 2,255 samples (82.8%) thread_start at libsystem_pthread.dylib
+│   └── 2,255 samples (82.8%) _pthread_start
+│       ├── 2,160 samples (79.4%) thread_native_entry at libjvm.dylib
+│       │   └── 2,160 samples (79.4%) Thread::call_run
+│       │       ├── 891 samples (32.7%) WorkerThread::run
+│       │       │   ├── 871 samples (32.0%, self 35.8% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       │   └── 14 samples (0.5%) G1EvacuateRegionsBaseTask::work
+│       │       │       ├── … 4 samples (0.1%) fwd_copy_again at libjvm.dylib
+│       │       │       └── … 3 samples (0.1%) G1ParScanThreadState::do_copy_to_survivor_space at libjvm.dylib
+│       │       ├── 799 samples (29.4%) JavaThread::thread_main_inner
+│       │       │   ├── 331 samples (12.2%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 177 samples (6.5%, self 47.8% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 153 samples (5.6%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 102 samples (3.7%) C2Compiler::compile_method
+│       │       │   │       │   └── 101 samples (3.7%) Compile::Compile
+│       │       │   │       │       ├── 43 samples (1.6%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 26 samples (1.0%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 2 samples (0.1%) PhaseChaitin::Simplify
+│       │       │   │       │       │   │   │   └── 2 samples (0.1%) IndexSetIterator::advance_and_next
+│       │       │   │       │       │   │   └── 24 samples (0.9%) 12 more callees, led by (0.2%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   └── 6 samples (0.2%) Matcher::match
+│       │       │   │       │       └── 58 samples (2.1%) 3 more callees, led by (1.5%) Compile::Optimize
+│       │       │   │       └── … 44 samples (1.6%) Compilation::compile_java_method at libjvm.dylib
+│       │       │   │           ├── … 11 samples (0.4%) GraphBuilder::iterate_bytecodes_for_block at libjvm.dylib
+│       │       │   │           │   └── … 2 samples (0.1%) ciObjectFactory::get_metadata at libjvm.dylib
+│       │       │   │           └── … 8 samples (0.3%) IntervalWalker::walk_to at libjvm.dylib
+│       │       │   └── 468 samples (17.2%) 5 more callees, led by (3.5%) ServiceThread::service_thread_entry
+│       │       ├── 282 samples (10.4%) ConcurrentGCThread::run
+│       │       │   └── 282 samples (10.4%) 3 more callees, led by (3.5%) G1ConcurrentMarkThread::run_service
+│       │       └── 188 samples (6.9%) 2 more callees, led by (3.5%) WatcherThread::run
+│       └── … 94 samples (3.5%) __ulock_wait at libsystem_kernel.dylib
+├── … 94 samples (3.5%) mach_msg2_trap at libsystem_kernel.dylib
 ├── 90 samples (3.3%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
 │   └── 90 samples (3.3%) run(String[])
 │       ├── 75 samples (2.8%) invoke(Object, Object[]) at java.lang.reflect.Method …
-│       └── … 7 samples (0.3%) inflate_fast at libzip.dylib
-├── 7 samples (0.3%) (anonymous)
-└── 278 samples (10.3%) 3 more root frames, led by (3.4%) run() at java.lang.ref.Reference$ReferenceHandler
+│       └── … 12 samples (0.4%) Java_java_util_zip_Inflater_inflateBytesBytes at libzip.dylib
+│           ├── 8 samples (0.3%) inflate_fast
+│           └── 4 samples (0.1%) inflate
+│               └── 3 samples (0.1%) inflate_table
+└── 283 samples (10.4%) 5 more root frames, led by (3.5%) run() at java.lang.ref.Finalizer$FinalizerThread
 ```
 
 ## Hottest functions
@@ -66,28 +65,28 @@ Call paths to the hottest functions.
 
 Functions with the most samples collected within the function body, excluding callees.
 
-|     % | Samples | Function                                                                                                                                                 | Location                  |
-| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| 47.3% |   1,274 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`  |
-| 35.9% |     969 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`  |
-|  3.4% |      93 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`  |
-|  3.4% |      93 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`  |
-|  0.3% |       7 | `inflate_fast`                                                                                                                                           | `libzip.dylib`            |
-|  0.3% |       7 | `(anonymous)`                                                                                                                                            | `<unknown>`               |
-|  0.2% |       6 | `SymbolTable::do_lookup`                                                                                                                                 | `libjvm.dylib`            |
-|  0.2% |       6 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`            |
-|  0.2% |       5 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`  |
-|  0.2% |       5 | `PhaseChaitin::elide_copy`                                                                                                                               | `libjvm.dylib`            |
-|  0.2% |       5 | `tlv_get_addr`                                                                                                                                           | `libdyld.dylib`           |
-|  0.1% |       4 | `PhaseChaitin::build_ifg_physical`                                                                                                                       | `libjvm.dylib`            |
-|  0.1% |       3 | `pthread_jit_write_protect_np`                                                                                                                           | `libsystem_pthread.dylib` |
-|  0.1% |       3 | `Dictionary::find`                                                                                                                                       | `libjvm.dylib`            |
-|  0.1% |       3 | `Arena::contains`                                                                                                                                        | `libjvm.dylib`            |
-|  0.1% |       3 | `PhaseCCP::analyze`                                                                                                                                      | `libjvm.dylib`            |
-|  0.1% |       3 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                   | `libjvm.dylib`            |
-|  0.1% |       3 | `PhaseLive::compute`                                                                                                                                     | `libjvm.dylib`            |
-|  0.1% |       3 | `IntervalWalker::walk_to`                                                                                                                                | `libjvm.dylib`            |
-|  0.1% |       2 | `unknown`                                                                                                                                                | `<unknown>`               |
+|     % | Samples | Function                                                                                                                     | Location                   |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 47.8% |   1,302 | `__psynch_cvwait`                                                                                                            | `libsystem_kernel.dylib`   |
+| 35.8% |     974 | `semaphore_wait_trap`                                                                                                        | `libsystem_kernel.dylib`   |
+|  3.5% |      94 | `mach_msg2_trap`                                                                                                             | `libsystem_kernel.dylib`   |
+|  3.5% |      94 | `__ulock_wait`                                                                                                               | `libsystem_kernel.dylib`   |
+|  0.4% |      11 | `__psynch_mutexwait`                                                                                                         | `libsystem_kernel.dylib`   |
+|  0.3% |       8 | `inflate_fast`                                                                                                               | `libzip.dylib`             |
+|  0.3% |       8 | `tlv_get_addr`                                                                                                               | `libdyld.dylib`            |
+|  0.2% |       5 | `IndexSetIterator::advance_and_next`                                                                                         | `libjvm.dylib`             |
+|  0.1% |       4 | `fwd_copy_again`                                                                                                             | `libjvm.dylib`             |
+|  0.1% |       4 | `ciObjectFactory::get_metadata`                                                                                              | `libjvm.dylib`             |
+|  0.1% |       3 | `inflate_table`                                                                                                              | `libzip.dylib`             |
+|  0.1% |       3 | `_platform_memchr`                                                                                                           | `libsystem_platform.dylib` |
+|  0.1% |       3 | `SymbolTable::new_symbol`                                                                                                    | `libjvm.dylib`             |
+|  0.1% |       3 | `IntervalWalker::walk_to`                                                                                                    | `libjvm.dylib`             |
+|  0.1% |       3 | `PhaseIdealLoop::build_loop_late_post_work`                                                                                  | `libjvm.dylib`             |
+|  0.1% |       2 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                            | `libjvm.dylib`             |
+|  0.1% |       2 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                              | `libjvm.dylib`             |
+|  0.1% |       2 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib`             |
+|  0.1% |       2 | `unknown`                                                                                                                    | `<unknown>`                |
+|  0.1% |       2 | `_platform_memmove`                                                                                                          | `libsystem_platform.dylib` |
 
 #### Categories
 
@@ -97,189 +96,194 @@ Categories accounting for at least 1.0% of self samples.
 
 |     % | Samples | Function                                                                                                                                                 | Location                   |
 | ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| 47.3% |   1,274 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`   |
-| 35.9% |     969 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`   |
-|  3.4% |      93 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`   |
-|  3.4% |      93 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`   |
-|  0.3% |       7 | `inflate_fast`                                                                                                                                           | `libzip.dylib`             |
-|  0.2% |       6 | `SymbolTable::do_lookup`                                                                                                                                 | `libjvm.dylib`             |
-|  0.2% |       6 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`             |
-|  0.2% |       5 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`   |
-|  0.2% |       5 | `tlv_get_addr`                                                                                                                                           | `libdyld.dylib`            |
-|  0.1% |       3 | `pthread_jit_write_protect_np`                                                                                                                           | `libsystem_pthread.dylib`  |
-|  0.1% |       3 | `Dictionary::find`                                                                                                                                       | `libjvm.dylib`             |
-|  0.1% |       3 | `Arena::contains`                                                                                                                                        | `libjvm.dylib`             |
-|  0.1% |       3 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                   | `libjvm.dylib`             |
+| 47.8% |   1,302 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`   |
+| 35.8% |     974 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`   |
+|  3.5% |      94 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`   |
+|  3.5% |      94 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`   |
+|  0.4% |      11 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`   |
+|  0.3% |       8 | `inflate_fast`                                                                                                                                           | `libzip.dylib`             |
+|  0.3% |       8 | `tlv_get_addr`                                                                                                                                           | `libdyld.dylib`            |
+|  0.1% |       4 | `fwd_copy_again`                                                                                                                                         | `libjvm.dylib`             |
+|  0.1% |       3 | `inflate_table`                                                                                                                                          | `libzip.dylib`             |
+|  0.1% |       3 | `_platform_memchr`                                                                                                                                       | `libsystem_platform.dylib` |
+|  0.1% |       3 | `SymbolTable::new_symbol`                                                                                                                                | `libjvm.dylib`             |
+|  0.1% |       2 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`             |
+|  0.1% |       2 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                          | `libjvm.dylib`             |
+|  0.1% |       2 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `libjvm.dylib`             |
 |  0.1% |       2 | `unknown`                                                                                                                                                | `<unknown>`                |
-|  0.1% |       2 | `trampoline_stub_Relocation::get_trampoline_for`                                                                                                         | `libjvm.dylib`             |
-|  0.1% |       2 | `InstanceKlass::find_method_index`                                                                                                                       | `libjvm.dylib`             |
-|  0.1% |       2 | `__psynch_mutexdrop`                                                                                                                                     | `libsystem_kernel.dylib`   |
 |  0.1% |       2 | `_platform_memmove`                                                                                                                                      | `libsystem_platform.dylib` |
-|  0.1% |       2 | `posix_madvise`                                                                                                                                          | `libsystem_kernel.dylib`   |
-| <0.1% |       1 | `__bsdthread_create`                                                                                                                                     | `libsystem_kernel.dylib`   |
+|  0.1% |       2 | `VerificationType::is_assignable_from`                                                                                                                   | `libjvm.dylib`             |
+|  0.1% |       2 | `CodeCache::reverse_free_ratio`                                                                                                                          | `libjvm.dylib`             |
+|  0.1% |       2 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`             |
+|  0.1% |       2 | `__psynch_cvbroad`                                                                                                                                       | `libsystem_kernel.dylib`   |
 
 ##### Compiler
 
-|     % | Samples | Function                                                           | Location       |
-| ----: | ------: | ------------------------------------------------------------------ | -------------- |
-|  0.2% |       5 | `PhaseChaitin::elide_copy`                                         | `libjvm.dylib` |
-|  0.1% |       4 | `PhaseChaitin::build_ifg_physical`                                 | `libjvm.dylib` |
-|  0.1% |       3 | `PhaseCCP::analyze`                                                | `libjvm.dylib` |
-|  0.1% |       3 | `PhaseLive::compute`                                               | `libjvm.dylib` |
-|  0.1% |       3 | `IntervalWalker::walk_to`                                          | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseChaitin::post_allocate_copy_removal`                         | `libjvm.dylib` |
-|  0.1% |       2 | `Node_Backward_Iterator::next`                                     | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseIdealLoop::build_loop_late_post_work`                        | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseCFG::partial_latency_of_defs`                                | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseIdealLoop::build_loop_early`                                 | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseIdealLoop::Dominators`                                       | `libjvm.dylib` |
-|  0.1% |       2 | `IndexSetIterator::advance_and_next`                               | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseChaitin::Split`                                              | `libjvm.dylib` |
-|  0.1% |       2 | `LinearScan::append_scope_value`                                   | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseChaitin::remove_bound_register_from_interfering_live_ranges` | `libjvm.dylib` |
-|  0.1% |       2 | `PhaseChaitin::gather_lrg_masks`                                   | `libjvm.dylib` |
-| <0.1% |       1 | `RelocIterator::set_limits`                                        | `libjvm.dylib` |
-| <0.1% |       1 | `DebugInformationRecorder::serialize_scope_values`                 | `libjvm.dylib` |
-| <0.1% |       1 | `PhaseOutput::Output`                                              | `libjvm.dylib` |
-| <0.1% |       1 | `Node::latency`                                                    | `libjvm.dylib` |
+|     % | Samples | Function                                             | Location       |
+| ----: | ------: | ---------------------------------------------------- | -------------- |
+|  0.2% |       5 | `IndexSetIterator::advance_and_next`                 | `libjvm.dylib` |
+|  0.1% |       4 | `ciObjectFactory::get_metadata`                      | `libjvm.dylib` |
+|  0.1% |       3 | `IntervalWalker::walk_to`                            | `libjvm.dylib` |
+|  0.1% |       3 | `PhaseIdealLoop::build_loop_late_post_work`          | `libjvm.dylib` |
+|  0.1% |       2 | `CodeSection::relocate`                              | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseLive::compute`                                 | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseAggressiveCoalesce::insert_copies`             | `libjvm.dylib` |
+|  0.1% |       2 | `LinearScanWalker::alloc_free_reg`                   | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseIterGVN::add_users_to_worklist`                | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseChaitin::build_ifg_physical`                   | `libjvm.dylib` |
+|  0.1% |       2 | `Compile::disconnect_useless_nodes`                  | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` | `libjvm.dylib` |
+|  0.1% |       2 | `TypeInterfaces::eq`                                 | `libjvm.dylib` |
+|  0.1% |       2 | `PhaseIterGVN::subsume_node`                         | `libjvm.dylib` |
+| <0.1% |       1 | `RelocIterator::set_limits`                          | `libjvm.dylib` |
+| <0.1% |       1 | `DecodeNNode::Opcode`                                | `libjvm.dylib` |
+| <0.1% |       1 | `GraphBuilder::invoke`                               | `libjvm.dylib` |
+| <0.1% |       1 | `PhaseIdealLoop::is_dominator`                       | `libjvm.dylib` |
+| <0.1% |       1 | `ConnectionGraph::create_split_phi`                  | `libjvm.dylib` |
+| <0.1% |       1 | `AddPNode::bottom_type`                              | `libjvm.dylib` |
 
 ##### Ours
 
-|     % | Samples | Function                                                                                                                                                                     | Location                                                                                          |
-| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-|  0.1% |       2 | `loadAllClassesFromJars(Collection, int, ClassHandler)`                                                                                                                      | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils`                                            |
-| <0.1% |       1 | `<init>(CodedInputStream, ExtensionRegistryLite)`                                                                                                                            | `org.jetbrains.kotlin.metadata.ProtoBuf$Function`                                                 |
-| <0.1% |       1 | `convertTypeParameter(LighterASTNode, List, FirBasedSymbol)`                                                                                                                 | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder`                  |
-| <0.1% |       1 | `constructType(FirClassifierSymbol, ConeTypeProjection[], boolean, ConeAttributes)`                                                                                          | `org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt`                                          |
-| <0.1% |       1 | `create(List)`                                                                                                                                                               | `org.jetbrains.kotlin.fir.types.ConeAttributes$Companion`                                         |
-| <0.1% |       1 | `newTypeCheckerState(TypeSystemContext, boolean, boolean, boolean)`                                                                                                          | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl`                      |
-| <0.1% |       1 | `transformFunctionCallInternal$org_jetbrains_kotlin_resolve(FirFunctionCall, ResolutionMode, FirExpressionsResolveTransformer$CallResolutionMode)`                           | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`     |
-| <0.1% |       1 | `transformStatementsIndexed(FirBlock, FirTransformer, Function1)`                                                                                                            | `org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt`                                        |
-| <0.1% |       1 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`                            |
-| <0.1% |       1 | `substituteOrSelf(ConeKotlinType)`                                                                                                                                           | `org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty`                             |
-| <0.1% |       1 | `getSymbol()`                                                                                                                                                                | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`                                  |
-| <0.1% |       1 | `<init>(ConstraintSystemCompleter, ConstraintSystemCompleter$PostponedAtomAnalyzer)`                                                                                         | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter$$Lambda.0x0000000701699e90` |
-| <0.1% |       1 | `enqueueResolverTask(TowerGroup, Function1)`                                                                                                                                 | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`                                |
-| <0.1% |       1 | `loadExtensionReceiverParameterAnnotations(DeserializedContainerSource, MessageLite, NameResolver, TypeTable, AnnotationDeserializer$CallableKind)`                          | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer`                   |
-| <0.1% |       1 | `rigidType(ProtoBuf$Type, ConeAttributes)`                                                                                                                                   | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`                                    |
-| <0.1% |       1 | `exitJump(FirJump)`                                                                                                                                                          | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder`                                |
-| <0.1% |       1 | `<init>(TypeVariableMarker)`                                                                                                                                                 | `org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition`              |
-| <0.1% |       1 | `findClass(JavaClassFinder$Request)`                                                                                                                                         | `org.jetbrains.kotlin.load.java.JavaClassFinderImpl`                                              |
-| <0.1% |       1 | `addNonLocalTowerDataElements(List)`                                                                                                                                         | `org.jetbrains.kotlin.fir.declarations.FirTowerDataContext`                                       |
-| <0.1% |       1 | `getSupertypes()`                                                                                                                                                            | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaClass`                        |
+|     % | Samples | Function                                                                                                                         | Location                                                                                          |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| <0.1% |       1 | `balanceWhiteSpaces()`                                                                                                           | `com.intellij.lang.impl.PsiBuilderImpl`                                                           |
+| <0.1% |       1 | `transformBody(FirTransformer, Object)`                                                                                          | `org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl`                                 |
+| <0.1% |       1 | `fastPathSkipApproximation(ConeKotlinType, TypeApproximatorConfiguration)`                                                       | `org.jetbrains.kotlin.fir.types.ConeTypeApproximator`                                             |
+| <0.1% |       1 | `resetSmartCastPositionTo(Flow)`                                                                                                 | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`                                        |
+| <0.1% |       1 | `prepareExpectedType(ResolutionContext, Candidate, CallInfo, FirExpression, FirValueParameter)`                                  | `org.jetbrains.kotlin.fir.resolve.calls.stages.CheckArgumentsKt`                                  |
+| <0.1% |       1 | `fromMethodNameAndDesc(String, String)`                                                                                          | `org.jetbrains.kotlin.load.kotlin.MemberSignature$Companion`                                      |
+| <0.1% |       1 | `hasNothingSupertype(TypeCheckerState, TypeSystemContext, RigidTypeMarker)`                                                      | `org.jetbrains.kotlin.types.AbstractTypeChecker`                                                  |
+| <0.1% |       1 | `<init>(ConstraintSystemCompleter, ConstraintSystemCompleter$PostponedAtomAnalyzer)`                                             | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter$$Lambda.0x0000007001687670` |
+| <0.1% |       1 | `isSubstitutionOverride(FirCallableDeclaration)`                                                                                 | `org.jetbrains.kotlin.fir.ClassMembersKt`                                                         |
+| <0.1% |       1 | `withoutEnhancedNullability(FirTypeRef)`                                                                                         | `org.jetbrains.kotlin.fir.types.TypeUtilsKt`                                                      |
+| <0.1% |       1 | `isMarkedNullable(KotlinTypeMarker)`                                                                                             | `org.jetbrains.kotlin.fir.types.ConeTypeContext`                                                  |
+| <0.1% |       1 | `reportMissingTypes(CheckerContext, DiagnosticReporter, KtSourceElement, Set, FirMissingDependencyClassProxy$MissingTypeOrigin)` | `org.jetbrains.kotlin.fir.analysis.checkers.expression.FirMissingDependencyClassProxy`            |
+| <0.1% |       1 | `visitTypeParameter(FirTypeParameter, Object)`                                                                                   | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent`   |
+| <0.1% |       1 | `checkAnnotationTarget(CheckerContext, DiagnosticReporter, FirAnnotationContainer, FirAnnotation)`                               | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirAnnotationChecker`                     |
+| <0.1% |       1 | `visitFunctionTypeRef(FirFunctionTypeRef, Object)`                                                                               | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                    |
+| <0.1% |       1 | `applyTypeArguments(IrExpression, List, List)`                                                                                   | `org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator`                           |
+| <0.1% |       1 | `<init>(CommonBackendContext, HeaderInfoBuilder)`                                                                                | `org.jetbrains.kotlin.backend.common.lower.loops.handlers.ReversedHandler`                        |
+| <0.1% |       1 | `hashSuffix(IrFunction)`                                                                                                         | `org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering`                            |
+| <0.1% |       1 | `mapType$default(IrTypeMapper, IrType, TypeMappingMode, JvmSignatureWriter, boolean, int, Object)`                               | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper`                                           |
+| <0.1% |       1 | `getPrimitiveOrUnsignedType(IrType, Map, Map)`                                                                                   | `org.jetbrains.kotlin.ir.types.IrTypePredicatesKt`                                                |
 
 #### Lines
 
 Lines with the largest contribution to each function's self samples.
 
-##### `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+##### `balanceWhiteSpaces()` (`com.intellij.lang.impl.PsiBuilderImpl`)
 
-|     % | Samples | Location                                                   |
-| ----: | ------: | ---------------------------------------------------------- |
-| 50.0% |       1 | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils:133` |
-| 50.0% |       1 | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils:142` |
+|      % | Samples | Location                                     |
+| -----: | ------: | -------------------------------------------- |
+| 100.0% |       1 | `com.intellij.lang.impl.PsiBuilderImpl:1198` |
 
-##### `<init>(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function`)
-
-|      % | Samples | Location                                                |
-| -----: | ------: | ------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function:16542` |
-
-##### `convertTypeParameter(LighterASTNode, List, FirBasedSymbol)` (`org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder`)
-
-|      % | Samples | Location                                                                              |
-| -----: | ------: | ------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder:4740` |
-
-##### `constructType(FirClassifierSymbol, ConeTypeProjection[], boolean, ConeAttributes)` (`org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt`)
-
-|      % | Samples | Location                                                    |
-| -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt:52` |
-
-##### `create(List)` (`org.jetbrains.kotlin.fir.types.ConeAttributes$Companion`)
-
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.types.ConeAttributes$Companion:86` |
-
-##### `transformFunctionCallInternal$org_jetbrains_kotlin_resolve(FirFunctionCall, ResolutionMode, FirExpressionsResolveTransformer$CallResolutionMode)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`)
-
-|      % | Samples | Location                                                                                          |
-| -----: | ------: | ------------------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer:694` |
-
-##### `transformStatementsIndexed(FirBlock, FirTransformer, Function1)` (`org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt`)
-
-|      % | Samples | Location                                                       |
-| -----: | ------: | -------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt:248` |
-
-##### `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-|      % | Samples | Location                                                                   |
-| -----: | ------: | -------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter:186` |
-
-##### `substituteOrSelf(ConeKotlinType)` (`org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty`)
-
-|      % | Samples | Location                                                                 |
-| -----: | ------: | ------------------------------------------------------------------------ |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty:19` |
-
-##### `getSymbol()` (`org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`)
-
-|      % | Samples | Location                                                            |
-| -----: | ------: | ------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl:47` |
-
-##### `enqueueResolverTask(TowerGroup, Function1)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`)
+##### `transformBody(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl`)
 
 |      % | Samples | Location                                                              |
 | -----: | ------: | --------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager:59` |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl:117` |
 
-##### `loadExtensionReceiverParameterAnnotations(DeserializedContainerSource, MessageLite, NameResolver, TypeTable, AnnotationDeserializer$CallableKind)` (`org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer`)
+##### `fastPathSkipApproximation(ConeKotlinType, TypeApproximatorConfiguration)` (`org.jetbrains.kotlin.fir.types.ConeTypeApproximator`)
 
-|      % | Samples | Location                                                                            |
-| -----: | ------: | ----------------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer:340` |
+|      % | Samples | Location                                                 |
+| -----: | ------: | -------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.types.ConeTypeApproximator:32` |
 
-##### `rigidType(ProtoBuf$Type, ConeAttributes)` (`org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`)
-
-|      % | Samples | Location                                                           |
-| -----: | ------: | ------------------------------------------------------------------ |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer:214` |
-
-##### `exitJump(FirJump)` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder`)
-
-|      % | Samples | Location                                                               |
-| -----: | ------: | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder:983` |
-
-##### `<init>(TypeVariableMarker)` (`org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition`)
-
-|      % | Samples | Location                                                                                |
-| -----: | ------: | --------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition:26` |
-
-##### `findClass(JavaClassFinder$Request)` (`org.jetbrains.kotlin.load.java.JavaClassFinderImpl`)
-
-|      % | Samples | Location                                                |
-| -----: | ------: | ------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.load.java.JavaClassFinderImpl:49` |
-
-##### `addNonLocalTowerDataElements(List)` (`org.jetbrains.kotlin.fir.declarations.FirTowerDataContext`)
+##### `resetSmartCastPositionTo(Flow)` (`org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`)
 
 |      % | Samples | Location                                                        |
 | -----: | ------: | --------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.fir.declarations.FirTowerDataContext:130` |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer:2010` |
 
-##### `getSupertypes()` (`org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaClass`)
+##### `prepareExpectedType(ResolutionContext, Candidate, CallInfo, FirExpression, FirValueParameter)` (`org.jetbrains.kotlin.fir.resolve.calls.stages.CheckArgumentsKt`)
+
+|      % | Samples | Location                                                             |
+| -----: | ------: | -------------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.resolve.calls.stages.CheckArgumentsKt:106` |
+
+##### `fromMethodNameAndDesc(String, String)` (`org.jetbrains.kotlin.load.kotlin.MemberSignature$Companion`)
+
+|      % | Samples | Location                                                        |
+| -----: | ------: | --------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.load.kotlin.MemberSignature$Companion:24` |
+
+##### `hasNothingSupertype(TypeCheckerState, TypeSystemContext, RigidTypeMarker)` (`org.jetbrains.kotlin.types.AbstractTypeChecker`)
+
+|      % | Samples | Location                                             |
+| -----: | ------: | ---------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.types.AbstractTypeChecker:963` |
+
+##### `isSubstitutionOverride(FirCallableDeclaration)` (`org.jetbrains.kotlin.fir.ClassMembersKt`)
+
+|      % | Samples | Location                                     |
+| -----: | ------: | -------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.ClassMembersKt:76` |
+
+##### `withoutEnhancedNullability(FirTypeRef)` (`org.jetbrains.kotlin.fir.types.TypeUtilsKt`)
+
+|      % | Samples | Location                                         |
+| -----: | ------: | ------------------------------------------------ |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.types.TypeUtilsKt:434` |
+
+##### `isMarkedNullable(KotlinTypeMarker)` (`org.jetbrains.kotlin.fir.types.ConeTypeContext`)
+
+|      % | Samples | Location                                             |
+| -----: | ------: | ---------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.types.ConeTypeContext:133` |
+
+##### `reportMissingTypes(CheckerContext, DiagnosticReporter, KtSourceElement, Set, FirMissingDependencyClassProxy$MissingTypeOrigin)` (`org.jetbrains.kotlin.fir.analysis.checkers.expression.FirMissingDependencyClassProxy`)
+
+|      % | Samples | Location                                                                                   |
+| -----: | ------: | ------------------------------------------------------------------------------------------ |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.analysis.checkers.expression.FirMissingDependencyClassProxy:154` |
+
+##### `visitTypeParameter(FirTypeParameter, Object)` (`org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent`)
+
+|      % | Samples | Location                                                                                           |
+| -----: | ------: | -------------------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent:25` |
+
+##### `checkAnnotationTarget(CheckerContext, DiagnosticReporter, FirAnnotationContainer, FirAnnotation)` (`org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirAnnotationChecker`)
+
+|      % | Samples | Location                                                                          |
+| -----: | ------: | --------------------------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirAnnotationChecker:162` |
+
+##### `visitFunctionTypeRef(FirFunctionTypeRef, Object)` (`org.jetbrains.kotlin.fir.visitors.FirVisitor`)
+
+|      % | Samples | Location                                           |
+| -----: | ------: | -------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.visitors.FirVisitor:444` |
+
+##### `applyTypeArguments(IrExpression, List, List)` (`org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator`)
+
+|      % | Samples | Location                                                                     |
+| -----: | ------: | ---------------------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator:1363` |
+
+##### `<init>(CommonBackendContext, HeaderInfoBuilder)` (`org.jetbrains.kotlin.backend.common.lower.loops.handlers.ReversedHandler`)
 
 |      % | Samples | Location                                                                      |
 | -----: | ------: | ----------------------------------------------------------------------------- |
-| 100.0% |       1 | `org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaClass:24` |
+| 100.0% |       1 | `org.jetbrains.kotlin.backend.common.lower.loops.handlers.ReversedHandler:39` |
+
+##### `hashSuffix(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering`)
+
+|      % | Samples | Location                                                                   |
+| -----: | ------: | -------------------------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering:130` |
+
+##### `mapType$default(IrTypeMapper, IrType, TypeMappingMode, JvmSignatureWriter, boolean, int, Object)` (`org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper`)
+
+|      % | Samples | Location                                                    |
+| -----: | ------: | ----------------------------------------------------------- |
+| 100.0% |       1 | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper:149` |
+
+##### `getPrimitiveOrUnsignedType(IrType, Map, Map)` (`org.jetbrains.kotlin.ir.types.IrTypePredicatesKt`)
+
+|      % | Samples | Location                                               |
+| -----: | ------: | ------------------------------------------------------ |
+| 100.0% |       1 | `org.jetbrains.kotlin.ir.types.IrTypePredicatesKt:152` |
 
 #### Callers
 
@@ -289,125 +293,126 @@ Callers with the largest contribution to each function's self samples. Inlining 
 
 |     % | Samples | Caller                  | Location                 |
 | ----: | ------: | ----------------------- | ------------------------ |
-| 78.3% |     997 | `PlatformMonitor::wait` | `libjvm.dylib`           |
-|  7.3% |      93 | `PlatformEvent::park`   | `libjvm.dylib`           |
-|  7.2% |      92 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
-|  7.2% |      92 | `Parker::park`          | `libjvm.dylib`           |
+| 78.5% |   1,022 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+|  7.2% |      94 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  7.1% |      93 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+|  7.1% |      93 | `Parker::park`          | `libjvm.dylib`           |
 
 ##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
 
 |     % | Samples | Caller                           | Location       |
 | ----: | ------: | -------------------------------- | -------------- |
-| 89.9% |     871 | `WorkerThread::run`              | `libjvm.dylib` |
-|  9.6% |      93 | `os::signal_wait`                | `libjvm.dylib` |
+| 89.4% |     871 | `WorkerThread::run`              | `libjvm.dylib` |
+|  9.7% |      94 | `os::signal_wait`                | `libjvm.dylib` |
+|  0.5% |       5 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
 |  0.4% |       4 | `WorkerThreads::run_task`        | `libjvm.dylib` |
-|  0.1% |       1 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
 
 ##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller               | Location                 |
 | -----: | ------: | -------------------- | ------------------------ |
-| 100.0% |      93 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+| 100.0% |      94 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
 
 ##### `__ulock_wait` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller                    | Location       |
 | -----: | ------: | ------------------------- | -------------- |
-| 100.0% |      93 | `CallJavaMainInNewThread` | `libjli.dylib` |
-
-##### `inflate_fast` (`libzip.dylib`)
-
-|      % | Samples | Caller                                          | Location       |
-| -----: | ------: | ----------------------------------------------- | -------------- |
-| 100.0% |       7 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `libzip.dylib` |
-
-##### `SymbolTable::do_lookup` (`libjvm.dylib`)
-
-|     % | Samples | Caller                     | Location       |
-| ----: | ------: | -------------------------- | -------------- |
-| 66.7% |       4 | `SymbolTable::lookup_only` | `libjvm.dylib` |
-| 33.3% |       2 | `SymbolTable::new_symbol`  | `libjvm.dylib` |
-
-##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` (`libjvm.dylib`)
-
-|     % | Samples | Caller                                             | Location       |
-| ----: | ------: | -------------------------------------------------- | -------------- |
-| 83.3% |       5 | `DebugInformationRecorder::describe_scope`         | `libjvm.dylib` |
-| 16.7% |       1 | `DebugInformationRecorder::serialize_scope_values` | `libjvm.dylib` |
+| 100.0% |      94 | `CallJavaMainInNewThread` | `libjli.dylib` |
 
 ##### `__psynch_mutexwait` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller                              | Location                  |
 | -----: | ------: | ----------------------------------- | ------------------------- |
-| 100.0% |       5 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
+| 100.0% |      11 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
 
-##### `PhaseChaitin::elide_copy` (`libjvm.dylib`)
+##### `inflate_fast` (`libzip.dylib`)
 
-|      % | Samples | Caller                                     | Location       |
-| -----: | ------: | ------------------------------------------ | -------------- |
-| 100.0% |       5 | `PhaseChaitin::post_allocate_copy_removal` | `libjvm.dylib` |
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |       8 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `libzip.dylib` |
 
 ##### `tlv_get_addr` (`libdyld.dylib`)
 
-|     % | Samples | Caller                                     | Location       |
-| ----: | ------: | ------------------------------------------ | -------------- |
-| 20.0% |       1 | `TypeInterfaces::intersection_with`        | `libjvm.dylib` |
-| 20.0% |       1 | `PhaseLive::compute`                       | `libjvm.dylib` |
-| 20.0% |       1 | `LinearScanWalker::LinearScanWalker`       | `libjvm.dylib` |
-| 20.0% |       1 | `LinearScan::compute_debug_info_for_scope` | `libjvm.dylib` |
-| 20.0% |       1 | `LIRGenerator::state_for`                  | `libjvm.dylib` |
+|     % | Samples | Caller                                        | Location       |
+| ----: | ------: | --------------------------------------------- | -------------- |
+| 12.5% |       1 | `StackMapReader::next`                        | `libjvm.dylib` |
+| 12.5% |       1 | `ClassFileParser::post_process_parsed_stream` | `libjvm.dylib` |
+| 12.5% |       1 | `ValueStack::ValueStack`                      | `libjvm.dylib` |
+| 12.5% |       1 | `ciMethodData::data_from`                     | `libjvm.dylib` |
+| 12.5% |       1 | `GraphBuilder::iterate_bytecodes_for_block`   | `libjvm.dylib` |
 
-##### `PhaseChaitin::build_ifg_physical` (`libjvm.dylib`)
+##### `IndexSetIterator::advance_and_next` (`libjvm.dylib`)
 
-|      % | Samples | Caller                            | Location       |
-| -----: | ------: | --------------------------------- | -------------- |
-| 100.0% |       4 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+|     % | Samples | Caller                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 40.0% |       2 | `PhaseChaitin::Simplify`     | `libjvm.dylib` |
+| 20.0% |       1 | `PhaseIFG::effective_degree` | `libjvm.dylib` |
+| 20.0% |       1 | `PhaseIFG::re_insert`        | `libjvm.dylib` |
+| 20.0% |       1 | `PhaseChaitin::Select`       | `libjvm.dylib` |
 
-##### `pthread_jit_write_protect_np` (`libsystem_pthread.dylib`)
+##### `fwd_copy_again` (`libjvm.dylib`)
 
-|     % | Samples | Caller                              | Location       |
-| ----: | ------: | ----------------------------------- | -------------- |
-| 33.3% |       1 | `jni_ReleasePrimitiveArrayCritical` | `libjvm.dylib` |
-| 33.3% |       1 | `jni_GetPrimitiveArrayCritical`     | `libjvm.dylib` |
-| 33.3% |       1 | `jni_GetStringUTFRegion`            | `libjvm.dylib` |
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |       4 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
 
-##### `Dictionary::find` (`libjvm.dylib`)
+##### `ciObjectFactory::get_metadata` (`libjvm.dylib`)
 
-|     % | Samples | Caller                                                       | Location       |
-| ----: | ------: | ------------------------------------------------------------ | -------------- |
-| 66.7% |       2 | `SystemDictionary::resolve_instance_class_or_null`           | `libjvm.dylib` |
-| 33.3% |       1 | `SystemDictionary::find_constrained_instance_or_array_klass` | `libjvm.dylib` |
+|     % | Samples | Caller                                             | Location       |
+| ----: | ------: | -------------------------------------------------- | -------------- |
+| 25.0% |       1 | `ciMethod::ensure_method_data`                     | `libjvm.dylib` |
+| 25.0% |       1 | `ciEnv::get_klass_by_name_impl`                    | `libjvm.dylib` |
+| 25.0% |       1 | `ciEnv::get_klass_by_index_impl`                   | `libjvm.dylib` |
+| 25.0% |       1 | `ciReceiverTypeData::translate_receiver_data_from` | `libjvm.dylib` |
 
-##### `Arena::contains` (`libjvm.dylib`)
+##### `inflate_table` (`libzip.dylib`)
 
-|      % | Samples | Caller           | Location       |
-| -----: | ------: | ---------------- | -------------- |
-| 100.0% |       3 | `Matcher::xform` | `libjvm.dylib` |
+|      % | Samples | Caller    | Location       |
+| -----: | ------: | --------- | -------------- |
+| 100.0% |       3 | `inflate` | `libzip.dylib` |
 
-##### `PhaseCCP::analyze` (`libjvm.dylib`)
+##### `_platform_memchr` (`libsystem_platform.dylib`)
 
-|      % | Samples | Caller               | Location       |
-| -----: | ------: | -------------------- | -------------- |
-| 100.0% |       3 | `PhaseCCP::PhaseCCP` | `libjvm.dylib` |
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |       3 | `SignatureStream::SignatureStream` | `libjvm.dylib` |
 
-##### `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+##### `SymbolTable::new_symbol` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                                                   | Location       |
-| -----: | ------: | ------------------------------------------------------------------------ | -------------- |
-| 100.0% |       3 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` | `libjvm.dylib` |
-
-##### `PhaseLive::compute` (`libjvm.dylib`)
-
-|      % | Samples | Caller                            | Location       |
-| -----: | ------: | --------------------------------- | -------------- |
-| 100.0% |       3 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+|      % | Samples | Caller                         | Location       |
+| -----: | ------: | ------------------------------ | -------------- |
+| 100.0% |       3 | `SignatureStream::find_symbol` | `libjvm.dylib` |
 
 ##### `IntervalWalker::walk_to` (`libjvm.dylib`)
 
-|     % | Samples | Caller                        | Location       |
-| ----: | ------: | ----------------------------- | -------------- |
-| 66.7% |       2 | `IntervalWalker::walk_to`     | `libjvm.dylib` |
-| 33.3% |       1 | `LinearScan::compute_oop_map` | `libjvm.dylib` |
+|      % | Samples | Caller                    | Location       |
+| -----: | ------: | ------------------------- | -------------- |
+| 100.0% |       3 | `IntervalWalker::walk_to` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::build_loop_late_post_work` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       3 | `PhaseIdealLoop::build_loop_late` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                          | Location       |
+| ----: | ------: | ----------------------------------------------- | -------------- |
+| 50.0% |       1 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+| 50.0% |       1 | `G1ScanHRForRegionClosure::scan_memregion`      | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |       2 | `G1ScanHRForRegionClosure::scan_memregion` | `libjvm.dylib` |
+
+##### `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                            | Location       |
+| -----: | ------: | ------------------------------------------------- | -------------- |
+| 100.0% |       2 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
 
 ##### `unknown` (`<unknown>`)
 
@@ -415,254 +420,256 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | --------- | ----------- |
 | 100.0% |       2 | `unknown` | `<unknown>` |
 
-##### `trampoline_stub_Relocation::get_trampoline_for` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                | Location       |
-| -----: | ------: | ------------------------------------- | -------------- |
-| 100.0% |       2 | `NativeCall::set_destination_mt_safe` | `libjvm.dylib` |
-
-##### `InstanceKlass::find_method_index` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                  | Location       |
-| -----: | ------: | --------------------------------------- | -------------- |
-| 100.0% |       2 | `InstanceKlass::uncached_lookup_method` | `libjvm.dylib` |
-
-##### `__psynch_mutexdrop` (`libsystem_kernel.dylib`)
-
-|      % | Samples | Caller                                | Location                  |
-| -----: | ------: | ------------------------------------- | ------------------------- |
-| 100.0% |       2 | `_pthread_mutex_firstfit_unlock_slow` | `libsystem_pthread.dylib` |
-
 ##### `_platform_memmove` (`libsystem_platform.dylib`)
 
-|     % | Samples | Caller                | Location       |
-| ----: | ------: | --------------------- | -------------- |
-| 50.0% |       1 | `PhaseOutput::Output` | `libjvm.dylib` |
-| 50.0% |       1 | `nmethod::nmethod`    | `libjvm.dylib` |
+|     % | Samples | Caller                                    | Location        |
+| ----: | ------: | ----------------------------------------- | --------------- |
+| 50.0% |       1 | `inflate`                                 | `libzip.dylib`  |
+| 50.0% |       1 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib` |
 
-##### `posix_madvise` (`libsystem_kernel.dylib`)
+##### `VerificationType::is_assignable_from` (`libjvm.dylib`)
 
-|      % | Samples | Caller        | Location                 |
-| -----: | ------: | ------------- | ------------------------ |
-| 100.0% |       2 | `free_medium` | `libsystem_malloc.dylib` |
+|     % | Samples | Caller                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 50.0% |       1 | `StackMapFrame::is_assignable_to` | `libjvm.dylib` |
+| 50.0% |       1 | `StackMapFrame::get_local`        | `libjvm.dylib` |
 
-##### `PhaseChaitin::post_allocate_copy_removal` (`libjvm.dylib`)
+##### `CodeCache::reverse_free_ratio` (`libjvm.dylib`)
 
-|      % | Samples | Caller                            | Location       |
-| -----: | ------: | --------------------------------- | -------------- |
-| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+|     % | Samples | Caller                 | Location       |
+| ----: | ------: | ---------------------- | -------------- |
+| 50.0% |       1 | `LoopPredicate::apply` | `libjvm.dylib` |
+| 50.0% |       1 | `CallPredicate::apply` | `libjvm.dylib` |
 
-##### `Node_Backward_Iterator::next` (`libjvm.dylib`)
+##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` (`libjvm.dylib`)
 
-|     % | Samples | Caller                         | Location       |
-| ----: | ------: | ------------------------------ | -------------- |
-| 50.0% |       1 | `PhaseCFG::schedule_late`      | `libjvm.dylib` |
-| 50.0% |       1 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
+|      % | Samples | Caller                                             | Location       |
+| -----: | ------: | -------------------------------------------------- | -------------- |
+| 100.0% |       2 | `DebugInformationRecorder::serialize_scope_values` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::build_loop_late_post_work` (`libjvm.dylib`)
-
-|      % | Samples | Caller                            | Location       |
-| -----: | ------: | --------------------------------- | -------------- |
-| 100.0% |       2 | `PhaseIdealLoop::build_loop_late` | `libjvm.dylib` |
-
-##### `PhaseCFG::partial_latency_of_defs` (`libjvm.dylib`)
-
-|      % | Samples | Caller                         | Location       |
-| -----: | ------: | ------------------------------ | -------------- |
-| 100.0% |       2 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::build_loop_early` (`libjvm.dylib`)
+##### `__psynch_cvbroad` (`libsystem_kernel.dylib`)
 
 |      % | Samples | Caller                               | Location       |
 | -----: | ------: | ------------------------------------ | -------------- |
-| 100.0% |       2 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+| 100.0% |       2 | `CompileBroker::create_compile_task` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
+##### `CodeSection::relocate` (`libjvm.dylib`)
+
+|     % | Samples | Caller                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 50.0% |       1 | `MacroAssembler::trampoline_call` | `libjvm.dylib` |
+| 50.0% |       1 | `Address::lea`                    | `libjvm.dylib` |
+
+##### `PhaseLive::compute` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
+##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
+##### `LinearScanWalker::alloc_free_reg` (`libjvm.dylib`)
 
 |      % | Samples | Caller                               | Location       |
 | -----: | ------: | ------------------------------------ | -------------- |
-| 100.0% |       2 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+| 100.0% |       2 | `LinearScanWalker::activate_current` | `libjvm.dylib` |
 
-##### `IndexSetIterator::advance_and_next` (`libjvm.dylib`)
+##### `PhaseIterGVN::add_users_to_worklist` (`libjvm.dylib`)
 
-|     % | Samples | Caller                             | Location       |
-| ----: | ------: | ---------------------------------- | -------------- |
-| 50.0% |       1 | `PhaseIFG::effective_degree`       | `libjvm.dylib` |
-| 50.0% |       1 | `PhaseChaitin::build_ifg_physical` | `libjvm.dylib` |
+|      % | Samples | Caller                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |       2 | `PhaseIterGVN::PhaseIterGVN` | `libjvm.dylib` |
 
-##### `PhaseChaitin::Split` (`libjvm.dylib`)
-
-|      % | Samples | Caller                            | Location       |
-| -----: | ------: | --------------------------------- | -------------- |
-| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-
-##### `LinearScan::append_scope_value` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                     | Location       |
-| -----: | ------: | ------------------------------------------ | -------------- |
-| 100.0% |       2 | `LinearScan::compute_debug_info_for_scope` | `libjvm.dylib` |
-
-##### `PhaseChaitin::remove_bound_register_from_interfering_live_ranges` (`libjvm.dylib`)
-
-|      % | Samples | Caller                             | Location       |
-| -----: | ------: | ---------------------------------- | -------------- |
-| 100.0% |       2 | `PhaseChaitin::build_ifg_physical` | `libjvm.dylib` |
-
-##### `PhaseChaitin::gather_lrg_masks` (`libjvm.dylib`)
+##### `PhaseChaitin::build_ifg_physical` (`libjvm.dylib`)
 
 |      % | Samples | Caller                            | Location       |
 | -----: | ------: | --------------------------------- | -------------- |
 | 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
 
-##### `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
+##### `Compile::disconnect_useless_nodes` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                                                       | Location                                               |
-| -----: | ------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% |       2 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
+|      % | Samples | Caller                                   | Location       |
+| -----: | ------: | ---------------------------------------- | -------------- |
+| 100.0% |       2 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
 
-##### `__bsdthread_create` (`libsystem_kernel.dylib`)
+##### `PhaseIdealLoop::dom_lca_for_get_late_ctrl_internal` (`libjvm.dylib`)
 
-|      % | Samples | Caller              | Location       |
-| -----: | ------: | ------------------- | -------------- |
-| 100.0% |       1 | `os::create_thread` | `libjvm.dylib` |
+|     % | Samples | Caller                                        | Location       |
+| ----: | ------: | --------------------------------------------- | -------------- |
+| 50.0% |       1 | `PhaseIdealLoop::compute_lca_of_uses`         | `libjvm.dylib` |
+| 50.0% |       1 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `libjvm.dylib` |
+
+##### `TypeInterfaces::eq` (`libjvm.dylib`)
+
+|      % | Samples | Caller            | Location       |
+| -----: | ------: | ----------------- | -------------- |
+| 100.0% |       2 | `TypeInstPtr::eq` | `libjvm.dylib` |
+
+##### `PhaseIterGVN::subsume_node` (`libjvm.dylib`)
+
+|      % | Samples | Caller                        | Location       |
+| -----: | ------: | ----------------------------- | -------------- |
+| 100.0% |       2 | `PhaseIterGVN::transform_old` | `libjvm.dylib` |
 
 ##### `RelocIterator::set_limits` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                    | Location       |
-| -----: | ------: | ----------------------------------------- | -------------- |
-| 100.0% |       1 | `CompiledDirectStaticCall::find_stub_for` | `libjvm.dylib` |
+|      % | Samples | Caller                                           | Location       |
+| -----: | ------: | ------------------------------------------------ | -------------- |
+| 100.0% |       1 | `trampoline_stub_Relocation::get_trampoline_for` | `libjvm.dylib` |
 
-##### `DebugInformationRecorder::serialize_scope_values` (`libjvm.dylib`)
+##### `DecodeNNode::Opcode` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                          | Location       |
-| -----: | ------: | ----------------------------------------------- | -------------- |
-| 100.0% |       1 | `DebugInformationRecorder::create_scope_values` | `libjvm.dylib` |
+|      % | Samples | Caller                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |       1 | `NodeHash::hash_find_insert` | `libjvm.dylib` |
 
-##### `PhaseOutput::Output` (`libjvm.dylib`)
+##### `GraphBuilder::invoke` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                      | Location       |
+| -----: | ------: | ------------------------------------------- | -------------- |
+| 100.0% |       1 | `GraphBuilder::iterate_bytecodes_for_block` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::is_dominator` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                        | Location       |
+| -----: | ------: | --------------------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `libjvm.dylib` |
+
+##### `ConnectionGraph::create_split_phi` (`libjvm.dylib`)
+
+|      % | Samples | Caller                              | Location       |
+| -----: | ------: | ----------------------------------- | -------------- |
+| 100.0% |       1 | `ConnectionGraph::split_memory_phi` | `libjvm.dylib` |
+
+##### `AddPNode::bottom_type` (`libjvm.dylib`)
 
 |      % | Samples | Caller              | Location       |
 | -----: | ------: | ------------------- | -------------- |
-| 100.0% |       1 | `Compile::Code_Gen` | `libjvm.dylib` |
+| 100.0% |       1 | `PhaseCCP::analyze` | `libjvm.dylib` |
 
-##### `Node::latency` (`libjvm.dylib`)
+##### `balanceWhiteSpaces()` (`com.intellij.lang.impl.PsiBuilderImpl`)
 
-|      % | Samples | Caller                         | Location       |
-| -----: | ------: | ------------------------------ | -------------- |
-| 100.0% |       1 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
+|      % | Samples | Caller               | Location                                |
+| -----: | ------: | -------------------- | --------------------------------------- |
+| 100.0% |       1 | `prepareLightTree()` | `com.intellij.lang.impl.PsiBuilderImpl` |
 
-##### `<init>(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function`)
+##### `transformBody(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl`)
 
-|      % | Samples | Caller                                                        | Location                                          |
-| -----: | ------: | ------------------------------------------------------------- | ------------------------------------------------- |
-| 100.0% |       1 | `<init>(CodedInputStream, ExtensionRegistryLite, ProtoBuf$1)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function` |
+|      % | Samples | Caller                                      | Location                                                          |
+| -----: | ------: | ------------------------------------------- | ----------------------------------------------------------------- |
+| 100.0% |       1 | `transformChildren(FirTransformer, Object)` | `org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl` |
 
-##### `convertTypeParameter(LighterASTNode, List, FirBasedSymbol)` (`org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder`)
+##### `fastPathSkipApproximation(ConeKotlinType, TypeApproximatorConfiguration)` (`org.jetbrains.kotlin.fir.types.ConeTypeApproximator`)
 
-|      % | Samples | Caller                                                        | Location                                                                         |
-| -----: | ------: | ------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| 100.0% |       1 | `convertTypeParameters(LighterASTNode, List, FirBasedSymbol)` | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder` |
+|      % | Samples | Caller                                                                  | Location                                              |
+| -----: | ------: | ----------------------------------------------------------------------- | ----------------------------------------------------- |
+| 100.0% |       1 | `approximateToSuperType(ConeKotlinType, TypeApproximatorConfiguration)` | `org.jetbrains.kotlin.fir.types.ConeTypeApproximator` |
 
-##### `constructType(FirClassifierSymbol, ConeTypeProjection[], boolean, ConeAttributes)` (`org.jetbrains.kotlin.fir.types.TypeConstructionUtilsKt`)
+##### `resetSmartCastPositionTo(Flow)` (`org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer`)
 
-|      % | Samples | Caller                                                                                                              | Location                                                              |
-| -----: | ------: | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| 100.0% |       1 | `resolveUserType(FirUserTypeRef, FirTypeCandidateCollector$TypeResolutionResult, boolean, FirDeclaration, boolean)` | `org.jetbrains.kotlin.fir.resolve.providers.impl.FirTypeResolverImpl` |
+|      % | Samples | Caller                                 | Location                                                   |
+| -----: | ------: | -------------------------------------- | ---------------------------------------------------------- |
+| 100.0% |       1 | `buildDefaultFlow(CFGNode, Function2)` | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer` |
 
-##### `create(List)` (`org.jetbrains.kotlin.fir.types.ConeAttributes$Companion`)
+##### `prepareExpectedType(ResolutionContext, Candidate, CallInfo, FirExpression, FirValueParameter)` (`org.jetbrains.kotlin.fir.resolve.calls.stages.CheckArgumentsKt`)
 
-|      % | Samples | Caller               | Location                                        |
-| -----: | ------: | -------------------- | ----------------------------------------------- |
-| 100.0% |       1 | `add(ConeAttribute)` | `org.jetbrains.kotlin.fir.types.ConeAttributes` |
+|      % | Samples | Caller                                                                                                 | Location                                                         |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| 100.0% |       1 | `access$prepareExpectedType(ResolutionContext, Candidate, CallInfo, FirExpression, FirValueParameter)` | `org.jetbrains.kotlin.fir.resolve.calls.stages.CheckArgumentsKt` |
 
-##### `newTypeCheckerState(TypeSystemContext, boolean, boolean, boolean)` (`org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl`)
+##### `fromMethodNameAndDesc(String, String)` (`org.jetbrains.kotlin.load.kotlin.MemberSignature$Companion`)
 
-|      % | Samples | Caller                                           | Location                                                                     |
-| -----: | ------: | ------------------------------------------------ | ---------------------------------------------------------------------------- |
-| 100.0% |       1 | `newTypeCheckerState(boolean, boolean, boolean)` | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl` |
+|      % | Samples | Caller                      | Location                                                                                                  |
+| -----: | ------: | --------------------------- | --------------------------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `visitMethod(Name, String)` | `org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializerKt$loadMemberAnnotations$1` |
 
-##### `transformFunctionCallInternal$org_jetbrains_kotlin_resolve(FirFunctionCall, ResolutionMode, FirExpressionsResolveTransformer$CallResolutionMode)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer`)
+##### `hasNothingSupertype(TypeCheckerState, TypeSystemContext, RigidTypeMarker)` (`org.jetbrains.kotlin.types.AbstractTypeChecker`)
 
-|      % | Samples | Caller                                                   | Location                                                                                      |
-| -----: | ------: | -------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `transformFunctionCall(FirFunctionCall, ResolutionMode)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer` |
+|      % | Samples | Caller                                                                                                      | Location                                         |
+| -----: | ------: | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| 100.0% |       1 | `isSubtypeOfForSingleClassifierType(TypeCheckerState, TypeSystemContext, RigidTypeMarker, RigidTypeMarker)` | `org.jetbrains.kotlin.types.AbstractTypeChecker` |
 
-##### `transformStatementsIndexed(FirBlock, FirTransformer, Function1)` (`org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt`)
-
-|      % | Samples | Caller                                                                                | Location                                                                                      |
-| -----: | ------: | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `transformBlockInCurrentScope$org_jetbrains_kotlin_resolve(FirBlock, ResolutionMode)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer` |
-
-##### `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter`)
-
-|      % | Samples | Caller                                                                                                                                                                  | Location                                                               |
-| -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `complete(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
-
-##### `substituteOrSelf(ConeKotlinType)` (`org.jetbrains.kotlin.fir.resolve.substitution.ConeSubstitutor$Empty`)
-
-|      % | Samples | Caller                                                       | Location                                                                                  |
-| -----: | ------: | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `substituteType(ConeKotlinType, Candidate, ConeSubstitutor)` | `org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer` |
-
-##### `getSymbol()` (`org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl`)
-
-|      % | Samples | Caller        | Location                                                         |
-| -----: | ------: | ------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 | `getSymbol()` | `org.jetbrains.kotlin.fir.declarations.impl.FirRegularClassImpl` |
-
-##### `<init>(ConstraintSystemCompleter, ConstraintSystemCompleter$PostponedAtomAnalyzer)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter$$Lambda.0x0000000701699e90`)
+##### `<init>(ConstraintSystemCompleter, ConstraintSystemCompleter$PostponedAtomAnalyzer)` (`org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter$$Lambda.0x0000007001687670`)
 
 |      % | Samples | Caller                                     | Location                                     |
 | -----: | ------: | ------------------------------------------ | -------------------------------------------- |
 | 100.0% |       1 | `newInvokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
 
-##### `enqueueResolverTask(TowerGroup, Function1)` (`org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager`)
+##### `isSubstitutionOverride(FirCallableDeclaration)` (`org.jetbrains.kotlin.fir.ClassMembersKt`)
 
-|      % | Samples | Caller                                                                                 | Location                                                           |
-| -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| 100.0% |       1 | `enqueueResolverTask$default(TowerResolveManager, TowerGroup, Function1, int, Object)` | `org.jetbrains.kotlin.fir.resolve.calls.tower.TowerResolveManager` |
+|      % | Samples | Caller                                           | Location                                               |
+| -----: | ------: | ------------------------------------------------ | ------------------------------------------------------ |
+| 100.0% |       1 | `unwrapFakeOverridesIfNecessary(FirBasedSymbol)` | `org.jetbrains.kotlin.fir.resolve.dfa.VariableStorage` |
 
-##### `loadExtensionReceiverParameterAnnotations(DeserializedContainerSource, MessageLite, NameResolver, TypeTable, AnnotationDeserializer$CallableKind)` (`org.jetbrains.kotlin.fir.java.deserialization.JvmBinaryAnnotationDeserializer`)
+##### `withoutEnhancedNullability(FirTypeRef)` (`org.jetbrains.kotlin.fir.types.TypeUtilsKt`)
 
-|      % | Samples | Caller                                                                                  | Location                                                         |
-| -----: | ------: | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 | `loadFunction(ProtoBuf$Function, ProtoBuf$Class, FirClassSymbol, FirDeclarationOrigin)` | `org.jetbrains.kotlin.fir.deserialization.FirMemberDeserializer` |
+|      % | Samples | Caller                                                                                                          | Location                                                                                     |
+| -----: | ------: | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `approximateDeclarationType(SessionHolder, FirResolvedTypeRef, Visibility, boolean, boolean, boolean, boolean)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.DeclarationApproximationUtilsKt` |
 
-##### `rigidType(ProtoBuf$Type, ConeAttributes)` (`org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer`)
+##### `isMarkedNullable(KotlinTypeMarker)` (`org.jetbrains.kotlin.fir.types.ConeTypeContext`)
 
-|      % | Samples | Caller                                | Location                                                       |
-| -----: | ------: | ------------------------------------- | -------------------------------------------------------------- |
-| 100.0% |       1 | `type(ProtoBuf$Type, ConeAttributes)` | `org.jetbrains.kotlin.fir.deserialization.FirTypeDeserializer` |
+|      % | Samples | Caller                               | Location                                                                     |
+| -----: | ------: | ------------------------------------ | ---------------------------------------------------------------------------- |
+| 100.0% |       1 | `isMarkedNullable(KotlinTypeMarker)` | `org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl` |
 
-##### `exitJump(FirJump)` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraphBuilder`)
+##### `reportMissingTypes(CheckerContext, DiagnosticReporter, KtSourceElement, Set, FirMissingDependencyClassProxy$MissingTypeOrigin)` (`org.jetbrains.kotlin.fir.analysis.checkers.expression.FirMissingDependencyClassProxy`)
 
-|      % | Samples | Caller              | Location                                                   |
-| -----: | ------: | ------------------- | ---------------------------------------------------------- |
-| 100.0% |       1 | `exitJump(FirJump)` | `org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer` |
+|      % | Samples | Caller                                                                    | Location                                                                                 |
+| -----: | ------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `check(CheckerContext, DiagnosticReporter, FirQualifiedAccessExpression)` | `org.jetbrains.kotlin.fir.analysis.checkers.expression.FirMissingDependencyClassChecker` |
 
-##### `<init>(TypeVariableMarker)` (`org.jetbrains.kotlin.fir.resolve.inference.model.ConeFixVariableConstraintPosition`)
+##### `visitTypeParameter(FirTypeParameter, Object)` (`org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationCheckersDiagnosticComponent`)
 
-|      % | Samples | Caller                                                                    | Location                                                               |
-| -----: | ------: | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `fixVariable(ConstraintSystemCompletionContext, VariableWithConstraints)` | `org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter` |
+|      % | Samples | Caller                       | Location                                                 |
+| -----: | ------: | ---------------------------- | -------------------------------------------------------- |
+| 100.0% |       1 | `accept(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.declarations.FirTypeParameter` |
 
-##### `findClass(JavaClassFinder$Request)` (`org.jetbrains.kotlin.load.java.JavaClassFinderImpl`)
+##### `checkAnnotationTarget(CheckerContext, DiagnosticReporter, FirAnnotationContainer, FirAnnotation)` (`org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirAnnotationChecker`)
 
-|      % | Samples | Caller                       | Location                                      |
-| -----: | ------: | ---------------------------- | --------------------------------------------- |
-| 100.0% |       1 | `findClass(ClassId, byte[])` | `org.jetbrains.kotlin.fir.java.FirJavaFacade` |
+|      % | Samples | Caller                                                                                 | Location                                                                      |
+| -----: | ------: | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 100.0% |       1 | `checkAnnotationContainer(CheckerContext, DiagnosticReporter, FirAnnotationContainer)` | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.FirAnnotationChecker` |
 
-##### `addNonLocalTowerDataElements(List)` (`org.jetbrains.kotlin.fir.declarations.FirTowerDataContext`)
+##### `visitFunctionTypeRef(FirFunctionTypeRef, Object)` (`org.jetbrains.kotlin.fir.visitors.FirVisitor`)
 
-|      % | Samples | Caller                                             | Location                                                                        |
-| -----: | ------: | -------------------------------------------------- | ------------------------------------------------------------------------------- |
-| 100.0% |       1 | `addNonLocalTowerDataElement(FirTowerDataElement)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.BodyResolveContext` |
+|      % | Samples | Caller                       | Location                                            |
+| -----: | ------: | ---------------------------- | --------------------------------------------------- |
+| 100.0% |       1 | `accept(FirVisitor, Object)` | `org.jetbrains.kotlin.fir.types.FirFunctionTypeRef` |
 
-##### `getSupertypes()` (`org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaClass`)
+##### `applyTypeArguments(IrExpression, List, List)` (`org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator`)
 
-|      % | Samples | Caller                              | Location                                                  |
-| -----: | ------: | ----------------------------------- | --------------------------------------------------------- |
-| 100.0% |       1 | `computeSuperTypeRefsByJavaClass()` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass` |
+|      % | Samples | Caller                                                                                            | Location                                                                |
+| -----: | ------: | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 100.0% |       1 | `applyTypeArgumentsWithTypealiasConstructorRemapping(IrExpression, FirCallableDeclaration, List)` | `org.jetbrains.kotlin.fir.backend.generators.CallAndReferenceGenerator` |
+
+##### `<init>(CommonBackendContext, HeaderInfoBuilder)` (`org.jetbrains.kotlin.backend.common.lower.loops.handlers.ReversedHandler`)
+
+|      % | Samples | Caller                                    | Location                                                                              |
+| -----: | ------: | ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `<init>(CommonBackendContext, Function0)` | `org.jetbrains.kotlin.backend.common.lower.loops.NestedHeaderInfoBuilderForWithIndex` |
+
+##### `hashSuffix(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering`)
+
+|      % | Samples | Caller                  | Location                                                               |
+| -----: | ------: | ----------------------- | ---------------------------------------------------------------------- |
+| 100.0% |       1 | `visitReturn(IrReturn)` | `org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering` |
+
+##### `mapType$default(IrTypeMapper, IrType, TypeMappingMode, JvmSignatureWriter, boolean, int, Object)` (`org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper`)
+
+|      % | Samples | Caller                                                                                                  | Location                                                |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |       1 | `writeGenericArguments$lambda$1$0(IrTypeMapper, KotlinTypeMarker, JvmSignatureWriter, TypeMappingMode)` | `org.jetbrains.kotlin.backend.jvm.mapping.IrTypeMapper` |
+
+##### `getPrimitiveOrUnsignedType(IrType, Map, Map)` (`org.jetbrains.kotlin.ir.types.IrTypePredicatesKt`)
+
+|      % | Samples | Caller                     | Location                                           |
+| -----: | ------: | -------------------------- | -------------------------------------------------- |
+| 100.0% |       1 | `getPrimitiveType(IrType)` | `org.jetbrains.kotlin.ir.types.IrTypePredicatesKt` |
 
 ### Total samples
 
@@ -670,26 +677,26 @@ Functions with the most samples collected within the function and its callees.
 
 |     % | Samples | Function                                   | Location                  |
 | ----: | ------: | ------------------------------------------ | ------------------------- |
-| 82.6% |   2,228 | `_pthread_start`                           | `libsystem_pthread.dylib` |
-| 82.6% |   2,228 | `thread_start`                             | `libsystem_pthread.dylib` |
-| 79.2% |   2,134 | `Thread::call_run`                         | `libjvm.dylib`            |
-| 79.2% |   2,134 | `thread_native_entry`                      | `libjvm.dylib`            |
-| 47.3% |   1,274 | `__psynch_cvwait`                          | `libsystem_kernel.dylib`  |
-| 37.0% |     997 | `PlatformMonitor::wait`                    | `libjvm.dylib`            |
-| 35.9% |     969 | `semaphore_wait_trap`                      | `libsystem_kernel.dylib`  |
-| 32.6% |     878 | `WorkerThread::run`                        | `libjvm.dylib`            |
-| 29.3% |     791 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
-| 27.4% |     738 | `Monitor::wait_without_safepoint_check`    | `libjvm.dylib`            |
-| 12.2% |     328 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
-| 10.3% |     279 | `ConcurrentGCThread::run`                  | `libjvm.dylib`            |
-|  9.6% |     259 | `Monitor::wait`                            | `libjvm.dylib`            |
-|  6.9% |     186 | `JLI_Launch`                               | `libjli.dylib`            |
-|  6.9% |     186 | `main`                                     | `java`                    |
-|  6.2% |     168 | `CompileQueue::get`                        | `libjvm.dylib`            |
-|  5.9% |     160 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
-|  4.2% |     114 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
-|  4.2% |     113 | `Compile::Compile`                         | `libjvm.dylib`            |
-|  3.5% |      95 | `unknown`                                  | `<unknown>`               |
+| 82.8% |   2,255 | `_pthread_start`                           | `libsystem_pthread.dylib` |
+| 82.8% |   2,255 | `thread_start`                             | `libsystem_pthread.dylib` |
+| 79.4% |   2,160 | `Thread::call_run`                         | `libjvm.dylib`            |
+| 79.4% |   2,160 | `thread_native_entry`                      | `libjvm.dylib`            |
+| 47.8% |   1,302 | `__psynch_cvwait`                          | `libsystem_kernel.dylib`  |
+| 37.6% |   1,023 | `PlatformMonitor::wait`                    | `libjvm.dylib`            |
+| 35.8% |     974 | `semaphore_wait_trap`                      | `libsystem_kernel.dylib`  |
+| 32.7% |     891 | `WorkerThread::run`                        | `libjvm.dylib`            |
+| 29.4% |     799 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
+| 27.5% |     748 | `Monitor::wait_without_safepoint_check`    | `libjvm.dylib`            |
+| 12.2% |     331 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
+| 10.4% |     282 | `ConcurrentGCThread::run`                  | `libjvm.dylib`            |
+| 10.1% |     275 | `Monitor::wait`                            | `libjvm.dylib`            |
+|  6.9% |     188 | `JLI_Launch`                               | `libjli.dylib`            |
+|  6.9% |     188 | `main`                                     | `java`                    |
+|  6.5% |     178 | `CompileQueue::get`                        | `libjvm.dylib`            |
+|  5.6% |     153 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
+|  3.7% |     102 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
+|  3.7% |     101 | `Compile::Compile`                         | `libjvm.dylib`            |
+|  3.5% |      96 | `unknown`                                  | `<unknown>`               |
 
 #### Categories
 
@@ -699,76 +706,76 @@ Categories accounting for at least 1.0% of self samples.
 
 |     % | Samples | Function                                | Location                  |
 | ----: | ------: | --------------------------------------- | ------------------------- |
-| 82.6% |   2,228 | `_pthread_start`                        | `libsystem_pthread.dylib` |
-| 82.6% |   2,228 | `thread_start`                          | `libsystem_pthread.dylib` |
-| 79.2% |   2,134 | `Thread::call_run`                      | `libjvm.dylib`            |
-| 79.2% |   2,134 | `thread_native_entry`                   | `libjvm.dylib`            |
-| 47.3% |   1,274 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
-| 37.0% |     997 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
-| 35.9% |     969 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
-| 32.6% |     878 | `WorkerThread::run`                     | `libjvm.dylib`            |
-| 29.3% |     791 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
-| 27.4% |     738 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
-| 10.3% |     279 | `ConcurrentGCThread::run`               | `libjvm.dylib`            |
-|  9.6% |     259 | `Monitor::wait`                         | `libjvm.dylib`            |
-|  6.9% |     186 | `JLI_Launch`                            | `libjli.dylib`            |
-|  6.9% |     186 | `main`                                  | `java`                    |
-|  3.5% |      95 | `unknown`                               | `<unknown>`               |
-|  3.4% |      93 | `ServiceThread::service_thread_entry`   | `libjvm.dylib`            |
-|  3.4% |      93 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib`            |
-|  3.4% |      93 | `VMThread::run`                         | `libjvm.dylib`            |
-|  3.4% |      93 | `os::signal_wait`                       | `libjvm.dylib`            |
-|  3.4% |      93 | `signal_thread_entry`                   | `libjvm.dylib`            |
+| 82.8% |   2,255 | `_pthread_start`                        | `libsystem_pthread.dylib` |
+| 82.8% |   2,255 | `thread_start`                          | `libsystem_pthread.dylib` |
+| 79.4% |   2,160 | `Thread::call_run`                      | `libjvm.dylib`            |
+| 79.4% |   2,160 | `thread_native_entry`                   | `libjvm.dylib`            |
+| 47.8% |   1,302 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
+| 37.6% |   1,023 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
+| 35.8% |     974 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
+| 32.7% |     891 | `WorkerThread::run`                     | `libjvm.dylib`            |
+| 29.4% |     799 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
+| 27.5% |     748 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
+| 10.4% |     282 | `ConcurrentGCThread::run`               | `libjvm.dylib`            |
+| 10.1% |     275 | `Monitor::wait`                         | `libjvm.dylib`            |
+|  6.9% |     188 | `JLI_Launch`                            | `libjli.dylib`            |
+|  6.9% |     188 | `main`                                  | `java`                    |
+|  3.5% |      96 | `unknown`                               | `<unknown>`               |
+|  3.5% |      94 | `PlatformEvent::park`                   | `libjvm.dylib`            |
+|  3.5% |      94 | `ObjectMonitor::wait`                   | `libjvm.dylib`            |
+|  3.5% |      94 | `ObjectSynchronizer::wait`              | `libjvm.dylib`            |
+|  3.5% |      94 | `JVM_MonitorWait`                       | `libjvm.dylib`            |
+|  3.5% |      94 | `ServiceThread::service_thread_entry`   | `libjvm.dylib`            |
 
 ##### Compiler
 
 |     % | Samples | Function                                   | Location       |
 | ----: | ------: | ------------------------------------------ | -------------- |
-| 12.2% |     328 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
-|  6.2% |     168 | `CompileQueue::get`                        | `libjvm.dylib` |
-|  5.9% |     160 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
-|  4.2% |     114 | `C2Compiler::compile_method`               | `libjvm.dylib` |
-|  4.2% |     113 | `Compile::Compile`                         | `libjvm.dylib` |
-|  2.1% |      57 | `Compile::Code_Gen`                        | `libjvm.dylib` |
-|  1.6% |      43 | `Compilation::compile_method`              | `libjvm.dylib` |
-|  1.6% |      43 | `Compilation::Compilation`                 | `libjvm.dylib` |
-|  1.6% |      42 | `Compile::Optimize`                        | `libjvm.dylib` |
-|  1.5% |      41 | `Compilation::compile_java_method`         | `libjvm.dylib` |
-|  1.2% |      33 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
-|  0.8% |      21 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
-|  0.7% |      20 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib` |
-|  0.7% |      20 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib` |
-|  0.6% |      17 | `Compilation::emit_lir`                    | `libjvm.dylib` |
-|  0.5% |      13 | `Compilation::build_hir`                   | `libjvm.dylib` |
-|  0.4% |      11 | `PhaseCCP::PhaseCCP`                       | `libjvm.dylib` |
-|  0.4% |      11 | `LinearScan::do_linear_scan`               | `libjvm.dylib` |
-|  0.4% |      11 | `Compilation::emit_code_body`              | `libjvm.dylib` |
-|  0.3% |       9 | `PhaseCCP::analyze`                        | `libjvm.dylib` |
+| 12.2% |     331 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
+|  6.5% |     178 | `CompileQueue::get`                        | `libjvm.dylib` |
+|  5.6% |     153 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+|  3.7% |     102 | `C2Compiler::compile_method`               | `libjvm.dylib` |
+|  3.7% |     101 | `Compile::Compile`                         | `libjvm.dylib` |
+|  1.8% |      50 | `Compilation::compile_method`              | `libjvm.dylib` |
+|  1.8% |      50 | `Compilation::Compilation`                 | `libjvm.dylib` |
+|  1.6% |      44 | `Compilation::compile_java_method`         | `libjvm.dylib` |
+|  1.6% |      43 | `Compile::Code_Gen`                        | `libjvm.dylib` |
+|  1.5% |      40 | `Compile::Optimize`                        | `libjvm.dylib` |
+|  1.0% |      26 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
+|  0.8% |      23 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
+|  0.7% |      20 | `Compilation::build_hir`                   | `libjvm.dylib` |
+|  0.7% |      18 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib` |
+|  0.7% |      18 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib` |
+|  0.6% |      16 | `Compilation::emit_lir`                    | `libjvm.dylib` |
+|  0.6% |      15 | `GraphBuilder::GraphBuilder`               | `libjvm.dylib` |
+|  0.5% |      13 | `LinearScan::do_linear_scan`               | `libjvm.dylib` |
+|  0.5% |      13 | `PhaseIterGVN::transform_old`              | `libjvm.dylib` |
+|  0.5% |      13 | `PhaseIterGVN::optimize`                   | `libjvm.dylib` |
 
 ##### Ours
 
-|    % | Samples | Function                                                                                                                                      | Location                                                    |
-| ---: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| 3.3% |      90 | `run(String[])`                                                                                                                               | `org.jetbrains.kotlin.preloading.Preloader`                 |
-| 3.3% |      90 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.preloading.Preloader`                 |
-| 2.8% |      75 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)`                                            | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`     |
-| 2.8% |      75 | `doMain(CLICompiler, String[])`                                                                                                               | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`     |
-| 2.8% |      75 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`      |
-| 2.8% |      75 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                |
-| 2.7% |      73 | `exec(PrintStream, Services, MessageRenderer, String[])`                                                                                      | `org.jetbrains.kotlin.cli.common.CLICompiler`               |
-| 2.7% |      73 | `exec(PrintStream, MessageRenderer, String[])`                                                                                                | `org.jetbrains.kotlin.cli.common.CLICompiler`               |
-| 2.7% |      73 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                                                                                        | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`     |
-| 2.7% |      72 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                                                                   | `org.jetbrains.kotlin.cli.common.CLICompiler`               |
-| 2.6% |      70 | `phaseBody(PipelineContext, PipelineArtifact)`                                                                                                | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`           |
-| 2.6% |      70 | `phaseBody(LoggingContext, Object)`                                                                                                           | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`           |
-| 2.6% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`     |
-| 2.6% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase` |
-| 2.6% |      70 | `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)`                                                                          | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`        |
-| 2.6% |      70 | `runPhasedPipeline(ArgumentsPipelineArtifact)`                                                                                                | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`     |
-| 2.6% |      70 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)`                                           | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`     |
-| 2.6% |      70 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`     |
-| 2.6% |      70 | `execute(CommonCompilerArguments, Services, MessageCollector)`                                                                                | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`     |
-| 2.6% |      70 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)`                                                                         | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                |
+|    % | Samples | Function                                                                                                                                      | Location                                                |
+| ---: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| 3.3% |      90 | `run(String[])`                                                                                                                               | `org.jetbrains.kotlin.preloading.Preloader`             |
+| 3.3% |      90 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.preloading.Preloader`             |
+| 2.8% |      75 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)`                                            | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 2.8% |      75 | `doMain(CLICompiler, String[])`                                                                                                               | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 2.8% |      75 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`  |
+| 2.8% |      75 | `main(String[])`                                                                                                                              | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
+| 2.6% |      72 | `exec(PrintStream, Services, MessageRenderer, String[])`                                                                                      | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+| 2.6% |      72 | `exec(PrintStream, MessageRenderer, String[])`                                                                                                | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+| 2.6% |      72 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                                                                                        | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 2.6% |      71 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                                                                   | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+| 2.5% |      69 | `runPhasedPipeline(ArgumentsPipelineArtifact)`                                                                                                | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 2.5% |      69 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)`                                           | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 2.5% |      69 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 2.5% |      69 | `execute(CommonCompilerArguments, Services, MessageCollector)`                                                                                | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 2.5% |      69 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)`                                                                         | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
+| 2.5% |      69 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)`                                                                        | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
+| 2.5% |      69 | `execImpl(MessageCollector, Services, CommonCompilerArguments)`                                                                               | `org.jetbrains.kotlin.cli.common.CLICompiler`           |
+| 2.5% |      68 | `phaseBody(PipelineContext, PipelineArtifact)`                                                                                                | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`       |
+| 2.5% |      68 | `phaseBody(LoggingContext, Object)`                                                                                                           | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`       |
+| 2.5% |      68 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
 
 #### Callers
 
@@ -778,160 +785,160 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 |      % | Samples | Caller         | Location                  |
 | -----: | ------: | -------------- | ------------------------- |
-| 100.0% |   2,228 | `thread_start` | `libsystem_pthread.dylib` |
+| 100.0% |   2,255 | `thread_start` | `libsystem_pthread.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
 |      % | Samples | Caller                | Location       |
 | -----: | ------: | --------------------- | -------------- |
-| 100.0% |   2,134 | `thread_native_entry` | `libjvm.dylib` |
+| 100.0% |   2,160 | `thread_native_entry` | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
 |      % | Samples | Caller           | Location                  |
 | -----: | ------: | ---------------- | ------------------------- |
-| 100.0% |   2,134 | `_pthread_start` | `libsystem_pthread.dylib` |
+| 100.0% |   2,160 | `_pthread_start` | `libsystem_pthread.dylib` |
 
 ##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
 
 |     % | Samples | Caller                  | Location                 |
 | ----: | ------: | ----------------------- | ------------------------ |
-| 78.3% |     997 | `PlatformMonitor::wait` | `libjvm.dylib`           |
-|  7.3% |      93 | `PlatformEvent::park`   | `libjvm.dylib`           |
-|  7.2% |      92 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
-|  7.2% |      92 | `Parker::park`          | `libjvm.dylib`           |
+| 78.5% |   1,022 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+|  7.2% |      94 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  7.1% |      93 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+|  7.1% |      93 | `Parker::park`          | `libjvm.dylib`           |
 
 ##### `PlatformMonitor::wait` (`libjvm.dylib`)
 
 |     % | Samples | Caller                                  | Location       |
 | ----: | ------: | --------------------------------------- | -------------- |
-| 74.0% |     738 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
-| 26.0% |     259 | `Monitor::wait`                         | `libjvm.dylib` |
+| 73.1% |     748 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+| 26.9% |     275 | `Monitor::wait`                         | `libjvm.dylib` |
 
 ##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
 
 |     % | Samples | Caller                           | Location       |
 | ----: | ------: | -------------------------------- | -------------- |
-| 89.9% |     871 | `WorkerThread::run`              | `libjvm.dylib` |
-|  9.6% |      93 | `os::signal_wait`                | `libjvm.dylib` |
+| 89.4% |     871 | `WorkerThread::run`              | `libjvm.dylib` |
+|  9.7% |      94 | `os::signal_wait`                | `libjvm.dylib` |
+|  0.5% |       5 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
 |  0.4% |       4 | `WorkerThreads::run_task`        | `libjvm.dylib` |
-|  0.1% |       1 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
 
 ##### `WorkerThread::run` (`libjvm.dylib`)
 
 |      % | Samples | Caller             | Location       |
 | -----: | ------: | ------------------ | -------------- |
-| 100.0% |     878 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% |     891 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
 |      % | Samples | Caller             | Location       |
 | -----: | ------: | ------------------ | -------------- |
-| 100.0% |     791 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% |     799 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
 
-|     % | Samples | Caller                                                        | Location       |
-| ----: | ------: | ------------------------------------------------------------- | -------------- |
-| 12.6% |      93 | `ServiceThread::service_thread_entry`                         | `libjvm.dylib` |
-| 12.6% |      93 | `MonitorDeflationThread::monitor_deflation_thread_entry`      | `libjvm.dylib` |
-| 12.6% |      93 | `G1ServiceThread::wait_for_task`                              | `libjvm.dylib` |
-| 12.6% |      93 | `WatcherThread::sleep`                                        | `libjvm.dylib` |
-| 12.6% |      93 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib` |
+|     % | Samples | Caller                                                   | Location       |
+| ----: | ------: | -------------------------------------------------------- | -------------- |
+| 12.6% |      94 | `ServiceThread::service_thread_entry`                    | `libjvm.dylib` |
+| 12.6% |      94 | `MonitorDeflationThread::monitor_deflation_thread_entry` | `libjvm.dylib` |
+| 12.6% |      94 | `G1ServiceThread::wait_for_task`                         | `libjvm.dylib` |
+| 12.6% |      94 | `WatcherThread::sleep`                                   | `libjvm.dylib` |
+| 12.4% |      93 | `G1ConcurrentMarkThread::run_service`                    | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
 |      % | Samples | Caller                          | Location       |
 | -----: | ------: | ------------------------------- | -------------- |
-| 100.0% |     328 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 100.0% |     331 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
 
 ##### `ConcurrentGCThread::run` (`libjvm.dylib`)
 
 |      % | Samples | Caller             | Location       |
 | -----: | ------: | ------------------ | -------------- |
-| 100.0% |     279 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% |     282 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `Monitor::wait` (`libjvm.dylib`)
 
 |     % | Samples | Caller                            | Location       |
 | ----: | ------: | --------------------------------- | -------------- |
-| 64.1% |     166 | `CompileQueue::get`               | `libjvm.dylib` |
-| 35.9% |      93 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
+| 64.7% |     178 | `CompileQueue::get`               | `libjvm.dylib` |
+| 34.2% |      94 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
+|  1.1% |       3 | `VMThread::wait_until_executed`   | `libjvm.dylib` |
 
 ##### `JLI_Launch` (`libjli.dylib`)
 
 |      % | Samples | Caller | Location |
 | -----: | ------: | ------ | -------- |
-| 100.0% |     186 | `main` | `java`   |
+| 100.0% |     188 | `main` | `java`   |
 
 ##### `main` (`java`)
 
 |     % | Samples | Caller       | Location       |
 | ----: | ------: | ------------ | -------------- |
-| 50.0% |      93 | `unknown`    | `<unknown>`    |
-| 50.0% |      93 | `apple_main` | `libjli.dylib` |
+| 50.0% |      94 | `unknown`    | `<unknown>`    |
+| 50.0% |      94 | `apple_main` | `libjli.dylib` |
 
 ##### `CompileQueue::get` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                | Location       |
 | -----: | ------: | ------------------------------------- | -------------- |
-| 100.0% |     168 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+| 100.0% |     178 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                | Location       |
 | -----: | ------: | ------------------------------------- | -------------- |
-| 100.0% |     160 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+| 100.0% |     153 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                     | Location       |
 | -----: | ------: | ------------------------------------------ | -------------- |
-| 100.0% |     114 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+| 100.0% |     102 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
 
 |      % | Samples | Caller                       | Location       |
 | -----: | ------: | ---------------------------- | -------------- |
-| 100.0% |     113 | `C2Compiler::compile_method` | `libjvm.dylib` |
+| 100.0% |     101 | `C2Compiler::compile_method` | `libjvm.dylib` |
 
 ##### `unknown` (`<unknown>`)
 
-|    % | Samples | Caller                       | Location                 |
-| ---: | ------: | ---------------------------- | ------------------------ |
-| 2.1% |       2 | `unknown`                    | `<unknown>`              |
-| 1.1% |       1 | `Profiler::dlopen_hook`      | `libasyncProfiler.dylib` |
-| 1.1% |       1 | `NativeLookup::lookup_style` | `libjvm.dylib`           |
+|    % | Samples | Caller                  | Location                 |
+| ---: | ------: | ----------------------- | ------------------------ |
+| 2.1% |       2 | `unknown`               | `<unknown>`              |
+| 2.1% |       2 | `Profiler::dlopen_hook` | `libasyncProfiler.dylib` |
+
+##### `PlatformEvent::park` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |      94 | `ObjectMonitor::wait` | `libjvm.dylib` |
+
+##### `ObjectMonitor::wait` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      94 | `ObjectSynchronizer::wait` | `libjvm.dylib` |
+
+##### `ObjectSynchronizer::wait` (`libjvm.dylib`)
+
+|      % | Samples | Caller            | Location       |
+| -----: | ------: | ----------------- | -------------- |
+| 100.0% |      94 | `JVM_MonitorWait` | `libjvm.dylib` |
+
+##### `JVM_MonitorWait` (`libjvm.dylib`)
+
+|      % | Samples | Caller        | Location           |
+| -----: | ------: | ------------- | ------------------ |
+| 100.0% |      94 | `wait0(long)` | `java.lang.Object` |
 
 ##### `ServiceThread::service_thread_entry` (`libjvm.dylib`)
 
 |      % | Samples | Caller                          | Location       |
 | -----: | ------: | ------------------------------- | -------------- |
-| 100.0% |      93 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::run_service` (`libjvm.dylib`)
-
-|      % | Samples | Caller                    | Location       |
-| -----: | ------: | ------------------------- | -------------- |
-| 100.0% |      93 | `ConcurrentGCThread::run` | `libjvm.dylib` |
-
-##### `VMThread::run` (`libjvm.dylib`)
-
-|      % | Samples | Caller             | Location       |
-| -----: | ------: | ------------------ | -------------- |
-| 100.0% |      93 | `Thread::call_run` | `libjvm.dylib` |
-
-##### `os::signal_wait` (`libjvm.dylib`)
-
-|      % | Samples | Caller                | Location       |
-| -----: | ------: | --------------------- | -------------- |
-| 100.0% |      93 | `signal_thread_entry` | `libjvm.dylib` |
-
-##### `signal_thread_entry` (`libjvm.dylib`)
-
-|      % | Samples | Caller                          | Location       |
-| -----: | ------: | ------------------------------- | -------------- |
-| 100.0% |      93 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 100.0% |      94 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -961,184 +968,188 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 |      % | Samples | Caller                         | Location                                             |
 | -----: | ------: | ------------------------------ | ---------------------------------------------------- |
-| 100.0% |      75 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000000701008400` |
+| 100.0% |      75 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001008400` |
 
 ##### `exec(PrintStream, Services, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
 |      % | Samples | Caller                                         | Location                                      |
 | -----: | ------: | ---------------------------------------------- | --------------------------------------------- |
-| 100.0% |      73 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+| 100.0% |      72 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
 |      % | Samples | Caller                                                 | Location                                                |
 | -----: | ------: | ------------------------------------------------------ | ------------------------------------------------------- |
-| 100.0% |      73 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 100.0% |      72 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 ##### `doMainNoExit(CLICompiler, String[], MessageRenderer)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
 
 |      % | Samples | Caller                                                                                             | Location                                                |
 | -----: | ------: | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      73 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 100.0% |      72 | `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 ##### `exec(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
 |      % | Samples | Caller                                                   | Location                                      |
 | -----: | ------: | -------------------------------------------------------- | --------------------------------------------- |
-| 100.0% |      72 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
-
-##### `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
-
-|      % | Samples | Caller                              | Location                                          |
-| -----: | ------: | ----------------------------------- | ------------------------------------------------- |
-| 100.0% |      70 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase` |
-
-##### `phaseBody(LoggingContext, Object)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
-
-|      % | Samples | Caller                                                     | Location                                                |
-| -----: | ------: | ---------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
-
-##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
-
-|      % | Samples | Caller                                                                | Location                                                          |
-| -----: | ------: | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 100.0% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`            | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase`       |
-|   4.3% |       3 | `runPhase(NamedCompilerPhase, Object, boolean)`                       | `org.jetbrains.kotlin.backend.common.phaser.PhaseEngine`          |
-|   4.3% |       3 | `invoke(PhaseConfig, PhaserState, LoweringContext, IrModuleFragment)` | `org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase` |
-
-##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.backend.common.phaser.CompositePhase`)
-
-|      % | Samples | Caller                                                               | Location                                             |
-| -----: | ------: | -------------------------------------------------------------------- | ---------------------------------------------------- |
-| 100.0% |      70 | `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt` |
-
-##### `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`)
-
-|      % | Samples | Caller                                         | Location                                                |
-| -----: | ------: | ---------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `runPhasedPipeline(ArgumentsPipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      71 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `runPhasedPipeline(ArgumentsPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Caller                                                                                              | Location                                                |
 | -----: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Caller                                                                                                                                        | Location                                                |
 | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Caller                                                         | Location                                                |
 | -----: | ------: | -------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `execute(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Caller                                                                | Location                                     |
 | -----: | ------: | --------------------------------------------------------------------- | -------------------------------------------- |
-| 100.0% |      70 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+| 100.0% |      69 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
 
 ##### `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
 |      % | Samples | Caller                                                                 | Location                                     |
 | -----: | ------: | ---------------------------------------------------------------------- | -------------------------------------------- |
-| 100.0% |      70 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+| 100.0% |      69 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
 
-##### `Compile::Code_Gen` (`libjvm.dylib`)
+##### `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
-|      % | Samples | Caller             | Location       |
-| -----: | ------: | ------------------ | -------------- |
-| 100.0% |      57 | `Compile::Compile` | `libjvm.dylib` |
+|      % | Samples | Caller                                                          | Location                                      |
+| -----: | ------: | --------------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |      69 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Caller                                                      | Location                                      |
+| -----: | ------: | ----------------------------------------------------------- | --------------------------------------------- |
+| 100.0% |      69 | `exec(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+
+##### `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Caller                              | Location                                          |
+| -----: | ------: | ----------------------------------- | ------------------------------------------------- |
+| 100.0% |      68 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase` |
+
+##### `phaseBody(LoggingContext, Object)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Caller                                                     | Location                                                |
+| -----: | ------: | ---------------------------------------------------------- | ------------------------------------------------------- |
+| 100.0% |      68 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
+
+##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
+
+|      % | Samples | Caller                                                                | Location                                                          |
+| -----: | ------: | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 100.0% |      68 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`            | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase`       |
+|   5.9% |       4 | `invoke(PhaseConfig, PhaserState, LoweringContext, IrModuleFragment)` | `org.jetbrains.kotlin.backend.common.phaser.PerformByIrFilePhase` |
+|   1.5% |       1 | `runPhase(NamedCompilerPhase, Object, boolean)`                       | `org.jetbrains.kotlin.backend.common.phaser.PhaseEngine`          |
 
 ##### `Compilation::compile_method` (`libjvm.dylib`)
 
 |      % | Samples | Caller                     | Location       |
 | -----: | ------: | -------------------------- | -------------- |
-| 100.0% |      43 | `Compilation::Compilation` | `libjvm.dylib` |
+| 100.0% |      50 | `Compilation::Compilation` | `libjvm.dylib` |
 
 ##### `Compilation::Compilation` (`libjvm.dylib`)
 
 |      % | Samples | Caller                     | Location       |
 | -----: | ------: | -------------------------- | -------------- |
-| 100.0% |      43 | `Compiler::compile_method` | `libjvm.dylib` |
-
-##### `Compile::Optimize` (`libjvm.dylib`)
-
-|      % | Samples | Caller             | Location       |
-| -----: | ------: | ------------------ | -------------- |
-| 100.0% |      42 | `Compile::Compile` | `libjvm.dylib` |
+| 100.0% |      50 | `Compiler::compile_method` | `libjvm.dylib` |
 
 ##### `Compilation::compile_java_method` (`libjvm.dylib`)
 
 |      % | Samples | Caller                        | Location       |
 | -----: | ------: | ----------------------------- | -------------- |
-| 100.0% |      41 | `Compilation::compile_method` | `libjvm.dylib` |
+| 100.0% |      44 | `Compilation::compile_method` | `libjvm.dylib` |
+
+##### `Compile::Code_Gen` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      43 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `Compile::Optimize` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      40 | `Compile::Compile` | `libjvm.dylib` |
 
 ##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
 
 |      % | Samples | Caller              | Location       |
 | -----: | ------: | ------------------- | -------------- |
-| 100.0% |      33 | `Compile::Code_Gen` | `libjvm.dylib` |
+| 100.0% |      26 | `Compile::Code_Gen` | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
 |     % | Samples | Caller                    | Location       |
 | ----: | ------: | ------------------------- | -------------- |
-| 76.2% |      16 | `Compile::Optimize`       | `libjvm.dylib` |
-| 23.8% |       5 | `Compile::optimize_loops` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
-
-|      % | Samples | Caller                           | Location       |
-| -----: | ------: | -------------------------------- | -------------- |
-| 100.0% |      20 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
-
-|      % | Samples | Caller                     | Location       |
-| -----: | ------: | -------------------------- | -------------- |
-| 100.0% |      20 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
-
-##### `Compilation::emit_lir` (`libjvm.dylib`)
-
-|      % | Samples | Caller                             | Location       |
-| -----: | ------: | ---------------------------------- | -------------- |
-| 100.0% |      17 | `Compilation::compile_java_method` | `libjvm.dylib` |
+| 65.2% |      15 | `Compile::Optimize`       | `libjvm.dylib` |
+| 34.8% |       8 | `Compile::optimize_loops` | `libjvm.dylib` |
 
 ##### `Compilation::build_hir` (`libjvm.dylib`)
 
 |      % | Samples | Caller                             | Location       |
 | -----: | ------: | ---------------------------------- | -------------- |
-| 100.0% |      13 | `Compilation::compile_java_method` | `libjvm.dylib` |
+| 100.0% |      20 | `Compilation::compile_java_method` | `libjvm.dylib` |
 
-##### `PhaseCCP::PhaseCCP` (`libjvm.dylib`)
+##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
-|      % | Samples | Caller              | Location       |
-| -----: | ------: | ------------------- | -------------- |
-| 100.0% |      11 | `Compile::Optimize` | `libjvm.dylib` |
+|      % | Samples | Caller                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |      18 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      18 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
+
+##### `Compilation::emit_lir` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |      16 | `Compilation::compile_java_method` | `libjvm.dylib` |
+
+##### `GraphBuilder::GraphBuilder` (`libjvm.dylib`)
+
+|      % | Samples | Caller             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      15 | `IRScope::IRScope` | `libjvm.dylib` |
 
 ##### `LinearScan::do_linear_scan` (`libjvm.dylib`)
 
 |      % | Samples | Caller                  | Location       |
 | -----: | ------: | ----------------------- | -------------- |
-| 100.0% |      11 | `Compilation::emit_lir` | `libjvm.dylib` |
+| 100.0% |      13 | `Compilation::emit_lir` | `libjvm.dylib` |
 
-##### `Compilation::emit_code_body` (`libjvm.dylib`)
+##### `PhaseIterGVN::transform_old` (`libjvm.dylib`)
 
-|      % | Samples | Caller                             | Location       |
-| -----: | ------: | ---------------------------------- | -------------- |
-| 100.0% |      11 | `Compilation::compile_java_method` | `libjvm.dylib` |
+|      % | Samples | Caller                   | Location       |
+| -----: | ------: | ------------------------ | -------------- |
+| 100.0% |      13 | `PhaseIterGVN::optimize` | `libjvm.dylib` |
 
-##### `PhaseCCP::analyze` (`libjvm.dylib`)
+##### `PhaseIterGVN::optimize` (`libjvm.dylib`)
 
-|      % | Samples | Caller               | Location       |
-| -----: | ------: | -------------------- | -------------- |
-| 100.0% |       9 | `PhaseCCP::PhaseCCP` | `libjvm.dylib` |
+|     % | Samples | Caller                                     | Location       |
+| ----: | ------: | ------------------------------------------ | -------------- |
+| 38.5% |       5 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
+| 38.5% |       5 | `Compile::Optimize`                        | `libjvm.dylib` |
+|  7.7% |       1 | `PhaseMacroExpand::expand_macro_nodes`     | `libjvm.dylib` |
+|  7.7% |       1 | `Compile::process_for_post_loop_opts_igvn` | `libjvm.dylib` |
+|  7.7% |       1 | `Compile::remove_speculative_types`        | `libjvm.dylib` |
 
 #### Callees
 
@@ -1148,168 +1159,165 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 |     % | Samples | Callee                | Location       |
 | ----: | ------: | --------------------- | -------------- |
-| 95.8% |   2,134 | `thread_native_entry` | `libjvm.dylib` |
-|  4.2% |      93 | `apple_main`          | `libjli.dylib` |
+| 95.8% |   2,160 | `thread_native_entry` | `libjvm.dylib` |
+|  4.2% |      94 | `apple_main`          | `libjli.dylib` |
 | <0.1% |       1 | `ThreadJavaMain`      | `libjli.dylib` |
 
 ##### `thread_start` (`libsystem_pthread.dylib`)
 
 |      % | Samples | Callee           | Location                  |
 | -----: | ------: | ---------------- | ------------------------- |
-| 100.0% |   2,228 | `_pthread_start` | `libsystem_pthread.dylib` |
+| 100.0% |   2,255 | `_pthread_start` | `libsystem_pthread.dylib` |
 
 ##### `Thread::call_run` (`libjvm.dylib`)
 
 |     % | Samples | Callee                          | Location       |
 | ----: | ------: | ------------------------------- | -------------- |
-| 41.1% |     878 | `WorkerThread::run`             | `libjvm.dylib` |
-| 37.1% |     791 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
-| 13.1% |     279 | `ConcurrentGCThread::run`       | `libjvm.dylib` |
-|  4.4% |      93 | `VMThread::run`                 | `libjvm.dylib` |
-|  4.4% |      93 | `WatcherThread::run`            | `libjvm.dylib` |
+| 41.3% |     891 | `WorkerThread::run`             | `libjvm.dylib` |
+| 37.0% |     799 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 13.1% |     282 | `ConcurrentGCThread::run`       | `libjvm.dylib` |
+|  4.4% |      94 | `WatcherThread::run`            | `libjvm.dylib` |
+|  4.4% |      94 | `VMThread::run`                 | `libjvm.dylib` |
 
 ##### `thread_native_entry` (`libjvm.dylib`)
 
 |      % | Samples | Callee             | Location       |
 | -----: | ------: | ------------------ | -------------- |
-| 100.0% |   2,134 | `Thread::call_run` | `libjvm.dylib` |
+| 100.0% |   2,160 | `Thread::call_run` | `libjvm.dylib` |
 
 ##### `PlatformMonitor::wait` (`libjvm.dylib`)
 
-|      % | Samples | Callee            | Location                 |
-| -----: | ------: | ----------------- | ------------------------ |
-| 100.0% |     997 | `__psynch_cvwait` | `libsystem_kernel.dylib` |
+|     % | Samples | Callee               | Location                  |
+| ----: | ------: | -------------------- | ------------------------- |
+| 99.9% |   1,022 | `__psynch_cvwait`    | `libsystem_kernel.dylib`  |
+|  0.1% |       1 | `_pthread_cond_wait` | `libsystem_pthread.dylib` |
 
 ##### `WorkerThread::run` (`libjvm.dylib`)
 
 |     % | Samples | Callee                            | Location                 |
 | ----: | ------: | --------------------------------- | ------------------------ |
-| 99.2% |     871 | `semaphore_wait_trap`             | `libsystem_kernel.dylib` |
-|  0.5% |       4 | `G1RebuildRSAndScrubTask::work`   | `libjvm.dylib`           |
-|  0.3% |       3 | `G1CMConcurrentMarkingTask::work` | `libjvm.dylib`           |
+| 97.8% |     871 | `semaphore_wait_trap`             | `libsystem_kernel.dylib` |
+|  1.6% |      14 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib`           |
+|  0.3% |       3 | `G1ParallelCleaningTask::work`    | `libjvm.dylib`           |
+|  0.2% |       2 | `G1RebuildRSAndScrubTask::work`   | `libjvm.dylib`           |
+|  0.1% |       1 | `G1CMConcurrentMarkingTask::work` | `libjvm.dylib`           |
 
 ##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                                   | Location       |
 | ----: | ------: | -------------------------------------------------------- | -------------- |
-| 41.5% |     328 | `CompileBroker::compiler_thread_loop`                    | `libjvm.dylib` |
-| 11.8% |      93 | `ServiceThread::service_thread_entry`                    | `libjvm.dylib` |
-| 11.8% |      93 | `signal_thread_entry`                                    | `libjvm.dylib` |
-| 11.8% |      93 | `MonitorDeflationThread::monitor_deflation_thread_entry` | `libjvm.dylib` |
-| 11.6% |      92 | `JvmtiAgentThread::start_function_wrapper`               | `libjvm.dylib` |
+| 41.4% |     331 | `CompileBroker::compiler_thread_loop`                    | `libjvm.dylib` |
+| 11.8% |      94 | `ServiceThread::service_thread_entry`                    | `libjvm.dylib` |
+| 11.8% |      94 | `MonitorDeflationThread::monitor_deflation_thread_entry` | `libjvm.dylib` |
+| 11.8% |      94 | `signal_thread_entry`                                    | `libjvm.dylib` |
+| 11.6% |      93 | `JvmtiAgentThread::start_function_wrapper`               | `libjvm.dylib` |
 
 ##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
 
 |      % | Samples | Callee                  | Location       |
 | -----: | ------: | ----------------------- | -------------- |
-| 100.0% |     738 | `PlatformMonitor::wait` | `libjvm.dylib` |
+| 100.0% |     748 | `PlatformMonitor::wait` | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                     | Location       |
 | ----: | ------: | ------------------------------------------ | -------------- |
-| 51.2% |     168 | `CompileQueue::get`                        | `libjvm.dylib` |
-| 48.8% |     160 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+| 53.8% |     178 | `CompileQueue::get`                        | `libjvm.dylib` |
+| 46.2% |     153 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
 
 ##### `ConcurrentGCThread::run` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                  | Location       |
 | ----: | ------: | --------------------------------------- | -------------- |
-| 33.3% |      93 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib` |
-| 33.3% |      93 | `G1ServiceThread::run_service`          | `libjvm.dylib` |
-| 33.3% |      93 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+| 33.3% |      94 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib` |
+| 33.3% |      94 | `G1ServiceThread::run_service`          | `libjvm.dylib` |
+| 33.3% |      94 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
 
 ##### `Monitor::wait` (`libjvm.dylib`)
 
 |      % | Samples | Callee                  | Location       |
 | -----: | ------: | ----------------------- | -------------- |
-| 100.0% |     259 | `PlatformMonitor::wait` | `libjvm.dylib` |
+| 100.0% |     275 | `PlatformMonitor::wait` | `libjvm.dylib` |
 
 ##### `JLI_Launch` (`libjli.dylib`)
 
 |     % | Samples | Callee                       | Location       |
 | ----: | ------: | ---------------------------- | -------------- |
-| 50.0% |      93 | `CreateExecutionEnvironment` | `libjli.dylib` |
-| 50.0% |      93 | `ContinueInNewThread`        | `libjli.dylib` |
+| 50.0% |      94 | `CreateExecutionEnvironment` | `libjli.dylib` |
+| 50.0% |      94 | `ContinueInNewThread`        | `libjli.dylib` |
 
 ##### `main` (`java`)
 
 |      % | Samples | Callee       | Location       |
 | -----: | ------: | ------------ | -------------- |
-| 100.0% |     186 | `JLI_Launch` | `libjli.dylib` |
+| 100.0% |     188 | `JLI_Launch` | `libjli.dylib` |
 
 ##### `CompileQueue::get` (`libjvm.dylib`)
 
-|     % | Samples | Callee                           | Location       |
-| ----: | ------: | -------------------------------- | -------------- |
-| 98.8% |     166 | `Monitor::wait`                  | `libjvm.dylib` |
-|  0.6% |       1 | `Mutex::lock`                    | `libjvm.dylib` |
-|  0.6% |       1 | `CompilationPolicy::select_task` | `libjvm.dylib` |
+|      % | Samples | Callee          | Location       |
+| -----: | ------: | --------------- | -------------- |
+| 100.0% |     178 | `Monitor::wait` | `libjvm.dylib` |
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
 |     % | Samples | Callee                          | Location       |
 | ----: | ------: | ------------------------------- | -------------- |
-| 71.3% |     114 | `C2Compiler::compile_method`    | `libjvm.dylib` |
-| 26.9% |      43 | `Compiler::compile_method`      | `libjvm.dylib` |
-|  1.3% |       2 | `ciEnv::get_method_from_handle` | `libjvm.dylib` |
-|  0.6% |       1 | `ciEnv::~ciEnv`                 | `libjvm.dylib` |
+| 66.7% |     102 | `C2Compiler::compile_method`    | `libjvm.dylib` |
+| 32.7% |      50 | `Compiler::compile_method`      | `libjvm.dylib` |
+|  0.7% |       1 | `ciEnv::get_method_from_handle` | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
 |     % | Samples | Callee             | Location       |
 | ----: | ------: | ------------------ | -------------- |
-| 99.1% |     113 | `Compile::Compile` | `libjvm.dylib` |
-|  0.9% |       1 | `Chunk::next_chop` | `libjvm.dylib` |
+| 99.0% |     101 | `Compile::Compile` | `libjvm.dylib` |
+|  1.0% |       1 | `Chunk::next_chop` | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                   | Location       |
 | ----: | ------: | ---------------------------------------- | -------------- |
-| 50.4% |      57 | `Compile::Code_Gen`                      | `libjvm.dylib` |
-| 37.2% |      42 | `Compile::Optimize`                      | `libjvm.dylib` |
-|  9.7% |      11 | `ParseGenerator::generate`               | `libjvm.dylib` |
-|  1.8% |       2 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
-|  0.9% |       1 | `Compile::Init`                          | `libjvm.dylib` |
+| 42.6% |      43 | `Compile::Code_Gen`                      | `libjvm.dylib` |
+| 39.6% |      40 | `Compile::Optimize`                      | `libjvm.dylib` |
+| 15.8% |      16 | `ParseGenerator::generate`               | `libjvm.dylib` |
+|  2.0% |       2 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
 
 ##### `unknown` (`<unknown>`)
 
 |     % | Samples | Callee    | Location    |
 | ----: | ------: | --------- | ----------- |
-| 97.9% |      93 | `main`    | `java`      |
+| 97.9% |      94 | `main`    | `java`      |
 |  2.1% |       2 | `unknown` | `<unknown>` |
+
+##### `PlatformEvent::park` (`libjvm.dylib`)
+
+|      % | Samples | Callee            | Location                 |
+| -----: | ------: | ----------------- | ------------------------ |
+| 100.0% |      94 | `__psynch_cvwait` | `libsystem_kernel.dylib` |
+
+##### `ObjectMonitor::wait` (`libjvm.dylib`)
+
+|      % | Samples | Callee                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |      94 | `PlatformEvent::park` | `libjvm.dylib` |
+
+##### `ObjectSynchronizer::wait` (`libjvm.dylib`)
+
+|      % | Samples | Callee                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |      94 | `ObjectMonitor::wait` | `libjvm.dylib` |
+
+##### `JVM_MonitorWait` (`libjvm.dylib`)
+
+|      % | Samples | Callee                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |      94 | `ObjectSynchronizer::wait` | `libjvm.dylib` |
 
 ##### `ServiceThread::service_thread_entry` (`libjvm.dylib`)
 
 |      % | Samples | Callee                                  | Location       |
 | -----: | ------: | --------------------------------------- | -------------- |
-| 100.0% |      93 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
-
-##### `G1ConcurrentMarkThread::run_service` (`libjvm.dylib`)
-
-|     % | Samples | Callee                                             | Location       |
-| ----: | ------: | -------------------------------------------------- | -------------- |
-| 94.6% |      88 | `Monitor::wait_without_safepoint_check`            | `libjvm.dylib` |
-|  5.4% |       5 | `G1ConcurrentMarkThread::concurrent_mark_cycle_do` | `libjvm.dylib` |
-
-##### `VMThread::run` (`libjvm.dylib`)
-
-|     % | Samples | Callee                         | Location       |
-| ----: | ------: | ------------------------------ | -------------- |
-| 98.9% |      92 | `VMThread::wait_for_operation` | `libjvm.dylib` |
-|  1.1% |       1 | `VMThread::inner_execute`      | `libjvm.dylib` |
-
-##### `os::signal_wait` (`libjvm.dylib`)
-
-|      % | Samples | Callee                | Location                 |
-| -----: | ------: | --------------------- | ------------------------ |
-| 100.0% |      93 | `semaphore_wait_trap` | `libsystem_kernel.dylib` |
-
-##### `signal_thread_entry` (`libjvm.dylib`)
-
-|      % | Samples | Callee            | Location       |
-| -----: | ------: | ----------------- | -------------- |
-| 100.0% |      93 | `os::signal_wait` | `libjvm.dylib` |
+| 100.0% |      94 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
@@ -1328,8 +1336,8 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 |     % | Samples | Callee                                                 | Location                                                |
 | ----: | ------: | ------------------------------------------------------ | ------------------------------------------------------- |
-| 97.3% |      73 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
-|  2.7% |       2 | `defaultMessageRenderer()`                             | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+| 96.0% |      72 | `doMainNoExit(CLICompiler, String[], MessageRenderer)` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
+|  4.0% |       3 | `defaultMessageRenderer()`                             | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 ##### `doMain(CLICompiler, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
 
@@ -1353,216 +1361,219 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 |     % | Samples | Callee                                                                               | Location                                                                |
 | ----: | ------: | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| 98.6% |      72 | `exec(MessageCollector, Services, CommonCompilerArguments)`                          | `org.jetbrains.kotlin.cli.common.CLICompiler`                           |
+| 98.6% |      71 | `exec(MessageCollector, Services, CommonCompilerArguments)`                          | `org.jetbrains.kotlin.cli.common.CLICompiler`                           |
 |  1.4% |       1 | `parseCommandLineArguments$default(List, CommonToolArguments, boolean, int, Object)` | `org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt` |
 
 ##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
 |      % | Samples | Callee                                                   | Location                                      |
 | -----: | ------: | -------------------------------------------------------- | --------------------------------------------- |
-| 100.0% |      73 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+| 100.0% |      72 | `exec(PrintStream, Services, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `doMainNoExit(CLICompiler, String[], MessageRenderer)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`)
 
 |      % | Samples | Callee                                         | Location                                      |
 | -----: | ------: | ---------------------------------------------- | --------------------------------------------- |
-| 100.0% |      73 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+| 100.0% |      72 | `exec(PrintStream, MessageRenderer, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `exec(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
 |     % | Samples | Callee                                                          | Location                                      |
 | ----: | ------: | --------------------------------------------------------------- | --------------------------------------------- |
-| 97.2% |      70 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
+| 97.2% |      69 | `execImpl(MessageCollector, Services, CommonCompilerArguments)` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 |  2.8% |       2 | `<clinit>()`                                                    | `org.jetbrains.kotlin.cli.common.ArgumentsKt` |
-
-##### `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
-
-|     % | Samples | Callee                           | Location                                                              |
-| ----: | ------: | -------------------------------- | --------------------------------------------------------------------- |
-| 65.7% |      46 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase`      |
-| 24.3% |      17 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase`       |
-|  8.6% |       6 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFir2IrPipelinePhase`        |
-|  1.4% |       1 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmConfigurationPipelinePhase` |
-
-##### `phaseBody(LoggingContext, Object)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
-
-|      % | Samples | Callee                                         | Location                                          |
-| -----: | ------: | ---------------------------------------------- | ------------------------------------------------- |
-| 100.0% |      70 | `phaseBody(PipelineContext, PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase` |
-
-##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
-
-|      % | Samples | Callee                              | Location                                                         |
-| -----: | ------: | ----------------------------------- | ---------------------------------------------------------------- |
-| 100.0% |      70 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                |
-|   4.3% |       3 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.backend.common.phaser.ModuleLoweringPhase` |
-|   4.3% |       3 | `phaseBody(LoggingContext, Object)` | `org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase`   |
-
-##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.backend.common.phaser.CompositePhase`)
-
-|      % | Samples | Callee                                                     | Location                                                |
-| -----: | ------: | ---------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase` |
-
-##### `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`)
-
-|      % | Samples | Callee                                                     | Location                                                    |
-| -----: | ------: | ---------------------------------------------------------- | ----------------------------------------------------------- |
-| 100.0% |      70 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase` |
 
 ##### `runPhasedPipeline(ArgumentsPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
-|      % | Samples | Callee                                                               | Location                                             |
-| -----: | ------: | -------------------------------------------------------------------- | ---------------------------------------------------- |
-| 100.0% |      70 | `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)` | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt` |
+|     % | Samples | Callee                                                                          | Location                                                                    |
+| ----: | ------: | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 98.6% |      68 | `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)`            | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`                        |
+|  1.4% |       1 | `reportToMessageCollector(BaseDiagnosticsCollector, MessageCollector, boolean)` | `org.jetbrains.kotlin.cli.common.fir.FirDiagnosticsCompilerResultsReporter` |
 
 ##### `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Callee                                         | Location                                                |
 | -----: | ------: | ---------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `runPhasedPipeline(ArgumentsPipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `runPhasedPipeline(ArgumentsPipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Callee                                                                                              | Location                                                |
 | -----: | ------: | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `execute(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`)
 
 |      % | Samples | Callee                                                                                                                                        | Location                                                |
 | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
 ##### `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
 |      % | Samples | Callee                                                         | Location                                                |
 | -----: | ------: | -------------------------------------------------------------- | ------------------------------------------------------- |
-| 100.0% |      70 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
+| 100.0% |      69 | `execute(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline` |
 
-##### `Compile::Code_Gen` (`libjvm.dylib`)
+##### `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
-|     % | Samples | Callee                            | Location       |
-| ----: | ------: | --------------------------------- | -------------- |
-| 57.9% |      33 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-| 14.0% |       8 | `PhaseOutput::Output`             | `libjvm.dylib` |
-| 14.0% |       8 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
-| 14.0% |       8 | `Matcher::match`                  | `libjvm.dylib` |
+|      % | Samples | Callee                                                                | Location                                     |
+| -----: | ------: | --------------------------------------------------------------------- | -------------------------------------------- |
+| 100.0% |      69 | `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
+
+|      % | Samples | Callee                                                                 | Location                                     |
+| -----: | ------: | ---------------------------------------------------------------------- | -------------------------------------------- |
+| 100.0% |      69 | `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler` |
+
+##### `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|     % | Samples | Callee                           | Location                                                              |
+| ----: | ------: | -------------------------------- | --------------------------------------------------------------------- |
+| 67.6% |      46 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase`      |
+| 22.1% |      15 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase`       |
+|  8.8% |       6 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFir2IrPipelinePhase`        |
+|  1.5% |       1 | `executePhase(PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmConfigurationPipelinePhase` |
+
+##### `phaseBody(LoggingContext, Object)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`)
+
+|      % | Samples | Callee                                         | Location                                          |
+| -----: | ------: | ---------------------------------------------- | ------------------------------------------------- |
+| 100.0% |      68 | `phaseBody(PipelineContext, PipelineArtifact)` | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase` |
+
+##### `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`)
+
+|      % | Samples | Callee                                                               | Location                                                         |
+| -----: | ------: | -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 100.0% |      68 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                |
+|   4.4% |       3 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase`   |
+|   1.5% |       1 | `phaseBody(LoggingContext, Object)`                                  | `org.jetbrains.kotlin.backend.common.phaser.ModuleLoweringPhase` |
+|   1.5% |       1 | `runAfter(PhaseConfig, PhaserState, LoggingContext, Object, Object)` | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`          |
 
 ##### `Compilation::compile_method` (`libjvm.dylib`)
 
 |     % | Samples | Callee                             | Location       |
 | ----: | ------: | ---------------------------------- | -------------- |
-| 95.3% |      41 | `Compilation::compile_java_method` | `libjvm.dylib` |
-|  4.7% |       2 | `ciEnv::register_method`           | `libjvm.dylib` |
+| 88.0% |      44 | `Compilation::compile_java_method` | `libjvm.dylib` |
+| 12.0% |       6 | `ciEnv::register_method`           | `libjvm.dylib` |
 
 ##### `Compilation::Compilation` (`libjvm.dylib`)
 
 |      % | Samples | Callee                        | Location       |
 | -----: | ------: | ----------------------------- | -------------- |
-| 100.0% |      43 | `Compilation::compile_method` | `libjvm.dylib` |
-
-##### `Compile::Optimize` (`libjvm.dylib`)
-
-|     % | Samples | Callee                     | Location       |
-| ----: | ------: | -------------------------- | -------------- |
-| 38.1% |      16 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
-| 26.2% |      11 | `PhaseCCP::PhaseCCP`       | `libjvm.dylib` |
-| 11.9% |       5 | `Compile::optimize_loops`  | `libjvm.dylib` |
-|  9.5% |       4 | `PhaseCCP::do_transform`   | `libjvm.dylib` |
-|  7.1% |       3 | `PhaseIterGVN::optimize`   | `libjvm.dylib` |
+| 100.0% |      50 | `Compilation::compile_method` | `libjvm.dylib` |
 
 ##### `Compilation::compile_java_method` (`libjvm.dylib`)
 
-|     % | Samples | Callee                        | Location       |
-| ----: | ------: | ----------------------------- | -------------- |
-| 41.5% |      17 | `Compilation::emit_lir`       | `libjvm.dylib` |
-| 31.7% |      13 | `Compilation::build_hir`      | `libjvm.dylib` |
-| 26.8% |      11 | `Compilation::emit_code_body` | `libjvm.dylib` |
+|     % | Samples | Callee                         | Location       |
+| ----: | ------: | ------------------------------ | -------------- |
+| 45.5% |      20 | `Compilation::build_hir`       | `libjvm.dylib` |
+| 36.4% |      16 | `Compilation::emit_lir`        | `libjvm.dylib` |
+| 13.6% |       6 | `Compilation::emit_code_body`  | `libjvm.dylib` |
+|  4.5% |       2 | `ciMethod::ensure_method_data` | `libjvm.dylib` |
+
+##### `Compile::Code_Gen` (`libjvm.dylib`)
+
+|     % | Samples | Callee                               | Location       |
+| ----: | ------: | ------------------------------------ | -------------- |
+| 60.5% |      26 | `PhaseChaitin::Register_Allocate`    | `libjvm.dylib` |
+| 14.0% |       6 | `Matcher::match`                     | `libjvm.dylib` |
+| 11.6% |       5 | `PhaseOutput::Output`                | `libjvm.dylib` |
+|  7.0% |       3 | `PhaseCFG::do_global_code_motion`    | `libjvm.dylib` |
+|  4.7% |       2 | `PhaseBlockLayout::PhaseBlockLayout` | `libjvm.dylib` |
+
+##### `Compile::Optimize` (`libjvm.dylib`)
+
+|     % | Samples | Callee                         | Location       |
+| ----: | ------: | ------------------------------ | -------------- |
+| 37.5% |      15 | `PhaseIdealLoop::optimize`     | `libjvm.dylib` |
+| 20.0% |       8 | `Compile::optimize_loops`      | `libjvm.dylib` |
+| 12.5% |       5 | `PhaseIterGVN::optimize`       | `libjvm.dylib` |
+|  7.5% |       3 | `PhaseCCP::PhaseCCP`           | `libjvm.dylib` |
+|  5.0% |       2 | `ConnectionGraph::do_analysis` | `libjvm.dylib` |
 
 ##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
 
-|     % | Samples | Callee                                     | Location       |
-| ----: | ------: | ------------------------------------------ | -------------- |
-| 24.2% |       8 | `PhaseChaitin::build_ifg_physical`         | `libjvm.dylib` |
-| 21.2% |       7 | `PhaseChaitin::post_allocate_copy_removal` | `libjvm.dylib` |
-| 12.1% |       4 | `PhaseLive::compute`                       | `libjvm.dylib` |
-|  6.1% |       2 | `PhaseIFG::Compute_Effective_Degree`       | `libjvm.dylib` |
-|  6.1% |       2 | `PhaseChaitin::Split`                      | `libjvm.dylib` |
+|     % | Samples | Callee                                   | Location       |
+| ----: | ------: | ---------------------------------------- | -------------- |
+| 23.1% |       6 | `PhaseChaitin::build_ifg_physical`       | `libjvm.dylib` |
+| 11.5% |       3 | `PhaseAggressiveCoalesce::insert_copies` | `libjvm.dylib` |
+|  7.7% |       2 | `PhaseLive::compute`                     | `libjvm.dylib` |
+|  7.7% |       2 | `PhaseChaitin::Simplify`                 | `libjvm.dylib` |
+|  7.7% |       2 | `PhaseChaitin::gather_lrg_masks`         | `libjvm.dylib` |
 
 ##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
 
 |     % | Samples | Callee                           | Location       |
 | ----: | ------: | -------------------------------- | -------------- |
-| 95.2% |      20 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
-|  4.8% |       1 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
-
-|     % | Samples | Callee                                 | Location       |
-| ----: | ------: | -------------------------------------- | -------------- |
-| 25.0% |       5 | `PhaseIdealLoop::build_loop_late`      | `libjvm.dylib` |
-| 15.0% |       3 | `PhaseIdealLoop::build_loop_early`     | `libjvm.dylib` |
-| 15.0% |       3 | `PhaseIdealLoop::Dominators`           | `libjvm.dylib` |
-| 10.0% |       2 | `IdealLoopTree::loop_predication`      | `libjvm.dylib` |
-| 10.0% |       2 | `PhaseIdealLoop::split_if_with_blocks` | `libjvm.dylib` |
-
-##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
-
-|      % | Samples | Callee                               | Location       |
-| -----: | ------: | ------------------------------------ | -------------- |
-| 100.0% |      20 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
-
-##### `Compilation::emit_lir` (`libjvm.dylib`)
-
-|     % | Samples | Callee                       | Location       |
-| ----: | ------: | ---------------------------- | -------------- |
-| 64.7% |      11 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
-| 35.3% |       6 | `BlockList::iterate_forward` | `libjvm.dylib` |
+| 78.3% |      18 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+| 21.7% |       5 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
 
 ##### `Compilation::build_hir` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                       | Location       |
 | ----: | ------: | -------------------------------------------- | -------------- |
-| 61.5% |       8 | `IR::IR`                                     | `libjvm.dylib` |
-| 15.4% |       2 | `GlobalValueNumbering::GlobalValueNumbering` | `libjvm.dylib` |
-|  7.7% |       1 | `IR::compute_code`                           | `libjvm.dylib` |
-|  7.7% |       1 | `IR::eliminate_null_checks`                  | `libjvm.dylib` |
-|  7.7% |       1 | `IR::compute_use_counts`                     | `libjvm.dylib` |
+| 75.0% |      15 | `IR::IR`                                     | `libjvm.dylib` |
+| 10.0% |       2 | `GlobalValueNumbering::GlobalValueNumbering` | `libjvm.dylib` |
+|  5.0% |       1 | `IR::eliminate_null_checks`                  | `libjvm.dylib` |
+|  5.0% |       1 | `IR::compute_use_counts`                     | `libjvm.dylib` |
+|  5.0% |       1 | `IR::compute_code`                           | `libjvm.dylib` |
 
-##### `PhaseCCP::PhaseCCP` (`libjvm.dylib`)
+##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
 
-|     % | Samples | Callee              | Location       |
-| ----: | ------: | ------------------- | -------------- |
-| 81.8% |       9 | `PhaseCCP::analyze` | `libjvm.dylib` |
-|  9.1% |       1 | `ProjNode::Value`   | `libjvm.dylib` |
-|  9.1% |       1 | `AddPNode::Value`   | `libjvm.dylib` |
+|     % | Samples | Callee                                                  | Location       |
+| ----: | ------: | ------------------------------------------------------- | -------------- |
+| 50.0% |       9 | `PhaseIdealLoop::build_loop_late`                       | `libjvm.dylib` |
+| 16.7% |       3 | `PhaseIdealLoop::split_if_with_blocks`                  | `libjvm.dylib` |
+| 11.1% |       2 | `PhaseIdealLoop::build_loop_early`                      | `libjvm.dylib` |
+|  5.6% |       1 | `RegionNode::is_CFG`                                    | `libjvm.dylib` |
+|  5.6% |       1 | `PhaseIdealLoop::collect_potentially_useful_predicates` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
+
+|      % | Samples | Callee                               | Location       |
+| -----: | ------: | ------------------------------------ | -------------- |
+| 100.0% |      18 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `Compilation::emit_lir` (`libjvm.dylib`)
+
+|     % | Samples | Callee                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 81.3% |      13 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
+| 18.8% |       3 | `BlockList::iterate_forward` | `libjvm.dylib` |
+
+##### `GraphBuilder::GraphBuilder` (`libjvm.dylib`)
+
+|     % | Samples | Callee                               | Location       |
+| ----: | ------: | ------------------------------------ | -------------- |
+| 73.3% |      11 | `GraphBuilder::iterate_all_blocks`   | `libjvm.dylib` |
+| 13.3% |       2 | `BlockBegin::iterate_preorder`       | `libjvm.dylib` |
+| 13.3% |       2 | `BlockListBuilder::BlockListBuilder` | `libjvm.dylib` |
 
 ##### `LinearScan::do_linear_scan` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                | Location       |
 | ----: | ------: | ------------------------------------- | -------------- |
-| 36.4% |       4 | `LinearScan::assign_reg_num`          | `libjvm.dylib` |
-| 27.3% |       3 | `LinearScan::allocate_registers`      | `libjvm.dylib` |
-| 18.2% |       2 | `LinearScan::compute_local_live_sets` | `libjvm.dylib` |
-|  9.1% |       1 | `LinearScan::init_compute_oop_maps`   | `libjvm.dylib` |
-|  9.1% |       1 | `LinearScan::resolve_data_flow`       | `libjvm.dylib` |
+| 61.5% |       8 | `LinearScan::allocate_registers`      | `libjvm.dylib` |
+| 23.1% |       3 | `LinearScan::build_intervals`         | `libjvm.dylib` |
+|  7.7% |       1 | `LinearScan::assign_reg_num`          | `libjvm.dylib` |
+|  7.7% |       1 | `LinearScan::compute_local_live_sets` | `libjvm.dylib` |
 
-##### `Compilation::emit_code_body` (`libjvm.dylib`)
+##### `PhaseIterGVN::transform_old` (`libjvm.dylib`)
 
-|     % | Samples | Callee                          | Location       |
-| ----: | ------: | ------------------------------- | -------------- |
-| 54.5% |       6 | `Compilation::emit_code_epilog` | `libjvm.dylib` |
-| 45.5% |       5 | `LIR_Assembler::emit_code`      | `libjvm.dylib` |
+|     % | Samples | Callee                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 15.4% |       2 | `PhaseIterGVN::subsume_node` | `libjvm.dylib` |
+|  7.7% |       1 | `Type::meet_helper`          | `libjvm.dylib` |
+|  7.7% |       1 | `PhiNode::Ideal`             | `libjvm.dylib` |
+|  7.7% |       1 | `ConvI2LNode::Ideal`         | `libjvm.dylib` |
+|  7.7% |       1 | `Type::hashcons`             | `libjvm.dylib` |
 
-##### `PhaseCCP::analyze` (`libjvm.dylib`)
+##### `PhaseIterGVN::optimize` (`libjvm.dylib`)
 
-|     % | Samples | Callee                                   | Location       |
-| ----: | ------: | ---------------------------------------- | -------------- |
-| 33.3% |       3 | `PhaseCCP::push_child_nodes_to_worklist` | `libjvm.dylib` |
-| 11.1% |       1 | `CmpPNode::sub`                          | `libjvm.dylib` |
-| 11.1% |       1 | `LoadRangeNode::Opcode`                  | `libjvm.dylib` |
-| 11.1% |       1 | `BoolNode::bottom_type`                  | `libjvm.dylib` |
+|      % | Samples | Callee                        | Location       |
+| -----: | ------: | ----------------------------- | -------------- |
+| 100.0% |      13 | `PhaseIterGVN::transform_old` | `libjvm.dylib` |
 
 ## Hottest call stacks
 
@@ -1570,23 +1581,23 @@ Call stacks with the most samples collected in their leaf frame.
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 32.3% |     871 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThread::run` (`libjvm.dylib`) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  6.2% |     166 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                      |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                    |
-|  3.4% |      93 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `os::signal_wait` (`libjvm.dylib`) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  3.4% |      93 | `mach_msg2_trap` (`libsystem_kernel.dylib`) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (`CoreFoundation`) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (`libjli.dylib`) ← `JLI_Launch` ← `main` (`java`) ← `unknown`                                                                                                                                                                                                                                                                                                                                                                                                  |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                 |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList` ← `waitForReferencePendingList()` (`java.lang.ref.Reference`) ← `processPendingReferences()` ← `run()` (`java.lang.ref.Reference$ReferenceHandler`)                                                                                                                                                                                                                                                                                                                                                                           |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                              |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                              |
+| 32.0% |     871 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThread::run` (`libjvm.dylib`) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|  6.5% |     177 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                      |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformEvent::park` (`libjvm.dylib`) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait` ← `wait0(long)` (`java.lang.Object`) ← `wait(long)` ← `wait()` ← `await()` (`java.lang.ref.NativeReferenceQueue`) ← `remove0()` (`java.lang.ref.ReferenceQueue`) ← `remove()` (`java.lang.ref.NativeReferenceQueue`) ← `run()` (`java.lang.ref.Finalizer$FinalizerThread`)                                                                                                                                                                                                                                   |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                    |
+|  3.5% |      94 | `mach_msg2_trap` (`libsystem_kernel.dylib`) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (`CoreFoundation`) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (`libjli.dylib`) ← `JLI_Launch` ← `main` (`java`) ← `unknown`                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList` ← `waitForReferencePendingList()` (`java.lang.ref.Reference`) ← `processPendingReferences()` ← `run()` (`java.lang.ref.Reference$ReferenceHandler`)                                                                                                                                                                                                                                                                                                                                                                           |
+|  3.5% |      94 | `__ulock_wait` (`libsystem_kernel.dylib`) ← `CallJavaMainInNewThread` (`libjli.dylib`) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (`java`) ← `apple_main` (`libjli.dylib`) ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                 |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                              |
+|  3.5% |      94 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `os::signal_wait` (`libjvm.dylib`) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                |
+|  3.5% |      94 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                              |
+|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Profiler::timerLoop` (`libasyncProfiler.dylib`) ← `JvmtiAgentThread::start_function_wrapper` (`libjvm.dylib`) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                |
+|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                          |
 |  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` ← `G1ConcurrentRefineThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                        |
-|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformEvent::park` (`libjvm.dylib`) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait` ← `wait0(long)` (`java.lang.Object`) ← `wait(long)` ← `wait()` ← `await()` (`java.lang.ref.NativeReferenceQueue`) ← `remove0()` (`java.lang.ref.ReferenceQueue`) ← `remove()` (`java.lang.ref.NativeReferenceQueue`) ← `run()` (`java.lang.ref.Finalizer$FinalizerThread`)                                                                                                                                                                                                                                   |
-|  3.4% |      93 | `__ulock_wait` (`libsystem_kernel.dylib`) ← `CallJavaMainInNewThread` (`libjli.dylib`) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (`java`) ← `apple_main` (`libjli.dylib`) ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  3.4% |      92 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                           |
-|  3.4% |      92 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Profiler::timerLoop` (`libasyncProfiler.dylib`) ← `JvmtiAgentThread::start_function_wrapper` (`libjvm.dylib`) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                |
-|  3.4% |      92 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`)                                                                                                  |
-|  3.4% |      92 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                          |
-|  3.3% |      88 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                          |
+|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                          |
+|  3.4% |      93 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`)                                                                                                  |
+|  3.3% |      90 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                           |
 |  0.3% |       7 | `inflate_fast` (`libzip.dylib`) ← `Java_java_util_zip_Inflater_inflateBytesBytes` ← `inflateBytesBytes(long, byte[], int, int, byte[], int, int)` (`java.util.zip.Inflater`) ← `inflate(byte[], int, int)` ← `read(byte[], int, int)` (`java.util.zip.InflaterInputStream`) ← `read(byte[], int, int)` (`java.util.zip.ZipInputStream`) ← `read(byte[])` (`java.io.FilterInputStream`) ← `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`) ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])` |
-|  0.2% |       5 | `PhaseChaitin::elide_copy` (`libjvm.dylib`) ← `PhaseChaitin::post_allocate_copy_removal` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                  |
-|  0.1% |       4 | `PhaseChaitin::build_ifg_physical` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                       |
+|  0.1% |       4 | `fwd_copy_again` (`libjvm.dylib`) ← `G1ParScanThreadState::trim_queue_to_threshold` ← `G1ScanHRForRegionClosure::scan_memregion` ← `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` ← `G1ScanHRForRegionClosure::scan_heap_roots` ← `G1ScanHRForRegionClosure::do_heap_region` ← `G1RemSet::scan_heap_roots` ← `G1EvacuateRegionsTask::scan_roots` ← `G1EvacuateRegionsBaseTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                    |
+|  0.1% |       3 | `IntervalWalker::walk_to` (`libjvm.dylib`) ← `IntervalWalker::walk_to` ← `LinearScan::allocate_registers` ← `LinearScan::do_linear_scan` ← `Compilation::emit_lir` ← `Compilation::compile_java_method` ← `Compilation::compile_method` ← `Compilation::Compilation` ← `Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                       |
