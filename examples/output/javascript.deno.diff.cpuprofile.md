@@ -1,10 +1,10 @@
 # CPU profile diff
 
-Took 2.13s → 2.15s (+17.97ms, +0.8%) over 2,912 → 2,926 samples (733.3µs → 736.0µs per sample).
+Took 2.14s → 2.15s (+17.97ms, +0.8%) over 2,912 → 2,926 samples (733.3µs → 736.0µs per sample).
 
 | Category           |  Change |    Delta |             % |              Time |       Samples |
 | ------------------ | ------: | -------: | ------------: | ----------------: | ------------: |
-| Third-party        |   +1.4% | +25.53ms | 84.1% → 84.6% |     1.79s → 1.82s | 2,651 → 2,668 |
+| Third-party        |   +1.4% | +25.53ms | 84.1% → 84.6% |     1.80s → 1.82s | 2,651 → 2,668 |
 | Standard library   |   -5.3% |  -7.39ms |   6.5% → 6.1% | 139.7ms → 132.3ms |       96 → 88 |
 | Garbage collector  |   +2.8% |  +3.39ms |   5.7% → 5.8% | 122.0ms → 125.4ms |      98 → 102 |
 | Native             |  -13.8% | -10.04ms |   3.4% → 2.9% |   72.8ms → 62.8ms |       63 → 58 |
@@ -21,9 +21,9 @@ Paths starting with `./` or `../` are relative to `/tmp/nix-shell.K1HXIc/profile
 Call paths to the hottest and most changed functions.
 
 ```
-├── … 1.96s → 1.97s (92.1% → 91.7%) processTicksAndRejections at ext:core/01_core.js:356:37
-│   ├── … 1.94s (90.9% → 90.4%) typeCheckProject at ./tsc-workload.mjs:3:33
-│   │   ├── … 1.44s (67.7% → 67.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37
+├── … 1.97s (92.1% → 91.7%) processTicksAndRejections at ext:core/01_core.js:356:37
+│   ├── … 1.94s → 1.95s (90.9% → 90.4%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   │   ├── … 1.45s (67.7% → 67.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37 → 124967:37
 │   │   │   ├── … 1.33s (62.3% → 61.8%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33 → 88583:33
 │   │   │   │   ├── … 733.7ms → 720.3ms (34.4% → 33.4%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js:79840:64 → 81135:64
 │   │   │   │   │   ├── 713.8ms → 707.7ms (33.4% → 32.9%) checkSourceElement at 86886:30 → 88199:30
@@ -1234,7 +1234,7 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |    Delta |             % |              Time |       Samples | Function                           | Location                                                            |
 | ------: | -------: | ------------: | ----------------: | ------------: | ---------------------------------- | ------------------------------------------------------------------- |
-|   +2.0% | +33.79ms | 79.4% → 80.3% |     1.69s → 1.72s | 2,460 → 2,482 | `forEach`                          | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
+|   +2.0% | +33.79ms | 79.4% → 80.3% |     1.70s → 1.73s | 2,460 → 2,482 | `forEach`                          | `./node_modules/typescript/lib/typescript.js:2365:17 → 2378:17`     |
 |   +8.2% | +26.11ms | 14.9% → 15.9% | 317.3ms → 343.5ms |     476 → 492 | `signaturesRelatedTo`              | `./node_modules/typescript/lib/typescript.js:68245:33 → 69505:33`   |
 |  +11.6% | +25.56ms | 10.3% → 11.4% | 221.0ms → 246.6ms |     330 → 358 | `instantiateList`                  | `./node_modules/typescript/lib/typescript.js:64623:27 → 65878:27`   |
 |  +11.7% | +25.30ms | 10.1% → 11.2% | 216.6ms → 241.9ms |     325 → 353 | `instantiateTypes`                 | `./node_modules/typescript/lib/typescript.js:64640:28 → 65895:28`   |
@@ -1259,9 +1259,9 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |   Delta |             % |            Time |       Samples | Function                       | Location                                        |
 | ------: | ------: | ------------: | --------------: | ------------: | ------------------------------ | ----------------------------------------------- |
-|   +0.4% | +8.79ms | 92.1% → 91.8% |   1.96s → 1.97s | 2,687 → 2,688 | `processTicksAndRejections`    | `ext:core/01_core.js:356:37`                    |
-|   +0.4% | +7.72ms | 92.1% → 91.7% |   1.96s → 1.97s |         2,686 | `drainTicks`                   | `ext:core/01_core.js:425:22`                    |
-|   +0.4% | +7.36ms | 92.1% → 91.7% |   1.96s → 1.97s | 2,685 → 2,684 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40`                    |
+|   +0.4% | +8.79ms | 92.1% → 91.8% |   1.97s → 1.98s | 2,687 → 2,688 | `processTicksAndRejections`    | `ext:core/01_core.js:356:37`                    |
+|   +0.4% | +7.72ms | 92.1% → 91.7% |           1.97s |         2,686 | `drainTicks`                   | `ext:core/01_core.js:425:22`                    |
+|   +0.4% | +7.36ms | 92.1% → 91.7% |           1.97s | 2,685 → 2,684 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40`                    |
 | +239.8% | +6.09ms |   0.1% → 0.4% |   2.5ms → 8.6ms |         2 → 7 | `CFISBIS`                      | `ext:deno_node/internal/fs/stat_utils.ts:73:24` |
 | +186.4% | +4.74ms |   0.1% → 0.3% |   2.5ms → 7.3ms |         2 → 6 | `convertFileInfoToStats`       | `ext:deno_node/internal/fs/stat_utils.ts:6:39`  |
 |     new | +3.51ms |   0.0% → 0.2% |     0ms → 3.5ms |         0 → 3 | `defineStatExtraProps`         | `ext:deno_node/internal/fs/stat_utils.ts:26:30` |
@@ -1290,7 +1290,7 @@ Functions with the largest increase in time spent within the function and its ca
 
 | Change |   Delta |             % |          Time |       Samples | Function                   | Location    |
 | -----: | ------: | ------------: | ------------: | ------------: | -------------------------- | ----------- |
-|  +0.4% | +8.53ms | 90.9% → 90.5% |         1.94s | 2,687 → 2,689 | `op_run_microtasks`        | `<unknown>` |
+|  +0.4% | +8.53ms | 90.9% → 90.5% | 1.94s → 1.95s | 2,687 → 2,689 | `op_run_microtasks`        | `<unknown>` |
 |    new | +1.27ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `op_url_get_serialization` | `<unknown>` |
 |    new | +1.27ms |   0.0% → 0.1% |   0ms → 1.3ms |         0 → 1 | `op_require_try_self`      | `<unknown>` |
 | +19.8% | +1.26ms |   0.3% → 0.4% | 6.3ms → 7.6ms |         5 → 6 | `op_fs_read_file_sync`     | `<unknown>` |
@@ -1542,15 +1542,15 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `processTicksAndRejections` (`ext:core/01_core.js:356:37`)
 
-| Change |   Delta |              % |          Time | Samples | Caller       | Location                     |
-| -----: | ------: | -------------: | ------------: | ------: | ------------ | ---------------------------- |
-|  +0.4% | +7.72ms | 100.0% → 99.9% | 1.96s → 1.97s |   2,686 | `drainTicks` | `ext:core/01_core.js:425:22` |
+| Change |   Delta |              % |  Time | Samples | Caller       | Location                     |
+| -----: | ------: | -------------: | ----: | ------: | ------------ | ---------------------------- |
+|  +0.4% | +7.72ms | 100.0% → 99.9% | 1.97s |   2,686 | `drainTicks` | `ext:core/01_core.js:425:22` |
 
 ##### `drainTicks` (`ext:core/01_core.js:425:22`)
 
-| Change |   Delta |      % |          Time |       Samples | Caller                         | Location                     |
-| -----: | ------: | -----: | ------------: | ------------: | ------------------------------ | ---------------------------- |
-|  +0.4% | +7.36ms | 100.0% | 1.96s → 1.97s | 2,685 → 2,684 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40` |
+| Change |   Delta |      % |  Time |       Samples | Caller                         | Location                     |
+| -----: | ------: | -----: | ----: | ------------: | ------------------------------ | ---------------------------- |
+|  +0.4% | +7.36ms | 100.0% | 1.97s | 2,685 → 2,684 | `__drainNextTickAndMacrotasks` | `ext:core/01_core.js:479:40` |
 
 ##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
 
@@ -1656,9 +1656,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `op_run_microtasks` (`<unknown>`)
 
-| Change |   Delta |      % |  Time |       Samples | Caller                      | Location                     |
-| -----: | ------: | -----: | ----: | ------------: | --------------------------- | ---------------------------- |
-|  +0.4% | +8.52ms | 100.0% | 1.94s | 2,686 → 2,687 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
+| Change |   Delta |      % |          Time |       Samples | Caller                      | Location                     |
+| -----: | ------: | -----: | ------------: | ------------: | --------------------------- | ---------------------------- |
+|  +0.4% | +8.52ms | 100.0% | 1.94s → 1.95s | 2,686 → 2,687 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
 
 ##### `op_url_get_serialization` (`<unknown>`)
 
@@ -1999,7 +1999,7 @@ Callees with the largest change in contribution to each function's total time. I
 | -----: | -------: | ------------: | ----------------: | ------------: | -------------------- | ------------------------------------------------------------------- |
 |  +8.5% | +18.66ms | 13.0% → 13.8% | 220.3ms → 239.0ms |     311 → 325 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:122449:24 → 124028:24` |
 |  +9.7% |  +9.28ms |   5.6% → 6.1% |  95.7ms → 105.0ms |     262 → 264 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:45224:21 → 46417:21`   |
-|  +0.7% |  +8.81ms | 77.2% → 76.2% |     1.30s → 1.31s | 1,818 → 1,826 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
+|  +0.7% |  +8.81ms | 77.2% → 76.2% |     1.31s → 1.32s | 1,818 → 1,826 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:86886:30 → 88199:30`   |
 | +10.0% |  +7.28ms |   4.3% → 4.6% |   73.1ms → 80.4ms |     190 → 195 | `bind`               | `./node_modules/typescript/lib/typescript.js:46600:16 → 47793:16`   |
 |  +9.7% |  +6.64ms |   4.0% → 4.3% |   68.2ms → 74.8ms |       77 → 82 | `(anonymous)`        | `./node_modules/typescript/lib/typescript.js:124200:35 → 125782:35` |
 
@@ -2155,20 +2155,20 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |     % |            Time |       Samples | Callee              | Location               |
 | -----: | ------: | ----: | --------------: | ------------: | ------------------- | ---------------------- |
-|  +0.4% | +8.52ms | 98.7% |           1.94s | 2,686 → 2,687 | `op_run_microtasks` | `<unknown>`            |
+|  +0.4% | +8.52ms | 98.7% |   1.94s → 1.95s | 2,686 → 2,687 | `op_run_microtasks` | `<unknown>`            |
 |  +1.0% | +0.27ms |  1.3% | 26.3ms → 26.6ms |             1 | `(anonymous)`       | `./cpuprofile-run.mjs` |
 
 ##### `drainTicks` (`ext:core/01_core.js:425:22`)
 
-| Change |   Delta |      % |          Time | Samples | Callee                      | Location                     |
-| -----: | ------: | -----: | ------------: | ------: | --------------------------- | ---------------------------- |
-|  +0.4% | +7.72ms | 100.0% | 1.96s → 1.97s |   2,686 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
+| Change |   Delta |      % |  Time | Samples | Callee                      | Location                     |
+| -----: | ------: | -----: | ----: | ------: | --------------------------- | ---------------------------- |
+|  +0.4% | +7.72ms | 100.0% | 1.97s |   2,686 | `processTicksAndRejections` | `ext:core/01_core.js:356:37` |
 
 ##### `__drainNextTickAndMacrotasks` (`ext:core/01_core.js:479:40`)
 
-| Change |   Delta |      % |          Time |       Samples | Callee       | Location                     |
-| -----: | ------: | -----: | ------------: | ------------: | ------------ | ---------------------------- |
-|  +0.4% | +7.36ms | 100.0% | 1.96s → 1.97s | 2,685 → 2,684 | `drainTicks` | `ext:core/01_core.js:425:22` |
+| Change |   Delta |      % |  Time |       Samples | Callee       | Location                     |
+| -----: | ------: | -----: | ----: | ------------: | ------------ | ---------------------------- |
+|  +0.4% | +7.36ms | 100.0% | 1.97s | 2,685 → 2,684 | `drainTicks` | `ext:core/01_core.js:425:22` |
 
 ##### `CFISBIS` (`ext:deno_node/internal/fs/stat_utils.ts:73:24`)
 
@@ -2249,9 +2249,9 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `op_run_microtasks` (`<unknown>`)
 
-| Change |   Delta |      % |  Time |       Samples | Callee        | Location               |
-| -----: | ------: | -----: | ----: | ------------: | ------------- | ---------------------- |
-|  +0.4% | +8.53ms | 100.0% | 1.94s | 2,687 → 2,689 | `(anonymous)` | `./cpuprofile-run.mjs` |
+| Change |   Delta |      % |          Time |       Samples | Callee        | Location               |
+| -----: | ------: | -----: | ------------: | ------------: | ------------- | ---------------------- |
+|  +0.4% | +8.53ms | 100.0% | 1.94s → 1.95s | 2,687 → 2,689 | `(anonymous)` | `./cpuprofile-run.mjs` |
 
 ##### `op_load_ext_script` (`<unknown>`)
 

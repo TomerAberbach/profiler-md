@@ -1,11 +1,11 @@
 # Sampling profile
 
-Took 4.72s.
+Took 4.73s.
 
 | Category         |     % |    Time |
 | ---------------- | ----: | ------: |
 | Ours             | 72.6% |   3.43s |
-| Standard library | 25.1% |   1.18s |
+| Standard library | 25.1% |   1.19s |
 | Native           |  2.3% | 110.6ms |
 | Unknown          | <0.1% |  <0.1µs |
 
@@ -16,14 +16,14 @@ Took 4.72s.
 Call paths to the hottest functions.
 
 ```
-└── 4.70s (99.6%) Main() at Profile.Program
+└── 4.71s (99.6%) Main() at Profile.Program
     ├── 3.51s (74.4%) DeserializeObject(String, Type, JsonSerializerSettings) at Newtonsoft.Json.JsonConvert
     │   ├── 3.40s (72.0%) DeserializeInternal(JsonReader, Type) at Newtonsoft.Json.JsonSerializer
-    │   │   └── 3.39s (71.9%) Deserialize(JsonReader, Type, bool) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │   └── 3.40s (71.9%) Deserialize(JsonReader, Type, bool) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
     │   │       ├── 3.35s (70.9%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
     │   │       │   ├── … 2.32s (49.1%) CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
     │   │       │   │   ├── 2.28s (48.3%, self 2.9%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)
-    │   │       │   │   │   ├── 1.91s (40.6%, self 35.2%, self 36.4% globally) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+    │   │       │   │   │   ├── 1.92s (40.6%, self 35.2%, self 36.4% globally) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
     │   │       │   │   │   │   ├── 161.4ms (3.4%, self 1.4%) ReadNumberValue(ReadType) at Newtonsoft.Json.JsonTextReader
     │   │       │   │   │   │   │   └── 93.2ms (2.0%) ParseReadNumber(ReadType, wchar, int32) …
     │   │       │   │   │   │   └── 94.2ms (2.0%) 3 more callees, led by (1.0%) ReadStringValue(ReadType) at Newtonsoft.Json.JsonTextReader
@@ -31,7 +31,7 @@ Call paths to the hottest functions.
     │   │       │   │   ├── 7.0ms (0.1%) Node() at dynamicClass.CreateProfile
     │   │       │   │   │   └── 7.0ms (0.1%, self 2.3% globally) UNMANAGED_CODE_TIME
     │   │       │   │   └── 33.8ms (0.7%) 2 more callees, led by (0.6%) ParseObject() at Newtonsoft.Json.JsonTextReader
-    │   │       │   └── … 1s (21.2%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       │   └── … 1.00s (21.2%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
     │   │       │       ├── 785.3ms (16.6%, self 16.5%, self 17.9% globally) CopyTo(Array, int32) at System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection
     │   │       │       └── 210.4ms (4.5%, self 1.1%) PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)
     │   │       │           ├── 125.3ms (2.7%) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
@@ -155,7 +155,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |     % |  Time | Caller                                                                         | Location                                                     |
 | ----: | ----: | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| 99.8% | 1.71s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 99.8% | 1.72s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |  0.2% | 4.1ms | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`     | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 
 ##### `CopyTo(Array, int32)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection``)
@@ -434,16 +434,16 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Function                                                                                                         | Location                                                                             |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| 99.6% |   4.70s | `Main()`                                                                                                         | `Profile.Program`                                                                    |
-| 79.1% |   3.73s | `DeserializeObject(String, Type, JsonSerializerSettings)`                                                        | `Newtonsoft.Json.JsonConvert`                                                        |
+| 99.6% |   4.71s | `Main()`                                                                                                         | `Profile.Program`                                                                    |
+| 79.1% |   3.74s | `DeserializeObject(String, Type, JsonSerializerSettings)`                                                        | `Newtonsoft.Json.JsonConvert`                                                        |
 | 78.9% |   3.73s | `DeserializeInternal(JsonReader, Type)`                                                                          | `Newtonsoft.Json.JsonSerializer`                                                     |
 | 78.8% |   3.72s | `Deserialize(JsonReader, Type, bool)`                                                                            | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 | 77.7% |   3.67s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 | 77.7% |   3.67s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)`        | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
-| 77.2% |   3.64s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                                   | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
+| 77.2% |   3.65s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                                   | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 | 48.1% |   2.27s | `ReadForType(JsonContract, bool)`                                                                                | `Newtonsoft.Json.JsonReader`                                                         |
-| 45.0% |   2.12s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
-| 34.0% |   1.60s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
+| 45.0% |   2.13s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
+| 34.0% |   1.61s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 | 20.2% | 953.7ms | `SerializeObjectInternal(Object, Type, JsonSerializer)`                                                          | `Newtonsoft.Json.JsonConvert`                                                        |
 | 19.7% | 932.4ms | `SerializeInternal(JsonWriter, Object, Type)`                                                                    | `Newtonsoft.Json.JsonSerializer`                                                     |
 | 19.7% | 931.1ms | `Serialize(JsonWriter, Object, Type)`                                                                            | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`                         |
@@ -463,16 +463,16 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Function                                                                                                         | Location                                                     |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 99.6% |   4.70s | `Main()`                                                                                                         | `Profile.Program`                                            |
-| 79.1% |   3.73s | `DeserializeObject(String, Type, JsonSerializerSettings)`                                                        | `Newtonsoft.Json.JsonConvert`                                |
+| 99.6% |   4.71s | `Main()`                                                                                                         | `Profile.Program`                                            |
+| 79.1% |   3.74s | `DeserializeObject(String, Type, JsonSerializerSettings)`                                                        | `Newtonsoft.Json.JsonConvert`                                |
 | 78.9% |   3.73s | `DeserializeInternal(JsonReader, Type)`                                                                          | `Newtonsoft.Json.JsonSerializer`                             |
 | 78.8% |   3.72s | `Deserialize(JsonReader, Type, bool)`                                                                            | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 | 77.7% |   3.67s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 | 77.7% |   3.67s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)`        | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
-| 77.2% |   3.64s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                                   | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 77.2% |   3.65s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                                   | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 | 48.1% |   2.27s | `ReadForType(JsonContract, bool)`                                                                                | `Newtonsoft.Json.JsonReader`                                 |
-| 45.0% |   2.12s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
-| 34.0% |   1.60s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 45.0% |   2.13s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 34.0% |   1.61s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                                       | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 | 20.2% | 953.7ms | `SerializeObjectInternal(Object, Type, JsonSerializer)`                                                          | `Newtonsoft.Json.JsonConvert`                                |
 | 19.7% | 932.4ms | `SerializeInternal(JsonWriter, Object, Type)`                                                                    | `Newtonsoft.Json.JsonSerializer`                             |
 | 19.7% | 931.1ms | `Serialize(JsonWriter, Object, Type)`                                                                            | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter` |
@@ -544,7 +544,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |      % |    Time | Caller                                                                                                   | Location                                                     |
 | -----: | ------: | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | 100.0% |   3.67s | `Deserialize(JsonReader, Type, bool)`                                                                    | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
-|  53.3% |   1.95s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                           | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  53.3% |   1.96s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)`                           | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |  39.5% |   1.45s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)`                               | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |   4.8% | 174.6ms | `SetPropertyValue(JsonProperty, JsonConverter, JsonContainerContract, JsonProperty, JsonReader, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 
@@ -558,7 +558,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Caller                                                                                                    | Location                                                     |
 | -----: | ----: | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 100.0% | 3.64s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 100.0% | 3.65s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 
 ##### `ReadForType(JsonContract, bool)` (`Newtonsoft.Json.JsonReader`)
 
@@ -572,13 +572,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Caller                                                                                                           | Location                                                     |
 | -----: | ----: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 100.0% | 2.12s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 100.0% | 2.13s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 
 ##### `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`)
 
 |      % |  Time | Caller                                                                     | Location                                                     |
 | -----: | ----: | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 100.0% | 1.60s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 100.0% | 1.61s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 
 ##### `SerializeObjectInternal(Object, Type, JsonSerializer)` (`Newtonsoft.Json.JsonConvert`)
 
@@ -820,7 +820,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |      % |   Time | Callee                                                                                                    | Location                                                     |
 | -----: | -----: | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | 100.0% |  3.67s | `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
-|  57.9% |  2.12s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+|  57.9% |  2.13s | `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)`                                | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |   0.5% | 18.9ms | `EnsureType(JsonReader, Object, CultureInfo, JsonContract, Type)`                                         | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |  <0.1% |  1.3ms | `UNMANAGED_CODE_TIME`                                                                                     | `<unknown>`                                                  |
 
@@ -828,7 +828,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Callee                                                                         | Location                                                     |
 | ----: | -----: | ------------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| 99.3% |  3.64s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
+| 99.3% |  3.65s | `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader` |
 |  0.8% | 29.7ms | `ParseObject()`                                                                | `Newtonsoft.Json.JsonTextReader`                             |
 |  0.2% |  7.0ms | `Node()`                                                                       | `dynamicClass.CreateProfile`                                 |
 |  0.1% |  4.1ms | `Read()`                                                                       | `Newtonsoft.Json.JsonTextReader`                             |
@@ -839,7 +839,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Callee                                                                                                           | Location                                                                   |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | 57.7% |   2.10s | `ReadForType(JsonContract, bool)`                                                                                | `Newtonsoft.Json.JsonReader`                                               |
-| 53.7% |   1.95s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`               |
+| 53.7% |   1.96s | `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`               |
 |  4.9% | 178.5ms | `SetPropertyValue(JsonProperty, JsonConverter, JsonContainerContract, JsonProperty, JsonReader, Object)`         | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`               |
 |  3.5% | 129.1ms | `ParseObject()`                                                                                                  | `Newtonsoft.Json.JsonTextReader`                                           |
 |  1.4% |  50.9ms | `FindValue(!0)`                                                                                                  | ``System.Collections.Generic.Dictionary`2[System.__Canon,System.__Canon]`` |
@@ -858,7 +858,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Callee                                                                     | Location                                                                             |
 | ----: | ------: | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| 75.5% |   1.60s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
+| 75.5% |   1.61s | `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 | 40.1% | 852.8ms | `CopyTo(Array, int32)`                                                     | ``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection`` |
 |  0.4% |   8.0ms | `CreateNewList(JsonReader, JsonArrayContract, bool&)`                      | `Newtonsoft.Json.Serialization.JsonSerializerInternalReader`                         |
 |  0.1% |   1.3ms | `CreateInstance(Type, int32)`                                              | `System.Array`                                                                       |
@@ -1080,7 +1080,7 @@ Common call stack: `Main()` (`Profile.Program`)
 
 |     % |    Time | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 23.6% |   1.11s | `ReadForType(JsonContract, bool)` (`Newtonsoft.Json.JsonReader`) ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`) ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `Deserialize(JsonReader, Type, bool)` ← `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`) ← `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 23.6% |   1.12s | `ReadForType(JsonContract, bool)` (`Newtonsoft.Json.JsonReader`) ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`) ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `Deserialize(JsonReader, Type, bool)` ← `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`) ← `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 11.5% | 545.6ms | `ReadForType(JsonContract, bool)` (`Newtonsoft.Json.JsonReader`) ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`) ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` ← `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `Deserialize(JsonReader, Type, bool)` ← `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`) ← `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)                                                                                                                                                                                                                                              |
 |  9.9% | 468.5ms | `CopyTo(Array, int32)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection``) ← `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`) ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `Deserialize(JsonReader, Type, bool)` ← `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`) ← `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 |  6.6% | 310.1ms | `CopyTo(Array, int32)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection``) ← `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` (`Newtonsoft.Json.Serialization.JsonSerializerInternalReader`) ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)` ← `CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)` ← `CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)` ← `Deserialize(JsonReader, Type, bool)` ← `DeserializeInternal(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`) ← `DeserializeObject(String, Type, JsonSerializerSettings)` (`Newtonsoft.Json.JsonConvert`) |

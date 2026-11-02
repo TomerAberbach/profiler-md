@@ -1,6 +1,6 @@
 # CPU profile
 
-Took 1.38s over 1,386 samples (1.0ms per sample).
+Took 1.39s over 1,386 samples (1.0ms per sample).
 
 | Category |     % |  Time | Samples |
 | -------- | ----: | ----: | ------: |
@@ -17,7 +17,7 @@ Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 Call paths to the hottest functions.
 
 ```
-└── … 1.38s (99.9%) 0x9cee at ./zstd
+└── … 1.39s (99.9%) 0x9cee at ./zstd
     ├── 1.15s (83.0%) 0x61402
     │   ├── 1.14s (82.4%) 0x1601e
     │   │   └── 1.14s (82.4%) 0x1108e
@@ -227,13 +227,13 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function  | Location                               |
 | ----: | ------: | ------: | --------- | -------------------------------------- |
-| 99.9% |   1.38s |   1,384 | `0x9cee`  | `./zstd`                               |
-| 99.9% |   1.38s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 99.9% |   1.38s |   1,384 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.9% |   1.39s |   1,384 | `0x9cee`  | `./zstd`                               |
+| 99.9% |   1.39s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.9% |   1.39s |   1,384 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | 98.8% |   1.37s |   1,369 | `0x1108e` | `./zstd`                               |
 | 98.8% |   1.37s |   1,369 | `0x1601e` | `./zstd`                               |
 | 83.0% |   1.15s |   1,151 | `0x61402` | `./zstd`                               |
-| 76.1% |   1.05s |   1,055 | `0x59272` | `./zstd`                               |
+| 76.1% |   1.06s |   1,055 | `0x59272` | `./zstd`                               |
 | 16.9% | 234.2ms |     234 | `0x5f800` | `./zstd`                               |
 | 16.7% | 231.2ms |     231 | `0x17766` | `./zstd`                               |
 | 16.7% | 231.2ms |     231 | `0x616b6` | `./zstd`                               |
@@ -256,11 +256,11 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function  | Location |
 | ----: | ------: | ------: | --------- | -------- |
-| 99.9% |   1.38s |   1,384 | `0x9cee`  | `./zstd` |
+| 99.9% |   1.39s |   1,384 | `0x9cee`  | `./zstd` |
 | 98.8% |   1.37s |   1,369 | `0x1108e` | `./zstd` |
 | 98.8% |   1.37s |   1,369 | `0x1601e` | `./zstd` |
 | 83.0% |   1.15s |   1,151 | `0x61402` | `./zstd` |
-| 76.1% |   1.05s |   1,055 | `0x59272` | `./zstd` |
+| 76.1% |   1.06s |   1,055 | `0x59272` | `./zstd` |
 | 16.9% | 234.2ms |     234 | `0x5f800` | `./zstd` |
 | 16.7% | 231.2ms |     231 | `0x17766` | `./zstd` |
 | 16.7% | 231.2ms |     231 | `0x616b6` | `./zstd` |
@@ -285,13 +285,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.38s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.39s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x8202e` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.38s |   1,384 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.39s |   1,384 | `0xebf5a` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x1108e` (`./zstd`)
 
@@ -428,13 +428,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee   | Location |
 | -----: | ----: | ------: | -------- | -------- |
-| 100.0% | 1.38s |   1,384 | `0x9cee` | `./zstd` |
+| 100.0% | 1.39s |   1,384 | `0x9cee` | `./zstd` |
 
 ##### `0xebf5a` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.38s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.39s |   1,384 | `0x8202e` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x1108e` (`./zstd`)
 

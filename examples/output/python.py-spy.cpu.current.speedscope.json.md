@@ -1,6 +1,6 @@
 # Sampling profile
 
-Took 2s over 200 samples (10.0ms per sample).
+Took 2.00s over 200 samples (10.0ms per sample).
 
 | Category         |     % |    Time | Samples |
 | ---------------- | ----: | ------: | ------: |

@@ -1,10 +1,10 @@
 # CPU profile diff
 
-Took 4.21s → 4.22s (+9.33ms, +0.2%) over 3,361 → 3,379 samples (1.3ms per sample).
+Took 4.22s → 4.23s (+9.33ms, +0.2%) over 3,361 → 3,379 samples (1.3ms per sample).
 
 | Category           |  Change |    Delta |             % |              Time |       Samples |
 | ------------------ | ------: | -------: | ------------: | ----------------: | ------------: |
-| Third-party        |   +0.1% |  +5.74ms | 92.5% → 92.4% |             3.90s | 3,119 → 3,134 |
+| Third-party        |   +0.1% |  +5.74ms | 92.5% → 92.4% |     3.90s → 3.91s | 3,119 → 3,134 |
 | Native             |   -2.7% |  -3.92ms |   3.5% → 3.4% | 146.0ms → 142.1ms |     106 → 104 |
 | Garbage collector  |  +19.0% | +21.97ms |   2.7% → 3.3% | 115.7ms → 137.6ms |      92 → 108 |
 | Ours               |  -28.6% | -13.08ms |   1.1% → 0.8% |   45.7ms → 32.6ms |       36 → 26 |
@@ -20,12 +20,12 @@ Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 Call paths to the hottest and most changed functions.
 
 ```
-├── 4s (95.0% → 94.7%) (anonymous) at ./run.mjs:1:1
-│   └── 4s → 3.99s (95.0% → 94.6%) globalThis.buildAndRetainDom at ./workload.mjs:1:32
+├── 4.01s → 4.00s (95.0% → 94.7%) (anonymous) at ./run.mjs:1:1
+│   └── 4.01s → 4.00s (95.0% → 94.6%) globalThis.buildAndRetainDom at ./workload.mjs:1:32
 │       ├── 3.72s → 3.71s (88.3% → 87.9%) chartLayouts at 116:24
-│       │   ├── 2.13s (50.7% → 50.6%) h at ./node_modules/d3/dist/d3.min.js:2:235607 → 2:235656
+│       │   ├── 2.14s (50.7% → 50.6%) h at ./node_modules/d3/dist/d3.min.js:2:235607 → 2:235656
 │       │   │   └── 2.13s (50.5%, self 2.1% → 1.9%) (anonymous) at 2:235702 → 2:235751
-│       │   │       ├── 1.24s → 1.21s (29.6% → 28.8%, self 11.6% → 11.0%) f at 2:233452 → 2:233501
+│       │   │       ├── 1.25s → 1.22s (29.6% → 28.8%, self 11.6% → 11.0%) f at 2:233452 → 2:233501
 │       │   │       │   ├── 604.0ms → 621.2ms (14.3% → 14.7%, self 0.5% → 0.9%, self 0.8% → 1.7% globally) Fc.visit at 2:105700 → 2:105681
 │       │   │       │   │   └── 583.9ms → 581.2ms (13.8% → 13.7%, self 14.5% → 14.3% globally) h at 2:233884 → 2:233933
 │       │   │       │   ├── 82.2ms → 66.0ms (1.9% → 1.6%, self 1.0%, self 1.6% → 1.5% globally) Fc.visitAfter at 2:106068 → 2:106049
@@ -38,8 +38,8 @@ Call paths to the hottest and most changed functions.
 │       │   │       │   │   └── 22.8ms → 37.9ms (0.5% → 0.9%) u at 2:231470 → 2:231519
 │       │   │       │   └── 303.9ms → 320.6ms (7.2% → 7.6%) 2 more callees, led by (7.2% → 7.5%) Fc.visit at 2:105700 → 2:105681
 │       │   │       └── 16.6ms → 12.4ms (0.4% → 0.3%) l at 2:232102 → 2:232151
-│       │   ├── 1.27s → 1.28s (30.3%) d at ./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550
-│       │   │   ├── … 1.05s → 1.06s (24.9% → 25.2%, self 22.3% → 23.0%) (anonymous) at ./node_modules/d3/dist/d3.min.js:2:77113
+│       │   ├── 1.28s (30.3%) d at ./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550
+│       │   │   ├── … 1.05s → 1.07s (24.9% → 25.2%, self 22.3% → 23.0%) (anonymous) at ./node_modules/d3/dist/d3.min.js:2:77113
 │       │   │   │   └── 110.4ms → 92.2ms (2.6% → 2.2%, self 2.4% → 1.8%) p at 2:77577 → 2:77576
 │       │   │   ├── 52.8ms → 38.8ms (1.3% → 0.9%) J at 2:8205
 │       │   │   └── 160.4ms → 165.2ms (3.8% → 3.9%) 2 more callees, led by (3.7% → 3.8%) h at 2:223150 → 2:223199
@@ -984,12 +984,12 @@ Functions with the largest increase in time spent within the function and its ca
 |   +3.5% | +31.50ms | 21.5% → 22.2% | 907.8ms → 939.3ms | 724 → 749 | `Fc.visit`            | `./node_modules/d3/dist/d3.min.js:2:105700 → 2:105681` |
 |  +19.0% | +21.97ms |   2.7% → 3.3% | 115.7ms → 137.6ms |  92 → 108 | `(garbage collector)` | `<unknown>`                                            |
 |  +14.4% | +18.55ms |   3.1% → 3.5% | 128.8ms → 147.4ms | 103 → 117 | `$c`                  | `./node_modules/d3/dist/d3.min.js:2:102069 → 2:102050` |
-|   +1.5% | +15.55ms | 25.1% → 25.5% |     1.06s → 1.07s | 863 → 876 | `(anonymous)`         | `./node_modules/d3/dist/d3.min.js:2:76982`             |
-|   +1.5% | +15.51ms | 24.9% → 25.2% |     1.05s → 1.06s | 857 → 868 | `(anonymous)`         | `./node_modules/d3/dist/d3.min.js:2:77113`             |
+|   +1.5% | +15.55ms | 25.1% → 25.5% |     1.06s → 1.08s | 863 → 876 | `(anonymous)`         | `./node_modules/d3/dist/d3.min.js:2:76982`             |
+|   +1.5% | +15.51ms | 24.9% → 25.2% |     1.05s → 1.07s | 857 → 868 | `(anonymous)`         | `./node_modules/d3/dist/d3.min.js:2:77113`             |
 |  +65.9% | +15.04ms |   0.5% → 0.9% |   22.8ms → 37.9ms |   18 → 30 | `u`                   | `./node_modules/d3/dist/d3.min.js:2:231470 → 2:231519` |
 |   +1.3% | +14.30ms | 25.1% → 25.4% |     1.06s → 1.07s | 863 → 875 | `o`                   | `./node_modules/d3/dist/d3.min.js:2:77004`             |
 |  +11.6% | +13.80ms |   2.8% → 3.1% | 118.5ms → 132.3ms |  95 → 105 | `Fc.addAll`           | `./node_modules/d3/dist/d3.min.js:2:103106 → 2:103087` |
-|   +1.2% | +13.05ms | 25.2% → 25.5% |     1.06s → 1.07s | 865 → 876 | `i`                   | `./node_modules/d3/dist/d3.min.js:2:76807`             |
+|   +1.2% | +13.05ms | 25.2% → 25.5% |     1.06s → 1.08s | 865 → 876 | `i`                   | `./node_modules/d3/dist/d3.min.js:2:76807`             |
 |  +84.7% | +12.71ms |   0.4% → 0.7% |   15.0ms → 27.7ms |   12 → 22 | `from`                | `./node_modules/d3/dist/d3.min.js:2:94301 → 2:94282`   |
 |  +34.4% | +12.50ms |   0.9% → 1.2% |   36.4ms → 48.9ms |   29 → 39 | `(anonymous)`         | `./node_modules/d3/dist/d3.min.js:2:18042`             |
 | +154.8% | +11.54ms |   0.2% → 0.4% |    7.5ms → 19.0ms |    6 → 15 | `Su`                  | `./node_modules/d3/dist/d3.min.js:2:82035 → 2:82034`   |
@@ -1008,12 +1008,12 @@ Functions with the largest increase in time spent within the function and its ca
 |   +5.6% | +42.96ms | 18.0% → 19.0% | 761.3ms → 804.2ms | 601 → 641 | `a`           | `./node_modules/d3/dist/d3.min.js:2:231005 → 2:231054` |
 |   +3.5% | +31.50ms | 21.5% → 22.2% | 907.8ms → 939.3ms | 724 → 749 | `Fc.visit`    | `./node_modules/d3/dist/d3.min.js:2:105700 → 2:105681` |
 |  +14.4% | +18.55ms |   3.1% → 3.5% | 128.8ms → 147.4ms | 103 → 117 | `$c`          | `./node_modules/d3/dist/d3.min.js:2:102069 → 2:102050` |
-|   +1.5% | +15.55ms | 25.1% → 25.5% |     1.06s → 1.07s | 863 → 876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982`             |
-|   +1.5% | +15.51ms | 24.9% → 25.2% |     1.05s → 1.06s | 857 → 868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`             |
+|   +1.5% | +15.55ms | 25.1% → 25.5% |     1.06s → 1.08s | 863 → 876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982`             |
+|   +1.5% | +15.51ms | 24.9% → 25.2% |     1.05s → 1.07s | 857 → 868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`             |
 |  +65.9% | +15.04ms |   0.5% → 0.9% |   22.8ms → 37.9ms |   18 → 30 | `u`           | `./node_modules/d3/dist/d3.min.js:2:231470 → 2:231519` |
 |   +1.3% | +14.30ms | 25.1% → 25.4% |     1.06s → 1.07s | 863 → 875 | `o`           | `./node_modules/d3/dist/d3.min.js:2:77004`             |
 |  +11.6% | +13.80ms |   2.8% → 3.1% | 118.5ms → 132.3ms |  95 → 105 | `Fc.addAll`   | `./node_modules/d3/dist/d3.min.js:2:103106 → 2:103087` |
-|   +1.2% | +13.05ms | 25.2% → 25.5% |     1.06s → 1.07s | 865 → 876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`             |
+|   +1.2% | +13.05ms | 25.2% → 25.5% |     1.06s → 1.08s | 865 → 876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`             |
 |  +84.7% | +12.71ms |   0.4% → 0.7% |   15.0ms → 27.7ms |   12 → 22 | `from`        | `./node_modules/d3/dist/d3.min.js:2:94301 → 2:94282`   |
 |  +34.4% | +12.50ms |   0.9% → 1.2% |   36.4ms → 48.9ms |   29 → 39 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:18042`             |
 | +154.8% | +11.54ms |   0.2% → 0.4% |    7.5ms → 19.0ms |    6 → 15 | `Su`          | `./node_modules/d3/dist/d3.min.js:2:82035 → 2:82034`   |
@@ -1059,7 +1059,7 @@ Functions with the largest decrease in time spent within the function and its ca
 
 | Change |    Delta |             % |              Time |       Samples | Function                       | Location                                               |
 | -----: | -------: | ------------: | ----------------: | ------------: | ------------------------------ | ------------------------------------------------------ |
-|  -2.3% | -29.09ms | 29.6% → 28.8% |     1.24s → 1.21s |     991 → 970 | `f`                            | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
+|  -2.3% | -29.09ms | 29.6% → 28.8% |     1.25s → 1.22s |     991 → 970 | `f`                            | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
 | -12.4% | -26.08ms |   5.0% → 4.3% | 209.9ms → 183.8ms |     170 → 148 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:18176`             |
 | -39.2% | -17.41ms |   1.1% → 0.6% |   44.4ms → 27.0ms |       35 → 22 | `l`                            | `./node_modules/d3/dist/d3.min.js:2:233647 → 2:233696` |
 | -15.4% | -16.95ms |   2.6% → 2.2% |  110.4ms → 93.5ms |       90 → 76 | `p`                            | `./node_modules/d3/dist/d3.min.js:2:77577 → 2:77576`   |
@@ -1068,12 +1068,12 @@ Functions with the largest decrease in time spent within the function and its ca
 | -26.5% | -14.00ms |   1.3% → 0.9% |   52.8ms → 38.8ms |       42 → 31 | `J`                            | `./node_modules/d3/dist/d3.min.js:2:8205`              |
 | -24.5% | -13.46ms |   1.3% → 1.0% |   55.0ms → 41.5ms |       43 → 33 | `text`                         | `./node_modules/d3/dist/d3.min.js:2:26408`             |
 | -79.7% | -10.00ms |   0.3% → 0.1% |    12.5ms → 2.5ms |        10 → 2 | `f`                            | `./node_modules/d3/dist/d3.min.js:2:218177 → 2:218226` |
-|  -0.2% |  -9.34ms | 95.0% → 94.6% |        4s → 3.99s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                                  |
+|  -0.2% |  -9.34ms | 95.0% → 94.6% |     4.01s → 4.00s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                                  |
 |  -0.2% |  -8.68ms | 88.3% → 87.9% |     3.72s → 3.71s | 2,975 → 2,980 | `chartLayouts`                 | `./workload.mjs:116:24`                                |
 |  -1.2% |  -7.54ms | 14.5% → 14.3% | 612.8ms → 605.2ms |     489 → 482 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:233884 → 2:233933` |
 |  -5.7% |  -7.54ms |   3.1% → 3.0% | 132.7ms → 125.2ms |     105 → 100 | `Fc.visitAfter`                | `./node_modules/d3/dist/d3.min.js:2:106068 → 2:106049` |
 | -16.4% |  -7.17ms |   1.0% → 0.9% |   43.6ms → 36.4ms |       34 → 29 | `(anonymous)`                  | `./workload.mjs:201:13`                                |
-|  -0.2% |  -6.84ms | 95.0% → 94.7% |                4s | 3,204 → 3,210 | `(anonymous)`                  | `./run.mjs:1:1`                                        |
+|  -0.2% |  -6.84ms | 95.0% → 94.7% |     4.01s → 4.00s | 3,204 → 3,210 | `(anonymous)`                  | `./run.mjs:1:1`                                        |
 | -12.4% |  -6.79ms |   1.3% → 1.1% |   54.7ms → 47.9ms |       44 → 40 | `Lf`                           | `./node_modules/d3/dist/d3.min.js:2:112923 → 2:112904` |
 | -33.1% |  -6.25ms |   0.4% → 0.3% |   18.9ms → 12.6ms |       15 → 10 | `D`                            | `./node_modules/d3/dist/d3.min.js:2:4759`              |
 | -62.1% |  -6.21ms |   0.2% → 0.1% |    10.0ms → 3.8ms |         8 → 3 | `force`                        | `./node_modules/d3/dist/d3.min.js:2:236696 → 2:236745` |
@@ -1084,7 +1084,7 @@ Functions with the largest decrease in time spent within the function and its ca
 
 | Change |    Delta |             % |              Time |   Samples | Function        | Location                                               |
 | -----: | -------: | ------------: | ----------------: | --------: | --------------- | ------------------------------------------------------ |
-|  -2.3% | -29.09ms | 29.6% → 28.8% |     1.24s → 1.21s | 991 → 970 | `f`             | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
+|  -2.3% | -29.09ms | 29.6% → 28.8% |     1.25s → 1.22s | 991 → 970 | `f`             | `./node_modules/d3/dist/d3.min.js:2:233452 → 2:233501` |
 | -12.4% | -26.08ms |   5.0% → 4.3% | 209.9ms → 183.8ms | 170 → 148 | `(anonymous)`   | `./node_modules/d3/dist/d3.min.js:2:18176`             |
 | -39.2% | -17.41ms |   1.1% → 0.6% |   44.4ms → 27.0ms |   35 → 22 | `l`             | `./node_modules/d3/dist/d3.min.js:2:233647 → 2:233696` |
 | -15.4% | -16.95ms |   2.6% → 2.2% |  110.4ms → 93.5ms |   90 → 76 | `p`             | `./node_modules/d3/dist/d3.min.js:2:77577 → 2:77576`   |
@@ -1117,10 +1117,10 @@ Functions with the largest decrease in time spent within the function and its ca
 
 |  Change |   Delta |             % |            Time |       Samples | Function                       | Location                |
 | ------: | ------: | ------------: | --------------: | ------------: | ------------------------------ | ----------------------- |
-|   -0.2% | -9.34ms | 95.0% → 94.6% |      4s → 3.99s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`   |
+|   -0.2% | -9.34ms | 95.0% → 94.6% |   4.01s → 4.00s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`   |
 |   -0.2% | -8.68ms | 88.3% → 87.9% |   3.72s → 3.71s | 2,975 → 2,980 | `chartLayouts`                 | `./workload.mjs:116:24` |
 |  -16.4% | -7.17ms |   1.0% → 0.9% | 43.6ms → 36.4ms |       34 → 29 | `(anonymous)`                  | `./workload.mjs:201:13` |
-|   -0.2% | -6.84ms | 95.0% → 94.7% |              4s | 3,204 → 3,210 | `(anonymous)`                  | `./run.mjs:1:1`         |
+|   -0.2% | -6.84ms | 95.0% → 94.7% |   4.01s → 4.00s | 3,204 → 3,210 | `(anonymous)`                  | `./run.mjs:1:1`         |
 |  -10.0% | -6.21ms |   1.5% → 1.3% | 61.7ms → 55.5ms |       49 → 44 | `chartBreakdowns`              | `./workload.mjs:39:27`  |
 |  -27.7% | -5.37ms |   0.5% → 0.3% | 19.4ms → 14.0ms |       16 → 11 | `(anonymous)`                  | `./workload.mjs:195:13` |
 |  -50.0% | -3.79ms |   0.2% → 0.1% |   7.6ms → 3.8ms |         6 → 3 | `(anonymous)`                  | `./workload.mjs:82:7`   |
@@ -1162,13 +1162,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |   Samples | Caller | Location                                   |
 | -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------ |
-|  +1.5% | +15.55ms | 100.0% | 1.06s → 1.07s | 863 → 876 | `i`    | `./node_modules/d3/dist/d3.min.js:2:76807` |
+|  +1.5% | +15.55ms | 100.0% | 1.06s → 1.08s | 863 → 876 | `i`    | `./node_modules/d3/dist/d3.min.js:2:76807` |
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
 
 | Change |    Delta |      % |          Time |   Samples | Caller | Location                                   |
 | -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------ |
-|  +1.5% | +15.51ms | 100.0% | 1.05s → 1.06s | 857 → 868 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
+|  +1.5% | +15.51ms | 100.0% | 1.05s → 1.07s | 857 → 868 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
 
 ##### `u` (`./node_modules/d3/dist/d3.min.js:2:231519`)
 
@@ -1194,7 +1194,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |   Samples | Caller | Location                                               |
 | -----: | -------: | -----: | ------------: | --------: | ------ | ------------------------------------------------------ |
-|  +1.2% | +13.05ms | 100.0% | 1.06s → 1.07s | 865 → 876 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
+|  +1.2% | +13.05ms | 100.0% | 1.06s → 1.08s | 865 → 876 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223501 → 2:223550` |
 
 ##### `from` (`./node_modules/d3/dist/d3.min.js:2:94282`)
 
@@ -1342,7 +1342,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |      % |          Time |   Samples | Caller        | Location                                               |
 | -----: | -------: | -----: | ------------: | --------: | ------------- | ------------------------------------------------------ |
-|  -2.3% | -29.09ms | 100.0% | 1.24s → 1.21s | 991 → 970 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
+|  -2.3% | -29.09ms | 100.0% | 1.25s → 1.22s | 991 → 970 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235702 → 2:235751` |
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:18176`)
 
@@ -1405,9 +1405,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`)
 
-| Change |   Delta |      % |       Time |       Samples | Caller        | Location        |
-| -----: | ------: | -----: | ---------: | ------------: | ------------- | --------------- |
-|  -0.2% | -9.34ms | 100.0% | 4s → 3.99s | 3,203 → 3,207 | `(anonymous)` | `./run.mjs:1:1` |
+| Change |   Delta |      % |          Time |       Samples | Caller        | Location        |
+| -----: | ------: | -----: | ------------: | ------------: | ------------- | --------------- |
+|  -0.2% | -9.34ms | 100.0% | 4.01s → 4.00s | 3,203 → 3,207 | `(anonymous)` | `./run.mjs:1:1` |
 
 ##### `chartLayouts` (`./workload.mjs:116:24`)
 
@@ -1612,7 +1612,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |             % |          Time |   Samples | Callee        | Location                                   |
 | -----: | -------: | ------------: | ------------: | --------: | ------------- | ------------------------------------------ |
-|  +1.5% | +15.51ms | 99.1% → 99.2% | 1.05s → 1.06s | 857 → 868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
+|  +1.5% | +15.51ms | 99.1% → 99.2% | 1.05s → 1.07s | 857 → 868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
 |    new |  +1.29ms |   0.0% → 0.1% |   0ms → 1.3ms |     0 → 1 | `au`          | `./node_modules/d3/dist/d3.min.js:2:79110` |
 |    new |  +1.25ms |   0.0% → 0.1% |   0ms → 1.3ms |     0 → 1 | `p`           | `./node_modules/d3/dist/d3.min.js:2:77576` |
 
@@ -1630,7 +1630,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |              % |          Time |   Samples | Callee        | Location                                   |
 | -----: | -------: | -------------: | ------------: | --------: | ------------- | ------------------------------------------ |
-|  +1.5% | +15.55ms | 99.8% → 100.0% | 1.06s → 1.07s | 863 → 876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
+|  +1.5% | +15.55ms | 99.8% → 100.0% | 1.06s → 1.08s | 863 → 876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
 
 ##### `from` (`./node_modules/d3/dist/d3.min.js:2:94282`)
 
@@ -1833,9 +1833,9 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `(anonymous)` (`./run.mjs:1:1`)
 
-| Change |   Delta |              % |       Time |       Samples | Callee                         | Location              |
-| -----: | ------: | -------------: | ---------: | ------------: | ------------------------------ | --------------------- |
-|  -0.2% | -9.34ms | 100.0% → 99.9% | 4s → 3.99s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+| Change |   Delta |              % |          Time |       Samples | Callee                         | Location              |
+| -----: | ------: | -------------: | ------------: | ------------: | ------------------------------ | --------------------- |
+|  -0.2% | -9.34ms | 100.0% → 99.9% | 4.01s → 4.00s | 3,203 → 3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
 
 ##### `Lf` (`./node_modules/d3/dist/d3.min.js:2:112904`)
 

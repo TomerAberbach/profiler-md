@@ -16,13 +16,13 @@ Call paths to the hottest and most changed functions.
 
 ```
 ├── 1.60s → 2.04s (99.8% → 99.9%) (anonymous)
-│   ├── … 1.59s → 2.04s (99.6% → 99.8%) POOL_thread at pool.c
-│   │   └── 1.59s → 2.04s (99.6% → 99.8%) ZSTDMT_compressionJob at zstdmt_compress.c
-│   │       ├── 1.33s → 1.75s (83.3% → 85.6%) ZSTD_compressContinue_public
-│   │       │   └── 1.33s → 1.75s (83.3% → 85.6%) ZSTD_compress_frameChunk at zstd_compress.c
-│   │       │       ├── 1.32s → 1.73s (82.8% → 85.1%) ZSTD_buildSeqStore
-│   │       │       │   ├── 1.29s → 1.69s (81.0% → 82.9%, self 15.8% → 13.5%, self 19.0% → 16.5% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
-│   │       │       │   │   └── 1.04s → 1.41s (65.2% → 69.4%, self 65.1% → 69.2%, self 78.7% → 81.2% globally) ZSTD_btGetAllMatches_noDict_3
+│   ├── … 1.60s → 2.04s (99.6% → 99.8%) POOL_thread at pool.c
+│   │   └── 1.60s → 2.04s (99.6% → 99.8%) ZSTDMT_compressionJob at zstdmt_compress.c
+│   │       ├── 1.34s → 1.75s (83.3% → 85.6%) ZSTD_compressContinue_public
+│   │       │   └── 1.34s → 1.75s (83.3% → 85.6%) ZSTD_compress_frameChunk at zstd_compress.c
+│   │       │       ├── 1.33s → 1.74s (82.8% → 85.1%) ZSTD_buildSeqStore
+│   │       │       │   ├── 1.30s → 1.69s (81.0% → 82.9%, self 15.8% → 13.5%, self 19.0% → 16.5% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
+│   │       │       │   │   └── 1.05s → 1.42s (65.2% → 69.4%, self 65.1% → 69.2%, self 78.7% → 81.2% globally) ZSTD_btGetAllMatches_noDict_3
 │   │       │       │   │       └── 2.0ms → 4.0ms (0.1% → 0.2%) ZSTD_insertBt1.constprop.3
 │   │       │       │   ├── 16.0ms → 23.0ms (1.0% → 1.1%) ZSTD_compressBlock_btultra2
 │   │       │       │   │   └── 15.0ms → 22.0ms (0.9% → 1.1%, self 0.6% → 0.7%) ZSTD_compressBlock_opt2 at zstd_opt.c
@@ -200,14 +200,14 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |     Delta |             % |              Time |       Samples | Function                                 | Location            |
 | ------: | --------: | ------------: | ----------------: | ------------: | ---------------------------------------- | ------------------- |
-|  +27.7% | +443.00ms | 99.6% → 99.8% |     1.59s → 2.04s | 1,597 → 2,040 | `ZSTD_compress_frameChunk`               | `zstd_compress.c`   |
-|  +27.7% | +443.00ms | 99.8% → 99.9% |     1.59s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
+|  +27.7% | +443.00ms | 99.6% → 99.8% |     1.60s → 2.04s | 1,597 → 2,040 | `ZSTD_compress_frameChunk`               | `zstd_compress.c`   |
+|  +27.7% | +443.00ms | 99.8% → 99.9% |     1.60s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
 |  +27.6% | +442.00ms | 99.8% → 99.9% |     1.60s → 2.04s | 1,600 → 2,042 | `POOL_thread`                            | `pool.c`            |
-|  +27.8% | +441.00ms | 99.0% → 99.2% |     1.58s → 2.02s | 1,587 → 2,028 | `ZSTD_buildSeqStore`                     | `zstd_compress.c`   |
+|  +27.8% | +441.00ms | 99.0% → 99.2% |     1.59s → 2.03s | 1,587 → 2,028 | `ZSTD_buildSeqStore`                     | `zstd_compress.c`   |
 |  +27.5% | +441.00ms |        100.0% |     1.60s → 2.04s | 1,603 → 2,044 | `(anonymous)`                            | `<unknown>`         |
-|  +27.7% | +435.00ms | 97.8% → 98.0% |        1.56s → 2s | 1,568 → 2,003 | `ZSTD_compressBlock_opt2`                | `zstd_opt.c`        |
-|  +31.0% | +414.00ms | 83.3% → 85.6% |     1.33s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public`           | `<unknown>`         |
-|  +31.7% | +401.00ms | 78.9% → 81.5% |     1.26s → 1.66s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3`          | `zstd_opt.c`        |
+|  +27.7% | +435.00ms | 97.8% → 98.0% |     1.57s → 2.00s | 1,568 → 2,003 | `ZSTD_compressBlock_opt2`                | `zstd_opt.c`        |
+|  +31.0% | +414.00ms | 83.3% → 85.6% |     1.34s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public`           | `<unknown>`         |
+|  +31.7% | +401.00ms | 78.9% → 81.5% |     1.26s → 1.67s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3`          | `zstd_opt.c`        |
 |  +11.1% |  +29.00ms | 16.3% → 14.2% | 261.0ms → 290.0ms |     261 → 290 | `ZSTD_compressEnd_public`                | `<unknown>`         |
 |  +43.8% |   +7.00ms |   1.0% → 1.1% |   16.0ms → 23.0ms |       16 → 23 | `ZSTD_compressBlock_btultra2`            | `<unknown>`         |
 |  +28.6% |   +4.00ms |          0.9% |   14.0ms → 18.0ms |       14 → 18 | `ZSTD_litLengthPrice.constprop.1.isra.0` | `zstd_opt.c`        |
@@ -225,12 +225,12 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |     Delta |             % |            Time |       Samples | Function                                 | Location            |
 | ------: | --------: | ------------: | --------------: | ------------: | ---------------------------------------- | ------------------- |
-|  +27.7% | +443.00ms | 99.6% → 99.8% |   1.59s → 2.04s | 1,597 → 2,040 | `ZSTD_compress_frameChunk`               | `zstd_compress.c`   |
-|  +27.7% | +443.00ms | 99.8% → 99.9% |   1.59s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
+|  +27.7% | +443.00ms | 99.6% → 99.8% |   1.60s → 2.04s | 1,597 → 2,040 | `ZSTD_compress_frameChunk`               | `zstd_compress.c`   |
+|  +27.7% | +443.00ms | 99.8% → 99.9% |   1.60s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
 |  +27.6% | +442.00ms | 99.8% → 99.9% |   1.60s → 2.04s | 1,600 → 2,042 | `POOL_thread`                            | `pool.c`            |
-|  +27.8% | +441.00ms | 99.0% → 99.2% |   1.58s → 2.02s | 1,587 → 2,028 | `ZSTD_buildSeqStore`                     | `zstd_compress.c`   |
-|  +27.7% | +435.00ms | 97.8% → 98.0% |      1.56s → 2s | 1,568 → 2,003 | `ZSTD_compressBlock_opt2`                | `zstd_opt.c`        |
-|  +31.7% | +401.00ms | 78.9% → 81.5% |   1.26s → 1.66s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3`          | `zstd_opt.c`        |
+|  +27.8% | +441.00ms | 99.0% → 99.2% |   1.59s → 2.03s | 1,587 → 2,028 | `ZSTD_buildSeqStore`                     | `zstd_compress.c`   |
+|  +27.7% | +435.00ms | 97.8% → 98.0% |   1.57s → 2.00s | 1,568 → 2,003 | `ZSTD_compressBlock_opt2`                | `zstd_opt.c`        |
+|  +31.7% | +401.00ms | 78.9% → 81.5% |   1.26s → 1.67s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3`          | `zstd_opt.c`        |
 |  +28.6% |   +4.00ms |          0.9% | 14.0ms → 18.0ms |       14 → 18 | `ZSTD_litLengthPrice.constprop.1.isra.0` | `zstd_opt.c`        |
 | +150.0% |   +3.00ms |   0.1% → 0.2% |   2.0ms → 5.0ms |         2 → 5 | `ZSTD_insertBt1.constprop.3`             | `zstd_opt.c`        |
 |     new |   +3.00ms |   0.0% → 0.1% |     0ms → 3.0ms |         0 → 3 | `ZSTD_recordFingerprint_1`               | `zstd_preSplit.c`   |
@@ -277,14 +277,14 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |              Time |       Samples | Caller                         | Location    |
 | -----: | --------: | ------------: | ----------------: | ------------: | ------------------------------ | ----------- |
-| +31.0% | +414.00ms | 83.7% → 85.8% |     1.33s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public` | `<unknown>` |
+| +31.0% | +414.00ms | 83.7% → 85.8% |     1.34s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public` | `<unknown>` |
 | +11.1% |  +29.00ms | 16.3% → 14.2% | 261.0ms → 290.0ms |     261 → 290 | `ZSTD_compressEnd_public`      | `<unknown>` |
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
 | Change |     Delta |      % |          Time |       Samples | Caller        | Location |
 | -----: | --------: | -----: | ------------: | ------------: | ------------- | -------- |
-| +27.7% | +443.00ms | 100.0% | 1.59s → 2.04s | 1,599 → 2,042 | `POOL_thread` | `pool.c` |
+| +27.7% | +443.00ms | 100.0% | 1.60s → 2.04s | 1,599 → 2,042 | `POOL_thread` | `pool.c` |
 
 ##### `POOL_thread` (`pool.c`)
 
@@ -296,7 +296,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |      % |          Time |       Samples | Caller                     | Location          |
 | -----: | --------: | -----: | ------------: | ------------: | -------------------------- | ----------------- |
-| +27.8% | +441.00ms | 100.0% | 1.58s → 2.02s | 1,587 → 2,028 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+| +27.8% | +441.00ms | 100.0% | 1.59s → 2.03s | 1,587 → 2,028 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
 
 ##### `(anonymous)` (`<unknown>`)
 
@@ -319,13 +319,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |      % |          Time |       Samples | Caller                  | Location            |
 | -----: | --------: | -----: | ------------: | ------------: | ----------------------- | ------------------- |
-| +31.0% | +414.00ms | 100.0% | 1.33s → 1.75s | 1,336 → 1,750 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+| +31.0% | +414.00ms | 100.0% | 1.34s → 1.75s | 1,336 → 1,750 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
 | Change |     Delta |      % |          Time |       Samples | Caller                    | Location     |
 | -----: | --------: | -----: | ------------: | ------------: | ------------------------- | ------------ |
-| +31.7% | +401.00ms | 100.0% | 1.26s → 1.66s | 1,264 → 1,665 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
+| +31.7% | +401.00ms | 100.0% | 1.26s → 1.67s | 1,264 → 1,665 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
 
 ##### `ZSTD_compressEnd_public` (`<unknown>`)
 
@@ -496,7 +496,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |           % |          Time |       Samples | Callee                         | Location          |
 | -----: | --------: | ----------: | ------------: | ------------: | ------------------------------ | ----------------- |
-| +27.8% | +441.00ms |       99.4% | 1.58s → 2.02s | 1,587 → 2,028 | `ZSTD_buildSeqStore`           | `zstd_compress.c` |
+| +27.8% | +441.00ms |       99.4% | 1.59s → 2.03s | 1,587 → 2,028 | `ZSTD_buildSeqStore`           | `zstd_compress.c` |
 |    new |   +3.00ms | 0.0% → 0.1% |   0ms → 3.0ms |         0 → 3 | `ZSTD_splitBlock`              | `<unknown>`       |
 | -16.7% |   -1.00ms | 0.4% → 0.2% | 6.0ms → 5.0ms |         6 → 5 | `ZSTD_deriveBlockSplitsHelper` | `zstd_compress.c` |
 
@@ -504,14 +504,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |              Time |       Samples | Callee                         | Location    |
 | -----: | --------: | ------------: | ----------------: | ------------: | ------------------------------ | ----------- |
-| +31.0% | +414.00ms | 83.6% → 85.7% |     1.33s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public` | `<unknown>` |
+| +31.0% | +414.00ms | 83.6% → 85.7% |     1.34s → 1.75s | 1,336 → 1,750 | `ZSTD_compressContinue_public` | `<unknown>` |
 | +11.1% |  +29.00ms | 16.3% → 14.2% | 261.0ms → 290.0ms |     261 → 290 | `ZSTD_compressEnd_public`      | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 
 |  Change |     Delta |              % |          Time |       Samples | Callee                        | Location            |
 | ------: | --------: | -------------: | ------------: | ------------: | ----------------------------- | ------------------- |
-|  +27.7% | +443.00ms | 99.9% → 100.0% | 1.59s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
+|  +27.7% | +443.00ms | 99.9% → 100.0% | 1.60s → 2.04s | 1,599 → 2,042 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
 | removed |   -1.00ms |    0.1% → 0.0% |   1.0ms → 0ms |         1 → 0 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
 
 ##### `ZSTD_buildSeqStore` (`zstd_compress.c`)
@@ -536,13 +536,13 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |          Time |       Samples | Callee                          | Location     |
 | -----: | --------: | ------------: | ------------: | ------------: | ------------------------------- | ------------ |
-| +31.7% | +401.00ms | 80.6% → 83.1% | 1.26s → 1.66s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
+| +31.7% | +401.00ms | 80.6% → 83.1% | 1.26s → 1.67s | 1,264 → 1,665 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
 
 ##### `ZSTD_compressContinue_public` (`<unknown>`)
 
 | Change |     Delta |      % |          Time |       Samples | Callee                     | Location          |
 | -----: | --------: | -----: | ------------: | ------------: | -------------------------- | ----------------- |
-| +31.0% | +414.00ms | 100.0% | 1.33s → 1.75s | 1,336 → 1,750 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+| +31.0% | +414.00ms | 100.0% | 1.34s → 1.75s | 1,336 → 1,750 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
@@ -662,7 +662,7 @@ Call stacks with the largest increase in time spent in their leaf frame.
 
 |  Change |     Delta |             % |              Time |       Samples | Call stack                                                                                                                                                                                                                                                                                                                                                              |
 | ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +35.7% | +372.00ms | 65.1% → 69.2% |     1.04s → 1.41s | 1,043 → 1,415 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                          |
+|  +35.7% | +372.00ms | 65.1% → 69.2% |     1.04s → 1.42s | 1,043 → 1,415 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                          |
 |  +11.3% |  +24.00ms | 13.3% → 11.6% | 213.0ms → 237.0ms |     213 → 237 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                               |
 |   +8.3% |  +21.00ms | 15.8% → 13.5% | 254.0ms → 275.0ms |     254 → 275 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                            |
 |  +19.5% |   +8.00ms |   2.6% → 2.4% |   41.0ms → 49.0ms |       41 → 49 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                                 |
