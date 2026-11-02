@@ -1,10 +1,11 @@
 # CPU profile
 
-Took 3.46s over 346 samples (10.0ms per sample).
+Took 3.31s over 331 samples (10.0ms per sample).
 
-| Category         |      % |  Time | Samples |
-| ---------------- | -----: | ----: | ------: |
-| Standard library | 100.0% | 3.46s |     346 |
+| Category          |     % |   Time | Samples |
+| ----------------- | ----: | -----: | ------: |
+| Standard library  | 99.4% |  3.29s |     329 |
+| Garbage collector |  0.6% | 20.0ms |       2 |
 
 `…` stands for omitted frames.
 
@@ -13,46 +14,46 @@ Took 3.46s over 346 samples (10.0ms per sample).
 Call paths to the hottest functions.
 
 ```
-├── … 1.51s (43.6%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run at github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
-│   ├── 1.02s (29.5%) encoding/json.Unmarshal at encoding/json/decode.go:102
-│   │   ├── … 550.0ms (15.9%) encoding/json.(*decodeState).objectInterface at encoding/json/decode.go:1078
-│   │   │   ├── … 40.0ms (1.2%) encoding/json.(*decodeState).rescanLiteral at encoding/json/decode.go:322
-│   │   │   └── 510.0ms (14.7%) 4 more callees, led by (5.5%) encoding/json.(*decodeState).valueInterface at encoding/json/decode.go:1035
-│   │   └── 470.0ms (13.6%, self 5.5%) encoding/json.checkValid at encoding/json/scanner.go:33
-│   │       ├── 170.0ms (4.9%) encoding/json.stateInString at 339
-│   │       ├── 40.0ms (1.2%, self 1.7% globally) encoding/json.stateBeginString at 268
-│   │       └── 70.0ms (2.0%) 4 more callees, led by (1.2%) encoding/json.stateBeginValue at 217
-│   └── … 490.0ms (14.2%) encoding/json.(*encodeState).reflectValue at encoding/json/encode.go:366
-│       ├── … 90.0ms (2.6%) encoding/json.stringEncoder at encoding/json/encode.go:610
-│       │   └── 90.0ms (2.6%, self 1.7%, self 2.6% globally) encoding/json.appendString[go.shape.string] at 999
-│       │       └── 30.0ms (0.9%) unicode/utf8.DecodeRuneInString at unicode/utf8/utf8.go:219 …
-│       └── 400.0ms (11.6%) 3 more callees, led by (10.1%) encoding/json.mapEncoder.encode at encoding/json/encode.go:765
-├── 1.16s (33.5%) runtime.systemstack at runtime/asm_arm64.s:353
-│   ├── … 640.0ms (18.5%) runtime.madvise at runtime/sys_darwin.go:224
-│   ├── … 370.0ms (10.7%) runtime.kevent at runtime/sys_darwin.go:438
-│   ├── 120.0ms (3.5%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
-│   │   ├── 90.0ms (2.6%) runtime.gcDrainMarkWorkerDedicated at runtime/mgcmark.go:1173
-│   │   │   └── 90.0ms (2.6%) runtime.gcDrain at 1239
-│   │   │       ├── 70.0ms (2.0%) runtime.(*gcControllerState).enlistWorker at runtime/mgcpacer.go:697
-│   │   │       │   ├── … 40.0ms (1.2%, self 3.5% globally) runtime.pthread_cond_signal at runtime/sys_darwin.go:508
-│   │   │       │   └── 30.0ms (0.9%) runtime.preemptone at runtime/proc.go:6866 …
-│   │   │       └── 10.0ms (0.3%) runtime.(*gcWork).balance at runtime/mgcwork.go:356
-│   │   └── … 30.0ms (0.9%, self 2.3% globally) runtime.pthread_kill at runtime/sys_darwin.go:148
-│   └── 10.0ms (0.3%) runtime.gcMarkTermination.func3 at runtime/mgc.go:1500
-├── … 510.0ms (14.7%) runtime.schedule at runtime/proc.go:4135
-│   ├── 480.0ms (13.9%) runtime.findRunnable at 3389
-│   │   ├── 420.0ms (12.1%) runtime.stopm at 2992
-│   │   │   ├── … 380.0ms (11.0%) runtime.pthread_cond_wait at runtime/sys_darwin.go:487
+├── 1.73s (52.3%) runtime.systemstack at runtime/asm_arm64.s:353
+│   ├── … 830.0ms (25.1%, self 26.0% globally) runtime.madvise at runtime/sys_darwin.go:224
+│   ├── … 590.0ms (17.8%) runtime.kevent at runtime/sys_darwin.go:438
+│   ├── 280.0ms (8.5%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+│   │   ├── 210.0ms (6.3%) runtime.gcDrainMarkWorkerDedicated at runtime/mgcmark.go:1173
+│   │   │   └── 210.0ms (6.3%) runtime.gcDrain at 1239
+│   │   │       ├── 190.0ms (5.7%) runtime.(*gcControllerState).enlistWorker at runtime/mgcpacer.go:697
+│   │   │       │   ├── … 160.0ms (4.8%, self 6.9% globally) runtime.pthread_kill at runtime/sys_darwin.go:148
+│   │   │       │   └── 30.0ms (0.9%) runtime.wakep at runtime/proc.go:3212 …
+│   │   │       └── 20.0ms (0.6%) runtime.(*gcWork).balance at runtime/mgcwork.go:356 …
+│   │   └── 70.0ms (2.1%) runtime.gcDrainMarkWorkerIdle at runtime/mgcmark.go:1167 …
+│   └── 30.0ms (0.9%) 3 more callees, led by (0.3%) runtime.gcMarkTermination.forEachP.func7 at runtime/proc.go:2112
+├── … 810.0ms (24.5%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run at github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10
+│   ├── 570.0ms (17.2%) encoding/json.Unmarshal at encoding/json/decode.go:102
+│   │   ├── … 370.0ms (11.2%) encoding/json.(*decodeState).objectInterface at encoding/json/decode.go:1078
+│   │   │   └── 370.0ms (11.2%) 5 more callees, led by (4.2%) encoding/json.(*decodeState).valueInterface at encoding/json/decode.go:1035
+│   │   └── 200.0ms (6.0%, self 2.1%) encoding/json.checkValid at encoding/json/scanner.go:33
+│   │       ├── 60.0ms (1.8%, self 3.0% globally) encoding/json.stateBeginString at 268
+│   │       └── 70.0ms (2.1%) 2 more callees, led by (1.2%) encoding/json.stateInString at 339
+│   └── … 240.0ms (7.3%) encoding/json.(*encodeState).reflectValue at encoding/json/encode.go:366
+│       ├── … 50.0ms (1.5%) encoding/json.stringEncoder at encoding/json/encode.go:610
+│       │   └── 40.0ms (1.2%, self 1.8% globally) encoding/json.appendString[go.shape.string] at 999
+│       └── 190.0ms (5.7%) 2 more callees, led by (5.4%) encoding/json.mapEncoder.encode at encoding/json/encode.go:765
+├── … 500.0ms (15.1%) runtime.schedule at runtime/proc.go:4135
+│   ├── 450.0ms (13.6%) runtime.findRunnable at 3389
+│   │   ├── 400.0ms (12.1%) runtime.stopm at 2992
+│   │   │   ├── … 360.0ms (10.9%, self 11.5% globally) runtime.pthread_cond_wait at runtime/sys_darwin.go:487
 │   │   │   └── 40.0ms (1.2%) runtime.lock at runtime/lock_spinbit.go:151 …
-│   │   └── 60.0ms (1.7%) 2 more callees, led by (1.4%) runtime.lock at runtime/lock_spinbit.go:151
-│   └── 30.0ms (0.9%) runtime.resetspinning at 4021 …
-├── … 160.0ms (4.6%) runtime.goschedImpl at runtime/proc.go:4307
-│   ├── … 110.0ms (3.2%) runtime.lock2 at runtime/lock_spinbit.go:155
-│   │   ├── 80.0ms (2.3%) runtime.osyield at runtime/os_darwin.go:379
-│   │   │   └── 80.0ms (2.3%, self 5.2% globally) runtime.usleep at runtime/sys_darwin.go:273
-│   │   └── 10.0ms (0.3%) runtime.semasleep at runtime/os_darwin.go:45
-│   └── 50.0ms (1.4%) 2 more callees, led by (0.9%) runtime.wakep at 3212
-└── 120.0ms (3.5%) 2 more root frames, led by (3.2%) runtime.gcBgMarkWorker at runtime/mgc.go:1750
+│   │   └── 50.0ms (1.5%) 3 more callees, led by (0.9%) runtime.lock at runtime/lock_spinbit.go:151
+│   └── … 50.0ms (1.5%, self 3.0% globally) runtime.pthread_cond_signal at runtime/sys_darwin.go:508
+├── … 130.0ms (3.9%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+│   ├── 80.0ms (2.4%) runtime.gcDrainMarkWorkerDedicated at runtime/mgcmark.go:1173
+│   │   └── 80.0ms (2.4%) runtime.gcDrain at 1239
+│   │       └── 60.0ms (1.8%) runtime.scanObject at runtime/mgcmark_greenteagc.go:1187
+│   │           └── 50.0ms (1.5%, self 2.1% globally) runtime.tryDeferToSpanScan at 264
+│   └── 50.0ms (1.5%) runtime.gcDrainMarkWorkerIdle at runtime/mgcmark.go:1167 …
+├── … 100.0ms (3.0%) runtime.goschedImpl at runtime/proc.go:4307
+│   ├── … 60.0ms (1.8%, self 5.1% globally) runtime.usleep at runtime/sys_darwin.go:273
+│   └── 40.0ms (1.2%) 2 more callees, led by (0.9%) runtime.schedule at 4135
+└── 10.0ms (0.3%) internal/chacha8rand.block at internal/chacha8rand/chacha8_arm64.s:19
 ```
 
 ## Hottest functions
@@ -67,28 +68,28 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
-|     % |    Time | Samples | Function                                                                                                  | Location                       |
-| ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| 18.8% | 650.0ms |      65 | `runtime.madvise`                                                                                         | `runtime/sys_darwin.go:224`    |
-| 11.3% | 390.0ms |      39 | `runtime.pthread_cond_wait`                                                                               | `runtime/sys_darwin.go:487`    |
-| 10.7% | 370.0ms |      37 | `runtime.kevent`                                                                                          | `runtime/sys_darwin.go:438`    |
-|  5.5% | 190.0ms |      19 | `encoding/json.checkValid`                                                                                | `encoding/json/scanner.go:33`  |
-|  5.2% | 180.0ms |      18 | `runtime.usleep`                                                                                          | `runtime/sys_darwin.go:273`    |
-|  4.9% | 170.0ms |      17 | `encoding/json.stateInString`                                                                             | `encoding/json/scanner.go:339` |
-|  3.5% | 120.0ms |      12 | `runtime.pthread_cond_signal`                                                                             | `runtime/sys_darwin.go:508`    |
-|  2.6% |  90.0ms |       9 | `encoding/json.appendString[go.shape.string]`                                                             | `encoding/json/encode.go:999`  |
-|  2.3% |  80.0ms |       8 | `runtime.pthread_kill`                                                                                    | `runtime/sys_darwin.go:148`    |
-|  1.7% |  60.0ms |       6 | `encoding/json.unquoteBytes`                                                                              | `encoding/json/decode.go:1193` |
-|  1.7% |  60.0ms |       6 | `encoding/json.stateBeginString`                                                                          | `encoding/json/scanner.go:268` |
-|  1.4% |  50.0ms |       5 | `encoding/json.isSpace`                                                                                   | `encoding/json/scanner.go:201` |
-|  1.4% |  50.0ms |       5 | `encoding/json.(*decodeState).rescanLiteral`                                                              | `encoding/json/decode.go:322`  |
-|  1.4% |  50.0ms |       5 | `slices.insertionSortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` | `slices/zsortanyfunc.go:10`    |
-|  1.4% |  50.0ms |       5 | `slices.partitionCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]`     | `slices/zsortanyfunc.go:135`   |
-|  1.2% |  40.0ms |       4 | `encoding/json.stateBeginValue`                                                                           | `encoding/json/scanner.go:217` |
-|  1.2% |  40.0ms |       4 | `runtime.mallocgc`                                                                                        | `runtime/malloc.go:1067`       |
-|  1.2% |  40.0ms |       4 | `runtime.mallocgcSmallScanNoHeader`                                                                       | `runtime/malloc.go:1503`       |
-|  1.2% |  40.0ms |       4 | `unicode/utf8.decodeRuneSlow`                                                                             | `unicode/utf8/utf8.go:171`     |
-|  0.9% |  30.0ms |       3 | `encoding/json.(*decodeState).scanWhile`                                                                  | `encoding/json/decode.go:298`  |
+|     % |    Time | Samples | Function                                      | Location                              |
+| ----: | ------: | ------: | --------------------------------------------- | ------------------------------------- |
+| 26.0% | 860.0ms |      86 | `runtime.madvise`                             | `runtime/sys_darwin.go:224`           |
+| 17.8% | 590.0ms |      59 | `runtime.kevent`                              | `runtime/sys_darwin.go:438`           |
+| 11.5% | 380.0ms |      38 | `runtime.pthread_cond_wait`                   | `runtime/sys_darwin.go:487`           |
+|  6.9% | 230.0ms |      23 | `runtime.pthread_kill`                        | `runtime/sys_darwin.go:148`           |
+|  5.1% | 170.0ms |      17 | `runtime.usleep`                              | `runtime/sys_darwin.go:273`           |
+|  3.0% | 100.0ms |      10 | `runtime.pthread_cond_signal`                 | `runtime/sys_darwin.go:508`           |
+|  3.0% | 100.0ms |      10 | `encoding/json.stateBeginString`              | `encoding/json/scanner.go:268`        |
+|  2.1% |  70.0ms |       7 | `encoding/json.checkValid`                    | `encoding/json/scanner.go:33`         |
+|  2.1% |  70.0ms |       7 | `runtime.tryDeferToSpanScan`                  | `runtime/mgcmark_greenteagc.go:264`   |
+|  1.8% |  60.0ms |       6 | `encoding/json.appendString[go.shape.string]` | `encoding/json/encode.go:999`         |
+|  1.2% |  40.0ms |       4 | `encoding/json.stateInString`                 | `encoding/json/scanner.go:339`        |
+|  1.2% |  40.0ms |       4 | `encoding/json.unquoteBytes`                  | `encoding/json/decode.go:1193`        |
+|  1.2% |  40.0ms |       4 | `encoding/json.stateBeginValue`               | `encoding/json/scanner.go:217`        |
+|  0.9% |  30.0ms |       3 | `encoding/json.(*decodeState).rescanLiteral`  | `encoding/json/decode.go:322`         |
+|  0.9% |  30.0ms |       3 | `encoding/json.(*decodeState).scanWhile`      | `encoding/json/decode.go:298`         |
+|  0.9% |  30.0ms |       3 | `cmpbody`                                     | `internal/bytealg/compare_arm64.s:35` |
+|  0.9% |  30.0ms |       3 | `encoding/json.stateEndValue`                 | `encoding/json/scanner.go:281`        |
+|  0.6% |  20.0ms |       2 | `runtime.mallocgc`                            | `runtime/malloc.go:1067`              |
+|  0.6% |  20.0ms |       2 | `runtime.scanObjectsSmall`                    | `runtime/mgcmark_greenteagc.go:1015`  |
+|  0.6% |  20.0ms |       2 | `encoding/json.mapEncoder.encode.func1`       | `encoding/json/encode.go:794`         |
 
 #### Lines
 
@@ -98,149 +99,144 @@ Lines with the largest contribution to each function's self time.
 
 |      % |    Time | Samples | Location                    |
 | -----: | ------: | ------: | --------------------------- |
-| 100.0% | 650.0ms |      65 | `runtime/sys_darwin.go:225` |
-
-##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
-
-|      % |    Time | Samples | Location                    |
-| -----: | ------: | ------: | --------------------------- |
-| 100.0% | 390.0ms |      39 | `runtime/sys_darwin.go:488` |
+| 100.0% | 860.0ms |      86 | `runtime/sys_darwin.go:225` |
 
 ##### `runtime.kevent` (`runtime/sys_darwin.go:438`)
 
 |      % |    Time | Samples | Location                    |
 | -----: | ------: | ------: | --------------------------- |
-| 100.0% | 370.0ms |      37 | `runtime/sys_darwin.go:439` |
+| 100.0% | 590.0ms |      59 | `runtime/sys_darwin.go:439` |
 
-##### `encoding/json.checkValid` (`encoding/json/scanner.go:33`)
+##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
 
-|     % |   Time | Samples | Location                      |
-| ----: | -----: | ------: | ----------------------------- |
-| 47.4% | 90.0ms |       9 | `encoding/json/scanner.go:37` |
-| 42.1% | 80.0ms |       8 | `encoding/json/scanner.go:36` |
-| 10.5% | 20.0ms |       2 | `encoding/json/scanner.go:35` |
+|      % |    Time | Samples | Location                    |
+| -----: | ------: | ------: | --------------------------- |
+| 100.0% | 380.0ms |      38 | `runtime/sys_darwin.go:488` |
+
+##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
+
+|      % |    Time | Samples | Location                    |
+| -----: | ------: | ------: | --------------------------- |
+| 100.0% | 230.0ms |      23 | `runtime/sys_darwin.go:149` |
 
 ##### `runtime.usleep` (`runtime/sys_darwin.go:273`)
 
 |      % |    Time | Samples | Location                    |
 | -----: | ------: | ------: | --------------------------- |
-| 100.0% | 180.0ms |      18 | `runtime/sys_darwin.go:274` |
-
-##### `encoding/json.stateInString` (`encoding/json/scanner.go:339`)
-
-|     % |   Time | Samples | Location                       |
-| ----: | -----: | ------: | ------------------------------ |
-| 41.2% | 70.0ms |       7 | `encoding/json/scanner.go:351` |
-| 23.5% | 40.0ms |       4 | `encoding/json/scanner.go:339` |
-| 11.8% | 20.0ms |       2 | `encoding/json/scanner.go:348` |
-| 11.8% | 20.0ms |       2 | `encoding/json/scanner.go:340` |
-|  5.9% | 10.0ms |       1 | `encoding/json/scanner.go:344` |
+| 100.0% | 170.0ms |      17 | `runtime/sys_darwin.go:274` |
 
 ##### `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`)
 
 |      % |    Time | Samples | Location                    |
 | -----: | ------: | ------: | --------------------------- |
-| 100.0% | 120.0ms |      12 | `runtime/sys_darwin.go:509` |
-
-##### `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`)
-
-|     % |   Time | Samples | Location                       |
-| ----: | -----: | ------: | ------------------------------ |
-| 44.4% | 40.0ms |       4 | `encoding/json/encode.go:1004` |
-| 33.3% | 30.0ms |       3 | `encoding/json/encode.go:1003` |
-| 11.1% | 10.0ms |       1 | `encoding/json/encode.go:1000` |
-| 11.1% | 10.0ms |       1 | `encoding/json/encode.go:1063` |
-
-##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
-
-|      % |   Time | Samples | Location                    |
-| -----: | -----: | ------: | --------------------------- |
-| 100.0% | 80.0ms |       8 | `runtime/sys_darwin.go:149` |
-
-##### `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`)
-
-|     % |   Time | Samples | Location                       |
-| ----: | -----: | ------: | ------------------------------ |
-| 33.3% | 20.0ms |       2 | `encoding/json/decode.go:1203` |
-| 33.3% | 20.0ms |       2 | `encoding/json/decode.go:1205` |
-| 16.7% | 10.0ms |       1 | `encoding/json/decode.go:1204` |
-| 16.7% | 10.0ms |       1 | `encoding/json/decode.go:1197` |
+| 100.0% | 100.0ms |      10 | `runtime/sys_darwin.go:509` |
 
 ##### `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`)
 
 |     % |   Time | Samples | Location                       |
 | ----: | -----: | ------: | ------------------------------ |
-| 50.0% | 30.0ms |       3 | `encoding/json/scanner.go:268` |
-| 33.3% | 20.0ms |       2 | `encoding/json/scanner.go:272` |
-| 16.7% | 10.0ms |       1 | `encoding/json/scanner.go:270` |
+| 40.0% | 40.0ms |       4 | `encoding/json/scanner.go:268` |
+| 30.0% | 30.0ms |       3 | `encoding/json/scanner.go:272` |
+| 20.0% | 20.0ms |       2 | `encoding/json/scanner.go:270` |
+| 10.0% | 10.0ms |       1 | `encoding/json/scanner.go:274` |
 
-##### `encoding/json.isSpace` (`encoding/json/scanner.go:201`)
-
-|      % |   Time | Samples | Location                       |
-| -----: | -----: | ------: | ------------------------------ |
-| 100.0% | 50.0ms |       5 | `encoding/json/scanner.go:202` |
-
-##### `encoding/json.(*decodeState).rescanLiteral` (`encoding/json/decode.go:322`)
+##### `encoding/json.checkValid` (`encoding/json/scanner.go:33`)
 
 |     % |   Time | Samples | Location                      |
 | ----: | -----: | ------: | ----------------------------- |
-| 40.0% | 20.0ms |       2 | `encoding/json/decode.go:329` |
-| 20.0% | 10.0ms |       1 | `encoding/json/decode.go:327` |
-| 20.0% | 10.0ms |       1 | `encoding/json/decode.go:332` |
-| 20.0% | 10.0ms |       1 | `encoding/json/decode.go:328` |
+| 57.1% | 40.0ms |       4 | `encoding/json/scanner.go:36` |
+| 28.6% | 20.0ms |       2 | `encoding/json/scanner.go:37` |
+| 14.3% | 10.0ms |       1 | `encoding/json/scanner.go:35` |
 
-##### `slices.insertionSortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:10`)
+##### `runtime.tryDeferToSpanScan` (`runtime/mgcmark_greenteagc.go:264`)
 
-|     % |   Time | Samples | Location                    |
-| ----: | -----: | ------: | --------------------------- |
-| 60.0% | 30.0ms |       3 | `slices/zsortanyfunc.go:12` |
-| 40.0% | 20.0ms |       2 | `slices/zsortanyfunc.go:13` |
+|     % |   Time | Samples | Location                            |
+| ----: | -----: | ------: | ----------------------------------- |
+| 42.9% | 30.0ms |       3 | `runtime/mgcmark_greenteagc.go:290` |
+| 28.6% | 20.0ms |       2 | `runtime/mgcmark_greenteagc.go:283` |
+| 14.3% | 10.0ms |       1 | `runtime/mgcmark_greenteagc.go:288` |
+| 14.3% | 10.0ms |       1 | `runtime/mgcmark_greenteagc.go:295` |
 
-##### `slices.partitionCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:135`)
+##### `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`)
 
-|     % |   Time | Samples | Location                     |
-| ----: | -----: | ------: | ---------------------------- |
-| 40.0% | 20.0ms |       2 | `slices/zsortanyfunc.go:139` |
-| 20.0% | 10.0ms |       1 | `slices/zsortanyfunc.go:158` |
-| 20.0% | 10.0ms |       1 | `slices/zsortanyfunc.go:149` |
-| 20.0% | 10.0ms |       1 | `slices/zsortanyfunc.go:160` |
+|     % |   Time | Samples | Location                       |
+| ----: | -----: | ------: | ------------------------------ |
+| 33.3% | 20.0ms |       2 | `encoding/json/encode.go:1003` |
+| 33.3% | 20.0ms |       2 | `encoding/json/encode.go:1004` |
+| 16.7% | 10.0ms |       1 | `encoding/json/encode.go:1005` |
+| 16.7% | 10.0ms |       1 | `encoding/json/encode.go:1002` |
+
+##### `encoding/json.stateInString` (`encoding/json/scanner.go:339`)
+
+|     % |   Time | Samples | Location                       |
+| ----: | -----: | ------: | ------------------------------ |
+| 75.0% | 30.0ms |       3 | `encoding/json/scanner.go:351` |
+| 25.0% | 10.0ms |       1 | `encoding/json/scanner.go:339` |
+
+##### `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`)
+
+|     % |   Time | Samples | Location                       |
+| ----: | -----: | ------: | ------------------------------ |
+| 25.0% | 10.0ms |       1 | `encoding/json/decode.go:1220` |
+| 25.0% | 10.0ms |       1 | `encoding/json/decode.go:1205` |
+| 25.0% | 10.0ms |       1 | `encoding/json/decode.go:1203` |
+| 25.0% | 10.0ms |       1 | `encoding/json/decode.go:1284` |
 
 ##### `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`)
 
 |     % |   Time | Samples | Location                       |
 | ----: | -----: | ------: | ------------------------------ |
 | 75.0% | 30.0ms |       3 | `encoding/json/scanner.go:221` |
-| 25.0% | 10.0ms |       1 | `encoding/json/scanner.go:219` |
+| 25.0% | 10.0ms |       1 | `encoding/json/scanner.go:217` |
+
+##### `encoding/json.(*decodeState).rescanLiteral` (`encoding/json/decode.go:322`)
+
+|     % |   Time | Samples | Location                      |
+| ----: | -----: | ------: | ----------------------------- |
+| 66.7% | 20.0ms |       2 | `encoding/json/decode.go:328` |
+| 33.3% | 10.0ms |       1 | `encoding/json/decode.go:329` |
+
+##### `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`)
+
+|      % |   Time | Samples | Location                      |
+| -----: | -----: | ------: | ----------------------------- |
+| 100.0% | 30.0ms |       3 | `encoding/json/decode.go:301` |
+
+##### `cmpbody` (`internal/bytealg/compare_arm64.s:35`)
+
+|     % |   Time | Samples | Location                              |
+| ----: | -----: | ------: | ------------------------------------- |
+| 33.3% | 10.0ms |       1 | `internal/bytealg/compare_arm64.s:36` |
+| 33.3% | 10.0ms |       1 | `internal/bytealg/compare_arm64.s:53` |
+| 33.3% | 10.0ms |       1 | `internal/bytealg/compare_arm64.s:44` |
+
+##### `encoding/json.stateEndValue` (`encoding/json/scanner.go:281`)
+
+|     % |   Time | Samples | Location                       |
+| ----: | -----: | ------: | ------------------------------ |
+| 33.3% | 10.0ms |       1 | `encoding/json/scanner.go:306` |
+| 33.3% | 10.0ms |       1 | `encoding/json/scanner.go:283` |
+| 33.3% | 10.0ms |       1 | `encoding/json/scanner.go:299` |
 
 ##### `runtime.mallocgc` (`runtime/malloc.go:1067`)
 
 |     % |   Time | Samples | Location                 |
 | ----: | -----: | ------: | ------------------------ |
-| 75.0% | 30.0ms |       3 | `runtime/malloc.go:1189` |
-| 25.0% | 10.0ms |       1 | `runtime/malloc.go:1146` |
+| 50.0% | 10.0ms |       1 | `runtime/malloc.go:1112` |
+| 50.0% | 10.0ms |       1 | `runtime/malloc.go:1067` |
 
-##### `runtime.mallocgcSmallScanNoHeader` (`runtime/malloc.go:1503`)
+##### `runtime.scanObjectsSmall` (`runtime/mgcmark_greenteagc.go:1015`)
 
-|     % |   Time | Samples | Location                 |
-| ----: | -----: | ------: | ------------------------ |
-| 25.0% | 10.0ms |       1 | `runtime/malloc.go:1526` |
-| 25.0% | 10.0ms |       1 | `runtime/malloc.go:1531` |
-| 25.0% | 10.0ms |       1 | `runtime/malloc.go:1550` |
-| 25.0% | 10.0ms |       1 | `runtime/malloc.go:1524` |
+|      % |   Time | Samples | Location                             |
+| -----: | -----: | ------: | ------------------------------------ |
+| 100.0% | 20.0ms |       2 | `runtime/mgcmark_greenteagc.go:1050` |
 
-##### `unicode/utf8.decodeRuneSlow` (`unicode/utf8/utf8.go:171`)
-
-|     % |   Time | Samples | Location                   |
-| ----: | -----: | ------: | -------------------------- |
-| 75.0% | 30.0ms |       3 | `unicode/utf8/utf8.go:185` |
-| 25.0% | 10.0ms |       1 | `unicode/utf8/utf8.go:171` |
-
-##### `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`)
+##### `encoding/json.mapEncoder.encode.func1` (`encoding/json/encode.go:794`)
 
 |     % |   Time | Samples | Location                      |
 | ----: | -----: | ------: | ----------------------------- |
-| 66.7% | 20.0ms |       2 | `encoding/json/decode.go:301` |
-| 33.3% | 10.0ms |       1 | `encoding/json/decode.go:299` |
+| 50.0% | 10.0ms |       1 | `encoding/json/encode.go:795` |
+| 50.0% | 10.0ms |       1 | `encoding/json/encode.go:794` |
 
 #### Callers
 
@@ -248,132 +244,128 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 ##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
 
-|      % |    Time | Samples | Caller              | Location                   |
-| -----: | ------: | ------: | ------------------- | -------------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
-
-##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
-
-|      % |    Time | Samples | Caller              | Location                  |
-| -----: | ------: | ------: | ------------------- | ------------------------- |
-| 100.0% | 390.0ms |      39 | `runtime.semasleep` | `runtime/os_darwin.go:45` |
+|     % |    Time | Samples | Caller                | Location                   |
+| ----: | ------: | ------: | --------------------- | -------------------------- |
+| 98.8% | 850.0ms |      85 | `runtime.sysUsedOS`   | `runtime/mem_darwin.go:29` |
+|  1.2% |  10.0ms |       1 | `runtime.sysUnusedOS` | `runtime/mem_darwin.go:23` |
 
 ##### `runtime.kevent` (`runtime/sys_darwin.go:438`)
 
 |      % |    Time | Samples | Caller            | Location                       |
 | -----: | ------: | ------: | ----------------- | ------------------------------ |
-| 100.0% | 370.0ms |      37 | `runtime.netpoll` | `runtime/netpoll_kqueue.go:90` |
+| 100.0% | 590.0ms |      59 | `runtime.netpoll` | `runtime/netpoll_kqueue.go:90` |
 
-##### `encoding/json.checkValid` (`encoding/json/scanner.go:33`)
+##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
 
-|      % |    Time | Samples | Caller                    | Location                      |
-| -----: | ------: | ------: | ------------------------- | ----------------------------- |
-| 100.0% | 190.0ms |      19 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+|      % |    Time | Samples | Caller              | Location                  |
+| -----: | ------: | ------: | ------------------- | ------------------------- |
+| 100.0% | 380.0ms |      38 | `runtime.semasleep` | `runtime/os_darwin.go:45` |
+
+##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
+
+|      % |    Time | Samples | Caller            | Location                   |
+| -----: | ------: | ------: | ----------------- | -------------------------- |
+| 100.0% | 230.0ms |      23 | `runtime.signalM` | `runtime/os_darwin.go:489` |
 
 ##### `runtime.usleep` (`runtime/sys_darwin.go:273`)
 
 |      % |    Time | Samples | Caller            | Location                   |
 | -----: | ------: | ------: | ----------------- | -------------------------- |
-| 100.0% | 180.0ms |      18 | `runtime.osyield` | `runtime/os_darwin.go:379` |
-
-##### `encoding/json.stateInString` (`encoding/json/scanner.go:339`)
-
-|      % |    Time | Samples | Caller                     | Location                      |
-| -----: | ------: | ------: | -------------------------- | ----------------------------- |
-| 100.0% | 170.0ms |      17 | `encoding/json.checkValid` | `encoding/json/scanner.go:33` |
+| 100.0% | 170.0ms |      17 | `runtime.osyield` | `runtime/os_darwin.go:379` |
 
 ##### `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`)
 
 |      % |    Time | Samples | Caller               | Location                  |
 | -----: | ------: | ------: | -------------------- | ------------------------- |
-| 100.0% | 120.0ms |      12 | `runtime.semawakeup` | `runtime/os_darwin.go:83` |
-
-##### `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`)
-
-|     % |   Time | Samples | Caller                            | Location                      |
-| ----: | -----: | ------: | --------------------------------- | ----------------------------- |
-| 66.7% | 60.0ms |       6 | `encoding/json.stringEncoder`     | `encoding/json/encode.go:610` |
-| 33.3% | 30.0ms |       3 | `encoding/json.mapEncoder.encode` | `encoding/json/encode.go:765` |
-
-##### `runtime.pthread_kill` (`runtime/sys_darwin.go:148`)
-
-|      % |   Time | Samples | Caller            | Location                   |
-| -----: | -----: | ------: | ----------------- | -------------------------- |
-| 100.0% | 80.0ms |       8 | `runtime.signalM` | `runtime/os_darwin.go:489` |
-
-##### `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`)
-
-|      % |   Time | Samples | Caller                  | Location                       |
-| -----: | -----: | ------: | ----------------------- | ------------------------------ |
-| 100.0% | 60.0ms |       6 | `encoding/json.unquote` | `encoding/json/decode.go:1187` |
+| 100.0% | 100.0ms |      10 | `runtime.semawakeup` | `runtime/os_darwin.go:83` |
 
 ##### `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`)
 
 |     % |   Time | Samples | Caller                                   | Location                      |
 | ----: | -----: | ------: | ---------------------------------------- | ----------------------------- |
-| 66.7% | 40.0ms |       4 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
-| 33.3% | 20.0ms |       2 | `encoding/json.(*decodeState).scanWhile` | `encoding/json/decode.go:298` |
+| 60.0% | 60.0ms |       6 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
+| 40.0% | 40.0ms |       4 | `encoding/json.(*decodeState).scanWhile` | `encoding/json/decode.go:298` |
 
-##### `encoding/json.isSpace` (`encoding/json/scanner.go:201`)
+##### `encoding/json.checkValid` (`encoding/json/scanner.go:33`)
 
-|     % |   Time | Samples | Caller                                  | Location                       |
-| ----: | -----: | ------: | --------------------------------------- | ------------------------------ |
-| 40.0% | 20.0ms |       2 | `encoding/json.stateBeginStringOrEmpty` | `encoding/json/scanner.go:255` |
-| 20.0% | 10.0ms |       1 | `encoding/json.stateBeginValue`         | `encoding/json/scanner.go:217` |
-| 20.0% | 10.0ms |       1 | `encoding/json.stateEndValue`           | `encoding/json/scanner.go:281` |
-| 20.0% | 10.0ms |       1 | `encoding/json.stateBeginString`        | `encoding/json/scanner.go:268` |
+|      % |   Time | Samples | Caller                    | Location                      |
+| -----: | -----: | ------: | ------------------------- | ----------------------------- |
+| 100.0% | 70.0ms |       7 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+
+##### `runtime.tryDeferToSpanScan` (`runtime/mgcmark_greenteagc.go:264`)
+
+|      % |   Time | Samples | Caller               | Location                             |
+| -----: | -----: | ------: | -------------------- | ------------------------------------ |
+| 100.0% | 70.0ms |       7 | `runtime.scanObject` | `runtime/mgcmark_greenteagc.go:1187` |
+
+##### `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`)
+
+|     % |   Time | Samples | Caller                            | Location                      |
+| ----: | -----: | ------: | --------------------------------- | ----------------------------- |
+| 66.7% | 40.0ms |       4 | `encoding/json.stringEncoder`     | `encoding/json/encode.go:610` |
+| 33.3% | 20.0ms |       2 | `encoding/json.mapEncoder.encode` | `encoding/json/encode.go:765` |
+
+##### `encoding/json.stateInString` (`encoding/json/scanner.go:339`)
+
+|      % |   Time | Samples | Caller                     | Location                      |
+| -----: | -----: | ------: | -------------------------- | ----------------------------- |
+| 100.0% | 40.0ms |       4 | `encoding/json.checkValid` | `encoding/json/scanner.go:33` |
+
+##### `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`)
+
+|      % |   Time | Samples | Caller                  | Location                       |
+| -----: | -----: | ------: | ----------------------- | ------------------------------ |
+| 100.0% | 40.0ms |       4 | `encoding/json.unquote` | `encoding/json/decode.go:1187` |
+
+##### `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`)
+
+|      % |   Time | Samples | Caller                                   | Location                      |
+| -----: | -----: | ------: | ---------------------------------------- | ----------------------------- |
+| 100.0% | 40.0ms |       4 | `encoding/json.(*decodeState).scanWhile` | `encoding/json/decode.go:298` |
 
 ##### `encoding/json.(*decodeState).rescanLiteral` (`encoding/json/decode.go:322`)
 
 |     % |   Time | Samples | Caller                                          | Location                       |
 | ----: | -----: | ------: | ----------------------------------------------- | ------------------------------ |
-| 80.0% | 40.0ms |       4 | `encoding/json.(*decodeState).objectInterface`  | `encoding/json/decode.go:1078` |
-| 20.0% | 10.0ms |       1 | `encoding/json.(*decodeState).literalInterface` | `encoding/json/decode.go:1129` |
-
-##### `slices.insertionSortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:10`)
-
-|      % |   Time | Samples | Caller                                                                                              | Location                    |
-| -----: | -----: | ------: | --------------------------------------------------------------------------------------------------- | --------------------------- |
-| 100.0% | 50.0ms |       5 | `slices.pdqsortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` | `slices/zsortanyfunc.go:61` |
-
-##### `slices.partitionCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` (`slices/zsortanyfunc.go:135`)
-
-|      % |   Time | Samples | Caller                                                                                              | Location                    |
-| -----: | -----: | ------: | --------------------------------------------------------------------------------------------------- | --------------------------- |
-| 100.0% | 50.0ms |       5 | `slices.pdqsortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` | `slices/zsortanyfunc.go:61` |
-
-##### `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`)
-
-|     % |   Time | Samples | Caller                                   | Location                      |
-| ----: | -----: | ------: | ---------------------------------------- | ----------------------------- |
-| 75.0% | 30.0ms |       3 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
-| 25.0% | 10.0ms |       1 | `encoding/json.(*decodeState).scanWhile` | `encoding/json/decode.go:298` |
-
-##### `runtime.mallocgc` (`runtime/malloc.go:1067`)
-
-|     % |   Time | Samples | Caller                      | Location                 |
-| ----: | -----: | ------: | --------------------------- | ------------------------ |
-| 50.0% | 20.0ms |       2 | `runtime.slicebytetostring` | `runtime/string.go:139`  |
-| 50.0% | 20.0ms |       2 | `reflect.unsafe_New`        | `runtime/malloc.go:2177` |
-
-##### `runtime.mallocgcSmallScanNoHeader` (`runtime/malloc.go:1503`)
-
-|      % |   Time | Samples | Caller             | Location                 |
-| -----: | -----: | ------: | ------------------ | ------------------------ |
-| 100.0% | 40.0ms |       4 | `runtime.mallocgc` | `runtime/malloc.go:1067` |
-
-##### `unicode/utf8.decodeRuneSlow` (`unicode/utf8/utf8.go:171`)
-
-|      % |   Time | Samples | Caller                    | Location                   |
-| -----: | -----: | ------: | ------------------------- | -------------------------- |
-| 100.0% | 40.0ms |       4 | `unicode/utf8.DecodeRune` | `unicode/utf8/utf8.go:157` |
+| 66.7% | 20.0ms |       2 | `encoding/json.(*decodeState).literalInterface` | `encoding/json/decode.go:1129` |
+| 33.3% | 10.0ms |       1 | `encoding/json.(*decodeState).objectInterface`  | `encoding/json/decode.go:1078` |
 
 ##### `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`)
 
-|     % |   Time | Samples | Caller                                         | Location                       |
-| ----: | -----: | ------: | ---------------------------------------------- | ------------------------------ |
-| 66.7% | 20.0ms |       2 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
-| 33.3% | 10.0ms |       1 | `encoding/json.(*decodeState).arrayInterface`  | `encoding/json/decode.go:1052` |
+|      % |   Time | Samples | Caller                                         | Location                       |
+| -----: | -----: | ------: | ---------------------------------------------- | ------------------------------ |
+| 100.0% | 30.0ms |       3 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
+
+##### `cmpbody` (`internal/bytealg/compare_arm64.s:35`)
+
+|      % |   Time | Samples | Caller                           | Location                                |
+| -----: | -----: | ------: | -------------------------------- | --------------------------------------- |
+| 100.0% | 30.0ms |       3 | `internal/bytealg.CompareString` | `internal/bytealg/compare_native.go:14` |
+
+##### `encoding/json.stateEndValue` (`encoding/json/scanner.go:281`)
+
+|     % |   Time | Samples | Caller                                       | Location                      |
+| ----: | -----: | ------: | -------------------------------------------- | ----------------------------- |
+| 66.7% | 20.0ms |       2 | `encoding/json.checkValid`                   | `encoding/json/scanner.go:33` |
+| 33.3% | 10.0ms |       1 | `encoding/json.(*decodeState).rescanLiteral` | `encoding/json/decode.go:322` |
+
+##### `runtime.mallocgc` (`runtime/malloc.go:1067`)
+
+|      % |   Time | Samples | Caller                      | Location                |
+| -----: | -----: | ------: | --------------------------- | ----------------------- |
+| 100.0% | 20.0ms |       2 | `runtime.slicebytetostring` | `runtime/string.go:139` |
+
+##### `runtime.scanObjectsSmall` (`runtime/mgcmark_greenteagc.go:1015`)
+
+|      % |   Time | Samples | Caller             | Location                            |
+| -----: | -----: | ------: | ------------------ | ----------------------------------- |
+| 100.0% | 20.0ms |       2 | `runtime.scanSpan` | `runtime/mgcmark_greenteagc.go:844` |
+
+##### `encoding/json.mapEncoder.encode.func1` (`encoding/json/encode.go:794`)
+
+|      % |   Time | Samples | Caller                                                                                                    | Location                    |
+| -----: | -----: | ------: | --------------------------------------------------------------------------------------------------------- | --------------------------- |
+| 100.0% | 20.0ms |       2 | `slices.insertionSortCmpFunc[go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]` | `slices/zsortanyfunc.go:10` |
 
 ### Total time
 
@@ -381,26 +373,26 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                                                          | Location                                                                 |
 | ----: | ------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 43.6% |   1.51s |     151 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
-| 43.6% |   1.51s |     151 | `main.main`                                                       | `github.com/tomeraberbach/profiler-md-workload/main.go:12`               |
-| 43.6% |   1.51s |     151 | `runtime.main`                                                    | `runtime/proc.go:149`                                                    |
-| 37.3% |   1.29s |     129 | `runtime.systemstack`                                             | `runtime/asm_arm64.s:353`                                                |
-| 29.5% |   1.02s |     102 | `encoding/json.Unmarshal`                                         | `encoding/json/decode.go:102`                                            |
-| 19.4% | 670.0ms |      67 | `runtime.(*mheap).allocSpan`                                      | `runtime/mheap.go:1224`                                                  |
-| 19.1% | 660.0ms |      66 | `runtime.(*mheap).alloc.func1`                                    | `runtime/mheap.go:1011`                                                  |
-| 18.8% | 650.0ms |      65 | `runtime.madvise`                                                 | `runtime/sys_darwin.go:224`                                              |
-| 18.8% | 650.0ms |      65 | `runtime.sysUsedOS`                                               | `runtime/mem_darwin.go:29`                                               |
-| 18.8% | 650.0ms |      65 | `runtime.sysUsed`                                                 | `runtime/mem.go:89`                                                      |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface`                    | `encoding/json/decode.go:1078`                                           |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface`                     | `encoding/json/decode.go:1035`                                           |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).arrayInterface`                     | `encoding/json/decode.go:1052`                                           |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).object`                             | `encoding/json/decode.go:604`                                            |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).value`                              | `encoding/json/decode.go:363`                                            |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).unmarshal`                          | `encoding/json/decode.go:173`                                            |
-| 15.3% | 530.0ms |      53 | `runtime.schedule`                                                | `runtime/proc.go:4135`                                                   |
-| 14.7% | 510.0ms |      51 | `runtime.park_m`                                                  | `runtime/proc.go:4253`                                                   |
-| 14.7% | 510.0ms |      51 | `runtime.mcall`                                                   | `runtime/asm_arm64.s:302`                                                |
-| 14.5% | 500.0ms |      50 | `runtime.findRunnable`                                            | `runtime/proc.go:3389`                                                   |
+| 57.1% |   1.89s |     189 | `runtime.systemstack`                                             | `runtime/asm_arm64.s:353`                                                |
+| 26.0% | 860.0ms |      86 | `runtime.madvise`                                                 | `runtime/sys_darwin.go:224`                                              |
+| 26.0% | 860.0ms |      86 | `runtime.(*mheap).allocSpan`                                      | `runtime/mheap.go:1224`                                                  |
+| 25.7% | 850.0ms |      85 | `runtime.sysUsedOS`                                               | `runtime/mem_darwin.go:29`                                               |
+| 25.7% | 850.0ms |      85 | `runtime.sysUsed`                                                 | `runtime/mem.go:89`                                                      |
+| 25.4% | 840.0ms |      84 | `runtime.(*mheap).alloc.func1`                                    | `runtime/mheap.go:1011`                                                  |
+| 24.5% | 810.0ms |      81 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10` |
+| 24.5% | 810.0ms |      81 | `main.main`                                                       | `github.com/tomeraberbach/profiler-md-workload/main.go:12`               |
+| 24.5% | 810.0ms |      81 | `runtime.main`                                                    | `runtime/proc.go:149`                                                    |
+| 17.8% | 590.0ms |      59 | `runtime.kevent`                                                  | `runtime/sys_darwin.go:438`                                              |
+| 17.8% | 590.0ms |      59 | `runtime.netpoll`                                                 | `runtime/netpoll_kqueue.go:90`                                           |
+| 17.8% | 590.0ms |      59 | `runtime.startTheWorldWithSema`                                   | `runtime/proc.go:1760`                                                   |
+| 17.8% | 590.0ms |      59 | `runtime.gcStart.func4`                                           | `runtime/mgc.go:947`                                                     |
+| 17.2% | 570.0ms |      57 | `encoding/json.Unmarshal`                                         | `encoding/json/decode.go:102`                                            |
+| 16.3% | 540.0ms |      54 | `runtime.schedule`                                                | `runtime/proc.go:4135`                                                   |
+| 15.4% | 510.0ms |      51 | `runtime.park_m`                                                  | `runtime/proc.go:4253`                                                   |
+| 15.4% | 510.0ms |      51 | `runtime.mcall`                                                   | `runtime/asm_arm64.s:302`                                                |
+| 14.8% | 490.0ms |      49 | `runtime.findRunnable`                                            | `runtime/proc.go:3389`                                                   |
+| 12.7% | 420.0ms |      42 | `runtime.stopm`                                                   | `runtime/proc.go:2992`                                                   |
+| 12.4% | 410.0ms |      41 | `runtime.gcDrain`                                                 | `runtime/mgcmark.go:1239`                                                |
 
 #### Categories
 
@@ -408,134 +400,123 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Standard library
 
-|     % |    Time | Samples | Function                                       | Location                       |
-| ----: | ------: | ------: | ---------------------------------------------- | ------------------------------ |
-| 43.6% |   1.51s |     151 | `runtime.main`                                 | `runtime/proc.go:149`          |
-| 37.3% |   1.29s |     129 | `runtime.systemstack`                          | `runtime/asm_arm64.s:353`      |
-| 29.5% |   1.02s |     102 | `encoding/json.Unmarshal`                      | `encoding/json/decode.go:102`  |
-| 19.4% | 670.0ms |      67 | `runtime.(*mheap).allocSpan`                   | `runtime/mheap.go:1224`        |
-| 19.1% | 660.0ms |      66 | `runtime.(*mheap).alloc.func1`                 | `runtime/mheap.go:1011`        |
-| 18.8% | 650.0ms |      65 | `runtime.madvise`                              | `runtime/sys_darwin.go:224`    |
-| 18.8% | 650.0ms |      65 | `runtime.sysUsedOS`                            | `runtime/mem_darwin.go:29`     |
-| 18.8% | 650.0ms |      65 | `runtime.sysUsed`                              | `runtime/mem.go:89`            |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface`  | `encoding/json/decode.go:1035` |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).arrayInterface`  | `encoding/json/decode.go:1052` |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).object`          | `encoding/json/decode.go:604`  |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).value`           | `encoding/json/decode.go:363`  |
-| 15.9% | 550.0ms |      55 | `encoding/json.(*decodeState).unmarshal`       | `encoding/json/decode.go:173`  |
-| 15.3% | 530.0ms |      53 | `runtime.schedule`                             | `runtime/proc.go:4135`         |
-| 14.7% | 510.0ms |      51 | `runtime.park_m`                               | `runtime/proc.go:4253`         |
-| 14.7% | 510.0ms |      51 | `runtime.mcall`                                | `runtime/asm_arm64.s:302`      |
-| 14.5% | 500.0ms |      50 | `runtime.findRunnable`                         | `runtime/proc.go:3389`         |
-| 14.2% | 490.0ms |      49 | `encoding/json.(*encodeState).reflectValue`    | `encoding/json/encode.go:366`  |
-| 14.2% | 490.0ms |      49 | `encoding/json.interfaceEncoder`               | `encoding/json/encode.go:695`  |
+|     % |    Time | Samples | Function                        | Location                       |
+| ----: | ------: | ------: | ------------------------------- | ------------------------------ |
+| 57.1% |   1.89s |     189 | `runtime.systemstack`           | `runtime/asm_arm64.s:353`      |
+| 26.0% | 860.0ms |      86 | `runtime.madvise`               | `runtime/sys_darwin.go:224`    |
+| 26.0% | 860.0ms |      86 | `runtime.(*mheap).allocSpan`    | `runtime/mheap.go:1224`        |
+| 25.7% | 850.0ms |      85 | `runtime.sysUsedOS`             | `runtime/mem_darwin.go:29`     |
+| 25.7% | 850.0ms |      85 | `runtime.sysUsed`               | `runtime/mem.go:89`            |
+| 25.4% | 840.0ms |      84 | `runtime.(*mheap).alloc.func1`  | `runtime/mheap.go:1011`        |
+| 24.5% | 810.0ms |      81 | `runtime.main`                  | `runtime/proc.go:149`          |
+| 17.8% | 590.0ms |      59 | `runtime.kevent`                | `runtime/sys_darwin.go:438`    |
+| 17.8% | 590.0ms |      59 | `runtime.netpoll`               | `runtime/netpoll_kqueue.go:90` |
+| 17.8% | 590.0ms |      59 | `runtime.startTheWorldWithSema` | `runtime/proc.go:1760`         |
+| 17.2% | 570.0ms |      57 | `encoding/json.Unmarshal`       | `encoding/json/decode.go:102`  |
+| 16.3% | 540.0ms |      54 | `runtime.schedule`              | `runtime/proc.go:4135`         |
+| 15.4% | 510.0ms |      51 | `runtime.park_m`                | `runtime/proc.go:4253`         |
+| 15.4% | 510.0ms |      51 | `runtime.mcall`                 | `runtime/asm_arm64.s:302`      |
+| 14.8% | 490.0ms |      49 | `runtime.findRunnable`          | `runtime/proc.go:3389`         |
+| 12.7% | 420.0ms |      42 | `runtime.stopm`                 | `runtime/proc.go:2992`         |
+| 11.8% | 390.0ms |      39 | `runtime.semasleep`             | `runtime/os_darwin.go:45`      |
+| 11.5% | 380.0ms |      38 | `runtime.pthread_cond_wait`     | `runtime/sys_darwin.go:487`    |
+| 11.2% | 370.0ms |      37 | `runtime.notesleep`             | `runtime/lock_sema.go:46`      |
+| 11.2% | 370.0ms |      37 | `runtime.mPark`                 | `runtime/proc.go:1965`         |
 
 #### Callers
 
 Callers with the largest contribution to each function's total time. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`)
-
-|      % |  Time | Samples | Caller      | Location                                                   |
-| -----: | ----: | ------: | ----------- | ---------------------------------------------------------- |
-| 100.0% | 1.51s |     151 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
-
-##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
-
-|      % |  Time | Samples | Caller         | Location              |
-| -----: | ----: | ------: | -------------- | --------------------- |
-| 100.0% | 1.51s |     151 | `runtime.main` | `runtime/proc.go:149` |
-
 ##### `runtime.systemstack` (`runtime/asm_arm64.s:353`)
 
-|    % |    Time | Samples | Caller                   | Location                |
-| ---: | ------: | ------: | ------------------------ | ----------------------- |
-| 7.8% | 100.0ms |      10 | `runtime.gcBgMarkWorker` | `runtime/mgc.go:1750`   |
-| 1.6% |  20.0ms |       2 | `runtime.(*mheap).alloc` | `runtime/mheap.go:1006` |
-| 0.8% |  10.0ms |       1 | `runtime.wbBufFlush`     | `runtime/mwbbuf.go:166` |
+|    % |    Time | Samples | Caller                          | Location                     |
+| ---: | ------: | ------: | ------------------------------- | ---------------------------- |
+| 6.9% | 130.0ms |      13 | `runtime.gcBgMarkWorker`        | `runtime/mgc.go:1750`        |
+| 0.5% |  10.0ms |       1 | `runtime.wbBufFlush`            | `runtime/mwbbuf.go:166`      |
+| 0.5% |  10.0ms |       1 | `runtime.(*mheap).alloc`        | `runtime/mheap.go:1006`      |
+| 0.5% |  10.0ms |       1 | `runtime.(*pageAlloc).scavenge` | `runtime/mgcscavenge.go:675` |
 
-##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
+##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
 
-|      % |  Time | Samples | Caller                                                            | Location                                                                 |
-| -----: | ----: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 100.0% | 1.02s |     102 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
+|     % |    Time | Samples | Caller                | Location                   |
+| ----: | ------: | ------: | --------------------- | -------------------------- |
+| 98.8% | 850.0ms |      85 | `runtime.sysUsedOS`   | `runtime/mem_darwin.go:29` |
+|  1.2% |  10.0ms |       1 | `runtime.sysUnusedOS` | `runtime/mem_darwin.go:23` |
 
 ##### `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`)
 
 |     % |    Time | Samples | Caller                         | Location                |
 | ----: | ------: | ------: | ------------------------------ | ----------------------- |
-| 98.5% | 660.0ms |      66 | `runtime.(*mheap).alloc.func1` | `runtime/mheap.go:1011` |
-|  1.5% |  10.0ms |       1 | `runtime.(*mheap).allocManual` | `runtime/mheap.go:1039` |
-
-##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
-
-|      % |    Time | Samples | Caller                | Location                  |
-| -----: | ------: | ------: | --------------------- | ------------------------- |
-| 100.0% | 660.0ms |      66 | `runtime.systemstack` | `runtime/asm_arm64.s:353` |
-
-##### `runtime.madvise` (`runtime/sys_darwin.go:224`)
-
-|      % |    Time | Samples | Caller              | Location                   |
-| -----: | ------: | ------: | ------------------- | -------------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
+| 97.7% | 840.0ms |      84 | `runtime.(*mheap).alloc.func1` | `runtime/mheap.go:1011` |
+|  2.3% |  20.0ms |       2 | `runtime.(*mheap).allocManual` | `runtime/mheap.go:1039` |
 
 ##### `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`)
 
 |      % |    Time | Samples | Caller            | Location            |
 | -----: | ------: | ------: | ----------------- | ------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.sysUsed` | `runtime/mem.go:89` |
+| 100.0% | 850.0ms |      85 | `runtime.sysUsed` | `runtime/mem.go:89` |
 
 ##### `runtime.sysUsed` (`runtime/mem.go:89`)
 
 |      % |    Time | Samples | Caller                       | Location                |
 | -----: | ------: | ------: | ---------------------------- | ----------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
+| 100.0% | 850.0ms |      85 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
 
-##### `encoding/json.(*decodeState).objectInterface` (`encoding/json/decode.go:1078`)
+##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
 
-|      % |    Time | Samples | Caller                                        | Location                       |
-| -----: | ------: | ------: | --------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).object`         | `encoding/json/decode.go:604`  |
+|      % |    Time | Samples | Caller                | Location                  |
+| -----: | ------: | ------: | --------------------- | ------------------------- |
+| 100.0% | 840.0ms |      84 | `runtime.systemstack` | `runtime/asm_arm64.s:353` |
 
-##### `encoding/json.(*decodeState).valueInterface` (`encoding/json/decode.go:1035`)
+##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`)
 
-|      % |    Time | Samples | Caller                                         | Location                       |
-| -----: | ------: | ------: | ---------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).arrayInterface`  | `encoding/json/decode.go:1052` |
+|      % |    Time | Samples | Caller      | Location                                                   |
+| -----: | ------: | ------: | ----------- | ---------------------------------------------------------- |
+| 100.0% | 810.0ms |      81 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
 
-##### `encoding/json.(*decodeState).arrayInterface` (`encoding/json/decode.go:1052`)
+##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
 
-|      % |    Time | Samples | Caller                                        | Location                       |
-| -----: | ------: | ------: | --------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
+|      % |    Time | Samples | Caller         | Location              |
+| -----: | ------: | ------: | -------------- | --------------------- |
+| 100.0% | 810.0ms |      81 | `runtime.main` | `runtime/proc.go:149` |
 
-##### `encoding/json.(*decodeState).object` (`encoding/json/decode.go:604`)
+##### `runtime.kevent` (`runtime/sys_darwin.go:438`)
 
-|      % |    Time | Samples | Caller                               | Location                      |
-| -----: | ------: | ------: | ------------------------------------ | ----------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).value` | `encoding/json/decode.go:363` |
+|      % |    Time | Samples | Caller            | Location                       |
+| -----: | ------: | ------: | ----------------- | ------------------------------ |
+| 100.0% | 590.0ms |      59 | `runtime.netpoll` | `runtime/netpoll_kqueue.go:90` |
 
-##### `encoding/json.(*decodeState).value` (`encoding/json/decode.go:363`)
+##### `runtime.netpoll` (`runtime/netpoll_kqueue.go:90`)
 
-|      % |    Time | Samples | Caller                                   | Location                      |
-| -----: | ------: | ------: | ---------------------------------------- | ----------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).unmarshal` | `encoding/json/decode.go:173` |
+|      % |    Time | Samples | Caller                          | Location               |
+| -----: | ------: | ------: | ------------------------------- | ---------------------- |
+| 100.0% | 590.0ms |      59 | `runtime.startTheWorldWithSema` | `runtime/proc.go:1760` |
 
-##### `encoding/json.(*decodeState).unmarshal` (`encoding/json/decode.go:173`)
+##### `runtime.startTheWorldWithSema` (`runtime/proc.go:1760`)
 
-|      % |    Time | Samples | Caller                    | Location                      |
-| -----: | ------: | ------: | ------------------------- | ----------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+|      % |    Time | Samples | Caller                  | Location             |
+| -----: | ------: | ------: | ----------------------- | -------------------- |
+| 100.0% | 590.0ms |      59 | `runtime.gcStart.func4` | `runtime/mgc.go:947` |
+
+##### `runtime.gcStart.func4` (`runtime/mgc.go:947`)
+
+|      % |    Time | Samples | Caller                | Location                  |
+| -----: | ------: | ------: | --------------------- | ------------------------- |
+| 100.0% | 590.0ms |      59 | `runtime.systemstack` | `runtime/asm_arm64.s:353` |
+
+##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
+
+|      % |    Time | Samples | Caller                                                            | Location                                                                 |
+| -----: | ------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 100.0% | 570.0ms |      57 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10` |
 
 ##### `runtime.schedule` (`runtime/proc.go:4135`)
 
 |     % |    Time | Samples | Caller                | Location               |
 | ----: | ------: | ------: | --------------------- | ---------------------- |
-| 96.2% | 510.0ms |      51 | `runtime.park_m`      | `runtime/proc.go:4253` |
-|  3.8% |  20.0ms |       2 | `runtime.goschedImpl` | `runtime/proc.go:4307` |
+| 92.6% | 500.0ms |      50 | `runtime.park_m`      | `runtime/proc.go:4253` |
+|  5.6% |  30.0ms |       3 | `runtime.goschedImpl` | `runtime/proc.go:4307` |
+|  1.9% |  10.0ms |       1 | `runtime.preemptPark` | `runtime/proc.go:4368` |
 
 ##### `runtime.park_m` (`runtime/proc.go:4253`)
 
@@ -547,145 +528,144 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |    Time | Samples | Caller             | Location               |
 | -----: | ------: | ------: | ------------------ | ---------------------- |
-| 100.0% | 500.0ms |      50 | `runtime.schedule` | `runtime/proc.go:4135` |
+| 100.0% | 490.0ms |      49 | `runtime.schedule` | `runtime/proc.go:4135` |
 
-##### `encoding/json.(*encodeState).reflectValue` (`encoding/json/encode.go:366`)
+##### `runtime.stopm` (`runtime/proc.go:2992`)
 
-|      % |    Time | Samples | Caller                                 | Location                      |
-| -----: | ------: | ------: | -------------------------------------- | ----------------------------- |
-| 100.0% | 490.0ms |      49 | `encoding/json.interfaceEncoder`       | `encoding/json/encode.go:695` |
-| 100.0% | 490.0ms |      49 | `encoding/json.(*encodeState).marshal` | `encoding/json/encode.go:333` |
+|     % |    Time | Samples | Caller                 | Location               |
+| ----: | ------: | ------: | ---------------------- | ---------------------- |
+| 97.6% | 410.0ms |      41 | `runtime.findRunnable` | `runtime/proc.go:3389` |
+|  2.4% |  10.0ms |       1 | `runtime.gcstopm`      | `runtime/proc.go:3296` |
 
-##### `encoding/json.interfaceEncoder` (`encoding/json/encode.go:695`)
+##### `runtime.gcDrain` (`runtime/mgcmark.go:1239`)
 
-|      % |    Time | Samples | Caller                              | Location                      |
-| -----: | ------: | ------: | ----------------------------------- | ----------------------------- |
-| 100.0% | 490.0ms |      49 | `encoding/json.mapEncoder.encode`   | `encoding/json/encode.go:765` |
-| 100.0% | 490.0ms |      49 | `encoding/json.arrayEncoder.encode` | `encoding/json/encode.go:883` |
+|     % |    Time | Samples | Caller                               | Location                  |
+| ----: | ------: | ------: | ------------------------------------ | ------------------------- |
+| 70.7% | 290.0ms |      29 | `runtime.gcDrainMarkWorkerDedicated` | `runtime/mgcmark.go:1173` |
+| 29.3% | 120.0ms |      12 | `runtime.gcDrainMarkWorkerIdle`      | `runtime/mgcmark.go:1167` |
+
+##### `runtime.semasleep` (`runtime/os_darwin.go:45`)
+
+|     % |    Time | Samples | Caller                        | Location                      |
+| ----: | ------: | ------: | ----------------------------- | ----------------------------- |
+| 94.9% | 370.0ms |      37 | `runtime.notesleep`           | `runtime/lock_sema.go:46`     |
+|  2.6% |  10.0ms |       1 | `runtime.notetsleep_internal` | `runtime/lock_sema.go:75`     |
+|  2.6% |  10.0ms |       1 | `runtime.lock2`               | `runtime/lock_spinbit.go:155` |
+
+##### `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`)
+
+|      % |    Time | Samples | Caller              | Location                  |
+| -----: | ------: | ------: | ------------------- | ------------------------- |
+| 100.0% | 380.0ms |      38 | `runtime.semasleep` | `runtime/os_darwin.go:45` |
+
+##### `runtime.notesleep` (`runtime/lock_sema.go:46`)
+
+|      % |    Time | Samples | Caller          | Location               |
+| -----: | ------: | ------: | --------------- | ---------------------- |
+| 100.0% | 370.0ms |      37 | `runtime.mPark` | `runtime/proc.go:1965` |
+
+##### `runtime.mPark` (`runtime/proc.go:1965`)
+
+|      % |    Time | Samples | Caller          | Location               |
+| -----: | ------: | ------: | --------------- | ---------------------- |
+| 100.0% | 370.0ms |      37 | `runtime.stopm` | `runtime/proc.go:2992` |
 
 #### Callees
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`)
-
-|     % |    Time | Samples | Callee                    | Location                      |
-| ----: | ------: | ------: | ------------------------- | ----------------------------- |
-| 67.5% |   1.02s |     102 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
-| 32.5% | 490.0ms |      49 | `encoding/json.Marshal`   | `encoding/json/encode.go:205` |
-
-##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
-
-|      % |  Time | Samples | Callee                                                            | Location                                                                 |
-| -----: | ----: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 100.0% | 1.51s |     151 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11` |
-
-##### `runtime.main` (`runtime/proc.go:149`)
-
-|      % |  Time | Samples | Callee      | Location                                                   |
-| -----: | ----: | ------: | ----------- | ---------------------------------------------------------- |
-| 100.0% | 1.51s |     151 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
-
 ##### `runtime.systemstack` (`runtime/asm_arm64.s:353`)
 
-|     % |    Time | Samples | Callee                            | Location                |
-| ----: | ------: | ------: | --------------------------------- | ----------------------- |
-| 51.2% | 660.0ms |      66 | `runtime.(*mheap).alloc.func1`    | `runtime/mheap.go:1011` |
-| 28.7% | 370.0ms |      37 | `runtime.gcStart.func4`           | `runtime/mgc.go:947`    |
-| 17.1% | 220.0ms |      22 | `runtime.gcBgMarkWorker.func2`    | `runtime/mgc.go:1847`   |
-|  0.8% |  10.0ms |       1 | `runtime.wbBufFlush.func1`        | `runtime/mwbbuf.go:180` |
-|  0.8% |  10.0ms |       1 | `runtime.gcMarkTermination.func3` | `runtime/mgc.go:1500`   |
-
-##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
-
-|     % |    Time | Samples | Callee                                   | Location                      |
-| ----: | ------: | ------: | ---------------------------------------- | ----------------------------- |
-| 53.9% | 550.0ms |      55 | `encoding/json.(*decodeState).unmarshal` | `encoding/json/decode.go:173` |
-| 46.1% | 470.0ms |      47 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
+|     % |    Time | Samples | Callee                                     | Location                     |
+| ----: | ------: | ------: | ------------------------------------------ | ---------------------------- |
+| 44.4% | 840.0ms |      84 | `runtime.(*mheap).alloc.func1`             | `runtime/mheap.go:1011`      |
+| 31.2% | 590.0ms |      59 | `runtime.gcStart.func4`                    | `runtime/mgc.go:947`         |
+| 21.7% | 410.0ms |      41 | `runtime.gcBgMarkWorker.func2`             | `runtime/mgc.go:1847`        |
+|  1.1% |  20.0ms |       2 | `runtime.(*pageAlloc).scavenge.func1`      | `runtime/mgcscavenge.go:682` |
+|  0.5% |  10.0ms |       1 | `runtime.gcMarkTermination.forEachP.func7` | `runtime/proc.go:2112`       |
 
 ##### `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`)
 
 |     % |    Time | Samples | Callee                      | Location                |
 | ----: | ------: | ------: | --------------------------- | ----------------------- |
-| 97.0% | 650.0ms |      65 | `runtime.sysUsed`           | `runtime/mem.go:89`     |
-|  3.0% |  20.0ms |       2 | `runtime.(*mheap).initSpan` | `runtime/mheap.go:1439` |
-
-##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
-
-|      % |    Time | Samples | Callee                       | Location                |
-| -----: | ------: | ------: | ---------------------------- | ----------------------- |
-| 100.0% | 660.0ms |      66 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
+| 98.8% | 850.0ms |      85 | `runtime.sysUsed`           | `runtime/mem.go:89`     |
+|  1.2% |  10.0ms |       1 | `runtime.(*mheap).initSpan` | `runtime/mheap.go:1439` |
 
 ##### `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`)
 
 |      % |    Time | Samples | Callee            | Location                    |
 | -----: | ------: | ------: | ----------------- | --------------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.madvise` | `runtime/sys_darwin.go:224` |
+| 100.0% | 850.0ms |      85 | `runtime.madvise` | `runtime/sys_darwin.go:224` |
 
 ##### `runtime.sysUsed` (`runtime/mem.go:89`)
 
 |      % |    Time | Samples | Callee              | Location                   |
 | -----: | ------: | ------: | ------------------- | -------------------------- |
-| 100.0% | 650.0ms |      65 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
+| 100.0% | 850.0ms |      85 | `runtime.sysUsedOS` | `runtime/mem_darwin.go:29` |
 
-##### `encoding/json.(*decodeState).objectInterface` (`encoding/json/decode.go:1078`)
+##### `runtime.(*mheap).alloc.func1` (`runtime/mheap.go:1011`)
 
-|      % |    Time | Samples | Callee                                        | Location                                       |
-| -----: | ------: | ------: | --------------------------------------------- | ---------------------------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035`                 |
-|  23.6% | 130.0ms |      13 | `encoding/json.unquote`                       | `encoding/json/decode.go:1187`                 |
-|  21.8% | 120.0ms |      12 | `encoding/json.(*decodeState).scanWhile`      | `encoding/json/decode.go:298`                  |
-|  12.7% |  70.0ms |       7 | `runtime.mapassign_faststr`                   | `internal/runtime/maps/runtime_faststr.go:263` |
-|   7.3% |  40.0ms |       4 | `encoding/json.(*decodeState).rescanLiteral`  | `encoding/json/decode.go:322`                  |
+|      % |    Time | Samples | Callee                       | Location                |
+| -----: | ------: | ------: | ---------------------------- | ----------------------- |
+| 100.0% | 840.0ms |      84 | `runtime.(*mheap).allocSpan` | `runtime/mheap.go:1224` |
 
-##### `encoding/json.(*decodeState).valueInterface` (`encoding/json/decode.go:1035`)
+##### `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`)
 
-|      % |    Time | Samples | Callee                                          | Location                       |
-| -----: | ------: | ------: | ----------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface`  | `encoding/json/decode.go:1078` |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).arrayInterface`   | `encoding/json/decode.go:1052` |
-|  27.3% | 150.0ms |      15 | `encoding/json.(*decodeState).literalInterface` | `encoding/json/decode.go:1129` |
-|   1.8% |  10.0ms |       1 | `runtime.convTslice`                            | `runtime/iface.go:438`         |
-|   1.8% |  10.0ms |       1 | `encoding/json.(*decodeState).scanNext`         | `encoding/json/decode.go:286`  |
+|     % |    Time | Samples | Callee                    | Location                      |
+| ----: | ------: | ------: | ------------------------- | ----------------------------- |
+| 70.4% | 570.0ms |      57 | `encoding/json.Unmarshal` | `encoding/json/decode.go:102` |
+| 29.6% | 240.0ms |      24 | `encoding/json.Marshal`   | `encoding/json/encode.go:205` |
 
-##### `encoding/json.(*decodeState).arrayInterface` (`encoding/json/decode.go:1052`)
+##### `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`)
 
-|      % |    Time | Samples | Callee                                        | Location                       |
-| -----: | ------: | ------: | --------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).valueInterface` | `encoding/json/decode.go:1035` |
-|   1.8% |  10.0ms |       1 | `encoding/json.(*decodeState).scanWhile`      | `encoding/json/decode.go:298`  |
-|   1.8% |  10.0ms |       1 | `runtime.growslice`                           | `runtime/slice.go:178`         |
+|      % |    Time | Samples | Callee                                                            | Location                                                                 |
+| -----: | ------: | ------: | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 100.0% | 810.0ms |      81 | `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` | `github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10` |
 
-##### `encoding/json.(*decodeState).object` (`encoding/json/decode.go:604`)
+##### `runtime.main` (`runtime/proc.go:149`)
 
-|      % |    Time | Samples | Callee                                         | Location                       |
-| -----: | ------: | ------: | ---------------------------------------------- | ------------------------------ |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).objectInterface` | `encoding/json/decode.go:1078` |
+|      % |    Time | Samples | Callee      | Location                                                   |
+| -----: | ------: | ------: | ----------- | ---------------------------------------------------------- |
+| 100.0% | 810.0ms |      81 | `main.main` | `github.com/tomeraberbach/profiler-md-workload/main.go:12` |
 
-##### `encoding/json.(*decodeState).value` (`encoding/json/decode.go:363`)
+##### `runtime.netpoll` (`runtime/netpoll_kqueue.go:90`)
 
-|      % |    Time | Samples | Callee                                | Location                      |
-| -----: | ------: | ------: | ------------------------------------- | ----------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).object` | `encoding/json/decode.go:604` |
+|      % |    Time | Samples | Callee           | Location                    |
+| -----: | ------: | ------: | ---------------- | --------------------------- |
+| 100.0% | 590.0ms |      59 | `runtime.kevent` | `runtime/sys_darwin.go:438` |
 
-##### `encoding/json.(*decodeState).unmarshal` (`encoding/json/decode.go:173`)
+##### `runtime.startTheWorldWithSema` (`runtime/proc.go:1760`)
 
-|      % |    Time | Samples | Callee                               | Location                      |
-| -----: | ------: | ------: | ------------------------------------ | ----------------------------- |
-| 100.0% | 550.0ms |      55 | `encoding/json.(*decodeState).value` | `encoding/json/decode.go:363` |
+|      % |    Time | Samples | Callee            | Location                       |
+| -----: | ------: | ------: | ----------------- | ------------------------------ |
+| 100.0% | 590.0ms |      59 | `runtime.netpoll` | `runtime/netpoll_kqueue.go:90` |
+
+##### `runtime.gcStart.func4` (`runtime/mgc.go:947`)
+
+|      % |    Time | Samples | Callee                          | Location               |
+| -----: | ------: | ------: | ------------------------------- | ---------------------- |
+| 100.0% | 590.0ms |      59 | `runtime.startTheWorldWithSema` | `runtime/proc.go:1760` |
+
+##### `encoding/json.Unmarshal` (`encoding/json/decode.go:102`)
+
+|     % |    Time | Samples | Callee                                   | Location                      |
+| ----: | ------: | ------: | ---------------------------------------- | ----------------------------- |
+| 64.9% | 370.0ms |      37 | `encoding/json.(*decodeState).unmarshal` | `encoding/json/decode.go:173` |
+| 35.1% | 200.0ms |      20 | `encoding/json.checkValid`               | `encoding/json/scanner.go:33` |
 
 ##### `runtime.schedule` (`runtime/proc.go:4135`)
 
 |     % |    Time | Samples | Callee                  | Location               |
 | ----: | ------: | ------: | ----------------------- | ---------------------- |
-| 94.3% | 500.0ms |      50 | `runtime.findRunnable`  | `runtime/proc.go:3389` |
-|  5.7% |  30.0ms |       3 | `runtime.resetspinning` | `runtime/proc.go:4021` |
+| 90.7% | 490.0ms |      49 | `runtime.findRunnable`  | `runtime/proc.go:3389` |
+|  9.3% |  50.0ms |       5 | `runtime.resetspinning` | `runtime/proc.go:4021` |
 
 ##### `runtime.park_m` (`runtime/proc.go:4253`)
 
-|      % |    Time | Samples | Callee             | Location               |
-| -----: | ------: | ------: | ------------------ | ---------------------- |
-| 100.0% | 510.0ms |      51 | `runtime.schedule` | `runtime/proc.go:4135` |
+|     % |    Time | Samples | Callee                         | Location               |
+| ----: | ------: | ------: | ------------------------------ | ---------------------- |
+| 98.0% | 500.0ms |      50 | `runtime.schedule`             | `runtime/proc.go:4135` |
+|  2.0% |  10.0ms |       1 | `runtime.gcBgMarkWorker.func1` | `runtime/mgc.go:1791`  |
 
 ##### `runtime.mcall` (`runtime/asm_arm64.s:302`)
 
@@ -697,50 +677,70 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                   | Location                      |
 | ----: | ------: | ------: | ------------------------ | ----------------------------- |
-| 84.0% | 420.0ms |      42 | `runtime.stopm`          | `runtime/proc.go:2992`        |
-| 10.0% |  50.0ms |       5 | `runtime.lock`           | `runtime/lock_spinbit.go:151` |
-|  4.0% |  20.0ms |       2 | `runtime.runSafePointFn` | `runtime/proc.go:2232`        |
+| 83.7% | 410.0ms |      41 | `runtime.stopm`          | `runtime/proc.go:2992`        |
+|  8.2% |  40.0ms |       4 | `runtime.runSafePointFn` | `runtime/proc.go:2232`        |
+|  6.1% |  30.0ms |       3 | `runtime.lock`           | `runtime/lock_spinbit.go:151` |
 |  2.0% |  10.0ms |       1 | `runtime.gcstopm`        | `runtime/proc.go:3296`        |
 
-##### `encoding/json.(*encodeState).reflectValue` (`encoding/json/encode.go:366`)
+##### `runtime.stopm` (`runtime/proc.go:2992`)
 
-|      % |    Time | Samples | Callee                              | Location                      |
-| -----: | ------: | ------: | ----------------------------------- | ----------------------------- |
-| 100.0% | 490.0ms |      49 | `encoding/json.mapEncoder.encode`   | `encoding/json/encode.go:765` |
-| 100.0% | 490.0ms |      49 | `encoding/json.sliceEncoder.encode` | `encoding/json/encode.go:843` |
-|  18.4% |  90.0ms |       9 | `encoding/json.stringEncoder`       | `encoding/json/encode.go:610` |
-|   6.1% |  30.0ms |       3 | `encoding/json.valueEncoder`        | `encoding/json/encode.go:381` |
-|   4.1% |  20.0ms |       2 | `encoding/json.floatEncoder.encode` | `encoding/json/encode.go:571` |
+|     % |    Time | Samples | Callee          | Location                      |
+| ----: | ------: | ------: | --------------- | ----------------------------- |
+| 88.1% | 370.0ms |      37 | `runtime.mPark` | `runtime/proc.go:1965`        |
+| 11.9% |  50.0ms |       5 | `runtime.lock`  | `runtime/lock_spinbit.go:151` |
 
-##### `encoding/json.interfaceEncoder` (`encoding/json/encode.go:695`)
+##### `runtime.gcDrain` (`runtime/mgcmark.go:1239`)
 
-|      % |    Time | Samples | Callee                                      | Location                      |
-| -----: | ------: | ------: | ------------------------------------------- | ----------------------------- |
-| 100.0% | 490.0ms |      49 | `encoding/json.(*encodeState).reflectValue` | `encoding/json/encode.go:366` |
+|     % |    Time | Samples | Callee                                      | Location                             |
+| ----: | ------: | ------: | ------------------------------------------- | ------------------------------------ |
+| 63.4% | 260.0ms |      26 | `runtime.(*gcControllerState).enlistWorker` | `runtime/mgcpacer.go:697`            |
+| 19.5% |  80.0ms |       8 | `runtime.scanObject`                        | `runtime/mgcmark_greenteagc.go:1187` |
+|  4.9% |  20.0ms |       2 | `runtime.scanSpan`                          | `runtime/mgcmark_greenteagc.go:844`  |
+|  4.9% |  20.0ms |       2 | `runtime.(*gcWork).balance`                 | `runtime/mgcwork.go:356`             |
+|  2.4% |  10.0ms |       1 | `runtime.markroot`                          | `runtime/mgcmark.go:221`             |
+
+##### `runtime.semasleep` (`runtime/os_darwin.go:45`)
+
+|     % |    Time | Samples | Callee                                       | Location                    |
+| ----: | ------: | ------: | -------------------------------------------- | --------------------------- |
+| 97.4% | 380.0ms |      38 | `runtime.pthread_cond_wait`                  | `runtime/sys_darwin.go:487` |
+|  2.6% |  10.0ms |       1 | `runtime.pthread_cond_timedwait_relative_np` | `runtime/sys_darwin.go:497` |
+
+##### `runtime.notesleep` (`runtime/lock_sema.go:46`)
+
+|      % |    Time | Samples | Callee              | Location                  |
+| -----: | ------: | ------: | ------------------- | ------------------------- |
+| 100.0% | 370.0ms |      37 | `runtime.semasleep` | `runtime/os_darwin.go:45` |
+
+##### `runtime.mPark` (`runtime/proc.go:1965`)
+
+|      % |    Time | Samples | Callee              | Location                  |
+| -----: | ------: | ------: | ------------------- | ------------------------- |
+| 100.0% | 370.0ms |      37 | `runtime.notesleep` | `runtime/lock_sema.go:46` |
 
 ## Hottest call stacks
 
 Call stacks with the most time spent in their leaf frame.
 
-|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 18.5% | 640.0ms |      64 | `runtime.madvise` (`runtime/sys_darwin.go:224`) ← `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`) ← `runtime.sysUsed` (`runtime/mem.go:89`) ← `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`) ← `runtime.(*mheap).alloc.func1` (1011) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| 11.0% | 380.0ms |      38 | `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`) ← `runtime.semasleep` (`runtime/os_darwin.go:45`) ← `runtime.notesleep` (`runtime/lock_sema.go:46`) ← `runtime.mPark` (`runtime/proc.go:1965`) ← `runtime.stopm` (2992) ← `runtime.findRunnable` (3389) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 10.7% | 370.0ms |      37 | `runtime.kevent` (`runtime/sys_darwin.go:438`) ← `runtime.netpoll` (`runtime/netpoll_kqueue.go:90`) ← `runtime.startTheWorldWithSema` (`runtime/proc.go:1760`) ← `runtime.gcStart.func4` (`runtime/mgc.go:947`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  5.5% | 190.0ms |      19 | `encoding/json.checkValid` (`encoding/json/scanner.go:33`) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|  4.9% | 170.0ms |      17 | `encoding/json.stateInString` (`encoding/json/scanner.go:339`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  2.3% |  80.0ms |       8 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.goschedImpl` (`runtime/proc.go:4307`) ← `runtime.gopreempt_m` (4361) ← `runtime.newstack` (`runtime/stack.go:1026`) ← `runtime.morestack` (`runtime/asm_arm64.s:457`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  1.2% |  40.0ms |       4 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.stopm` (`runtime/proc.go:2992`) ← `runtime.findRunnable` (3389) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|  1.2% |  40.0ms |       4 | `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  1.2% |  40.0ms |       4 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.findRunnable` (`runtime/proc.go:3389`) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  1.2% |  40.0ms |       4 | `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`) ← `runtime.semawakeup` (`runtime/os_darwin.go:83`) ← `runtime.notewakeup` (`runtime/lock_sema.go:23`) ← `runtime.startm` (`runtime/proc.go:3035`) ← `runtime.wakep` (3212) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.9% |  30.0ms |       3 | `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`) ← `encoding/json.stringEncoder` (610) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.arrayEncoder.encode` (883) ← `encoding/json.sliceEncoder.encode` (843) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.(*encodeState).marshal` (333) ← `encoding/json.Marshal` (205) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                         |
-|  0.9% |  30.0ms |       3 | `unicode/utf8.decodeRuneSlow` (`unicode/utf8/utf8.go:171`) ← `unicode/utf8.DecodeRune` (157) ← `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`) ← `encoding/json.unquote` (1187) ← `encoding/json.(*decodeState).literalInterface` (1129) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                          |
-|  0.9% |  30.0ms |       3 | `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`) ← `runtime.semawakeup` (`runtime/os_darwin.go:83`) ← `runtime.notewakeup` (`runtime/lock_sema.go:23`) ← `runtime.startm` (`runtime/proc.go:3035`) ← `runtime.wakep` (3212) ← `runtime.resetspinning` (4021) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.9% |  30.0ms |       3 | `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.9% |  30.0ms |       3 | `runtime.pthread_kill` (`runtime/sys_darwin.go:148`) ← `runtime.signalM` (`runtime/os_darwin.go:489`) ← `runtime.preemptM` (`runtime/signal_unix.go:369`) ← `runtime.preemptone` (`runtime/proc.go:6866`) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerIdle` (1167) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|  0.9% |  30.0ms |       3 | `runtime.pthread_kill` (`runtime/sys_darwin.go:148`) ← `runtime.signalM` (`runtime/os_darwin.go:489`) ← `runtime.preemptM` (`runtime/signal_unix.go:369`) ← `runtime.preemptone` (`runtime/proc.go:6866`) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  0.6% |  20.0ms |       2 | `runtime.acquirem` (`runtime/runtime1.go:600`) ← `runtime.mallocgcSmallScanNoHeader` (`runtime/malloc.go:1503`) ← `runtime.mallocgc` (1067) ← `runtime.convTstring` (`runtime/iface.go:419`) ← `encoding/json.(*decodeState).literalInterface` (`encoding/json/decode.go:1129`) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`) |
-|  0.6% |  20.0ms |       2 | `encoding/json.unquoteBytes` (`encoding/json/decode.go:1193`) ← `encoding/json.unquote` (1187) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                          |
-|  0.6% |  20.0ms |       2 | `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`) ← `runtime.semawakeup` (`runtime/os_darwin.go:83`) ← `runtime.notewakeup` (`runtime/lock_sema.go:23`) ← `runtime.startm` (`runtime/proc.go:3035`) ← `runtime.wakep` (3212) ← `runtime.goschedImpl` (4307) ← `runtime.gopreempt_m` (4361) ← `runtime.newstack` (`runtime/stack.go:1026`) ← `runtime.morestack` (`runtime/asm_arm64.s:457`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  0.6% |  20.0ms |       2 | `runtime.tryDeferToSpanScan` (`runtime/mgcmark_greenteagc.go:264`) ← `runtime.scanObjectsSmall` (1015) ← `runtime.scanSpan` (844) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`) ← `runtime.gcBgMarkWorker` (`runtime/mgc.go:1750`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 25.1% | 830.0ms |      83 | `runtime.madvise` (`runtime/sys_darwin.go:224`) ← `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`) ← `runtime.sysUsed` (`runtime/mem.go:89`) ← `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`) ← `runtime.(*mheap).alloc.func1` (1011) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 17.8% | 590.0ms |      59 | `runtime.kevent` (`runtime/sys_darwin.go:438`) ← `runtime.netpoll` (`runtime/netpoll_kqueue.go:90`) ← `runtime.startTheWorldWithSema` (`runtime/proc.go:1760`) ← `runtime.gcStart.func4` (`runtime/mgc.go:947`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 10.9% | 360.0ms |      36 | `runtime.pthread_cond_wait` (`runtime/sys_darwin.go:487`) ← `runtime.semasleep` (`runtime/os_darwin.go:45`) ← `runtime.notesleep` (`runtime/lock_sema.go:46`) ← `runtime.mPark` (`runtime/proc.go:1965`) ← `runtime.stopm` (2992) ← `runtime.findRunnable` (3389) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|  4.8% | 160.0ms |      16 | `runtime.pthread_kill` (`runtime/sys_darwin.go:148`) ← `runtime.signalM` (`runtime/os_darwin.go:489`) ← `runtime.preemptM` (`runtime/signal_unix.go:369`) ← `runtime.preemptone` (`runtime/proc.go:6866`) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  2.1% |  70.0ms |       7 | `encoding/json.checkValid` (`encoding/json/scanner.go:33`) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  2.1% |  70.0ms |       7 | `runtime.pthread_kill` (`runtime/sys_darwin.go:148`) ← `runtime.signalM` (`runtime/os_darwin.go:489`) ← `runtime.preemptM` (`runtime/signal_unix.go:369`) ← `runtime.preemptone` (`runtime/proc.go:6866`) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerIdle` (1167) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  1.8% |  60.0ms |       6 | `encoding/json.stateBeginString` (`encoding/json/scanner.go:268`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  1.8% |  60.0ms |       6 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.goschedImpl` (`runtime/proc.go:4307`) ← `runtime.gopreempt_m` (4361) ← `runtime.newstack` (`runtime/stack.go:1026`) ← `runtime.morestack` (`runtime/asm_arm64.s:457`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  1.5% |  50.0ms |       5 | `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`) ← `runtime.semawakeup` (`runtime/os_darwin.go:83`) ← `runtime.notewakeup` (`runtime/lock_sema.go:23`) ← `runtime.startm` (`runtime/proc.go:3035`) ← `runtime.wakep` (3212) ← `runtime.resetspinning` (4021) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  1.5% |  50.0ms |       5 | `runtime.tryDeferToSpanScan` (`runtime/mgcmark_greenteagc.go:264`) ← `runtime.scanObject` (1187) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`) ← `runtime.gcBgMarkWorker` (`runtime/mgc.go:1750`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|  1.2% |  40.0ms |       4 | `encoding/json.stateInString` (`encoding/json/scanner.go:339`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  1.2% |  40.0ms |       4 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.stopm` (`runtime/proc.go:2992`) ← `runtime.findRunnable` (3389) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  0.9% |  30.0ms |       3 | `runtime.pthread_cond_signal` (`runtime/sys_darwin.go:508`) ← `runtime.semawakeup` (`runtime/os_darwin.go:83`) ← `runtime.notewakeup` (`runtime/lock_sema.go:23`) ← `runtime.startm` (`runtime/proc.go:3035`) ← `runtime.wakep` (3212) ← `runtime.(*gcControllerState).enlistWorker` (`runtime/mgcpacer.go:697`) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  0.9% |  30.0ms |       3 | `runtime.usleep` (`runtime/sys_darwin.go:273`) ← `runtime.osyield` (`runtime/os_darwin.go:379`) ← `runtime.lock2` (`runtime/lock_spinbit.go:155`) ← `runtime.lockWithRank` (`runtime/lockrank_off.go:23`) ← `runtime.lock` (`runtime/lock_spinbit.go:151`) ← `runtime.findRunnable` (`runtime/proc.go:3389`) ← `runtime.schedule` (4135) ← `runtime.park_m` (4253) ← `runtime.mcall` (`runtime/asm_arm64.s:302`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  0.6% |  20.0ms |       2 | `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                       |
+|  0.6% |  20.0ms |       2 | `encoding/json.appendString[go.shape.string]` (`encoding/json/encode.go:999`) ← `encoding/json.stringEncoder` (610) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.arrayEncoder.encode` (883) ← `encoding/json.sliceEncoder.encode` (843) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.interfaceEncoder` (695) ← `encoding/json.mapEncoder.encode` (765) ← `encoding/json.(*encodeState).reflectValue` (366) ← `encoding/json.(*encodeState).marshal` (333) ← `encoding/json.Marshal` (205) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`) |
+|  0.6% |  20.0ms |       2 | `runtime.madvise` (`runtime/sys_darwin.go:224`) ← `runtime.sysUsedOS` (`runtime/mem_darwin.go:29`) ← `runtime.sysUsed` (`runtime/mem.go:89`) ← `runtime.(*mheap).allocSpan` (`runtime/mheap.go:1224`) ← `runtime.(*mheap).allocManual` (1039) ← `runtime.getempty.func1` (`runtime/mgcwork.go:449`) ← `runtime.getempty` (424) ← `runtime.handoff` (509) ← `runtime.(*gcWork).balance` (356) ← `runtime.gcDrain` (`runtime/mgcmark.go:1239`) ← `runtime.gcDrainMarkWorkerDedicated` (1173) ← `runtime.gcBgMarkWorker.func2` (`runtime/mgc.go:1847`) ← `runtime.systemstack` (`runtime/asm_arm64.s:353`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  0.6% |  20.0ms |       2 | `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`) ← `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                    |
+|  0.6% |  20.0ms |       2 | `encoding/json.stateBeginValue` (`encoding/json/scanner.go:217`) ← `encoding/json.(*decodeState).scanWhile` (`encoding/json/decode.go:298`) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).arrayInterface` (1052) ← `encoding/json.(*decodeState).valueInterface` (1035) ← `encoding/json.(*decodeState).objectInterface` (1078) ← `encoding/json.(*decodeState).object` (604) ← `encoding/json.(*decodeState).value` (363) ← `encoding/json.(*decodeState).unmarshal` (173) ← `encoding/json.Unmarshal` (102) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                     |
+|  0.6% |  20.0ms |       2 | `encoding/json.stateEndValue` (`encoding/json/scanner.go:281`) ← `encoding/json.checkValid` (33) ← `encoding/json.Unmarshal` (`encoding/json/decode.go:102`) ← `github.com/tomeraberbach/profiler-md-workload/internal/work.Run` (`github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:10`) ← `main.main` (`github.com/tomeraberbach/profiler-md-workload/main.go:12`) ← `runtime.main` (`runtime/proc.go:149`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |

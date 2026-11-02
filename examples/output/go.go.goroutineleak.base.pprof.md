@@ -6,14 +6,14 @@ Recorded 3 leaked goroutines.
 | ---------------- | -----: | ----------------: |
 | Standard library | 100.0% |                 3 |
 
-Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/inputs/assets/go/`.
+Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/`.
 
 ## Call tree
 
 Call paths to the hottest functions.
 
 ```
-└── 3 leaked goroutines (100.0%) main.leakWorkers.func1 at ./profile.go:57
+└── 3 leaked goroutines (100.0%) main.leakWorkers.func1 at ./profile.go:56
     └── 3 leaked goroutines (100.0%) runtime.chansend1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160
         └── 3 leaked goroutines (100.0%) runtime.chansend at 176
             └── 3 leaked goroutines (100.0%) runtime.gopark at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445
@@ -64,7 +64,7 @@ Functions with the most leaked goroutines recorded within the function and its c
 | 100.0% |                 3 | `runtime.gopark`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445` |
 | 100.0% |                 3 | `runtime.chansend`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176` |
 | 100.0% |                 3 | `runtime.chansend1`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160` |
-| 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:57`                                                                        |
+| 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:56`                                                                        |
 
 #### Categories
 
@@ -98,7 +98,7 @@ Callers with the largest contribution to each function's total leaked goroutines
 
 |      % | Leaked goroutines | Caller                   | Location          |
 | -----: | ----------------: | ------------------------ | ----------------- |
-| 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:57` |
+| 100.0% |                 3 | `main.leakWorkers.func1` | `./profile.go:56` |
 
 #### Callees
 
@@ -116,7 +116,7 @@ Callees with the largest contribution to each function's total leaked goroutines
 | -----: | ----------------: | ------------------ | ---------------------------------------------------------------------------------------- |
 | 100.0% |                 3 | `runtime.chansend` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176` |
 
-##### `main.leakWorkers.func1` (`./profile.go:57`)
+##### `main.leakWorkers.func1` (`./profile.go:56`)
 
 |      % | Leaked goroutines | Callee              | Location                                                                                 |
 | -----: | ----------------: | ------------------- | ---------------------------------------------------------------------------------------- |
@@ -128,4 +128,4 @@ Call stacks with the most leaked goroutines recorded in their leaf frame.
 
 |      % | Leaked goroutines | Call stack                                                                                                                                                                                                                                                                                             |
 | -----: | ----------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 100.0% |                 3 | `runtime.gopark` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445`) ← `runtime.chansend` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176`) ← `runtime.chansend1` (160) ← `main.leakWorkers.func1` (`./profile.go:57`) |
+| 100.0% |                 3 | `runtime.gopark` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445`) ← `runtime.chansend` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:176`) ← `runtime.chansend1` (160) ← `main.leakWorkers.func1` (`./profile.go:56`) |

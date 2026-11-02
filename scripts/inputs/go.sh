@@ -14,7 +14,10 @@ declare -A CONFIG_TO_PROFILE=(
 # by default and rejects the experiment's name, so delete this on upgrade.
 export GOEXPERIMENT=goroutineleakprofile
 
-profile="$REPO/scripts/inputs/assets/go/profile.go"
+# A profile records the workload's file paths, so the workload builds from a fixed
+# directory outside the checkout, and a side regenerated alone records the same
+# paths as the other.
+profile_dir=/tmp/profiler-md-go-workload
 
 declare -A rundir=()
 run_for_side() {
@@ -24,7 +27,8 @@ run_for_side() {
     mkdir -p "$dir"
     fetch_twitter_json
     notice "Profiling encoding/json using go ($side)"
-    GOCACHE="$WORKDIR/gocache" GOFLAGS=-mod=mod go run "$profile" "$dir" "$TWITTER_JSON"
+    fresh_run_dir "$profile_dir" "$REPO/scripts/inputs/assets/go/profile.go" || return 1
+    GOCACHE="$WORKDIR/gocache" GOFLAGS=-mod=mod go run "$profile_dir/profile.go" "$dir" "$TWITTER_JSON"
     rundir[$side]=$dir
   fi
 }
