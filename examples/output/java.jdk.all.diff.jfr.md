@@ -3887,12 +3887,12 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 # Retained heap profile diff
 
-Retained 2.5 MiB → 2.56 MiB (+59.46 KiB, +2.3%) over 9 → 14 objects (285 KiB → 187 KiB per object).
+Retained 2.5 MiB → 2.56 MiB (+59.46 KiB, +2.3%) over 9 → 14 sampled objects (285 KiB → 187 KiB per sampled object).
 
-| Category         | Change |      Delta |      % |               Size | Objects |
-| ---------------- | -----: | ---------: | -----: | -----------------: | ------: |
-| Standard library |  +2.3% | +59.46 KiB | 100.0% | 2.5 MiB → 2.56 MiB |  8 → 13 |
-| Ours             |   0.0% |        0 B |  <0.1% |               40 B |       1 |
+| Category         | Change |      Delta |      % |               Size | Sampled objects |
+| ---------------- | -----: | ---------: | -----: | -----------------: | --------------: |
+| Standard library |  +2.3% | +59.46 KiB | 100.0% | 2.5 MiB → 2.56 MiB |          8 → 13 |
+| Ours             |   0.0% |        0 B |  <0.1% |               40 B |               1 |
 
 `…` stands for omitted frames.
 
@@ -3951,47 +3951,47 @@ Call paths to the hottest and most changed functions.
 
 Functions with the largest increase in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-|  Change |        Delta |            % |          Size | Objects | Function                            | Location                                   |
-| ------: | -----------: | -----------: | ------------: | ------: | ----------------------------------- | ------------------------------------------ |
-|     new | +510.171 KiB | 0.0% → 19.5% | 0 B → 510 KiB |   0 → 2 | `initCEN(int, ZipCoder)`            | `java.util.zip.ZipFile$Source`             |
-| +250.0% |       +120 B |        <0.1% |  48 B → 168 B |   2 → 7 | `valueOf(double)`                   | `java.lang.Double`                         |
-|     new |        +64 B | 0.0% → <0.1% |    0 B → 64 B |   0 → 1 | `newLinkedHashMap(int)`             | `java.util.LinkedHashMap`                  |
-|     new |        +56 B | 0.0% → <0.1% |    0 B → 56 B |   0 → 1 | `copyOfRangeByte(byte[], int, int)` | `java.util.Arrays`                         |
-|     new |        +40 B | 0.0% → <0.1% |    0 B → 40 B |   0 → 1 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite` |
-|     new |        +32 B | 0.0% → <0.1% |    0 B → 32 B |   0 → 1 | `putVal(Object, Object, boolean)`   | `java.util.concurrent.ConcurrentHashMap`   |
+|  Change |        Delta |            % |          Size | Sampled objects | Function                            | Location                                   |
+| ------: | -----------: | -----------: | ------------: | --------------: | ----------------------------------- | ------------------------------------------ |
+|     new | +510.171 KiB | 0.0% → 19.5% | 0 B → 510 KiB |           0 → 2 | `initCEN(int, ZipCoder)`            | `java.util.zip.ZipFile$Source`             |
+| +250.0% |       +120 B |        <0.1% |  48 B → 168 B |           2 → 7 | `valueOf(double)`                   | `java.lang.Double`                         |
+|     new |        +64 B | 0.0% → <0.1% |    0 B → 64 B |           0 → 1 | `newLinkedHashMap(int)`             | `java.util.LinkedHashMap`                  |
+|     new |        +56 B | 0.0% → <0.1% |    0 B → 56 B |           0 → 1 | `copyOfRangeByte(byte[], int, int)` | `java.util.Arrays`                         |
+|     new |        +40 B | 0.0% → <0.1% |    0 B → 40 B |           0 → 1 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite` |
+|     new |        +32 B | 0.0% → <0.1% |    0 B → 32 B |           0 → 1 | `putVal(Object, Object, boolean)`   | `java.util.concurrent.ConcurrentHashMap`   |
 
 ##### Standard library
 
-|  Change |        Delta |            % |          Size | Objects | Function                            | Location                                 |
-| ------: | -----------: | -----------: | ------------: | ------: | ----------------------------------- | ---------------------------------------- |
-|     new | +510.171 KiB | 0.0% → 19.5% | 0 B → 510 KiB |   0 → 2 | `initCEN(int, ZipCoder)`            | `java.util.zip.ZipFile$Source`           |
-| +250.0% |       +120 B |        <0.1% |  48 B → 168 B |   2 → 7 | `valueOf(double)`                   | `java.lang.Double`                       |
-|     new |        +64 B | 0.0% → <0.1% |    0 B → 64 B |   0 → 1 | `newLinkedHashMap(int)`             | `java.util.LinkedHashMap`                |
-|     new |        +56 B | 0.0% → <0.1% |    0 B → 56 B |   0 → 1 | `copyOfRangeByte(byte[], int, int)` | `java.util.Arrays`                       |
-|     new |        +32 B | 0.0% → <0.1% |    0 B → 32 B |   0 → 1 | `putVal(Object, Object, boolean)`   | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |            % |          Size | Sampled objects | Function                            | Location                                 |
+| ------: | -----------: | -----------: | ------------: | --------------: | ----------------------------------- | ---------------------------------------- |
+|     new | +510.171 KiB | 0.0% → 19.5% | 0 B → 510 KiB |           0 → 2 | `initCEN(int, ZipCoder)`            | `java.util.zip.ZipFile$Source`           |
+| +250.0% |       +120 B |        <0.1% |  48 B → 168 B |           2 → 7 | `valueOf(double)`                   | `java.lang.Double`                       |
+|     new |        +64 B | 0.0% → <0.1% |    0 B → 64 B |           0 → 1 | `newLinkedHashMap(int)`             | `java.util.LinkedHashMap`                |
+|     new |        +56 B | 0.0% → <0.1% |    0 B → 56 B |           0 → 1 | `copyOfRangeByte(byte[], int, int)` | `java.util.Arrays`                       |
+|     new |        +32 B | 0.0% → <0.1% |    0 B → 32 B |           0 → 1 | `putVal(Object, Object, boolean)`   | `java.util.concurrent.ConcurrentHashMap` |
 
 #### Improvements
 
 Functions with the largest decrease in bytes retained within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-|  Change |        Delta |             % |                Size | Objects | Function                                     | Location                                    |
-| ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------------------- | ------------------------------------------- |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap`    |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `copyOf(Object[], int)`                      | `java.util.Arrays`                          |
-| removed |       -264 B |  <0.1% → 0.0% |         264 B → 0 B |   1 → 0 | `<clinit>()`                                 | `scala.package$`                            |
-| removed |        -40 B |  <0.1% → 0.0% |          40 B → 0 B |   1 → 0 | `lambda$generateData$4(int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans` |
-| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |   1 → 0 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                         |
-| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |   1 → 0 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                     |
+|  Change |        Delta |             % |                Size | Sampled objects | Function                                     | Location                                    |
+| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------------- | ------------------------------------------- |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap`    |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `copyOf(Object[], int)`                      | `java.util.Arrays`                          |
+| removed |       -264 B |  <0.1% → 0.0% |         264 B → 0 B |           1 → 0 | `<clinit>()`                                 | `scala.package$`                            |
+| removed |        -40 B |  <0.1% → 0.0% |          40 B → 0 B |           1 → 0 | `lambda$generateData$4(int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans` |
+| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |           1 → 0 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                         |
+| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |           1 → 0 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                     |
 
 ##### Standard library
 
-|  Change |        Delta |             % |                Size | Objects | Function                                     | Location                                 |
-| ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap` |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `copyOf(Object[], int)`                      | `java.util.Arrays`                       |
-| removed |       -264 B |  <0.1% → 0.0% |         264 B → 0 B |   1 → 0 | `<clinit>()`                                 | `scala.package$`                         |
-| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |   1 → 0 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                      |
-| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |   1 → 0 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                  |
+|  Change |        Delta |             % |                Size | Sampled objects | Function                                     | Location                                 |
+| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap` |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `copyOf(Object[], int)`                      | `java.util.Arrays`                       |
+| removed |       -264 B |  <0.1% → 0.0% |         264 B → 0 B |           1 → 0 | `<clinit>()`                                 | `scala.package$`                         |
+| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |           1 → 0 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                      |
+| removed |        -32 B |  <0.1% → 0.0% |          32 B → 0 B |           1 → 0 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                  |
 
 #### Lines
 
@@ -3999,69 +3999,69 @@ Lines with the largest change in contribution to each function's self size.
 
 ##### `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Location                            |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `java.util.zip.ZipFile$Source:1733` |
+| Change |        Delta |             % |          Size | Sampled objects | Location                            |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `java.util.zip.ZipFile$Source:1733` |
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|  Change |  Delta |      % |         Size | Objects | Location               |
-| ------: | -----: | -----: | -----------: | ------: | ---------------------- |
-| +250.0% | +120 B | 100.0% | 48 B → 168 B |   2 → 7 | `java.lang.Double:773` |
+|  Change |  Delta |      % |         Size | Sampled objects | Location               |
+| ------: | -----: | -----: | -----------: | --------------: | ---------------------- |
+| +250.0% | +120 B | 100.0% | 48 B → 168 B |           2 → 7 | `java.lang.Double:773` |
 
 ##### `newLinkedHashMap(int)` (`java.util.LinkedHashMap`)
 
-| Change | Delta |             % |       Size | Objects | Location                       |
-| -----: | ----: | ------------: | ---------: | ------: | ------------------------------ |
-|    new | +64 B | 0.0% → 100.0% | 0 B → 64 B |   0 → 1 | `java.util.LinkedHashMap:1078` |
+| Change | Delta |             % |       Size | Sampled objects | Location                       |
+| -----: | ----: | ------------: | ---------: | --------------: | ------------------------------ |
+|    new | +64 B | 0.0% → 100.0% | 0 B → 64 B |           0 → 1 | `java.util.LinkedHashMap:1078` |
 
 ##### `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`)
 
-| Change | Delta |             % |       Size | Objects | Location                |
-| -----: | ----: | ------------: | ---------: | ------: | ----------------------- |
-|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |   0 → 1 | `java.util.Arrays:3863` |
+| Change | Delta |             % |       Size | Sampled objects | Location                |
+| -----: | ----: | ------------: | ---------: | --------------: | ----------------------- |
+|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |           0 → 1 | `java.util.Arrays:3863` |
 
 ##### `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`)
 
-| Change | Delta |             % |       Size | Objects | Location                                      |
-| -----: | ----: | ------------: | ---------: | ------: | --------------------------------------------- |
-|    new | +32 B | 0.0% → 100.0% | 0 B → 32 B |   0 → 1 | `java.util.concurrent.ConcurrentHashMap:1019` |
+| Change | Delta |             % |       Size | Sampled objects | Location                                      |
+| -----: | ----: | ------------: | ---------: | --------------: | --------------------------------------------- |
+|    new | +32 B | 0.0% → 100.0% | 0 B → 32 B |           0 → 1 | `java.util.concurrent.ConcurrentHashMap:1019` |
 
 ##### `initTable()` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Location                                      |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `java.util.concurrent.ConcurrentHashMap:2301` |
+|  Change |        Delta |             % |          Size | Sampled objects | Location                                      |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `java.util.concurrent.ConcurrentHashMap:2301` |
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-| Change |       Delta |      % |                Size | Objects | Location                |
-| -----: | ----------: | -----: | ------------------: | ------: | ----------------------- |
-|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |   2 → 1 | `java.util.Arrays:3482` |
+| Change |       Delta |      % |                Size | Sampled objects | Location                |
+| -----: | ----------: | -----: | ------------------: | --------------: | ----------------------- |
+|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |           2 → 1 | `java.util.Arrays:3482` |
 
 ##### `<clinit>()` (`scala.package$`)
 
-|  Change |  Delta |             % |        Size | Objects | Location            |
-| ------: | -----: | ------------: | ----------: | ------: | ------------------- |
-| removed | -264 B | 100.0% → 0.0% | 264 B → 0 B |   1 → 0 | `scala.package$:89` |
+|  Change |  Delta |             % |        Size | Sampled objects | Location            |
+| ------: | -----: | ------------: | ----------: | --------------: | ------------------- |
+| removed | -264 B | 100.0% → 0.0% | 264 B → 0 B |           1 → 0 | `scala.package$:89` |
 
 ##### `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|  Change | Delta |             % |       Size | Objects | Location                                       |
-| ------: | ----: | ------------: | ---------: | ------: | ---------------------------------------------- |
-| removed | -40 B | 100.0% → 0.0% | 40 B → 0 B |   1 → 0 | `org.renaissance.jdk.concurrent.JavaKMeans:87` |
+|  Change | Delta |             % |       Size | Sampled objects | Location                                       |
+| ------: | ----: | ------------: | ---------: | --------------: | ---------------------------------------------- |
+| removed | -40 B | 100.0% → 0.0% | 40 B → 0 B |           1 → 0 | `org.renaissance.jdk.concurrent.JavaKMeans:87` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
-|  Change | Delta |             % |       Size | Objects | Location                 |
-| ------: | ----: | ------------: | ---------: | ------: | ------------------------ |
-| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |   1 → 0 | `java.util.HashMap:1909` |
+|  Change | Delta |             % |       Size | Sampled objects | Location                 |
+| ------: | ----: | ------------: | ---------: | --------------: | ------------------------ |
+| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |           1 → 0 | `java.util.HashMap:1909` |
 
 ##### `compress(char[], int, int)` (`java.lang.StringUTF16`)
 
-|  Change | Delta |             % |       Size | Objects | Location                    |
-| ------: | ----: | ------------: | ---------: | ------: | --------------------------- |
-| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |   1 → 0 | `java.lang.StringUTF16:211` |
+|  Change | Delta |             % |       Size | Sampled objects | Location                    |
+| ------: | ----: | ------------: | ---------: | --------------: | --------------------------- |
+| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |           1 → 0 | `java.lang.StringUTF16:211` |
 
 #### Callers
 
@@ -4069,75 +4069,75 @@ Callers with the largest change in contribution to each function's self size. In
 
 ##### `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                          | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------------------------------------- | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                          | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------------------------------------- | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|  Change |  Delta |      % |         Size | Objects | Caller                                           | Location                                    |
-| ------: | -----: | -----: | -----------: | ------: | ------------------------------------------------ | ------------------------------------------- |
-| +250.0% | +120 B | 100.0% | 48 B → 168 B |   2 → 7 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|  Change |  Delta |      % |         Size | Sampled objects | Caller                                           | Location                                    |
+| ------: | -----: | -----: | -----------: | --------------: | ------------------------------------------------ | ------------------------------------------- |
+| +250.0% | +120 B | 100.0% | 48 B → 168 B |           2 → 7 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `newLinkedHashMap(int)` (`java.util.LinkedHashMap`)
 
-| Change | Delta |             % |       Size | Objects | Caller        | Location                   |
-| -----: | ----: | ------------: | ---------: | ------: | ------------- | -------------------------- |
-|    new | +64 B | 0.0% → 100.0% | 0 B → 64 B |   0 → 1 | `<init>(int)` | `java.util.jar.Attributes` |
+| Change | Delta |             % |       Size | Sampled objects | Caller        | Location                   |
+| -----: | ----: | ------------: | ---------: | --------------: | ------------- | -------------------------- |
+|    new | +64 B | 0.0% → 100.0% | 0 B → 64 B |           0 → 1 | `<init>(int)` | `java.util.jar.Attributes` |
 
 ##### `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`)
 
-| Change | Delta |             % |       Size | Objects | Caller                          | Location           |
-| -----: | ----: | ------------: | ---------: | ------: | ------------------------------- | ------------------ |
-|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |   0 → 1 | `copyOfRange(byte[], int, int)` | `java.util.Arrays` |
+| Change | Delta |             % |       Size | Sampled objects | Caller                          | Location           |
+| -----: | ----: | ------------: | ---------: | --------------: | ------------------------------- | ------------------ |
+|    new | +56 B | 0.0% → 100.0% | 0 B → 56 B |           0 → 1 | `copyOfRange(byte[], int, int)` | `java.util.Arrays` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
-| Change | Delta |             % |       Size | Objects | Caller                         | Location                                             |
-| -----: | ----: | ------------: | ---------: | ------: | ------------------------------ | ---------------------------------------------------- |
-|    new | +40 B | 0.0% → 100.0% | 0 B → 40 B |   0 → 1 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007801001c00` |
+| Change | Delta |             % |       Size | Sampled objects | Caller                         | Location                                             |
+| -----: | ----: | ------------: | ---------: | --------------: | ------------------------------ | ---------------------------------------------------- |
+|    new | +40 B | 0.0% → 100.0% | 0 B → 40 B |           0 → 1 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007801001c00` |
 
 ##### `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`)
 
-| Change | Delta |             % |       Size | Objects | Caller                        | Location                                 |
-| -----: | ----: | ------------: | ---------: | ------: | ----------------------------- | ---------------------------------------- |
-|    new | +32 B | 0.0% → 100.0% | 0 B → 32 B |   0 → 1 | `putIfAbsent(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
+| Change | Delta |             % |       Size | Sampled objects | Caller                        | Location                                 |
+| -----: | ----: | ------------: | ---------: | --------------: | ----------------------------- | ---------------------------------------- |
+|    new | +32 B | 0.0% → 100.0% | 0 B → 32 B |           0 → 1 | `putIfAbsent(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `initTable()` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                            | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                            | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-| Change |       Delta |      % |                Size | Objects | Caller      | Location              |
-| -----: | ----------: | -----: | ------------------: | ------: | ----------- | --------------------- |
-|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |   2 → 1 | `grow(int)` | `java.util.ArrayList` |
+| Change |       Delta |      % |                Size | Sampled objects | Caller      | Location              |
+| -----: | ----------: | -----: | ------------------: | --------------: | ----------- | --------------------- |
+|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |           2 → 1 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `<clinit>()` (`scala.package$`)
 
-|  Change |  Delta |             % |        Size | Objects | Caller       | Location        |
-| ------: | -----: | ------------: | ----------: | ------: | ------------ | --------------- |
-| removed | -264 B | 100.0% → 0.0% | 264 B → 0 B |   1 → 0 | `<clinit>()` | `scala.Predef$` |
+|  Change |  Delta |             % |        Size | Sampled objects | Caller       | Location        |
+| ------: | -----: | ------------: | ----------: | --------------: | ------------ | --------------- |
+| removed | -264 B | 100.0% → 0.0% | 264 B → 0 B |           1 → 0 | `<clinit>()` | `scala.Predef$` |
 
 ##### `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|  Change | Delta |             % |       Size | Objects | Caller       | Location                                            |
-| ------: | ----: | ------------: | ---------: | ------: | ------------ | --------------------------------------------------- |
-| removed | -40 B | 100.0% → 0.0% | 40 B → 0 B |   1 → 0 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda` |
+|  Change | Delta |             % |       Size | Sampled objects | Caller       | Location                                            |
+| ------: | ----: | ------------: | ---------: | --------------: | ------------ | --------------------------------------------------- |
+| removed | -40 B | 100.0% → 0.0% | 40 B → 0 B |           1 → 0 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
-|  Change | Delta |             % |       Size | Objects | Caller                                          | Location            |
-| ------: | ----: | ------------: | ---------: | ------: | ----------------------------------------------- | ------------------- |
-| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |   1 → 0 | `putVal(int, Object, Object, boolean, boolean)` | `java.util.HashMap` |
+|  Change | Delta |             % |       Size | Sampled objects | Caller                                          | Location            |
+| ------: | ----: | ------------: | ---------: | --------------: | ----------------------------------------------- | ------------------- |
+| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |           1 → 0 | `putVal(int, Object, Object, boolean, boolean)` | `java.util.HashMap` |
 
 ##### `compress(char[], int, int)` (`java.lang.StringUTF16`)
 
-|  Change | Delta |             % |       Size | Objects | Caller                           | Location           |
-| ------: | ----: | ------------: | ---------: | ------: | -------------------------------- | ------------------ |
-| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |   1 → 0 | `<init>(char[], int, int, Void)` | `java.lang.String` |
+|  Change | Delta |             % |       Size | Sampled objects | Caller                           | Location           |
+| ------: | ----: | ------------: | ---------: | --------------: | -------------------------------- | ------------------ |
+| removed | -32 B | 100.0% → 0.0% | 32 B → 0 B |           1 → 0 | `<init>(char[], int, int, Void)` | `java.lang.String` |
 
 ### Total size
 
@@ -4145,105 +4145,105 @@ Callers with the largest change in contribution to each function's self size. In
 
 Functions with the largest increase in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-|      Change |        Delta |             % |           Size | Objects | Function                                                                                                               | Location                                       |
-| ----------: | -----------: | ------------: | -------------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-|         new |    +2.31 MiB |  0.0% → 90.3% | 0 B → 2.31 MiB |  0 → 10 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`    |
-| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 5 | `loadClass(String, boolean)`                                                                                           | `java.lang.ClassLoader`                        |
-| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 5 | `loadClass(String)`                                                                                                    | `java.lang.ClassLoader`                        |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `run()`                                                                                                                | `java.net.URLClassLoader$1`                    |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)`                                            | `java.security.AccessController`               |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`                                                        | `java.security.AccessController`               |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `findClass(String)`                                                                                                    | `java.net.URLClassLoader`                      |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `initCEN(int, ZipCoder)`                                                                                               | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)`                                                                        | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `get(File, boolean, ZipCoder)`                                                                                         | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(ZipFile, ZipCoder, File, int)`                                                                                 | `java.util.zip.ZipFile$CleanableResource`      |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, int, Charset)`                                                                                           | `java.util.zip.ZipFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, int)`                                                                                                    | `java.util.zip.ZipFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, boolean, int, Runtime$Version)`                                                                          | `java.util.jar.JarFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `getJarFile(URL)`                                                                                                      | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `run()`                                                                                                                | `jdk.internal.loader.URLClassPath$JarLoader$1` |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `ensureOpen()`                                                                                                         | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)`                                                         | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `run()`                                                                                                                | `jdk.internal.loader.URLClassPath$3`           |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `getLoader(URL)`                                                                                                       | `jdk.internal.loader.URLClassPath`             |
+|      Change |        Delta |             % |           Size | Sampled objects | Function                                                                                                               | Location                                       |
+| ----------: | -----------: | ------------: | -------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+|         new |    +2.31 MiB |  0.0% → 90.3% | 0 B → 2.31 MiB |          0 → 10 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`    |
+| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 5 | `loadClass(String, boolean)`                                                                                           | `java.lang.ClassLoader`                        |
+| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 5 | `loadClass(String)`                                                                                                    | `java.lang.ClassLoader`                        |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `run()`                                                                                                                | `java.net.URLClassLoader$1`                    |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)`                                            | `java.security.AccessController`               |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`                                                        | `java.security.AccessController`               |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `findClass(String)`                                                                                                    | `java.net.URLClassLoader`                      |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `initCEN(int, ZipCoder)`                                                                                               | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)`                                                                        | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `get(File, boolean, ZipCoder)`                                                                                         | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(ZipFile, ZipCoder, File, int)`                                                                                 | `java.util.zip.ZipFile$CleanableResource`      |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, int, Charset)`                                                                                           | `java.util.zip.ZipFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, int)`                                                                                                    | `java.util.zip.ZipFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, boolean, int, Runtime$Version)`                                                                          | `java.util.jar.JarFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `getJarFile(URL)`                                                                                                      | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `run()`                                                                                                                | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `ensureOpen()`                                                                                                         | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)`                                                         | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `run()`                                                                                                                | `jdk.internal.loader.URLClassPath$3`           |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `getLoader(URL)`                                                                                                       | `jdk.internal.loader.URLClassPath`             |
 
 ##### Standard library
 
-|      Change |        Delta |             % |           Size | Objects | Function                                                                    | Location                                       |
-| ----------: | -----------: | ------------: | -------------: | ------: | --------------------------------------------------------------------------- | ---------------------------------------------- |
-| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 5 | `loadClass(String, boolean)`                                                | `java.lang.ClassLoader`                        |
-| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 5 | `loadClass(String)`                                                         | `java.lang.ClassLoader`                        |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `run()`                                                                     | `java.net.URLClassLoader$1`                    |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`               |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`             | `java.security.AccessController`               |
-| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |   1 → 4 | `findClass(String)`                                                         | `java.net.URLClassLoader`                      |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `initCEN(int, ZipCoder)`                                                    | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)`                             | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `get(File, boolean, ZipCoder)`                                              | `java.util.zip.ZipFile$Source`                 |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(ZipFile, ZipCoder, File, int)`                                      | `java.util.zip.ZipFile$CleanableResource`      |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, int, Charset)`                                                | `java.util.zip.ZipFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, int)`                                                         | `java.util.zip.ZipFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(File, boolean, int, Runtime$Version)`                               | `java.util.jar.JarFile`                        |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `getJarFile(URL)`                                                           | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$JarLoader$1` |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `ensureOpen()`                                                              | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)`              | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$3`           |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `getLoader(URL)`                                                            | `jdk.internal.loader.URLClassPath`             |
-|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |   0 → 2 | `getLoader(int)`                                                            | `jdk.internal.loader.URLClassPath`             |
+|      Change |        Delta |             % |           Size | Sampled objects | Function                                                                    | Location                                       |
+| ----------: | -----------: | ------------: | -------------: | --------------: | --------------------------------------------------------------------------- | ---------------------------------------------- |
+| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 5 | `loadClass(String, boolean)`                                                | `java.lang.ClassLoader`                        |
+| +1632925.0% | +510.289 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 5 | `loadClass(String)`                                                         | `java.lang.ClassLoader`                        |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `run()`                                                                     | `java.net.URLClassLoader$1`                    |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`               |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)`             | `java.security.AccessController`               |
+| +1632825.0% | +510.257 KiB | <0.1% → 19.5% | 32 B → 510 KiB |           1 → 4 | `findClass(String)`                                                         | `java.net.URLClassLoader`                      |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `initCEN(int, ZipCoder)`                                                    | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)`                             | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `get(File, boolean, ZipCoder)`                                              | `java.util.zip.ZipFile$Source`                 |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(ZipFile, ZipCoder, File, int)`                                      | `java.util.zip.ZipFile$CleanableResource`      |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, int, Charset)`                                                | `java.util.zip.ZipFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, int)`                                                         | `java.util.zip.ZipFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(File, boolean, int, Runtime$Version)`                               | `java.util.jar.JarFile`                        |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `getJarFile(URL)`                                                           | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `ensureOpen()`                                                              | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)`              | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$3`           |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `getLoader(URL)`                                                            | `jdk.internal.loader.URLClassPath`             |
+|         new | +510.171 KiB |  0.0% → 19.5% |  0 B → 510 KiB |           0 → 2 | `getLoader(int)`                                                            | `jdk.internal.loader.URLClassPath`             |
 
 #### Improvements
 
 Functions with the largest decrease in bytes retained within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
-|  Change |        Delta |             % |                Size | Objects | Function                                                                                                               | Location                                                               |
-| ------: | -----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| removed |    -2.06 MiB |  82.4% → 0.0% |      2.06 MiB → 0 B |   4 → 0 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `initTable()`                                                                                                          | `java.util.concurrent.ConcurrentHashMap`                               |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `put(Object, Object)`                                                                                                  | `java.util.concurrent.ConcurrentHashMap`                               |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `storeString(String)`                                                                                                  | `jdk.jfr.internal.StringPool`                                          |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `addString(String)`                                                                                                    | `jdk.jfr.internal.StringPool`                                          |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `putString(String)`                                                                                                    | `jdk.jfr.internal.event.EventWriter`                                   |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)`                                      | `jdk.jfr.events.ActiveRecordingEvent`                                  |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `writeMetaEvents()`                                                                                                    | `jdk.jfr.internal.PlatformRecorder`                                    |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start(PlatformRecording)`                                                                                             | `jdk.jfr.internal.PlatformRecorder`                                    |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start()`                                                                                                              | `jdk.jfr.internal.PlatformRecording`                                   |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start()`                                                                                                              | `jdk.jfr.Recording`                                                    |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `execute(ArgumentParser)`                                                                                              | `jdk.jfr.internal.dcmd.DCmdStart`                                      |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `execute(String, String, char)`                                                                                        | `jdk.jfr.internal.dcmd.AbstractDCmd`                                   |
-| -100.0% | -255.984 KiB | 10.0% → <0.1% |      256 KiB → 32 B |       1 | `putVal(Object, Object, boolean)`                                                                                      | `java.util.concurrent.ConcurrentHashMap`                               |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `copyOf(Object[], int)`                                                                                                | `java.util.Arrays`                                                     |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `grow(int)`                                                                                                            | `java.util.ArrayList`                                                  |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `addAll(Collection)`                                                                                                   | `java.util.ArrayList`                                                  |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `merge(Object, Object, BiFunction)`                                                                                    | `java.util.HashMap`                                                    |
+|  Change |        Delta |             % |                Size | Sampled objects | Function                                                                                                               | Location                                                               |
+| ------: | -----------: | ------------: | ------------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| removed |    -2.06 MiB |  82.4% → 0.0% |      2.06 MiB → 0 B |           4 → 0 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `initTable()`                                                                                                          | `java.util.concurrent.ConcurrentHashMap`                               |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `put(Object, Object)`                                                                                                  | `java.util.concurrent.ConcurrentHashMap`                               |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `storeString(String)`                                                                                                  | `jdk.jfr.internal.StringPool`                                          |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `addString(String)`                                                                                                    | `jdk.jfr.internal.StringPool`                                          |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `putString(String)`                                                                                                    | `jdk.jfr.internal.event.EventWriter`                                   |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)`                                      | `jdk.jfr.events.ActiveRecordingEvent`                                  |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `writeMetaEvents()`                                                                                                    | `jdk.jfr.internal.PlatformRecorder`                                    |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start(PlatformRecording)`                                                                                             | `jdk.jfr.internal.PlatformRecorder`                                    |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start()`                                                                                                              | `jdk.jfr.internal.PlatformRecording`                                   |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start()`                                                                                                              | `jdk.jfr.Recording`                                                    |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `execute(ArgumentParser)`                                                                                              | `jdk.jfr.internal.dcmd.DCmdStart`                                      |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `execute(String, String, char)`                                                                                        | `jdk.jfr.internal.dcmd.AbstractDCmd`                                   |
+| -100.0% | -255.984 KiB | 10.0% → <0.1% |      256 KiB → 32 B |               1 | `putVal(Object, Object, boolean)`                                                                                      | `java.util.concurrent.ConcurrentHashMap`                               |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `copyOf(Object[], int)`                                                                                                | `java.util.Arrays`                                                     |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `grow(int)`                                                                                                            | `java.util.ArrayList`                                                  |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `addAll(Collection)`                                                                                                   | `java.util.ArrayList`                                                  |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `merge(Object, Object, BiFunction)`                                                                                    | `java.util.HashMap`                                                    |
 
 ##### Standard library
 
-|  Change |        Delta |             % |                Size | Objects | Function                                                                          | Location                                 |
-| ------: | -----------: | ------------: | ------------------: | ------: | --------------------------------------------------------------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `initTable()`                                                                     | `java.util.concurrent.ConcurrentHashMap` |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `put(Object, Object)`                                                             | `java.util.concurrent.ConcurrentHashMap` |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `storeString(String)`                                                             | `jdk.jfr.internal.StringPool`            |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `addString(String)`                                                               | `jdk.jfr.internal.StringPool`            |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `putString(String)`                                                               | `jdk.jfr.internal.event.EventWriter`     |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent`    |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `writeMetaEvents()`                                                               | `jdk.jfr.internal.PlatformRecorder`      |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start(PlatformRecording)`                                                        | `jdk.jfr.internal.PlatformRecorder`      |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start()`                                                                         | `jdk.jfr.internal.PlatformRecording`     |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `start()`                                                                         | `jdk.jfr.Recording`                      |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `execute(ArgumentParser)`                                                         | `jdk.jfr.internal.dcmd.DCmdStart`        |
-| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |   1 → 0 | `execute(String, String, char)`                                                   | `jdk.jfr.internal.dcmd.AbstractDCmd`     |
-| -100.0% | -255.984 KiB | 10.0% → <0.1% |      256 KiB → 32 B |       1 | `putVal(Object, Object, boolean)`                                                 | `java.util.concurrent.ConcurrentHashMap` |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `copyOf(Object[], int)`                                                           | `java.util.Arrays`                       |
-|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |   2 → 1 | `grow(int)`                                                                       | `java.util.ArrayList`                    |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `addAll(Collection)`                                                              | `java.util.ArrayList`                    |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `merge(Object, Object, BiFunction)`                                               | `java.util.HashMap`                      |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `forEach(BiConsumer)`                                                             | `java.util.HashMap`                      |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `exec()`                                                                          | `java.util.concurrent.RecursiveTask`     |
-| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |   1 → 0 | `doExec()`                                                                        | `java.util.concurrent.ForkJoinTask`      |
+|  Change |        Delta |             % |                Size | Sampled objects | Function                                                                          | Location                                 |
+| ------: | -----------: | ------------: | ------------------: | --------------: | --------------------------------------------------------------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `initTable()`                                                                     | `java.util.concurrent.ConcurrentHashMap` |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `put(Object, Object)`                                                             | `java.util.concurrent.ConcurrentHashMap` |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `storeString(String)`                                                             | `jdk.jfr.internal.StringPool`            |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `addString(String)`                                                               | `jdk.jfr.internal.StringPool`            |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `putString(String)`                                                               | `jdk.jfr.internal.event.EventWriter`     |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent`    |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `writeMetaEvents()`                                                               | `jdk.jfr.internal.PlatformRecorder`      |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start(PlatformRecording)`                                                        | `jdk.jfr.internal.PlatformRecorder`      |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start()`                                                                         | `jdk.jfr.internal.PlatformRecording`     |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `start()`                                                                         | `jdk.jfr.Recording`                      |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `execute(ArgumentParser)`                                                         | `jdk.jfr.internal.dcmd.DCmdStart`        |
+| removed | -256.015 KiB |  10.0% → 0.0% |       256 KiB → 0 B |           1 → 0 | `execute(String, String, char)`                                                   | `jdk.jfr.internal.dcmd.AbstractDCmd`     |
+| -100.0% | -255.984 KiB | 10.0% → <0.1% |      256 KiB → 32 B |               1 | `putVal(Object, Object, boolean)`                                                 | `java.util.concurrent.ConcurrentHashMap` |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `copyOf(Object[], int)`                                                           | `java.util.Arrays`                       |
+|   -8.4% |  -194.64 KiB | 90.0% → 80.5% | 2.25 MiB → 2.06 MiB |           2 → 1 | `grow(int)`                                                                       | `java.util.ArrayList`                    |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `addAll(Collection)`                                                              | `java.util.ArrayList`                    |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `merge(Object, Object, BiFunction)`                                               | `java.util.HashMap`                      |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `forEach(BiConsumer)`                                                             | `java.util.HashMap`                      |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `exec()`                                                                          | `java.util.concurrent.RecursiveTask`     |
+| removed |  -194.64 KiB |   7.6% → 0.0% |       195 KiB → 0 B |           1 → 0 | `doExec()`                                                                        | `java.util.concurrent.ForkJoinTask`      |
 
 #### Callers
 
@@ -4251,269 +4251,269 @@ Callers with the largest change in contribution to each function's total size. I
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-| Change |     Delta |             % |           Size | Objects | Caller              | Location                                                               |
-| -----: | --------: | ------------: | -------------: | ------: | ------------------- | ---------------------------------------------------------------------- |
-|    new | +2.31 MiB | 0.0% → 100.0% | 0 B → 2.31 MiB |  0 → 10 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8` |
+| Change |     Delta |             % |           Size | Sampled objects | Caller              | Location                                                               |
+| -----: | --------: | ------------: | -------------: | --------------: | ------------------- | ---------------------------------------------------------------------- |
+|    new | +2.31 MiB | 0.0% → 100.0% | 0 B → 2.31 MiB |          0 → 10 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8` |
 
 ##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
 
-|      Change |        Delta |      % |           Size | Objects | Caller              | Location                |
-| ----------: | -----------: | -----: | -------------: | ------: | ------------------- | ----------------------- |
-| +1632925.0% | +510.289 KiB | 100.0% | 32 B → 510 KiB |   1 → 5 | `loadClass(String)` | `java.lang.ClassLoader` |
+|      Change |        Delta |      % |           Size | Sampled objects | Caller              | Location                |
+| ----------: | -----------: | -----: | -------------: | --------------: | ------------------- | ----------------------- |
+| +1632925.0% | +510.289 KiB | 100.0% | 32 B → 510 KiB |           1 → 5 | `loadClass(String)` | `java.lang.ClassLoader` |
 
 ##### `loadClass(String)` (`java.lang.ClassLoader`)
 
-|     Change |        Delta |              % |           Size | Objects | Caller                              | Location                                    |
-| ---------: | -----------: | -------------: | -------------: | ------: | ----------------------------------- | ------------------------------------------- |
-|        new |  +255.14 KiB |   0.0% → 50.0% |  0 B → 255 KiB |   0 → 2 | `getDeclaredConstructors0(boolean)` | `java.lang.Class`                           |
-| +816375.0% | +255.117 KiB | 100.0% → 50.0% | 32 B → 255 KiB |   1 → 2 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite`  |
-|        new |        +32 B |   0.0% → <0.1% |     0 B → 32 B |   0 → 1 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite$` |
+|     Change |        Delta |              % |           Size | Sampled objects | Caller                              | Location                                    |
+| ---------: | -----------: | -------------: | -------------: | --------------: | ----------------------------------- | ------------------------------------------- |
+|        new |  +255.14 KiB |   0.0% → 50.0% |  0 B → 255 KiB |           0 → 2 | `getDeclaredConstructors0(boolean)` | `java.lang.Class`                           |
+| +816375.0% | +255.117 KiB | 100.0% → 50.0% | 32 B → 255 KiB |           1 → 2 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite`  |
+|        new |        +32 B |   0.0% → <0.1% |     0 B → 32 B |           0 → 1 | `main(String[])`                    | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `run()` (`java.net.URLClassLoader$1`)
 
-|      Change |        Delta |      % |           Size | Objects | Caller                                                                      | Location                         |
-| ----------: | -----------: | -----: | -------------: | ------: | --------------------------------------------------------------------------- | -------------------------------- |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `run()`                                                                     | `java.net.URLClassLoader$1`      |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController` |
+|      Change |        Delta |      % |           Size | Sampled objects | Caller                                                                      | Location                         |
+| ----------: | -----------: | -----: | -------------: | --------------: | --------------------------------------------------------------------------- | -------------------------------- |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `run()`                                                                     | `java.net.URLClassLoader$1`      |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController` |
 
 ##### `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`)
 
-|      Change |        Delta |      % |           Size | Objects | Caller                                                          | Location                         |
-| ----------: | -----------: | -----: | -------------: | ------: | --------------------------------------------------------------- | -------------------------------- |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
+|      Change |        Delta |      % |           Size | Sampled objects | Caller                                                          | Location                         |
+| ----------: | -----------: | -----: | -------------: | --------------: | --------------------------------------------------------------- | -------------------------------- |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
 
 ##### `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` (`java.security.AccessController`)
 
-|      Change |        Delta |             % |           Size | Objects | Caller              | Location                                     |
-| ----------: | -----------: | ------------: | -------------: | ------: | ------------------- | -------------------------------------------- |
-| +1632825.0% | +510.257 KiB |        100.0% | 32 B → 510 KiB |   1 → 4 | `findClass(String)` | `java.net.URLClassLoader`                    |
-|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |   0 → 2 | `ensureOpen()`      | `jdk.internal.loader.URLClassPath$JarLoader` |
-|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |   0 → 2 | `getLoader(URL)`    | `jdk.internal.loader.URLClassPath`           |
+|      Change |        Delta |             % |           Size | Sampled objects | Caller              | Location                                     |
+| ----------: | -----------: | ------------: | -------------: | --------------: | ------------------- | -------------------------------------------- |
+| +1632825.0% | +510.257 KiB |        100.0% | 32 B → 510 KiB |           1 → 4 | `findClass(String)` | `java.net.URLClassLoader`                    |
+|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |           0 → 2 | `ensureOpen()`      | `jdk.internal.loader.URLClassPath$JarLoader` |
+|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |           0 → 2 | `getLoader(URL)`    | `jdk.internal.loader.URLClassPath`           |
 
 ##### `findClass(String)` (`java.net.URLClassLoader`)
 
-|      Change |        Delta |      % |           Size | Objects | Caller                       | Location                |
-| ----------: | -----------: | -----: | -------------: | ------: | ---------------------------- | ----------------------- |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
+|      Change |        Delta |      % |           Size | Sampled objects | Caller                       | Location                |
+| ----------: | -----------: | -----: | -------------: | --------------: | ---------------------------- | ----------------------- |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
 
 ##### `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                          | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------------------------------------- | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                          | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------------------------------------- | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `<init>(ZipFile$Source$Key, boolean, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                         | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------------------ | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `get(File, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                         | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------------------ | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `get(File, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `get(File, boolean, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                 | Location                                  |
-| -----: | -----------: | ------------: | ------------: | ------: | -------------------------------------- | ----------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(ZipFile, ZipCoder, File, int)` | `java.util.zip.ZipFile$CleanableResource` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                 | Location                                  |
+| -----: | -----------: | ------------: | ------------: | --------------: | -------------------------------------- | ----------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(ZipFile, ZipCoder, File, int)` | `java.util.zip.ZipFile$CleanableResource` |
 
 ##### `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                       | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | ---------------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, int, Charset)` | `java.util.zip.ZipFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                       | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | ---------------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, int, Charset)` | `java.util.zip.ZipFile` |
 
 ##### `<init>(File, int, Charset)` (`java.util.zip.ZipFile`)
 
-| Change |        Delta |             % |          Size | Objects | Caller              | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, int)` | `java.util.zip.ZipFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller              | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, int)` | `java.util.zip.ZipFile` |
 
 ##### `<init>(File, int)` (`java.util.zip.ZipFile`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                        | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, boolean, int, Runtime$Version)` | `java.util.jar.JarFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                        | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, boolean, int, Runtime$Version)` | `java.util.jar.JarFile` |
 
 ##### `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`)
 
-| Change |        Delta |             % |          Size | Objects | Caller            | Location                                     |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------- | -------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `getJarFile(URL)` | `jdk.internal.loader.URLClassPath$JarLoader` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller            | Location                                     |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------- | -------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `getJarFile(URL)` | `jdk.internal.loader.URLClassPath$JarLoader` |
 
 ##### `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Caller  | Location                                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ------- | ---------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller  | Location                                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------- | ---------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$JarLoader$1` |
 
 ##### `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                                                      | Location                                       |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------- | ---------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$JarLoader$1` |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`               |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                                                      | Location                                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------------------- | ---------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`               |
 
 ##### `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                                         | Location                                     |
-| -----: | -----------: | ------------: | ------------: | ------: | -------------------------------------------------------------- | -------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` | `jdk.internal.loader.URLClassPath$JarLoader` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                                         | Location                                     |
+| -----: | -----------: | ------------: | ------------: | --------------: | -------------------------------------------------------------- | -------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` | `jdk.internal.loader.URLClassPath$JarLoader` |
 
 ##### `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Caller  | Location                             |
-| -----: | -----------: | ------------: | ------------: | ------: | ------- | ------------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$3` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller  | Location                             |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------- | ------------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$3` |
 
 ##### `run()` (`jdk.internal.loader.URLClassPath$3`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                                                                      | Location                             |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------- | ------------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$3` |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`     |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                                                                      | Location                             |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------------------- | ------------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()`                                                                     | `jdk.internal.loader.URLClassPath$3` |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController`     |
 
 ##### `getLoader(URL)` (`jdk.internal.loader.URLClassPath`)
 
-| Change |        Delta |             % |          Size | Objects | Caller           | Location                           |
-| -----: | -----------: | ------------: | ------------: | ------: | ---------------- | ---------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `getLoader(int)` | `jdk.internal.loader.URLClassPath` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller           | Location                           |
+| -----: | -----------: | ------------: | ------------: | --------------: | ---------------- | ---------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `getLoader(int)` | `jdk.internal.loader.URLClassPath` |
 
 ##### `getLoader(int)` (`jdk.internal.loader.URLClassPath`)
 
-| Change |        Delta |             % |          Size | Objects | Caller                         | Location                           |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------------------ | ---------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `getResource(String, boolean)` | `jdk.internal.loader.URLClassPath` |
+| Change |        Delta |             % |          Size | Sampled objects | Caller                         | Location                           |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------------------ | ---------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `getResource(String, boolean)` | `jdk.internal.loader.URLClassPath` |
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|  Change |     Delta |             % |           Size | Objects | Caller              | Location                                                               |
-| ------: | --------: | ------------: | -------------: | ------: | ------------------- | ---------------------------------------------------------------------- |
-| removed | -2.06 MiB | 100.0% → 0.0% | 2.06 MiB → 0 B |   4 → 0 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798` |
+|  Change |     Delta |             % |           Size | Sampled objects | Caller              | Location                                                               |
+| ------: | --------: | ------------: | -------------: | --------------: | ------------------- | ---------------------------------------------------------------------- |
+| removed | -2.06 MiB | 100.0% → 0.0% | 2.06 MiB → 0 B |           4 → 0 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798` |
 
 ##### `initTable()` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                            | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                            | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `put(Object, Object)` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                | Location                      |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------- | ----------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `storeString(String)` | `jdk.jfr.internal.StringPool` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                | Location                      |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------- | ----------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `storeString(String)` | `jdk.jfr.internal.StringPool` |
 
 ##### `storeString(String)` (`jdk.jfr.internal.StringPool`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller              | Location                      |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `addString(String)` | `jdk.jfr.internal.StringPool` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller              | Location                      |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `addString(String)` | `jdk.jfr.internal.StringPool` |
 
 ##### `addString(String)` (`jdk.jfr.internal.StringPool`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller              | Location                             |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ------------------------------------ |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `putString(String)` | `jdk.jfr.internal.event.EventWriter` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller              | Location                             |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ------------------------------------ |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `putString(String)` | `jdk.jfr.internal.event.EventWriter` |
 
 ##### `putString(String)` (`jdk.jfr.internal.event.EventWriter`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                                                                            | Location                              |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                                                                            | Location                              |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------------------------- | ------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent` |
 
 ##### `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller              | Location                            |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `writeMetaEvents()` | `jdk.jfr.internal.PlatformRecorder` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller              | Location                            |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `writeMetaEvents()` | `jdk.jfr.internal.PlatformRecorder` |
 
 ##### `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                     | Location                            |
-| ------: | -----------: | ------------: | ------------: | ------: | -------------------------- | ----------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start(PlatformRecording)` | `jdk.jfr.internal.PlatformRecorder` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                     | Location                            |
+| ------: | -----------: | ------------: | ------------: | --------------: | -------------------------- | ----------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start(PlatformRecording)` | `jdk.jfr.internal.PlatformRecorder` |
 
 ##### `start(PlatformRecording)` (`jdk.jfr.internal.PlatformRecorder`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller    | Location                             |
-| ------: | -----------: | ------------: | ------------: | ------: | --------- | ------------------------------------ |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start()` | `jdk.jfr.internal.PlatformRecording` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller    | Location                             |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------- | ------------------------------------ |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start()` | `jdk.jfr.internal.PlatformRecording` |
 
 ##### `start()` (`jdk.jfr.internal.PlatformRecording`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller    | Location            |
-| ------: | -----------: | ------------: | ------------: | ------: | --------- | ------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start()` | `jdk.jfr.Recording` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller    | Location            |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------- | ------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start()` | `jdk.jfr.Recording` |
 
 ##### `start()` (`jdk.jfr.Recording`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                    | Location                          |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------------- | --------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `execute(ArgumentParser)` | `jdk.jfr.internal.dcmd.DCmdStart` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                    | Location                          |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------------- | --------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `execute(ArgumentParser)` | `jdk.jfr.internal.dcmd.DCmdStart` |
 
 ##### `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                          | Location                             |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------------------- | ------------------------------------ |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `execute(String, String, char)` | `jdk.jfr.internal.dcmd.AbstractDCmd` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                          | Location                             |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------------------- | ------------------------------------ |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `execute(String, String, char)` | `jdk.jfr.internal.dcmd.AbstractDCmd` |
 
 ##### `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Caller                        | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | ----------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `put(Object, Object)`         | `java.util.concurrent.ConcurrentHashMap` |
-|     new |        +32 B | 0.0% → 100.0% |    0 B → 32 B |   0 → 1 | `putIfAbsent(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Caller                        | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | ----------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `put(Object, Object)`         | `java.util.concurrent.ConcurrentHashMap` |
+|     new |        +32 B | 0.0% → 100.0% |    0 B → 32 B |           0 → 1 | `putIfAbsent(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-| Change |       Delta |      % |                Size | Objects | Caller      | Location              |
-| -----: | ----------: | -----: | ------------------: | ------: | ----------- | --------------------- |
-|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |   2 → 1 | `grow(int)` | `java.util.ArrayList` |
+| Change |       Delta |      % |                Size | Sampled objects | Caller      | Location              |
+| -----: | ----------: | -----: | ------------------: | --------------: | ----------- | --------------------- |
+|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |           2 → 1 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `grow(int)` (`java.util.ArrayList`)
 
-|  Change |       Delta |           % |          Size | Objects | Caller               | Location              |
-| ------: | ----------: | ----------: | ------------: | ------: | -------------------- | --------------------- |
-| removed | -194.64 KiB | 8.4% → 0.0% | 195 KiB → 0 B |   1 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
+|  Change |       Delta |           % |          Size | Sampled objects | Caller               | Location              |
+| ------: | ----------: | ----------: | ------------: | --------------: | -------------------- | --------------------- |
+| removed | -194.64 KiB | 8.4% → 0.0% | 195 KiB → 0 B |           1 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
 
 ##### `addAll(Collection)` (`java.util.ArrayList`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller                       | Location                                    |
-| ------: | ----------: | ------------: | ------------: | ------: | ---------------------------- | ------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller                       | Location                                    |
+| ------: | ----------: | ------------: | ------------: | --------------: | ---------------------------- | ------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller                  | Location                                                               |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------------------- | ---------------------------------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller                  | Location                                                               |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------------------- | ---------------------------------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
 
 ##### `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller                              | Location            |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------------------------------- | ------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller                              | Location            |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------------------------------- | ------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
 
 ##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller                              | Location                                    |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------------------------------- | ------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller                              | Location                                    |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------------------------------- | ------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `forEach(BiConsumer)` (`java.util.HashMap`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller            | Location                                    |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------------- | ------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `merge(Map, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller            | Location                                    |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------------- | ------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `merge(Map, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `exec()` (`java.util.concurrent.RecursiveTask`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller     | Location                            |
-| ------: | ----------: | ------------: | ------------: | ------: | ---------- | ----------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller     | Location                            |
+| ------: | ----------: | ------------: | ------------: | --------------: | ---------- | ----------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
 
-|  Change |       Delta |             % |          Size | Objects | Caller                                               | Location                                      |
-| ------: | ----------: | ------------: | ------------: | ------: | ---------------------------------------------------- | --------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
+|  Change |       Delta |             % |          Size | Sampled objects | Caller                                               | Location                                      |
+| ------: | ----------: | ------------: | ------------: | --------------: | ---------------------------------------------------- | --------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 
 #### Callees
 
@@ -4521,257 +4521,257 @@ Callees with the largest change in contribution to each function's total size. I
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-| Change |       Delta |            % |           Size | Objects | Callee                                                                                       | Location                                  |
-| -----: | ----------: | -----------: | -------------: | ------: | -------------------------------------------------------------------------------------------- | ----------------------------------------- |
-|    new |   +2.06 MiB | 0.0% → 89.2% | 0 B → 2.06 MiB |   0 → 8 | `executeBenchmark()`                                                                         | `org.renaissance.harness.ExecutionDriver` |
-|    new | +255.14 KiB | 0.0% → 10.8% |  0 B → 255 KiB |   0 → 2 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | `org.renaissance.harness.ExecutionDriver` |
+| Change |       Delta |            % |           Size | Sampled objects | Callee                                                                                       | Location                                  |
+| -----: | ----------: | -----------: | -------------: | --------------: | -------------------------------------------------------------------------------------------- | ----------------------------------------- |
+|    new |   +2.06 MiB | 0.0% → 89.2% | 0 B → 2.06 MiB |           0 → 8 | `executeBenchmark()`                                                                         | `org.renaissance.harness.ExecutionDriver` |
+|    new | +255.14 KiB | 0.0% → 10.8% |  0 B → 255 KiB |           0 → 2 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | `org.renaissance.harness.ExecutionDriver` |
 
 ##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
 
-|      Change |        Delta |            % |           Size | Objects | Callee                       | Location                                          |
-| ----------: | -----------: | -----------: | -------------: | ------: | ---------------------------- | ------------------------------------------------- |
-| +1632825.0% | +510.257 KiB |       100.0% | 32 B → 510 KiB |   1 → 4 | `findClass(String)`          | `java.net.URLClassLoader`                         |
-|         new |        +32 B | 0.0% → <0.1% |     0 B → 32 B |   0 → 1 | `loadClass(String, boolean)` | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
+|      Change |        Delta |            % |           Size | Sampled objects | Callee                       | Location                                          |
+| ----------: | -----------: | -----------: | -------------: | --------------: | ---------------------------- | ------------------------------------------------- |
+| +1632825.0% | +510.257 KiB |       100.0% | 32 B → 510 KiB |           1 → 4 | `findClass(String)`          | `java.net.URLClassLoader`                         |
+|         new |        +32 B | 0.0% → <0.1% |     0 B → 32 B |           0 → 1 | `loadClass(String, boolean)` | `jdk.internal.loader.ClassLoaders$AppClassLoader` |
 
 ##### `loadClass(String)` (`java.lang.ClassLoader`)
 
-|      Change |        Delta |      % |           Size | Objects | Callee                       | Location                |
-| ----------: | -----------: | -----: | -------------: | ------: | ---------------------------- | ----------------------- |
-| +1632925.0% | +510.289 KiB | 100.0% | 32 B → 510 KiB |   1 → 5 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
+|      Change |        Delta |      % |           Size | Sampled objects | Callee                       | Location                |
+| ----------: | -----------: | -----: | -------------: | --------------: | ---------------------------- | ----------------------- |
+| +1632925.0% | +510.289 KiB | 100.0% | 32 B → 510 KiB |           1 → 5 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
 
 ##### `run()` (`java.net.URLClassLoader$1`)
 
-|      Change |        Delta |              % |           Size | Objects | Callee                          | Location                           |
-| ----------: | -----------: | -------------: | -------------: | ------: | ------------------------------- | ---------------------------------- |
-| +1632825.0% | +510.257 KiB |         100.0% | 32 B → 510 KiB |   1 → 4 | `run()`                         | `java.net.URLClassLoader$1`        |
-|         new | +510.171 KiB |  0.0% → 100.0% |  0 B → 510 KiB |   0 → 2 | `getResource(String, boolean)`  | `jdk.internal.loader.URLClassPath` |
-|     +275.0% |        +88 B | 100.0% → <0.1% |   32 B → 120 B |   1 → 2 | `defineClass(String, Resource)` | `java.net.URLClassLoader`          |
+|      Change |        Delta |              % |           Size | Sampled objects | Callee                          | Location                           |
+| ----------: | -----------: | -------------: | -------------: | --------------: | ------------------------------- | ---------------------------------- |
+| +1632825.0% | +510.257 KiB |         100.0% | 32 B → 510 KiB |           1 → 4 | `run()`                         | `java.net.URLClassLoader$1`        |
+|         new | +510.171 KiB |  0.0% → 100.0% |  0 B → 510 KiB |           0 → 2 | `getResource(String, boolean)`  | `jdk.internal.loader.URLClassPath` |
+|     +275.0% |        +88 B | 100.0% → <0.1% |   32 B → 120 B |           1 → 2 | `defineClass(String, Resource)` | `java.net.URLClassLoader`          |
 
 ##### `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`)
 
-|      Change |        Delta |             % |           Size | Objects | Callee  | Location                                       |
-| ----------: | -----------: | ------------: | -------------: | ------: | ------- | ---------------------------------------------- |
-| +1632825.0% | +510.257 KiB |        100.0% | 32 B → 510 KiB |   1 → 4 | `run()` | `java.net.URLClassLoader$1`                    |
-|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |   0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$JarLoader$1` |
-|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |   0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$3`           |
+|      Change |        Delta |             % |           Size | Sampled objects | Callee  | Location                                       |
+| ----------: | -----------: | ------------: | -------------: | --------------: | ------- | ---------------------------------------------- |
+| +1632825.0% | +510.257 KiB |        100.0% | 32 B → 510 KiB |           1 → 4 | `run()` | `java.net.URLClassLoader$1`                    |
+|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |           0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+|         new | +510.171 KiB | 0.0% → 100.0% |  0 B → 510 KiB |           0 → 2 | `run()` | `jdk.internal.loader.URLClassPath$3`           |
 
 ##### `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` (`java.security.AccessController`)
 
-|      Change |        Delta |      % |           Size | Objects | Callee                                                                      | Location                         |
-| ----------: | -----------: | -----: | -------------: | ------: | --------------------------------------------------------------------------- | -------------------------------- |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController` |
+|      Change |        Delta |      % |           Size | Sampled objects | Callee                                                                      | Location                         |
+| ----------: | -----------: | -----: | -------------: | --------------: | --------------------------------------------------------------------------- | -------------------------------- |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` | `java.security.AccessController` |
 
 ##### `findClass(String)` (`java.net.URLClassLoader`)
 
-|      Change |        Delta |      % |           Size | Objects | Callee                                                          | Location                         |
-| ----------: | -----------: | -----: | -------------: | ------: | --------------------------------------------------------------- | -------------------------------- |
-| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |   1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
+|      Change |        Delta |      % |           Size | Sampled objects | Callee                                                          | Location                         |
+| ----------: | -----------: | -----: | -------------: | --------------: | --------------------------------------------------------------- | -------------------------------- |
+| +1632825.0% | +510.257 KiB | 100.0% | 32 B → 510 KiB |           1 → 4 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
 
 ##### `<init>(ZipFile$Source$Key, boolean, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                   | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------------ | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `initCEN(int, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                   | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------------ | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `initCEN(int, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `get(File, boolean, ZipCoder)` (`java.util.zip.ZipFile$Source`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                          | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------------------------------------- | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                          | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------------------------------------- | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(ZipFile$Source$Key, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                         | Location                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------------------ | ------------------------------ |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `get(File, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                         | Location                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------------------ | ------------------------------ |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `get(File, boolean, ZipCoder)` | `java.util.zip.ZipFile$Source` |
 
 ##### `<init>(File, int, Charset)` (`java.util.zip.ZipFile`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                 | Location                                  |
-| -----: | -----------: | ------------: | ------------: | ------: | -------------------------------------- | ----------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(ZipFile, ZipCoder, File, int)` | `java.util.zip.ZipFile$CleanableResource` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                 | Location                                  |
+| -----: | -----------: | ------------: | ------------: | --------------: | -------------------------------------- | ----------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(ZipFile, ZipCoder, File, int)` | `java.util.zip.ZipFile$CleanableResource` |
 
 ##### `<init>(File, int)` (`java.util.zip.ZipFile`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                       | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | ---------------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, int, Charset)` | `java.util.zip.ZipFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                       | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | ---------------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, int, Charset)` | `java.util.zip.ZipFile` |
 
 ##### `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`)
 
-| Change |        Delta |             % |          Size | Objects | Callee              | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, int)` | `java.util.zip.ZipFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee              | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, int)` | `java.util.zip.ZipFile` |
 
 ##### `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                        | Location                |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------- | ----------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(File, boolean, int, Runtime$Version)` | `java.util.jar.JarFile` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                        | Location                |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------- | ----------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(File, boolean, int, Runtime$Version)` | `java.util.jar.JarFile` |
 
 ##### `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`)
 
-| Change |        Delta |             % |          Size | Objects | Callee            | Location                                       |
-| -----: | -----------: | ------------: | ------------: | ------: | ----------------- | ---------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `getJarFile(URL)` | `jdk.internal.loader.URLClassPath$JarLoader`   |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()`           | `jdk.internal.loader.URLClassPath$JarLoader$1` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee            | Location                                       |
+| -----: | -----------: | ------------: | ------------: | --------------: | ----------------- | ---------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `getJarFile(URL)` | `jdk.internal.loader.URLClassPath$JarLoader`   |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()`           | `jdk.internal.loader.URLClassPath$JarLoader$1` |
 
 ##### `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                                          | Location                         |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------- | -------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                                          | Location                         |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------- | -------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
 
 ##### `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` (`jdk.internal.loader.URLClassPath$JarLoader`)
 
-| Change |        Delta |             % |          Size | Objects | Callee         | Location                                     |
-| -----: | -----------: | ------------: | ------------: | ------: | -------------- | -------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `ensureOpen()` | `jdk.internal.loader.URLClassPath$JarLoader` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee         | Location                                     |
+| -----: | -----------: | ------------: | ------------: | --------------: | -------------- | -------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `ensureOpen()` | `jdk.internal.loader.URLClassPath$JarLoader` |
 
 ##### `run()` (`jdk.internal.loader.URLClassPath$3`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                                         | Location                                     |
-| -----: | -----------: | ------------: | ------------: | ------: | -------------------------------------------------------------- | -------------------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` | `jdk.internal.loader.URLClassPath$JarLoader` |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `run()`                                                        | `jdk.internal.loader.URLClassPath$3`         |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                                         | Location                                     |
+| -----: | -----------: | ------------: | ------------: | --------------: | -------------------------------------------------------------- | -------------------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` | `jdk.internal.loader.URLClassPath$JarLoader` |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `run()`                                                        | `jdk.internal.loader.URLClassPath$3`         |
 
 ##### `getLoader(URL)` (`jdk.internal.loader.URLClassPath`)
 
-| Change |        Delta |             % |          Size | Objects | Callee                                                          | Location                         |
-| -----: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------- | -------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee                                                          | Location                         |
+| -----: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------- | -------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` | `java.security.AccessController` |
 
 ##### `getLoader(int)` (`jdk.internal.loader.URLClassPath`)
 
-| Change |        Delta |             % |          Size | Objects | Callee           | Location                           |
-| -----: | -----------: | ------------: | ------------: | ------: | ---------------- | ---------------------------------- |
-|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |   0 → 2 | `getLoader(URL)` | `jdk.internal.loader.URLClassPath` |
+| Change |        Delta |             % |          Size | Sampled objects | Callee           | Location                           |
+| -----: | -----------: | ------------: | ------------: | --------------: | ---------------- | ---------------------------------- |
+|    new | +510.171 KiB | 0.0% → 100.0% | 0 B → 510 KiB |           0 → 2 | `getLoader(URL)` | `jdk.internal.loader.URLClassPath` |
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|  Change |     Delta |             % |           Size | Objects | Callee               | Location                                  |
-| ------: | --------: | ------------: | -------------: | ------: | -------------------- | ----------------------------------------- |
-| removed | -2.06 MiB | 100.0% → 0.0% | 2.06 MiB → 0 B |   4 → 0 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
+|  Change |     Delta |             % |           Size | Sampled objects | Callee               | Location                                  |
+| ------: | --------: | ------------: | -------------: | --------------: | -------------------- | ----------------------------------------- |
+| removed | -2.06 MiB | 100.0% → 0.0% | 2.06 MiB → 0 B |           4 → 0 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
 
 ##### `put(Object, Object)` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                            | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                            | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `storeString(String)` (`jdk.jfr.internal.StringPool`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `put(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `put(Object, Object)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `addString(String)` (`jdk.jfr.internal.StringPool`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                | Location                      |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------- | ----------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `storeString(String)` | `jdk.jfr.internal.StringPool` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                | Location                      |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------- | ----------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `storeString(String)` | `jdk.jfr.internal.StringPool` |
 
 ##### `putString(String)` (`jdk.jfr.internal.event.EventWriter`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee              | Location                      |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `addString(String)` | `jdk.jfr.internal.StringPool` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee              | Location                      |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `addString(String)` | `jdk.jfr.internal.StringPool` |
 
 ##### `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee              | Location                             |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ------------------------------------ |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `putString(String)` | `jdk.jfr.internal.event.EventWriter` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee              | Location                             |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ------------------------------------ |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `putString(String)` | `jdk.jfr.internal.event.EventWriter` |
 
 ##### `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                                                                            | Location                              |
-| ------: | -----------: | ------------: | ------------: | ------: | --------------------------------------------------------------------------------- | ------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                                                                            | Location                              |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------------------------------------------------------------------------------- | ------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `commit(long, long, long, String, String, boolean, long, long, long, long, long)` | `jdk.jfr.events.ActiveRecordingEvent` |
 
 ##### `start(PlatformRecording)` (`jdk.jfr.internal.PlatformRecorder`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee              | Location                            |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------- | ----------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `writeMetaEvents()` | `jdk.jfr.internal.PlatformRecorder` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee              | Location                            |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------- | ----------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `writeMetaEvents()` | `jdk.jfr.internal.PlatformRecorder` |
 
 ##### `start()` (`jdk.jfr.internal.PlatformRecording`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                     | Location                            |
-| ------: | -----------: | ------------: | ------------: | ------: | -------------------------- | ----------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start(PlatformRecording)` | `jdk.jfr.internal.PlatformRecorder` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                     | Location                            |
+| ------: | -----------: | ------------: | ------------: | --------------: | -------------------------- | ----------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start(PlatformRecording)` | `jdk.jfr.internal.PlatformRecorder` |
 
 ##### `start()` (`jdk.jfr.Recording`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee    | Location                             |
-| ------: | -----------: | ------------: | ------------: | ------: | --------- | ------------------------------------ |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start()` | `jdk.jfr.internal.PlatformRecording` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee    | Location                             |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------- | ------------------------------------ |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start()` | `jdk.jfr.internal.PlatformRecording` |
 
 ##### `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee    | Location            |
-| ------: | -----------: | ------------: | ------------: | ------: | --------- | ------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `start()` | `jdk.jfr.Recording` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee    | Location            |
+| ------: | -----------: | ------------: | ------------: | --------------: | --------- | ------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `start()` | `jdk.jfr.Recording` |
 
 ##### `execute(String, String, char)` (`jdk.jfr.internal.dcmd.AbstractDCmd`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee                    | Location                          |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------------------- | --------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `execute(ArgumentParser)` | `jdk.jfr.internal.dcmd.DCmdStart` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee                    | Location                          |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------------------- | --------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `execute(ArgumentParser)` | `jdk.jfr.internal.dcmd.DCmdStart` |
 
 ##### `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`)
 
-|  Change |        Delta |             % |          Size | Objects | Callee        | Location                                 |
-| ------: | -----------: | ------------: | ------------: | ------: | ------------- | ---------------------------------------- |
-| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |   1 → 0 | `initTable()` | `java.util.concurrent.ConcurrentHashMap` |
+|  Change |        Delta |             % |          Size | Sampled objects | Callee        | Location                                 |
+| ------: | -----------: | ------------: | ------------: | --------------: | ------------- | ---------------------------------------- |
+| removed | -256.015 KiB | 100.0% → 0.0% | 256 KiB → 0 B |           1 → 0 | `initTable()` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `grow(int)` (`java.util.ArrayList`)
 
-| Change |       Delta |      % |                Size | Objects | Callee                  | Location           |
-| -----: | ----------: | -----: | ------------------: | ------: | ----------------------- | ------------------ |
-|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |   2 → 1 | `copyOf(Object[], int)` | `java.util.Arrays` |
+| Change |       Delta |      % |                Size | Sampled objects | Callee                  | Location           |
+| -----: | ----------: | -----: | ------------------: | --------------: | ----------------------- | ------------------ |
+|  -8.4% | -194.64 KiB | 100.0% | 2.25 MiB → 2.06 MiB |           2 → 1 | `copyOf(Object[], int)` | `java.util.Arrays` |
 
 ##### `addAll(Collection)` (`java.util.ArrayList`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee      | Location              |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------- | --------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `grow(int)` | `java.util.ArrayList` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee      | Location              |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------- | --------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee               | Location              |
-| ------: | ----------: | ------------: | ------------: | ------: | -------------------- | --------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee               | Location              |
+| ------: | ----------: | ------------: | ------------: | --------------: | -------------------- | --------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
 
 ##### `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee                       | Location                                    |
-| ------: | ----------: | ------------: | ------------: | ------: | ---------------------------- | ------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee                       | Location                                    |
+| ------: | ----------: | ------------: | ------------: | --------------: | ---------------------------- | ------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee                  | Location                                                               |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------------------- | ---------------------------------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee                  | Location                                                               |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------------------- | ---------------------------------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0` |
 
 ##### `forEach(BiConsumer)` (`java.util.HashMap`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee                   | Location                                                               |
-| ------: | ----------: | ------------: | ------------: | ------: | ------------------------ | ---------------------------------------------------------------------- |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `accept(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee                   | Location                                                               |
+| ------: | ----------: | ------------: | ------------: | --------------: | ------------------------ | ---------------------------------------------------------------------- |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `accept(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88` |
 
 ##### `exec()` (`java.util.concurrent.RecursiveTask`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee      | Location                                               |
-| ------: | ----------: | ------------: | ------------: | ------: | ----------- | ------------------------------------------------------ |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee      | Location                                               |
+| ------: | ----------: | ------------: | ------------: | --------------: | ----------- | ------------------------------------------------------ |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
 ##### `doExec()` (`java.util.concurrent.ForkJoinTask`)
 
-|  Change |       Delta |             % |          Size | Objects | Callee   | Location                             |
-| ------: | ----------: | ------------: | ------------: | ------: | -------- | ------------------------------------ |
-| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |   1 → 0 | `exec()` | `java.util.concurrent.RecursiveTask` |
+|  Change |       Delta |             % |          Size | Sampled objects | Callee   | Location                             |
+| ------: | ----------: | ------------: | ------------: | --------------: | -------- | ------------------------------------ |
+| removed | -194.64 KiB | 100.0% → 0.0% | 195 KiB → 0 B |           1 → 0 | `exec()` | `java.util.concurrent.RecursiveTask` |
 
 ## Hottest call stacks
 
@@ -4781,31 +4781,31 @@ Call stacks with the largest increase in bytes retained in their leaf frame.
 
 Common call stack: `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007801001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007801082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`
 
-| Change |        Delta |            % |           Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| -----: | -----------: | -----------: | -------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|    new |    +2.06 MiB | 0.0% → 80.5% | 0 B → 2.06 MiB |   0 → 1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000078010c40c8`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|    new | +255.085 KiB |  0.0% → 9.7% |  0 B → 255 KiB |   0 → 1 | `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`) ← `<init>(ZipFile$Source$Key, boolean, ZipCoder)` ← `get(File, boolean, ZipCoder)` ← `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`) ← `<init>(File, int, Charset)` (`java.util.zip.ZipFile`) ← `<init>(File, int)` ← `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`) ← `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` ← `run()` (`jdk.internal.loader.URLClassPath$3`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `getLoader(URL)` (`jdk.internal.loader.URLClassPath`) ← `getLoader(int)` ← `getResource(String, boolean)` ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|    new | +255.085 KiB |  0.0% → 9.7% |  0 B → 255 KiB |   0 → 1 | `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`) ← `<init>(ZipFile$Source$Key, boolean, ZipCoder)` ← `get(File, boolean, ZipCoder)` ← `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`) ← `<init>(File, int, Charset)` (`java.util.zip.ZipFile`) ← `<init>(File, int)` ← `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`) ← `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` ← `run()` (`jdk.internal.loader.URLClassPath$3`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `getLoader(URL)` (`jdk.internal.loader.URLClassPath`) ← `getLoader(int)` ← `getResource(String, boolean)` ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `getDeclaredConstructors0(boolean)` (`java.lang.Class`) ← `privateGetDeclaredConstructors(boolean)` ← `getConstructor0(Class[], int)` ← `getDeclaredConstructor(Class[])` ← `createBenchmark(BenchmarkDescriptor)` (`org.renaissance.core.BenchmarkSuite`) ← `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) |
-|    new |       +168 B | 0.0% → <0.1% |    0 B → 168 B |   0 → 7 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                     |
-|    new |        +64 B | 0.0% → <0.1% |     0 B → 64 B |   0 → 1 | `newLinkedHashMap(int)` (`java.util.LinkedHashMap`) ← `<init>(int)` (`java.util.jar.Attributes`) ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|    new |        +56 B | 0.0% → <0.1% |     0 B → 56 B |   0 → 1 | `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`) ← `copyOfRange(byte[], int, int)` ← `<init>(Charset, byte[], int, int)` (`java.lang.String`) ← `<init>(byte[], int, int, Charset)` ← `parseName(byte[], int)` (`java.util.jar.Manifest`) ← `read(InputStream, String)` ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `getDeclaredConstructors0(boolean)` (`java.lang.Class`) ← `privateGetDeclaredConstructors(boolean)` ← `getConstructor0(Class[], int)` ← `getDeclaredConstructor(Class[])` ← `createBenchmark(BenchmarkDescriptor)` (`org.renaissance.core.BenchmarkSuite`) ← `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|    new |        +40 B | 0.0% → <0.1% |     0 B → 40 B |   0 → 1 | `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|    new |        +32 B | 0.0% → <0.1% |     0 B → 32 B |   0 → 1 | `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`) ← `putIfAbsent(Object, Object)` ← `getClassLoadingLock(String)` (`java.lang.ClassLoader`) ← `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`) ← `loadClass(String, boolean)` ← `loadClass(String, boolean)` (`jdk.internal.loader.ClassLoaders$AppClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Change |        Delta |            % |           Size | Sampled objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -----: | -----------: | -----------: | -------------: | --------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    new |    +2.06 MiB | 0.0% → 80.5% | 0 B → 2.06 MiB |           0 → 1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000078010c40c8`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|    new | +255.085 KiB |  0.0% → 9.7% |  0 B → 255 KiB |           0 → 1 | `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`) ← `<init>(ZipFile$Source$Key, boolean, ZipCoder)` ← `get(File, boolean, ZipCoder)` ← `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`) ← `<init>(File, int, Charset)` (`java.util.zip.ZipFile`) ← `<init>(File, int)` ← `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`) ← `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` ← `run()` (`jdk.internal.loader.URLClassPath$3`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `getLoader(URL)` (`jdk.internal.loader.URLClassPath`) ← `getLoader(int)` ← `getResource(String, boolean)` ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|    new | +255.085 KiB |  0.0% → 9.7% |  0 B → 255 KiB |           0 → 1 | `initCEN(int, ZipCoder)` (`java.util.zip.ZipFile$Source`) ← `<init>(ZipFile$Source$Key, boolean, ZipCoder)` ← `get(File, boolean, ZipCoder)` ← `<init>(ZipFile, ZipCoder, File, int)` (`java.util.zip.ZipFile$CleanableResource`) ← `<init>(File, int, Charset)` (`java.util.zip.ZipFile`) ← `<init>(File, int)` ← `<init>(File, boolean, int, Runtime$Version)` (`java.util.jar.JarFile`) ← `getJarFile(URL)` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `run()` (`jdk.internal.loader.URLClassPath$JarLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `ensureOpen()` (`jdk.internal.loader.URLClassPath$JarLoader`) ← `<init>(URL, URLStreamHandler, HashMap, AccessControlContext)` ← `run()` (`jdk.internal.loader.URLClassPath$3`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `getLoader(URL)` (`jdk.internal.loader.URLClassPath`) ← `getLoader(int)` ← `getResource(String, boolean)` ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `getDeclaredConstructors0(boolean)` (`java.lang.Class`) ← `privateGetDeclaredConstructors(boolean)` ← `getConstructor0(Class[], int)` ← `getDeclaredConstructor(Class[])` ← `createBenchmark(BenchmarkDescriptor)` (`org.renaissance.core.BenchmarkSuite`) ← `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) |
+|    new |       +168 B | 0.0% → <0.1% |    0 B → 168 B |           0 → 7 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                     |
+|    new |        +64 B | 0.0% → <0.1% |     0 B → 64 B |           0 → 1 | `newLinkedHashMap(int)` (`java.util.LinkedHashMap`) ← `<init>(int)` (`java.util.jar.Attributes`) ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|    new |        +56 B | 0.0% → <0.1% |     0 B → 56 B |           0 → 1 | `copyOfRangeByte(byte[], int, int)` (`java.util.Arrays`) ← `copyOfRange(byte[], int, int)` ← `<init>(Charset, byte[], int, int)` (`java.lang.String`) ← `<init>(byte[], int, int, Charset)` ← `parseName(byte[], int)` (`java.util.jar.Manifest`) ← `read(InputStream, String)` ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `getDeclaredConstructors0(boolean)` (`java.lang.Class`) ← `privateGetDeclaredConstructors(boolean)` ← `getConstructor0(Class[], int)` ← `getDeclaredConstructor(Class[])` ← `createBenchmark(BenchmarkDescriptor)` (`org.renaissance.core.BenchmarkSuite`) ← `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780119c3b8`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|    new |        +40 B | 0.0% → <0.1% |     0 B → 40 B |           0 → 1 | `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|    new |        +32 B | 0.0% → <0.1% |     0 B → 32 B |           0 → 1 | `putVal(Object, Object, boolean)` (`java.util.concurrent.ConcurrentHashMap`) ← `putIfAbsent(Object, Object)` ← `getClassLoadingLock(String)` (`java.lang.ClassLoader`) ← `loadClassOrNull(String, boolean)` (`jdk.internal.loader.BuiltinClassLoader`) ← `loadClass(String, boolean)` ← `loadClass(String, boolean)` (`jdk.internal.loader.ClassLoaders$AppClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 ### Improvements
 
 Call stacks with the largest decrease in bytes retained in their leaf frame.
 
-|  Change |        Delta |            % |           Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ------: | -----------: | -----------: | -------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed |    -2.06 MiB | 82.4% → 0.0% | 2.06 MiB → 0 B |   1 → 0 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000070010e3e58`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| removed | -256.015 KiB | 10.0% → 0.0% |  256 KiB → 0 B |   1 → 0 | `initTable()` (`java.util.concurrent.ConcurrentHashMap`) ← `putVal(Object, Object, boolean)` ← `put(Object, Object)` ← `storeString(String)` (`jdk.jfr.internal.StringPool`) ← `addString(String)` ← `putString(String)` (`jdk.jfr.internal.event.EventWriter`) ← `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`) ← `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`) ← `start(PlatformRecording)` ← `start()` (`jdk.jfr.internal.PlatformRecording`) ← `start()` (`jdk.jfr.Recording`) ← `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`) ← `execute(String, String, char)` (`jdk.jfr.internal.dcmd.AbstractDCmd`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| removed |  -194.64 KiB |  7.6% → 0.0% |  195 KiB → 0 B |   1 → 0 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `addAll(Collection)` ← `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`) ← `merge(Object, Object, BiFunction)` (`java.util.HashMap`) ← `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88`) ← `forEach(BiConsumer)` (`java.util.HashMap`) ← `merge(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`) ← `combineResults(Object, Object)` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| removed |       -264 B | <0.1% → 0.0% |    264 B → 0 B |   1 → 0 | `<clinit>()` (`scala.package$`) ← `<clinit>()` (`scala.Predef$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| removed |        -48 B | <0.1% → 0.0% |     48 B → 0 B |   2 → 0 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-| removed |        -40 B | <0.1% → 0.0% |     40 B → 0 B |   1 → 0 | `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$ArrayNode`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$FixedNodeBuilder`) ← `builder(long, IntFunction)` (`java.util.stream.Nodes`) ← `makeNodeBuilder(long, IntFunction)` (`java.util.stream.ReferencePipeline`) ← `evaluate(Spliterator, boolean, IntFunction)` (`java.util.stream.AbstractPipeline`) ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                       |
-| removed |        -32 B | <0.1% → 0.0% |     32 B → 0 B |   1 → 0 | `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`) ← `putVal(int, Object, Object, boolean, boolean)` ← `put(Object, Object)` ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| removed |        -32 B | <0.1% → 0.0% |     32 B → 0 B |   1 → 0 | `compress(char[], int, int)` (`java.lang.StringUTF16`) ← `<init>(char[], int, int, Void)` (`java.lang.String`) ← `<init>(char[], int, int)` ← `loadConvert(char[], int, int, StringBuilder)` (`java.util.Properties`) ← `load0(Properties$LineReader)` ← `load(InputStream)` ← `loadProperties(URL)` (`org.renaissance.core.ResourceUtils`) ← `loadPropertiesAsMap(URL)` ← `create(Path, String, Optional, Map, boolean)` (`org.renaissance.core.BenchmarkSuite`) ← `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`) ← `apply()` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700115e000`) ← `apply(Function0)` (`scala.util.Try$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  Change |        Delta |            % |           Size | Sampled objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------: | -----------: | -----------: | -------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed |    -2.06 MiB | 82.4% → 0.0% | 2.06 MiB → 0 B |           1 → 0 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000070010e3e58`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| removed | -256.015 KiB | 10.0% → 0.0% |  256 KiB → 0 B |           1 → 0 | `initTable()` (`java.util.concurrent.ConcurrentHashMap`) ← `putVal(Object, Object, boolean)` ← `put(Object, Object)` ← `storeString(String)` (`jdk.jfr.internal.StringPool`) ← `addString(String)` ← `putString(String)` (`jdk.jfr.internal.event.EventWriter`) ← `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`) ← `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`) ← `start(PlatformRecording)` ← `start()` (`jdk.jfr.internal.PlatformRecording`) ← `start()` (`jdk.jfr.Recording`) ← `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`) ← `execute(String, String, char)` (`jdk.jfr.internal.dcmd.AbstractDCmd`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| removed |  -194.64 KiB |  7.6% → 0.0% |  195 KiB → 0 B |           1 → 0 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `addAll(Collection)` ← `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`) ← `merge(Object, Object, BiFunction)` (`java.util.HashMap`) ← `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88`) ← `forEach(BiConsumer)` (`java.util.HashMap`) ← `merge(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`) ← `combineResults(Object, Object)` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| removed |       -264 B | <0.1% → 0.0% |    264 B → 0 B |           1 → 0 | `<clinit>()` (`scala.package$`) ← `<clinit>()` (`scala.Predef$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| removed |        -48 B | <0.1% → 0.0% |     48 B → 0 B |           2 → 0 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+| removed |        -40 B | <0.1% → 0.0% |     40 B → 0 B |           1 → 0 | `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$ArrayNode`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$FixedNodeBuilder`) ← `builder(long, IntFunction)` (`java.util.stream.Nodes`) ← `makeNodeBuilder(long, IntFunction)` (`java.util.stream.ReferencePipeline`) ← `evaluate(Spliterator, boolean, IntFunction)` (`java.util.stream.AbstractPipeline`) ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                       |
+| removed |        -32 B | <0.1% → 0.0% |     32 B → 0 B |           1 → 0 | `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`) ← `putVal(int, Object, Object, boolean, boolean)` ← `put(Object, Object)` ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| removed |        -32 B | <0.1% → 0.0% |     32 B → 0 B |           1 → 0 | `compress(char[], int, int)` (`java.lang.StringUTF16`) ← `<init>(char[], int, int, Void)` (`java.lang.String`) ← `<init>(char[], int, int)` ← `loadConvert(char[], int, int, StringBuilder)` (`java.util.Properties`) ← `load0(Properties$LineReader)` ← `load(InputStream)` ← `loadProperties(URL)` (`org.renaissance.core.ResourceUtils`) ← `loadPropertiesAsMap(URL)` ← `create(Path, String, Optional, Map, boolean)` (`org.renaissance.core.BenchmarkSuite`) ← `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`) ← `apply()` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700115e000`) ← `apply(Function0)` (`scala.util.Try$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 # Lock contention profile diff
 

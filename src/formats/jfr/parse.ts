@@ -191,7 +191,9 @@ const methodToStackFrame = (method: JfrMethod): StackFrame => ({
 })
 
 /** One object sampled at allocation and still live when the recording ended. */
-const OBJECTS = countMetricOf(`object`, { improvement: `decrease` })
+const SAMPLED_OBJECTS = countMetricOf(`sampled object`, {
+  improvement: `decrease`,
+})
 
 /** One acquisition of a contended monitor, or one park. */
 const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
@@ -205,9 +207,10 @@ const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
  * allocations since the previous one, a TLAB event stands for a whole TLAB
  * refill or for one allocation made outside a TLAB, and async-profiler's
  * `--alloc <bytes>` and `--nativemem <bytes>` set a sampling interval for the
- * heap and `profiler.Malloc` events. Live-object and lock events each record
- * one occurrence of what their kind names, so their rate is per object or per
- * contention rather than per sample.
+ * heap and `profiler.Malloc` events. Live-object events record only objects
+ * sampled at allocation, up to a limit. Lock events each record one occurrence
+ * of what their kind names, so their rate is per contention rather than per
+ * sample.
  */
 const KINDS: {
   kind: JfrSampleKind
@@ -216,7 +219,7 @@ const KINDS: {
 }[] = [
   { kind: `cpu`, metric: undefined, countMetric: SAMPLES },
   { kind: `alloc`, metric: ALLOCATED_HEAP_METRIC, countMetric: SAMPLES },
-  { kind: `live`, metric: RETAINED_HEAP_METRIC, countMetric: OBJECTS },
+  { kind: `live`, metric: RETAINED_HEAP_METRIC, countMetric: SAMPLED_OBJECTS },
   {
     kind: `nativemem`,
     metric: ALLOCATED_NATIVE_MEMORY_METRIC,

@@ -146,8 +146,8 @@ export const selfSleepsTables = (md: string): Table[] =>
 export const totalSleepsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Total sleeps`)
 
-export const selfObjectsTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseMd(md), `Self objects`)
+export const selfSampledObjectsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self sampled objects`)
 
 /**
  * The `Self size` tables, or only those under {@link section} when given. A
