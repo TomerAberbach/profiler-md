@@ -246,7 +246,7 @@ Categories accounting for at least 1.0% of self samples.
 | 83.4% |   3,271 | `run`                 | `Symfony\Component\Console\Application`        |
 | 83.2% |   3,265 | `run`                 | `Composer\Console\Application`                 |
 | 79.0% |   3,099 | `doRun`               | `Composer\Console\Application`                 |
-| 77.0% |   3,019 | `(anonymous)`         | `./profile.php`                                |
+| 77.0% |   3,019 | `(file scope)`        | `./profile.php`                                |
 | 73.5% |   2,883 | `doRunCommand`        | `Symfony\Component\Console\Application`        |
 | 73.2% |   2,869 | `doRun`               | `Symfony\Component\Console\Application`        |
 | 71.5% |   2,805 | `dump`                | `Composer\Autoload\AutoloadGenerator`          |
@@ -281,9 +281,9 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `run` (`Composer\Console\Application`)
 
-|     % | Samples | Caller        | Location        |
-| ----: | ------: | ------------- | --------------- |
-| 92.2% |   3,011 | `(anonymous)` | `./profile.php` |
+|     % | Samples | Caller         | Location        |
+| ----: | ------: | -------------- | --------------- |
+| 92.2% |   3,011 | `(file scope)` | `./profile.php` |
 
 ##### `doRun` (`Composer\Console\Application`)
 
@@ -418,14 +418,14 @@ Callees with the largest contribution to each function's total samples. Inlining
 |  0.5% |      17 | `find`      | `Symfony\Component\Console\Application` |
 |  0.1% |       2 | `loadClass` | `Composer\Autoload\ClassLoader`         |
 
-##### `(anonymous)` (`./profile.php`)
+##### `(file scope)` (`./profile.php`)
 
-|     % | Samples | Callee        | Location                        |
-| ----: | ------: | ------------- | ------------------------------- |
-| 99.7% |   3,011 | `run`         | `Composer\Console\Application`  |
-|  0.1% |       3 | `loadClass`   | `Composer\Autoload\ClassLoader` |
-|  0.1% |       3 | `__construct` | `Composer\Console\Application`  |
-|  0.1% |       2 | `(anonymous)` | `./composer/src/bootstrap.php`  |
+|     % | Samples | Callee         | Location                        |
+| ----: | ------: | -------------- | ------------------------------- |
+| 99.7% |   3,011 | `run`          | `Composer\Console\Application`  |
+|  0.1% |       3 | `loadClass`    | `Composer\Autoload\ClassLoader` |
+|  0.1% |       3 | `__construct`  | `Composer\Console\Application`  |
+|  0.1% |       2 | `(file scope)` | `./composer/src/bootstrap.php`  |
 
 ##### `doRunCommand` (`Symfony\Component\Console\Application`)
 
@@ -542,7 +542,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 Call stacks with the most samples collected in their leaf frame.
 
-Common call stack: `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`./profile.php`)
+Common call stack: `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(file scope)` (`./profile.php`)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -49,12 +49,16 @@ export const pprofJlOriginSpec = {
   matchEntry: matchEntryFromRules({ location: JULIA_LOCATION_MATCH_RULES }),
   normalizeStackFrame: input =>
     // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
-    // pseudo-frame. It isn't a function: dropping it returns each sample's
-    // self value to the function that allocated.
-    input.name?.startsWith(`Alloc: `) === true
+    // pseudo-frame above its own recording hook. Dropping both returns each
+    // sample's self value to the function that allocated.
+    input.name?.startsWith(`Alloc: `) === true ||
+    input.name === ALLOCATION_RECORDING_HOOK
       ? null
       : dropPlaceholderPath(input),
 } as const satisfies OriginSpec
+
+/** The function in Julia's runtime that records a sampled allocation. */
+const ALLOCATION_RECORDING_HOOK = `maybe_record_alloc_to_profile`
 
 /**
  * Categorizes frames from the Julia install's `share/julia/` tree (`Base`,

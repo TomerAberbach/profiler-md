@@ -68,6 +68,17 @@ describe(`categorizeEntry`, () => {
     },
   )
 
+  test(`a stand-in for a stack the runtime lost is unknown`, () => {
+    expect(
+      categorizeEntry(
+        relativeEntry(
+          `runtime._LostContendedRuntimeLock`,
+          `/usr/local/go/src/runtime/proc.go`,
+        ),
+      ),
+    ).toBe(`unknown`)
+  })
+
   test(`domain-prefixed modules are third-party`, () => {
     expect(
       categorizeEntry(

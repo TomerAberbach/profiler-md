@@ -28,6 +28,9 @@ describe(`normalizeStackFrame`, () => {
     // `{UInt8}` is a Julia type parameter.
     // eslint-disable-next-line unicorn/no-incorrect-template-string-interpolation
     expect(normalizeStackFrame({ name: `Alloc: Vector{UInt8}` })).toBeNull()
+    expect(
+      normalizeStackFrame({ name: `maybe_record_alloc_to_profile` }),
+    ).toBeNull()
   })
 
   test(`drops the nothing placeholder path`, () => {

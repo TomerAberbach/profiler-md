@@ -24,14 +24,31 @@ export const goOriginSpec = {
     isStdlibLocated(entry.location),
   matchEntry: matchEntryFromRules({ location: GO_LOCATION_MATCH_RULES }),
   categorizeEntry: entry =>
+    lostStackCategory(entry) ??
     goCollectorCategory(entry) ??
     goDependencyCategory(entry) ??
     // Go compiles ahead of time with full symbol information, so a frame with
-    // no location is a raw address the profiler never symbolized (the
-    // thread-spawn sites a threadcreate profile records).
+    // no location is a raw address the profiler never symbolized.
     locationlessCategory(entry) ??
     goPackageCategory(entry),
+  // A threadcreate profile's stacks repeat a placeholder for a zero PC that has
+  // neither a function nor a line, so it is no frame of the program.
+  // https://github.com/golang/go/issues/6104
+  normalizeStackFrame: input =>
+    input.name || input.definition || input.executing ? input : null,
 } as const satisfies OriginSpec
+
+/**
+ * Categorizes the runtime's stand-ins for a stack it did not record, such as
+ * `runtime._LostContendedRuntimeLock`, as `unknown`.
+ */
+const lostStackCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name?.startsWith(`runtime._Lost`) && isStdlibLocated(location)
+    ? `unknown`
+    : undefined
 
 /**
  * Categorizes Go's collector as `garbage-collector`: the background mark

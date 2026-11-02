@@ -127,6 +127,7 @@ describe(`normalizeStackFrame`, () => {
 
   test(`a file-scope frame becomes its file`, () => {
     expect(normalizeStackFrame({ name: `/var/www/index.php` })).toStrictEqual({
+      name: `(file scope)`,
       definition: { type: `file`, urlOrPath: `/var/www/index.php` },
     })
   })
@@ -182,7 +183,7 @@ describe(`truncation`, () => {
 
     expect(callTreeLines(md)).toStrictEqual([
       [
-        `├── 3 samples (75.0%) (anonymous) at ./index.php`,
+        `├── 3 samples (75.0%) (file scope) at ./index.php`,
         String.raw`│   └── 3 samples (75.0%) render at App\Report`,
         `│       └── 3 samples (75.0%, self 100.0% globally) pad_rows`,
         `└── 1 sample (25.0%) truncated`,
@@ -212,7 +213,7 @@ describe(`truncation`, () => {
         {
           '%': `75.0%`,
           Samples: `3`,
-          'Call stack': String.raw`pad_rows ← render (App\Report) ← (anonymous) (./index.php)`,
+          'Call stack': String.raw`pad_rows ← render (App\Report) ← (file scope) (./index.php)`,
         },
         {
           '%': `25.0%`,
@@ -230,7 +231,7 @@ describe(`truncation`, () => {
     ])
 
     expect(md).toContain(
-      `Common call stack: \`render\` (\`App\\Report\`) ← \`(anonymous)\` (\`./index.php\`)`,
+      `Common call stack: \`render\` (\`App\\Report\`) ← \`(file scope)\` (\`./index.php\`)`,
     )
     expect(callStackTables(md)).toStrictEqual([
       [
