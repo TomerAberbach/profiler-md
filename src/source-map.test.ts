@@ -475,6 +475,8 @@ const cpuProfile = JSON.stringify({
       callFrame: makeV8CallFrame(`funcB`, `file:///project/dist/b.js`),
     },
   ],
+  startTime: 0,
+  endTime: 160,
   samples: [2, 2, 2, 2, 2, 3, 3, 3],
   timeDeltas: Array.from({ length: 8 }, () => 20),
 })
@@ -570,6 +572,8 @@ test(`sourceMaps reports each conversion's generated files when options are shar
         callFrame: makeV8CallFrame(`funcC`, `file:///project/dist/c.js`),
       },
     ],
+    startTime: 0,
+    endTime: 20,
     samples: [2],
     timeDeltas: [20],
   })

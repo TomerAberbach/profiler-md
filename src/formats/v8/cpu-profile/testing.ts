@@ -25,6 +25,8 @@ export const makeV8CpuProfileRoot = (children: number[]): V8CpuProfileNode => ({
  */
 export const crashingV8CpuProfile = JSON.stringify({
   nodes: [{ id: 1, callFrame: null }],
+  startTime: 0,
+  endTime: 1,
   samples: [],
   timeDeltas: [1],
 })
@@ -42,6 +44,8 @@ export const lazilyCrashingV8CpuProfile = JSON.stringify({
       positionTicks: 1,
     },
   ],
+  startTime: 0,
+  endTime: 1,
   samples: [1],
   timeDeltas: [1],
 })

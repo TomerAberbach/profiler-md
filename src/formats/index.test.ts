@@ -282,6 +282,8 @@ describe(`profileToMd`, () => {
           callFrame: makeV8CallFrame(`readFileSync`, `node:fs`),
         },
       ],
+      startTime: 0,
+      endTime: 220,
       samples: [2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5],
       timeDeltas: Array.from({ length: 11 }, () => 20),
     })
@@ -346,6 +348,8 @@ describe(`profileToMd`, () => {
           callFrame: makeV8CallFrame(`readFileSync`, `node:fs`),
         },
       ],
+      startTime: 0,
+      endTime: 80,
       samples: [2, 2, 2, 3],
       timeDeltas: Array.from({ length: 4 }, () => 20),
     })
@@ -405,6 +409,8 @@ describe(`profileToMd`, () => {
           ),
         },
       ],
+      startTime: 0,
+      endTime: 80,
       samples: [2, 2, 2, 3],
       timeDeltas: Array.from({ length: 4 }, () => 20),
     })
@@ -465,6 +471,8 @@ describe(`profileToMd`, () => {
           ),
         },
       ],
+      startTime: 0,
+      endTime: 200,
       samples: [2, 2, 2, 2, 2, 3, 3, 3, 4, 4],
       timeDeltas: Array.from({ length: 10 }, () => 20),
     })
@@ -518,6 +526,8 @@ describe(`profileToMd`, () => {
           ),
         },
       ],
+      startTime: 0,
+      endTime: 100,
       samples: [2, 2, 2, 2, 2],
       timeDeltas: Array.from({ length: 5 }, () => 20),
     })
@@ -620,6 +630,8 @@ describe(`profileToMd`, () => {
       shared: {},
       profiles: [],
       nodes: [{ id: 1, callFrame: null }],
+      startTime: 0,
+      endTime: 1,
       samples: [],
       timeDeltas: [1],
     })
@@ -946,6 +958,8 @@ const baseCpuProfile = JSON.stringify({
       callFrame: makeV8CallFrame(`funcB`, `file:///project/src/b.ts`),
     },
   ],
+  startTime: 0,
+  endTime: 160,
   samples: [2, 2, 2, 2, 2, 3, 3, 3],
   timeDeltas: Array.from({ length: 8 }, () => 20),
 })
@@ -965,6 +979,8 @@ const currentCpuProfile = JSON.stringify({
       callFrame: makeV8CallFrame(`funcC`, `file:///project/src/c.ts`),
     },
   ],
+  startTime: 0,
+  endTime: 240,
   samples: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3],
   timeDeltas: Array.from({ length: 12 }, () => 20),
 })
@@ -1180,6 +1196,8 @@ describe(`logging`, () => {
           callFrame: makeV8CallFrame(`post`, `node:inspector`),
         },
       ],
+      startTime: 0,
+      endTime: 20,
       samples: [2],
       timeDeltas: [20],
     })
@@ -1234,6 +1252,8 @@ describe(`logging`, () => {
           ),
         },
       ],
+      startTime: 0,
+      endTime: 20,
       samples: [2],
       timeDeltas: [20],
     })
@@ -1552,6 +1572,8 @@ describe(`diffProfiles`, () => {
           makeV8CpuProfileRoot([2]),
           { id: 2, hitCount: 5, callFrame: makeV8CallFrame(`funcA`, url) },
         ],
+        startTime: 0,
+        endTime: 100,
         samples: [2, 2, 2, 2, 2],
         timeDeltas: Array.from({ length: 5 }, () => 20),
       })
@@ -1603,6 +1625,8 @@ describe(`diffProfiles`, () => {
           makeV8CpuProfileRoot([2]),
           { id: 2, hitCount, callFrame: makeV8CallFrame(`funcA`, url) },
         ],
+        startTime: 0,
+        endTime: hitCount * 20,
         samples: Array.from({ length: hitCount }, () => 2),
         timeDeltas: Array.from({ length: hitCount }, () => 20),
       })
@@ -1760,6 +1784,8 @@ describe(`diffProfiles`, () => {
           callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a-111.ts`),
         },
       ],
+      startTime: 0,
+      endTime: 100,
       samples: [2, 2, 2, 2, 2],
       timeDeltas: Array.from({ length: 5 }, () => 20),
     })
@@ -1772,6 +1798,8 @@ describe(`diffProfiles`, () => {
           callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a-222.ts`),
         },
       ],
+      startTime: 0,
+      endTime: 200,
       samples: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
       timeDeltas: Array.from({ length: 10 }, () => 20),
     })
