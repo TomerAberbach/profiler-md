@@ -134,9 +134,8 @@ $ARGUMENTS
 
 16. `docs/formats/<name>.md` for `--help <format>`; generation instructions in
     each emitting language's `docs/languages/<language>.md` (a new file for a
-    new language, following `docs/languages/CLAUDE.md`). Verify the content
-    prints with `node src/cli/index.ts --help <name>` for the format and each
-    language
+    new language, following `docs/CLAUDE.md`). Verify the content prints with
+    `node src/cli/index.ts --help <name>` for the format and each language
 
 17. `pnpm update-examples` (re-run after ANY later format spec change), then
     `pnpm update-readme`

@@ -200,7 +200,7 @@ const readHeader = (reader: ByteReader): MemrayHeader => {
   const fileFormat = readFileFormat(reader)
 
   // The tracker's statistics: allocation and frame counts, then the start and
-  // end times. All are recomputed from the records themselves.
+  // end times. The records contain the allocations, and no output shows a time.
   reader.skip(32)
 
   reader.string() // Command line

@@ -196,7 +196,7 @@ profile a workload small enough to finish with tracing on.
 | `-o` / `--output`           | `<process_name>.<pid>.bin` | Output file path                                                    |
 | `-f` / `--force`            | off                        | Overwrite the output file if it exists                              |
 | `--aggregate`               | off                        | Record each stack's totals instead of every allocation              |
-| `--native`                  | off                        | Also record C/C++ frames, which this tool skips                     |
+| `--native`                  | off                        | Also record C/C++ frames                                            |
 | `--trace-python-allocators` | off                        | Record pymalloc's own allocations as well as the ones underneath it |
 | `--follow-fork`             | off                        | Also trace child processes, each into its own capture               |
 | `--no-compress`             | off                        | Write the capture uncompressed rather than LZ4 compressed           |

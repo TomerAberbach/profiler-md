@@ -15,7 +15,6 @@ heap holds rather than where allocation happens. Sizes are the bytes the dump
 records for each object. The dump omits object headers, so a class's instances
 measure smaller here than the memory they occupy.
 
-Android's ART writes a dialect of the format with records of its own, which this
-tool doesn't read.
+It supports a single heap snapshot per file.
 
 Files use the `.hprof` extension.

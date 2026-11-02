@@ -114,8 +114,8 @@ Both write a `perf.data` that contains addresses rather than function names. See
 | -------------- | ------------ | -------------------------------------------------------------------- |
 | `-f`           | `4000`       | Samples per second                                                   |
 | `-e`           | `cpu-cycles` | Event to sample (`cpu-clock` where no hardware counter is available) |
-| `-g`           | off          | Record call chains, unwinding with DWARF (this tool rejects them)    |
-| `--call-graph` | —            | How to unwind: `fp` (supported) or `dwarf`                           |
+| `-g`           | off          | Record call chains, unwinding with DWARF while recording             |
+| `--call-graph` | —            | How to unwind: `fp` or `dwarf`                                       |
 | `-o`           | `perf.data`  | Output path                                                          |
 | `--app`        | —            | Sample an app by package name                                        |
 | `--duration`   | —            | Seconds to record                                                    |

@@ -584,13 +584,16 @@ describe(`convert`, () => {
       ])
     })
 
-    test(`shows no thread table for a trace recorded on one thread`, () => {
+    test(`shows a thread table for a trace recorded on one thread`, () => {
       const md = convertTraceEvents([
         { ph: `X`, name: `a`, pid: 1, tid: 1, ts: 0, dur: 4000 },
       ])
 
       expect(summaryTables(md)).toStrictEqual([
         [{ Category: `Other`, '%': `100.0%`, Time: `4.0ms`, Count: `1` }],
+      ])
+      expect(tablesAt(md, [`Threads`])).toStrictEqual([
+        [{ Thread: `(unnamed)`, '%': `100.0%`, Time: `4.0ms`, Count: `1` }],
       ])
     })
   })

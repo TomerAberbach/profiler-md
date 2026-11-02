@@ -18,6 +18,6 @@ the built-in `IDLE` cost centre. The runtime counts bytes and entries exactly
 and independently, so the allocation profile reports both as measured quantities
 and states no rate.
 
-It supports multiple metrics per profile and a single report per file.
+It supports multiple metrics per profile and multiple profiles per file.
 
 Files use the `.prof` extension, named after the program as `<program>.prof`.

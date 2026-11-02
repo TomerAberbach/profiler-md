@@ -307,7 +307,7 @@ const VARIABLE_SIZE = -1
 
 /**
  * Offsets within a {@link TIME_PROFILE_SAMPLE} payload, which is the capability
- * set and the tick the sample was taken at, then the cost-centre stack: its
+ * and the tick the sample was taken at, then the cost-centre stack: its
  * depth, then its IDs innermost first, which is the order a call stack runs in.
  */
 const SAMPLE_STACK_DEPTH = 4 + 8
