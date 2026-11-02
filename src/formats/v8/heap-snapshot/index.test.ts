@@ -607,6 +607,31 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`keeps a C++ class name verbatim`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeObjectSnapshot(`ModuleMap::Entry`, `Window`),
+      normalizeProfileToMdOptions({ baseURL: `file:///home/user/project/` }),
+    )
+
+    expect(selfSizeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `66.7%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Constructor: `ModuleMap::Entry`,
+        },
+        {
+          '%': `33.3%`,
+          Size: `100 B`,
+          Instances: `1`,
+          Constructor: `Window`,
+        },
+      ],
+    ])
+  })
+
   test(`matchEntry matches functions whose locations differ across snapshots`, () => {
     // The function's script path carries a per-build suffix, so by default the
     // two sides don't match and the function shows as a removed/new pair.

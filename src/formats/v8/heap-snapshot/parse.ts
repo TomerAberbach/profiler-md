@@ -708,10 +708,21 @@ const nodeName = (
       const name =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      return { name, nameLocation: absoluteFileReference(name) }
+      return {
+        name,
+        nameLocation: CPP_QUALIFIED_NAME.test(name)
+          ? undefined
+          : absoluteFileReference(name),
+      }
     }
   }
 }
+
+/**
+ * A C++ class name such as `modulemap::Entry`, which also parses as a URL with
+ * the scheme `modulemap:`.
+ */
+const CPP_QUALIFIED_NAME = /^[^/]*::/u
 
 const formatString = (string: string): string => {
   if (string.length > MAX_STRING_LENGTH) {
