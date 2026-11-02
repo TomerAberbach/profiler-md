@@ -188,16 +188,19 @@ const readTopLevelRecords = (
   let offset = recordsOffset
   while (offset < bytes.length) {
     if (offset + 9 > bytes.length) {
-      throw new FormatParseError(`truncated record header`)
+      recordTally.endsBefore(`the end of its last record`)
+      return
     }
     const tag = bytes[offset]!
     const length = view.getUint32(offset + 5)
     const body = offset + 9
     const end = body + length
     if (end > bytes.length) {
-      throw new FormatParseError(
-        `truncated record body of tag 0x${tag.toString(16)}, got: ${length} bytes`,
-      )
+      if (tag === HPROF_HEAP_DUMP_SEGMENT || tag === HPROF_HEAP_DUMP) {
+        heapDumpRanges.push(body, bytes.length)
+      }
+      recordTally.endsBefore(`the end of its last record`)
+      return
     }
 
     switch (tag) {
