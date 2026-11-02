@@ -250,13 +250,13 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `java.lang.Class`
 
-|     % |     Size | Nodes | Path                                                                                                                                                               |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 74.0% | 33.5 KiB | 1,782 | `class scala.collection.ArrayOps$$$Lambda+0x0000000501205800 ← (GC root)`                                                                                          |
-|  1.8% |    844 B |    73 | `class scala.runtime.java8.JFunction1$mcZI$sp ←(several paths)– (GC root)`                                                                                         |
-|  1.2% |    544 B |    57 | `class java.lang.invoke.LambdaForm$DMH+0x0000000501208400 ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)` |
-|  0.5% |    224 B |     1 | `class scala.package$ ←[35]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)`                 |
-|  0.5% |    224 B |     1 | `class scala.package$ ←[84]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                                             |
+|     % |     Size | Nodes | Path                                                                                                                                               |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 74.0% | 33.5 KiB | 1,782 | `java.lang.Class ← (GC root)`                                                                                                                      |
+|  1.8% |    844 B |    73 | `java.lang.Class ←(several paths)– (GC root)`                                                                                                      |
+|  1.2% |    544 B |    57 | `java.lang.Class ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)`                          |
+|  0.5% |    224 B |     1 | `class scala.package$ ←[35]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
+|  0.5% |    224 B |     1 | `class scala.package$ ←[84]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                             |
 
 ##### `java.util.jar.Attributes`
 
@@ -750,9 +750,9 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Nodes | Path                                                                                 |
 | ----: | -------: | ----: | ------------------------------------------------------------------------------------ |
-| 69.3% |  879 KiB | 1,782 | `class scala.collection.ArrayOps$$$Lambda+0x0000000501205800 ← (GC root)`            |
+| 69.3% |  879 KiB | 1,782 | `java.lang.Class ← (GC root)`                                                        |
 |  4.6% | 58.1 KiB |   497 | `java.lang.invoke.MethodType ←(several java.lang.Class paths)– (GC root)`            |
-|  4.3% | 54.6 KiB |    73 | `class scala.runtime.java8.JFunction1$mcZI$sp ←(several paths)– (GC root)`           |
+|  4.3% | 54.6 KiB |    73 | `java.lang.Class ←(several paths)– (GC root)`                                        |
 |  3.9% | 48.9 KiB |     1 | `sun.security.provider.Sun ←(several java.lang.Class paths)– (GC root)`              |
 |  3.1% | 39.8 KiB |     1 | `java.util.concurrent.ConcurrentHashMap ←(several java.lang.Class paths)– (GC root)` |
 

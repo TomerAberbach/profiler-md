@@ -256,13 +256,13 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `java.lang.Class`
 
-|     % |     Size | Nodes | Path                                                                                                                                                               |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 76.4% | 33.4 KiB | 1,770 | `class org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda+0x000000700118cbd0 ← (GC root)`                                                                |
-|  1.8% |    804 B |    65 | `class scala.collection.immutable.LazyList$State$Empty$ ←(several paths)– (GC root)`                                                                               |
-|  0.7% |    320 B |    37 | `class java.lang.invoke.LambdaForm$DMH+0x0000007001189c00 ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)` |
-|  0.5% |    224 B |     1 | `class scala.package$ ←[32]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)`                 |
-|  0.5% |    224 B |     1 | `class scala.package$ ←[75]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                                             |
+|     % |     Size | Nodes | Path                                                                                                                                               |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 76.4% | 33.4 KiB | 1,770 | `java.lang.Class ← (GC root)`                                                                                                                      |
+|  1.8% |    804 B |    65 | `java.lang.Class ←(several paths)– (GC root)`                                                                                                      |
+|  0.7% |    320 B |    37 | `java.lang.Class ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)`                          |
+|  0.5% |    224 B |     1 | `class scala.package$ ←[32]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
+|  0.5% |    224 B |     1 | `class scala.package$ ←[75]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                             |
 
 ##### `scala.math.BigInt[]`
 
@@ -738,13 +738,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `java.lang.Class`
 
-|     % |     Size | Nodes | Path                                                                                                |
-| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------- |
-| 69.2% |  838 KiB | 1,770 | `class org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask$$Lambda+0x000000700118cbd0 ← (GC root)` |
-|  4.6% | 56.2 KiB |   467 | `java.lang.invoke.MethodType ←(several java.lang.Class paths)– (GC root)`                           |
-|  4.1% | 49.9 KiB |    65 | `class scala.collection.immutable.LazyList$State$Empty$ ←(several paths)– (GC root)`                |
-|  4.0% | 48.9 KiB |     1 | `sun.security.provider.Sun ←(several java.lang.Class paths)– (GC root)`                             |
-|  3.3% | 39.8 KiB |     1 | `java.util.concurrent.ConcurrentHashMap ←(several java.lang.Class paths)– (GC root)`                |
+|     % |     Size | Nodes | Path                                                                                 |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------ |
+| 69.2% |  838 KiB | 1,770 | `java.lang.Class ← (GC root)`                                                        |
+|  4.6% | 56.2 KiB |   467 | `java.lang.invoke.MethodType ←(several java.lang.Class paths)– (GC root)`            |
+|  4.1% | 49.9 KiB |    65 | `java.lang.Class ←(several paths)– (GC root)`                                        |
+|  4.0% | 48.9 KiB |     1 | `sun.security.provider.Sun ←(several java.lang.Class paths)– (GC root)`              |
+|  3.3% | 39.8 KiB |     1 | `java.util.concurrent.ConcurrentHashMap ←(several java.lang.Class paths)– (GC root)` |
 
 ##### `java.lang.ref.SoftReference`
 

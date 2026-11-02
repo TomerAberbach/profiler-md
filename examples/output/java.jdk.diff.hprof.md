@@ -317,13 +317,13 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `java.lang.Class`
 
-|   Change |  Delta |            % |          Size |   Nodes | Path                                                                                                                                          |
-| -------: | -----: | -----------: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-|   +70.0% | +224 B |  0.7% → 1.2% | 320 B → 544 B | 37 → 57 | `java.lang.Class ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)`                     |
-|  removed | -224 B |  0.5% → 0.0% |   224 B → 0 B |       1 | `java.lang.Class ←[32]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
-| +2700.0% | +216 B | <0.1% → 0.5% |   8 B → 224 B |       1 | `java.lang.Class ←[35]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
-|   -92.9% | -208 B | 0.5% → <0.1% |  224 B → 16 B |       1 | `java.lang.Class ←[75]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                             |
-|  +600.0% | +192 B |  0.1% → 0.5% |  32 B → 224 B |       1 | `java.lang.Class ←[84]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                             |
+|   Change |  Delta |            % |          Size |   Nodes | Path                                                                                                                                                           |
+| -------: | -----: | -----------: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   +70.0% | +224 B |  0.7% → 1.2% | 320 B → 544 B | 37 → 57 | `java.lang.Class ←.clazz– java.lang.invoke.MemberName ←.vmentry– java.lang.invoke.LambdaForm ←(several paths)– (GC root)`                                      |
+|  removed | -224 B |  0.5% → 0.0% |   224 B → 0 B |       1 | `class scala.LowPriorityImplicits ←[32]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
+| +2700.0% | +216 B | <0.1% → 0.5% |   8 B → 224 B |       1 | `class scala.package$ ←[35]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)`             |
+|   -92.9% | -208 B | 0.5% → <0.1% |  224 B → 16 B |       1 | `class scala.collection.immutable.Range ←[75]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                       |
+|  +600.0% | +192 B |  0.1% → 0.5% |  32 B → 224 B |       1 | `class scala.package$ ←[84]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader`                                         |
 
 ##### `java.lang.ref.SoftReference`
 
@@ -552,9 +552,9 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `org.renaissance.harness.RenaissanceSuite$$$Lambda`
 
-| Change | Delta |      % |        Size | Nodes | Path                                                            |
-| -----: | ----: | -----: | ----------: | ----: | --------------------------------------------------------------- |
-| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda ← (GC root)` |
+| Change | Delta |      % |        Size | Nodes | Path                                                                               |
+| -----: | ----: | -----: | ----------: | ----: | ---------------------------------------------------------------------------------- |
+| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)` |
 
 ### Retained size
 
@@ -705,13 +705,13 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `java.lang.Class`
 
-|    Change |       Delta |             % |                Size |         Nodes | Path                                                                                                                                           |
-| --------: | ----------: | ------------: | ------------------: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-|     +4.9% | +41.029 KiB | 69.2% → 69.3% |   838 KiB → 879 KiB | 1,770 → 1,782 | `java.lang.Class ← (GC root)`                                                                                                                  |
-|    -99.8% | -16.074 KiB |  1.3% → <0.1% |     16.1 KiB → 32 B |             1 | `java.lang.Class ←[169]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
-| +22805.6% | +16.035 KiB |  <0.1% → 1.3% |     72 B → 16.1 KiB |             1 | `java.lang.Class ←[171]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
-|     +9.4% |  +4.695 KiB |   4.1% → 4.3% | 49.9 KiB → 54.6 KiB |       65 → 73 | `java.lang.Class ←(several paths)– (GC root)`                                                                                                  |
-|    +42.6% |  +3.704 KiB |   0.7% → 1.0% | 8.71 KiB → 12.4 KiB |       21 → 30 | `java.lang.invoke.LambdaForm ←(several java.lang.Class paths)– (GC root)`                                                                      |
+|    Change |       Delta |             % |                Size |         Nodes | Path                                                                                                                                                                   |
+| --------: | ----------: | ------------: | ------------------: | ------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     +4.9% | +41.029 KiB | 69.2% → 69.3% |   838 KiB → 879 KiB | 1,770 → 1,782 | `java.lang.Class ← (GC root)`                                                                                                                                          |
+|    -99.8% | -16.074 KiB |  1.3% → <0.1% |     16.1 KiB → 32 B |             1 | `class scala.collection.immutable.Range$ ←[169]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)` |
+| +22805.6% | +16.035 KiB |  <0.1% → 1.3% |     72 B → 16.1 KiB |             1 | `class scala.math.BigInt$ ←[171]– java.lang.Object[] ←.elementData– java.util.ArrayList ←.classes– java.net.URLClassLoader ←(several paths)– (GC root)`                |
+|     +9.4% |  +4.695 KiB |   4.1% → 4.3% | 49.9 KiB → 54.6 KiB |       65 → 73 | `java.lang.Class ←(several paths)– (GC root)`                                                                                                                          |
+|    +42.6% |  +3.704 KiB |   0.7% → 1.0% | 8.71 KiB → 12.4 KiB |       21 → 30 | `java.lang.invoke.LambdaForm ←(several java.lang.Class paths)– (GC root)`                                                                                              |
 
 ##### `java.lang.invoke.MethodType`
 
@@ -1164,9 +1164,9 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `org.renaissance.harness.RenaissanceSuite$$$Lambda`
 
-| Change | Delta |      % |        Size | Nodes | Path                                                            |
-| -----: | ----: | -----: | ----------: | ----: | --------------------------------------------------------------- |
-| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda ← (GC root)` |
+| Change | Delta |      % |        Size | Nodes | Path                                                                               |
+| -----: | ----: | -----: | ----------: | ----: | ---------------------------------------------------------------------------------- |
+| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)` |
 
 ##### `java.lang.Long[]`
 
