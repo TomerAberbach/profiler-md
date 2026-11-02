@@ -5,7 +5,10 @@ source scripts/inputs/_common.sh
 
 assets="$REPO/scripts/inputs/assets/julia"
 
-depot="${PROFILER_MD_INPUT_GENERATION_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/profiler-md-input-generation}/julia-depot"
+# The inputs record the paths of the depot's packages, so the depot is fixed
+# rather than under the checkout, and a side regenerated from another worktree
+# records the same paths as the other.
+depot="/tmp/profiler-md-julia-depot"
 export JULIA_DEPOT_PATH="$depot"
 
 # Base and current profile consecutive JSON3 releases, so a diff compares two
