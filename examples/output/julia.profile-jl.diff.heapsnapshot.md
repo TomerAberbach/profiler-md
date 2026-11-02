@@ -1,15 +1,15 @@
 # Heap snapshot diff
 
-Held 136 MiB (-303.768 KiB, -0.2%) over 1,716,926 → 1,715,213 nodes and 5,832,237 → 5,824,332 edges.
+Held 135 MiB → 136 MiB (+1.2 MiB, +0.9%) over 1,716,917 → 1,715,213 nodes and 5,635,607 → 5,824,331 edges.
 
 | Category           | Change |        Delta |             % |                Size |             Nodes |
 | ------------------ | -----: | -----------: | ------------: | ------------------: | ----------------: |
-| String             |  -0.4% | -211.864 KiB | 35.0% → 34.9% | 47.7 MiB → 47.5 MiB | 294,016 → 293,772 |
-| Array              |  -0.1% |   -42.64 KiB | 27.9% → 28.0% |   38.1 MiB → 38 MiB | 578,379 → 577,617 |
-| Code               |  -0.1% |  -34.617 KiB |         22.6% |            30.8 MiB | 450,216 → 449,739 |
-| Internal           |  -0.1% |  -13.421 KiB |         10.7% |            14.6 MiB | 256,755 → 256,532 |
-| Object             |    ~0% |   -1.191 KiB |          3.2% | 4.35 MiB → 4.34 MiB |   97,465 → 97,459 |
-| Symbol             |    ~0% |        -34 B |          0.4% |             619 KiB |   28,696 → 28,695 |
+| String             |  -0.4% | -211.859 KiB | 35.4% → 35.0% | 47.7 MiB → 47.5 MiB | 294,016 → 293,772 |
+| Array              |  +4.0% |   +1.454 MiB | 27.1% → 28.0% |   36.5 MiB → 38 MiB | 578,376 → 577,614 |
+| Code               |  -0.1% |  -34.617 KiB | 22.9% → 22.7% |            30.8 MiB | 450,216 → 449,739 |
+| Internal           |  -0.1% |  -13.281 KiB | 10.8% → 10.7% |            14.6 MiB | 256,752 → 256,531 |
+| Object             |    ~0% |       -260 B |          3.2% |            4.34 MiB |   97,462 → 97,463 |
+| Symbol             |    ~0% |        -34 B |          0.4% |             618 KiB |   28,696 → 28,695 |
 | Function           |   0.0% |          0 B |         <0.1% |              66 KiB |             8,396 |
 | Number             |   0.0% |          0 B |         <0.1% |            42.6 KiB |             2,938 |
 | Regular expression |   0.0% |          0 B |         <0.1% |            1.34 KiB |                43 |
@@ -28,9 +28,9 @@ Constructors with the largest decrease in instance bytes, excluding referenced n
 
 ##### Object
 
-| Change |      Delta |    % |              Size |       Instances | Constructor                 |
-| -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
-|  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
+| Change |  Delta |    % |    Size |       Instances | Constructor                 |
+| -----: | -----: | ---: | ------: | --------------: | --------------------------- |
+|    ~0% | -164 B | 0.6% | 884 KiB | 14,861 → 14,864 | `<foreign memory - malloc>` |
 
 #### Retainer paths
 
@@ -38,13 +38,13 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `<foreign memory - malloc>`
 
-|  Change |  Delta |            % |            Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                         |
-| ------: | -----: | -----------: | --------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   -1.4% | -1 KiB |  8.4% → 8.3% | 74 KiB → 73 KiB |       17 → 16 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                                                                                                                                                                                                                                  |
-|   -0.1% |  -96 B |        19.8% |         175 KiB | 4,715 → 4,713 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                   |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[22079]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                                                        |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←.next– Core.TypeMapEntry ←[1965]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[1601]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                           |
+|  Change |  Delta |             % |       Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                                           |
+| ------: | -----: | ------------: | ---------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   -0.1% | -160 B | 19.8% → 19.7% |    175 KiB | 4,712 → 4,716 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                                     |
+| removed |  -96 B |  <0.1% → 0.0% | 96 B → 0 B |         3 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1387]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
+|     new |  +96 B |  0.0% → <0.1% | 0 B → 96 B |         0 → 3 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1483]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
+| removed |  -64 B |  <0.1% → 0.0% | 64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Memory{Any} ←.tname– Core.TypeMapLevel ←[27717]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                                                     |
+| removed |  -64 B |  <0.1% → 0.0% | 64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[11]– Memory{Any} ←.name1– Core.TypeMapLevel ←[27189]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                            |
 
 ### Retained size
 
@@ -54,9 +54,9 @@ Constructors with the largest decrease in instance bytes, including nodes only t
 
 ##### Object
 
-| Change |      Delta |    % |              Size |       Instances | Constructor                 |
-| -----: | ---------: | ---: | ----------------: | --------------: | --------------------------- |
-|  -0.1% | -1.097 KiB | 0.6% | 885 KiB → 883 KiB | 14,864 → 14,860 | `<foreign memory - malloc>` |
+| Change |  Delta |    % |    Size |       Instances | Constructor                 |
+| -----: | -----: | ---: | ------: | --------------: | --------------------------- |
+|    ~0% | -164 B | 0.6% | 884 KiB | 14,861 → 14,864 | `<foreign memory - malloc>` |
 
 #### Retainer paths
 
@@ -64,10 +64,10 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `<foreign memory - malloc>`
 
-|  Change |  Delta |            % |            Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                         |
-| ------: | -----: | -----------: | --------------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|   -1.4% | -1 KiB |  8.4% → 8.3% | 74 KiB → 73 KiB |       17 → 16 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                                                                                                                                                                                                                                  |
-|   -0.1% |  -96 B |        19.8% |         175 KiB | 4,715 → 4,713 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                   |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[22079]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                                                        |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←.next– Core.TypeMapEntry ←[1965]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
-| removed |  -64 B | <0.1% → 0.0% |      64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[1601]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                           |
+|  Change |  Delta |             % |       Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                                           |
+| ------: | -----: | ------------: | ---------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|   -0.1% | -160 B | 19.8% → 19.7% |    175 KiB | 4,712 → 4,716 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                                     |
+| removed |  -96 B |  <0.1% → 0.0% | 96 B → 0 B |         3 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1387]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
+|     new |  +96 B |  0.0% → <0.1% | 0 B → 96 B |         0 → 3 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1483]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
+| removed |  -64 B |  <0.1% → 0.0% | 64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Memory{Any} ←.tname– Core.TypeMapLevel ←[27717]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                                                     |
+| removed |  -64 B |  <0.1% → 0.0% | 64 B → 0 B |         2 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapLevel ←[11]– Memory{Any} ←.name1– Core.TypeMapLevel ←[27189]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable`                                                                                            |

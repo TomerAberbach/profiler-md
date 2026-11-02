@@ -33,6 +33,7 @@ setup_depot() {
   notice "Instantiating Julia depot (JSON3 ${JSON3_VERSION[$side]}, PProf)"
   julia --project="$project" -e '
     using Pkg
+    isempty(Pkg.Registry.reachable_registries()) && Pkg.Registry.add("General")
     Pkg.compat("JSON3", "=" * ARGS[1])
     Pkg.add(name = "JSON3", version = ARGS[1])
     Pkg.instantiate()
