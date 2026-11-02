@@ -2,13 +2,14 @@
 
 Collected 5,345 → 5,393 samples (+48 samples, +0.9%).
 
-| Category         | Change | Delta |             % |       Samples |
-| ---------------- | -----: | ----: | ------------: | ------------: |
-| Ours             |  +3.1% |   +75 | 46.0% → 47.0% | 2,459 → 2,534 |
-| Native           |  -2.9% |   -62 | 40.3% → 38.8% | 2,152 → 2,090 |
-| Standard library |  +1.1% |    +7 | 11.6% → 11.7% |     622 → 629 |
-| JIT              | +36.2% |   +21 |   1.1% → 1.5% |       58 → 79 |
-| Compiler         | +13.0% |    +7 |   1.0% → 1.1% |       54 → 61 |
+| Category          | Change | Delta |             % |       Samples |
+| ----------------- | -----: | ----: | ------------: | ------------: |
+| Ours              |  +3.1% |   +75 | 46.0% → 47.0% | 2,459 → 2,534 |
+| Native            |  -4.1% |   -87 | 39.6% → 37.6% | 2,116 → 2,029 |
+| Standard library  |  +1.1% |    +7 | 11.6% → 11.7% |     622 → 629 |
+| JIT               | +36.2% |   +21 |   1.1% → 1.5% |       58 → 79 |
+| Compiler          | +13.0% |    +7 |   1.0% → 1.1% |       54 → 61 |
+| Garbage collector | +69.4% |   +25 |   0.7% → 1.1% |       36 → 61 |
 
 `…` stands for omitted frames.
 
@@ -107,28 +108,28 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### Native
 
-|  Change | Delta |            % | Samples | Function                                                                          | Location                   |
-| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------------- | -------------------------- |
-|  +85.0% |   +17 |  0.4% → 0.7% | 20 → 37 | `semaphore_wait_trap`                                                             | `libsystem_kernel.dylib`   |
-| +300.0% |    +9 |  0.1% → 0.2% |  3 → 12 | `ScopeDesc::decode_body`                                                          | `libjvm.dylib`             |
-|     new |    +9 |  0.0% → 0.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib`             |
-| +100.0% |    +8 |  0.1% → 0.3% |  8 → 16 | `G1FullGCMarker::mark_object`                                                     | `libjvm.dylib`             |
-| +300.0% |    +6 | <0.1% → 0.1% |   2 → 8 | `_sigtramp`                                                                       | `libsystem_platform.dylib` |
-|  +27.8% |    +5 |  0.3% → 0.4% | 18 → 23 | `arrayof_jint_disjoint_arraycopy`                                                 | `<unknown>`                |
-| +100.0% |    +4 |         0.1% |   4 → 8 | `arrayof_oop_disjoint_arraycopy`                                                  | `<unknown>`                |
-| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `G1FullGCCompactTask::copy_object_to_new_location`                                | `libjvm.dylib`             |
-| +133.3% |    +4 |         0.1% |   3 → 7 | `ObjArrayAllocator::initialize`                                                   | `libjvm.dylib`             |
-| +133.3% |    +4 |         0.1% |   3 → 7 | `InstanceKlass::get_jmethod_id`                                                   | `libjvm.dylib`             |
-|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `_nanov2_free`                                                                    | `libsystem_malloc.dylib`   |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                     | `libjvm.dylib`             |
-| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `jvmti_GetClassSignature`                                                         | `libjvm.dylib`             |
-|     new |    +3 |  0.0% → 0.1% |   0 → 3 | `MarkBitMap::check_mark`                                                          | `libjvm.dylib`             |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `LockTracer::UnsafeParkHook`                                                      | `libasyncProfiler.dylib`   |
-|  +66.7% |    +2 |         0.1% |   3 → 5 | `inflate_fast`                                                                    | `libzip.dylib`             |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `pthread_mutex_lock`                                                              | `libsystem_pthread.dylib`  |
-| +100.0% |    +2 | <0.1% → 0.1% |   2 → 4 | `FastThreadsListHandle::FastThreadsListHandle`                                    | `libjvm.dylib`             |
-| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `__mmap`                                                                          | `libsystem_kernel.dylib`   |
-|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `JvmtiEnv::GetClassSignature`                                                     | `libjvm.dylib`             |
+|  Change | Delta |            % | Samples | Function                                       | Location                   |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------- | -------------------------- |
+|  +85.0% |   +17 |  0.4% → 0.7% | 20 → 37 | `semaphore_wait_trap`                          | `libsystem_kernel.dylib`   |
+| +300.0% |    +9 |  0.1% → 0.2% |  3 → 12 | `ScopeDesc::decode_body`                       | `libjvm.dylib`             |
+| +300.0% |    +6 | <0.1% → 0.1% |   2 → 8 | `_sigtramp`                                    | `libsystem_platform.dylib` |
+|  +27.8% |    +5 |  0.3% → 0.4% | 18 → 23 | `arrayof_jint_disjoint_arraycopy`              | `<unknown>`                |
+| +100.0% |    +4 |         0.1% |   4 → 8 | `arrayof_oop_disjoint_arraycopy`               | `<unknown>`                |
+| +133.3% |    +4 |         0.1% |   3 → 7 | `ObjArrayAllocator::initialize`                | `libjvm.dylib`             |
+| +133.3% |    +4 |         0.1% |   3 → 7 | `InstanceKlass::get_jmethod_id`                | `libjvm.dylib`             |
+|     new |    +4 |  0.0% → 0.1% |   0 → 4 | `_nanov2_free`                                 | `libsystem_malloc.dylib`   |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `jvmti_GetClassSignature`                      | `libjvm.dylib`             |
+|     new |    +3 |  0.0% → 0.1% |   0 → 3 | `MarkBitMap::check_mark`                       | `libjvm.dylib`             |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `LockTracer::UnsafeParkHook`                   | `libasyncProfiler.dylib`   |
+|  +66.7% |    +2 |         0.1% |   3 → 5 | `inflate_fast`                                 | `libzip.dylib`             |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `pthread_mutex_lock`                           | `libsystem_pthread.dylib`  |
+| +100.0% |    +2 | <0.1% → 0.1% |   2 → 4 | `FastThreadsListHandle::FastThreadsListHandle` | `libjvm.dylib`             |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `__mmap`                                       | `libsystem_kernel.dylib`   |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `JvmtiEnv::GetClassSignature`                  | `libjvm.dylib`             |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `frame::real_sender`                           | `libjvm.dylib`             |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `jni_GetObjectClass`                           | `libjvm.dylib`             |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `CallTraceStorage::put`                        | `libasyncProfiler.dylib`   |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `Method::jmethod_id`                           | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -187,6 +188,29 @@ Functions with the largest increase in samples collected within the function bod
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `ciTypeFlow::Block::successors`            | `libjvm.dylib` |
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `PhaseIdealLoop::get_early_ctrl`           | `libjvm.dylib` |
 
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                          | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------------- | -------------- |
+|     new |    +9 |  0.0% → 0.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib` |
+| +100.0% |    +8 |  0.1% → 0.3% |  8 → 16 | `G1FullGCMarker::mark_object`                                                     | `libjvm.dylib` |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `G1FullGCCompactTask::copy_object_to_new_location`                                | `libjvm.dylib` |
+| +300.0% |    +3 | <0.1% → 0.1% |   1 → 4 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                     | `libjvm.dylib` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `G1FullGCCompactTask::G1CompactRegionClosure::apply`                              | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1CollectedHeap::attempt_allocation_slow`                                        | `libjvm.dylib` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `G1FullGCCompactTask::compact_region`                                             | `libjvm.dylib` |
+|  +50.0% |    +1 | <0.1% → 0.1% |   2 → 3 | `G1BarrierSet::invalidate`                                                        | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1MonitoringSupport::update_eden_size`                                           | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1FullGCCompactionPoint::forward`                                                | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1NUMA::is_enabled`                                                              | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1RegionMarkStatsCache::evict_all`                                               | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1CollectedHeap::par_iterate_regions_array`                                      | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1CollectedHeap::unsafe_max_tlab_alloc`                                          | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `HeapRegionManager::allocate_free_region`                                         | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `HeapRegion::update_bot_for_block`                                                | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1BarrierSet::write_ref_array_work`                                              | `libjvm.dylib` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1Allocator::unsafe_max_tlab_alloc`                                              | `libjvm.dylib` |
+
 #### Improvements
 
 Functions with the largest decrease in samples collected within the function body, excluding callees. Categories account for at least 1.0% of self samples on the base or the current side.
@@ -232,28 +256,28 @@ Functions with the largest decrease in samples collected within the function bod
 
 ##### Native
 
-|  Change | Delta |             % |       Samples | Function                           | Location                   |
-| ------: | ----: | ------------: | ------------: | ---------------------------------- | -------------------------- |
-|   -6.2% |   -88 | 26.4% → 24.6% | 1,412 → 1,324 | `__psynch_cvwait`                  | `libsystem_kernel.dylib`   |
-|  -54.5% |   -18 |   0.6% → 0.3% |       33 → 15 | `_platform_bzero`                  | `libsystem_platform.dylib` |
-|  -71.4% |    -5 |  0.1% → <0.1% |         7 → 2 | `__psynch_mutexdrop`               | `libsystem_kernel.dylib`   |
-|   -8.9% |    -5 |   1.0% → 0.9% |       56 → 51 | `__psynch_mutexwait`               | `libsystem_kernel.dylib`   |
-|  -16.1% |    -5 |   0.6% → 0.5% |       31 → 26 | `pthread_jit_write_protect_np`     | `libsystem_pthread.dylib`  |
-|  -62.5% |    -5 |          0.1% |         8 → 3 | `InstanceKlass::find_method_index` | `libjvm.dylib`             |
-| removed |    -4 |   0.1% → 0.0% |         4 → 0 | `SpinPause`                        | `libjvm.dylib`             |
-|   -4.9% |    -3 |          1.1% |       61 → 58 | `__psynch_cvsignal`                | `libsystem_kernel.dylib`   |
-|   -1.4% |    -3 |   4.0% → 3.9% |     215 → 212 | `forward_copy_longs`               | `<unknown>`                |
-|  -60.0% |    -3 |  0.1% → <0.1% |         5 → 2 | `compiledVFrame::sender`           | `libjvm.dylib`             |
-|  -23.1% |    -3 |          0.2% |       13 → 10 | `_platform_memmove`                | `libsystem_platform.dylib` |
-|  -66.7% |    -2 |  0.1% → <0.1% |         3 → 1 | `frame::sender_for_compiled_frame` | `libjvm.dylib`             |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `Arena::grow`                      | `libjvm.dylib`             |
-|  -25.0% |    -2 |          0.1% |         8 → 6 | `tlv_get_addr`                     | `libdyld.dylib`            |
-|  -66.7% |    -2 |  0.1% → <0.1% |         3 → 1 | `nanov2_malloc`                    | `libsystem_malloc.dylib`   |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `JVM_IHashCode`                    | `libjvm.dylib`             |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `__sfvwrite`                       | `libsystem_c.dylib`        |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `G1CollectedHeap::mem_allocate`    | `libjvm.dylib`             |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `CompiledMethod::scope_desc_at`    | `libjvm.dylib`             |
-| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `vframe::sender`                   | `libjvm.dylib`             |
+|  Change | Delta |             % |       Samples | Function                                                                                                   | Location                   |
+| ------: | ----: | ------------: | ------------: | ---------------------------------------------------------------------------------------------------------- | -------------------------- |
+|   -6.2% |   -88 | 26.4% → 24.6% | 1,412 → 1,324 | `__psynch_cvwait`                                                                                          | `libsystem_kernel.dylib`   |
+|  -54.5% |   -18 |   0.6% → 0.3% |       33 → 15 | `_platform_bzero`                                                                                          | `libsystem_platform.dylib` |
+|  -71.4% |    -5 |  0.1% → <0.1% |         7 → 2 | `__psynch_mutexdrop`                                                                                       | `libsystem_kernel.dylib`   |
+|   -8.9% |    -5 |   1.0% → 0.9% |       56 → 51 | `__psynch_mutexwait`                                                                                       | `libsystem_kernel.dylib`   |
+|  -16.1% |    -5 |   0.6% → 0.5% |       31 → 26 | `pthread_jit_write_protect_np`                                                                             | `libsystem_pthread.dylib`  |
+|  -62.5% |    -5 |          0.1% |         8 → 3 | `InstanceKlass::find_method_index`                                                                         | `libjvm.dylib`             |
+| removed |    -4 |   0.1% → 0.0% |         4 → 0 | `SpinPause`                                                                                                | `libjvm.dylib`             |
+|   -4.9% |    -3 |          1.1% |       61 → 58 | `__psynch_cvsignal`                                                                                        | `libsystem_kernel.dylib`   |
+|   -1.4% |    -3 |   4.0% → 3.9% |     215 → 212 | `forward_copy_longs`                                                                                       | `<unknown>`                |
+|  -60.0% |    -3 |  0.1% → <0.1% |         5 → 2 | `compiledVFrame::sender`                                                                                   | `libjvm.dylib`             |
+|  -23.1% |    -3 |          0.2% |       13 → 10 | `_platform_memmove`                                                                                        | `libsystem_platform.dylib` |
+|  -66.7% |    -2 |  0.1% → <0.1% |         3 → 1 | `frame::sender_for_compiled_frame`                                                                         | `libjvm.dylib`             |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `Arena::grow`                                                                                              | `libjvm.dylib`             |
+|  -25.0% |    -2 |          0.1% |         8 → 6 | `tlv_get_addr`                                                                                             | `libdyld.dylib`            |
+|  -66.7% |    -2 |  0.1% → <0.1% |         3 → 1 | `nanov2_malloc`                                                                                            | `libsystem_malloc.dylib`   |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `JVM_IHashCode`                                                                                            | `libjvm.dylib`             |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `__sfvwrite`                                                                                               | `libsystem_c.dylib`        |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `CompiledMethod::scope_desc_at`                                                                            | `libjvm.dylib`             |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `vframe::sender`                                                                                           | `libjvm.dylib`             |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -310,6 +334,22 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `PhaseIdealLoop::build_loop_tree`           | `libjvm.dylib` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `RegMask::is_misaligned_pair`               | `libjvm.dylib` |
 | removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Node_Backward_Iterator::next`              | `libjvm.dylib` |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                    | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------- | -------------- |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1CollectedHeap::mem_allocate`                                             | `libjvm.dylib` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1BarrierSetRuntime::write_ref_array_post_entry`                           | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1FullGCMarker::complete_marking`                                          | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CollectedHeap::retire_mutator_alloc_region`                              | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CollectedHeap::attempt_allocation`                                       | `libjvm.dylib` |
+|  -25.0% |    -1 |         0.1% |   4 → 3 | `G1FullGCMarker::follow_object`                                             | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CardSet::occupied`                                                       | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CommittedRegionMap::num_active`                                          | `libjvm.dylib` |
+|  -16.7% |    -1 |         0.1% |   6 → 5 | `G1RegionMarkStatsCache::add_live_words`                                    | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1Analytics::report_card_scan_to_merge_ratio`                              | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1PreEvacuateCollectionSetBatchTask::~G1PreEvacuateCollectionSetBatchTask` | `libjvm.dylib` |
 
 #### Lines
 
@@ -885,12 +925,6 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------ |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`libjvm.dylib`)
-
-|  Change | Delta |      % | Samples | Caller                                  | Location       |
-| ------: | ----: | -----: | ------: | --------------------------------------- | -------------- |
-| +300.0% |    +3 | 100.0% |   1 → 4 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
-
 ##### `jvmti_GetClassSignature` (`libjvm.dylib`)
 
 |  Change | Delta |              % | Samples | Caller                            | Location                 |
@@ -941,6 +975,30 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | -----------: | ------: | ---------------------------- | ------------------------ |
 |    new |    +1 | 0.0% → 50.0% |   0 → 1 | `jvmti_GetClassSignature`    | `libjvm.dylib`           |
 |    new |    +1 | 0.0% → 50.0% |   0 → 1 | `LockTracer::UnsafeParkHook` | `libasyncProfiler.dylib` |
+
+##### `frame::real_sender` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller           | Location       |
+| -----: | ----: | ------------: | ------: | ---------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `vframe::sender` | `libjvm.dylib` |
+
+##### `jni_GetObjectClass` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                       | Location                 |
+| -----: | ----: | ------------: | ------: | ---------------------------- | ------------------------ |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `LockTracer::UnsafeParkHook` | `libasyncProfiler.dylib` |
+
+##### `CallTraceStorage::put` (`libasyncProfiler.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                   | Location                 |
+| ------: | ----: | -----: | ------: | ------------------------ | ------------------------ |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `Profiler::recordSample` | `libasyncProfiler.dylib` |
+
+##### `Method::jmethod_id` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                          | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------- | -------------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `JvmtiEnvBase::get_stack_trace` | `libjvm.dylib` |
 
 ##### `tryRemoveAndExec(ForkJoinTask, boolean)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
@@ -1160,6 +1218,97 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller                             | Location       |
 | -----: | ----: | ------------: | ------: | ---------------------------------- | -------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `PhaseIdealLoop::build_loop_early` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                                  | Location       |
+| ------: | ----: | -----: | ------: | --------------------------------------- | -------------- |
+| +300.0% |    +3 | 100.0% |   1 → 4 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------- | -------------- |
+|     new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1FullGCCompactTask::compact_region` | `libjvm.dylib` |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1FullGCCompactTask::work`           | `libjvm.dylib` |
+
+##### `G1CollectedHeap::attempt_allocation_slow` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1CollectedHeap::attempt_allocation` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::compact_region` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                      | Location       |
+| ------: | ----: | -----: | ------: | --------------------------- | -------------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `G1FullGCCompactTask::work` | `libjvm.dylib` |
+
+##### `G1BarrierSet::invalidate` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                           | Location    |
+| -----: | ----: | -----: | ------: | -------------------------------- | ----------- |
+| +50.0% |    +1 | 100.0% |   2 → 3 | `arrayof_oop_disjoint_arraycopy` | `<unknown>` |
+
+##### `G1MonitoringSupport::update_eden_size` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                           | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1AllocRegion::retire_internal` | `libjvm.dylib` |
+
+##### `G1FullGCCompactionPoint::forward` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                                       | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>` | `libjvm.dylib` |
+
+##### `G1NUMA::is_enabled` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                      | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1CollectedHeap::new_mutator_alloc_region` | `libjvm.dylib` |
+
+##### `G1RegionMarkStatsCache::evict_all` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                   | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------ | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1FullGCMarkTask::work` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::par_iterate_regions_array` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                    | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1PostEvacuateCollectionSetCleanupTask2::FreeCollectionSetTask::do_work` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::unsafe_max_tlab_alloc` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                   | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------ | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MemAllocator::allocate` | `libjvm.dylib` |
+
+##### `HeapRegionManager::allocate_free_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                         | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1AllocRegion::new_alloc_region_and_allocate` | `libjvm.dylib` |
+
+##### `HeapRegion::update_bot_for_block` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                                                       | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>` | `libjvm.dylib` |
+
+##### `G1BarrierSet::write_ref_array_work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller               | Location              |
+| -----: | ----: | ------------: | ------: | -------------------- | --------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `addAll(Collection)` | `java.util.ArrayList` |
+
+##### `G1Allocator::unsafe_max_tlab_alloc` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                        | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------- | -------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MemAllocator::mem_allocate_inside_tlab_slow` | `libjvm.dylib` |
 
 ##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
 
@@ -1390,13 +1539,6 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ------------ | ------------------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `__vfprintf` | `libsystem_c.dylib` |
 
-##### `G1CollectedHeap::mem_allocate` (`libjvm.dylib`)
-
-|  Change | Delta |            % | Samples | Caller                          | Location       |
-| ------: | ----: | -----------: | ------: | ------------------------------- | -------------- |
-| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::allocate`        | `libjvm.dylib` |
-| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `CollectedHeap::array_allocate` | `libjvm.dylib` |
-
 ##### `CompiledMethod::scope_desc_at` (`libjvm.dylib`)
 
 |  Change | Delta |             % | Samples | Caller                           | Location       |
@@ -1408,6 +1550,12 @@ Callers with the largest change in contribution to each function's self samples.
 |  Change | Delta |             % | Samples | Caller                | Location       |
 | ------: | ----: | ------------: | ------: | --------------------- | -------------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `vframe::java_sender` | `libjvm.dylib` |
+
+##### `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                             | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------- | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `G1FullGCMarker::complete_marking` | `libjvm.dylib` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
@@ -1615,6 +1763,74 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ------------------------- | -------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `PhaseCFG::schedule_late` | `libjvm.dylib` |
 
+##### `G1CollectedHeap::mem_allocate` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                          | Location       |
+| ------: | ----: | -----------: | ------: | ------------------------------- | -------------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::allocate`        | `libjvm.dylib` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `CollectedHeap::array_allocate` | `libjvm.dylib` |
+
+##### `G1BarrierSetRuntime::write_ref_array_post_entry` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller               | Location              |
+| ------: | ----: | ------------: | ------: | -------------------- | --------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
+
+##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                   | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------ | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1FullGCMarkTask::work` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::retire_mutator_alloc_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                       | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `MutatorAllocRegion::retire` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::attempt_allocation` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                        | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `MemAllocator::mem_allocate_inside_tlab_slow` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::follow_object` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                  | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------- | -------------- |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
+
+##### `G1CardSet::occupied` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                      | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1CommittedRegionMap::num_active` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1MonitoringSupport::recalculate_sizes` | `libjvm.dylib` |
+
+##### `G1RegionMarkStatsCache::add_live_words` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Caller                                                          | Location       |
+| -----: | ----: | -------------: | ------: | --------------------------------------------------------------- | -------------- |
+| -33.3% |    -2 | 100.0% → 80.0% |   6 → 4 | `G1FullGCMarker::mark_object`                                   | `libjvm.dylib` |
+|    new |    +1 |   0.0% → 20.0% |   0 → 1 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
+
+##### `G1Analytics::report_card_scan_to_merge_ratio` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                      | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
+##### `G1PreEvacuateCollectionSetBatchTask::~G1PreEvacuateCollectionSetBatchTask` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                      | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
 ### Total samples
 
 #### Regressions
@@ -1671,28 +1887,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Native
 
-|  Change | Delta |            % |   Samples | Function                                                                          | Location                   |
-| ------: | ----: | -----------: | --------: | --------------------------------------------------------------------------------- | -------------------------- |
-|  +45.6% |   +36 |  1.5% → 2.1% |  79 → 115 | `WorkerThread::run`                                                               | `libjvm.dylib`             |
-|  +55.9% |   +19 |  0.6% → 1.0% |   34 → 53 | `G1FullGCMarkTask::work`                                                          | `libjvm.dylib`             |
-|  +52.9% |   +18 |  0.6% → 1.0% |   34 → 52 | `G1FullGCMarker::complete_marking`                                                | `libjvm.dylib`             |
-|  +85.0% |   +17 |  0.4% → 0.7% |   20 → 37 | `semaphore_wait_trap`                                                             | `libsystem_kernel.dylib`   |
-|  +73.3% |   +11 |  0.3% → 0.5% |   15 → 26 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                   | `libjvm.dylib`             |
-|   +9.0% |   +10 |  2.1% → 2.2% | 111 → 121 | `JvmtiObjectAllocEventCollector::generate_call_for_allocated`                     | `libjvm.dylib`             |
-|   +9.0% |   +10 |  2.1% → 2.2% | 111 → 121 | `JvmtiSampledObjectAllocEventCollector::~JvmtiSampledObjectAllocEventCollector`   | `libjvm.dylib`             |
-|   +8.4% |   +10 |  2.2% → 2.4% | 119 → 129 | `MemAllocator::Allocation::notify_allocation_jvmti_sampler`                       | `libjvm.dylib`             |
-|   +4.7% |    +9 |  3.6% → 3.7% | 190 → 199 | `arrayof_jint_disjoint_arraycopy`                                                 | `<unknown>`                |
-| +150.0% |    +9 |  0.1% → 0.3% |    6 → 15 | `ScopeDesc::decode_body`                                                          | `libjvm.dylib`             |
-| +225.0% |    +9 |  0.1% → 0.2% |    4 → 13 | `ScopeDesc::sender`                                                               | `libjvm.dylib`             |
-|     new |    +9 |  0.0% → 0.2% |     0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib`             |
-|     new |    +9 |  0.0% → 0.2% |     0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region`               | `libjvm.dylib`             |
-|     new |    +9 |  0.0% → 0.2% |     0 → 9 | `G1FullGCResetMetadataTask::work`                                                 | `libjvm.dylib`             |
-|   +6.4% |    +7 |  2.1% → 2.2% | 110 → 117 | `JvmtiExport::post_sampled_object_alloc`                                          | `libjvm.dylib`             |
-| +175.0% |    +7 |  0.1% → 0.2% |    4 → 11 | `ClassFileParser::ClassFileParser`                                                | `libjvm.dylib`             |
-| +350.0% |    +7 | <0.1% → 0.2% |     2 → 9 | `G1FullGCCompactTask::compact_region`                                             | `libjvm.dylib`             |
-| +350.0% |    +7 | <0.1% → 0.2% |     2 → 9 | `_sigtramp`                                                                       | `libsystem_platform.dylib` |
-| +116.7% |    +7 |  0.1% → 0.2% |    6 → 13 | `HeapRegionManager::par_iterate`                                                  | `libjvm.dylib`             |
-|  +42.9% |    +6 |  0.3% → 0.4% |   14 → 20 | `G1FullGCMarker::mark_object`                                                     | `libjvm.dylib`             |
+|  Change | Delta |            % |   Samples | Function                                                                        | Location                   |
+| ------: | ----: | -----------: | --------: | ------------------------------------------------------------------------------- | -------------------------- |
+|  +45.6% |   +36 |  1.5% → 2.1% |  79 → 115 | `WorkerThread::run`                                                             | `libjvm.dylib`             |
+|  +85.0% |   +17 |  0.4% → 0.7% |   20 → 37 | `semaphore_wait_trap`                                                           | `libsystem_kernel.dylib`   |
+|  +73.3% |   +11 |  0.3% → 0.5% |   15 → 26 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                 | `libjvm.dylib`             |
+|   +9.0% |   +10 |  2.1% → 2.2% | 111 → 121 | `JvmtiObjectAllocEventCollector::generate_call_for_allocated`                   | `libjvm.dylib`             |
+|   +9.0% |   +10 |  2.1% → 2.2% | 111 → 121 | `JvmtiSampledObjectAllocEventCollector::~JvmtiSampledObjectAllocEventCollector` | `libjvm.dylib`             |
+|   +8.4% |   +10 |  2.2% → 2.4% | 119 → 129 | `MemAllocator::Allocation::notify_allocation_jvmti_sampler`                     | `libjvm.dylib`             |
+|   +4.7% |    +9 |  3.6% → 3.7% | 190 → 199 | `arrayof_jint_disjoint_arraycopy`                                               | `<unknown>`                |
+| +150.0% |    +9 |  0.1% → 0.3% |    6 → 15 | `ScopeDesc::decode_body`                                                        | `libjvm.dylib`             |
+| +225.0% |    +9 |  0.1% → 0.2% |    4 → 13 | `ScopeDesc::sender`                                                             | `libjvm.dylib`             |
+|   +6.4% |    +7 |  2.1% → 2.2% | 110 → 117 | `JvmtiExport::post_sampled_object_alloc`                                        | `libjvm.dylib`             |
+| +175.0% |    +7 |  0.1% → 0.2% |    4 → 11 | `ClassFileParser::ClassFileParser`                                              | `libjvm.dylib`             |
+| +350.0% |    +7 | <0.1% → 0.2% |     2 → 9 | `_sigtramp`                                                                     | `libsystem_platform.dylib` |
+|   +5.6% |    +6 |  2.0% → 2.1% | 107 → 113 | `ObjectSampler::recordAllocation`                                               | `libasyncProfiler.dylib`   |
+| +150.0% |    +6 |  0.1% → 0.2% |    4 → 10 | `_pthread_cond_wait`                                                            | `libsystem_pthread.dylib`  |
+|   +5.3% |    +5 |         1.8% |   94 → 99 | `Profiler::recordSample`                                                        | `libasyncProfiler.dylib`   |
+| +125.0% |    +5 |  0.1% → 0.2% |     4 → 9 | `ClassFileParser::parse_stream`                                                 | `libjvm.dylib`             |
+| +125.0% |    +5 |  0.1% → 0.2% |     4 → 9 | `Method::jmethod_id`                                                            | `libjvm.dylib`             |
+| +200.0% |    +4 | <0.1% → 0.1% |     2 → 6 | `ClassFileParser::parse_constant_pool`                                          | `libjvm.dylib`             |
+| +400.0% |    +4 | <0.1% → 0.1% |     1 → 5 | `ClassFileParser::parse_constant_pool_entries`                                  | `libjvm.dylib`             |
+| +133.3% |    +4 |         0.1% |     3 → 7 | `InstanceKlass::get_jmethod_id`                                                 | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -1751,6 +1967,31 @@ Functions with the largest increase in samples collected within the function and
 | +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `Matcher::xform`                         | `libjvm.dylib` |
 |     new |    +2 | 0.0% → <0.1% |   0 → 2 | `PhaseCCP::push_more_uses`               | `libjvm.dylib` |
 
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                          | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------------------------------------------------- | -------------- |
+|  +55.9% |   +19 |  0.6% → 1.0% | 34 → 53 | `G1FullGCMarkTask::work`                                                          | `libjvm.dylib` |
+|  +52.9% |   +18 |  0.6% → 1.0% | 34 → 52 | `G1FullGCMarker::complete_marking`                                                | `libjvm.dylib` |
+|     new |    +9 |  0.0% → 0.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib` |
+|     new |    +9 |  0.0% → 0.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region`               | `libjvm.dylib` |
+|     new |    +9 |  0.0% → 0.2% |   0 → 9 | `G1FullGCResetMetadataTask::work`                                                 | `libjvm.dylib` |
+| +350.0% |    +7 | <0.1% → 0.2% |   2 → 9 | `G1FullGCCompactTask::compact_region`                                             | `libjvm.dylib` |
+| +116.7% |    +7 |  0.1% → 0.2% |  6 → 13 | `HeapRegionManager::par_iterate`                                                  | `libjvm.dylib` |
+|  +42.9% |    +6 |  0.3% → 0.4% | 14 → 20 | `G1FullGCMarker::mark_object`                                                     | `libjvm.dylib` |
+| +200.0% |    +6 |  0.1% → 0.2% |   3 → 9 | `G1FullGCCompactTask::work`                                                       | `libjvm.dylib` |
+|  +27.8% |    +5 |  0.3% → 0.4% | 18 → 23 | `G1FullGCMarker::follow_marking_stacks`                                           | `libjvm.dylib` |
+| +250.0% |    +5 | <0.1% → 0.1% |   2 → 7 | `G1FullGCCompactTask::G1CompactRegionClosure::apply`                              | `libjvm.dylib` |
+| +500.0% |    +5 | <0.1% → 0.1% |   1 → 6 | `G1YoungCollector::post_evacuate_collection_set`                                  | `libjvm.dylib` |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `G1FullGCCompactTask::copy_object_to_new_location`                                | `libjvm.dylib` |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `G1ParallelCleaningTask::work`                                                    | `libjvm.dylib` |
+|  +50.0% |    +3 |  0.1% → 0.2% |   6 → 9 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                     | `libjvm.dylib` |
+|  +50.0% |    +3 |  0.1% → 0.2% |   6 → 9 | `G1YoungCollector::collect`                                                       | `libjvm.dylib` |
+|  +50.0% |    +3 |  0.1% → 0.2% |   6 → 9 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper`                        | `libjvm.dylib` |
+|  +50.0% |    +3 |  0.1% → 0.2% |   6 → 9 | `G1CollectedHeap::do_collection_pause_at_safepoint`                               | `libjvm.dylib` |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `G1PageBasedVirtualSpace::uncommit`                                               | `libjvm.dylib` |
+| +200.0% |    +2 | <0.1% → 0.1% |   1 → 3 | `HeapRegionManager::uncommit_regions`                                             | `libjvm.dylib` |
+
 #### Improvements
 
 Functions with the largest decrease in samples collected within the function and its callees. Categories account for at least 1.0% of self samples on the base or the current side.
@@ -1805,28 +2046,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Native
 
-| Change | Delta |             % |       Samples | Function                                           | Location                   |
-| -----: | ----: | ------------: | ------------: | -------------------------------------------------- | -------------------------- |
-|  -6.2% |   -88 | 26.4% → 24.6% | 1,412 → 1,324 | `__psynch_cvwait`                                  | `libsystem_kernel.dylib`   |
-|  -3.1% |   -44 | 26.2% → 25.2% | 1,401 → 1,357 | `LockTracer::UnsafeParkHook`                       | `libasyncProfiler.dylib`   |
-| -62.3% |   -43 |   1.3% → 0.5% |       69 → 26 | `PlatformMonitor::wait`                            | `libjvm.dylib`             |
-|  -3.0% |   -40 | 25.4% → 24.4% | 1,355 → 1,315 | `Parker::park`                                     | `libjvm.dylib`             |
-|  -2.9% |   -40 | 25.6% → 24.6% | 1,369 → 1,329 | `Unsafe_Park`                                      | `libjvm.dylib`             |
-| -28.8% |   -36 |   2.3% → 1.7% |      125 → 89 | `JavaThread::thread_main_inner`                    | `libjvm.dylib`             |
-| -78.0% |   -32 |   0.8% → 0.2% |        41 → 9 | `Monitor::wait`                                    | `libjvm.dylib`             |
-| -54.5% |   -18 |   0.6% → 0.3% |       33 → 15 | `_platform_bzero`                                  | `libsystem_platform.dylib` |
-| -88.9% |   -16 |  0.3% → <0.1% |        18 → 2 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib`             |
-| -88.9% |   -16 |  0.3% → <0.1% |        18 → 2 | `G1ParEvacuateFollowersClosure::do_void`           | `libjvm.dylib`             |
-| -88.9% |   -16 |  0.3% → <0.1% |        18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects`     | `libjvm.dylib`             |
-| -84.2% |   -16 |   0.4% → 0.1% |        19 → 3 | `G1EvacuateRegionsBaseTask::work`                  | `libjvm.dylib`             |
-|  -7.3% |   -14 |   3.6% → 3.3% |     191 → 177 | `_new_array_Java`                                  | `<unknown>`                |
-|  -6.9% |   -13 |   3.5% → 3.2% |     188 → 175 | `OptoRuntime::new_array_C`                         | `libjvm.dylib`             |
-|  -6.9% |   -12 |   3.2% → 3.0% |     173 → 161 | `InstanceKlass::allocate_objArray`                 | `libjvm.dylib`             |
-| -52.4% |   -11 |   0.4% → 0.2% |       21 → 10 | `Arena::grow`                                      | `libjvm.dylib`             |
-| -39.3% |   -11 |   0.5% → 0.3% |       28 → 17 | `Monitor::wait_without_safepoint_check`            | `libjvm.dylib`             |
-|  -5.5% |   -10 |   3.4% → 3.2% |     182 → 172 | `CollectedHeap::array_allocate`                    | `libjvm.dylib`             |
-| -43.5% |   -10 |   0.4% → 0.2% |       23 → 13 | `ThreadCritical::ThreadCritical`                   | `libjvm.dylib`             |
-| -50.0% |   -10 |   0.4% → 0.2% |       20 → 10 | `Chunk::operator new`                              | `libjvm.dylib`             |
+| Change | Delta |             % |       Samples | Function                                 | Location                   |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------- | -------------------------- |
+|  -6.2% |   -88 | 26.4% → 24.6% | 1,412 → 1,324 | `__psynch_cvwait`                        | `libsystem_kernel.dylib`   |
+|  -3.1% |   -44 | 26.2% → 25.2% | 1,401 → 1,357 | `LockTracer::UnsafeParkHook`             | `libasyncProfiler.dylib`   |
+| -62.3% |   -43 |   1.3% → 0.5% |       69 → 26 | `PlatformMonitor::wait`                  | `libjvm.dylib`             |
+|  -3.0% |   -40 | 25.4% → 24.4% | 1,355 → 1,315 | `Parker::park`                           | `libjvm.dylib`             |
+|  -2.9% |   -40 | 25.6% → 24.6% | 1,369 → 1,329 | `Unsafe_Park`                            | `libjvm.dylib`             |
+| -28.8% |   -36 |   2.3% → 1.7% |      125 → 89 | `JavaThread::thread_main_inner`          | `libjvm.dylib`             |
+| -78.0% |   -32 |   0.8% → 0.2% |        41 → 9 | `Monitor::wait`                          | `libjvm.dylib`             |
+| -54.5% |   -18 |   0.6% → 0.3% |       33 → 15 | `_platform_bzero`                        | `libsystem_platform.dylib` |
+|  -7.3% |   -14 |   3.6% → 3.3% |     191 → 177 | `_new_array_Java`                        | `<unknown>`                |
+|  -6.9% |   -13 |   3.5% → 3.2% |     188 → 175 | `OptoRuntime::new_array_C`               | `libjvm.dylib`             |
+|  -6.9% |   -12 |   3.2% → 3.0% |     173 → 161 | `InstanceKlass::allocate_objArray`       | `libjvm.dylib`             |
+| -52.4% |   -11 |   0.4% → 0.2% |       21 → 10 | `Arena::grow`                            | `libjvm.dylib`             |
+| -39.3% |   -11 |   0.5% → 0.3% |       28 → 17 | `Monitor::wait_without_safepoint_check`  | `libjvm.dylib`             |
+|  -5.5% |   -10 |   3.4% → 3.2% |     182 → 172 | `CollectedHeap::array_allocate`          | `libjvm.dylib`             |
+| -43.5% |   -10 |   0.4% → 0.2% |       23 → 13 | `ThreadCritical::ThreadCritical`         | `libjvm.dylib`             |
+| -50.0% |   -10 |   0.4% → 0.2% |       20 → 10 | `Chunk::operator new`                    | `libjvm.dylib`             |
+| -66.7% |    -8 |   0.2% → 0.1% |        12 → 4 | `SharedRuntime::find_callee_info_helper` | `libjvm.dylib`             |
+| -38.1% |    -8 |   0.4% → 0.2% |       21 → 13 | `Compiler::compile_method`               | `libjvm.dylib`             |
+|  -3.8% |    -7 |   3.5% → 3.3% |     185 → 178 | `MemAllocator::allocate`                 | `libjvm.dylib`             |
+| -28.0% |    -7 |   0.5% → 0.3% |       25 → 18 | `TaskTerminator::offer_termination`      | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -1883,6 +2124,31 @@ Functions with the largest decrease in samples collected within the function and
 | removed |    -3 |  0.1% → 0.0% |    3 → 0 | `GraphBuilder::access_field`                | `libjvm.dylib` |
 |   -9.1% |    -2 |         0.4% |  22 → 20 | `PhaseChaitin::Register_Allocate`           | `libjvm.dylib` |
 |   -6.1% |    -2 |         0.6% |  33 → 31 | `Compile::Code_Gen`                         | `libjvm.dylib` |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                      | Location       |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------- | -------------- |
+|  -88.9% |   -16 | 0.3% → <0.1% |  18 → 2 | `G1ParEvacuateFollowersClosure::offer_termination`            | `libjvm.dylib` |
+|  -88.9% |   -16 | 0.3% → <0.1% |  18 → 2 | `G1ParEvacuateFollowersClosure::do_void`                      | `libjvm.dylib` |
+|  -88.9% |   -16 | 0.3% → <0.1% |  18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects`                | `libjvm.dylib` |
+|  -84.2% |   -16 |  0.4% → 0.1% |  19 → 3 | `G1EvacuateRegionsBaseTask::work`                             | `libjvm.dylib` |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `G1CollectedHeap::mem_allocate`                               | `libjvm.dylib` |
+| removed |    -3 |  0.1% → 0.0% |   3 → 0 | `G1ConcurrentRefineThread::run_service`                       | `libjvm.dylib` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1ServiceThread::wait_for_task`                              | `libjvm.dylib` |
+|  -33.3% |    -2 |         0.1% |   6 → 4 | `G1AdjustRegionClosure::do_heap_region`                       | `libjvm.dylib` |
+|  -33.3% |    -2 |         0.1% |   6 → 4 | `G1FullGCAdjustTask::work`                                    | `libjvm.dylib` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1BarrierSetRuntime::write_ref_array_post_entry`             | `libjvm.dylib` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CollectedHeap::retire_mutator_alloc_region`                | `libjvm.dylib` |
+|  -33.3% |    -1 | 0.1% → <0.1% |   3 → 2 | `G1BatchedTask::work`                                         | `libjvm.dylib` |
+|  -25.0% |    -1 |         0.1% |   4 → 3 | `G1FullGCMarker::follow_object`                               | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CardSet::occupied`                                         | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region`   | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CollectionSet::iterate`                                    | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1ConcurrentRefine::adjust_threads_periodically`             | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1PrimaryConcurrentRefineThread::do_refinement_step`         | `libjvm.dylib` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CommittedRegionMap::num_active`                            | `libjvm.dylib` |
 
 #### Callers
 
@@ -2089,18 +2355,6 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | -------: | ------------------ | -------------- |
 | +45.6% |   +36 | 100.0% | 79 → 115 | `Thread::call_run` | `libjvm.dylib` |
 
-##### `G1FullGCMarkTask::work` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller              | Location       |
-| -----: | ----: | -----: | ------: | ------------------- | -------------- |
-| +55.9% |   +19 | 100.0% | 34 → 53 | `WorkerThread::run` | `libjvm.dylib` |
-
-##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                   | Location       |
-| -----: | ----: | -----: | ------: | ------------------------ | -------------- |
-| +52.9% |   +18 | 100.0% | 34 → 52 | `G1FullGCMarkTask::work` | `libjvm.dylib` |
-
 ##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
 
 |  Change | Delta |             % | Samples | Caller                           | Location       |
@@ -2155,24 +2409,6 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ------------------------ | -------------- |
 | +225.0% |    +9 | 100.0% |  4 → 13 | `compiledVFrame::sender` | `libjvm.dylib` |
 
-##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Caller                                                              | Location       |
-| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------- | -------------- |
-|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `libjvm.dylib` |
-
-##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Caller                           | Location       |
-| -----: | ----: | ------------: | ------: | -------------------------------- | -------------- |
-|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
-
-##### `G1FullGCResetMetadataTask::work` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Caller              | Location       |
-| -----: | ----: | ------------: | ------: | ------------------- | -------------- |
-|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `WorkerThread::run` | `libjvm.dylib` |
-
 ##### `JvmtiExport::post_sampled_object_alloc` (`libjvm.dylib`)
 
 | Change | Delta |      % |   Samples | Caller                                                        | Location       |
@@ -2185,31 +2421,60 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ---------------------------------- | -------------- |
 | +175.0% |    +7 | 100.0% |  4 → 11 | `KlassFactory::create_from_stream` | `libjvm.dylib` |
 
-##### `G1FullGCCompactTask::compact_region` (`libjvm.dylib`)
-
-|  Change | Delta |      % | Samples | Caller                      | Location       |
-| ------: | ----: | -----: | ------: | --------------------------- | -------------- |
-| +350.0% |    +7 | 100.0% |   2 → 9 | `G1FullGCCompactTask::work` | `libjvm.dylib` |
-
 ##### `_sigtramp` (`libsystem_platform.dylib`)
 
 | Change | Delta |            % | Samples | Caller                  | Location                                                   |
 | -----: | ----: | -----------: | ------: | ----------------------- | ---------------------------------------------------------- |
 |    new |    +1 | 0.0% → 11.1% |   0 → 1 | `findNearestCentroid()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
-##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+##### `ObjectSampler::recordAllocation` (`libasyncProfiler.dylib`)
 
-| Change | Delta |              % | Samples | Caller                            | Location       |
-| -----: | ----: | -------------: | ------: | --------------------------------- | -------------- |
-|    new |    +9 |   0.0% → 69.2% |   0 → 9 | `G1FullGCResetMetadataTask::work` | `libjvm.dylib` |
-| -33.3% |    -2 | 100.0% → 30.8% |   6 → 4 | `G1FullGCAdjustTask::work`        | `libjvm.dylib` |
+| Change | Delta |      % |   Samples | Caller                                   | Location       |
+| -----: | ----: | -----: | --------: | ---------------------------------------- | -------------- |
+|  +5.6% |    +6 | 100.0% | 107 → 113 | `JvmtiExport::post_sampled_object_alloc` | `libjvm.dylib` |
 
-##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
+##### `_pthread_cond_wait` (`libsystem_pthread.dylib`)
 
-| Change | Delta |             % | Samples | Caller                                                          | Location       |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------------- | -------------- |
-| +58.3% |    +7 | 85.7% → 95.0% | 12 → 19 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
-| -50.0% |    -1 |  14.3% → 5.0% |   2 → 1 | `G1FullGCMarker::follow_marking_stacks`                         | `libjvm.dylib` |
+|  Change | Delta |             % | Samples | Caller                  | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------- | -------------- |
+| +500.0% |    +5 | 25.0% → 60.0% |   1 → 6 | `PlatformMonitor::wait` | `libjvm.dylib` |
+|  +33.3% |    +1 | 75.0% → 40.0% |   3 → 4 | `Parker::park`          | `libjvm.dylib` |
+
+##### `Profiler::recordSample` (`libasyncProfiler.dylib`)
+
+| Change | Delta |      % | Samples | Caller                            | Location                 |
+| -----: | ----: | -----: | ------: | --------------------------------- | ------------------------ |
+|  +5.3% |    +5 | 100.0% | 94 → 99 | `ObjectSampler::recordAllocation` | `libasyncProfiler.dylib` |
+
+##### `ClassFileParser::parse_stream` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                             | Location       |
+| ------: | ----: | -----: | ------: | ---------------------------------- | -------------- |
+| +125.0% |    +5 | 100.0% |   4 → 9 | `ClassFileParser::ClassFileParser` | `libjvm.dylib` |
+
+##### `Method::jmethod_id` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                          | Location       |
+| ------: | ----: | -----: | ------: | ------------------------------- | -------------- |
+| +125.0% |    +5 | 100.0% |   4 → 9 | `JvmtiEnvBase::get_stack_trace` | `libjvm.dylib` |
+
+##### `ClassFileParser::parse_constant_pool` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                          | Location       |
+| ------: | ----: | -----: | ------: | ------------------------------- | -------------- |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `ClassFileParser::parse_stream` | `libjvm.dylib` |
+
+##### `ClassFileParser::parse_constant_pool_entries` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                                 | Location       |
+| ------: | ----: | -----: | ------: | -------------------------------------- | -------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `ClassFileParser::parse_constant_pool` | `libjvm.dylib` |
+
+##### `InstanceKlass::get_jmethod_id` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller               | Location       |
+| ------: | ----: | -----: | ------: | -------------------- | -------------- |
+| +133.3% |    +4 | 100.0% |   3 → 7 | `Method::jmethod_id` | `libjvm.dylib` |
 
 ##### `grow()` (`java.util.ArrayList`)
 
@@ -2400,6 +2665,130 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |             % | Samples | Caller                                   | Location       |
 | -----: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
 |    new |    +2 | 0.0% → 100.0% |   0 → 2 | `PhaseCCP::push_child_nodes_to_worklist` | `libjvm.dylib` |
+
+##### `G1FullGCMarkTask::work` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller              | Location       |
+| -----: | ----: | -----: | ------: | ------------------- | -------------- |
+| +55.9% |   +19 | 100.0% | 34 → 53 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                   | Location       |
+| -----: | ----: | -----: | ------: | ------------------------ | -------------- |
+| +52.9% |   +18 | 100.0% | 34 → 52 | `G1FullGCMarkTask::work` | `libjvm.dylib` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                              | Location       |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------- | -------------- |
+|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                           | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------- | -------------- |
+|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `G1FullGCResetMetadataTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller              | Location       |
+| -----: | ----: | ------------: | ------: | ------------------- | -------------- |
+|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::compact_region` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                      | Location       |
+| ------: | ----: | -----: | ------: | --------------------------- | -------------- |
+| +350.0% |    +7 | 100.0% |   2 → 9 | `G1FullGCCompactTask::work` | `libjvm.dylib` |
+
+##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Caller                            | Location       |
+| -----: | ----: | -------------: | ------: | --------------------------------- | -------------- |
+|    new |    +9 |   0.0% → 69.2% |   0 → 9 | `G1FullGCResetMetadataTask::work` | `libjvm.dylib` |
+| -33.3% |    -2 | 100.0% → 30.8% |   6 → 4 | `G1FullGCAdjustTask::work`        | `libjvm.dylib` |
+
+##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                                                          | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------- | -------------- |
+| +58.3% |    +7 | 85.7% → 95.0% | 12 → 19 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
+| -50.0% |    -1 |  14.3% → 5.0% |   2 → 1 | `G1FullGCMarker::follow_marking_stacks`                         | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::work` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller              | Location       |
+| ------: | ----: | -----: | ------: | ------------------- | -------------- |
+| +200.0% |    +6 | 100.0% |   3 → 9 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                             | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------- | -------------- |
+| +27.8% |    +5 | 100.0% | 18 → 23 | `G1FullGCMarker::complete_marking` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller                                | Location       |
+| ------: | ----: | -------------: | ------: | ------------------------------------- | -------------- |
+| +600.0% |    +6 | 50.0% → 100.0% |   1 → 7 | `G1FullGCCompactTask::compact_region` | `libjvm.dylib` |
+| removed |    -1 |   50.0% → 0.0% |   1 → 0 | `G1FullGCCompactTask::work`           | `libjvm.dylib` |
+
+##### `G1YoungCollector::post_evacuate_collection_set` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                      | Location       |
+| ------: | ----: | -----: | ------: | --------------------------- | -------------- |
+| +500.0% |    +5 | 100.0% |   1 → 6 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::copy_object_to_new_location` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                                               | Location       |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------- | -------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `libjvm.dylib` |
+
+##### `G1ParallelCleaningTask::work` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller              | Location       |
+| ------: | ----: | -----: | ------: | ------------------- | -------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                  | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
+
+##### `G1YoungCollector::collect` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                                     | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                              | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `G1CollectedHeap::do_collection_pause_at_safepoint` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                            | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `VM_G1CollectForAllocation::doit` | `libjvm.dylib` |
+
+##### `G1PageBasedVirtualSpace::uncommit` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller                                                   | Location       |
+| ------: | ----: | -------------: | ------: | -------------------------------------------------------- | -------------- |
+| +100.0% |    +1 | 100.0% → 66.7% |   1 → 2 | `G1RegionsLargerThanCommitSizeMapper::uncommit_regions`  | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 33.3% |   0 → 1 | `G1RegionsSmallerThanCommitSizeMapper::uncommit_regions` | `libjvm.dylib` |
+
+##### `HeapRegionManager::uncommit_regions` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Caller                                         | Location       |
+| ------: | ----: | -----: | ------: | ---------------------------------------------- | -------------- |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `HeapRegionManager::uncommit_inactive_regions` | `libjvm.dylib` |
 
 ##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
 
@@ -2635,30 +3024,6 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | --------------- | ---------------------------------------------------------------------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `apply(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000070011059d8` |
 
-##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                   | Location       |
-| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
-
-##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                                         | Location       |
-| -----: | ----: | -----: | ------: | ---------------------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
-
-##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller                            | Location       |
-| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
-
-##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Caller              | Location       |
-| -----: | ----: | -----: | ------: | ------------------- | -------------- |
-| -84.2% |   -16 | 100.0% |  19 → 3 | `WorkerThread::run` | `libjvm.dylib` |
-
 ##### `_new_array_Java` (`<unknown>`)
 
 |  Change | Delta |             % |   Samples | Caller                       | Location                                                   |
@@ -2722,6 +3087,33 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -------------: | ------: | -------------- | -------------- |
 |  -47.4% |    -9 | 95.0% → 100.0% | 19 → 10 | `Arena::grow`  | `libjvm.dylib` |
 | removed |    -1 |    5.0% → 0.0% |   1 → 0 | `Arena::Arena` | `libjvm.dylib` |
+
+##### `SharedRuntime::find_callee_info_helper` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Caller                              | Location       |
+| -----: | ----: | ------------: | ------: | ----------------------------------- | -------------- |
+| -85.7% |    -6 | 58.3% → 25.0% |   7 → 1 | `SharedRuntime::find_callee_method` | `libjvm.dylib` |
+| -40.0% |    -2 | 41.7% → 75.0% |   5 → 3 | `SharedRuntime::resolve_sub_helper` | `libjvm.dylib` |
+
+##### `Compiler::compile_method` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                     | Location       |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | -------------- |
+| -38.1% |    -8 | 100.0% | 21 → 13 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+
+##### `MemAllocator::allocate` (`libjvm.dylib`)
+
+| Change | Delta |             % |   Samples | Caller                             | Location       |
+| -----: | ----: | ------------: | --------: | ---------------------------------- | -------------- |
+|  -4.4% |    -8 | 97.3% → 96.6% | 180 → 172 | `CollectedHeap::array_allocate`    | `libjvm.dylib` |
+| +20.0% |    +1 |   2.7% → 3.4% |     5 → 6 | `InstanceKlass::allocate_instance` | `libjvm.dylib` |
+
+##### `TaskTerminator::offer_termination` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                             | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------- | -------------- |
+|  -88.9% |   -16 | 72.0% → 11.1% |  18 → 2 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib` |
+| +128.6% |    +9 | 28.0% → 88.9% |  7 → 16 | `G1FullGCMarker::complete_marking`                 | `libjvm.dylib` |
 
 ##### `parkUntil(long)` (`java.util.concurrent.locks.LockSupport`)
 
@@ -2921,6 +3313,127 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % | Samples | Caller             | Location       |
 | -----: | ----: | -----: | ------: | ------------------ | -------------- |
 |  -6.1% |    -2 | 100.0% | 33 → 31 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                   | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                                         | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                            | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller              | Location       |
+| -----: | ----: | -----: | ------: | ------------------- | -------------- |
+| -84.2% |   -16 | 100.0% |  19 → 3 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::mem_allocate` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Caller                          | Location       |
+| ------: | ----: | -------------: | ------: | ------------------------------- | -------------- |
+|  -66.7% |    -2 | 75.0% → 100.0% |   3 → 1 | `MemAllocator::allocate`        | `libjvm.dylib` |
+| removed |    -1 |   25.0% → 0.0% |   1 → 0 | `CollectedHeap::array_allocate` | `libjvm.dylib` |
+
+##### `G1ConcurrentRefineThread::run_service` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                    | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------- | -------------- |
+| removed |    -3 | 100.0% → 0.0% |   3 → 0 | `ConcurrentGCThread::run` | `libjvm.dylib` |
+
+##### `G1ServiceThread::wait_for_task` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                         | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------ | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `G1ServiceThread::run_service` | `libjvm.dylib` |
+
+##### `G1AdjustRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller                           | Location       |
+| -----: | ----: | -----: | ------: | -------------------------------- | -------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `G1FullGCAdjustTask::work` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller              | Location       |
+| -----: | ----: | -----: | ------: | ------------------- | -------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1BarrierSetRuntime::write_ref_array_post_entry` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller               | Location              |
+| ------: | ----: | ------------: | ------: | -------------------- | --------------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `addAll(Collection)` | `java.util.ArrayList` |
+
+##### `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------- | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::retire_mutator_alloc_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                       | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `MutatorAllocRegion::retire` | `libjvm.dylib` |
+
+##### `G1BatchedTask::work` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Caller              | Location       |
+| -----: | ----: | -----: | ------: | ------------------- | -------------- |
+| -33.3% |    -1 | 100.0% |   3 → 2 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::follow_object` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Caller                                  | Location       |
+| ------: | ----: | -----------: | ------: | --------------------------------------- | -------------- |
+| removed |    -1 | 25.0% → 0.0% |   1 → 0 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
+
+##### `G1CardSet::occupied` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                      | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                     | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CollectionSet::iterate` | `libjvm.dylib` |
+
+##### `G1CollectionSet::iterate` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                            | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefine::adjust_threads_periodically` | `libjvm.dylib` |
+
+##### `G1ConcurrentRefine::adjust_threads_periodically` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                                | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1PrimaryConcurrentRefineThread::do_refinement_step` | `libjvm.dylib` |
+
+##### `G1PrimaryConcurrentRefineThread::do_refinement_step` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+
+##### `G1CommittedRegionMap::num_active` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Caller                                   | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1MonitoringSupport::recalculate_sizes` | `libjvm.dylib` |
 
 #### Callees
 
@@ -3170,22 +3683,6 @@ Callees with the largest change in contribution to each function's total samples
 |     new |    +9 |   0.0% → 7.8% |   0 → 9 | `G1FullGCResetMetadataTask::work` | `libjvm.dylib`           |
 | +200.0% |    +6 |   3.8% → 7.8% |   3 → 9 | `G1FullGCCompactTask::work`       | `libjvm.dylib`           |
 
-##### `G1FullGCMarkTask::work` (`libjvm.dylib`)
-
-| Change | Delta |              % | Samples | Callee                              | Location       |
-| -----: | ----: | -------------: | ------: | ----------------------------------- | -------------- |
-| +52.9% |   +18 | 100.0% → 98.1% | 34 → 52 | `G1FullGCMarker::complete_marking`  | `libjvm.dylib` |
-|    new |    +1 |    0.0% → 1.9% |   0 → 1 | `G1RegionMarkStatsCache::evict_all` | `libjvm.dylib` |
-
-##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
-
-|  Change | Delta |             % | Samples | Callee                                                                                                     | Location       |
-| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------- | -------------- |
-| +128.6% |    +9 | 20.6% → 30.8% |  7 → 16 | `TaskTerminator::offer_termination`                                                                        | `libjvm.dylib` |
-| +116.7% |    +7 | 17.6% → 25.0% |  6 → 13 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                            | `libjvm.dylib` |
-|  +27.8% |    +5 | 52.9% → 44.2% | 18 → 23 | `G1FullGCMarker::follow_marking_stacks`                                                                    | `libjvm.dylib` |
-| removed |    -2 |   5.9% → 0.0% |   2 → 0 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` | `libjvm.dylib` |
-
 ##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` (`libjvm.dylib`)
 
 | Change | Delta |             % | Samples | Callee                                   | Location       |
@@ -3237,18 +3734,6 @@ Callees with the largest change in contribution to each function's total samples
 | +333.3% |   +10 | 75.0% → 100.0% |  3 → 13 | `ScopeDesc::decode_body` | `libjvm.dylib` |
 | removed |    -1 |   25.0% → 0.0% |   1 → 0 | `Arena::grow`            | `libjvm.dylib` |
 
-##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Callee                                                                            | Location       |
-| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------- | -------------- |
-|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib` |
-
-##### `G1FullGCResetMetadataTask::work` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Callee                           | Location       |
-| -----: | ----: | ------------: | ------: | -------------------------------- | -------------- |
-|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
-
 ##### `JvmtiExport::post_sampled_object_alloc` (`libjvm.dylib`)
 
 | Change | Delta |             % |   Samples | Callee                                                 | Location                 |
@@ -3265,30 +3750,69 @@ Callees with the largest change in contribution to each function's total samples
 | +125.0% |    +5 | 100.0% → 81.8% |   4 → 9 | `ClassFileParser::parse_stream`               | `libjvm.dylib` |
 |     new |    +3 |   0.0% → 27.3% |   0 → 3 | `ClassFileParser::post_process_parsed_stream` | `libjvm.dylib` |
 
-##### `G1FullGCCompactTask::compact_region` (`libjvm.dylib`)
-
-|  Change | Delta |             % | Samples | Callee                                               | Location       |
-| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | -------------- |
-| +600.0% |    +6 | 50.0% → 77.8% |   1 → 7 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `libjvm.dylib` |
-
 ##### `_sigtramp` (`libsystem_platform.dylib`)
 
 | Change | Delta |            % | Samples | Callee                  | Location       |
 | -----: | ----: | -----------: | ------: | ----------------------- | -------------- |
 |    new |    +1 | 0.0% → 11.1% |   0 → 1 | `JVM_handle_bsd_signal` | `libjvm.dylib` |
 
-##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+##### `ObjectSampler::recordAllocation` (`libasyncProfiler.dylib`)
 
-| Change | Delta |              % | Samples | Callee                                                              | Location       |
-| -----: | ----: | -------------: | ------: | ------------------------------------------------------------------- | -------------- |
-|    new |    +9 |   0.0% → 69.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `libjvm.dylib` |
-| -33.3% |    -2 | 100.0% → 30.8% |   6 → 4 | `G1AdjustRegionClosure::do_heap_region`                             | `libjvm.dylib` |
+|  Change | Delta |             % | Samples | Callee                    | Location                 |
+| ------: | ----: | ------------: | ------: | ------------------------- | ------------------------ |
+|   +5.3% |    +5 | 87.9% → 87.6% | 94 → 99 | `Profiler::recordSample`  | `libasyncProfiler.dylib` |
+| +300.0% |    +3 |   0.9% → 3.5% |   1 → 4 | `jvmti_GetClassSignature` | `libjvm.dylib`           |
+| removed |    -2 |   1.9% → 0.0% |   2 → 0 | `jvmti_Deallocate`        | `libjvm.dylib`           |
+|  -11.1% |    -1 |   8.4% → 7.1% |   9 → 8 | `thread_self_trap`        | `libsystem_kernel.dylib` |
+| removed |    -1 |   0.9% → 0.0% |   1 → 0 | `Dictionary::lookup`      | `libasyncProfiler.dylib` |
 
-##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
+##### `_pthread_cond_wait` (`libsystem_pthread.dylib`)
 
-| Change | Delta |             % | Samples | Callee                                   | Location       |
-| -----: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
-| -33.3% |    -2 | 42.9% → 20.0% |   6 → 4 | `G1RegionMarkStatsCache::add_live_words` | `libjvm.dylib` |
+|  Change | Delta |             % | Samples | Callee                              | Location                  |
+| ------: | ----: | ------------: | ------: | ----------------------------------- | ------------------------- |
+| +500.0% |    +5 | 25.0% → 60.0% |   1 → 6 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
+|  +50.0% |    +1 | 50.0% → 30.0% |   2 → 3 | `pthread_testcancel`                | `libsystem_pthread.dylib` |
+|     new |    +1 |  0.0% → 10.0% |   0 → 1 | `_pthread_mutex_droplock`           | `libsystem_pthread.dylib` |
+
+##### `Profiler::recordSample` (`libasyncProfiler.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                 | Location                 |
+| ------: | ----: | ------------: | ------: | -------------------------------------- | ------------------------ |
+|   +3.6% |    +3 | 89.4% → 87.9% | 84 → 87 | `jvmti_GetStackTrace`                  | `libjvm.dylib`           |
+| +200.0% |    +2 |   1.1% → 3.0% |   1 → 3 | `CallTraceStorage::put`                | `libasyncProfiler.dylib` |
+|  -16.7% |    -1 |   6.4% → 5.1% |   6 → 5 | `_kernelrpc_mach_port_deallocate_trap` | `libsystem_kernel.dylib` |
+|     new |    +1 |   0.0% → 1.0% |   0 → 1 | `write`                                | `libsystem_kernel.dylib` |
+|     new |    +1 |   0.0% → 1.0% |   0 → 1 | `LinearAllocator::alloc`               | `libasyncProfiler.dylib` |
+
+##### `ClassFileParser::parse_stream` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                 | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------- | -------------- |
+| +200.0% |    +4 | 50.0% → 66.7% |   2 → 6 | `ClassFileParser::parse_constant_pool` | `libjvm.dylib` |
+|  +50.0% |    +1 | 50.0% → 33.3% |   2 → 3 | `ClassFileParser::parse_methods`       | `libjvm.dylib` |
+
+##### `Method::jmethod_id` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                          | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------- | -------------- |
+| +133.3% |    +4 | 75.0% → 77.8% |   3 → 7 | `InstanceKlass::get_jmethod_id` | `libjvm.dylib` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `methodHandle::~methodHandle`   | `libjvm.dylib` |
+
+##### `ClassFileParser::parse_constant_pool` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                           | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------ | -------------- |
+| +400.0% |    +4 | 50.0% → 83.3% |   1 → 5 | `ClassFileParser::parse_constant_pool_entries`   | `libjvm.dylib` |
+| removed |    -1 |  50.0% → 0.0% |   1 → 0 | `ClassFileParser::verify_legal_method_name`      | `libjvm.dylib` |
+|     new |    +1 |  0.0% → 16.7% |   0 → 1 | `ClassFileParser::verify_legal_method_signature` | `libjvm.dylib` |
+
+##### `ClassFileParser::parse_constant_pool_entries` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                     | Location       |
+| ------: | ----: | -------------: | ------: | -------------------------- | -------------- |
+| +200.0% |    +2 | 100.0% → 60.0% |   1 → 3 | `SymbolTable::lookup_only` | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 20.0% |   0 → 1 | `UTF8::is_legal_utf8`      | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 20.0% |   0 → 1 | `SymbolTable::do_lookup`   | `libjvm.dylib` |
 
 ##### `grow()` (`java.util.ArrayList`)
 
@@ -3489,6 +4013,124 @@ Callees with the largest change in contribution to each function's total samples
 | Change | Delta |            % | Samples | Callee               | Location       |
 | -----: | ----: | -----------: | ------: | -------------------- | -------------- |
 |    new |    +1 | 0.0% → 50.0% |   0 → 1 | `ReturnNode::Opcode` | `libjvm.dylib` |
+
+##### `G1FullGCMarkTask::work` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Callee                              | Location       |
+| -----: | ----: | -------------: | ------: | ----------------------------------- | -------------- |
+| +52.9% |   +18 | 100.0% → 98.1% | 34 → 52 | `G1FullGCMarker::complete_marking`  | `libjvm.dylib` |
+|    new |    +1 |    0.0% → 1.9% |   0 → 1 | `G1RegionMarkStatsCache::evict_all` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::complete_marking` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                     | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------- | -------------- |
+| +128.6% |    +9 | 20.6% → 30.8% |  7 → 16 | `TaskTerminator::offer_termination`                                                                        | `libjvm.dylib` |
+| +116.7% |    +7 | 17.6% → 25.0% |  6 → 13 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                            | `libjvm.dylib` |
+|  +27.8% |    +5 | 52.9% → 44.2% | 18 → 23 | `G1FullGCMarker::follow_marking_stacks`                                                                    | `libjvm.dylib` |
+| removed |    -2 |   5.9% → 0.0% |   2 → 0 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` | `libjvm.dylib` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                                                            | Location       |
+| -----: | ----: | ------------: | ------: | --------------------------------------------------------------------------------- | -------------- |
+|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `libjvm.dylib` |
+
+##### `G1FullGCResetMetadataTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                           | Location       |
+| -----: | ----: | ------------: | ------: | -------------------------------- | -------------- |
+|    new |    +9 | 0.0% → 100.0% |   0 → 9 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::compact_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                               | Location       |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | -------------- |
+| +600.0% |    +6 | 50.0% → 77.8% |   1 → 7 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `libjvm.dylib` |
+
+##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Callee                                                              | Location       |
+| -----: | ----: | -------------: | ------: | ------------------------------------------------------------------- | -------------- |
+|    new |    +9 |   0.0% → 69.2% |   0 → 9 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `libjvm.dylib` |
+| -33.3% |    -2 | 100.0% → 30.8% |   6 → 4 | `G1AdjustRegionClosure::do_heap_region`                             | `libjvm.dylib` |
+
+##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                   | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------- | -------------- |
+| -33.3% |    -2 | 42.9% → 20.0% |   6 → 4 | `G1RegionMarkStatsCache::add_live_words` | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::work` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                                               | Location       |
+| ------: | ----: | -------------: | ------: | ---------------------------------------------------- | -------------- |
+| +350.0% |    +7 | 66.7% → 100.0% |   2 → 9 | `G1FullGCCompactTask::compact_region`                | `libjvm.dylib` |
+| removed |    -1 |   33.3% → 0.0% |   1 → 0 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `libjvm.dylib` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                          | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | -------------- |
+|  +44.4% |    +4 | 50.0% → 56.5% |  9 → 13 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
+|  +50.0% |    +3 | 33.3% → 39.1% |   6 → 9 | `G1FullGCMarker::publish_and_drain_oop_tasks`                   | `libjvm.dylib` |
+|  -50.0% |    -1 |  11.1% → 4.3% |   2 → 1 | `G1FullGCMarker::mark_object`                                   | `libjvm.dylib` |
+| removed |    -1 |   5.6% → 0.0% |   1 → 0 | `G1FullGCMarker::follow_object`                                 | `libjvm.dylib` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                             | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------- | -------------- |
+| +400.0% |    +4 | 50.0% → 71.4% |   1 → 5 | `G1FullGCCompactTask::copy_object_to_new_location` | `libjvm.dylib` |
+
+##### `G1YoungCollector::post_evacuate_collection_set` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                                                | Location       |
+| ------: | ----: | -------------: | ------: | ----------------------------------------------------- | -------------- |
+| +300.0% |    +3 | 100.0% → 66.7% |   1 → 4 | `WorkerThreads::run_task`                             | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 16.7% |   0 → 1 | `G1CollectedHeap::expand_heap_after_young_collection` | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 16.7% |   0 → 1 | `ReferenceProcessor::set_active_mt_degree`            | `libjvm.dylib` |
+
+##### `G1ParallelCleaningTask::work` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Callee                         | Location       |
+| ------: | ----: | -----: | ------: | ------------------------------ | -------------- |
+| +400.0% |    +4 | 100.0% |   1 → 5 | `CodeCacheUnloadingTask::work` | `libjvm.dylib` |
+
+##### `G1YoungCollector::collect` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                      | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------- | -------------- |
+| +500.0% |    +5 | 16.7% → 66.7% |   1 → 6 | `G1YoungCollector::post_evacuate_collection_set`                            | `libjvm.dylib` |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `G1Analytics::report_card_scan_to_merge_ratio`                              | `libjvm.dylib` |
+|  -50.0% |    -1 | 33.3% → 11.1% |   2 → 1 | `G1YoungCollector::evacuate_initial_collection_set`                         | `libjvm.dylib` |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `G1PreEvacuateCollectionSetBatchTask::~G1PreEvacuateCollectionSetBatchTask` | `libjvm.dylib` |
+| removed |    -1 |  16.7% → 0.0% |   1 → 0 | `G1YoungCollector::pre_evacuate_collection_set`                             | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                      | Location       |
+| -----: | ----: | -----: | ------: | --------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `G1YoungCollector::collect` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                                     | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------------------------- | -------------- |
+| +50.0% |    +3 | 100.0% |   6 → 9 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `libjvm.dylib` |
+
+##### `G1PageBasedVirtualSpace::uncommit` (`libjvm.dylib`)
+
+|  Change | Delta |      % | Samples | Callee                   | Location       |
+| ------: | ----: | -----: | ------: | ------------------------ | -------------- |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `os::pd_uncommit_memory` | `libjvm.dylib` |
+
+##### `HeapRegionManager::uncommit_regions` (`libjvm.dylib`)
+
+|  Change | Delta |              % | Samples | Callee                                                   | Location       |
+| ------: | ----: | -------------: | ------: | -------------------------------------------------------- | -------------- |
+| +100.0% |    +1 | 100.0% → 66.7% |   1 → 2 | `G1RegionsLargerThanCommitSizeMapper::uncommit_regions`  | `libjvm.dylib` |
+|     new |    +1 |   0.0% → 33.3% |   0 → 1 | `G1RegionsSmallerThanCommitSizeMapper::uncommit_regions` | `libjvm.dylib` |
 
 ##### `LockTracer::UnsafeParkHook` (`libasyncProfiler.dylib`)
 
@@ -3747,30 +4389,6 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | -------------------------------------------- | ------------------------------------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `isBenchmarkCompatible(BenchmarkDescriptor)` | `org.renaissance.core.BenchmarkSuite` |
 
-##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                              | Location       |
-| -----: | ----: | -----: | ------: | ----------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `TaskTerminator::offer_termination` | `libjvm.dylib` |
-
-##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                             | Location       |
-| -----: | ----: | -----: | ------: | -------------------------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib` |
-
-##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
-
-| Change | Delta |      % | Samples | Callee                                   | Location       |
-| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
-| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
-
-##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
-
-| Change | Delta |             % | Samples | Callee                                         | Location       |
-| -----: | ----: | ------------: | ------: | ---------------------------------------------- | -------------- |
-| -88.9% |   -16 | 94.7% → 66.7% |  18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
-
 ##### `_new_array_Java` (`<unknown>`)
 
 |  Change | Delta |             % |   Samples | Callee                     | Location       |
@@ -3826,6 +4444,41 @@ Callees with the largest change in contribution to each function's total samples
 |  -50.0% |    -9 |        90.0% |  18 → 9 | `ThreadCritical::ThreadCritical`  | `libjvm.dylib`            |
 | removed |    -2 | 10.0% → 0.0% |   2 → 0 | `ThreadCritical::~ThreadCritical` | `libjvm.dylib`            |
 |     new |    +1 | 0.0% → 10.0% |   0 → 1 | `pthread_self`                    | `libsystem_pthread.dylib` |
+
+##### `SharedRuntime::find_callee_info_helper` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------- | -------------- |
+|  -62.5% |    -5 | 66.7% → 75.0% |   8 → 3 | `CompiledICLocker::CompiledICLocker`  | `libjvm.dylib` |
+| removed |    -1 |   8.3% → 0.0% |   1 → 0 | `CompiledICLocker::~CompiledICLocker` | `libjvm.dylib` |
+| removed |    -1 |   8.3% → 0.0% |   1 → 0 | `RelocIterator::initialize`           | `libjvm.dylib` |
+|  -50.0% |    -1 | 16.7% → 25.0% |   2 → 1 | `Bytecode_invoke::static_target`      | `libjvm.dylib` |
+
+##### `Compiler::compile_method` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                     | Location       |
+| -----: | ----: | -----: | ------: | -------------------------- | -------------- |
+| -38.1% |    -8 | 100.0% | 21 → 13 | `Compilation::Compilation` | `libjvm.dylib` |
+
+##### `MemAllocator::allocate` (`libjvm.dylib`)
+
+| Change | Delta |             % |   Samples | Callee                                                      | Location                   |
+| -----: | ----: | ------------: | --------: | ----------------------------------------------------------- | -------------------------- |
+| -51.6% |   -16 |  16.8% → 8.4% |   31 → 15 | `_platform_bzero`                                           | `libsystem_platform.dylib` |
+|  +8.4% |   +10 | 64.3% → 72.5% | 119 → 129 | `MemAllocator::Allocation::notify_allocation_jvmti_sampler` | `libjvm.dylib`             |
+| -75.0% |    -3 |   2.2% → 0.6% |     4 → 1 | `MemAllocator::Allocation::notify_allocation`               | `libjvm.dylib`             |
+| -66.7% |    -2 |   1.6% → 0.6% |     3 → 1 | `G1CollectedHeap::mem_allocate`                             | `libjvm.dylib`             |
+| +50.0% |    +2 |   2.2% → 3.4% |     4 → 6 | `ObjArrayAllocator::initialize`                             | `libjvm.dylib`             |
+
+##### `TaskTerminator::offer_termination` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                  | Location                 |
+| ------: | ----: | ------------: | ------: | --------------------------------------- | ------------------------ |
+| removed |    -4 |  16.0% → 0.0% |   4 → 0 | `SpinPause`                             | `libjvm.dylib`           |
+|  -18.2% |    -2 | 44.0% → 50.0% |  11 → 9 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`           |
+| removed |    -2 |   8.0% → 0.0% |   2 → 0 | `swtch_pri`                             | `libsystem_kernel.dylib` |
+|  -14.3% |    -1 | 28.0% → 33.3% |   7 → 6 | `Mutex::lock_without_safepoint_check`   | `libjvm.dylib`           |
+|     new |    +1 |   0.0% → 5.6% |   0 → 1 | `__psynch_cvbroad`                      | `libsystem_kernel.dylib` |
 
 ##### `parkUntil(long)` (`java.util.concurrent.locks.LockSupport`)
 
@@ -4041,6 +4694,100 @@ Callees with the largest change in contribution to each function's total samples
 | +100.0% |    +2 |  6.1% → 12.9% |   2 → 4 | `Matcher::match`                  | `libjvm.dylib` |
 |  -33.3% |    -1 |   9.1% → 6.5% |   3 → 2 | `PhaseOutput::Output`             | `libjvm.dylib` |
 | removed |    -1 |   3.0% → 0.0% |   1 → 0 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                              | Location       |
+| -----: | ----: | -----: | ------: | ----------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `TaskTerminator::offer_termination` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                             | Location       |
+| -----: | ----: | -----: | ------: | -------------------------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::offer_termination` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                   | Location       |
+| -----: | ----: | -----: | ------: | ---------------------------------------- | -------------- |
+| -88.9% |   -16 | 100.0% |  18 → 2 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
+
+| Change | Delta |             % | Samples | Callee                                         | Location       |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------- | -------------- |
+| -88.9% |   -16 | 94.7% → 66.7% |  18 → 2 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
+
+##### `G1CollectedHeap::mem_allocate` (`libjvm.dylib`)
+
+| Change | Delta |              % | Samples | Callee                                     | Location       |
+| -----: | ----: | -------------: | ------: | ------------------------------------------ | -------------- |
+| -50.0% |    -1 | 50.0% → 100.0% |   2 → 1 | `G1CollectedHeap::attempt_allocation_slow` | `libjvm.dylib` |
+
+##### `G1ConcurrentRefineThread::run_service` (`libjvm.dylib`)
+
+|  Change | Delta |            % | Samples | Callee                                                        | Location       |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------- | -------------- |
+| removed |    -2 | 66.7% → 0.0% |   2 → 0 | `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` | `libjvm.dylib` |
+| removed |    -1 | 33.3% → 0.0% |   1 → 0 | `G1PrimaryConcurrentRefineThread::do_refinement_step`         | `libjvm.dylib` |
+
+##### `G1ServiceThread::wait_for_task` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------- | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+
+##### `G1AdjustRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                                                          | Location       |
+| -----: | ----: | -----: | ------: | --------------------------------------------------------------- | -------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `void HeapRegion::apply_to_marked_objects<G1AdjustLiveClosure>` | `libjvm.dylib` |
+
+##### `G1FullGCAdjustTask::work` (`libjvm.dylib`)
+
+| Change | Delta |      % | Samples | Callee                           | Location       |
+| -----: | ----: | -----: | ------: | -------------------------------- | -------------- |
+| -33.3% |    -2 | 100.0% |   6 → 4 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                  | Location       |
+| ------: | ----: | ------------: | ------: | --------------------------------------- | -------------- |
+| removed |    -2 | 100.0% → 0.0% |   2 → 0 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib` |
+
+##### `G1BatchedTask::work` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                                    | Location                   |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------- | -------------------------- |
+|     new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1PostEvacuateCollectionSetCleanupTask2::FreeCollectionSetTask::do_work` | `libjvm.dylib`             |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `_platform_memset`                                                        | `libsystem_platform.dylib` |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `G1ParScanThreadStateSet::flush_stats`                                    | `libjvm.dylib`             |
+| removed |    -1 |  33.3% → 0.0% |   1 → 0 | `CompositeElapsedCounterSource::now`                                      | `libjvm.dylib`             |
+
+##### `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                | Location       |
+| ------: | ----: | ------------: | ------: | --------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CardSet::occupied` | `libjvm.dylib` |
+
+##### `G1CollectionSet::iterate` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                                      | Location       |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefine::RemSetSamplingClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ConcurrentRefine::adjust_threads_periodically` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                     | Location       |
+| ------: | ----: | ------------: | ------: | -------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CollectionSet::iterate` | `libjvm.dylib` |
+
+##### `G1PrimaryConcurrentRefineThread::do_refinement_step` (`libjvm.dylib`)
+
+|  Change | Delta |             % | Samples | Callee                                            | Location       |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | -------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefine::adjust_threads_periodically` | `libjvm.dylib` |
 
 ## Hottest call stacks
 

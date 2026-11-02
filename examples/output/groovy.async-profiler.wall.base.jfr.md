@@ -2,14 +2,15 @@
 
 Collected 2,686 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Native           | 91.2% |   2,449 |
-| Compiler         |  6.6% |     176 |
-| Standard library |  1.9% |      51 |
-| Unknown          |  0.2% |       5 |
-| Ours             |  0.1% |       4 |
-| JIT              | <0.1% |       1 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Native            | 91.0% |   2,443 |
+| Compiler          |  6.6% |     176 |
+| Standard library  |  1.9% |      51 |
+| Garbage collector |  0.2% |       6 |
+| Unknown           |  0.2% |       5 |
+| Ours              |  0.1% |       4 |
+| JIT               | <0.1% |       1 |
 
 `…` stands for omitted frames.
 
@@ -95,28 +96,28 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
-|     % | Samples | Function                                          | Location                   |
-| ----: | ------: | ------------------------------------------------- | -------------------------- |
-| 44.6% |   1,198 | `__psynch_cvwait`                                 | `libsystem_kernel.dylib`   |
-| 36.8% |     989 | `semaphore_wait_trap`                             | `libsystem_kernel.dylib`   |
-|  3.3% |      89 | `mach_msg2_trap`                                  | `libsystem_kernel.dylib`   |
-|  3.3% |      89 | `__ulock_wait`                                    | `libsystem_kernel.dylib`   |
-|  0.1% |       4 | `tlv_get_addr`                                    | `libdyld.dylib`            |
-|  0.1% |       3 | `_platform_memset`                                | `libsystem_platform.dylib` |
-|  0.1% |       3 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib`             |
-|  0.1% |       3 | `CompiledMethod::cleanup_inline_caches_impl`      | `libjvm.dylib`             |
-|  0.1% |       3 | `pthread_jit_write_protect_np`                    | `libsystem_pthread.dylib`  |
-|  0.1% |       3 | `__psynch_mutexwait`                              | `libsystem_kernel.dylib`   |
-|  0.1% |       3 | `sys_icache_invalidate`                           | `libsystem_platform.dylib` |
-|  0.1% |       2 | `G1CardSet::add_to_howl`                          | `libjvm.dylib`             |
-|  0.1% |       2 | `vmSymbols::find_sid`                             | `libjvm.dylib`             |
-|  0.1% |       2 | `java_lang_Throwable::fill_in_stack_trace`        | `libjvm.dylib`             |
-|  0.1% |       2 | `Dictionary::find`                                | `libjvm.dylib`             |
-| <0.1% |       1 | `LibraryCallKit::inline_native_Class_query`       | `libjvm.dylib`             |
-| <0.1% |       1 | `cmpOpOper::num_edges`                            | `libjvm.dylib`             |
-| <0.1% |       1 | `_platform_bzero`                                 | `libsystem_platform.dylib` |
-| <0.1% |       1 | `Dict::Insert`                                    | `libjvm.dylib`             |
-| <0.1% |       1 | `posix_madvise`                                   | `libsystem_kernel.dylib`   |
+|     % | Samples | Function                                                                                                                     | Location                   |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 44.6% |   1,198 | `__psynch_cvwait`                                                                                                            | `libsystem_kernel.dylib`   |
+| 36.8% |     989 | `semaphore_wait_trap`                                                                                                        | `libsystem_kernel.dylib`   |
+|  3.3% |      89 | `mach_msg2_trap`                                                                                                             | `libsystem_kernel.dylib`   |
+|  3.3% |      89 | `__ulock_wait`                                                                                                               | `libsystem_kernel.dylib`   |
+|  0.1% |       4 | `tlv_get_addr`                                                                                                               | `libdyld.dylib`            |
+|  0.1% |       3 | `_platform_memset`                                                                                                           | `libsystem_platform.dylib` |
+|  0.1% |       3 | `CompiledMethod::cleanup_inline_caches_impl`                                                                                 | `libjvm.dylib`             |
+|  0.1% |       3 | `pthread_jit_write_protect_np`                                                                                               | `libsystem_pthread.dylib`  |
+|  0.1% |       3 | `__psynch_mutexwait`                                                                                                         | `libsystem_kernel.dylib`   |
+|  0.1% |       3 | `sys_icache_invalidate`                                                                                                      | `libsystem_platform.dylib` |
+|  0.1% |       2 | `vmSymbols::find_sid`                                                                                                        | `libjvm.dylib`             |
+|  0.1% |       2 | `java_lang_Throwable::fill_in_stack_trace`                                                                                   | `libjvm.dylib`             |
+|  0.1% |       2 | `Dictionary::find`                                                                                                           | `libjvm.dylib`             |
+| <0.1% |       1 | `LibraryCallKit::inline_native_Class_query`                                                                                  | `libjvm.dylib`             |
+| <0.1% |       1 | `cmpOpOper::num_edges`                                                                                                       | `libjvm.dylib`             |
+| <0.1% |       1 | `_platform_bzero`                                                                                                            | `libsystem_platform.dylib` |
+| <0.1% |       1 | `Dict::Insert`                                                                                                               | `libjvm.dylib`             |
+| <0.1% |       1 | `posix_madvise`                                                                                                              | `libsystem_kernel.dylib`   |
+| <0.1% |       1 | `void G1ScanClosureBase::handle_non_cset_obj_common<narrowOop>`                                                              | `libjvm.dylib`             |
+| <0.1% |       1 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -433,12 +434,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ---------------------------- | -------------- |
 | 100.0% |       3 | `PhaseIterGVN::subsume_node` | `libjvm.dylib` |
 
-##### `G1CardSet::add_to_howl` (`libjvm.dylib`)
-
-|      % | Samples | Caller                | Location       |
-| -----: | ------: | --------------------- | -------------- |
-| 100.0% |       2 | `G1CardSet::add_card` | `libjvm.dylib` |
-
 ##### `vmSymbols::find_sid` (`libjvm.dylib`)
 
 |      % | Samples | Caller                        | Location       |
@@ -553,6 +548,18 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller        | Location                 |
 | -----: | ------: | ------------- | ------------------------ |
 | 100.0% |       1 | `free_medium` | `libsystem_malloc.dylib` |
+
+##### `void G1ScanClosureBase::handle_non_cset_obj_common<narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                                            | Location       |
+| -----: | ------: | ------------------------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       1 | `void OopOopIterateDispatch<G1ScanCardClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` | `libjvm.dylib` |
+
+##### `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                            | Location       |
+| -----: | ------: | ------------------------------------------------- | -------------- |
+| 100.0% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
 
 ##### `makePreparedLambdaForm(MethodType, int)` (`java.lang.invoke.DirectMethodHandle`)
 

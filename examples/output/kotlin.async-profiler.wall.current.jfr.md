@@ -2,13 +2,14 @@
 
 Collected 2,835 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Native           | 94.2% |   2,670 |
-| Compiler         |  4.3% |     123 |
-| Ours             |  1.1% |      31 |
-| Standard library |  0.3% |       9 |
-| JIT              |  0.1% |       2 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Native            | 94.0% |   2,666 |
+| Compiler          |  4.3% |     123 |
+| Ours              |  1.1% |      31 |
+| Standard library  |  0.3% |       9 |
+| Garbage collector |  0.1% |       4 |
+| JIT               |  0.1% |       2 |
 
 `…` stands for omitted frames.
 
@@ -107,7 +108,6 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |       3 | `InstanceKlass::find_method_index`                                                                                                                       | `libjvm.dylib`             |
 |  0.1% |       3 | `_platform_memset`                                                                                                                                       | `libsystem_platform.dylib` |
 |  0.1% |       2 | `fwd_copy_again`                                                                                                                                         | `libjvm.dylib`             |
-|  0.1% |       2 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                          | `libjvm.dylib`             |
 |  0.1% |       2 | `inflate`                                                                                                                                                | `libzip.dylib`             |
 |  0.1% |       2 | `SymbolTable::lookup_only`                                                                                                                               | `libjvm.dylib`             |
 |  0.1% |       2 | `ClassVerifier::verify_method`                                                                                                                           | `libjvm.dylib`             |
@@ -116,6 +116,7 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |       2 | `CodeCache::make_marked_nmethods_deoptimized`                                                                                                            | `libjvm.dylib`             |
 |  0.1% |       2 | `sys_icache_invalidate`                                                                                                                                  | `libsystem_platform.dylib` |
 |  0.1% |       2 | `Dict::doubhash`                                                                                                                                         | `libjvm.dylib`             |
+| <0.1% |       1 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -514,6 +515,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | ----: | ------: | ---------------------------------- | -------------- |
 | 50.0% |       1 | `PhaseChaitin::raise_pressure`     | `libjvm.dylib` |
 | 50.0% |       1 | `PhaseChaitin::build_ifg_physical` | `libjvm.dylib` |
+
+##### `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                            | Location       |
+| -----: | ------: | ------------------------------------------------- | -------------- |
+| 100.0% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
 
 ##### `PhaseChaitin::remove_bound_register_from_interfering_live_ranges` (`libjvm.dylib`)
 

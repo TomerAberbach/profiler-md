@@ -5,11 +5,11 @@ Collected 5,414 samples.
 | Category          |     % | Samples |
 | ----------------- | ----: | ------: |
 | Ours              | 54.2% |   2,933 |
-| Native            | 30.5% |   1,650 |
+| Native            | 29.6% |   1,603 |
 | Standard library  | 12.9% |     698 |
 | JIT               |  1.3% |      70 |
 | Compiler          |  1.1% |      62 |
-| Garbage collector | <0.1% |       1 |
+| Garbage collector |  0.9% |      48 |
 
 `…` stands for omitted frames.
 
@@ -124,7 +124,6 @@ Categories accounting for at least 1.0% of self samples.
 |  0.4% |      24 | `pthread_jit_write_protect_np`                                                               | `libsystem_pthread.dylib`  |
 |  0.3% |      17 | `_platform_bzero`                                                                            | `libsystem_platform.dylib` |
 |  0.3% |      14 | `arrayof_jint_disjoint_arraycopy`                                                            | `<unknown>`                |
-|  0.2% |      12 | `G1FullGCMarker::mark_object`                                                                | `libjvm.dylib`             |
 |  0.1% |       7 | `_platform_memset`                                                                           | `libsystem_platform.dylib` |
 |  0.1% |       6 | `_sigtramp`                                                                                  | `libsystem_platform.dylib` |
 |  0.1% |       6 | `tlv_get_addr`                                                                               | `libdyld.dylib`            |
@@ -132,10 +131,11 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |       5 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>`                                     | `libjvm.dylib`             |
 |  0.1% |       5 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>` | `libjvm.dylib`             |
 |  0.1% |       5 | `inflate_fast`                                                                               | `libzip.dylib`             |
-|  0.1% |       4 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                                | `libjvm.dylib`             |
-|  0.1% |       4 | `G1RegionMarkStatsCache::add_live_words`                                                     | `libjvm.dylib`             |
 |  0.1% |       4 | `mach_absolute_time`                                                                         | `libsystem_kernel.dylib`   |
 |  0.1% |       3 | `arrayof_oop_disjoint_arraycopy`                                                             | `<unknown>`                |
+|  0.1% |       3 | `CompiledMethod::cleanup_inline_caches_impl`                                                 | `libjvm.dylib`             |
+| <0.1% |       2 | `Unsafe_Park`                                                                                | `libjvm.dylib`             |
+| <0.1% |       2 | `SharedRuntime::on_slowpath_allocation_exit`                                                 | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -590,13 +590,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | 35.7% |       5 | `copyOf(Object[], int)`             | `java.util.Arrays`    |
 |  7.1% |       1 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`   |
 
-##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
-
-|     % | Samples | Caller                                                          | Location       |
-| ----: | ------: | --------------------------------------------------------------- | -------------- |
-| 91.7% |      11 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
-|  8.3% |       1 | `G1FullGCMarker::complete_marking`                              | `libjvm.dylib` |
-
 ##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
 
 |      % | Samples | Caller                              | Location                                    |
@@ -678,18 +671,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | 80.0% |       4 | `toArray()` | `java.util.ArrayList` |
 | 20.0% |       1 | `grow(int)` | `java.util.ArrayList` |
 
-##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                  | Location       |
-| -----: | ------: | --------------------------------------- | -------------- |
-| 100.0% |       4 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
-
-##### `G1RegionMarkStatsCache::add_live_words` (`libjvm.dylib`)
-
-|      % | Samples | Caller                        | Location       |
-| -----: | ------: | ----------------------------- | -------------- |
-| 100.0% |       4 | `G1FullGCMarker::mark_object` | `libjvm.dylib` |
-
 ##### `mach_absolute_time` (`libsystem_kernel.dylib`)
 
 |     % | Samples | Caller                | Location                                    |
@@ -762,6 +743,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | -------------------- | --------------------- |
 | 100.0% |       3 | `addAll(Collection)` | `java.util.ArrayList` |
 
+##### `CompiledMethod::cleanup_inline_caches_impl` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                  | Location       |
+| -----: | ------: | --------------------------------------- | -------------- |
+| 100.0% |       3 | `CompiledMethod::unload_nmethod_caches` | `libjvm.dylib` |
+
 ##### `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001187468`)
 
 |      % | Samples | Caller                              | Location            |
@@ -773,6 +760,19 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller   | Location                                                               |
 | -----: | ------: | -------- | ---------------------------------------------------------------------- |
 | 100.0% |       2 | `call()` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001183d68` |
+
+##### `Unsafe_Park` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location                   |
+| -----: | ------: | --------------------- | -------------------------- |
+| 100.0% |       2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+
+##### `SharedRuntime::on_slowpath_allocation_exit` (`libjvm.dylib`)
+
+|     % | Samples | Caller                     | Location       |
+| ----: | ------: | -------------------------- | -------------- |
+| 50.0% |       1 | `OptoRuntime::new_array_C` | `libjvm.dylib` |
+| 50.0% |       1 | `_new_array_Java`          | `<unknown>`    |
 
 ##### `ciObjectFactory::get_metadata` (`libjvm.dylib`)
 

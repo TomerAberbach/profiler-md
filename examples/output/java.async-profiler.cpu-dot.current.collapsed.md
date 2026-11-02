@@ -2,14 +2,15 @@
 
 Collected 4,725 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Ours             | 55.5% |   2,622 |
-| Native           | 29.1% |   1,374 |
-| Standard library | 13.4% |     631 |
-| Compiler         |  1.0% |      49 |
-| JIT              |  1.0% |      47 |
-| Unknown          | <0.1% |       2 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Ours              | 55.5% |   2,622 |
+| Native            | 27.8% |   1,313 |
+| Standard library  | 13.4% |     631 |
+| Garbage collector |  1.3% |      61 |
+| Compiler          |  1.0% |      49 |
+| JIT               |  1.0% |      47 |
+| Unknown           | <0.1% |       2 |
 
 `…` stands for omitted frames.
 
@@ -119,28 +120,28 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
-|     % | Samples | Function                                                                                             | Location    |
-| ----: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
-| 16.6% |     786 | `__psynch_cvwait`                                                                                    | `<unknown>` |
-|  4.7% |     223 | `forward_copy_longs`                                                                                 | `<unknown>` |
-|  1.1% |      51 | `__psynch_cvsignal`                                                                                  | `<unknown>` |
-|  0.6% |      28 | `_platform_memset`                                                                                   | `<unknown>` |
-|  0.5% |      25 | `__psynch_mutexwait`                                                                                 | `<unknown>` |
-|  0.5% |      23 | `_platform_bzero`                                                                                    | `<unknown>` |
-|  0.4% |      21 | `arrayof_jint_disjoint_arraycopy`                                                                    | `<unknown>` |
-|  0.4% |      21 | `G1FullGCMarker::mark_object`                                                                        | `<unknown>` |
-|  0.3% |      16 | `pthread_jit_write_protect_np`                                                                       | `<unknown>` |
-|  0.3% |      13 | `semaphore_wait_trap`                                                                                | `<unknown>` |
-|  0.2% |       9 | `G1RegionMarkStatsCache::add_live_words`                                                             | `<unknown>` |
-|  0.1% |       6 | `InstanceKlass::find_method_index`                                                                   | `<unknown>` |
-|  0.1% |       6 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                                        | `<unknown>` |
-|  0.1% |       5 | `Parker::park`                                                                                       | `<unknown>` |
-|  0.1% |       5 | `arrayof_oop_disjoint_arraycopy`                                                                     | `<unknown>` |
-|  0.1% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region`                    | `<unknown>` |
-|  0.1% |       5 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>` |
-|  0.1% |       5 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                      | `<unknown>` |
-|  0.1% |       5 | `G1FullGCMarker::follow_object`                                                                      | `<unknown>` |
-|  0.1% |       4 | `ObjArrayAllocator::initialize`                                                                      | `<unknown>` |
+|     % | Samples | Function                                                                                                   | Location    |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------- | ----------- |
+| 16.6% |     786 | `__psynch_cvwait`                                                                                          | `<unknown>` |
+|  4.7% |     223 | `forward_copy_longs`                                                                                       | `<unknown>` |
+|  1.1% |      51 | `__psynch_cvsignal`                                                                                        | `<unknown>` |
+|  0.6% |      28 | `_platform_memset`                                                                                         | `<unknown>` |
+|  0.5% |      25 | `__psynch_mutexwait`                                                                                       | `<unknown>` |
+|  0.5% |      23 | `_platform_bzero`                                                                                          | `<unknown>` |
+|  0.4% |      21 | `arrayof_jint_disjoint_arraycopy`                                                                          | `<unknown>` |
+|  0.3% |      16 | `pthread_jit_write_protect_np`                                                                             | `<unknown>` |
+|  0.3% |      13 | `semaphore_wait_trap`                                                                                      | `<unknown>` |
+|  0.1% |       6 | `InstanceKlass::find_method_index`                                                                         | `<unknown>` |
+|  0.1% |       5 | `Parker::park`                                                                                             | `<unknown>` |
+|  0.1% |       5 | `arrayof_oop_disjoint_arraycopy`                                                                           | `<unknown>` |
+|  0.1% |       5 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`       | `<unknown>` |
+|  0.1% |       5 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                            | `<unknown>` |
+|  0.1% |       4 | `ObjArrayAllocator::initialize`                                                                            | `<unknown>` |
+|  0.1% |       4 | `inflate_fast`                                                                                             | `<unknown>` |
+|  0.1% |       3 | `tlv_get_addr`                                                                                             | `<unknown>` |
+|  0.1% |       3 | `FastThreadsListHandle::FastThreadsListHandle`                                                             | `<unknown>` |
+| <0.1% |       2 | `semaphore_signal_trap`                                                                                    | `<unknown>` |
+| <0.1% |       2 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` | `<unknown>` |
 
 ##### Standard library
 
@@ -166,6 +167,28 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |       3 | `push`             | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 |  0.1% |       3 | `putVal`           | `java.util.HashMap`                           |
 | <0.1% |       2 | `addAll`           | `java.util.ArrayList`                         |
+
+##### Garbage collector
+
+|     % | Samples | Function                                                                          | Location    |
+| ----: | ------: | --------------------------------------------------------------------------------- | ----------- |
+|  0.4% |      21 | `G1FullGCMarker::mark_object`                                                     | `<unknown>` |
+|  0.2% |       9 | `G1RegionMarkStatsCache::add_live_words`                                          | `<unknown>` |
+|  0.1% |       6 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                     | `<unknown>` |
+|  0.1% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` | `<unknown>` |
+|  0.1% |       5 | `G1FullGCMarker::follow_object`                                                   | `<unknown>` |
+|  0.1% |       4 | `G1FullGCCompactTask::copy_object_to_new_location`                                | `<unknown>` |
+| <0.1% |       1 | `G1CollectedHeap::mem_allocate`                                                   | `<unknown>` |
+| <0.1% |       1 | `G1FullGCMarker::complete_marking`                                                | `<unknown>` |
+| <0.1% |       1 | `G1CommittedRegionMap::num_active`                                                | `<unknown>` |
+| <0.1% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space`                                 | `<unknown>` |
+| <0.1% |       1 | `G1CardTable::is_in_young`                                                        | `<unknown>` |
+| <0.1% |       1 | `G1FullGCMarker::follow_marking_stacks`                                           | `<unknown>` |
+| <0.1% |       1 | `G1FullGCCompactTask::G1CompactRegionClosure::apply`                              | `<unknown>` |
+| <0.1% |       1 | `G1RemSetScanState::prepare`                                                      | `<unknown>` |
+| <0.1% |       1 | `G1ParScanThreadState::do_partial_array`                                          | `<unknown>` |
+| <0.1% |       1 | `HeapRegionManager::allocate_free_region`                                         | `<unknown>` |
+| <0.1% |       1 | `G1BarrierSet::invalidate`                                                        | `<unknown>` |
 
 ##### Compiler
 
@@ -368,18 +391,18 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------ | ----------------------------------- |
 | 100.0% |      10 | `join` | `java.util.concurrent.ForkJoinTask` |
 
-##### `G1RegionMarkStatsCache::add_live_words` (`<unknown>`)
-
-|      % | Samples | Caller                        | Location    |
-| -----: | ------: | ----------------------------- | ----------- |
-| 100.0% |       9 | `G1FullGCMarker::mark_object` | `<unknown>` |
-
 ##### `copyOf` (`java.util.Arrays`)
 
 |     % | Samples | Caller    | Location              |
 | ----: | ------: | --------- | --------------------- |
 | 55.6% |       5 | `toArray` | `java.util.ArrayList` |
 | 44.4% |       4 | `grow`    | `java.util.ArrayList` |
+
+##### `G1RegionMarkStatsCache::add_live_words` (`<unknown>`)
+
+|      % | Samples | Caller                        | Location    |
+| -----: | ------: | ----------------------------- | ----------- |
+| 100.0% |       9 | `G1FullGCMarker::mark_object` | `<unknown>` |
 
 ##### `forEach` (`java.util.HashMap`)
 
@@ -401,17 +424,17 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | 33.3% |       2 | `InstanceKlass::uncached_lookup_method` | `<unknown>` |
 | 33.3% |       2 | `InstanceKlass::find_method`            | `<unknown>` |
 
-##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`<unknown>`)
-
-|      % | Samples | Caller                                  | Location    |
-| -----: | ------: | --------------------------------------- | ----------- |
-| 100.0% |       6 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
-
 ##### `runWorker` (`java.util.concurrent.ForkJoinPool`)
 
 |      % | Samples | Caller | Location                                    |
 | -----: | ------: | ------ | ------------------------------------------- |
 | 100.0% |       6 | `run`  | `java.util.concurrent.ForkJoinWorkerThread` |
+
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`<unknown>`)
+
+|      % | Samples | Caller                                  | Location    |
+| -----: | ------: | --------------------------------------- | ----------- |
+| 100.0% |       6 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
 
 ##### `Parker::park` (`<unknown>`)
 
@@ -424,12 +447,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller   | Location              |
 | -----: | ------: | -------- | --------------------- |
 | 100.0% |       5 | `addAll` | `java.util.ArrayList` |
-
-##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` (`<unknown>`)
-
-|      % | Samples | Caller                                                              | Location    |
-| -----: | ------: | ------------------------------------------------------------------- | ----------- |
-| 100.0% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `<unknown>` |
 
 ##### `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`<unknown>`)
 
@@ -445,6 +462,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | 60.0% |       3 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
 | 40.0% |       2 | `G1FullGCMarker::complete_marking`      | `<unknown>` |
 
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region` (`<unknown>`)
+
+|      % | Samples | Caller                                                              | Location    |
+| -----: | ------: | ------------------------------------------------------------------- | ----------- |
+| 100.0% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `<unknown>` |
+
 ##### `G1FullGCMarker::follow_object` (`<unknown>`)
 
 |     % | Samples | Caller                                        | Location    |
@@ -458,6 +481,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------------------------ | ----------- |
 | 100.0% |       4 | `MemAllocator::allocate` | `<unknown>` |
 
+##### `inflate_fast` (`<unknown>`)
+
+|      % | Samples | Caller                                          | Location    |
+| -----: | ------: | ----------------------------------------------- | ----------- |
+| 100.0% |       4 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `<unknown>` |
+
 ##### `scan` (`java.util.concurrent.ForkJoinPool`)
 
 |      % | Samples | Caller      | Location                            |
@@ -469,6 +498,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller | Location              |
 | -----: | ------: | ------ | --------------------- |
 | 100.0% |       4 | `grow` | `java.util.ArrayList` |
+
+##### `G1FullGCCompactTask::copy_object_to_new_location` (`<unknown>`)
+
+|      % | Samples | Caller                                               | Location    |
+| -----: | ------: | ---------------------------------------------------- | ----------- |
+| 100.0% |       4 | `G1FullGCCompactTask::G1CompactRegionClosure::apply` | `<unknown>` |
 
 ##### `PhaseChaitin::build_ifg_physical` (`<unknown>`)
 
@@ -487,6 +522,19 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller    | Location                                               |
 | -----: | ------: | --------- | ------------------------------------------------------ |
 | 100.0% |       3 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `tlv_get_addr` (`<unknown>`)
+
+|     % | Samples | Caller                           | Location    |
+| ----: | ------: | -------------------------------- | ----------- |
+| 66.7% |       2 | `arrayof_oop_disjoint_arraycopy` | `<unknown>` |
+| 33.3% |       1 | `TypeInstPtr::xmeet_helper`      | `<unknown>` |
+
+##### `FastThreadsListHandle::FastThreadsListHandle` (`<unknown>`)
+
+|      % | Samples | Caller   | Location                   |
+| -----: | ------: | -------- | -------------------------- |
+| 100.0% |       3 | `unpark` | `jdk.internal.misc.Unsafe` |
 
 ##### `tryRemoveAndExec` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
@@ -524,6 +572,18 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller    | Location                                               |
 | -----: | ------: | --------- | ------------------------------------------------------ |
 | 100.0% |       2 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `semaphore_signal_trap` (`<unknown>`)
+
+|      % | Samples | Caller                    | Location    |
+| -----: | ------: | ------------------------- | ----------- |
+| 100.0% |       2 | `WorkerThreads::run_task` | `<unknown>` |
+
+##### `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |       2 | `G1FullGCMarker::complete_marking` | `<unknown>` |
 
 ##### `addAll` (`java.util.ArrayList`)
 
@@ -609,6 +669,72 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller    | Location                                               |
 | -----: | ------: | --------- | ------------------------------------------------------ |
 | 100.0% |       1 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `G1CollectedHeap::mem_allocate` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |       1 | `MemAllocator::allocate` | `<unknown>` |
+
+##### `G1FullGCMarker::complete_marking` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |       1 | `G1FullGCMarkTask::work` | `<unknown>` |
+
+##### `G1CommittedRegionMap::num_active` (`<unknown>`)
+
+|      % | Samples | Caller                                   | Location    |
+| -----: | ------: | ---------------------------------------- | ----------- |
+| 100.0% |       1 | `G1MonitoringSupport::recalculate_sizes` | `<unknown>` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`<unknown>`)
+
+|      % | Samples | Caller                                          | Location    |
+| -----: | ------: | ----------------------------------------------- | ----------- |
+| 100.0% |       1 | `G1ParScanThreadState::trim_queue_to_threshold` | `<unknown>` |
+
+##### `G1CardTable::is_in_young` (`<unknown>`)
+
+|      % | Samples | Caller                                             | Location    |
+| -----: | ------: | -------------------------------------------------- | ----------- |
+| 100.0% |       1 | `CardTableBarrierSet::on_slowpath_allocation_exit` | `<unknown>` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |       1 | `G1FullGCMarker::complete_marking` | `<unknown>` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply` (`<unknown>`)
+
+|      % | Samples | Caller                                | Location    |
+| -----: | ------: | ------------------------------------- | ----------- |
+| 100.0% |       1 | `G1FullGCCompactTask::compact_region` | `<unknown>` |
+
+##### `G1RemSetScanState::prepare` (`<unknown>`)
+
+|      % | Samples | Caller                                          | Location    |
+| -----: | ------: | ----------------------------------------------- | ----------- |
+| 100.0% |       1 | `G1YoungCollector::pre_evacuate_collection_set` | `<unknown>` |
+
+##### `G1ParScanThreadState::do_partial_array` (`<unknown>`)
+
+|      % | Samples | Caller                                          | Location    |
+| -----: | ------: | ----------------------------------------------- | ----------- |
+| 100.0% |       1 | `G1ParScanThreadState::trim_queue_to_threshold` | `<unknown>` |
+
+##### `HeapRegionManager::allocate_free_region` (`<unknown>`)
+
+|      % | Samples | Caller                                      | Location    |
+| -----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% |       1 | `G1CollectedHeap::new_mutator_alloc_region` | `<unknown>` |
+
+##### `G1BarrierSet::invalidate` (`<unknown>`)
+
+|      % | Samples | Caller                           | Location    |
+| -----: | ------: | -------------------------------- | ----------- |
+| 100.0% |       1 | `arrayof_oop_disjoint_arraycopy` | `<unknown>` |
 
 ##### `PhaseIdealLoop::get_late_ctrl_with_anti_dep` (`<unknown>`)
 
@@ -764,28 +890,28 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Native
 
-|     % | Samples | Function                           | Location    |
-| ----: | ------: | ---------------------------------- | ----------- |
-| 16.8% |     793 | `Unsafe_Park`                      | `<unknown>` |
-| 16.6% |     786 | `__psynch_cvwait`                  | `<unknown>` |
-| 16.6% |     783 | `Parker::park`                     | `<unknown>` |
-|  4.7% |     223 | `forward_copy_longs`               | `<unknown>` |
-|  4.3% |     202 | `arrayof_jint_disjoint_arraycopy`  | `<unknown>` |
-|  4.2% |     198 | `Thread::call_run`                 | `<unknown>` |
-|  4.2% |     198 | `thread_native_entry`              | `<unknown>` |
-|  4.2% |     198 | `_pthread_start`                   | `<unknown>` |
-|  4.2% |     198 | `thread_start`                     | `<unknown>` |
-|  2.2% |     103 | `WorkerThread::run`                | `<unknown>` |
-|  1.6% |      76 | `JavaThread::thread_main_inner`    | `<unknown>` |
-|  1.4% |      65 | `_new_array_Java`                  | `<unknown>` |
-|  1.4% |      64 | `OptoRuntime::new_array_C`         | `<unknown>` |
-|  1.3% |      63 | `MemAllocator::allocate`           | `<unknown>` |
-|  1.2% |      59 | `CollectedHeap::array_allocate`    | `<unknown>` |
-|  1.2% |      59 | `InstanceKlass::allocate_objArray` | `<unknown>` |
-|  1.2% |      58 | `Unsafe_Unpark`                    | `<unknown>` |
-|  1.2% |      58 | `G1FullGCMarker::complete_marking` | `<unknown>` |
-|  1.2% |      58 | `G1FullGCMarkTask::work`           | `<unknown>` |
-|  1.1% |      51 | `__psynch_cvsignal`                | `<unknown>` |
+|     % | Samples | Function                                                        | Location    |
+| ----: | ------: | --------------------------------------------------------------- | ----------- |
+| 16.8% |     793 | `Unsafe_Park`                                                   | `<unknown>` |
+| 16.6% |     786 | `__psynch_cvwait`                                               | `<unknown>` |
+| 16.6% |     783 | `Parker::park`                                                  | `<unknown>` |
+|  4.7% |     223 | `forward_copy_longs`                                            | `<unknown>` |
+|  4.3% |     202 | `arrayof_jint_disjoint_arraycopy`                               | `<unknown>` |
+|  4.2% |     198 | `Thread::call_run`                                              | `<unknown>` |
+|  4.2% |     198 | `thread_native_entry`                                           | `<unknown>` |
+|  4.2% |     198 | `_pthread_start`                                                | `<unknown>` |
+|  4.2% |     198 | `thread_start`                                                  | `<unknown>` |
+|  2.2% |     103 | `WorkerThread::run`                                             | `<unknown>` |
+|  1.6% |      76 | `JavaThread::thread_main_inner`                                 | `<unknown>` |
+|  1.4% |      65 | `_new_array_Java`                                               | `<unknown>` |
+|  1.4% |      64 | `OptoRuntime::new_array_C`                                      | `<unknown>` |
+|  1.3% |      63 | `MemAllocator::allocate`                                        | `<unknown>` |
+|  1.2% |      59 | `CollectedHeap::array_allocate`                                 | `<unknown>` |
+|  1.2% |      59 | `InstanceKlass::allocate_objArray`                              | `<unknown>` |
+|  1.2% |      58 | `Unsafe_Unpark`                                                 | `<unknown>` |
+|  1.1% |      51 | `__psynch_cvsignal`                                             | `<unknown>` |
+|  1.1% |      50 | `arrayof_oop_disjoint_arraycopy`                                | `<unknown>` |
+|  0.7% |      33 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `<unknown>` |
 
 ##### Standard library
 
@@ -811,6 +937,31 @@ Categories accounting for at least 1.0% of self samples.
 |  4.3% |     205 | `copyOf`           | `java.util.Arrays`                                  |
 |  3.7% |     175 | `toArray`          | `java.util.ArrayList`                               |
 |  3.5% |     165 | `addAll`           | `java.util.ArrayList`                               |
+
+##### Garbage collector
+
+|    % | Samples | Function                                                    | Location    |
+| ---: | ------: | ----------------------------------------------------------- | ----------- |
+| 1.2% |      58 | `G1FullGCMarker::complete_marking`                          | `<unknown>` |
+| 1.2% |      58 | `G1FullGCMarkTask::work`                                    | `<unknown>` |
+| 0.8% |      36 | `G1FullGCMarker::follow_marking_stacks`                     | `<unknown>` |
+| 0.6% |      30 | `G1FullGCMarker::mark_object`                               | `<unknown>` |
+| 0.4% |      17 | `HeapRegionManager::par_iterate`                            | `<unknown>` |
+| 0.3% |      15 | `G1CollectedHeap::attempt_allocation_slow`                  | `<unknown>` |
+| 0.3% |      15 | `G1EvacuateRegionsBaseTask::work`                           | `<unknown>` |
+| 0.2% |      10 | `G1FullGCMarker::publish_and_drain_oop_tasks`               | `<unknown>` |
+| 0.2% |       9 | `G1CollectedHeap::mem_allocate`                             | `<unknown>` |
+| 0.2% |       9 | `G1ParEvacuateFollowersClosure::do_void`                    | `<unknown>` |
+| 0.2% |       9 | `G1EvacuateRegionsTask::evacuate_live_objects`              | `<unknown>` |
+| 0.2% |       9 | `G1RegionMarkStatsCache::add_live_words`                    | `<unknown>` |
+| 0.2% |       8 | `G1FullGCResetMetadataTask::work`                           | `<unknown>` |
+| 0.2% |       8 | `G1ClearBitMapTask::G1ClearBitmapHRClosure::do_heap_region` | `<unknown>` |
+| 0.1% |       7 | `G1CollectedHeap::attempt_allocation`                       | `<unknown>` |
+| 0.1% |       7 | `G1YoungCollector::collect`                                 | `<unknown>` |
+| 0.1% |       7 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper`  | `<unknown>` |
+| 0.1% |       7 | `G1CollectedHeap::do_collection_pause_at_safepoint`         | `<unknown>` |
+| 0.1% |       6 | `G1EvacuateRegionsTask::scan_roots`                         | `<unknown>` |
+| 0.1% |       6 | `G1ParScanThreadState::trim_queue_to_threshold`             | `<unknown>` |
 
 ##### Compiler
 
@@ -1229,11 +1380,38 @@ Callers with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | --------------- | ----------- |
 | 100.0% |      51 | `Unsafe_Unpark` | `<unknown>` |
 
+##### `arrayof_oop_disjoint_arraycopy` (`<unknown>`)
+
+|      % | Samples | Caller   | Location              |
+| -----: | ------: | -------- | --------------------- |
+| 100.0% |      50 | `addAll` | `java.util.ArrayList` |
+
 ##### `launchHarnessClass` (`org.renaissance.core.Launcher`)
 
 |      % | Samples | Caller | Location                        |
 | -----: | ------: | ------ | ------------------------------- |
 | 100.0% |      46 | `main` | `org.renaissance.core.Launcher` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`<unknown>`)
+
+|      % | Samples | Caller                             | Location    |
+| -----: | ------: | ---------------------------------- | ----------- |
+| 100.0% |      36 | `G1FullGCMarker::complete_marking` | `<unknown>` |
+
+##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` (`<unknown>`)
+
+|     % | Samples | Caller                                  | Location    |
+| ----: | ------: | --------------------------------------- | ----------- |
+| 51.5% |      17 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
+| 48.5% |      16 | `G1FullGCMarker::complete_marking`      | `<unknown>` |
+
+##### `G1FullGCMarker::mark_object` (`<unknown>`)
+
+|     % | Samples | Caller                                                          | Location    |
+| ----: | ------: | --------------------------------------------------------------- | ----------- |
+| 90.0% |      27 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `<unknown>` |
+|  6.7% |       2 | `G1FullGCMarker::follow_marking_stacks`                         | `<unknown>` |
+|  3.3% |       1 | `G1FullGCMarker::complete_marking`                              | `<unknown>` |
 
 ##### `Compile::Code_Gen` (`<unknown>`)
 
@@ -1246,6 +1424,27 @@ Callers with the largest contribution to each function's total samples. Inlining
 |      % | Samples | Caller             | Location    |
 | -----: | ------: | ------------------ | ----------- |
 | 100.0% |      19 | `Compile::Compile` | `<unknown>` |
+
+##### `HeapRegionManager::par_iterate` (`<unknown>`)
+
+|     % | Samples | Caller                            | Location    |
+| ----: | ------: | --------------------------------- | ----------- |
+| 47.1% |       8 | `G1FullGCResetMetadataTask::work` | `<unknown>` |
+| 47.1% |       8 | `WorkerThread::run`               | `<unknown>` |
+|  5.9% |       1 | `G1FullGCAdjustTask::work`        | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation_slow` (`<unknown>`)
+
+|     % | Samples | Caller                                | Location    |
+| ----: | ------: | ------------------------------------- | ----------- |
+| 53.3% |       8 | `G1CollectedHeap::mem_allocate`       | `<unknown>` |
+| 46.7% |       7 | `G1CollectedHeap::attempt_allocation` | `<unknown>` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |      15 | `WorkerThread::run` | `<unknown>` |
 
 ##### `Compilation::compile_method` (`<unknown>`)
 
@@ -1271,6 +1470,36 @@ Callers with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | ------------------- | ----------- |
 | 100.0% |      13 | `Compile::Code_Gen` | `<unknown>` |
 
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`<unknown>`)
+
+|      % | Samples | Caller                                  | Location    |
+| -----: | ------: | --------------------------------------- | ----------- |
+| 100.0% |      10 | `G1FullGCMarker::follow_marking_stacks` | `<unknown>` |
+
+##### `G1CollectedHeap::mem_allocate` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |       9 | `MemAllocator::allocate` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`<unknown>`)
+
+|      % | Samples | Caller                                         | Location    |
+| -----: | ------: | ---------------------------------------------- | ----------- |
+| 100.0% |       9 | `G1EvacuateRegionsTask::evacuate_live_objects` | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       9 | `G1EvacuateRegionsBaseTask::work` | `<unknown>` |
+
+##### `G1RegionMarkStatsCache::add_live_words` (`<unknown>`)
+
+|      % | Samples | Caller                        | Location    |
+| -----: | ------: | ----------------------------- | ----------- |
+| 100.0% |       9 | `G1FullGCMarker::mark_object` | `<unknown>` |
+
 ##### `PhaseIdealLoop::build_and_optimize` (`<unknown>`)
 
 |      % | Samples | Caller                           | Location    |
@@ -1290,6 +1519,42 @@ Callers with the largest contribution to each function's total samples. Inlining
 | 66.7% |       6 | `Compile::Optimize`       | `<unknown>` |
 | 33.3% |       3 | `Compile::optimize_loops` | `<unknown>` |
 
+##### `G1FullGCResetMetadataTask::work` (`<unknown>`)
+
+|      % | Samples | Caller              | Location    |
+| -----: | ------: | ------------------- | ----------- |
+| 100.0% |       8 | `WorkerThread::run` | `<unknown>` |
+
+##### `G1ClearBitMapTask::G1ClearBitmapHRClosure::do_heap_region` (`<unknown>`)
+
+|      % | Samples | Caller                           | Location    |
+| -----: | ------: | -------------------------------- | ----------- |
+| 100.0% |       8 | `HeapRegionManager::par_iterate` | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation` (`<unknown>`)
+
+|      % | Samples | Caller                                        | Location    |
+| -----: | ------: | --------------------------------------------- | ----------- |
+| 100.0% |       7 | `MemAllocator::mem_allocate_inside_tlab_slow` | `<unknown>` |
+
+##### `G1YoungCollector::collect` (`<unknown>`)
+
+|      % | Samples | Caller                                                     | Location    |
+| -----: | ------: | ---------------------------------------------------------- | ----------- |
+| 100.0% |       7 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `<unknown>` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`<unknown>`)
+
+|      % | Samples | Caller                                              | Location    |
+| -----: | ------: | --------------------------------------------------- | ----------- |
+| 100.0% |       7 | `G1CollectedHeap::do_collection_pause_at_safepoint` | `<unknown>` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       7 | `VM_G1CollectForAllocation::doit` | `<unknown>` |
+
 ##### `Compilation::emit_lir` (`<unknown>`)
 
 |      % | Samples | Caller                             | Location    |
@@ -1307,6 +1572,20 @@ Callers with the largest contribution to each function's total samples. Inlining
 |      % | Samples | Caller                            | Location    |
 | -----: | ------: | --------------------------------- | ----------- |
 | 100.0% |       7 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::scan_roots` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       6 | `G1EvacuateRegionsBaseTask::work` | `<unknown>` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`<unknown>`)
+
+|     % | Samples | Caller                                       | Location    |
+| ----: | ------: | -------------------------------------------- | ----------- |
+| 50.0% |       3 | `G1ParEvacuateFollowersClosure::do_void`     | `<unknown>` |
+| 33.3% |       2 | `G1ParScanThreadState::steal_and_trim_queue` | `<unknown>` |
+| 16.7% |       1 | `G1ScanHRForRegionClosure::scan_memregion`   | `<unknown>` |
 
 ##### `LinearScan::do_linear_scan` (`<unknown>`)
 
@@ -1783,12 +2062,43 @@ Callees with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | ------------------ | ----------- |
 | 100.0% |      55 | `Compile::Compile` | `<unknown>` |
 
+##### `arrayof_oop_disjoint_arraycopy` (`<unknown>`)
+
+|     % | Samples | Callee                     | Location    |
+| ----: | ------: | -------------------------- | ----------- |
+| 84.0% |      42 | `forward_copy_longs`       | `<unknown>` |
+|  4.0% |       2 | `tlv_get_addr`             | `<unknown>` |
+|  2.0% |       1 | `G1BarrierSet::invalidate` | `<unknown>` |
+
 ##### `launchHarnessClass` (`org.renaissance.core.Launcher`)
 
 |     % | Samples | Callee                      | Location                        |
 | ----: | ------: | --------------------------- | ------------------------------- |
 | 97.8% |      45 | `loadAndInvokeHarnessClass` | `org.renaissance.core.Launcher` |
 |  2.2% |       1 | `createScratchRoot`         | `org.renaissance.core.Launcher` |
+
+##### `G1FullGCMarker::follow_marking_stacks` (`<unknown>`)
+
+|     % | Samples | Callee                                                                                               | Location    |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+| 47.2% |      17 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                      | `<unknown>` |
+| 27.8% |      10 | `G1FullGCMarker::publish_and_drain_oop_tasks`                                                        | `<unknown>` |
+| 11.1% |       4 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>` |
+|  5.6% |       2 | `G1FullGCMarker::follow_object`                                                                      | `<unknown>` |
+|  5.6% |       2 | `G1FullGCMarker::mark_object`                                                                        | `<unknown>` |
+
+##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` (`<unknown>`)
+
+|     % | Samples | Callee                        | Location    |
+| ----: | ------: | ----------------------------- | ----------- |
+| 81.8% |      27 | `G1FullGCMarker::mark_object` | `<unknown>` |
+|  3.0% |       1 | `MarkBitMap::check_mark`      | `<unknown>` |
+
+##### `G1FullGCMarker::mark_object` (`<unknown>`)
+
+|     % | Samples | Callee                                   | Location    |
+| ----: | ------: | ---------------------------------------- | ----------- |
+| 30.0% |       9 | `G1RegionMarkStatsCache::add_live_words` | `<unknown>` |
 
 ##### `Compile::Code_Gen` (`<unknown>`)
 
@@ -1808,6 +2118,32 @@ Callees with the largest contribution to each function's total samples. Inlining
 | 15.8% |       3 | `Compile::optimize_loops`  | `<unknown>` |
 | 10.5% |       2 | `PhaseIterGVN::optimize`   | `<unknown>` |
 | 10.5% |       2 | `PhaseCCP::do_transform`   | `<unknown>` |
+
+##### `HeapRegionManager::par_iterate` (`<unknown>`)
+
+|     % | Samples | Callee                                                              | Location    |
+| ----: | ------: | ------------------------------------------------------------------- | ----------- |
+| 47.1% |       8 | `G1ClearBitMapTask::G1ClearBitmapHRClosure::do_heap_region`         | `<unknown>` |
+| 29.4% |       5 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region` | `<unknown>` |
+| 17.6% |       3 | `_platform_memset`                                                  | `<unknown>` |
+|  5.9% |       1 | `G1AdjustRegionClosure::do_heap_region`                             | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation_slow` (`<unknown>`)
+
+|     % | Samples | Callee                                         | Location    |
+| ----: | ------: | ---------------------------------------------- | ----------- |
+| 53.3% |       8 | `Mutex::lock`                                  | `<unknown>` |
+| 20.0% |       3 | `VMThread::execute`                            | `<unknown>` |
+| 13.3% |       2 | `pthread_mutex_trylock`                        | `<unknown>` |
+|  6.7% |       1 | `MutatorAllocRegion::retire`                   | `<unknown>` |
+|  6.7% |       1 | `G1AllocRegion::new_alloc_region_and_allocate` | `<unknown>` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`<unknown>`)
+
+|     % | Samples | Callee                                         | Location    |
+| ----: | ------: | ---------------------------------------------- | ----------- |
+| 60.0% |       9 | `G1EvacuateRegionsTask::evacuate_live_objects` | `<unknown>` |
+| 40.0% |       6 | `G1EvacuateRegionsTask::scan_roots`            | `<unknown>` |
 
 ##### `Compilation::compile_method` (`<unknown>`)
 
@@ -1838,6 +2174,33 @@ Callees with the largest contribution to each function's total samples. Inlining
 | 15.4% |       2 | `PhaseChaitin::gather_lrg_masks`                 | `<unknown>` |
 |  7.7% |       1 | `PhaseChaitin::stretch_base_pointer_live_ranges` | `<unknown>` |
 
+##### `G1FullGCMarker::publish_and_drain_oop_tasks` (`<unknown>`)
+
+|     % | Samples | Callee                                                                                               | Location    |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+| 30.0% |       3 | `G1FullGCMarker::follow_object`                                                                      | `<unknown>` |
+| 10.0% |       1 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `<unknown>` |
+
+##### `G1CollectedHeap::mem_allocate` (`<unknown>`)
+
+|     % | Samples | Callee                                     | Location    |
+| ----: | ------: | ------------------------------------------ | ----------- |
+| 88.9% |       8 | `G1CollectedHeap::attempt_allocation_slow` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`<unknown>`)
+
+|     % | Samples | Callee                                             | Location    |
+| ----: | ------: | -------------------------------------------------- | ----------- |
+| 44.4% |       4 | `G1ParEvacuateFollowersClosure::offer_termination` | `<unknown>` |
+| 33.3% |       3 | `G1ParScanThreadState::trim_queue_to_threshold`    | `<unknown>` |
+| 22.2% |       2 | `G1ParScanThreadState::steal_and_trim_queue`       | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`<unknown>`)
+
+|      % | Samples | Callee                                   | Location    |
+| -----: | ------: | ---------------------------------------- | ----------- |
+| 100.0% |       9 | `G1ParEvacuateFollowersClosure::do_void` | `<unknown>` |
+
 ##### `PhaseIdealLoop::build_and_optimize` (`<unknown>`)
 
 |     % | Samples | Callee                                 | Location    |
@@ -1859,6 +2222,46 @@ Callees with the largest contribution to each function's total samples. Inlining
 |      % | Samples | Callee                           | Location    |
 | -----: | ------: | -------------------------------- | ----------- |
 | 100.0% |       9 | `PhaseIdealLoop::PhaseIdealLoop` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::work` (`<unknown>`)
+
+|      % | Samples | Callee                           | Location    |
+| -----: | ------: | -------------------------------- | ----------- |
+| 100.0% |       8 | `HeapRegionManager::par_iterate` | `<unknown>` |
+
+##### `G1ClearBitMapTask::G1ClearBitmapHRClosure::do_heap_region` (`<unknown>`)
+
+|      % | Samples | Callee                 | Location    |
+| -----: | ------: | ---------------------- | ----------- |
+| 100.0% |       8 | `MarkBitMap::do_clear` | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation` (`<unknown>`)
+
+|      % | Samples | Callee                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |       7 | `G1CollectedHeap::attempt_allocation_slow` | `<unknown>` |
+
+##### `G1YoungCollector::collect` (`<unknown>`)
+
+|     % | Samples | Callee                                              | Location    |
+| ----: | ------: | --------------------------------------------------- | ----------- |
+| 42.9% |       3 | `G1YoungCollector::pre_evacuate_collection_set`     | `<unknown>` |
+| 14.3% |       1 | `G1YoungCollector::post_evacuate_collection_set`    | `<unknown>` |
+| 14.3% |       1 | `G1HeapPrinterMark::~G1HeapPrinterMark`             | `<unknown>` |
+| 14.3% |       1 | `G1GCPhaseTimes::print`                             | `<unknown>` |
+| 14.3% |       1 | `G1YoungCollector::evacuate_initial_collection_set` | `<unknown>` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint_helper` (`<unknown>`)
+
+|      % | Samples | Callee                      | Location    |
+| -----: | ------: | --------------------------- | ----------- |
+| 100.0% |       7 | `G1YoungCollector::collect` | `<unknown>` |
+
+##### `G1CollectedHeap::do_collection_pause_at_safepoint` (`<unknown>`)
+
+|      % | Samples | Callee                                                     | Location    |
+| -----: | ------: | ---------------------------------------------------------- | ----------- |
+| 100.0% |       7 | `G1CollectedHeap::do_collection_pause_at_safepoint_helper` | `<unknown>` |
 
 ##### `Compilation::emit_lir` (`<unknown>`)
 
@@ -1882,6 +2285,22 @@ Callees with the largest contribution to each function's total samples. Inlining
 | 14.3% |       1 | `PhaseChaitin::compute_initial_block_pressure` | `<unknown>` |
 | 14.3% |       1 | `IndexSetIterator::advance_and_next`           | `<unknown>` |
 | 14.3% |       1 | `RegMask::Size`                                | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::scan_roots` (`<unknown>`)
+
+|     % | Samples | Callee                            | Location    |
+| ----: | ------: | --------------------------------- | ----------- |
+| 66.7% |       4 | `G1RootProcessor::evacuate_roots` | `<unknown>` |
+| 33.3% |       2 | `G1RemSet::scan_heap_roots`       | `<unknown>` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`<unknown>`)
+
+|     % | Samples | Callee                                                   | Location    |
+| ----: | ------: | -------------------------------------------------------- | ----------- |
+| 50.0% |       3 | `G1ParScanThreadState::do_partial_array`                 | `<unknown>` |
+| 16.7% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space`        | `<unknown>` |
+| 16.7% |       1 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>` | `<unknown>` |
+| 16.7% |       1 | `fwd_copy_again`                                         | `<unknown>` |
 
 ##### `LinearScan::do_linear_scan` (`<unknown>`)
 

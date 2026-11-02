@@ -2,14 +2,15 @@
 
 Collected 4,779 → 5,299 samples (+520 samples, +10.9%).
 
-| Category         | Change | Delta |             % |       Samples |
-| ---------------- | -----: | ----: | ------------: | ------------: |
-| Ours             |  +1.9% |   +53 | 59.1% → 54.3% | 2,825 → 2,878 |
-| Native           | +39.0% |  +468 | 25.1% → 31.5% | 1,199 → 1,667 |
-| Standard library |  +2.4% |   +15 | 13.1% → 12.1% |     625 → 640 |
-| Compiler         |  -2.9% |    -2 |   1.4% → 1.2% |       68 → 66 |
-| JIT              | -24.2% |   -15 |   1.3% → 0.9% |       62 → 47 |
-| Unknown          |    new |    +1 |  0.0% → <0.1% |         0 → 1 |
+| Category          | Change | Delta |             % |       Samples |
+| ----------------- | -----: | ----: | ------------: | ------------: |
+| Ours              |  +1.9% |   +53 | 59.1% → 54.3% | 2,825 → 2,878 |
+| Native            | +44.5% |  +495 | 23.3% → 30.3% | 1,112 → 1,607 |
+| Standard library  |  +2.4% |   +15 | 13.1% → 12.1% |     625 → 640 |
+| Garbage collector | -31.0% |   -27 |   1.8% → 1.1% |       87 → 60 |
+| Compiler          |  -2.9% |    -2 |   1.4% → 1.2% |       68 → 66 |
+| JIT               | -24.2% |   -15 |   1.3% → 0.9% |       62 → 47 |
+| Unknown           |    new |    +1 |  0.0% → <0.1% |         0 → 1 |
 
 `…` stands for omitted frames.
 
@@ -106,28 +107,28 @@ Functions with the largest increase in samples collected within the function bod
 
 ##### Native
 
-|  Change | Delta |             % |     Samples | Function                                                                                             | Location    |
-| ------: | ----: | ------------: | ----------: | ---------------------------------------------------------------------------------------------------- | ----------- |
-|  +70.3% |  +466 | 13.9% → 21.3% | 663 → 1,129 | `__psynch_cvwait`                                                                                    | `<unknown>` |
-|   +7.5% |   +14 |   3.9% → 3.8% |   186 → 200 | `forward_copy_longs`                                                                                 | `<unknown>` |
-| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `__psynch_mutexwait`                                                                                 | `<unknown>` |
-|  +37.5% |    +6 |   0.3% → 0.4% |     16 → 22 | `_platform_bzero`                                                                                    | `<unknown>` |
-| +600.0% |    +6 |  <0.1% → 0.1% |       1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region(HeapRegion*, bool)` | `<unknown>` |
-| +166.7% |    +5 |   0.1% → 0.2% |       3 → 8 | `G1RegionMarkStatsCache::add_live_words(oopDesc*)`                                                   | `<unknown>` |
-| +400.0% |    +4 |  <0.1% → 0.1% |       1 → 5 | `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)`                                       | `<unknown>` |
-|  +75.0% |    +3 |          0.1% |       4 → 7 | `_platform_memset`                                                                                   | `<unknown>` |
-| +100.0% |    +3 |          0.1% |       3 → 6 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`     | `<unknown>` |
-|     new |    +3 |   0.0% → 0.1% |       0 → 3 | `G1FullGCCompactTask::copy_object_to_new_location(oopDesc*)`                                         | `<unknown>` |
-|     new |    +3 |   0.0% → 0.1% |       0 → 3 | `pthread_testcancel`                                                                                 | `<unknown>` |
-|  +11.1% |    +2 |          0.4% |     18 → 20 | `arrayof_jint_disjoint_arraycopy`                                                                    | `<unknown>` |
-|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `CollectedHeap::array_allocate(Klass*, unsigned long, int, bool, JavaThread*)`                       | `<unknown>` |
-| +200.0% |    +2 |  <0.1% → 0.1% |       1 → 3 | `ObjArrayAllocator::initialize(HeapWordImpl**) const`                                                | `<unknown>` |
-| +200.0% |    +2 |  <0.1% → 0.1% |       1 → 3 | `pthread_dependency_wait_np.cold.3`                                                                  | `<unknown>` |
-|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `ObjAllocator::initialize(HeapWordImpl**) const`                                                     | `<unknown>` |
-|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `G1FullGCCompactTask::compact_region(HeapRegion*)`                                                   | `<unknown>` |
-|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `CollectedHeap::fill_with_object(HeapWordImpl**, unsigned long, bool)`                               | `<unknown>` |
-|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `thread_self_trap`                                                                                   | `<unknown>` |
-| +100.0% |    +1 |         <0.1% |       1 → 2 | `Parker::park(bool, long)`                                                                           | `<unknown>` |
+|  Change | Delta |             % |     Samples | Function                                                                                               | Location    |
+| ------: | ----: | ------------: | ----------: | ------------------------------------------------------------------------------------------------------ | ----------- |
+|  +70.3% |  +466 | 13.9% → 21.3% | 663 → 1,129 | `__psynch_cvwait`                                                                                      | `<unknown>` |
+|   +7.5% |   +14 |   3.9% → 3.8% |   186 → 200 | `forward_copy_longs`                                                                                   | `<unknown>` |
+| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `__psynch_mutexwait`                                                                                   | `<unknown>` |
+|  +37.5% |    +6 |   0.3% → 0.4% |     16 → 22 | `_platform_bzero`                                                                                      | `<unknown>` |
+|  +75.0% |    +3 |          0.1% |       4 → 7 | `_platform_memset`                                                                                     | `<unknown>` |
+| +100.0% |    +3 |          0.1% |       3 → 6 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`       | `<unknown>` |
+|     new |    +3 |   0.0% → 0.1% |       0 → 3 | `pthread_testcancel`                                                                                   | `<unknown>` |
+|  +11.1% |    +2 |          0.4% |     18 → 20 | `arrayof_jint_disjoint_arraycopy`                                                                      | `<unknown>` |
+|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `CollectedHeap::array_allocate(Klass*, unsigned long, int, bool, JavaThread*)`                         | `<unknown>` |
+| +200.0% |    +2 |  <0.1% → 0.1% |       1 → 3 | `ObjArrayAllocator::initialize(HeapWordImpl**) const`                                                  | `<unknown>` |
+| +200.0% |    +2 |  <0.1% → 0.1% |       1 → 3 | `pthread_dependency_wait_np.cold.3`                                                                    | `<unknown>` |
+|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `ObjAllocator::initialize(HeapWordImpl**) const`                                                       | `<unknown>` |
+|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `CollectedHeap::fill_with_object(HeapWordImpl**, unsigned long, bool)`                                 | `<unknown>` |
+|     new |    +2 |  0.0% → <0.1% |       0 → 2 | `thread_self_trap`                                                                                     | `<unknown>` |
+| +100.0% |    +1 |         <0.1% |       1 → 2 | `Parker::park(bool, long)`                                                                             | `<unknown>` |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `Unsafe_Unpark(JNIEnv_*, _jobject*, _jobject*)`                                                        | `<unknown>` |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>(oopDesc**)`                         | `<unknown>` |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `WorkerThread::run()`                                                                                  | `<unknown>` |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `SafepointBlob`                                                                                        | `<unknown>` |
+|     new |    +1 |  0.0% → <0.1% |       0 → 1 | `ClassFileParser::parse_method(ClassFileStream const*, bool, ConstantPool const*, bool*, JavaThread*)` | `<unknown>` |
 
 ##### Standard library
 
@@ -153,6 +154,23 @@ Functions with the largest increase in samples collected within the function bod
 |     new |    +1 | 0.0% → <0.1% |     0 → 1 | `read(InputStream, String)`              | `java.util.jar.Manifest`                       |
 | +100.0% |    +1 |        <0.1% |     1 → 2 | `entrySet()`                             | `java.util.HashMap`                            |
 |     new |    +1 | 0.0% → <0.1% |     0 → 1 | `getStreamAndOpFlags()`                  | `java.util.stream.AbstractPipeline`            |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                                             | Location    |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region(HeapRegion*, bool)` | `<unknown>` |
+| +166.7% |    +5 |  0.1% → 0.2% |   3 → 8 | `G1RegionMarkStatsCache::add_live_words(oopDesc*)`                                                   | `<unknown>` |
+| +400.0% |    +4 | <0.1% → 0.1% |   1 → 5 | `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)`                                       | `<unknown>` |
+|     new |    +3 |  0.0% → 0.1% |   0 → 3 | `G1FullGCCompactTask::copy_object_to_new_location(oopDesc*)`                                         | `<unknown>` |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `G1FullGCCompactTask::compact_region(HeapRegion*)`                                                   | `<unknown>` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `G1FullGCMarker::follow_marking_stacks()`                                                            | `<unknown>` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const`         | `<unknown>` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `G1FullGCMarker::publish_and_drain_oop_tasks()`                                                      | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1CardTable::g1_mark_as_young(MemRegion const&)`                                                    | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1Allocator::unsafe_max_tlab_alloc()`                                                               | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1BarrierSetRuntime::write_ref_array_post_entry(HeapWordImpl**, unsigned long)`                     | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1PreEvacuateCollectionSetBatchTask::G1PreEvacuateCollectionSetBatchTask()`                         | `<unknown>` |
 
 ##### Compiler
 
@@ -235,28 +253,28 @@ Functions with the largest decrease in samples collected within the function bod
 
 ##### Native
 
-|  Change | Delta |            % | Samples | Function                                                                                   | Location    |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------ | ----------- |
-|  -29.2% |   -19 |  1.4% → 0.9% | 65 → 46 | `__psynch_cvsignal`                                                                        | `<unknown>` |
-|  -54.8% |   -17 |  0.6% → 0.3% | 31 → 14 | `G1FullGCMarker::mark_object(oopDesc*)`                                                    | `<unknown>` |
-| removed |   -10 |  0.2% → 0.0% |  10 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`    | `<unknown>` |
-|  -28.0% |    -7 |  0.5% → 0.3% | 25 → 18 | `semaphore_wait_trap`                                                                      | `<unknown>` |
-| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                              | `<unknown>` |
-|  -38.9% |    -7 |  0.4% → 0.2% | 18 → 11 | `pthread_jit_write_protect_np`                                                             | `<unknown>` |
-|  -60.0% |    -3 | 0.1% → <0.1% |   5 → 2 | `G1BarrierSet::invalidate(MemRegion)`                                                      | `<unknown>` |
-|  -33.3% |    -2 |         0.1% |   6 → 4 | `G1FullGCMarker::follow_object(oopDesc*)`                                                  | `<unknown>` |
-|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `HeapRegion::update_bot_for_block(HeapWordImpl**, HeapWordImpl**)`                         | `<unknown>` |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `__psynch_mutexdrop`                                                                       | `<unknown>` |
-| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1CollectedHeap::unsafe_max_tlab_alloc(Thread*) const`                                    | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1ParScanThreadState::copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`       | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `JNIHandleBlock::allocate_handle(JavaThread*, oopDesc*, AllocFailStrategy::AllocFailEnum)` | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Symbol::increment_refcount()`                                                             | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `JavaThread::is_interrupted(bool)`                                                         | `<unknown>` |
-|  -20.0% |    -1 |         0.1% |   5 → 4 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>(narrowOop*)`                       | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1DirtyCardQueueSet::num_par_ids()`                                                       | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Monitor::wait_without_safepoint_check(unsigned long long)`                                | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `ClassVerifier::create_temporary_symbol(Symbol*)`                                          | `<unknown>` |
-| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `SpinPause`                                                                                | `<unknown>` |
+|  Change | Delta |            % | Samples | Function                                                                                                                                                                                                                                                            | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -29.2% |   -19 |  1.4% → 0.9% | 65 → 46 | `__psynch_cvsignal`                                                                                                                                                                                                                                                 | `<unknown>` |
+|  -28.0% |    -7 |  0.5% → 0.3% | 25 → 18 | `semaphore_wait_trap`                                                                                                                                                                                                                                               | `<unknown>` |
+|  -38.9% |    -7 |  0.4% → 0.2% | 18 → 11 | `pthread_jit_write_protect_np`                                                                                                                                                                                                                                      | `<unknown>` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `__psynch_mutexdrop`                                                                                                                                                                                                                                                | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `JNIHandleBlock::allocate_handle(JavaThread*, oopDesc*, AllocFailStrategy::AllocFailEnum)`                                                                                                                                                                          | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Symbol::increment_refcount()`                                                                                                                                                                                                                                      | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `JavaThread::is_interrupted(bool)`                                                                                                                                                                                                                                  | `<unknown>` |
+|  -20.0% |    -1 |         0.1% |   5 → 4 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>(narrowOop*)`                                                                                                                                                                                                | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `Monitor::wait_without_safepoint_check(unsigned long long)`                                                                                                                                                                                                         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `ClassVerifier::create_temporary_symbol(Symbol*)`                                                                                                                                                                                                                   | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `SpinPause`                                                                                                                                                                                                                                                         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `iRegLNoSpOper::type() const`                                                                                                                                                                                                                                       | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` | `<unknown>` |
+|  -33.3% |    -1 | 0.1% → <0.1% |   3 → 2 | `mach_absolute_time`                                                                                                                                                                                                                                                | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `nmethodBucket::next_not_unloading()`                                                                                                                                                                                                                               | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>(DIR_Chunk* const&)`                                                                                         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `FindMethodsByErasedSig::free_node_data(void*)`                                                                                                                                                                                                                     | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `InstanceKlass::uncached_lookup_method(Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::PrivateLookupMode) const`                                                                                                                                    | `<unknown>` |
+|  -33.3% |    -1 | 0.1% → <0.1% |   3 → 2 | `_sigtramp`                                                                                                                                                                                                                                                         | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `ConstantPool::copy_entry_to(constantPoolHandle const&, int, constantPoolHandle const&, int)`                                                                                                                                                                       | `<unknown>` |
 
 ##### Standard library
 
@@ -282,6 +300,29 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |    -1 | <0.1% → 0.0% |     1 → 0 | `append(char)`                                            | `java.lang.StringBuilder`                     |
 | removed |    -1 | <0.1% → 0.0% |     1 → 0 | `<init>(AbstractPipeline, int)`                           | `java.util.stream.AbstractPipeline`           |
 | removed |    -1 | <0.1% → 0.0% |     1 → 0 | `newLinkedHashMap(int)`                                   | `java.util.LinkedHashMap`                     |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                                         | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
+|  -54.8% |   -17 |  0.6% → 0.3% | 31 → 14 | `G1FullGCMarker::mark_object(oopDesc*)`                                                          | `<unknown>` |
+| removed |   -10 |  0.2% → 0.0% |  10 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`          | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                                    | `<unknown>` |
+|  -60.0% |    -3 | 0.1% → <0.1% |   5 → 2 | `G1BarrierSet::invalidate(MemRegion)`                                                            | `<unknown>` |
+|  -33.3% |    -2 |         0.1% |   6 → 4 | `G1FullGCMarker::follow_object(oopDesc*)`                                                        | `<unknown>` |
+|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `HeapRegion::update_bot_for_block(HeapWordImpl**, HeapWordImpl**)`                               | `<unknown>` |
+| removed |    -2 | <0.1% → 0.0% |   2 → 0 | `G1CollectedHeap::unsafe_max_tlab_alloc(Thread*) const`                                          | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1ParScanThreadState::copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`             | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1DirtyCardQueueSet::num_par_ids()`                                                             | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CardTable::is_in_young(void const*) const`                                                    | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1CodeRootSet::nmethods_do(CodeBlobClosure*) const`                                             | `<unknown>` |
+|  -50.0% |    -1 |        <0.1% |   2 → 1 | `G1FullGCCompactionPoint::forward(oopDesc*, unsigned long)`                                      | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1MergeHeapRootsTask::G1MergeCardSetClosure::do_heap_region(HeapRegion*)`                       | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1MergeHeapRootsTask::work(unsigned int)`                                                       | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1PostEvacuateCollectionSetCleanupTask2::RedirtyLoggedCardsTask::worker_cost() const`           | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `HeapRegionRemSet::clear(bool, bool)`                                                            | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `HeapRegion::block_size(HeapWordImpl* const*, HeapWordImpl**) const`                             | `<unknown>` |
+| removed |    -1 | <0.1% → 0.0% |   1 → 0 | `G1ConcurrentRefine::try_refinement_step(unsigned int, unsigned long, G1ConcurrentRefineStats*)` | `<unknown>` |
 
 ##### Compiler
 
@@ -523,12 +564,6 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | -------------------------------- | ----------- |
 |    new |    +2 | 0.0% → 100.0% |   0 → 2 | `MemAllocator::allocate() const` | `<unknown>` |
 
-##### `G1FullGCCompactTask::compact_region(HeapRegion*)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                                    | Location    |
-| -----: | ----: | ------------: | ------: | ----------------------------------------- | ----------- |
-|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1FullGCCompactTask::work(unsigned int)` | `<unknown>` |
-
 ##### `CollectedHeap::fill_with_object(HeapWordImpl**, unsigned long, bool)` (`<unknown>`)
 
 | Change | Delta |             % | Samples | Caller                                               | Location    |
@@ -546,6 +581,36 @@ Callers with the largest change in contribution to each function's self samples.
 |  Change | Delta |      % | Samples | Caller                                                  | Location    |
 | ------: | ----: | -----: | ------: | ------------------------------------------------------- | ----------- |
 | +100.0% |    +1 | 100.0% |   1 → 2 | `Unsafe_Park(JNIEnv_*, _jobject*, unsigned char, long)` | `<unknown>` |
+
+##### `Unsafe_Unpark(JNIEnv_*, _jobject*, _jobject*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller           | Location                   |
+| -----: | ----: | ------------: | ------: | ---------------- | -------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `unpark(Object)` | `jdk.internal.misc.Unsafe` |
+
+##### `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>(oopDesc**)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                                                                                                                | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `void OopMapDo<OopClosure, DerivedOopClosure, SkipNullValue>::iterate_oops_do<RegisterMap>(frame const*, RegisterMap const*, ImmutableOopMap const*)` | `<unknown>` |
+
+##### `WorkerThread::run()` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller               | Location    |
+| -----: | ----: | ------------: | ------: | -------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `Thread::call_run()` | `<unknown>` |
+
+##### `SafepointBlob` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                  | Location                                                   |
+| -----: | ----: | ------------: | ------: | ----------------------- | ---------------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `findNearestCentroid()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `ClassFileParser::parse_method(ClassFileStream const*, bool, ConstantPool const*, bool*, JavaThread*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                                                           | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `ClassFileParser::parse_methods(ClassFileStream const*, bool, bool*, bool*, bool*, JavaThread*)` | `<unknown>` |
 
 ##### `forEach(BiConsumer)` (`java.util.HashMap`)
 
@@ -624,6 +689,54 @@ Callers with the largest change in contribution to each function's self samples.
 | Change | Delta |             % | Samples | Caller                                | Location                            |
 | -----: | ----: | ------------: | ------: | ------------------------------------- | ----------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `exactOutputSizeIfKnown(Spliterator)` | `java.util.stream.AbstractPipeline` |
+
+##### `G1FullGCCompactTask::compact_region(HeapRegion*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                    | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1FullGCCompactTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1FullGCMarker::follow_marking_stacks()` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                                                                                                                                                              | Location    |
+| ------: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+
+##### `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                        | Location    |
+| ------: | ----: | -----: | ------: | --------------------------------------------- | ----------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `G1PrepareEvacuationTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1FullGCMarker::publish_and_drain_oop_tasks()` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Caller                                                                                                                                                                                                                              | Location    |
+| -----: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+
+##### `G1CardTable::g1_mark_as_young(MemRegion const&)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                           | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MemAllocator::allocate() const` | `<unknown>` |
+
+##### `G1Allocator::unsafe_max_tlab_alloc()` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                                         | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------ | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const` | `<unknown>` |
+
+##### `G1BarrierSetRuntime::write_ref_array_post_entry(HeapWordImpl**, unsigned long)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                           | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `arrayof_oop_disjoint_arraycopy` | `<unknown>` |
+
+##### `G1PreEvacuateCollectionSetBatchTask::G1PreEvacuateCollectionSetBatchTask()` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                        | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1YoungCollector::collect()` | `<unknown>` |
 
 ##### `Node::set_req_X(unsigned int, Node*, PhaseIterGVN*)` (`<unknown>`)
 
@@ -953,37 +1066,11 @@ Callers with the largest change in contribution to each function's self samples.
 | ------: | ----: | ------------: | ------: | ----------- | ------------------------------------------------------ |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `G1FullGCMarker::follow_object(oopDesc*)` (`<unknown>`)
-
-| Change | Delta |             % | Samples | Caller                                          | Location    |
-| -----: | ----: | ------------: | ------: | ----------------------------------------------- | ----------- |
-| -50.0% |    -1 | 33.3% → 25.0% |   2 → 1 | `G1FullGCMarker::follow_marking_stacks()`       | `<unknown>` |
-| -25.0% |    -1 | 66.7% → 75.0% |   4 → 3 | `G1FullGCMarker::publish_and_drain_oop_tasks()` | `<unknown>` |
-
-##### `HeapRegion::update_bot_for_block(HeapWordImpl**, HeapWordImpl**)` (`<unknown>`)
-
-| Change | Delta |      % | Samples | Caller                                                                                                                                                       | Location    |
-| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| -66.7% |    -2 | 100.0% |   3 → 1 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>(G1CMBitMap*, G1FullGCPrepareTask::G1PrepareCompactLiveClosure*)` | `<unknown>` |
-
 ##### `__psynch_mutexdrop` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Caller                                | Location    |
 | ------: | ----: | ------------: | ------: | ------------------------------------- | ----------- |
 | removed |    -2 | 100.0% → 0.0% |   2 → 0 | `_pthread_mutex_firstfit_unlock_slow` | `<unknown>` |
-
-##### `G1CollectedHeap::unsafe_max_tlab_alloc(Thread*) const` (`<unknown>`)
-
-|  Change | Delta |            % | Samples | Caller                                                                         | Location    |
-| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------ | ----------- |
-| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::allocate() const`                                               | `<unknown>` |
-| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const` | `<unknown>` |
-
-##### `G1ParScanThreadState::copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                                                         | Location    |
-| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------ | ----------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>(oopDesc**)` | `<unknown>` |
 
 ##### `JNIHandleBlock::allocate_handle(JavaThread*, oopDesc*, AllocFailStrategy::AllocFailEnum)` (`<unknown>`)
 
@@ -1010,12 +1097,6 @@ Callers with the largest change in contribution to each function's self samples.
 | removed |    -2 |   40.0% → 0.0% |   2 → 0 | `G1ParScanThreadState::start_partial_objarray(G1HeapRegionAttr, oopDesc*, oopDesc*)` | `<unknown>` |
 |  +33.3% |    +1 | 60.0% → 100.0% |   3 → 4 | `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)`                       | `<unknown>` |
 
-##### `G1DirtyCardQueueSet::num_par_ids()` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                                    | Location    |
-| ------: | ----: | ------------: | ------: | --------------------------------------------------------- | ----------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1RemSetTrackingPolicy::update_at_allocate(HeapRegion*)` | `<unknown>` |
-
 ##### `Monitor::wait_without_safepoint_check(unsigned long long)` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Caller                         | Location    |
@@ -1033,6 +1114,54 @@ Callers with the largest change in contribution to each function's self samples.
 |  Change | Delta |             % | Samples | Caller                                                     | Location    |
 | ------: | ----: | ------------: | ------: | ---------------------------------------------------------- | ----------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `TaskTerminator::offer_termination(TerminatorTerminator*)` | `<unknown>` |
+
+##### `iRegLNoSpOper::type() const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                              | Location    |
+| ------: | ----: | ------------: | ------: | ----------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `PhaseChaitin::Register_Allocate()` | `<unknown>` |
+
+##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                   | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)` | `<unknown>` |
+
+##### `mach_absolute_time` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                  | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------- | ----------- |
+| -50.0% |    -1 | 66.7% → 50.0% |   2 → 1 | `os::elapsed_counter()` | `<unknown>` |
+
+##### `nmethodBucket::next_not_unloading()` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                          | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `InstanceKlass::mark_dependent_nmethods(DeoptimizationScope*, KlassDepChange&)` | `<unknown>` |
+
+##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>(DIR_Chunk* const&)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                          | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `DebugInformationRecorder::describe_scope(int, methodHandle const&, ciMethod*, int, bool, bool, bool, bool, bool, bool, DebugToken*, DebugToken*, DebugToken*)` | `<unknown>` |
+
+##### `FindMethodsByErasedSig::free_node_data(void*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                          | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `HierarchyVisitor<FindMethodsByErasedSig>::run(InstanceKlass*)` | `<unknown>` |
+
+##### `InstanceKlass::uncached_lookup_method(Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::PrivateLookupMode) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                              | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `ClassFileParser::fill_instance_klass(InstanceKlass*, bool, ClassInstanceInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `ConstantPool::copy_entry_to(constantPoolHandle const&, int, constantPoolHandle const&, int)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                          | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `BytecodeConstantPool::create_constant_pool(JavaThread*) const` | `<unknown>` |
 
 ##### `fork()` (`java.util.concurrent.ForkJoinTask`)
 
@@ -1105,6 +1234,92 @@ Callers with the largest change in contribution to each function's self samples.
 |  Change | Delta |             % | Samples | Caller        | Location                   |
 | ------: | ----: | ------------: | ------: | ------------- | -------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `<init>(int)` | `java.util.jar.Attributes` |
+
+##### `G1FullGCMarker::follow_object(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                          | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------- | ----------- |
+| -50.0% |    -1 | 33.3% → 25.0% |   2 → 1 | `G1FullGCMarker::follow_marking_stacks()`       | `<unknown>` |
+| -25.0% |    -1 | 66.7% → 75.0% |   4 → 3 | `G1FullGCMarker::publish_and_drain_oop_tasks()` | `<unknown>` |
+
+##### `HeapRegion::update_bot_for_block(HeapWordImpl**, HeapWordImpl**)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                       | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>(G1CMBitMap*, G1FullGCPrepareTask::G1PrepareCompactLiveClosure*)` | `<unknown>` |
+
+##### `G1CollectedHeap::unsafe_max_tlab_alloc(Thread*) const` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Caller                                                                         | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------------------ | ----------- |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::allocate() const`                                               | `<unknown>` |
+| removed |    -1 | 50.0% → 0.0% |   1 → 0 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const` | `<unknown>` |
+
+##### `G1ParScanThreadState::copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                         | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------ | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `void G1ParCopyClosure<(G1Barrier)0, false>::do_oop_work<oopDesc*>(oopDesc**)` | `<unknown>` |
+
+##### `G1DirtyCardQueueSet::num_par_ids()` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                    | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1RemSetTrackingPolicy::update_at_allocate(HeapRegion*)` | `<unknown>` |
+
+##### `G1CardTable::is_in_young(void const*) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                               | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `OptoRuntime::new_array_C(Klass*, int, JavaThread*)` | `<unknown>` |
+
+##### `G1CodeRootSet::nmethods_do(CodeBlobClosure*) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                | Location    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ScanCodeRootsClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1FullGCCompactionPoint::forward(oopDesc*, unsigned long)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                       | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| -50.0% |    -1 | 100.0% |   2 → 1 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>(G1CMBitMap*, G1FullGCPrepareTask::G1PrepareCompactLiveClosure*)` | `<unknown>` |
+
+##### `G1MergeHeapRootsTask::G1MergeCardSetClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                 | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1MergeHeapRootsTask::G1CombinedClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1MergeHeapRootsTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                | Location    |
+| ------: | ----: | ------------: | ------: | --------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1PostEvacuateCollectionSetCleanupTask2::RedirtyLoggedCardsTask::worker_cost() const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                            | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1CollectedHeap::run_batch_task(G1BatchedTask*)` | `<unknown>` |
+
+##### `HeapRegionRemSet::clear(bool, bool)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                       | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `HeapRegion::hr_clear(bool)` | `<unknown>` |
+
+##### `HeapRegion::block_size(HeapWordImpl* const*, HeapWordImpl**) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                              | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)` | `<unknown>` |
+
+##### `G1ConcurrentRefine::try_refinement_step(unsigned int, unsigned long, G1ConcurrentRefineStats*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                    | Location    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------- | ----------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `G1ConcurrentRefineThread::run_service()` | `<unknown>` |
 
 ##### `Matcher::match_tree(Node const*)` (`<unknown>`)
 
@@ -1285,28 +1500,28 @@ Functions with the largest increase in samples collected within the function and
 
 ##### Native
 
-|  Change | Delta |             % |     Samples | Function                                                                                     | Location    |
-| ------: | ----: | ------------: | ----------: | -------------------------------------------------------------------------------------------- | ----------- |
-|  +70.3% |  +466 | 13.9% → 21.3% | 663 → 1,129 | `__psynch_cvwait`                                                                            | `<unknown>` |
-|  +71.3% |  +462 | 13.6% → 20.9% | 648 → 1,110 | `Parker::park(bool, long)`                                                                   | `<unknown>` |
-|  +70.1% |  +461 | 13.8% → 21.1% | 658 → 1,119 | `Unsafe_Park(JNIEnv_*, _jobject*, unsigned char, long)`                                      | `<unknown>` |
-|  +80.8% |   +21 |   0.5% → 0.9% |     26 → 47 | `MemAllocator::allocate() const`                                                             | `<unknown>` |
-|  +70.4% |   +19 |   0.6% → 0.9% |     27 → 46 | `CollectedHeap::array_allocate(Klass*, unsigned long, int, bool, JavaThread*)`               | `<unknown>` |
-|  +54.5% |   +18 |   0.7% → 1.0% |     33 → 51 | `_new_array_Java`                                                                            | `<unknown>` |
-|  +54.8% |   +17 |   0.6% → 0.9% |     31 → 48 | `OptoRuntime::new_array_C(Klass*, int, JavaThread*)`                                         | `<unknown>` |
-|  +59.3% |   +16 |   0.6% → 0.8% |     27 → 43 | `InstanceKlass::allocate_objArray(int, int, JavaThread*)`                                    | `<unknown>` |
-|   +9.3% |   +15 |   3.4% → 3.3% |   162 → 177 | `arrayof_jint_disjoint_arraycopy`                                                            | `<unknown>` |
-| +250.0% |   +15 |   0.1% → 0.4% |      6 → 21 | `Monitor::wait_without_safepoint_check(unsigned long long)`                                  | `<unknown>` |
-|   +7.5% |   +14 |   3.9% → 3.8% |   186 → 200 | `forward_copy_longs`                                                                         | `<unknown>` |
-| +300.0% |   +12 |   0.1% → 0.3% |      4 → 16 | `TaskTerminator::offer_termination(TerminatorTerminator*)`                                   | `<unknown>` |
-|  +57.9% |   +11 |   0.4% → 0.6% |     19 → 30 | `PlatformMonitor::wait(unsigned long long)`                                                  | `<unknown>` |
-| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `__psynch_mutexwait`                                                                         | `<unknown>` |
-| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `_pthread_mutex_firstfit_lock_slow`                                                          | `<unknown>` |
-| +225.0% |    +9 |   0.1% → 0.2% |      4 → 13 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const`               | `<unknown>` |
-| +450.0% |    +9 |  <0.1% → 0.2% |      2 → 11 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
-| +350.0% |    +7 |  <0.1% → 0.2% |       2 → 9 | `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)`                | `<unknown>` |
-| +175.0% |    +7 |   0.1% → 0.2% |      4 → 11 | `G1ParEvacuateFollowersClosure::offer_termination()`                                         | `<unknown>` |
-|  +37.5% |    +6 |   0.3% → 0.4% |     16 → 22 | `_platform_bzero`                                                                            | `<unknown>` |
+|  Change | Delta |             % |     Samples | Function                                                                       | Location    |
+| ------: | ----: | ------------: | ----------: | ------------------------------------------------------------------------------ | ----------- |
+|  +70.3% |  +466 | 13.9% → 21.3% | 663 → 1,129 | `__psynch_cvwait`                                                              | `<unknown>` |
+|  +71.3% |  +462 | 13.6% → 20.9% | 648 → 1,110 | `Parker::park(bool, long)`                                                     | `<unknown>` |
+|  +70.1% |  +461 | 13.8% → 21.1% | 658 → 1,119 | `Unsafe_Park(JNIEnv_*, _jobject*, unsigned char, long)`                        | `<unknown>` |
+|  +80.8% |   +21 |   0.5% → 0.9% |     26 → 47 | `MemAllocator::allocate() const`                                               | `<unknown>` |
+|  +70.4% |   +19 |   0.6% → 0.9% |     27 → 46 | `CollectedHeap::array_allocate(Klass*, unsigned long, int, bool, JavaThread*)` | `<unknown>` |
+|  +54.5% |   +18 |   0.7% → 1.0% |     33 → 51 | `_new_array_Java`                                                              | `<unknown>` |
+|  +54.8% |   +17 |   0.6% → 0.9% |     31 → 48 | `OptoRuntime::new_array_C(Klass*, int, JavaThread*)`                           | `<unknown>` |
+|  +59.3% |   +16 |   0.6% → 0.8% |     27 → 43 | `InstanceKlass::allocate_objArray(int, int, JavaThread*)`                      | `<unknown>` |
+|   +9.3% |   +15 |   3.4% → 3.3% |   162 → 177 | `arrayof_jint_disjoint_arraycopy`                                              | `<unknown>` |
+| +250.0% |   +15 |   0.1% → 0.4% |      6 → 21 | `Monitor::wait_without_safepoint_check(unsigned long long)`                    | `<unknown>` |
+|   +7.5% |   +14 |   3.9% → 3.8% |   186 → 200 | `forward_copy_longs`                                                           | `<unknown>` |
+| +300.0% |   +12 |   0.1% → 0.3% |      4 → 16 | `TaskTerminator::offer_termination(TerminatorTerminator*)`                     | `<unknown>` |
+|  +57.9% |   +11 |   0.4% → 0.6% |     19 → 30 | `PlatformMonitor::wait(unsigned long long)`                                    | `<unknown>` |
+| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `__psynch_mutexwait`                                                           | `<unknown>` |
+| +100.0% |   +10 |   0.2% → 0.4% |     10 → 20 | `_pthread_mutex_firstfit_lock_slow`                                            | `<unknown>` |
+| +225.0% |    +9 |   0.1% → 0.2% |      4 → 13 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const` | `<unknown>` |
+|  +37.5% |    +6 |   0.3% → 0.4% |     16 → 22 | `_platform_bzero`                                                              | `<unknown>` |
+| +150.0% |    +6 |   0.1% → 0.2% |      4 → 10 | `Mutex::lock(Thread*)`                                                         | `<unknown>` |
+|  +66.7% |    +4 |   0.1% → 0.2% |      6 → 10 | `VMThread::run()`                                                              | `<unknown>` |
+| +200.0% |    +4 |  <0.1% → 0.1% |       2 → 6 | `IRScope::IRScope(Compilation*, IRScope*, int, ciMethod*, int, bool)`          | `<unknown>` |
 
 ##### Standard library
 
@@ -1332,6 +1547,31 @@ Functions with the largest increase in samples collected within the function and
 | +145.5% |   +16 |   0.2% → 0.5% |       11 → 27 | `parkUntil(long)`                                    | `java.util.concurrent.locks.LockSupport`            |
 |   +7.7% |   +12 |          3.2% |     155 → 167 | `copyOf(Object[], int)`                              | `java.util.Arrays`                                  |
 |   +6.0% |    +9 |   3.2% → 3.0% |     151 → 160 | `computeIfAbsent(Object, Function)`                  | `java.util.HashMap`                                 |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                                             | Location    |
+| ------: | ----: | -----------: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+| +450.0% |    +9 | <0.1% → 0.2% |  2 → 11 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const`         | `<unknown>` |
+| +350.0% |    +7 | <0.1% → 0.2% |   2 → 9 | `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)`                        | `<unknown>` |
+| +175.0% |    +7 |  0.1% → 0.2% |  4 → 11 | `G1ParEvacuateFollowersClosure::offer_termination()`                                                 | `<unknown>` |
+| +120.0% |    +6 |  0.1% → 0.2% |  5 → 11 | `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)`                                       | `<unknown>` |
+| +300.0% |    +6 | <0.1% → 0.2% |   2 → 8 | `G1CollectedHeap::attempt_allocation(unsigned long, unsigned long, unsigned long*, bool)`            | `<unknown>` |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region(HeapRegion*, bool)` | `<unknown>` |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)`                     | `<unknown>` |
+| +600.0% |    +6 | <0.1% → 0.1% |   1 → 7 | `G1FullGCResetMetadataTask::work(unsigned int)`                                                      | `<unknown>` |
+| +166.7% |    +5 |  0.1% → 0.2% |   3 → 8 | `G1RegionMarkStatsCache::add_live_words(oopDesc*)`                                                   | `<unknown>` |
+|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `G1FullGCCompactTask::compact_region(HeapRegion*)`                                                   | `<unknown>` |
+|     new |    +5 |  0.0% → 0.1% |   0 → 5 | `G1FullGCCompactTask::work(unsigned int)`                                                            | `<unknown>` |
+|     new |    +3 |  0.0% → 0.1% |   0 → 3 | `G1FullGCCompactTask::copy_object_to_new_location(oopDesc*)`                                         | `<unknown>` |
+|     new |    +3 |  0.0% → 0.1% |   0 → 3 | `G1FullGCCompactTask::G1CompactRegionClosure::apply(oopDesc*)`                                       | `<unknown>` |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `G1AdjustRegionClosure::do_heap_region(HeapRegion*)`                                                 | `<unknown>` |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `G1FullGCAdjustTask::work(unsigned int)`                                                             | `<unknown>` |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `G1ServiceThread::run_task(G1ServiceTask*)`                                                          | `<unknown>` |
+|     new |    +2 | 0.0% → <0.1% |   0 → 2 | `G1ServiceThread::run_service()`                                                                     | `<unknown>` |
+| +100.0% |    +1 |        <0.1% |   1 → 2 | `G1PrepareEvacuationTask::work(unsigned int)`                                                        | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1CollectedHeap::mem_allocate(unsigned long, bool*)`                                                | `<unknown>` |
+|     new |    +1 | 0.0% → <0.1% |   0 → 1 | `G1PageBasedVirtualSpace::uncommit(unsigned long, unsigned long)`                                    | `<unknown>` |
 
 ##### Compiler
 
@@ -1420,28 +1660,28 @@ Functions with the largest decrease in samples collected within the function and
 
 ##### Native
 
-| Change | Delta |            % |   Samples | Function                                                                                                                              | Location    |
-| -----: | ----: | -----------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| -29.2% |   -19 |  1.4% → 0.9% |   65 → 46 | `__psynch_cvsignal`                                                                                                                   | `<unknown>` |
-| -20.8% |   -15 |  1.5% → 1.1% |   72 → 57 | `Unsafe_Unpark(JNIEnv_*, _jobject*, _jobject*)`                                                                                       | `<unknown>` |
-| -50.0% |   -13 |  0.5% → 0.2% |   26 → 13 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                                                                         | `<unknown>` |
-| -52.4% |   -11 |  0.4% → 0.2% |   21 → 10 | `G1ParScanThreadState::steal_and_trim_queue(GenericTaskQueueSet<OverflowTaskQueue<ScannerTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*)` | `<unknown>` |
-| -91.7% |   -11 | 0.3% → <0.1% |    12 → 1 | `G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`                                               | `<unknown>` |
-| -26.3% |   -10 |  0.8% → 0.5% |   38 → 28 | `G1EvacuateRegionsBaseTask::work(unsigned int)`                                                                                       | `<unknown>` |
-|  -8.1% |   -10 |  2.6% → 2.2% | 124 → 114 | `WorkerThread::run()`                                                                                                                 | `<unknown>` |
-| -30.3% |   -10 |  0.7% → 0.4% |   33 → 23 | `G1FullGCMarker::mark_object(oopDesc*)`                                                                                               | `<unknown>` |
-| -26.3% |   -10 |  0.8% → 0.5% |   38 → 28 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                      | `<unknown>` |
-|  -3.4% |    -8 |  4.9% → 4.3% | 236 → 228 | `Thread::call_run()`                                                                                                                  | `<unknown>` |
-|  -3.4% |    -8 |  4.9% → 4.3% | 236 → 228 | `thread_native_entry(Thread*)`                                                                                                        | `<unknown>` |
-| -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `SystemDictionary::resolve_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)`                   | `<unknown>` |
-| -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `jvm_define_class_common(char const*, _jobject*, signed char const*, int, _jobject*, char const*, JavaThread*)`                       | `<unknown>` |
-| -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `JVM_DefineClassWithSource`                                                                                                           | `<unknown>` |
-| -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `Java_java_lang_ClassLoader_defineClass1`                                                                                             | `<unknown>` |
-|  -3.0% |    -7 |  4.9% → 4.3% | 236 → 229 | `_pthread_start`                                                                                                                      | `<unknown>` |
-|  -3.0% |    -7 |  4.9% → 4.3% | 236 → 229 | `thread_start`                                                                                                                        | `<unknown>` |
-| -77.8% |    -7 | 0.2% → <0.1% |     9 → 2 | `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)`                                                              | `<unknown>` |
-| -28.0% |    -7 |  0.5% → 0.3% |   25 → 18 | `semaphore_wait_trap`                                                                                                                 | `<unknown>` |
-| -50.0% |    -7 |  0.3% → 0.1% |    14 → 7 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)`                    | `<unknown>` |
+|  Change | Delta |            % |   Samples | Function                                                                                                                                                                                                                                                            | Location    |
+| ------: | ----: | -----------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -29.2% |   -19 |  1.4% → 0.9% |   65 → 46 | `__psynch_cvsignal`                                                                                                                                                                                                                                                 | `<unknown>` |
+|  -20.8% |   -15 |  1.5% → 1.1% |   72 → 57 | `Unsafe_Unpark(JNIEnv_*, _jobject*, _jobject*)`                                                                                                                                                                                                                     | `<unknown>` |
+|   -8.1% |   -10 |  2.6% → 2.2% | 124 → 114 | `WorkerThread::run()`                                                                                                                                                                                                                                               | `<unknown>` |
+|  -26.3% |   -10 |  0.8% → 0.5% |   38 → 28 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                                                                                                                                                    | `<unknown>` |
+|   -3.4% |    -8 |  4.9% → 4.3% | 236 → 228 | `Thread::call_run()`                                                                                                                                                                                                                                                | `<unknown>` |
+|   -3.4% |    -8 |  4.9% → 4.3% | 236 → 228 | `thread_native_entry(Thread*)`                                                                                                                                                                                                                                      | `<unknown>` |
+|  -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `SystemDictionary::resolve_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)`                                                                                                                                                 | `<unknown>` |
+|  -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `jvm_define_class_common(char const*, _jobject*, signed char const*, int, _jobject*, char const*, JavaThread*)`                                                                                                                                                     | `<unknown>` |
+|  -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `JVM_DefineClassWithSource`                                                                                                                                                                                                                                         | `<unknown>` |
+|  -57.1% |    -8 |  0.3% → 0.1% |    14 → 6 | `Java_java_lang_ClassLoader_defineClass1`                                                                                                                                                                                                                           | `<unknown>` |
+|   -3.0% |    -7 |  4.9% → 4.3% | 236 → 229 | `_pthread_start`                                                                                                                                                                                                                                                    | `<unknown>` |
+|   -3.0% |    -7 |  4.9% → 4.3% | 236 → 229 | `thread_start`                                                                                                                                                                                                                                                      | `<unknown>` |
+|  -28.0% |    -7 |  0.5% → 0.3% |   25 → 18 | `semaphore_wait_trap`                                                                                                                                                                                                                                               | `<unknown>` |
+|  -50.0% |    -7 |  0.3% → 0.1% |    14 → 7 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)`                                                                                                                                                  | `<unknown>` |
+|  -38.9% |    -7 |  0.4% → 0.2% |   18 → 11 | `pthread_jit_write_protect_np`                                                                                                                                                                                                                                      | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |     7 → 0 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` | `<unknown>` |
+|  -35.7% |    -5 |  0.3% → 0.2% |    14 → 9 | `Monitor::wait(unsigned long long)`                                                                                                                                                                                                                                 | `<unknown>` |
+|  -83.3% |    -5 | 0.1% → <0.1% |     6 → 1 | `ClassFileParser::fill_instance_klass(InstanceKlass*, bool, ClassInstanceInfo const&, JavaThread*)`                                                                                                                                                                 | `<unknown>` |
+|  -83.3% |    -5 | 0.1% → <0.1% |     6 → 1 | `ClassFileParser::create_instance_klass(bool, ClassInstanceInfo const&, JavaThread*)`                                                                                                                                                                               | `<unknown>` |
+|   -4.0% |    -4 |  2.1% → 1.8% |  100 → 96 | `JavaThread::thread_main_inner()`                                                                                                                                                                                                                                   | `<unknown>` |
 
 ##### Standard library
 
@@ -1467,6 +1707,31 @@ Functions with the largest decrease in samples collected within the function and
 | removed |    -4 |   0.1% → 0.0% |         4 → 0 | `releaseAccess()`                                                               | `java.util.concurrent.ForkJoinPool$WorkQueue` |
 |  -33.3% |    -3 |   0.2% → 0.1% |         9 → 6 | `putVal(int, Object, Object, boolean, boolean)`                                 | `java.util.HashMap`                           |
 |   -1.4% |    -2 |   3.1% → 2.8% |     148 → 146 | `addAll(Collection)`                                                            | `java.util.ArrayList`                         |
+
+##### Garbage collector
+
+|  Change | Delta |            % | Samples | Function                                                                                                                                                                                                                            | Location    |
+| ------: | ----: | -----------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -50.0% |   -13 |  0.5% → 0.2% | 26 → 13 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                                                                                                                                                                       | `<unknown>` |
+|  -52.4% |   -11 |  0.4% → 0.2% | 21 → 10 | `G1ParScanThreadState::steal_and_trim_queue(GenericTaskQueueSet<OverflowTaskQueue<ScannerTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*)`                                                                                               | `<unknown>` |
+|  -91.7% |   -11 | 0.3% → <0.1% |  12 → 1 | `G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`                                                                                                                                             | `<unknown>` |
+|  -26.3% |   -10 |  0.8% → 0.5% | 38 → 28 | `G1EvacuateRegionsBaseTask::work(unsigned int)`                                                                                                                                                                                     | `<unknown>` |
+|  -30.3% |   -10 |  0.7% → 0.4% | 33 → 23 | `G1FullGCMarker::mark_object(oopDesc*)`                                                                                                                                                                                             | `<unknown>` |
+|  -77.8% |    -7 | 0.2% → <0.1% |   9 → 2 | `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)`                                                                                                                                                            | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)`                                                                                                                                                                            | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::do_heap_region(HeapRegion*)`                                                                                                                                                                             | `<unknown>` |
+| removed |    -7 |  0.1% → 0.0% |   7 → 0 | `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)`                                                                                                    | `<unknown>` |
+|  -20.0% |    -6 |  0.6% → 0.5% | 30 → 24 | `G1FullGCMarker::follow_marking_stacks()`                                                                                                                                                                                           | `<unknown>` |
+| removed |    -6 |  0.1% → 0.0% |   6 → 0 | `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)`                                                                                                                                                                 | `<unknown>` |
+|   -7.7% |    -4 |  1.1% → 0.9% | 52 → 48 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+|   -7.7% |    -4 |  1.1% → 0.9% | 52 → 48 | `G1FullGCMarkTask::work(unsigned int)`                                                                                                                                                                                              | `<unknown>` |
+|  -10.7% |    -3 |  0.6% → 0.5% | 28 → 25 | `G1ParEvacuateFollowersClosure::do_void()`                                                                                                                                                                                          | `<unknown>` |
+|  -10.7% |    -3 |  0.6% → 0.5% | 28 → 25 | `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)`                                                                                                                                                 | `<unknown>` |
+|  -75.0% |    -3 | 0.1% → <0.1% |   4 → 1 | `G1CollectedHeap::par_iterate_regions_array(HeapRegionClosure*, HeapRegionClaimer*, unsigned int const*, unsigned long, unsigned int) const`                                                                                        | `<unknown>` |
+|  -60.0% |    -3 | 0.1% → <0.1% |   5 → 2 | `G1BarrierSet::invalidate(MemRegion)`                                                                                                                                                                                               | `<unknown>` |
+|  -33.3% |    -2 |         0.1% |   6 → 4 | `G1FullGCMarker::follow_object(oopDesc*)`                                                                                                                                                                                           | `<unknown>` |
+|  -28.6% |    -2 |         0.1% |   7 → 5 | `G1FullGCPrepareTask::work(unsigned int)`                                                                                                                                                                                           | `<unknown>` |
+|  -66.7% |    -2 | 0.1% → <0.1% |   3 → 1 | `G1BatchedTask::work(unsigned int)`                                                                                                                                                                                                 | `<unknown>` |
 
 ##### Compiler
 
@@ -1801,33 +2066,32 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | -------------------------------- | ----------- |
 | +225.0% |    +9 | 100.0% |  4 → 13 | `MemAllocator::allocate() const` | `<unknown>` |
 
-##### `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Caller                                          | Location    |
-| ------: | ----: | ------------: | ------: | ----------------------------------------------- | ----------- |
-| +600.0% |    +6 | 50.0% → 63.6% |   1 → 7 | `G1FullGCResetMetadataTask::work(unsigned int)` | `<unknown>` |
-|     new |    +2 |  0.0% → 18.2% |   0 → 2 | `G1FullGCAdjustTask::work(unsigned int)`        | `<unknown>` |
-| +100.0% |    +1 | 50.0% → 18.2% |   1 → 2 | `G1PrepareEvacuationTask::work(unsigned int)`   | `<unknown>` |
-
-##### `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` (`<unknown>`)
-
-|  Change | Delta |              % | Samples | Caller                                                                                    | Location    |
-| ------: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------- | ----------- |
-| +300.0% |    +6 | 100.0% → 88.9% |   2 → 8 | `G1CollectedHeap::attempt_allocation(unsigned long, unsigned long, unsigned long*, bool)` | `<unknown>` |
-|     new |    +1 |   0.0% → 11.1% |   0 → 1 | `G1CollectedHeap::mem_allocate(unsigned long, bool*)`                                     | `<unknown>` |
-
-##### `G1ParEvacuateFollowersClosure::offer_termination()` (`<unknown>`)
-
-|  Change | Delta |      % | Samples | Caller                                     | Location    |
-| ------: | ----: | -----: | ------: | ------------------------------------------ | ----------- |
-| +175.0% |    +7 | 100.0% |  4 → 11 | `G1ParEvacuateFollowersClosure::do_void()` | `<unknown>` |
-
 ##### `_platform_bzero` (`<unknown>`)
 
 | Change | Delta |              % | Samples | Caller                                                 | Location    |
 | -----: | ----: | -------------: | ------: | ------------------------------------------------------ | ----------- |
 | +31.3% |    +5 | 100.0% → 95.5% | 16 → 21 | `MemAllocator::allocate() const`                       | `<unknown>` |
 |    new |    +1 |    0.0% → 4.5% |   0 → 1 | `PhaseOutput::fill_buffer(CodeBuffer*, unsigned int*)` | `<unknown>` |
+
+##### `Mutex::lock(Thread*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                                         | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| +800.0% |    +8 | 25.0% → 90.0% |   1 → 9 | `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)`                                                                                                                  | `<unknown>` |
+| removed |    -1 |  25.0% → 0.0% |   1 → 0 | `ciEnv::register_method(ciMethod*, int, CodeOffsets*, int, CodeBuffer*, int, OopMapSet*, ExceptionHandlerTable*, ImplicitExceptionTable*, AbstractCompiler*, bool, bool, bool, int, RTMState)` | `<unknown>` |
+|  -50.0% |    -1 | 50.0% → 10.0% |   2 → 1 | `CompileBroker::compile_method_base(methodHandle const&, int, int, methodHandle const&, int, CompileTask::CompileReason, bool, Thread*)`                                                       | `<unknown>` |
+
+##### `VMThread::run()` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------: | -------------------- | ----------- |
+| +66.7% |    +4 | 100.0% |  6 → 10 | `Thread::call_run()` | `<unknown>` |
+
+##### `IRScope::IRScope(Compilation*, IRScope*, int, ciMethod*, int, bool)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                 | Location    |
+| ------: | ----: | -----: | ------: | -------------------------------------- | ----------- |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `IR::IR(Compilation*, ciMethod*, int)` | `<unknown>` |
 
 ##### `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
@@ -1884,6 +2148,130 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % |   Samples | Caller                   | Location                                                   |
 | -----: | ----: | -----: | --------: | ------------------------ | ---------------------------------------------------------- |
 |  +6.0% |    +9 | 100.0% | 151 → 160 | `collectClusters(int[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                          | Location    |
+| ------: | ----: | ------------: | ------: | ----------------------------------------------- | ----------- |
+| +600.0% |    +6 | 50.0% → 63.6% |   1 → 7 | `G1FullGCResetMetadataTask::work(unsigned int)` | `<unknown>` |
+|     new |    +2 |  0.0% → 18.2% |   0 → 2 | `G1FullGCAdjustTask::work(unsigned int)`        | `<unknown>` |
+| +100.0% |    +1 | 50.0% → 18.2% |   1 → 2 | `G1PrepareEvacuationTask::work(unsigned int)`   | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                                                                                    | Location    |
+| ------: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------- | ----------- |
+| +300.0% |    +6 | 100.0% → 88.9% |   2 → 8 | `G1CollectedHeap::attempt_allocation(unsigned long, unsigned long, unsigned long*, bool)` | `<unknown>` |
+|     new |    +1 |   0.0% → 11.1% |   0 → 1 | `G1CollectedHeap::mem_allocate(unsigned long, bool*)`                                     | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination()` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                     | Location    |
+| ------: | ----: | -----: | ------: | ------------------------------------------ | ----------- |
+| +175.0% |    +7 | 100.0% |  4 → 11 | `G1ParEvacuateFollowersClosure::do_void()` | `<unknown>` |
+
+##### `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                                        | Location    |
+| ------: | ----: | -----: | ------: | ------------------------------------------------------------- | ----------- |
+| +120.0% |    +6 | 100.0% |  5 → 11 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)` | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation(unsigned long, unsigned long, unsigned long*, bool)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                                                         | Location    |
+| ------: | ----: | -----: | ------: | ------------------------------------------------------------------------------ | ----------- |
+| +300.0% |    +6 | 100.0% |   2 → 8 | `MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region(HeapRegion*, bool)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                                                           | Location    |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                                                                                       | Location    |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                | Location    |
+| ------: | ----: | -----: | ------: | --------------------- | ----------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1RegionMarkStatsCache::add_live_words(oopDesc*)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                                                                                           | Location    |
+| ------: | ----: | -------------: | ------: | ------------------------------------------------------------------------------------------------ | ----------- |
+| +300.0% |    +6 | 66.7% → 100.0% |   2 → 8 | `G1FullGCMarker::mark_object(oopDesc*)`                                                          | `<unknown>` |
+| removed |    -1 |   33.3% → 0.0% |   1 → 0 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)` | `<unknown>` |
+
+##### `G1FullGCCompactTask::compact_region(HeapRegion*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                    | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------- | ----------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `G1FullGCCompactTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1FullGCCompactTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                | Location    |
+| -----: | ----: | ------------: | ------: | --------------------- | ----------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1FullGCCompactTask::copy_object_to_new_location(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                         | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------- | ----------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `G1FullGCCompactTask::G1CompactRegionClosure::apply(oopDesc*)` | `<unknown>` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                             | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------- | ----------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `G1FullGCCompactTask::compact_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1AdjustRegionClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                                                       | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
+
+##### `G1FullGCAdjustTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                | Location    |
+| -----: | ----: | ------------: | ------: | --------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1ServiceThread::run_task(G1ServiceTask*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                           | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1ServiceThread::run_service()` | `<unknown>` |
+
+##### `G1ServiceThread::run_service()` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                      | Location    |
+| -----: | ----: | ------------: | ------: | --------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `ConcurrentGCThread::run()` | `<unknown>` |
+
+##### `G1PrepareEvacuationTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller                | Location    |
+| ------: | ----: | -----: | ------: | --------------------- | ----------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1CollectedHeap::mem_allocate(unsigned long, bool*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                           | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `MemAllocator::allocate() const` | `<unknown>` |
+
+##### `G1PageBasedVirtualSpace::uncommit(unsigned long, unsigned long)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                                                               | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------ | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1RegionsLargerThanCommitSizeMapper::uncommit_regions(unsigned int, unsigned long)` | `<unknown>` |
 
 ##### `Compile::Optimize()` (`<unknown>`)
 
@@ -2250,13 +2638,6 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | --------- | ---------------------------------------------------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `apply()` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000070011038c0` |
 
-##### `G1FullGCMarker::mark_object(oopDesc*)` (`<unknown>`)
-
-| Change | Delta |              % | Samples | Caller                                                                                                                                                                                                                              | Location    |
-| -----: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| -33.3% |   -11 | 100.0% → 95.7% | 33 → 22 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                                                                                                                    | `<unknown>` |
-|    new |    +1 |    0.0% → 4.3% |   0 → 1 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
-
 ##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)` (`<unknown>`)
 
 | Change | Delta |             % | Samples | Caller                                                                                                                                                                                                                              | Location    |
@@ -2306,12 +2687,6 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | --------: | -------------- | ----------- |
 |  -3.0% |    -7 | 100.0% | 236 → 229 | `thread_start` | `<unknown>` |
 
-##### `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
-
-| Change | Delta |      % | Samples | Caller                                          | Location    |
-| -----: | ----: | -----: | ------: | ----------------------------------------------- | ----------- |
-| -77.8% |    -7 | 100.0% |   9 → 2 | `G1EvacuateRegionsBaseTask::work(unsigned int)` | `<unknown>` |
-
 ##### `semaphore_wait_trap` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Caller                                 | Location    |
@@ -2326,6 +2701,46 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -------------: | ------: | ------------------------------------------------------------------------------------------------------------------- | ----------- |
 | -57.1% |    -8 | 100.0% → 85.7% |  14 → 6 | `SystemDictionary::resolve_class_from_stream(ClassFileStream*, Symbol*, Handle, ClassLoadInfo const&, JavaThread*)` | `<unknown>` |
 |    new |    +1 |   0.0% → 14.3% |   0 → 1 | `ClassLoader::load_class(Symbol*, bool, JavaThread*)`                                                               | `<unknown>` |
+
+##### `pthread_jit_write_protect_np` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                 | Location    |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------------------------- | ----------- |
+| removed |    -2 |  11.1% → 0.0% |   2 → 0 | `jni_GetObjectClass`                                                   | `<unknown>` |
+|  -33.3% |    -1 | 16.7% → 18.2% |   3 → 2 | `JVM_IHashCode`                                                        | `<unknown>` |
+| removed |    -1 |   5.6% → 0.0% |   1 → 0 | `InterpreterRuntime::resolve_from_cache(JavaThread*, Bytecodes::Code)` | `<unknown>` |
+|  -33.3% |    -1 | 16.7% → 18.2% |   3 → 2 | `Unsafe_Unpark(JNIEnv_*, _jobject*, _jobject*)`                        | `<unknown>` |
+|  -20.0% |    -1 | 27.8% → 36.4% |   5 → 4 | `Unsafe_Park(JNIEnv_*, _jobject*, unsigned char, long)`                | `<unknown>` |
+
+##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                   | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)` | `<unknown>` |
+
+##### `Monitor::wait(unsigned long long)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                               | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------ | ----------- |
+| -35.7% |    -5 | 100.0% |  14 → 9 | `CompileQueue::get(CompilerThread*)` | `<unknown>` |
+
+##### `ClassFileParser::fill_instance_klass(InstanceKlass*, bool, ClassInstanceInfo const&, JavaThread*)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                                | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------- | ----------- |
+| -83.3% |    -5 | 100.0% |   6 → 1 | `ClassFileParser::create_instance_klass(bool, ClassInstanceInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `ClassFileParser::create_instance_klass(bool, ClassInstanceInfo const&, JavaThread*)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                             | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------ | ----------- |
+| -83.3% |    -5 | 100.0% |   6 → 1 | `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner()` (`<unknown>`)
+
+| Change | Delta |      % |  Samples | Caller               | Location    |
+| -----: | ----: | -----: | -------: | -------------------- | ----------- |
+|  -4.0% |    -4 | 100.0% | 100 → 96 | `Thread::call_run()` | `<unknown>` |
 
 ##### `add(Object)` (`java.util.ArrayList`)
 
@@ -2405,6 +2820,107 @@ Callers with the largest change in contribution to each function's total samples
 | Change | Delta |      % |   Samples | Caller                       | Location                                    |
 | -----: | ----: | -----: | --------: | ---------------------------- | ------------------------------------------- |
 |  -1.4% |    -2 | 100.0% | 148 → 146 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `G1FullGCMarker::mark_object(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |              % | Samples | Caller                                                                                                                                                                                                                              | Location    |
+| -----: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| -33.3% |   -11 | 100.0% → 95.7% | 33 → 22 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                                                                                                                    | `<unknown>` |
+|    new |    +1 |    0.0% → 4.3% |   0 → 1 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | ----------- |
+| -77.8% |    -7 | 100.0% |   9 → 2 | `G1EvacuateRegionsBaseTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                  | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                           | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)` | `<unknown>` |
+
+##### `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                   | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------ | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)` | `<unknown>` |
+
+##### `G1FullGCMarker::follow_marking_stacks()` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                                                                                                                                                                              | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| -20.0% |    -6 | 100.0% | 30 → 24 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Caller                                                                                                                                                                                                                                                              | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -6 | 100.0% → 0.0% |   6 → 0 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` | `<unknown>` |
+
+##### `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                 | Location    |
+| -----: | ----: | -----: | ------: | -------------------------------------- | ----------- |
+|  -7.7% |    -4 | 100.0% | 52 → 48 | `G1FullGCMarkTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1FullGCMarkTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                | Location    |
+| -----: | ----: | -----: | ------: | --------------------- | ----------- |
+|  -7.7% |    -4 | 100.0% | 52 → 48 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::do_void()` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                                                              | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------- | ----------- |
+| -10.7% |    -3 | 100.0% | 28 → 25 | `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)` | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                                          | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------- | ----------- |
+| -10.7% |    -3 | 100.0% | 28 → 25 | `G1EvacuateRegionsBaseTask::work(unsigned int)` | `<unknown>` |
+
+##### `G1CollectedHeap::par_iterate_regions_array(HeapRegionClosure*, HeapRegionClaimer*, unsigned int const*, unsigned long, unsigned int) const` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                                                                                                                                    | Location    |
+| ------: | ----: | -------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -1 |   25.0% → 0.0% |   1 → 0 | `G1RemSet::scan_collection_set_code_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases)` | `<unknown>` |
+|  -50.0% |    -1 | 50.0% → 100.0% |   2 → 1 | `G1PostEvacuateCollectionSetCleanupTask2::FreeCollectionSetTask::do_work(unsigned int)`                                                   | `<unknown>` |
+| removed |    -1 |   25.0% → 0.0% |   1 → 0 | `G1MergeHeapRootsTask::work(unsigned int)`                                                                                                | `<unknown>` |
+
+##### `G1BarrierSet::invalidate(MemRegion)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Caller                           | Location              |
+| ------: | ----: | -------------: | ------: | -------------------------------- | --------------------- |
+| removed |    -2 |   40.0% → 0.0% |   2 → 0 | `addAll(Collection)`             | `java.util.ArrayList` |
+|  -33.3% |    -1 | 60.0% → 100.0% |   3 → 2 | `arrayof_oop_disjoint_arraycopy` | `<unknown>`           |
+
+##### `G1FullGCMarker::follow_object(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Caller                                          | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------- | ----------- |
+| -50.0% |    -1 | 33.3% → 25.0% |   2 → 1 | `G1FullGCMarker::follow_marking_stacks()`       | `<unknown>` |
+| -25.0% |    -1 | 66.7% → 75.0% |   4 → 3 | `G1FullGCMarker::publish_and_drain_oop_tasks()` | `<unknown>` |
+
+##### `G1FullGCPrepareTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                | Location    |
+| -----: | ----: | -----: | ------: | --------------------- | ----------- |
+| -28.6% |    -2 | 100.0% |   7 → 5 | `WorkerThread::run()` | `<unknown>` |
+
+##### `G1BatchedTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Caller                | Location    |
+| -----: | ----: | -----: | ------: | --------------------- | ----------- |
+| -66.7% |    -2 | 100.0% |   3 → 1 | `WorkerThread::run()` | `<unknown>` |
 
 ##### `Compile::Code_Gen()` (`<unknown>`)
 
@@ -2857,25 +3373,24 @@ Callees with the largest change in contribution to each function's total samples
 |     new |    +1 |   0.0% → 7.7% |   0 → 1 | `G1Allocator::unsafe_max_tlab_alloc()`                                                    | `<unknown>` |
 |     new |    +1 |   0.0% → 7.7% |   0 → 1 | `ThreadLocalAllocBuffer::print_stats(char const*)`                                        | `<unknown>` |
 
-##### `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` (`<unknown>`)
+##### `Mutex::lock(Thread*)` (`<unknown>`)
 
-|  Change | Delta |             % | Samples | Callee                                                                           | Location    |
-| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------- | ----------- |
-| +600.0% |    +6 | 50.0% → 63.6% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
-|     new |    +2 |  0.0% → 18.2% |   0 → 2 | `G1AdjustRegionClosure::do_heap_region(HeapRegion*)`                             | `<unknown>` |
+|  Change | Delta |      % | Samples | Callee                              | Location    |
+| ------: | ----: | -----: | ------: | ----------------------------------- | ----------- |
+| +150.0% |    +6 | 100.0% |  4 → 10 | `_pthread_mutex_firstfit_lock_slow` | `<unknown>` |
 
-##### `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` (`<unknown>`)
+##### `VMThread::run()` (`<unknown>`)
 
-|  Change | Delta |              % | Samples | Callee                                                              | Location    |
-| ------: | ----: | -------------: | ------: | ------------------------------------------------------------------- | ----------- |
-| +800.0% |    +8 | 50.0% → 100.0% |   1 → 9 | `Mutex::lock(Thread*)`                                              | `<unknown>` |
-| removed |    -1 |   50.0% → 0.0% |   1 → 0 | `G1AllocRegion::new_alloc_region_and_allocate(unsigned long, bool)` | `<unknown>` |
+| Change | Delta |              % | Samples | Callee                                   | Location    |
+| -----: | ----: | -------------: | ------: | ---------------------------------------- | ----------- |
+| +33.3% |    +2 | 100.0% → 80.0% |   6 → 8 | `VMThread::inner_execute(VM_Operation*)` | `<unknown>` |
+|    new |    +2 |   0.0% → 20.0% |   0 → 2 | `VMThread::wait_for_operation()`         | `<unknown>` |
 
-##### `G1ParEvacuateFollowersClosure::offer_termination()` (`<unknown>`)
+##### `IRScope::IRScope(Compilation*, IRScope*, int, ciMethod*, int, bool)` (`<unknown>`)
 
-|  Change | Delta |      % | Samples | Callee                                                     | Location    |
-| ------: | ----: | -----: | ------: | ---------------------------------------------------------- | ----------- |
-| +175.0% |    +7 | 100.0% |  4 → 11 | `TaskTerminator::offer_termination(TerminatorTerminator*)` | `<unknown>` |
+|  Change | Delta |      % | Samples | Callee                                               | Location    |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------- | ----------- |
+| +200.0% |    +4 | 100.0% |   2 → 6 | `GraphBuilder::GraphBuilder(Compilation*, IRScope*)` | `<unknown>` |
 
 ##### `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`)
 
@@ -2934,6 +3449,112 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | ----------: | ------: | -------------------------------------------- | ------------------- |
 | removed |    -1 | 0.7% → 0.0% |   1 → 0 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap` |
 |     new |    +1 | 0.0% → 0.6% |   0 → 1 | `resize()`                                   | `java.util.HashMap` |
+
+##### `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                                           | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | 50.0% → 63.6% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+|     new |    +2 |  0.0% → 18.2% |   0 → 2 | `G1AdjustRegionClosure::do_heap_region(HeapRegion*)`                             | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Callee                                                              | Location    |
+| ------: | ----: | -------------: | ------: | ------------------------------------------------------------------- | ----------- |
+| +800.0% |    +8 | 50.0% → 100.0% |   1 → 9 | `Mutex::lock(Thread*)`                                              | `<unknown>` |
+| removed |    -1 |   50.0% → 0.0% |   1 → 0 | `G1AllocRegion::new_alloc_region_and_allocate(unsigned long, bool)` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::offer_termination()` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Callee                                                     | Location    |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------------- | ----------- |
+| +175.0% |    +7 | 100.0% |  4 → 11 | `TaskTerminator::offer_termination(TerminatorTerminator*)` | `<unknown>` |
+
+##### `G1ParScanThreadState::do_partial_array(PartialArrayScanTask)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                                                                                  | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------- | ----------- |
+| +25.0% |    +1 | 80.0% → 45.5% |   4 → 5 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>(narrowOop*)`                                    | `<unknown>` |
+|    new |    +1 |   0.0% → 9.1% |   0 → 1 | `void G1ScanClosureBase::handle_non_cset_obj_common<narrowOop>(G1HeapRegionAttr, narrowOop*, oopDesc*)` | `<unknown>` |
+
+##### `G1CollectedHeap::attempt_allocation(unsigned long, unsigned long, unsigned long*, bool)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Callee                                                                        | Location    |
+| ------: | ----: | -----: | ------: | ----------------------------------------------------------------------------- | ----------- |
+| +300.0% |    +6 | 100.0% |   2 → 8 | `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::G1ResetMetadataClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Callee                                                                                               | Location    |
+| ------: | ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `G1FullGCResetMetadataTask::G1ResetMetadataClosure::scrub_skip_compacting_region(HeapRegion*, bool)` | `<unknown>` |
+
+##### `G1FullGCResetMetadataTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Callee                                                                                       | Location    |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------- | ----------- |
+| +600.0% |    +6 | 100.0% |   1 → 7 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
+
+##### `G1FullGCCompactTask::compact_region(HeapRegion*)` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Callee                                                         | Location    |
+| -----: | ----: | -----------: | ------: | -------------------------------------------------------------- | ----------- |
+|    new |    +3 | 0.0% → 60.0% |   0 → 3 | `G1FullGCCompactTask::G1CompactRegionClosure::apply(oopDesc*)` | `<unknown>` |
+
+##### `G1FullGCCompactTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                             | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------- | ----------- |
+|    new |    +5 | 0.0% → 100.0% |   0 → 5 | `G1FullGCCompactTask::compact_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1FullGCCompactTask::G1CompactRegionClosure::apply(oopDesc*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                                       | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------ | ----------- |
+|    new |    +3 | 0.0% → 100.0% |   0 → 3 | `G1FullGCCompactTask::copy_object_to_new_location(oopDesc*)` | `<unknown>` |
+
+##### `G1AdjustRegionClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                                                                             | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `void HeapRegion::apply_to_marked_objects<G1AdjustLiveClosure>(G1CMBitMap*, G1AdjustLiveClosure*)` | `<unknown>` |
+
+##### `G1FullGCAdjustTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                                                                       | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------------------------------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
+
+##### `G1ServiceThread::run_task(G1ServiceTask*)` (`<unknown>`)
+
+| Change | Delta |            % | Samples | Callee                                      | Location    |
+| -----: | ----: | -----------: | ------: | ------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `G1UncommitRegionTask::execute()`           | `<unknown>` |
+|    new |    +1 | 0.0% → 50.0% |   0 → 1 | `G1MonotonicArenaFreeMemoryTask::execute()` | `<unknown>` |
+
+##### `G1ServiceThread::run_service()` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                      | Location    |
+| -----: | ----: | ------------: | ------: | ------------------------------------------- | ----------- |
+|    new |    +2 | 0.0% → 100.0% |   0 → 2 | `G1ServiceThread::run_task(G1ServiceTask*)` | `<unknown>` |
+
+##### `G1PrepareEvacuationTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Callee                                                                                       | Location    |
+| ------: | ----: | -----: | ------: | -------------------------------------------------------------------------------------------- | ----------- |
+| +100.0% |    +1 | 100.0% |   1 → 2 | `HeapRegionManager::par_iterate(HeapRegionClosure*, HeapRegionClaimer*, unsigned int) const` | `<unknown>` |
+
+##### `G1CollectedHeap::mem_allocate(unsigned long, bool*)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                                                        | Location    |
+| -----: | ----: | ------------: | ------: | ----------------------------------------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `G1CollectedHeap::attempt_allocation_slow(unsigned int, unsigned long, bool)` | `<unknown>` |
+
+##### `G1PageBasedVirtualSpace::uncommit(unsigned long, unsigned long)` (`<unknown>`)
+
+| Change | Delta |             % | Samples | Callee                                               | Location    |
+| -----: | ----: | ------------: | ------: | ---------------------------------------------------- | ----------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `os::pd_uncommit_memory(char*, unsigned long, bool)` | `<unknown>` |
 
 ##### `Compile::Optimize()` (`<unknown>`)
 
@@ -3293,13 +3914,6 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | ------------: | ------: | ---------- | --------------------------------------------------------------- |
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `asJava()` | `scala.collection.convert.AsJavaExtensions$MutableMapHasAsJava` |
 
-##### `G1FullGCMarker::mark_object(oopDesc*)` (`<unknown>`)
-
-|  Change | Delta |            % | Samples | Callee                                             | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------------------------------- | ----------- |
-| +300.0% |    +6 | 6.1% → 34.8% |   2 → 8 | `G1RegionMarkStatsCache::add_live_words(oopDesc*)` | `<unknown>` |
-|     new |    +1 |  0.0% → 4.3% |   0 → 1 | `MarkBitMap::check_mark(HeapWordImpl**)`           | `<unknown>` |
-
 ##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)` (`<unknown>`)
 
 |  Change | Delta |             % | Samples | Callee                                             | Location    |
@@ -3361,18 +3975,43 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | --------: | ---------------- | ----------- |
 |  -3.0% |    -7 | 100.0% | 236 → 229 | `_pthread_start` | `<unknown>` |
 
-##### `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
-
-|  Change | Delta |            % | Samples | Callee                                                                                                                           | Location    |
-| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| removed |    -7 | 77.8% → 0.0% |   7 → 0 | `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)` | `<unknown>` |
-
 ##### `KlassFactory::create_from_stream(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const&, JavaThread*)` (`<unknown>`)
 
 | Change | Delta |             % | Samples | Callee                                                                                                                                         | Location    |
 | -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | -83.3% |    -5 | 42.9% → 14.3% |   6 → 1 | `ClassFileParser::create_instance_klass(bool, ClassInstanceInfo const&, JavaThread*)`                                                          | `<unknown>` |
 | -25.0% |    -2 | 57.1% → 85.7% |   8 → 6 | `ClassFileParser::ClassFileParser(ClassFileStream*, Symbol*, ClassLoaderData*, ClassLoadInfo const*, ClassFileParser::Publicity, JavaThread*)` | `<unknown>` |
+
+##### `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Callee                                                              | Location    |
+| ------: | ----: | -----------: | ------: | ------------------------------------------------------------------- | ----------- |
+| removed |    -6 | 85.7% → 0.0% |   6 → 0 | `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)` | `<unknown>` |
+
+##### `Monitor::wait(unsigned long long)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Callee                                      | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------- | ----------- |
+| -35.7% |    -5 | 100.0% |  14 → 9 | `PlatformMonitor::wait(unsigned long long)` | `<unknown>` |
+
+##### `ClassFileParser::fill_instance_klass(InstanceKlass*, bool, ClassInstanceInfo const&, JavaThread*)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Callee                                                                                                                           | Location    |
+| ------: | ----: | -------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -75.0% |    -3 | 66.7% → 100.0% |   4 → 1 | `DefaultMethods::generate_default_methods(InstanceKlass*, GrowableArray<Method*> const*, JavaThread*)`                           | `<unknown>` |
+| removed |    -2 |   33.3% → 0.0% |   2 → 0 | `InstanceKlass::uncached_lookup_method(Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::PrivateLookupMode) const` | `<unknown>` |
+
+##### `ClassFileParser::create_instance_klass(bool, ClassInstanceInfo const&, JavaThread*)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Callee                                                                                              | Location    |
+| -----: | ----: | -----: | ------: | --------------------------------------------------------------------------------------------------- | ----------- |
+| -83.3% |    -5 | 100.0% |   6 → 1 | `ClassFileParser::fill_instance_klass(InstanceKlass*, bool, ClassInstanceInfo const&, JavaThread*)` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner()` (`<unknown>`)
+
+| Change | Delta |     % | Samples | Callee                                  | Location    |
+| -----: | ----: | ----: | ------: | --------------------------------------- | ----------- |
+|  -4.0% |    -4 | 99.0% | 99 → 95 | `CompileBroker::compiler_thread_loop()` | `<unknown>` |
 
 ##### `add(Object)` (`java.util.ArrayList`)
 
@@ -3449,6 +4088,105 @@ Callees with the largest change in contribution to each function's total samples
 |   +3.9% |    +2 | 34.5% → 36.3% | 51 → 53 | `arrayof_oop_disjoint_arraycopy`      | `<unknown>`           |
 | removed |    -2 |   1.4% → 0.0% |   2 → 0 | `G1BarrierSet::invalidate(MemRegion)` | `<unknown>`           |
 |   +5.9% |    +1 | 11.5% → 12.3% | 17 → 18 | `grow(int)`                           | `java.util.ArrayList` |
+
+##### `G1FullGCMarker::mark_object(oopDesc*)` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Callee                                             | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------- | ----------- |
+| +300.0% |    +6 | 6.1% → 34.8% |   2 → 8 | `G1RegionMarkStatsCache::add_live_words(oopDesc*)` | `<unknown>` |
+|     new |    +1 |  0.0% → 4.3% |   0 → 1 | `MarkBitMap::check_mark(HeapWordImpl**)`           | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::scan_roots(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Callee                                                                                                                           | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -7 | 77.8% → 0.0% |   7 → 0 | `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                                                                                                                                              | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>(G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)&&)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region(HeapRegion*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                   | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)` | `<unknown>` |
+
+##### `G1RemSet::scan_heap_roots(G1ParScanThreadState*, unsigned int, G1GCPhaseTimes::GCParPhases, G1GCPhaseTimes::GCParPhases, bool)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                  | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------- | ----------- |
+| removed |    -7 | 100.0% → 0.0% |   7 → 0 | `G1ScanHRForRegionClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1FullGCMarker::follow_marking_stacks()` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                        | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -23.5% |    -4 | 56.7% → 54.2% | 17 → 13 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                              | `<unknown>` |
+|  -33.3% |    -3 | 30.0% → 25.0% |   9 → 6 | `G1FullGCMarker::publish_and_drain_oop_tasks()`                                                                                               | `<unknown>` |
+|  -50.0% |    -1 |   6.7% → 4.2% |   2 → 1 | `G1FullGCMarker::follow_object(oopDesc*)`                                                                                                     | `<unknown>` |
+| +100.0% |    +1 |   3.3% → 8.3% |   1 → 2 | `void OopOopIterateDispatch<G1MarkAndPushClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>(G1MarkAndPushClosure*, oopDesc*, Klass*)` | `<unknown>` |
+
+##### `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)` (`<unknown>`)
+
+|  Change | Delta |            % | Samples | Callee                                                               | Location    |
+| ------: | ----: | -----------: | ------: | -------------------------------------------------------------------- | ----------- |
+| removed |    -5 | 83.3% → 0.0% |   5 → 0 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`        | `<unknown>` |
+| removed |    -1 | 16.7% → 0.0% |   1 → 0 | `HeapRegion::block_size(HeapWordImpl* const*, HeapWordImpl**) const` | `<unknown>` |
+
+##### `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                  | Location    |
+| ------: | ----: | ------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -20.0% |    -6 | 57.7% → 50.0% | 30 → 24 | `G1FullGCMarker::follow_marking_stacks()`                                                                                               | `<unknown>` |
+|  -28.6% |    -6 | 40.4% → 31.3% | 21 → 15 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)`                                        | `<unknown>` |
+|     new |    +5 |  0.0% → 10.4% |   0 → 5 | `TaskTerminator::offer_termination(TerminatorTerminator*)`                                                                              | `<unknown>` |
+| +100.0% |    +1 |   1.9% → 4.2% |   1 → 2 | `GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>::steal_best_of_2(unsigned int, ObjArrayTask&)` | `<unknown>` |
+|     new |    +1 |   0.0% → 2.1% |   0 → 1 | `G1FullGCMarker::mark_object(oopDesc*)`                                                                                                 | `<unknown>` |
+
+##### `G1FullGCMarkTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Callee                                                                                                                                                                                                                              | Location    |
+| -----: | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -7.7% |    -4 | 100.0% | 52 → 48 | `G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)` | `<unknown>` |
+
+##### `G1ParEvacuateFollowersClosure::do_void()` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee                                                                                                                                | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -52.4% |   -11 | 75.0% → 40.0% | 21 → 10 | `G1ParScanThreadState::steal_and_trim_queue(GenericTaskQueueSet<OverflowTaskQueue<ScannerTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*)` | `<unknown>` |
+| +175.0% |    +7 | 14.3% → 44.0% |  4 → 11 | `G1ParEvacuateFollowersClosure::offer_termination()`                                                                                  | `<unknown>` |
+| +100.0% |    +2 |  7.1% → 16.0% |   2 → 4 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                                                                         | `<unknown>` |
+| removed |    -1 |   3.6% → 0.0% |   1 → 0 | `G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)`                                               | `<unknown>` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects(G1ParScanThreadState*, unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Callee                                     | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------ | ----------- |
+| -10.7% |    -3 | 100.0% | 28 → 25 | `G1ParEvacuateFollowersClosure::do_void()` | `<unknown>` |
+
+##### `G1CollectedHeap::par_iterate_regions_array(HeapRegionClosure*, HeapRegionClaimer*, unsigned int const*, unsigned long, unsigned int) const` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Callee                                                                 | Location    |
+| ------: | ----: | -------------: | ------: | ---------------------------------------------------------------------- | ----------- |
+| removed |    -1 |   25.0% → 0.0% |   1 → 0 | `G1ScanCodeRootsClosure::do_heap_region(HeapRegion*)`                  | `<unknown>` |
+|  -50.0% |    -1 | 50.0% → 100.0% |   2 → 1 | `FreeCSetClosure::do_heap_region(HeapRegion*)`                         | `<unknown>` |
+| removed |    -1 |   25.0% → 0.0% |   1 → 0 | `G1MergeHeapRootsTask::G1CombinedClosure::do_heap_region(HeapRegion*)` | `<unknown>` |
+
+##### `G1FullGCPrepareTask::work(unsigned int)` (`<unknown>`)
+
+| Change | Delta |      % | Samples | Callee                                                                                                                                                       | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| -28.6% |    -2 | 100.0% |   7 → 5 | `void HeapRegion::apply_to_marked_objects<G1FullGCPrepareTask::G1PrepareCompactLiveClosure>(G1CMBitMap*, G1FullGCPrepareTask::G1PrepareCompactLiveClosure*)` | `<unknown>` |
+
+##### `G1BatchedTask::work(unsigned int)` (`<unknown>`)
+
+|  Change | Delta |              % | Samples | Callee                                                                                  | Location    |
+| ------: | ----: | -------------: | ------: | --------------------------------------------------------------------------------------- | ----------- |
+|  -50.0% |    -1 | 66.7% → 100.0% |   2 → 1 | `G1PostEvacuateCollectionSetCleanupTask2::FreeCollectionSetTask::do_work(unsigned int)` | `<unknown>` |
+| removed |    -1 |   33.3% → 0.0% |   1 → 0 | `G1GCParPhaseTimesTracker::~G1GCParPhaseTimesTracker()`                                 | `<unknown>` |
 
 ##### `Compile::Code_Gen()` (`<unknown>`)
 
