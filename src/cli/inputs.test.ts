@@ -33,9 +33,7 @@ const cliInputFilenames = [true, false].flatMap(gzipped =>
   ),
 )
 
-// An input whose profiler recorded nothing (e.g. a lock profile with no
-// contention) converts to the no-data message
-const MARKDOWN_OR_NO_DATA = /^(?:# |No profiles were recorded\.)/u
+const MARKDOWN_REGEX = /^# /u
 
 test.concurrent.each(cliInputFilenames)(
   `outputs markdown from a %s file`,
@@ -43,6 +41,6 @@ test.concurrent.each(cliInputFilenames)(
     const { status, stdout } = await runCli([inputPath(filename)])
 
     expect(status).toBe(0)
-    expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
+    expect(stdout).toMatch(MARKDOWN_REGEX)
   },
 )

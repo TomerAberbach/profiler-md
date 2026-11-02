@@ -49,8 +49,8 @@ const smallestAnyInput = smallestInput(allInputs)
 
 // These regexes check only that the format was detected and conversion ran end
 // to end.
-const MARKDOWN_REGEX = /^(?:# |No profiles were recorded\.)/u
-const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiles were recorded\.)/iu
+const MARKDOWN_REGEX = /^# /u
+const MARKDOWN_DIFF_REGEX = /^# .*diff/iu
 
 // Converting an input is the most expensive step, so the call tree
 // invariants are checked on the Markdown this test converts.

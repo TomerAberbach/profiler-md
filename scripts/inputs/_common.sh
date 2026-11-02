@@ -234,7 +234,10 @@ verify_generated_input() {
   bytes="$(wc -c <"$out")" || return 1
   ((bytes < MAX_INPUT_BYTES)) \
     || { echo "  TOO LARGE ($((bytes)) bytes; GitHub's limit is 100 MB — shrink the workload): $(rel "$out")" >&2; return 1; }
-  cli "$out" >/dev/null || { echo "  FAILED to convert: $(rel "$out")" >&2; return 1; }
+  local markdown
+  markdown="$(cli "$out")" || { echo "  FAILED to convert: $(rel "$out")" >&2; return 1; }
+  [[ "$markdown" == '# '* ]] \
+    || { echo "  RECORDED nothing (make the workload exercise this configuration): $(rel "$out")" >&2; return 1; }
   node "$REPO/scripts/check-input-privacy.ts" "$out" >/dev/null \
     || { echo "  CONTAINS data about this machine (see above; disable it in the profiler, or redact it): $(rel "$out")" >&2; return 1; }
   echo "Verified $(rel "$out")"
