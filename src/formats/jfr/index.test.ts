@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
-import { chunk, streamOf } from '../../helpers/testing.ts'
+import {
+  allTablesAfterHeading,
+  chunk,
+  parseMd,
+  streamOf,
+} from '../../helpers/testing.ts'
+import { diffProfiles } from '../../index.ts'
 import {
   callStackTables,
   callTreeLines,
@@ -15,9 +21,11 @@ import {
   callersTables,
   expectLogs,
   linesTables,
+  openingParagraphs,
   paragraphsUnderTitle,
   profileTitles,
   summaryLines,
+  takeUnassertedLogs,
 } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { jfrFormatSpec } from './index.ts'
@@ -443,7 +451,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`async-profiler wall-clock samples honor the coalesced count`, () => {
+  test(`async-profiler wall-clock samples honor the coalesced count, named in full only in titles`, () => {
     // `profiler.WallClockSample` batches samples into one event via its
     // `samples` field.
     const bytes = makeJfr({
@@ -457,16 +465,70 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toStrictEqual([`Sampling profile`])
-    expect(selfSamplesTables(md)).toStrictEqual([
+    expect(profileTitles(md)).toStrictEqual([`Wall clock sample profile`])
+    expect(summaryLines(md)).toStrictEqual([`Collected 4 samples.`])
+    expect(
+      allTablesAfterHeading(parseMd(md), `Self wall clock samples`),
+    ).toStrictEqual([
       [
         {
           '%': `100.0%`,
-          Samples: `4`,
+          'Wall clock samples': `4`,
           Function: `work`,
           Location: `com.example.W`,
         },
       ],
+    ])
+    expect(openingParagraphs(md, `Lines`)).toStrictEqual([
+      `Lines with the largest contribution to each function's self samples.`,
+    ])
+  })
+
+  test(`keeps native method samples and thread parks out of the CPU and lock contention profiles`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `work`, className: `com.example.W` }],
+      stackTraces: [{ frames: [{ method: 0, line: 4 }] }],
+      events: [
+        { type: `cpu`, stack: 0 },
+        { type: `native-method`, stack: 0 },
+        { type: `lock`, stack: 0, value: 5_000_000 },
+        { type: `park`, stack: 0, value: 7_000_000 },
+      ],
+    })
+
+    const md = convertBytesToMd(jfrFormatSpec, bytes, options)
+
+    expect(profileTitles(md)).toStrictEqual([
+      `Sampling profile`,
+      `Native method sample profile`,
+      `Lock contention profile`,
+      `Thread park profile`,
+    ])
+    expect(summaryLines(md)).toStrictEqual([
+      `Collected 1 sample.`,
+      `Collected 1 sample.`,
+      `Blocked 5.0ms over 1 contention (5.0ms per contention).`,
+      `Parked 7.0ms over 1 park (7.0ms per park).`,
+    ])
+  })
+
+  test(`a diff pairs profiles by what they measure and warns about the rest`, () => {
+    const recording = (type: `lock` | `park`) =>
+      makeJfr({
+        methods: [{ name: `work`, className: `com.example.W` }],
+        stackTraces: [{ frames: [{ method: 0, line: 4 }] }],
+        events: [
+          { type: `cpu`, stack: 0 },
+          { type, stack: 0, value: 5_000_000 },
+        ],
+      })
+
+    const md = diffProfiles(recording(`lock`), recording(`park`))
+
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile diff`])
+    expect(takeUnassertedLogs()).toStrictEqual([
+      `warn: diff omits profiles only the base side records, got: lock contention profile`,
+      `warn: diff omits profiles only the current side records, got: thread park profile`,
     ])
   })
 

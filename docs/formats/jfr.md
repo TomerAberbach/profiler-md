@@ -6,10 +6,11 @@ binary profiling format, written by the JDK's built-in
 [async-profiler](https://github.com/async-profiler/async-profiler).
 
 A recording splits into self-contained chunks of LEB128 varint-encoded events.
-One recording can mix event types, so it converts to one profile per type:
-CPU/wall sampling measured by sample count, heap and native memory allocation
-sampling measured by allocated bytes, live-object sampling measured by retained
-bytes, and lock contention measured by blocked time.
+One recording can mix event types, so it converts to one profile per type: CPU,
+native method, and wall clock sampling measured by sample count, heap and native
+memory allocation sampling measured by allocated bytes, live-object sampling
+measured by retained bytes, lock contention measured by blocked time, and thread
+parks measured by parked time.
 
 It supports a single metric per profile and multiple profiles per file.
 

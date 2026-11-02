@@ -14,7 +14,8 @@ with `-XX:FlightRecorderOptions:stackdepth=2048`, which keeps the stacks whole.
 
 Periodically samples the call stack while on CPU. Useful for finding CPU hot
 spots. Recorded as `jdk.ExecutionSample` events, plus `jdk.NativeMethodSample`
-events for threads running native methods.
+events for threads running native methods, which convert to a profile of their
+own.
 
 ### Java Flight Recorder
 
@@ -169,7 +170,8 @@ diagnostics.dumpHeap("heap.hprof", /* live= */ true);
 
 Samples contended monitor and `java.util.concurrent` locks. Useful for finding
 lock contention hot spots. The sampled values are nanoseconds spent blocked.
-Recorded as `jdk.JavaMonitorEnter` and `jdk.ThreadPark` events.
+Recorded as `jdk.JavaMonitorEnter` events, and as `jdk.ThreadPark` events, which
+convert to a thread park profile of their own.
 
 ### Java Flight Recorder
 

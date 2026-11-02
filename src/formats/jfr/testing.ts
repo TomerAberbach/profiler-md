@@ -47,6 +47,7 @@ type JfrTestEvent = {
   /**
    * The event type:
    * - `cpu`: `jdk.ExecutionSample`
+   * - `native-method`: `jdk.NativeMethodSample`
    * - `wallclock`: async-profiler `profiler.WallClockSample` (coalesced)
    * - `alloc`: `jdk.ObjectAllocationSample` (the modern sampled event)
    * - `alloc-tlab`: `jdk.ObjectAllocationInNewTLAB` (legacy TLAB event)
@@ -54,10 +55,13 @@ type JfrTestEvent = {
    * - `live`: `jdk.OldObjectSample` (live-object sampling)
    * - `liveobject`: async-profiler `profiler.LiveObject`
    * - `lock`: `jdk.JavaMonitorEnter`
+   * - `park`: `jdk.ThreadPark`
    * - `nativelock`: async-profiler `profiler.NativeLock`
    */
   type:
     | `cpu`
+    | `native-method`
+    | `park`
     | `wallclock`
     | `alloc`
     | `alloc-tlab`
@@ -242,6 +246,15 @@ export const makeJfr = ({
       case `cpu`:
         body.varint(stack + 1)
         eventWriters.push(sizedEvent(EXECUTION_SAMPLE, body))
+        break
+      case `native-method`:
+        body.varint(stack + 1)
+        eventWriters.push(sizedEvent(NATIVE_METHOD_SAMPLE, body))
+        break
+      case `park`:
+        body.varint(value)
+        body.varint(stack + 1)
+        eventWriters.push(sizedEvent(THREAD_PARK, body))
         break
       case `wallclock`:
         body.varint(stack + 1)
@@ -429,6 +442,13 @@ const makeMetadata = (
     type(EXECUTION_SAMPLE, `jdk.ExecutionSample`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
     ]),
+    type(NATIVE_METHOD_SAMPLE, `jdk.NativeMethodSample`, [
+      field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+    ]),
+    type(THREAD_PARK, `jdk.ThreadPark`, [
+      field(`duration`, LONG),
+      field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+    ]),
     type(OBJECT_ALLOCATION_SAMPLE, `jdk.ObjectAllocationSample`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
       field(`weight`, LONG),
@@ -533,6 +553,8 @@ const NATIVE_LOCK = 25
 const MALLOC = 26
 const OLD_OBJECT_SAMPLE = 27
 const LIVE_OBJECT = 28
+const NATIVE_METHOD_SAMPLE = 29
+const THREAD_PARK = 30
 
 /** A class id used for a field whose type the metadata never declares. */
 const UNKNOWN_FIELD_CLASS = 901
