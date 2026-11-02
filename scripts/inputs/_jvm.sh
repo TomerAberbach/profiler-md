@@ -45,17 +45,22 @@ declare -A AP_EVENT=(
   [alloc]="event=alloc"
   [live]="event=alloc,live"
   [nativemem]="event=nativemem,nativemem=256k"
-  [lock]="event=lock"
-  [all]="event=cpu,event=alloc,event=lock"
+  [lock]="event=lock,lock=0"
+  [all]="event=cpu,event=alloc,event=lock,lock=0"
 )
 AP_JFR_CONFIGS=(cpu wall alloc live nativemem lock all)
 
+# `settings=none` records only the events a config names, so each config holds
+# the one profile it names. A compiler or analyzer contends only briefly, so the
+# lock config records every contention. The `profile` template also records the
+# JVM's environment variables and the machine's whole process list, so `all`
+# disables them. profiler-md reads neither event.
 declare -A JDK_JFR_OPTS=(
-  [cpu]="settings=profile,+jdk.ExecutionSample#enabled=true"
-  [alloc]="settings=profile,+jdk.ObjectAllocationSample#enabled=true"
-  [live]="settings=profile,+jdk.OldObjectSample#enabled=true"
-  [lock]="settings=profile,+jdk.JavaMonitorEnter#enabled=true,+jdk.JavaMonitorWait#enabled=true"
-  [all]="settings=profile"
+  [cpu]="settings=none,+jdk.ExecutionSample#enabled=true,+jdk.ExecutionSample#period=10ms,+jdk.NativeMethodSample#enabled=true,+jdk.NativeMethodSample#period=10ms"
+  [alloc]="settings=none,+jdk.ObjectAllocationSample#enabled=true,+jdk.ObjectAllocationSample#throttle=150/s"
+  [live]="settings=none,+jdk.OldObjectSample#enabled=true,+jdk.OldObjectSample#stackTrace=true"
+  [lock]="settings=none,+jdk.JavaMonitorEnter#enabled=true,+jdk.JavaMonitorEnter#threshold=0ms,+jdk.ThreadPark#enabled=true,+jdk.ThreadPark#threshold=0ms"
+  [all]="settings=profile,+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false,+jdk.JavaMonitorEnter#threshold=0ms,+jdk.ThreadPark#threshold=0ms"
 )
 JDK_JFR_CONFIGS=(cpu alloc live lock all)
 
@@ -65,12 +70,6 @@ JDK_JFR_CONFIGS=(cpu alloc live lock all)
 declare -A JDK_JFR_TRUNCATED_STACK_DEPTH=([cpu-stackdepth-64]=64)
 JDK_JFR_OPTS[cpu-stackdepth-64]="${JDK_JFR_OPTS[cpu]}"
 JDK_JFR_TRUNCATED_CONFIGS=(cpu-stackdepth-64)
-
-# The `profile` template records the JVM's environment variables and the
-# machine's whole process list. Both describe the machine that generated the
-# input rather than the workload, and the inputs are committed to a public
-# repository. profiler-md reads neither event.
-JDK_JFR_PRIVACY_OPTS="+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false"
 
 # Flight Recorder records the innermost 64 frames of a stack trace by default,
 # and marks a deeper trace truncated. The workloads' stacks run deeper, so a
@@ -178,7 +177,7 @@ capture_jdk_jfr() {
   capture="$(capture_path "$out")"
   notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($side, $extra, stackdepth=$depth)"
   run_jvm_workload "$cfg" jfr "$side" "-XX:FlightRecorderOptions:stackdepth=$depth" \
-    "-XX:StartFlightRecording=filename=$capture,$extra,$JDK_JFR_PRIVACY_OPTS" \
+    "-XX:StartFlightRecording=filename=$capture,$extra" \
     || return 1
   mv "$capture" "$out"
 }
