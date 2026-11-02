@@ -2,12 +2,13 @@
 
 Took 5.54s over 4,139 samples (1.3ms per sample).
 
-| Category         |     % |    Time | Samples |
-| ---------------- | ----: | ------: | ------: |
-| Third-party      | 90.0% |   4.99s |   3,717 |
-| Native           |  7.3% | 406.9ms |     311 |
-| Standard library |  2.5% | 140.6ms |     108 |
-| Unknown          |  0.1% |   4.2ms |       3 |
+| Category           |     % |    Time | Samples |
+| ------------------ | ----: | ------: | ------: |
+| Third-party        | 90.0% |   4.99s |   3,717 |
+| Native             |  6.6% | 363.1ms |     276 |
+| Standard library   |  2.5% | 140.6ms |     108 |
+| Regular expression |  0.8% |  43.8ms |      35 |
+| Unknown            |  0.1% |   4.2ms |       3 |
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
@@ -120,26 +121,22 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|     % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|  4.9% | 272.5ms |     213 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  0.6% |  32.0ms |      26 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.K1HXIc\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-|  0.6% |  31.4ms |      21 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|  0.4% |  22.9ms |      17 | `statSync`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.2% |   9.9ms |       7 | `fetch`                                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|  0.1% |   7.9ms |       6 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.1% |   7.6ms |       6 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.1% |   5.0ms |       1 | `loadAndEvaluateModule`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|  0.1% |   3.7ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.1% |   2.8ms |       2 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-| <0.1% |   2.5ms |       2 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-| <0.1% |   1.5ms |       1 | `readdirSync`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-| <0.1% |   1.5ms |       1 | `writer`                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
-| <0.1% |   1.4ms |       1 | `/^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)/`                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
-| <0.1% |   1.3ms |       1 | `createRequire`                                                                                                                                                                                                                                                                                                                                                                  | `<unknown>` |
-| <0.1% |   1.1ms |       1 | `max`                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-| <0.1% |   1.0ms |       1 | `stream`                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
-| <0.1% |   1.0ms |       1 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
+|     % |    Time | Samples | Function                | Location    |
+| ----: | ------: | ------: | ----------------------- | ----------- |
+|  4.9% | 272.5ms |     213 | `anonymous`             | `<unknown>` |
+|  0.6% |  31.4ms |      21 | `readFileSync`          | `<unknown>` |
+|  0.4% |  22.9ms |      17 | `statSync`              | `<unknown>` |
+|  0.2% |   9.9ms |       7 | `fetch`                 | `<unknown>` |
+|  0.1% |   7.6ms |       6 | `stringSplitFast`       | `<unknown>` |
+|  0.1% |   5.0ms |       1 | `loadAndEvaluateModule` | `<unknown>` |
+|  0.1% |   3.7ms |       3 | `SymbolLinks`           | `<unknown>` |
+|  0.1% |   2.8ms |       2 | `realpathNativeSync`    | `<unknown>` |
+| <0.1% |   1.5ms |       1 | `readdirSync`           | `<unknown>` |
+| <0.1% |   1.5ms |       1 | `writer`                | `<unknown>` |
+| <0.1% |   1.3ms |       1 | `createRequire`         | `<unknown>` |
+| <0.1% |   1.1ms |       1 | `max`                   | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `stream`                | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `parseModule`           | `<unknown>` |
 
 ##### Standard library
 
@@ -546,13 +543,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | -----: | ------: | ------------- | ------------------------------------------------------ |
 | 100.0% | 33.1ms |      25 | `isRelatedTo` | `./node_modules/typescript/lib/typescript.js:66493:25` |
 
-##### `/^\/tmp\/(?!(node_modules|bower_components|jspm_packages)(\/|$))nix\-shell\.K1HXIc\/(?!(node_modules|bower_components|jspm_packages)(\/|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules|bower_components|jspm_packages)(\/|$))[^/.][^/]*)*?\/(?!(node_modules|bower_components|jspm_packages)(\/|$))([^./]([^./]|(\.(?!min\.js$))?)*)?$/i` (`<unknown>`)
-
-|     % |   Time | Samples | Caller        | Location                                               |
-| ----: | -----: | ------: | ------------- | ------------------------------------------------------ |
-| 66.2% | 21.2ms |      17 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:21208:60` |
-| 33.8% | 10.8ms |       9 | `test`        | `<unknown>`                                            |
-
 ##### `readFileSync` (`<unknown>`)
 
 |     % |   Time | Samples | Caller           | Location                                              |
@@ -612,12 +602,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 |      % |  Time | Samples | Caller         | Location    |
 | -----: | ----: | ------: | -------------- | ----------- |
 | 100.0% | 9.9ms |       7 | `requestFetch` | `<unknown>` |
-
-##### `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                | Location                                              |
-| -----: | ----: | ------: | --------------------- | ----------------------------------------------------- |
-| 100.0% | 7.9ms |       6 | `toFileNameLowerCase` | `./node_modules/typescript/lib/typescript.js:3496:29` |
 
 ##### `stringSplitFast` (`<unknown>`)
 
@@ -720,12 +704,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ------------------------------ | ------------------------------------------------------ |
 | 100.0% | 2.5ms |       2 | `getContextualTypeForArgument` | `./node_modules/typescript/lib/typescript.js:73758:40` |
 
-##### `/(?:\/\/)|(?:^|\/)\.\.?(?:$|\/)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller          | Location                                              |
-| -----: | ----: | ------: | --------------- | ----------------------------------------------------- |
-| 100.0% | 2.5ms |       2 | `normalizePath` | `./node_modules/typescript/lib/typescript.js:9135:23` |
-
 ##### `unshift` (`<unknown>`)
 
 |      % |  Time | Samples | Caller        | Location                                               |
@@ -763,12 +741,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 |      % |  Time | Samples | Caller         | Location                                              |
 | -----: | ----: | ------: | -------------- | ----------------------------------------------------- |
 | 100.0% | 1.4ms |       1 | `hasExtension` | `./node_modules/typescript/lib/typescript.js:8940:22` |
-
-##### `/^(?:\/|\*)*\s*@(ts-expect-error|ts-ignore)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                    | Location                                               |
-| -----: | ----: | ------: | ------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.4ms |       1 | `getDirectiveFromComment` | `./node_modules/typescript/lib/typescript.js:13343:35` |
 
 ##### `createRequire` (`<unknown>`)
 
@@ -852,28 +824,28 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|     % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 99.4% |   5.50s |   4,112 | `loadAndEvaluateModule`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-| 99.2% |   5.50s |   4,110 | `evaluate`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-| 99.2% |   5.50s |   4,110 | `moduleEvaluation`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-| 99.2% |   5.50s |   4,109 | `processTicksAndRejections`                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  5.6% | 308.2ms |     241 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  5.3% | 295.8ms |     231 | `require`                                                                                                                                                                                                                                                                                                                                                                        | `<unknown>` |
-|  5.3% | 295.8ms |     231 | `bound require`                                                                                                                                                                                                                                                                                                                                                                  | `<unknown>` |
-|  1.2% |  67.6ms |      51 | `generatorResume`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.6% |  32.0ms |      26 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.K1HXIc\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-|  0.6% |  31.4ms |      21 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|  0.4% |  22.9ms |      17 | `statSync`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.3% |  15.8ms |      13 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.2% |  11.0ms |       8 | `requestSatisfyUtil`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|  0.2% |   9.9ms |       7 | `fetch`                                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|  0.2% |   9.9ms |       7 | `requestFetch`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|  0.2% |   9.9ms |       7 | `requestInstantiate`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|  0.1% |   7.9ms |       6 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.1% |   7.6ms |       6 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.1% |   3.7ms |       3 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.1% |   2.8ms |       2 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+|     % |    Time | Samples | Function                    | Location    |
+| ----: | ------: | ------: | --------------------------- | ----------- |
+| 99.4% |   5.50s |   4,112 | `loadAndEvaluateModule`     | `<unknown>` |
+| 99.2% |   5.50s |   4,110 | `evaluate`                  | `<unknown>` |
+| 99.2% |   5.50s |   4,110 | `moduleEvaluation`          | `<unknown>` |
+| 99.2% |   5.50s |   4,109 | `processTicksAndRejections` | `<unknown>` |
+|  5.6% | 308.2ms |     241 | `anonymous`                 | `<unknown>` |
+|  5.3% | 295.8ms |     231 | `require`                   | `<unknown>` |
+|  5.3% | 295.8ms |     231 | `bound require`             | `<unknown>` |
+|  1.2% |  67.6ms |      51 | `generatorResume`           | `<unknown>` |
+|  0.6% |  31.4ms |      21 | `readFileSync`              | `<unknown>` |
+|  0.4% |  22.9ms |      17 | `statSync`                  | `<unknown>` |
+|  0.3% |  15.8ms |      13 | `parseModule`               | `<unknown>` |
+|  0.2% |  11.0ms |       8 | `requestSatisfyUtil`        | `<unknown>` |
+|  0.2% |   9.9ms |       7 | `fetch`                     | `<unknown>` |
+|  0.2% |   9.9ms |       7 | `requestFetch`              | `<unknown>` |
+|  0.2% |   9.9ms |       7 | `requestInstantiate`        | `<unknown>` |
+|  0.1% |   7.6ms |       6 | `stringSplitFast`           | `<unknown>` |
+|  0.1% |   3.7ms |       3 | `SymbolLinks`               | `<unknown>` |
+|  0.1% |   2.8ms |       2 | `realpathNativeSync`        | `<unknown>` |
+| <0.1% |   2.6ms |       2 | `requestSatisfy`            | `<unknown>` |
+| <0.1% |   2.6ms |       2 | `loadModule`                | `<unknown>` |
 
 ##### Standard library
 
@@ -1114,13 +1086,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 92.3% | 30.3ms |      23 | `firstOrUndefinedIterator` | `./node_modules/typescript/lib/typescript.js:3046:34` |
 |  7.7% |  2.5ms |       2 | `arrayFrom`                | `./node_modules/typescript/lib/typescript.js:3174:19` |
 
-##### `/^\/tmp\/(?!(node_modules|bower_components|jspm_packages)(\/|$))nix\-shell\.K1HXIc\/(?!(node_modules|bower_components|jspm_packages)(\/|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules|bower_components|jspm_packages)(\/|$))[^/.][^/]*)*?\/(?!(node_modules|bower_components|jspm_packages)(\/|$))([^./]([^./]|(\.(?!min\.js$))?)*)?$/i` (`<unknown>`)
-
-|     % |   Time | Samples | Caller        | Location                                               |
-| ----: | -----: | ------: | ------------- | ------------------------------------------------------ |
-| 66.2% | 21.2ms |      17 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:21208:60` |
-| 33.8% | 10.8ms |       9 | `test`        | `<unknown>`                                            |
-
 ##### `readFileSync` (`<unknown>`)
 
 |      % |   Time | Samples | Caller           | Location                                              |
@@ -1210,12 +1175,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | ----: | ----: | ------: | ----------------------- | ------------------------------------------------------ |
 | 84.3% | 8.0ms |       6 | `resolveCallExpression` | `./node_modules/typescript/lib/typescript.js:77689:33` |
 | 15.7% | 1.5ms |       1 | `hasExportDeclarations` | `./node_modules/typescript/lib/typescript.js:46259:33` |
-
-##### `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                | Location                                              |
-| -----: | ----: | ------: | --------------------- | ----------------------------------------------------- |
-| 100.0% | 7.9ms |       6 | `toFileNameLowerCase` | `./node_modules/typescript/lib/typescript.js:3496:29` |
 
 ##### `stringSplitFast` (`<unknown>`)
 
@@ -1316,6 +1275,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Caller     | Location                                              |
 | -----: | ----: | ------: | ---------- | ----------------------------------------------------- |
 | 100.0% | 2.8ms |       2 | `realpath` | `./node_modules/typescript/lib/typescript.js:8852:22` |
+
+##### `requestSatisfy` (`<unknown>`)
+
+|      % |  Time | Samples | Caller       | Location    |
+| -----: | ----: | ------: | ------------ | ----------- |
+| 100.0% | 2.6ms |       2 | `loadModule` | `<unknown>` |
+
+##### `loadModule` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                  | Location    |
+| -----: | ----: | ------: | ----------------------- | ----------- |
+| 100.0% | 2.6ms |       2 | `loadModule`            | `<unknown>` |
+| 100.0% | 2.6ms |       2 | `loadAndEvaluateModule` | `<unknown>` |
 
 #### Callees
 
@@ -1651,6 +1623,19 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Callee      | Location    |
 | -----: | ----: | ------: | ----------- | ----------- |
 | 100.0% | 3.5ms |       3 | `anonymous` | `<unknown>` |
+
+##### `requestSatisfy` (`<unknown>`)
+
+|      % |  Time | Samples | Callee               | Location    |
+| -----: | ----: | ------: | -------------------- | ----------- |
+| 100.0% | 2.6ms |       2 | `requestSatisfyUtil` | `<unknown>` |
+
+##### `loadModule` (`<unknown>`)
+
+|      % |  Time | Samples | Callee           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 2.6ms |       2 | `requestSatisfy` | `<unknown>` |
+| 100.0% | 2.6ms |       2 | `loadModule`     | `<unknown>` |
 
 ## Hottest call stacks
 
