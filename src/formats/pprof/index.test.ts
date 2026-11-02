@@ -398,7 +398,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toStrictEqual([
       `Collected 3 samples.`,
       `Recorded 8 objects.`,
-      `Allocated 4\u{A0}KiB.`,
+      `Recorded 4\u{A0}KiB.`,
     ])
     expect(selfSamplesTables(md)).toStrictEqual([
       [

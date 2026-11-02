@@ -1,6 +1,6 @@
 # Heap profile
 
-Allocated 4.71 GiB over 9,574 samples (516 KiB per sample).
+Recorded 4.71 GiB over 9,574 samples (516 KiB per sample).
 
 | Category         |     % |     Size | Samples |
 | ---------------- | ----: | -------: | ------: |
@@ -62,7 +62,7 @@ Call paths to the hottest functions.
 
 ### Self size
 
-Functions with the most bytes allocated within the function body, excluding callees.
+Functions with the most bytes recorded within the function body, excluding callees.
 
 |     % |     Size | Samples | Function                               | Location                                               |
 | ----: | -------: | ------: | -------------------------------------- | ------------------------------------------------------ |
@@ -474,7 +474,7 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 ### Total size
 
-Functions with the most bytes allocated within the function and its callees.
+Functions with the most bytes recorded within the function and its callees.
 
 |     % |     Size | Samples | Function                                   | Location                                                |
 | ----: | -------: | ------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -1120,7 +1120,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most bytes allocated in their leaf frame.
+Call stacks with the most bytes recorded in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs:3:33`) ← `(anonymous)` (`./heapprofile-run.mjs:1:1`) ← `(anonymous)`
 

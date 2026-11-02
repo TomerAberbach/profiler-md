@@ -1,6 +1,6 @@
 # Heap profile
 
-Allocated 58.2 MiB over 3,648 samples (16.3 KiB per sample).
+Recorded 58.2 MiB over 3,648 samples (16.3 KiB per sample).
 
 | Category         |     % |     Size | Samples |
 | ---------------- | ----: | -------: | ------: |
@@ -66,7 +66,7 @@ Call paths to the hottest functions.
 
 ### Self size
 
-Functions with the most bytes allocated within the function body, excluding callees.
+Functions with the most bytes recorded within the function body, excluding callees.
 
 |     % |     Size | Samples | Function      | Location                                    |
 | ----: | -------: | ------: | ------------- | ------------------------------------------- |
@@ -367,7 +367,7 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 ### Total size
 
-Functions with the most bytes allocated within the function and its callees.
+Functions with the most bytes recorded within the function and its callees.
 
 |     % |     Size | Samples | Function                       | Location                                    |
 | ----: | -------: | ------: | ------------------------------ | ------------------------------------------- |
@@ -889,7 +889,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most bytes allocated in their leaf frame.
+Call stacks with the most bytes recorded in their leaf frame.
 
 Common call stack: `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`) ← `(anonymous)`
 

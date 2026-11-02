@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 4.75 GiB → 4.71 GiB (-44.605 MiB, -0.9%) over 9,660 → 9,574 samples (516 KiB per sample).
+Recorded 4.75 GiB → 4.71 GiB (-44.605 MiB, -0.9%) over 9,660 → 9,574 samples (516 KiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |       Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | ------------: |
@@ -64,7 +64,7 @@ Call paths to the hottest and most changed functions.
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |            % |                Size |   Samples | Function                         | Location                                                            |
 | ------: | ----------: | -----------: | ------------------: | --------: | -------------------------------- | ------------------------------------------------------------------- |
@@ -137,7 +137,7 @@ Functions with the largest increase in bytes allocated within the function body,
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |       Delta |             % |                Size |       Samples | Function                        | Location                                                          |
 | -----: | ----------: | ------------: | ------------------: | ------------: | ------------------------------- | ----------------------------------------------------------------- |
@@ -807,7 +807,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Third-party
 
@@ -861,7 +861,7 @@ Functions with the largest increase in bytes allocated within the function and i
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Third-party
 
@@ -1931,7 +1931,7 @@ Callees with the largest change in contribution to each function's total size. I
 
 ### Regressions
 
-Call stacks with the largest increase in bytes allocated in their leaf frame.
+Call stacks with the largest increase in bytes recorded in their leaf frame.
 
 Common call stack: `checkSourceFileWorker` (`./node_modules/typescript/lib/typescript.js:88583:33`) ← `checkSourceFile` (88552:27) ← `checkSourceFileWithEagerDiagnostics` (88649:47) ← `getDiagnosticsWorker` (88656:32) ← `getDiagnostics2` (88635:27) ← `(anonymous)` (124967:37) ← `runWithCancellationToken` (124947:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (124966:52) ← `getAndCacheDiagnostics` (125252:34) ← `getBindAndCheckDiagnosticsForFile` (124963:45) ← `getSemanticDiagnosticsForFile` (124957:41) ← `(anonymous)` (124899:76) ← `flatMap` (2625:17) ← `getDiagnosticsHelper` (124895:32) ← `getSemanticDiagnostics` (124909:34) ← `typeCheckProject` (`./tsc-workload.mjs:3:33`) ← `(anonymous)` (`./heapprofile-run.mjs:1:1`) ← `(anonymous)`
 
@@ -1960,7 +1960,7 @@ Common call stack: `checkSourceFileWorker` (`./node_modules/typescript/lib/types
 
 ### Improvements
 
-Call stacks with the largest decrease in bytes allocated in their leaf frame.
+Call stacks with the largest decrease in bytes recorded in their leaf frame.
 
 Common call stack: `checkSourceFileWorker` (`./node_modules/typescript/lib/typescript.js:87270:33`) ← `checkSourceFile` (87239:27) ← `checkSourceFileWithEagerDiagnostics` (87336:47) ← `getDiagnosticsWorker` (87343:32) ← `getDiagnostics2` (87322:27) ← `(anonymous)` (123385:37) ← `runWithCancellationToken` (123365:36) ← `getBindAndCheckDiagnosticsForFileNoCache` (123384:52) ← `getAndCacheDiagnostics` (123670:34) ← `getBindAndCheckDiagnosticsForFile` (123381:45) ← `getSemanticDiagnosticsForFile` (123375:41) ← `(anonymous)` (123317:76) ← `flatMap` (2612:17) ← `getDiagnosticsHelper` (123313:32) ← `getSemanticDiagnostics` (123327:34) ← `typeCheckProject` (`./tsc-workload.mjs:3:33`) ← `(anonymous)` (`./heapprofile-run.mjs:1:1`) ← `(anonymous)`
 

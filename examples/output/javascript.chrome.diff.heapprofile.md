@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 58.2 MiB → 60.1 MiB (+1.925 MiB, +3.3%) over 3,648 → 3,770 samples (16.3 KiB per sample).
+Recorded 58.2 MiB → 60.1 MiB (+1.925 MiB, +3.3%) over 3,648 → 3,770 samples (16.3 KiB per sample).
 
 | Category         | Change |       Delta |             % |                Size |       Samples |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | ------------: |
@@ -68,7 +68,7 @@ Call paths to the hottest and most changed functions.
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |             % |                Size |       Samples | Function                       | Location                                               |
 | ------: | -----------: | ------------: | ------------------: | ------------: | ------------------------------ | ------------------------------------------------------ |
@@ -141,7 +141,7 @@ Functions with the largest increase in bytes allocated within the function body,
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |            % |                Size |   Samples | Function          | Location                                               |
 | ------: | -----------: | -----------: | ------------------: | --------: | ----------------- | ------------------------------------------------------ |
@@ -566,7 +566,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |        Delta |             % |                Size |       Samples | Function                       | Location                                               |
 | -----: | -----------: | ------------: | ------------------: | ------------: | ------------------------------ | ------------------------------------------------------ |
@@ -642,7 +642,7 @@ Functions with the largest increase in bytes allocated within the function and i
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |        Delta |           % |                Size |   Samples | Function          | Location                                               |
 | ------: | -----------: | ----------: | ------------------: | --------: | ----------------- | ------------------------------------------------------ |
@@ -1414,7 +1414,7 @@ Callees with the largest change in contribution to each function's total size. I
 
 ### Regressions
 
-Call stacks with the largest increase in bytes allocated in their leaf frame.
+Call stacks with the largest increase in bytes recorded in their leaf frame.
 
 Common call stack: `(anonymous)`
 
@@ -1443,7 +1443,7 @@ Common call stack: `(anonymous)`
 
 ### Improvements
 
-Call stacks with the largest decrease in bytes allocated in their leaf frame.
+Call stacks with the largest decrease in bytes recorded in their leaf frame.
 
 Common call stack: `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`) ← `(anonymous)`
 
