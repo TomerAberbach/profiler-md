@@ -84,7 +84,7 @@ import {
   stringColumns,
 } from './table.ts'
 import type { FunctionRow, NodeRow } from './table.ts'
-import type { HeapSnapshotNodeCategory } from './type.ts'
+import type { HeapSnapshotNodeCategory, NodeLabel } from './type.ts'
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
@@ -136,12 +136,18 @@ export const formatHeapSnapshot = (
   ]
 }
 
-const formatOverallSummary = ({
-  heldSize,
-  nodeCount,
-  edgeCount,
+/** The nodes the snapshot records, which excludes a GC root the parser added. */
+const recordedNodeCount = ({
   nodeCategoryToStats,
-}: AggregatedHeapSnapshot): RootContent[] => {
+}: AggregatedHeapSnapshot): number =>
+  nodeCategoryToStats
+    .values()
+    .reduce((sum, { nodeCount }) => sum + nodeCount, 0)
+
+const formatOverallSummary = (
+  snapshot: AggregatedHeapSnapshot,
+): RootContent[] => {
+  const { heldSize, edgeCount, nodeCategoryToStats } = snapshot
   const largestNodeCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
@@ -152,7 +158,7 @@ const formatOverallSummary = ({
   return [
     paragraph(
       `Held ${formatBytes(heldSize)} over ${formatCount(
-        nodeCount,
+        recordedNodeCount(snapshot),
         `node`,
       )} and ${formatCount(edgeCount, `edge`)}.`,
     ),
@@ -232,8 +238,8 @@ const formatDiffSummaryLine = ({
     current.heldSize,
     formatBytesDelta,
   )} over ${formatCountArrow(
-    base.nodeCount,
-    current.nodeCount,
+    recordedNodeCount(base),
+    recordedNodeCount(current),
     `node`,
   )} and ${formatCountArrow(base.edgeCount, current.edgeCount, `edge`)}.`
 
@@ -351,10 +357,7 @@ class ShownRetainerPaths {
   }
 
   /** Formats the retainer path with the ID {@link path} from {@link node}. */
-  public ofPath(
-    node: { name?: string; nameLocation?: FileReference },
-    path: number,
-  ): string {
+  public ofPath(node: NodeLabel, path: number): string {
     return this.ofSteps(node, this.#paths.stepsOf(path))
   }
 
@@ -385,10 +388,7 @@ class ShownRetainerPaths {
    * for a node the GC root holds directly. Each step shows its edge, when it
    * has a label, inside the arrow to its retainer (e.g. `Entry ←.value– Item`).
    */
-  public ofSteps(
-    node: { name?: string; nameLocation?: FileReference },
-    steps: readonly RetainerPathStep[],
-  ): string {
+  public ofSteps(node: NodeLabel, steps: readonly RetainerPathStep[]): string {
     if (this.#recordings.length === 0) {
       throw new Error(`retainer path formatted outside a recording`)
     }
@@ -660,7 +660,7 @@ const formatLargestConstructorInstances = ({
         total: constructorSize,
         nodeCount: group.nodeCount,
         retainerPath: shownPaths.ofPath(
-          snapshot.retainerOf(group.nodeOrdinal),
+          retainerGroupLabel(group, snapshot, constructor),
           group.path,
         ),
       })),
@@ -965,6 +965,7 @@ const formatDiffSizeConstructors = ({
         retainerPathsHeader(size, `with the largest change in`),
         constructors.flatMap(constructor =>
           formatDiffConstructorInstances({
+            diff,
             constructor,
             groupDiffs: constructorRetainerGroupDiffs(constructor),
             sizeOf,
@@ -977,7 +978,29 @@ const formatDiffSizeConstructors = ({
   })
 }
 
+/**
+ * The label a constructor's retainer group's path starts from: a jointly
+ * retained node's own, the only instance's own, such as a class's name, or else
+ * the constructor's.
+ */
+const retainerGroupLabel = (
+  {
+    node,
+    nodeCount,
+    nodeOrdinal,
+  }: Pick<DiffedConstructorRetainerGroup, `node` | `nodeCount` | `nodeOrdinal`>,
+  { retainerOf }: Pick<AggregatedHeapSnapshot, `retainerOf`>,
+  constructor: NodeLabel,
+): NodeLabel => {
+  if (node) {
+    return retainerOf(nodeOrdinal)
+  }
+  const onlyInstance = nodeCount === 1 ? retainerOf(nodeOrdinal) : undefined
+  return onlyInstance?.name ? onlyInstance : constructor
+}
+
 const formatDiffConstructorInstances = ({
+  diff,
   constructor,
   groupDiffs,
   sizeOf,
@@ -985,6 +1008,7 @@ const formatDiffConstructorInstances = ({
   hasLocation,
   options,
 }: {
+  diff: AggregatedHeapSnapshotDiff
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>
   groupDiffs: EntryDiff<DiffedConstructorRetainerGroup>[]
   sizeOf: ConstructorSize[`sizeOf`]
@@ -999,11 +1023,14 @@ const formatDiffConstructorInstances = ({
     totalOf: sizeOf,
     headingLevel: 5,
     columns: constructorRetainerGroupColumns,
-    rowOf: (group, size, total) => ({
+    rowOf: (group, size, total, side) => ({
       size,
       total,
       nodeCount: group.nodeCount,
-      retainerPath: shownPaths.ofPath(group.node ?? constructor, group.path),
+      retainerPath: shownPaths.ofPath(
+        retainerGroupLabel(group, diff[side], constructor),
+        group.path,
+      ),
     }),
     hasLocation,
     options,
@@ -1156,7 +1183,12 @@ const formatDiffEntityGroups = <
   totalOf: (entity: Entity) => number
   headingLevel: Heading[`depth`]
   columns: Table<Row>
-  rowOf: (group: Group, size: number, total: number) => Row
+  rowOf: (
+    group: Group,
+    size: number,
+    total: number,
+    side: `base` | `current`,
+  ) => Row
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -1170,15 +1202,21 @@ const formatDiffEntityGroups = <
     return []
   }
 
-  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
-    side && group && rowOf(group, sizeOf(group), totalOf(side))
+  const sideRowOf = (side: `base` | `current`, group: Group | undefined) => {
+    const sideEntity = entity[side]
+    return (
+      sideEntity &&
+      group &&
+      rowOf(group, sizeOf(group), totalOf(sideEntity), side)
+    )
+  }
   return [
     formatEntityHeading(headingLevel, entity, hasLocation, options),
     formatDiffTable(
       columns,
       changedGroups.map(({ base, current }) => ({
-        base: sideRowOf(entity.base, base),
-        current: sideRowOf(entity.current, current),
+        base: sideRowOf(`base`, base),
+        current: sideRowOf(`current`, current),
       })),
     ),
   ]

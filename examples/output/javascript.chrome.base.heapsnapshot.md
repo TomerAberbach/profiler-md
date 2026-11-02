@@ -121,23 +121,23 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                                                                                                    |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------- |
-| 98.5% |  546 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…`   |
-|  1.3% | 7.04 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– globalThis.buildAndRetainDom = (\n  data,\n  passes…` |
-| <0.1% |     65 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/node_modules/d3/dist/d3.mi…`   |
-| <0.1% |     47 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/workload.mjs`                  |
-| <0.1% |     44 B |     1 | `system / ExternalStringData ←.1 / backing_store– puppeteer___ariaQuerySelectorAll`                     |
+|     % |     Size | Nodes | Path                                                                                                                                |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 98.5% |  546 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– // https://d3js.org v7.8.5 Copyright 2010-2023 Mi… ←(several paths)– (GC root)`   |
+|  1.3% | 7.04 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– globalThis.buildAndRetainDom = (\n  data,\n  passes… ←(several paths)– (GC root)` |
+| <0.1% |     65 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/node_modules/d3/dist/d3.mi… ←(several paths)– (GC root)`   |
+| <0.1% |     47 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/workload.mjs ←(several paths)– (GC root)`                  |
+| <0.1% |     44 B |     1 | `system / ExternalStringData ←.1 / backing_store– puppeteer___ariaQuerySelectorAll ←(several paths)– (GC root)`                     |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Nodes | Path                                                                                                                                                             |
-| ----: | ------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 96.7% | 103 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                           |
-|  1.9% |   2 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context`                                                           |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context` |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
+|     % |    Size | Nodes | Path                                                                                                                                                                                         |
+| ----: | ------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 96.7% | 103 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                                                       |
+|  1.9% |   2 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context ←(several paths)– (GC root)`                                                           |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context ←(several paths)– (GC root)` |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context ←(several paths)– (GC root)` |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context ←(several paths)– (GC root)` |
 
 ##### `SVGAnimatedLength` (`<unknown>`)
 
@@ -226,18 +226,18 @@ Retainer paths with the largest contribution to each constructor's self size.
 | 96.0% | 18.9 KiB |   105 | `SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  1.8% |    368 B |     2 | `SVGRectElement ←[4]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  1.8% |    368 B |     2 | `SVGRectElement ←[3]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.1% |     28 B |     1 | `SVGRectElement ← (GC root)`                                                                                                                                |
-|  0.1% |     16 B |     1 | `SVGRectElement ←[9]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                   |
+|  0.1% |     28 B |     1 | `SVGRectElement ←(several paths)– (GC root)`                                                                                                                |
+|  0.1% |     16 B |     1 | `SVGRectElement ←[9]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)`                                                       |
 
 ##### `system / Context` (`<unknown>`)
 
 |     % |     Size | Nodes | Path                                                                                                                                                                                                                                                                                                          |
 | ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 34.6% | 5.13 KiB |    32 | `system / Context ← (GC root)`                                                                                                                                                                                                                                                                                |
-|  4.0% |    608 B |    13 | `system / Context ←(several paths)– Object`                                                                                                                                                                                                                                                                   |
+| 34.0% | 5.04 KiB |    28 | `system / Context ←(several paths)– (GC root)`                                                                                                                                                                                                                                                                |
+|  2.7% |    416 B |    12 | `system / Context ←(several paths)– Object ←(several paths)– (GC root)`                                                                                                                                                                                                                                       |
 |  1.3% |    192 B |     3 | `system / Context ←.context– l (./node_modules/d3/dist/d3.min.js:2:155044) ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:11875) ←.__axis– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`        |
+|  1.3% |    192 B |     1 | `system / Context ←(several paths)– Object`                                                                                                                                                                                                                                                                   |
 |  1.1% |    172 B |     3 | `system / Context ←(several paths)– l (./node_modules/d3/dist/d3.min.js:2:155044) ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:11875) ←.__axis– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.1% |    160 B |     8 | `system / Context ←(several paths)– system / Context ←(several paths)– Object`                                                                                                                                                                                                                                |
 
 ##### `SVGAnimatedLengthList` (`<unknown>`)
 
@@ -256,8 +256,8 @@ Retainer paths with the largest contribution to each constructor's self size.
 | 97.6% | 13 KiB |    98 | `SVGTitleElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  1.0% |  136 B |     1 | `SVGTitleElement ←[8]– SVGGElement ←[4]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  1.0% |  136 B |     1 | `SVGTitleElement ←[8]– SVGGElement ←[3]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.2% |   28 B |     1 | `SVGTitleElement ← (GC root)`                                                                                                                                       |
-|  0.1% |   16 B |     1 | `SVGTitleElement ←[8]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                          |
+|  0.2% |   28 B |     1 | `SVGTitleElement ←(several paths)– (GC root)`                                                                                                                       |
+|  0.1% |   16 B |     1 | `SVGTitleElement ←[8]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)`                                                              |
 
 ##### `SVGTextElement` (`<unknown>`)
 
@@ -285,8 +285,8 @@ Retainer paths with the largest contribution to each constructor's self size.
 | ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 92.8% | 7.39 KiB |    43 | `SVGLineElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  6.5% |    528 B |     3 | `SVGLineElement ←[7]– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.3% |     28 B |     1 | `SVGLineElement ← (GC root)`                                                                                                                                                  |
-|  0.2% |     16 B |     1 | `SVGLineElement ←[7]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                                     |
+|  0.3% |     28 B |     1 | `SVGLineElement ←(several paths)– (GC root)`                                                                                                                                  |
+|  0.2% |     16 B |     1 | `SVGLineElement ←[7]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)`                                                                         |
 |  0.2% |     16 B |     1 | `SVGLineElement ←.509– array`                                                                                                                                                 |
 
 ##### `SVGPathElement` (`<unknown>`)
@@ -305,8 +305,8 @@ Retainer paths with the largest contribution to each constructor's self size.
 | ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 97.1% | 5.08 KiB |   100 | `Date ←.created– Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                               |
 |  1.0% |     52 B |     1 | `Date ←.__data__– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.0% |     52 B |     1 | `Date ←.Xg– system / Context`                                                                                                                                 |
-|  1.0% |     52 B |     1 | `Date ←.Gg– system / Context`                                                                                                                                 |
+|  1.0% |     52 B |     1 | `Date ←.Xg– system / Context ←(several paths)– (GC root)`                                                                                                     |
+|  1.0% |     52 B |     1 | `Date ←.Gg– system / Context ←(several paths)– (GC root)`                                                                                                     |
 
 ##### `SVGAnimatedNumberList` (`<unknown>`)
 
@@ -323,14 +323,14 @@ Retainer paths with the largest contribution to each constructor's self size.
 |     % |     Size | Nodes | Path                                                                                                                                            |
 | ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | 99.2% | 3.31 KiB |   106 | `Qd ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  0.8% |     28 B |     1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context`                                                         |
+|  0.8% |     28 B |     1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context ←(several paths)– (GC root)`                             |
 
 ##### `HTMLDocument` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                        |
-| ----: | -------: | ----: | --------------------------- |
-| 99.5% | 3.18 KiB |     2 | `HTMLDocument ← (GC root)`  |
-|  0.5% |     16 B |     1 | `HTMLDocument ←.155– array` |
+|     % |     Size | Nodes | Path                                       |
+| ----: | -------: | ----: | ------------------------------------------ |
+| 99.5% | 3.18 KiB |     2 | `HTMLDocument ←(several paths)– (GC root)` |
+|  0.5% |     16 B |     1 | `HTMLDocument ←.155– array`                |
 
 ##### `SVGAnimatedEnumeration` (`<unknown>`)
 
@@ -344,158 +344,160 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Performance` (`<unknown>`)
 
-|     % |    Size | Nodes | Path                                                                   |
-| ----: | ------: | ----: | ---------------------------------------------------------------------- |
-| 96.9% | 1,012 B |     2 | `Performance ← (GC root)`                                              |
-|  1.5% |    16 B |     1 | `Performance ←[6]– InternalNode ←[1]– InternalNode ←[1]– InternalNode` |
-|  1.5% |    16 B |     1 | `Performance ←.385– array`                                             |
+|     % |    Size | Nodes | Path                                                                                               |
+| ----: | ------: | ----: | -------------------------------------------------------------------------------------------------- |
+| 96.9% | 1,012 B |     2 | `Performance ←(several paths)– (GC root)`                                                          |
+|  1.5% |    16 B |     1 | `Performance ←[6]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)` |
+|  1.5% |    16 B |     1 | `Performance ←.385– array`                                                                         |
 
 ##### `Error` (`<unknown>`)
 
-|    % | Size | Nodes | Path                                 |
-| ---: | ---: | ----: | ------------------------------------ |
-| 8.2% | 84 B |     3 | `Error ←.prototype– SuppressedError` |
-| 8.2% | 84 B |     3 | `Error ←.prototype– SuspendError`    |
-| 8.2% | 84 B |     3 | `Error ←.prototype– AggregateError`  |
-| 8.2% | 84 B |     3 | `Error ←.prototype– SyntaxError`     |
-| 8.2% | 84 B |     3 | `Error ←.prototype– TypeError`       |
+|    % | Size | Nodes | Path                                                             |
+| ---: | ---: | ----: | ---------------------------------------------------------------- |
+| 8.2% | 84 B |     3 | `Error ←.prototype– SuppressedError ←(several paths)– (GC root)` |
+| 8.2% | 84 B |     3 | `Error ←.prototype– SuspendError ←(several paths)– (GC root)`    |
+| 8.2% | 84 B |     3 | `Error ←.prototype– AggregateError ←(several paths)– (GC root)`  |
+| 8.2% | 84 B |     3 | `Error ←.prototype– SyntaxError ←(several paths)– (GC root)`     |
+| 8.2% | 84 B |     3 | `Error ←.prototype– TypeError ←(several paths)– (GC root)`       |
 
 ##### `Window` (`<unknown>`)
 
-|     % |  Size | Nodes | Path                             |
-| ----: | ----: | ----: | -------------------------------- |
-| 90.6% | 920 B |     4 | `Window ← (GC root)`             |
-|  3.1% |  32 B |     2 | `Window ←(several paths)– array` |
-|  1.6% |  16 B |     1 | `Window ←.76– array`             |
-|  1.6% |  16 B |     1 | `Window ←.77– array`             |
-|  1.6% |  16 B |     1 | `Window ←.204– array`            |
+|     % |  Size | Nodes | Path                                 |
+| ----: | ----: | ----: | ------------------------------------ |
+| 90.6% | 920 B |     4 | `Window ←(several paths)– (GC root)` |
+|  3.1% |  32 B |     2 | `Window ←(several paths)– array`     |
+|  1.6% |  16 B |     1 | `Window ←.76– array`                 |
+|  1.6% |  16 B |     1 | `Window ←.77– array`                 |
+|  1.6% |  16 B |     1 | `Window ←.204– array`                |
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |    Size | Nodes | Path                     |
-| -----: | ------: | ----: | ------------------------ |
-| 100.0% | 1,008 B |    36 | `TypedArray ← (GC root)` |
+|      % |    Size | Nodes | Path                                     |
+| -----: | ------: | ----: | ---------------------------------------- |
+| 100.0% | 1,008 B |    36 | `TypedArray ←(several paths)– (GC root)` |
 
 ##### `qe` (`./node_modules/d3/dist/d3.min.js:2:34624`)
 
-|    % | Size | Nodes | Path                                                                                                                     |
-| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------ |
-| 3.6% | 28 B |     1 | `qe ←.um– system / Context`                                                                                              |
-| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlOrRd– Object` |
-| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlOrBr– Object` |
-| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlGnBu– Object` |
-| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlGn– Object`   |
+|    % | Size | Nodes | Path                                                                                                                                                 |
+| ---: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3.6% | 28 B |     1 | `qe ←.um– system / Context ←(several paths)– (GC root)`                                                                                              |
+| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlOrRd– Object ←(several paths)– (GC root)` |
+| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlOrBr– Object ←(several paths)– (GC root)` |
+| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlGnBu– Object ←(several paths)– (GC root)` |
+| 3.6% | 28 B |     1 | `qe ←.r– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateYlGn– Object ←(several paths)– (GC root)`   |
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % | Size | Nodes | Path                                                                                                                 |
-| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------------------------- |
-| 11.9% | 84 B |     3 | `ArrayBuffer ← (GC root)`                                                                                            |
-|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context` |
-|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context` |
-|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
-|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
+|     % | Size | Nodes | Path                                                                                                                                             |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 11.9% | 84 B |     3 | `ArrayBuffer ←(several paths)– (GC root)`                                                                                                        |
+|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context ←(several paths)– (GC root)` |
+|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context ←(several paths)– (GC root)` |
+|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context ←(several paths)– (GC root)` |
+|  7.3% | 52 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context ←(several paths)– (GC root)` |
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % | Size | Nodes | Path                                                                                           |
-| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------- |
-| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context` |
-| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context` |
-| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
-| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
-| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context` |
+|     % | Size | Nodes | Path                                                                                                                       |
+| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context ←(several paths)– (GC root)` |
+| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context ←(several paths)– (GC root)` |
+| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context ←(several paths)– (GC root)` |
+| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context ←(several paths)– (GC root)` |
+| 10.0% | 60 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context ←(several paths)– (GC root)` |
 
 ##### `T` (`./node_modules/d3/dist/d3.min.js:2:3159`)
 
-|     % | Size | Nodes | Path                       |
-| ----: | ---: | ----: | -------------------------- |
-| 20.0% | 52 B |     1 | `T ←.us– system / Context` |
-| 20.0% | 52 B |     1 | `T ←.rh– system / Context` |
-| 20.0% | 52 B |     1 | `T ←.Gh– system / Context` |
-| 20.0% | 52 B |     1 | `T ←.ih– system / Context` |
-| 20.0% | 52 B |     1 | `T ←.as– system / Context` |
+|     % | Size | Nodes | Path                                                   |
+| ----: | ---: | ----: | ------------------------------------------------------ |
+| 20.0% | 52 B |     1 | `T ←.us– system / Context ←(several paths)– (GC root)` |
+| 20.0% | 52 B |     1 | `T ←.rh– system / Context ←(several paths)– (GC root)` |
+| 20.0% | 52 B |     1 | `T ←.Gh– system / Context ←(several paths)– (GC root)` |
+| 20.0% | 52 B |     1 | `T ←.ih– system / Context ←(several paths)– (GC root)` |
+| 20.0% | 52 B |     1 | `T ←.as– system / Context ←(several paths)– (GC root)` |
 
 ##### `Map` (`<unknown>`)
 
 |     % | Size | Nodes | Path                                                                                                                                       |
 | ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| 42.9% | 96 B |     4 | `Map ← (GC root)`                                                                                                                          |
+| 42.9% | 96 B |     4 | `Map ←(several paths)– (GC root)`                                                                                                          |
 |  7.1% | 16 B |     1 | `Map ←._intern– InternMap (./node_modules/d3/dist/d3.min.js:2:3622) ←.hashtagCounts– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  7.1% | 16 B |     1 | `Map ←.s– system / Context`                                                                                                                |
-|  7.1% | 16 B |     1 | `Map ←.h– system / Context`                                                                                                                |
-|  7.1% | 16 B |     1 | `Map ←.p– system / Context`                                                                                                                |
+|  7.1% | 16 B |     1 | `Map ←.s– system / Context ←(several paths)– (GC root)`                                                                                    |
+|  7.1% | 16 B |     1 | `Map ←.h– system / Context ←(several paths)– (GC root)`                                                                                    |
+|  7.1% | 16 B |     1 | `Map ←.p– system / Context ←(several paths)– (GC root)`                                                                                    |
 
 ##### `Ar` (`./node_modules/d3/dist/d3.min.js:2:40001`)
 
-|     % | Size | Nodes | Path                                                                                                                               |
-| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------- |
-| 41.7% | 60 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateCubehelixDefault– Object` |
-| 19.4% | 28 B |     1 | `Ar ←.am– system / Context`                                                                                                        |
-| 19.4% | 28 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateWarm– Object`             |
-| 19.4% | 28 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateCool– Object`             |
+|     % | Size | Nodes | Path                                                                                                                                                           |
+| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 41.7% | 60 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateCubehelixDefault– Object ←(several paths)– (GC root)` |
+| 19.4% | 28 B |     1 | `Ar ←.am– system / Context ←(several paths)– (GC root)`                                                                                                        |
+| 19.4% | 28 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateWarm– Object ←(several paths)– (GC root)`             |
+| 19.4% | 28 B |     1 | `Ar ←.n– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:46615) ←.interpolateCool– Object ←(several paths)– (GC root)`             |
 
 ##### `ye` (`./node_modules/d3/dist/d3.min.js:2:30261`)
 
-|      % |  Size | Nodes | Path             |
-| -----: | ----: | ----: | ---------------- |
-| 100.0% | 140 B |     5 | `ye ← (GC root)` |
+|      % |  Size | Nodes | Path                             |
+| -----: | ----: | ----: | -------------------------------- |
+| 100.0% | 140 B |     5 | `ye ←(several paths)– (GC root)` |
 
 ##### `Set` (`<unknown>`)
 
-|     % | Size | Nodes | Path                                                                   |
-| ----: | ---: | ----: | ---------------------------------------------------------------------- |
-| 65.6% | 84 B |     3 | `Set ← (GC root)`                                                      |
-| 12.5% | 16 B |     1 | `Set ←.re– system / Context ←(several paths)– Object`                  |
-| 12.5% | 16 B |     1 | `Set ←.ne– system / Context ←(several paths)– Object`                  |
-|  9.4% | 12 B |     1 | `Set ←.prototype– InternSet (./node_modules/d3/dist/d3.min.js:2:3943)` |
+|     % | Size | Nodes | Path                                                                                               |
+| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------- |
+| 65.6% | 84 B |     3 | `Set ←(several paths)– (GC root)`                                                                  |
+| 12.5% | 16 B |     1 | `Set ←.re– system / Context ←(several paths)– Object`                                              |
+| 12.5% | 16 B |     1 | `Set ←.ne– system / Context ←(several paths)– Object`                                              |
+|  9.4% | 12 B |     1 | `Set ←.prototype– InternSet (./node_modules/d3/dist/d3.min.js:2:3943) ←(several paths)– (GC root)` |
 
 ##### `Promise` (`<unknown>`)
 
-|      % |  Size | Nodes | Path                  |
-| -----: | ----: | ----: | --------------------- |
-| 100.0% | 104 B |     4 | `Promise ← (GC root)` |
+|     % | Size | Nodes | Path                                  |
+| ----: | ---: | ----: | ------------------------------------- |
+| 80.8% | 84 B |     3 | `Promise ←(several paths)– (GC root)` |
+| 19.2% | 20 B |     1 | `Promise ← (GC root)`                 |
 
 ##### `WeakSet` (`<unknown>`)
 
-|     % | Size | Nodes | Path                                                     |
-| ----: | ---: | ----: | -------------------------------------------------------- |
-| 56.0% | 56 B |     2 | `WeakSet ←.prototype– WeakSet`                           |
-| 28.0% | 28 B |     1 | `WeakSet ← (GC root)`                                    |
-| 16.0% | 16 B |     1 | `WeakSet ←.W– system / Context ←(several paths)– Object` |
+|     % | Size | Nodes | Path                                                       |
+| ----: | ---: | ----: | ---------------------------------------------------------- |
+| 56.0% | 56 B |     2 | `WeakSet ←.prototype– WeakSet ←(several paths)– (GC root)` |
+| 28.0% | 28 B |     1 | `WeakSet ←(several paths)– (GC root)`                      |
+| 16.0% | 16 B |     1 | `WeakSet ←.W– system / Context ←(several paths)– Object`   |
 
 ##### `WeakMap` (`<unknown>`)
 
-|     % | Size | Nodes | Path                                                     |
-| ----: | ---: | ----: | -------------------------------------------------------- |
-| 56.0% | 56 B |     2 | `WeakMap ←.prototype– WeakMap`                           |
-| 28.0% | 28 B |     1 | `WeakMap ← (GC root)`                                    |
-| 16.0% | 16 B |     1 | `WeakMap ←.I– system / Context ←(several paths)– Object` |
+|     % | Size | Nodes | Path                                                       |
+| ----: | ---: | ----: | ---------------------------------------------------------- |
+| 56.0% | 56 B |     2 | `WeakMap ←.prototype– WeakMap ←(several paths)– (GC root)` |
+| 28.0% | 28 B |     1 | `WeakMap ←(several paths)– (GC root)`                      |
+| 16.0% | 16 B |     1 | `WeakMap ←.I– system / Context ←(several paths)– Object`   |
 
 ##### `Generator` (`<unknown>`)
 
 |     % | Size | Nodes | Path                                                    |
 | ----: | ---: | ----: | ------------------------------------------------------- |
-| 87.5% | 84 B |     3 | `Generator ← (GC root)`                                 |
+| 58.3% | 56 B |     2 | `Generator ← (GC root)`                                 |
+| 29.2% | 28 B |     1 | `Generator ←(several paths)– (GC root)`                 |
 | 12.5% | 12 B |     1 | `Generator ←.__proto__– Generator (./workload.mjs:1:1)` |
 
 ##### `Tag` (`<unknown>`)
 
-|      % | Size | Nodes | Path              |
-| -----: | ---: | ----: | ----------------- |
-| 100.0% | 84 B |     3 | `Tag ← (GC root)` |
+|      % | Size | Nodes | Path                              |
+| -----: | ---: | ----: | --------------------------------- |
+| 100.0% | 84 B |     3 | `Tag ←(several paths)– (GC root)` |
 
 ##### `DisposableStack` (`<unknown>`)
 
-|      % | Size | Nodes | Path                                           |
-| -----: | ---: | ----: | ---------------------------------------------- |
-| 100.0% | 84 B |     3 | `DisposableStack ←.prototype– DisposableStack` |
+|      % | Size | Nodes | Path                                                                       |
+| -----: | ---: | ----: | -------------------------------------------------------------------------- |
+| 100.0% | 84 B |     3 | `DisposableStack ←.prototype– DisposableStack ←(several paths)– (GC root)` |
 
 ##### `AsyncDisposableStack` (`<unknown>`)
 
-|      % | Size | Nodes | Path                                                     |
-| -----: | ---: | ----: | -------------------------------------------------------- |
-| 100.0% | 84 B |     3 | `AsyncDisposableStack ←.prototype– AsyncDisposableStack` |
+|      % | Size | Nodes | Path                                                                                 |
+| -----: | ---: | ----: | ------------------------------------------------------------------------------------ |
+| 100.0% | 84 B |     3 | `AsyncDisposableStack ←.prototype– AsyncDisposableStack ←(several paths)– (GC root)` |
 
 ##### `Array Iterator` (`<unknown>`)
 
@@ -511,9 +513,9 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Uint32Array` (`<unknown>`)
 
-|      % | Size | Nodes | Path                                 |
-| -----: | ---: | ----: | ------------------------------------ |
-| 100.0% | 60 B |     1 | `Uint32Array ←.Au– system / Context` |
+|      % | Size | Nodes | Path                                                             |
+| -----: | ---: | ----: | ---------------------------------------------------------------- |
+| 100.0% | 60 B |     1 | `Uint32Array ←.Au– system / Context ←(several paths)– (GC root)` |
 
 ### Retained size
 
@@ -615,7 +617,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 |     % |     Size | Nodes | Path                                                                                                                                                                |
 | ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 53.4% |  597 KiB |     1 | `Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                                              |
-| 33.3% |  373 KiB |    48 | `Object ← (GC root)`                                                                                                                                                |
+| 30.4% |  340 KiB |    34 | `Object ←(several paths)– (GC root)`                                                                                                                                |
 |  9.2% |  103 KiB |   200 | `Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                     |
 |  6.9% | 77.7 KiB |    21 | `Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  3.2% | 35.7 KiB |    73 | `Object ←.retweeted_status– Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                          |
@@ -638,32 +640,32 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                                                                                                    |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------- |
-| 98.5% |  546 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– // https://d3js.org v7.8.5 Copyright 2010-2023 Mi…`   |
-|  1.3% | 7.04 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– globalThis.buildAndRetainDom = (\n  data,\n  passes…` |
-| <0.1% |     65 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/node_modules/d3/dist/d3.mi…`   |
-| <0.1% |     47 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/workload.mjs`                  |
-| <0.1% |     44 B |     1 | `system / ExternalStringData ←.1 / backing_store– puppeteer___ariaQuerySelectorAll`                     |
+|     % |     Size | Nodes | Path                                                                                                                                |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 98.5% |  546 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– // https://d3js.org v7.8.5 Copyright 2010-2023 Mi… ←(several paths)– (GC root)`   |
+|  1.3% | 7.04 KiB |     1 | `system / ExternalStringData ←.2 / backing_store– globalThis.buildAndRetainDom = (\n  data,\n  passes… ←(several paths)– (GC root)` |
+| <0.1% |     65 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/node_modules/d3/dist/d3.mi… ←(several paths)– (GC root)`   |
+| <0.1% |     47 B |     1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/workload.mjs ←(several paths)– (GC root)`                  |
+| <0.1% |     44 B |     1 | `system / ExternalStringData ←.1 / backing_store– puppeteer___ariaQuerySelectorAll ←(several paths)– (GC root)`                     |
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                                                                                                               |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------ |
-| 76.8% |  386 KiB |    32 | `system / Context ← (GC root)`                                                                                     |
-|  2.8% | 14.1 KiB |    35 | `(shared function info) ←(several system / Context paths)– (GC root)`                                              |
-|  1.7% | 8.71 KiB |    13 | `system / Context ←(several paths)– Object`                                                                        |
-|  1.2% | 6.05 KiB |     1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
-|  1.2% | 6.05 KiB |     1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
+|     % |     Size | Nodes | Path                                                                                                                                           |
+| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| 56.0% |  282 KiB |    28 | `system / Context ←(several paths)– (GC root)`                                                                                                 |
+| 20.8% |  105 KiB |     4 | `system / Context ← (GC root)`                                                                                                                 |
+|  2.8% | 14.1 KiB |    35 | `(shared function info) ←(several system / Context paths)– (GC root)`                                                                          |
+|  1.4% | 7.14 KiB |     1 | `system / Context ←(several paths)– Object`                                                                                                    |
+|  1.2% | 6.05 KiB |     1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object ←(several paths)– (GC root)` |
 
 ##### `SVGSVGElement` (`<unknown>`)
 
-|     % |    Size | Nodes | Path                                                                                         |
-| ----: | ------: | ----: | -------------------------------------------------------------------------------------------- |
-| 99.8% | 480 KiB |     1 | `SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  0.2% |   780 B |     1 | `SVGSVGElement ← (GC root)`                                                                  |
-| <0.1% |    16 B |     1 | `SVGSVGElement ←[5]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                     |
-| <0.1% |    16 B |     1 | `SVGSVGElement ←.491– array`                                                                 |
+|     % |    Size | Nodes | Path                                                                                                 |
+| ----: | ------: | ----: | ---------------------------------------------------------------------------------------------------- |
+| 99.8% | 480 KiB |     1 | `SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`         |
+|  0.2% |   780 B |     1 | `SVGSVGElement ←(several paths)– (GC root)`                                                          |
+| <0.1% |    16 B |     1 | `SVGSVGElement ←[5]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)` |
+| <0.1% |    16 B |     1 | `SVGSVGElement ←.491– array`                                                                         |
 
 ##### `SVGGElement` (`<unknown>`)
 
@@ -697,23 +699,23 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                                                                                                                 |
-| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------- |
-| 94.8% |  103 KiB |     1 | `ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                           |
-|  1.9% | 2.05 KiB |     1 | `ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context`                                                           |
-|  1.5% | 1.57 KiB |     3 | `ArrayBuffer ← (GC root)`                                                                                            |
-|  0.3% |    308 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context` |
-|  0.3% |    308 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context` |
+|     % |     Size | Nodes | Path                                                                                                                                             |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 94.8% |  103 KiB |     1 | `ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                                                       |
+|  1.9% | 2.05 KiB |     1 | `ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context ←(several paths)– (GC root)`                                                           |
+|  1.5% | 1.57 KiB |     3 | `ArrayBuffer ←(several paths)– (GC root)`                                                                                                        |
+|  0.3% |    308 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context ←(several paths)– (GC root)` |
+|  0.3% |    308 B |     1 | `ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context ←(several paths)– (GC root)` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Nodes | Path                                                                                                                                                             |
-| ----: | ------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 96.7% | 103 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                           |
-|  1.9% |   2 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context`                                                           |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context` |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
-|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
+|     % |    Size | Nodes | Path                                                                                                                                                                                         |
+| ----: | ------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 96.7% | 103 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float32Array ←.e– system / Context`                                                                                       |
+|  1.9% |   2 KiB |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Uint32Array ←.Au– system / Context ←(several paths)– (GC root)`                                                           |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context ←(several paths)– (GC root)` |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context ←(several paths)– (GC root)` |
+|  0.2% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context ←(several paths)– (GC root)` |
 
 ##### `Float32Array` (`<unknown>`)
 
@@ -743,13 +745,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Window` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                             |
-| ----: | -------: | ----: | -------------------------------- |
-| 70.2% | 52.1 KiB |     2 | `Window ←(several paths)– array` |
-| 13.2% | 9.79 KiB |     1 | `Window ←.77– array`             |
-| 13.2% | 9.79 KiB |     1 | `Window ←.205– array`            |
-|  3.2% | 2.41 KiB |     4 | `Window ← (GC root)`             |
-|  0.1% |     56 B |     1 | `Window ←.76– array`             |
+|     % |     Size | Nodes | Path                                 |
+| ----: | -------: | ----: | ------------------------------------ |
+| 70.2% | 52.1 KiB |     2 | `Window ←(several paths)– array`     |
+| 13.2% | 9.79 KiB |     1 | `Window ←.77– array`                 |
+| 13.2% | 9.79 KiB |     1 | `Window ←.205– array`                |
+|  3.2% | 2.41 KiB |     4 | `Window ←(several paths)– (GC root)` |
+|  0.1% |     56 B |     1 | `Window ←.76– array`                 |
 
 ##### `Window / ://` (`<unknown>`)
 
@@ -793,9 +795,9 @@ Retainer paths with the largest contribution to each constructor's retained size
 | ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 92.4% | 26.7 KiB |    43 | `SVGLineElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  6.4% | 1.86 KiB |     3 | `SVGLineElement ←[7]– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.8% |    244 B |     1 | `SVGLineElement ← (GC root)`                                                                                                                                                  |
+|  0.8% |    244 B |     1 | `SVGLineElement ←(several paths)– (GC root)`                                                                                                                                  |
 |  0.2% |     72 B |     1 | `system / Map ←(several SVGLineElement paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                    |
-|  0.1% |     16 B |     1 | `SVGLineElement ←[7]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                                     |
+|  0.1% |     16 B |     1 | `SVGLineElement ←[7]– InternalNode ←[1]– InternalNode ←[1]– InternalNode ←(several paths)– (GC root)`                                                                         |
 
 ##### `SVGTitleElement` (`<unknown>`)
 
@@ -804,7 +806,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 97.2% | 27.9 KiB |    98 | `SVGTitleElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  1.0% |    292 B |     1 | `SVGTitleElement ←[8]– SVGGElement ←[4]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  1.0% |    292 B |     1 | `SVGTitleElement ←[8]– SVGGElement ←[3]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.5% |    148 B |     1 | `SVGTitleElement ← (GC root)`                                                                                                                                       |
+|  0.5% |    148 B |     1 | `SVGTitleElement ←(several paths)– (GC root)`                                                                                                                       |
 |  0.2% |     72 B |     1 | `system / Map ←(several SVGTitleElement paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`      |
 
 ##### `SVGAnimatedNumber` (`<unknown>`)
@@ -825,7 +827,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 10.3% | 1.57 KiB |     9 | `system / Map ←(several Qd paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  5.7% |    892 B |     5 | `Object ←(several Qd paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                   |
 |  1.8% |    280 B |     2 | `system / DescriptorArray ←(several Qd paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  0.9% |    148 B |     1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context`                                                                                  |
+|  0.9% |    148 B |     1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context ←(several paths)– (GC root)`                                                      |
 
 ##### `SVGAnimatedLengthList` (`<unknown>`)
 
@@ -855,33 +857,33 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Error` (`<unknown>`)
 
-|    % |  Size | Nodes | Path                                 |
-| ---: | ----: | ----: | ------------------------------------ |
-| 7.9% | 480 B |     3 | `Error ←.prototype– SuppressedError` |
-| 7.9% | 480 B |     3 | `Error ←.prototype– SuspendError`    |
-| 7.9% | 480 B |     3 | `Error ←.prototype– AggregateError`  |
-| 7.9% | 480 B |     3 | `Error ←.prototype– SyntaxError`     |
-| 7.9% | 480 B |     3 | `Error ←.prototype– TypeError`       |
+|    % |  Size | Nodes | Path                                                             |
+| ---: | ----: | ----: | ---------------------------------------------------------------- |
+| 7.9% | 480 B |     3 | `Error ←.prototype– SuppressedError ←(several paths)– (GC root)` |
+| 7.9% | 480 B |     3 | `Error ←.prototype– SuspendError ←(several paths)– (GC root)`    |
+| 7.9% | 480 B |     3 | `Error ←.prototype– AggregateError ←(several paths)– (GC root)`  |
+| 7.9% | 480 B |     3 | `Error ←.prototype– SyntaxError ←(several paths)– (GC root)`     |
+| 7.9% | 480 B |     3 | `Error ←.prototype– TypeError ←(several paths)– (GC root)`       |
 
 ##### `Document` (`<unknown>`)
 
-|      % |     Size | Nodes | Path                   |
-| -----: | -------: | ----: | ---------------------- |
-| 100.0% | 5.64 KiB |     1 | `Document ← (GC root)` |
+|      % |     Size | Nodes | Path                                   |
+| -----: | -------: | ----: | -------------------------------------- |
+| 100.0% | 5.64 KiB |     1 | `Document ←(several paths)– (GC root)` |
 
 ##### `HTMLDocument` (`<unknown>`)
 
 |     % |     Size | Nodes | Path                                                    |
 | ----: | -------: | ----: | ------------------------------------------------------- |
-| 98.2% | 5.21 KiB |     2 | `HTMLDocument ← (GC root)`                              |
+| 98.2% | 5.21 KiB |     2 | `HTMLDocument ←(several paths)– (GC root)`              |
 |  1.3% |     72 B |     1 | `system / Map ←(several HTMLDocument paths)– (GC root)` |
 |  0.3% |     16 B |     1 | `HTMLDocument ←.155– array`                             |
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |     Size | Nodes | Path                     |
-| -----: | -------: | ----: | ------------------------ |
-| 100.0% | 5.23 KiB |    36 | `TypedArray ← (GC root)` |
+|      % |     Size | Nodes | Path                                     |
+| -----: | -------: | ----: | ---------------------------------------- |
+| 100.0% | 5.23 KiB |    36 | `TypedArray ←(several paths)– (GC root)` |
 
 ##### `Date` (`<unknown>`)
 
@@ -889,18 +891,18 @@ Retainer paths with the largest contribution to each constructor's retained size
 | ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 97.1% | 5.08 KiB |   100 | `Date ←.created– Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                               |
 |  1.0% |     52 B |     1 | `Date ←.__data__– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.0% |     52 B |     1 | `Date ←.Xg– system / Context`                                                                                                                                 |
-|  1.0% |     52 B |     1 | `Date ←.Gg– system / Context`                                                                                                                                 |
+|  1.0% |     52 B |     1 | `Date ←.Xg– system / Context ←(several paths)– (GC root)`                                                                                                     |
+|  1.0% |     52 B |     1 | `Date ←.Gg– system / Context ←(several paths)– (GC root)`                                                                                                     |
 
 ##### `Map` (`<unknown>`)
 
-|     % |     Size | Nodes | Path                                                 |
-| ----: | -------: | ----: | ---------------------------------------------------- |
-| 54.8% | 2.81 KiB |     4 | `Map ← (GC root)`                                    |
-|  9.8% |    512 B |     1 | `Map ←.L– system / Context ←(several paths)– Object` |
-|  9.4% |    492 B |     1 | `Map ←.y– system / Context`                          |
-|  8.6% |    452 B |     1 | `Map ←._– system / Context`                          |
-|  5.6% |    292 B |     1 | `Map ←.h– system / Context`                          |
+|     % |     Size | Nodes | Path                                                    |
+| ----: | -------: | ----: | ------------------------------------------------------- |
+| 54.8% | 2.81 KiB |     4 | `Map ←(several paths)– (GC root)`                       |
+|  9.8% |    512 B |     1 | `Map ←.L– system / Context ←(several paths)– Object`    |
+|  9.4% |    492 B |     1 | `Map ←.y– system / Context ←(several paths)– (GC root)` |
+|  8.6% |    452 B |     1 | `Map ←._– system / Context ←(several paths)– (GC root)` |
+|  5.6% |    292 B |     1 | `Map ←.h– system / Context ←(several paths)– (GC root)` |
 
 ##### `Math` (`<unknown>`)
 
@@ -916,7 +918,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |      % |     Size | Nodes | Path                                            |
 | -----: | -------: | ----: | ----------------------------------------------- |
-| 100.0% | 4.79 KiB |     3 | `console ← (GC root)`                           |
+| 100.0% | 4.79 KiB |     3 | `console ←(several paths)– (GC root)`           |
 |   0.0% |      0 B |     1 | `context ←(several console paths)– (GC root)`   |
 |   0.0% |      0 B |     1 | `timeStamp ←(several console paths)– (GC root)` |
 |   0.0% |      0 B |     1 | `timeEnd ←(several console paths)– (GC root)`   |
@@ -924,15 +926,15 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `HTMLElement` (`<unknown>`)
 
-|      % |     Size | Nodes | Path                      |
-| -----: | -------: | ----: | ------------------------- |
-| 100.0% | 4.64 KiB |     1 | `HTMLElement ← (GC root)` |
+|      % |     Size | Nodes | Path                                      |
+| -----: | -------: | ----: | ----------------------------------------- |
+| 100.0% | 4.64 KiB |     1 | `HTMLElement ←(several paths)– (GC root)` |
 
 ##### `Intl.Locale` (`<unknown>`)
 
 |      % |     Size | Nodes | Path                                                          |
 | -----: | -------: | ----: | ------------------------------------------------------------- |
-| 100.0% | 4.48 KiB |     3 | `Intl.Locale ←.prototype– Locale`                             |
+| 100.0% | 4.48 KiB |     3 | `Intl.Locale ←.prototype– Locale ←(several paths)– (GC root)` |
 |   0.0% |      0 B |     1 | `getWeekInfo ←(several Intl.Locale paths)– (GC root)`         |
 |   0.0% |      0 B |     1 | `getTextInfo ←(several Intl.Locale paths)– (GC root)`         |
 |   0.0% |      0 B |     1 | `getTimeZones ←(several Intl.Locale paths)– (GC root)`        |
@@ -942,7 +944,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |      % |     Size | Nodes | Path                                                   |
 | -----: | -------: | ----: | ------------------------------------------------------ |
-| 100.0% | 4.34 KiB |     3 | `String ← (GC root)`                                   |
+| 100.0% | 4.34 KiB |     3 | `String ←(several paths)– (GC root)`                   |
 |   0.0% |      0 B |     1 | `[Symbol.iterator] ←(several String paths)– (GC root)` |
 |   0.0% |      0 B |     1 | `valueOf ←(several String paths)– (GC root)`           |
 |   0.0% |      0 B |     1 | `toLocaleUpperCase ←(several String paths)– (GC root)` |
@@ -952,7 +954,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |      % |     Size | Nodes | Path                                                |
 | -----: | -------: | ----: | --------------------------------------------------- |
-| 100.0% | 4.02 KiB |     3 | `DataView ← (GC root)`                              |
+| 100.0% | 4.02 KiB |     3 | `DataView ←(several paths)– (GC root)`              |
 |   0.0% |      0 B |     1 | `setBigUint64 ←(several DataView paths)– (GC root)` |
 |   0.0% |      0 B |     1 | `getBigUint64 ←(several DataView paths)– (GC root)` |
 |   0.0% |      0 B |     1 | `setBigInt64 ←(several DataView paths)– (GC root)`  |
@@ -960,9 +962,9 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `ye` (`./node_modules/d3/dist/d3.min.js:2:30261`)
 
-|      % |     Size | Nodes | Path             |
-| -----: | -------: | ----: | ---------------- |
-| 100.0% | 3.98 KiB |     5 | `ye ← (GC root)` |
+|      % |     Size | Nodes | Path                             |
+| -----: | -------: | ----: | -------------------------------- |
+| 100.0% | 3.98 KiB |     5 | `ye ←(several paths)– (GC root)` |
 
 ##### `SVGAnimatedNumberList` (`<unknown>`)
 
@@ -976,9 +978,9 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Element` (`<unknown>`)
 
-|      % |     Size | Nodes | Path                  |
-| -----: | -------: | ----: | --------------------- |
-| 100.0% | 3.42 KiB |     1 | `Element ← (GC root)` |
+|      % |     Size | Nodes | Path                                  |
+| -----: | -------: | ----: | ------------------------------------- |
+| 100.0% | 3.42 KiB |     1 | `Element ←(several paths)– (GC root)` |
 
 ##### `SVGAnimatedEnumeration` (`<unknown>`)
 
@@ -992,19 +994,19 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % |  Size | Nodes | Path                                                                                           |
-| ----: | ----: | ----: | ---------------------------------------------------------------------------------------------- |
-| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context` |
-| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context` |
-| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
-| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
-| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context` |
+|     % |  Size | Nodes | Path                                                                                                                       |
+| ----: | ----: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.Gh– system / Context ←(several paths)– (GC root)` |
+| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.ih– system / Context ←(several paths)– (GC root)` |
+| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context ←(several paths)– (GC root)` |
+| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context ←(several paths)– (GC root)` |
+| 13.3% | 368 B |     1 | `Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.as– system / Context ←(several paths)– (GC root)` |
 
 ##### `Uint32Array` (`<unknown>`)
 
-|      % |     Size | Nodes | Path                                 |
-| -----: | -------: | ----: | ------------------------------------ |
-| 100.0% | 2.11 KiB |     1 | `Uint32Array ←.Au– system / Context` |
+|      % |     Size | Nodes | Path                                                             |
+| -----: | -------: | ----: | ---------------------------------------------------------------- |
+| 100.0% | 2.11 KiB |     1 | `Uint32Array ←.Au– system / Context ←(several paths)– (GC root)` |
 
 ##### `Array Iterator` (`<unknown>`)
 
@@ -1019,25 +1021,25 @@ Functions with the most instance bytes, including nodes only the instances keep 
 
 |    % | Retained | Instances | Paths | Name          | Location                                    | Example path                                                                                                                                                                                                                   |
 | ---: | -------: | --------: | ----: | ------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1.0% |   31 KiB |         1 |     1 | `Su`          | `./node_modules/d3/dist/d3.min.js:2:82035`  | `Su ←.Su– system / Context`                                                                                                                                                                                                    |
-| 0.8% | 24.4 KiB |         4 |     4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:186157` | `(anonymous) ←.interpolateInferno– Object`                                                                                                                                                                                     |
-| 0.7% |   23 KiB |         1 |     1 | `qu`          | `./node_modules/d3/dist/d3.min.js:2:87903`  | `qu ← (GC root)`                                                                                                                                                                                                               |
-| 0.7% | 21.6 KiB |         1 |     1 | `update`      | `./node_modules/d3/dist/d3.min.js:2:82533`  | `update ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                                                                                    |
+| 1.0% |   31 KiB |         1 |     1 | `Su`          | `./node_modules/d3/dist/d3.min.js:2:82035`  | `Su ←.Su– system / Context ←(several paths)– (GC root)`                                                                                                                                                                        |
+| 0.8% | 24.4 KiB |         4 |     4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:186157` | `(anonymous) ←.interpolateInferno– Object ←(several paths)– (GC root)`                                                                                                                                                         |
+| 0.7% |   23 KiB |         1 |     1 | `qu`          | `./node_modules/d3/dist/d3.min.js:2:87903`  | `qu ←(several paths)– (GC root)`                                                                                                                                                                                               |
+| 0.7% | 21.6 KiB |         1 |     1 | `update`      | `./node_modules/d3/dist/d3.min.js:2:82533`  | `update ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                                                        |
 | 0.6% | 18.7 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  | `(anonymous) ← (GC root)`                                                                                                                                                                                                      |
-| 0.4% | 12.9 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:231984` | `(anonymous) ←.forceLink– Object`                                                                                                                                                                                              |
-| 0.4% | 12.7 KiB |         1 |     1 | `Lu`          | `./node_modules/d3/dist/d3.min.js:2:94637`  | `Lu ←.Delaunay– Object`                                                                                                                                                                                                        |
-| 0.4% |   12 KiB |        27 |    27 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:41766`  | `(anonymous) ←.interpolateBrBG– Object`                                                                                                                                                                                        |
-| 0.4% | 11.4 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:223060` | `(anonymous) ←.contourDensity– Object`                                                                                                                                                                                         |
-| 0.3% |   11 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:233399` | `(anonymous) ←.forceManyBody– Object`                                                                                                                                                                                          |
-| 0.3% |   11 KiB |         1 |     1 | `Q`           | `./node_modules/d3/dist/d3.min.js:2:6993`   | `Q ←.bin– Object`                                                                                                                                                                                                              |
-| 0.3% | 9.69 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:230973` | `(anonymous) ←.forceCollide– Object`                                                                                                                                                                                           |
-| 0.3% | 9.39 KiB |        81 |    81 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:40205`  | `(anonymous) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object`                                                                                            |
-| 0.3% | 9.22 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                                 | `(anonymous) ← (GC root)`                                                                                                                                                                                                      |
-| 0.3% | 8.99 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235388` | `(anonymous) ←.forceSimulation– Object`                                                                                                                                                                                        |
+| 0.4% | 12.9 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:231984` | `(anonymous) ←.forceLink– Object ←(several paths)– (GC root)`                                                                                                                                                                  |
+| 0.4% | 12.7 KiB |         1 |     1 | `Lu`          | `./node_modules/d3/dist/d3.min.js:2:94637`  | `Lu ←.Delaunay– Object ←(several paths)– (GC root)`                                                                                                                                                                            |
+| 0.4% |   12 KiB |        27 |    27 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:41766`  | `(anonymous) ←.interpolateBrBG– Object ←(several paths)– (GC root)`                                                                                                                                                            |
+| 0.4% | 11.4 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:223060` | `(anonymous) ←.contourDensity– Object ←(several paths)– (GC root)`                                                                                                                                                             |
+| 0.3% |   11 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:233399` | `(anonymous) ←.forceManyBody– Object ←(several paths)– (GC root)`                                                                                                                                                              |
+| 0.3% |   11 KiB |         1 |     1 | `Q`           | `./node_modules/d3/dist/d3.min.js:2:6993`   | `Q ←.bin– Object ←(several paths)– (GC root)`                                                                                                                                                                                  |
+| 0.3% | 9.69 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:230973` | `(anonymous) ←.forceCollide– Object ←(several paths)– (GC root)`                                                                                                                                                               |
+| 0.3% | 9.39 KiB |        81 |    81 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:40205`  | `(anonymous) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)`                                                                |
+| 0.3% | 9.22 KiB |        44 |    21 | `(anonymous)` | `<unknown>`                                 | `(anonymous) ←(several paths)– (GC root)`                                                                                                                                                                                      |
+| 0.3% | 8.99 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235388` | `(anonymous) ←.forceSimulation– Object ←(several paths)– (GC root)`                                                                                                                                                            |
 | 0.3% | 8.83 KiB |         3 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:11875`  | `(anonymous) ←.__axis– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                               |
 | 0.3% | 8.69 KiB |         3 |     1 | `l`           | `./node_modules/d3/dist/d3.min.js:2:155044` | `l ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:11875) ←.__axis– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-| 0.3% |  8.4 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:94865`  | `_init ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                                                                                          |
-| 0.2% | 7.95 KiB |        27 |     9 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037` | `i ← (GC root)`                                                                                                                                                                                                                |
+| 0.3% |  8.4 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:94865`  | `_init ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                                                              |
+| 0.2% | 7.95 KiB |        27 |     9 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037` | `i ←(several paths)– (GC root)`                                                                                                                                                                                                |
 | 0.2% | 7.89 KiB |        14 |    14 | `safe`        | `extensions::SafeBuiltins:26:22`            | `safe ←.<symbol extensions::SafeBuiltins::Array>– Window / http://127.0.0.1:52789`                                                                                                                                             |
 
 ### Retained nodes
@@ -1046,153 +1048,153 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `Su` (`./node_modules/d3/dist/d3.min.js:2:82035`)
 
-|     % |     Self | Name                                 | Location    | Path                                                                                                                                                                                                                                                                                                                  |
-| ----: | -------: | ------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 44.7% | 13.8 KiB | `(instruction stream for update)`    | `<unknown>` | `(instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                              |
-|  8.9% | 2.75 KiB | `system / BytecodeArray`             | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                         |
-|  8.1% |  2.5 KiB | `(instruction stream for _legalize)` | `<unknown>` | `(instruction stream for _legalize) ←.instruction_stream– (code for _legalize) ←.trusted_function_data– _legalize ←.shared– _legalize (./node_modules/d3/dist/d3.min.js:2:85298) ←._legalize– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                               |
-|  6.2% | 1.93 KiB | `system / FeedbackVector`            | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                                                        |
-|  2.8% |    892 B | `system / TrustedByteArray`          | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context` |
+|     % |     Self | Name                                 | Location    | Path                                                                                                                                                                                                                                                                                                                                              |
+| ----: | -------: | ------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 44.7% | 13.8 KiB | `(instruction stream for update)`    | `<unknown>` | `(instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                              |
+|  8.9% | 2.75 KiB | `system / BytecodeArray`             | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                         |
+|  8.1% |  2.5 KiB | `(instruction stream for _legalize)` | `<unknown>` | `(instruction stream for _legalize) ←.instruction_stream– (code for _legalize) ←.trusted_function_data– _legalize ←.shared– _legalize (./node_modules/d3/dist/d3.min.js:2:85298) ←._legalize– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                               |
+|  6.2% | 1.93 KiB | `system / FeedbackVector`            | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                                                        |
+|  2.8% |    892 B | `system / TrustedByteArray`          | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)` |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:186157`)
 
-|    % |     Self | Name                 | Location    | Path                                                                                                                                                        |
-| ---: | -------: | -------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateViridis– Object` |
-| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
-| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
-| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
-| 0.2% |     56 B | `system / ScopeInfo` | `<unknown>` | `system / ScopeInfo ←(several (anonymous) paths)– Object`                                                                                                   |
+|    % |     Self | Name                 | Location    | Path                                                                                                                                                                                    |
+| ---: | -------: | -------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateViridis– Object ←(several paths)– (GC root)` |
+| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object ←(several paths)– (GC root)`  |
+| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object ←(several paths)– (GC root)`   |
+| 4.1% | 1.01 KiB | `(object elements)`  | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object ←(several paths)– (GC root)` |
+| 0.2% |     56 B | `system / ScopeInfo` | `<unknown>` | `system / ScopeInfo ←(several (anonymous) paths)– Object ←(several paths)– (GC root)`                                                                                                   |
 
 #### `qu` (`./node_modules/d3/dist/d3.min.js:2:87903`)
 
-|     % |     Self | Name                                      | Location    | Path                                                                                                                                                                                                                                                                            |
-| ----: | -------: | ----------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 19.8% | 4.56 KiB | `(instruction stream for _init)`          | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                    |
-| 15.1% | 3.47 KiB | `(instruction stream for _clipSegment)`   | `<unknown>` | `(instruction stream for _clipSegment) ←.instruction_stream– (code for _clipSegment) ←.trusted_function_data– _clipSegment ←.shared– _clipSegment (./node_modules/d3/dist/d3.min.js:2:92064) ←._clipSegment– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)` |
-| 10.3% | 2.38 KiB | `(instruction stream for render)`         | `<unknown>` | `(instruction stream for render) ←.instruction_stream– (code for render) ←.trusted_function_data– render ←.shared– render (./node_modules/d3/dist/d3.min.js:2:88990) ←.render– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                               |
-|  3.9% |    908 B | `system / BytecodeArray`                  | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                              |
-|  3.4% |    800 B | `(instruction stream for _renderSegment)` | `<unknown>` | `(instruction stream for _renderSegment) ←.instruction_stream– (code for _renderSegment) ←.code– _renderSegment (./node_modules/d3/dist/d3.min.js:2:90138) ←._renderSegment– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                 |
+|     % |     Self | Name                                      | Location    | Path                                                                                                                                                                                                                                                                                                        |
+| ----: | -------: | ----------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 19.8% | 4.56 KiB | `(instruction stream for _init)`          | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903) ←(several paths)– (GC root)`                                    |
+| 15.1% | 3.47 KiB | `(instruction stream for _clipSegment)`   | `<unknown>` | `(instruction stream for _clipSegment) ←.instruction_stream– (code for _clipSegment) ←.trusted_function_data– _clipSegment ←.shared– _clipSegment (./node_modules/d3/dist/d3.min.js:2:92064) ←._clipSegment– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903) ←(several paths)– (GC root)` |
+| 10.3% | 2.38 KiB | `(instruction stream for render)`         | `<unknown>` | `(instruction stream for render) ←.instruction_stream– (code for render) ←.trusted_function_data– render ←.shared– render (./node_modules/d3/dist/d3.min.js:2:88990) ←.render– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903) ←(several paths)– (GC root)`                               |
+|  3.9% |    908 B | `system / BytecodeArray`                  | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903) ←(several paths)– (GC root)`                                              |
+|  3.4% |    800 B | `(instruction stream for _renderSegment)` | `<unknown>` | `(instruction stream for _renderSegment) ←.instruction_stream– (code for _renderSegment) ←.code– _renderSegment (./node_modules/d3/dist/d3.min.js:2:90138) ←._renderSegment– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903) ←(several paths)– (GC root)`                                 |
 
 #### `update` (`./node_modules/d3/dist/d3.min.js:2:82533`)
 
-|     % |     Self | Name                              | Location    | Path                                                                                                                                                                                                                                                                                                                  |
-| ----: | -------: | --------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 64.0% | 13.8 KiB | `(instruction stream for update)` | `<unknown>` | `(instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                              |
-| 12.7% | 2.75 KiB | `system / BytecodeArray`          | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                         |
-|  8.9% | 1.93 KiB | `system / FeedbackVector`         | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                                                        |
-|  4.0% |    892 B | `system / TrustedByteArray`       | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context` |
-|  3.9% |    872 B | `system / TrustedByteArray`       | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                 |
+|     % |     Self | Name                              | Location    | Path                                                                                                                                                                                                                                                                                                                                              |
+| ----: | -------: | --------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 64.0% | 13.8 KiB | `(instruction stream for update)` | `<unknown>` | `(instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                              |
+| 12.7% | 2.75 KiB | `system / BytecodeArray`          | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                         |
+|  8.9% | 1.93 KiB | `system / FeedbackVector`         | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                                                        |
+|  4.0% |    892 B | `system / TrustedByteArray`       | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for update) ←.instruction_stream– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)` |
+|  3.9% |    872 B | `system / TrustedByteArray`       | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for update) ←.trusted_function_data– update ←.shared– update (./node_modules/d3/dist/d3.min.js:2:82533) ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context ←(several paths)– (GC root)`                                                 |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:77113`)
 
-|     % |     Self | Name                           | Location    | Path                                                                                                                                                                |
-| ----: | -------: | ------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 60.6% | 11.3 KiB | `code`                         | `<unknown>` | `code ←.instruction_stream– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                                                                  |
-| 24.6% |  4.6 KiB | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ←.<dummy>– system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`    |
-| 12.0% | 2.25 KiB | `system / ProtectedFixedArray` | `<unknown>` | `system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                                         |
-|  1.0% |    196 B | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ←.relocation_info– code ←.instruction_stream– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                     |
-|  0.9% |    168 B | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ←.(Builtins)– system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)` |
+|     % |     Self | Name                           | Location    | Path                                                                                                                                                    |
+| ----: | -------: | ------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 60.6% | 11.3 KiB | `code`                         | `<unknown>` | `code ←.instruction_stream– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                                                      |
+| 24.6% |  4.6 KiB | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ← system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)` |
+| 12.0% | 2.25 KiB | `system / ProtectedFixedArray` | `<unknown>` | `system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`                             |
+|  1.0% |    196 B | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ←.relocation_info– code ←.instruction_stream– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)`         |
+|  0.9% |    168 B | `system / TrustedByteArray`    | `<unknown>` | `system / TrustedByteArray ← system / ProtectedFixedArray ←.deoptimization_data– (code) ←.code– (anonymous) (./node_modules/d3/dist/d3.min.js:2:77113)` |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:231984`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                     |
-| ----: | -------: | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 21.4% | 2.75 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object` |
-| 15.3% | 1.97 KiB | `(instruction stream for l)` | `<unknown>` | `(instruction stream for l) ←.instruction_stream– (code for l) ←.trusted_function_data– l ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object` |
-|  4.6% |    608 B | `(instruction stream for d)` | `<unknown>` | `(instruction stream for d) ←.instruction_stream– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object` |
-|  4.6% |    608 B | `(instruction stream for p)` | `<unknown>` | `(instruction stream for p) ←.instruction_stream– (code for p) ←.trusted_function_data– p ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object` |
-|  3.2% |    424 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object`       |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                 |
+| ----: | -------: | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 21.4% | 2.75 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object ←(several paths)– (GC root)` |
+| 15.3% | 1.97 KiB | `(instruction stream for l)` | `<unknown>` | `(instruction stream for l) ←.instruction_stream– (code for l) ←.trusted_function_data– l ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object ←(several paths)– (GC root)` |
+|  4.6% |    608 B | `(instruction stream for d)` | `<unknown>` | `(instruction stream for d) ←.instruction_stream– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object ←(several paths)– (GC root)` |
+|  4.6% |    608 B | `(instruction stream for p)` | `<unknown>` | `(instruction stream for p) ←.instruction_stream– (code for p) ←.trusted_function_data– p ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object ←(several paths)– (GC root)` |
+|  3.2% |    424 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:231984) ←.forceLink– Object ←(several paths)– (GC root)`       |
 
 #### `Lu` (`./node_modules/d3/dist/d3.min.js:2:94637`)
 
-|     % |     Self | Name                             | Location    | Path                                                                                                                                                                                                                                                                                                         |
-| ----: | -------: | -------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 35.9% | 4.56 KiB | `(instruction stream for _init)` | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                              |
-|  7.2% |    936 B | `system / BytecodeArray`         | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                        |
-|  6.5% |    848 B | `system / FeedbackVector`        | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                                                     |
-|  6.4% |    832 B | `(BASELINE instruction stream)`  | `<unknown>` | `(BASELINE instruction stream) ←.instruction_stream– (BASELINE code) ←.trusted_function_data– (shared function info) ←(several paths)– from (./node_modules/d3/dist/d3.min.js:2:94301) ←.from– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                             |
-|  3.0% |    392 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object` |
+|     % |     Self | Name                             | Location    | Path                                                                                                                                                                                                                                                                                                                                     |
+| ----: | -------: | -------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 35.9% | 4.56 KiB | `(instruction stream for _init)` | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                              |
+|  7.2% |    936 B | `system / BytecodeArray`         | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                        |
+|  6.5% |    848 B | `system / FeedbackVector`        | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                                                     |
+|  6.4% |    832 B | `(BASELINE instruction stream)`  | `<unknown>` | `(BASELINE instruction stream) ←.instruction_stream– (BASELINE code) ←.trusted_function_data– (shared function info) ←(several paths)– from (./node_modules/d3/dist/d3.min.js:2:94301) ←.from– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                             |
+|  3.0% |    392 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)` |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:41766`)
 
-|    % | Self | Name                       | Location    | Path                                                                                                                                                                                                                                                |
-| ---: | ---: | -------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 68 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←(several (anonymous) paths)– Object`                                                                                                                                                         |
-| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object`   |
+|    % | Self | Name                       | Location    | Path                                                                                                                                                                                                                                                                            |
+| ---: | ---: | -------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.6% | 68 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←(several (anonymous) paths)– Object ←(several paths)– (GC root)`                                                                                                                                                         |
+| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.4% | 52 B | `(object elements)`        | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object ←(several paths)– (GC root)`   |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:223060`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                                   |
-| ----: | -------: | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 25.2% | 2.88 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object`                                          |
-|  5.5% |    648 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object`                                                |
-|  4.1% |    480 B | `(instruction stream for v)` | `<unknown>` | `(instruction stream for v) ←.instruction_stream– (code for v) ←.trusted_function_data– v ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object`                                          |
-|  4.0% |    464 B | `system / FeedbackVector`    | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.<dummy>– system / ClosureFeedbackCellArray ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object` |
-|  2.5% |    292 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object`                                                                    |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                                                      |
+| ----: | -------: | ---------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 25.2% | 2.88 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object ←(several paths)– (GC root)`                                 |
+|  5.5% |    648 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object ←(several paths)– (GC root)`                                       |
+|  4.1% |    480 B | `(instruction stream for v)` | `<unknown>` | `(instruction stream for v) ←.instruction_stream– (code for v) ←.trusted_function_data– v ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object ←(several paths)– (GC root)`                                 |
+|  4.0% |    464 B | `system / FeedbackVector`    | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ← system / ClosureFeedbackCellArray ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object ←(several paths)– (GC root)` |
+|  2.5% |    292 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:223060) ←.contourDensity– Object ←(several paths)– (GC root)`                                                           |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:233399`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                         |
-| ----: | -------: | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 23.2% | 2.56 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object` |
-| 13.0% | 1.44 KiB | `(instruction stream for l)` | `<unknown>` | `(instruction stream for l) ←.instruction_stream– (code for l) ←.trusted_function_data– l ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object` |
-|  7.6% |    864 B | `(instruction stream for f)` | `<unknown>` | `(instruction stream for f) ←.instruction_stream– (code for f) ←.trusted_function_data– f ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object` |
-|  6.8% |    768 B | `(instruction stream for s)` | `<unknown>` | `(instruction stream for s) ←.instruction_stream– (code for s) ←.trusted_function_data– s ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object` |
-|  4.7% |    536 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object`       |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                     |
+| ----: | -------: | ---------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 23.2% | 2.56 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object ←(several paths)– (GC root)` |
+| 13.0% | 1.44 KiB | `(instruction stream for l)` | `<unknown>` | `(instruction stream for l) ←.instruction_stream– (code for l) ←.trusted_function_data– l ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object ←(several paths)– (GC root)` |
+|  7.6% |    864 B | `(instruction stream for f)` | `<unknown>` | `(instruction stream for f) ←.instruction_stream– (code for f) ←.trusted_function_data– f ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object ←(several paths)– (GC root)` |
+|  6.8% |    768 B | `(instruction stream for s)` | `<unknown>` | `(instruction stream for s) ←.instruction_stream– (code for s) ←.trusted_function_data– s ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object ←(several paths)– (GC root)` |
+|  4.7% |    536 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:233399) ←.forceManyBody– Object ←(several paths)– (GC root)`       |
 
 #### `Q` (`./node_modules/d3/dist/d3.min.js:2:6993`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                |
-| ----: | -------: | ---------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 59.5% | 6.56 KiB | `(instruction stream for r)` | `<unknown>` | `(instruction stream for r) ←.instruction_stream– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object`                                              |
-| 10.5% | 1.16 KiB | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object`                                                    |
-|  7.5% |    852 B | `system / FeedbackVector`    | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.<dummy>– system / ClosureFeedbackCellArray ←.value– system / FeedbackCell ←.feedback_cell– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object`     |
-|  4.3% |    488 B | `system / TrustedByteArray`  | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object`                                            |
-|  4.2% |    476 B | `system / TrustedByteArray`  | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for r) ←.instruction_stream– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object` |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                                            |
+| ----: | -------: | ---------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 59.5% | 6.56 KiB | `(instruction stream for r)` | `<unknown>` | `(instruction stream for r) ←.instruction_stream– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object ←(several paths)– (GC root)`                                              |
+| 10.5% | 1.16 KiB | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object ←(several paths)– (GC root)`                                                    |
+|  7.5% |    852 B | `system / FeedbackVector`    | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ← system / ClosureFeedbackCellArray ←.value– system / FeedbackCell ←.feedback_cell– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object ←(several paths)– (GC root)`              |
+|  4.3% |    488 B | `system / TrustedByteArray`  | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object ←(several paths)– (GC root)`                                            |
+|  4.2% |    476 B | `system / TrustedByteArray`  | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for r) ←.instruction_stream– (code for r) ←.trusted_function_data– r ←(several paths)– Q (./node_modules/d3/dist/d3.min.js:2:6993) ←.bin– Object ←(several paths)– (GC root)` |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:230973`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                        |
-| ----: | -------: | ---------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 18.1% | 1.75 KiB | `(instruction stream for g)` | `<unknown>` | `(instruction stream for g) ←.instruction_stream– (code for g) ←.trusted_function_data– g ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object` |
-| 17.7% | 1.72 KiB | `(instruction stream for a)` | `<unknown>` | `(instruction stream for a) ←.instruction_stream– (code for a) ←.trusted_function_data– a ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object` |
-|  7.7% |    768 B | `(instruction stream for u)` | `<unknown>` | `(instruction stream for u) ←.instruction_stream– (code for u) ←.trusted_function_data– u ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object` |
-|  7.7% |    768 B | `(instruction stream for c)` | `<unknown>` | `(instruction stream for c) ←.instruction_stream– (code for c) ←.trusted_function_data– c ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object` |
-|  4.3% |    428 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for g) ←.trusted_function_data– g ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object`       |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                    |
+| ----: | -------: | ---------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 18.1% | 1.75 KiB | `(instruction stream for g)` | `<unknown>` | `(instruction stream for g) ←.instruction_stream– (code for g) ←.trusted_function_data– g ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object ←(several paths)– (GC root)` |
+| 17.7% | 1.72 KiB | `(instruction stream for a)` | `<unknown>` | `(instruction stream for a) ←.instruction_stream– (code for a) ←.trusted_function_data– a ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object ←(several paths)– (GC root)` |
+|  7.7% |    768 B | `(instruction stream for u)` | `<unknown>` | `(instruction stream for u) ←.instruction_stream– (code for u) ←.trusted_function_data– u ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object ←(several paths)– (GC root)` |
+|  7.7% |    768 B | `(instruction stream for c)` | `<unknown>` | `(instruction stream for c) ←.instruction_stream– (code for c) ←.trusted_function_data– c ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object ←(several paths)– (GC root)` |
+|  4.3% |    428 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for g) ←.trusted_function_data– g ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:230973) ←.forceCollide– Object ←(several paths)– (GC root)`       |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:40205`)
 
-|    % | Self | Name                | Location    | Path                                                                                                                                                                                                                                                |
-| ---: | ---: | ------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
-| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object`   |
-| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object`   |
+|    % | Self | Name                | Location    | Path                                                                                                                                                                                                                                                                            |
+| ---: | ---: | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object ←(several paths)– (GC root)` |
+| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.u– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object ←(several paths)– (GC root)`   |
+| 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object ←(several paths)– (GC root)`   |
 
 #### `(anonymous)` (`<unknown>`)
 
 |     % |     Self | Name                                                   | Location    | Path                                                                                                                                                                                                |
 | ----: | -------: | ------------------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 18.7% | 1.72 KiB | `(function addPageBinding(type, name, prefix) {\n  …`  | `<unknown>` | `(function addPageBinding(type, name, prefix) {\n  … ←.source– code ←.script– (shared function info) ←(several (anonymous) paths)– Window / http://127.0.0.1:52789`                                 |
-|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
-|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
-|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
+|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous) ←(several paths)– (GC root)`                                                                                               |
+|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous) ←(several paths)– (GC root)`                                                                                               |
+|  1.5% |    140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous) ←(several paths)– (GC root)`                                                                                               |
 |  1.1% |    104 B | `(function anonymous(\n) {\nreturn () => typeof glob…` | `<unknown>` | `(function anonymous(\n) {\nreturn () => typeof glob… ←.source– code ←.script– (shared function info) ←.shared– (anonymous) ←.6– array ←.table– Map ←.L– system / Context ←(several paths)– Object` |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:235388`)
 
-|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                           |
-| ----: | -------: | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 18.8% | 1.69 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object` |
-| 17.4% | 1.56 KiB | `(instruction stream for d)` | `<unknown>` | `(instruction stream for d) ←.instruction_stream– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object` |
-|  3.3% |    304 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object`                           |
-|  3.0% |    276 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object`       |
-|  2.8% |    260 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object`       |
+|     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                       |
+| ----: | -------: | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 18.8% | 1.69 KiB | `(instruction stream for h)` | `<unknown>` | `(instruction stream for h) ←.instruction_stream– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)` |
+| 17.4% | 1.56 KiB | `(instruction stream for d)` | `<unknown>` | `(instruction stream for d) ←.instruction_stream– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)` |
+|  3.3% |    304 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)`                           |
+|  3.0% |    276 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for d) ←.trusted_function_data– d ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)`       |
+|  2.8% |    260 B | `system / BytecodeArray`     | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for h) ←.trusted_function_data– h ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)`       |
 
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:11875`)
 
@@ -1216,23 +1218,23 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `_init` (`./node_modules/d3/dist/d3.min.js:2:94865`)
 
-|     % |     Self | Name                             | Location    | Path                                                                                                                                                                                                                                                                                                         |
-| ----: | -------: | -------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 54.3% | 4.56 KiB | `(instruction stream for _init)` | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                              |
-| 10.9% |    936 B | `system / BytecodeArray`         | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                        |
-|  9.9% |    848 B | `system / FeedbackVector`        | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                                                     |
-|  4.6% |    392 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object` |
-|  4.1% |    356 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                |
+|     % |     Self | Name                             | Location    | Path                                                                                                                                                                                                                                                                                                                                     |
+| ----: | -------: | -------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.3% | 4.56 KiB | `(instruction stream for _init)` | `<unknown>` | `(instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                              |
+| 10.9% |    936 B | `system / BytecodeArray`         | `<unknown>` | `system / BytecodeArray ←.interpreter_data– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                        |
+|  9.9% |    848 B | `system / FeedbackVector`        | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                                                     |
+|  4.6% |    392 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)` |
+|  4.1% |    356 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object ←(several paths)– (GC root)`                                                |
 
 #### `i` (`./node_modules/d3/dist/d3.min.js:2:159037`)
 
-|    % |  Self | Name                       | Location    | Path                                                                                                                                              |
-| ---: | ----: | -------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.0% | 164 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←(several i paths)– (GC root)`                                                              |
-| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:159886) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162441) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162824) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.5% |  40 B | `system / Map`             | `<unknown>` | `system / Map ←(several i paths)– (GC root)`                                                                                                      |
+|    % |  Self | Name                       | Location    | Path                                                                                                                                                                          |
+| ---: | ----: | -------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2.0% | 164 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←(several i paths)– (GC root)`                                                                                          |
+| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:159886) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037) ←(several paths)– (GC root)` |
+| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162441) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037) ←(several paths)– (GC root)` |
+| 0.6% |  48 B | `(shared function info)`   | `<unknown>` | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162824) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037) ←(several paths)– (GC root)` |
+| 0.5% |  40 B | `system / Map`             | `<unknown>` | `system / Map ←(several i paths)– (GC root)`                                                                                                                                  |
 
 #### `safe` (`extensions::SafeBuiltins:26:22`)
 
@@ -1257,47 +1259,47 @@ Categories accounting for at least 1.0% of self size.
 |     % |     Size | Value                                                    | Path                                                                                                                                                    |
 | ----: | -------: | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  0.3% | 9.54 KiB | `(() => {\n      const module = {};\n      "use stri…`   | `(() => {\n      const module = {};\n      "use stri… ←.source– code ←(several paths)– Object`                                                          |
-|  0.1% | 3.15 KiB | `(function() {\n'use strict';\nnative function Apply…`   | `(function() {\n'use strict';\nnative function Apply… ← (GC root)`                                                                                      |
+|  0.1% | 3.15 KiB | `(function() {\n'use strict';\nnative function Apply…`   | `(function() {\n'use strict';\nnative function Apply… ←(several paths)– (GC root)`                                                                      |
 |  0.1% | 1.72 KiB | `(function addPageBinding(type, name, prefix) {\n  …`    | `(function addPageBinding(type, name, prefix) {\n  … ←.source– code ←.script– (shared function info) ←(several paths)– Window / http://127.0.0.1:52789` |
-| <0.1% |    332 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの… ← (GC root)`                                                                                        |
-| <0.1% |    332 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中… ← (GC root)`                                                                                        |
-| <0.1% |    332 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま… ← (GC root)`                                                                                        |
-| <0.1% |    328 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔… ← (GC root)`                                                                                        |
-| <0.1% |    324 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         … ← (GC root)`                                                                                        |
-| <0.1% |    312 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに… ← (GC root)`                                                                                        |
-| <0.1% |    304 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD… ← (GC root)`                                                                                        |
-| <0.1% |    300 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／… ← (GC root)`                                                                                        |
-| <0.1% |    300 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み… ← (GC root)`                                                                                    |
-| <0.1% |    296 B | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印…`  | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印… ← (GC root)`                                                                                     |
-| <0.1% |    296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願… ← (GC root)`                                                                                       |
-| <0.1% |    292 B | `RT @oen_yakyu: ●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる…`   | `RT @oen_yakyu: ●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる… ← (GC root)`                                                                                      |
-| <0.1% |    292 B | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか…`    | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか… ← (GC root)`                                                                                       |
-| <0.1% |    292 B | `@kohecyan3 \n名前:上野滉平\n呼び方:うえの\n呼ばれ方:ずるかわ\n第一印象:過剰な俺イケ…` | `@kohecyan3 \n名前:上野滉平\n呼び方:うえの\n呼ばれ方:ずるかわ\n第一印象:過剰な俺イケ… ← (GC root)`                                                                                    |
-| <0.1% |    292 B | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1…`     | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1… ← (GC root)`                                                                                        |
-| <0.1% |    292 B | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印…` | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印… ← (GC root)`                                                                                    |
-| <0.1% |    292 B | `RT @assam_house: 泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働…`     | `RT @assam_house: 泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働… ← (GC root)`                                                                                        |
+| <0.1% |    332 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    332 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    332 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    328 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    324 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         … ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    312 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    304 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    300 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    300 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み… ←(several paths)– (GC root)`                                                                    |
+| <0.1% |    296 B | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印…`  | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印… ←(several paths)– (GC root)`                                                                     |
+| <0.1% |    296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願… ←(several paths)– (GC root)`                                                                       |
+| <0.1% |    292 B | `RT @oen_yakyu: ●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる…`   | `RT @oen_yakyu: ●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる… ←(several paths)– (GC root)`                                                                      |
+| <0.1% |    292 B | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか…`    | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか… ←(several paths)– (GC root)`                                                                       |
+| <0.1% |    292 B | `@kohecyan3 \n名前:上野滉平\n呼び方:うえの\n呼ばれ方:ずるかわ\n第一印象:過剰な俺イケ…` | `@kohecyan3 \n名前:上野滉平\n呼び方:うえの\n呼ばれ方:ずるかわ\n第一印象:過剰な俺イケ… ←(several paths)– (GC root)`                                                                    |
+| <0.1% |    292 B | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1…`     | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1… ←(several paths)– (GC root)`                                                                        |
+| <0.1% |    292 B | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印…` | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印… ←(several paths)– (GC root)`                                                                    |
+| <0.1% |    292 B | `RT @assam_house: 泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働…`     | `RT @assam_house: 泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働… ←(several paths)– (GC root)`                                                                        |
 
 #### Concatenated string
 
-|     % | Size | Value                   | Path                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ----: | ---: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info)`                                                                                                                                                                                                                                                                                                    |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info)`                                                                                                                                                                                                                                                                                                                                    |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ←.(Read-only roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)` |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ←.(Read-only roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                 |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ←.(Read-only roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ←.(Read-only roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ←.(Read-only roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383)`                                                                                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:226006) ←.curveMonotoneX– Object`                                                                                                                                                                                                                                         |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– eachBefore ←.shared– eachBefore (./node_modules/d3/dist/d3.min.js:2:141773) ←.eachBefore– Object`                                                                                                                                                                                                                                                          |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Global handles)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                       |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Global handles)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                                                       |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Micro tasks)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                          |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Micro tasks)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                                                          |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Shareable object cache)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                               |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Shareable object cache)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                                               |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Smi roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                            |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Smi roots)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                                                            |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.(Startup object cache)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object`                                                                                                                 |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.(Relocatable)– system / ScopeInfo ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object`                                                                                                                                                                                                                                                              |
-| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.<dummy>– system / UncompiledDataWithoutPreparseData ←.trusted_function_data– alphaTarget ←.(Traced handles)– (constant pool) ←.(GC roots)– system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object`                                                                                      |
+|     % | Size | Value                   | Path                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----: | ---: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←(several paths)– (GC root)`                                                                                                                                                                                                                                                            |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←(several paths)– (GC root)`                                                                                                                                                                                                                                                                                            |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383) ←(several paths)– (GC root)` |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383) ←(several paths)– (GC root)`                                 |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ←.second– (concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383) ←(several paths)– (GC root)`                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383) ←(several paths)– (GC root)`                                                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– Ym ←.shared– Ym (./node_modules/d3/dist/d3.min.js:2:194383) ←(several paths)– (GC root)`                                                                                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:226006) ←.curveMonotoneX– Object ←(several paths)– (GC root)`                                                                                                                                                                                                 |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– eachBefore ←.shared– eachBefore (./node_modules/d3/dist/d3.min.js:2:141773) ←.eachBefore– Object ←(several paths)– (GC root)`                                                                                                                                                                                                                  |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ←.second– (concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←.name_or_scope_info– (shared function info) ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:269658) ←.treemap– Object ←(several paths)– (GC root)`                                                                                                             |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / ScopeInfo ←(several paths)– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)`                                                                                                                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `(concatenated string) ← system / UncompiledDataWithoutPreparseData ←.trusted_function_data– alphaTarget ← (constant pool) ← system / BytecodeArray ←.trusted_function_data– (shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:235388) ←.forceSimulation– Object ←(several paths)– (GC root)`                                                                                     |

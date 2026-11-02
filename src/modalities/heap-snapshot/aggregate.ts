@@ -34,6 +34,7 @@ import type {
   HeapSnapshot,
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
+  NodeLabel,
   RetainerEdge,
   RetainerNode,
   UnresolvedHeapSnapshotNodeCategory,
@@ -50,7 +51,10 @@ export type AggregatedHeapSnapshot = {
 
   /** The summed self sizes of every node in the snapshot. */
   heldSize: number
+
+  /** The ordinals' upper bound, which counts a GC root the parser added. */
   nodeCount: number
+
   edgeCount: number
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
 
@@ -214,6 +218,7 @@ export type RetainerPathEdge =
  */
 export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
   readonly #nodeCount: number
+  readonly #addedGcRoot: boolean
   readonly #edgeCount: number
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
   readonly #selfSizeOf: (nodeOrdinal: number) => number
@@ -273,6 +278,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   public constructor(snapshot: HeapSnapshot) {
     const {
       nodeCount,
+      addedGcRoot = false,
       edgeCount,
       nodeAdjacencyGraph,
       selfSizeOf,
@@ -283,6 +289,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       unresolvedCategoryOf,
     } = snapshot
     this.#nodeCount = nodeCount
+    this.#addedGcRoot = addedGcRoot
     this.#edgeCount = edgeCount
     this.#nodeAdjacencyGraph = nodeAdjacencyGraph
     this.#selfSizeOf = selfSizeOf
@@ -476,6 +483,11 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const categoryOf = this.#newNodeCategorizer(categories)
     this.#categorizeNodes(categoryOf)
 
+    const nodeCategoryToStats = this.#nodeCategoryStats.aggregate(categories)
+    if (this.#addedGcRoot) {
+      nodeCategoryToStats.delete(`synthetic`)
+    }
+
     const nodeOf = this.#newNodeBuilder(categoryOf)
 
     return {
@@ -484,7 +496,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       heldSize: this.#heldSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
-      nodeCategoryToStats: this.#nodeCategoryStats.aggregate(categories),
+      nodeCategoryToStats,
       constructors: this.#constructors,
       functions: this.#functions,
       strings: this.#strings,
@@ -699,7 +711,19 @@ const computeRetainerHop = (
       break
     }
   }
-  return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
+  // A program's node retained through several retainers by the GC root keeps the
+  // step, because without it the path reads as the GC root holding the node
+  // directly.
+  const isGcRootThroughSeveralRetainers =
+    edge === SEVERAL_RETAINERS_EDGE &&
+    ordinalToImmediateDominatorOrdinal[dominatorOrdinal] === dominatorOrdinal &&
+    !isInternalNode(nodeOrdinal)
+  return {
+    dominatorOrdinal,
+    edge,
+    internal:
+      !isGcRootThroughSeveralRetainers && isInternalNode(dominatorOrdinal),
+  }
 }
 
 /** Wraps {@link retainerOf} to normalize each retainer's location. */
@@ -751,7 +775,7 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerName = (
-  { name, nameLocation }: { name?: string; nameLocation?: FileReference },
+  { name, nameLocation }: NodeLabel,
   options: FormattingProfileToMdOptions,
 ): string =>
   nameLocation ? formatSourceLocation(nameLocation, options) : (name ?? ``)

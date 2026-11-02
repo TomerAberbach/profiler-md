@@ -55,23 +55,23 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Object` (`<unknown>`)
 
-|  Change |       Delta |             % |                Size |     Nodes | Path                                               |
-| ------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------- |
-| +100.0% | +33.484 KiB | 18.8% → 21.5% |   33.5 KiB → 67 KiB | 100 → 200 | `Object ←.user– Object`                            |
-| +100.0% | +24.507 KiB | 13.8% → 15.7% |   24.5 KiB → 49 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
-|  +76.5% | +21.328 KiB | 15.7% → 15.8% | 27.9 KiB → 49.2 KiB | 223 → 323 | `Object ← (GC root)`                               |
-| +100.0% |  +14.89 KiB |   8.4% → 9.5% | 14.9 KiB → 29.8 KiB |  73 → 146 | `Object ←.retweeted_status– Object`                |
-| +100.0% |  +5.515 KiB |   3.1% → 3.5% |   5.52 KiB → 11 KiB | 100 → 200 | `Object ←.entities– Object`                        |
+|  Change |       Delta |             % |                Size |     Nodes | Path                                                                           |
+| ------: | ----------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------ |
+| +100.0% | +33.484 KiB | 18.8% → 21.5% |   33.5 KiB → 67 KiB | 100 → 200 | `Object ←.user– Object ←(several paths)– (GC root)`                            |
+| +100.0% | +24.507 KiB | 13.8% → 15.7% |   24.5 KiB → 49 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)` |
+|  +76.9% | +21.328 KiB | 15.6% → 15.7% | 27.7 KiB → 49.1 KiB | 220 → 320 | `Object ←(several paths)– (GC root)`                                           |
+| +100.0% |  +14.89 KiB |   8.4% → 9.5% | 14.9 KiB → 29.8 KiB |  73 → 146 | `Object ←.retweeted_status– Object ←(several paths)– (GC root)`                |
+| +100.0% |  +5.515 KiB |   3.1% → 3.5% |   5.52 KiB → 11 KiB | 100 → 200 | `Object ←.entities– Object ←(several paths)– (GC root)`                        |
 
 ##### `Array` (`<unknown>`)
 
-|  Change |      Delta |           % |                Size |     Nodes | Path                                                                           |
-| ------: | ---------: | ----------: | ------------------: | --------: | ------------------------------------------------------------------------------ |
-| +101.0% | +3.125 KiB | 8.0% → 8.7% | 3.09 KiB → 6.22 KiB |  99 → 199 | `Array ←.hashtags– Object ←.entities– Object`                                  |
-| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.symbols– Object ←.entities– Object`                                   |
-| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`                                      |
-| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object`                             |
-| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object` |
+|  Change |      Delta |           % |                Size |     Nodes | Path                                                                                                       |
+| ------: | ---------: | ----------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------- |
+| +101.0% | +3.125 KiB | 8.0% → 8.7% | 3.09 KiB → 6.22 KiB |  99 → 199 | `Array ←.hashtags– Object ←.entities– Object ←(several paths)– (GC root)`                                  |
+| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.symbols– Object ←.entities– Object ←(several paths)– (GC root)`                                   |
+| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object ←(several paths)– (GC root)`                                      |
+| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object ←(several paths)– (GC root)`                             |
+| +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object ←(several paths)– (GC root)` |
 
 ### Retained size
 
@@ -104,23 +104,23 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `Array` (`<unknown>`)
 
-|  Change |        Delta |            % |                Size |     Nodes | Path                                               |
-| ------: | -----------: | -----------: | ------------------: | --------: | -------------------------------------------------- |
-|     new | +443.359 KiB | 0.0% → 73.4% |       0 B → 443 KiB |   0 → 100 | `Object ←(several Array paths)– (GC root)`         |
-| +100.4% |   +25.39 KiB | 16.8% → 8.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object` |
-| +185.6% |   +8.789 KiB |  3.1% → 2.2% | 4.73 KiB → 13.5 KiB |   12 → 18 | `system / Map ←(several Array paths)– (GC root)`   |
-| +100.0% |   +6.914 KiB |  4.6% → 2.3% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`          |
-|  +87.2% |   +5.429 KiB |  4.1% → 1.9% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object`         |
+|  Change |        Delta |            % |                Size |     Nodes | Path                                                                           |
+| ------: | -----------: | -----------: | ------------------: | --------: | ------------------------------------------------------------------------------ |
+|     new | +443.359 KiB | 0.0% → 73.4% |       0 B → 443 KiB |   0 → 100 | `Object ←(several Array paths)– (GC root)`                                     |
+| +100.4% |   +25.39 KiB | 16.8% → 8.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object ←(several paths)– (GC root)` |
+| +185.6% |   +8.789 KiB |  3.1% → 2.2% | 4.73 KiB → 13.5 KiB |   12 → 18 | `system / Map ←(several Array paths)– (GC root)`                               |
+| +100.0% |   +6.914 KiB |  4.6% → 2.3% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object ←(several paths)– (GC root)`          |
+|  +87.2% |   +5.429 KiB |  4.1% → 1.9% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object ←(several paths)– (GC root)`         |
 
 ##### `Object` (`<unknown>`)
 
-|  Change |        Delta |             % |               Size |     Nodes | Path                                               |
-| ------: | -----------: | ------------: | -----------------: | --------: | -------------------------------------------------- |
-|  +50.0% | +446.281 KiB | 64.3% → 72.9% | 892 KiB → 1.31 MiB | 223 → 323 | `Object ← (GC root)`                               |
-| +100.0% |  +179.96 KiB | 13.0% → 19.6% |  180 KiB → 360 KiB |  73 → 146 | `Object ←.retweeted_status– Object`                |
-| +100.1% | +135.015 KiB |  9.7% → 14.7% |  135 KiB → 270 KiB | 100 → 200 | `Object ←.user– Object`                            |
-| +100.1% |  +99.359 KiB |  7.2% → 10.8% | 99.3 KiB → 199 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
-|  +98.9% |  +50.484 KiB |   3.7% → 5.5% |   51 KiB → 102 KiB | 100 → 200 | `Object ←.entities– Object`                        |
+|  Change |        Delta |             % |               Size |     Nodes | Path                                                                           |
+| ------: | -----------: | ------------: | -----------------: | --------: | ------------------------------------------------------------------------------ |
+|  +50.0% | +446.281 KiB | 64.3% → 72.9% | 892 KiB → 1.31 MiB | 220 → 320 | `Object ←(several paths)– (GC root)`                                           |
+| +100.0% |  +179.96 KiB | 13.0% → 19.6% |  180 KiB → 360 KiB |  73 → 146 | `Object ←.retweeted_status– Object ←(several paths)– (GC root)`                |
+| +100.1% | +135.015 KiB |  9.7% → 14.7% |  135 KiB → 270 KiB | 100 → 200 | `Object ←.user– Object ←(several paths)– (GC root)`                            |
+| +100.1% |  +99.359 KiB |  7.2% → 10.8% | 99.3 KiB → 199 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)` |
+|  +98.9% |  +50.484 KiB |   3.7% → 5.5% |   51 KiB → 102 KiB | 100 → 200 | `Object ←.entities– Object ←(several paths)– (GC root)`                        |
 
 ##### `system / Context` (`<unknown>`)
 
@@ -134,9 +134,9 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 Functions with the largest increase in instance bytes, including nodes only the instances keep alive.
 
-|  Change |  Delta |     % |     Retained | Instances | Paths | Name    | Location                   | Example path        |
-| ------: | -----: | ----: | -----------: | --------: | ----: | ------- | -------------------------- | ------------------- |
-| +154.5% | +136 B | <0.1% | 88 B → 224 B |         1 |     1 | `isURL` | `node:internal/url:770:15` | `isURL ← (GC root)` |
+|  Change |  Delta |     % |     Retained | Instances | Paths | Name    | Location                   | Example path                        |
+| ------: | -----: | ----: | -----------: | --------: | ----: | ------- | -------------------------- | ----------------------------------- |
+| +154.5% | +136 B | <0.1% | 88 B → 224 B |         1 |     1 | `isURL` | `node:internal/url:770:15` | `isURL ←(several paths)– (GC root)` |
 
 ### Retained nodes
 
@@ -156,25 +156,25 @@ Strings with the largest increase in bytes. Categories account for at least 1.0%
 
 #### String
 
-|  Change |       Delta |           % |                Size | Value                                                 | Path                                                                                                                                       |
-| ------: | ----------: | ----------: | ------------------: | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| +100.0% | +16.765 KiB | 0.3% → 0.6% | 16.8 KiB → 33.5 KiB | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`  | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object`                                                                        |
-| +100.0% | +16.765 KiB | 0.3% → 0.6% | 16.8 KiB → 33.5 KiB | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`  | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると… ←.text– Object ←.retweeted_status– Object`                                             |
-| +100.0% | +11.789 KiB | 0.2% → 0.4% | 11.8 KiB → 23.6 KiB | `ja`                                                  | `ja ←.lang– Object`                                                                                                                        |
-| +100.0% | +10.757 KiB | 0.2% → 0.4% | 10.8 KiB → 21.5 KiB | `https://abs.twimg.com/images/themes/theme1/bg.png`   | `https://abs.twimg.com/images/themes/theme1/bg.png ←.profile_background_image_url_https– Object ←.user– Object ←.retweeted_status– Object` |
-| +100.0% |  +9.968 KiB | 0.2% → 0.3% | 9.97 KiB → 19.9 KiB | `自分が幸せだと周りも幸せにできる！  \nそんな人生を精一杯生きるために必要な言葉をお届けします♪ …` | `自分が幸せだと周りも幸せにできる！  \nそんな人生を精一杯生きるために必要な言葉をお届けします♪ … ←.description– Object ←.user– Object ←.retweeted_status– Object`                      |
-| +100.0% |  +9.562 KiB | 0.2% → 0.3% | 9.56 KiB → 19.1 KiB | `http://abs.twimg.com/images/themes/theme1/bg.png`    | `http://abs.twimg.com/images/themes/theme1/bg.png ←.profile_background_image_url– Object ←.user– Object ←.retweeted_status– Object`        |
-| +100.0% |  +9.062 KiB | 0.2% → 0.3% | 9.06 KiB → 18.1 KiB | `<a href="https://twitter.com/shiawaseomamori" rel…`  | `<a href="https://twitter.com/shiawaseomamori" rel… ←.source– Object ←.retweeted_status– Object`                                           |
-| +100.0% |  +7.312 KiB | 0.1% → 0.3% | 7.31 KiB → 14.6 KiB | `C0DEED`                                              | `C0DEED ←.profile_sidebar_border_color– Object ←.user– Object ←.retweeted_status– Object`                                                  |
-| +100.0% |  +5.437 KiB | 0.1% → 0.2% | 5.44 KiB → 10.9 KiB | `http://pbs.twimg.com/profile_images/5017424376062…`  | `http://pbs.twimg.com/profile_images/5017424376062… ←.profile_image_url– Object ←.user– Object ←.retweeted_status– Object`                 |
-| +100.0% |  +5.437 KiB | 0.1% → 0.2% | 5.44 KiB → 10.9 KiB | `https://pbs.twimg.com/profile_images/501742437606…`  | `https://pbs.twimg.com/profile_images/501742437606… ←.profile_image_url_https– Object ←.user– Object ←.retweeted_status– Object`           |
-| +100.0% |  +4.531 KiB | 0.1% → 0.2% | 4.53 KiB → 9.06 KiB | `https://pbs.twimg.com/profile_banners/2745121514/…`  | `https://pbs.twimg.com/profile_banners/2745121514/… ←.profile_banner_url– Object ←.user– Object ←.retweeted_status– Object`                |
-| +100.0% |  +4.054 KiB |        0.1% | 4.05 KiB → 8.11 KiB | `recent`                                              | `recent ←.result_type– Object ←.metadata– Object`                                                                                          |
-| +100.0% |  +3.867 KiB |        0.1% | 3.87 KiB → 7.73 KiB | `333333`                                              | `333333 ←.profile_text_color– Object ←.user– Object ←.retweeted_status– Object`                                                            |
-| +100.0% |   +3.75 KiB |        0.1% |  3.75 KiB → 7.5 KiB | `DDEEF6`                                              | `DDEEF6 ←.profile_sidebar_fill_color– Object ←.user– Object ←.retweeted_status– Object`                                                    |
-| +100.0% |  +3.679 KiB |        0.1% | 3.68 KiB → 7.36 KiB | `0084B4`                                              | `0084B4 ←.profile_link_color– Object ←.user– Object`                                                                                       |
-| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `2745121514`                                          | `2745121514 ←.id_str– Object ←.user– Object ←.retweeted_status– Object`                                                                    |
-| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `幸せの☆お守り`                                             | `幸せの☆お守り ←.name– Object ←.user– Object ←.retweeted_status– Object`                                                                         |
-| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `shiawaseomamori`                                     | `shiawaseomamori ←.screen_name– Object ←.user– Object ←.retweeted_status– Object`                                                          |
-| +100.0% |  +2.718 KiB |        0.1% | 2.72 KiB → 5.44 KiB | `Sun Aug 31 00:16:06 +0000 2014`                      | `Sun Aug 31 00:16:06 +0000 2014 ←.created_at– Object ←.retweeted_status– Object`                                                           |
-| +100.0% |  +2.718 KiB |        0.1% | 2.72 KiB → 5.44 KiB | `Tue Aug 19 14:45:19 +0000 2014`                      | `Tue Aug 19 14:45:19 +0000 2014 ←.created_at– Object ←.user– Object ←.retweeted_status– Object`                                            |
+|  Change |       Delta |           % |                Size | Value                                                 | Path                                                                                                                                                                   |
+| ------: | ----------: | ----------: | ------------------: | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +100.0% | +16.765 KiB | 0.3% → 0.6% | 16.8 KiB → 33.5 KiB | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`  | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな… ←.text– Object ←(several paths)– (GC root)`                                                                        |
+| +100.0% | +16.765 KiB | 0.3% → 0.6% | 16.8 KiB → 33.5 KiB | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`  | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると… ←.text– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                             |
+| +100.0% | +11.789 KiB | 0.2% → 0.4% | 11.8 KiB → 23.6 KiB | `ja`                                                  | `ja ←.lang– Object ←(several paths)– (GC root)`                                                                                                                        |
+| +100.0% | +10.757 KiB | 0.2% → 0.4% | 10.8 KiB → 21.5 KiB | `https://abs.twimg.com/images/themes/theme1/bg.png`   | `https://abs.twimg.com/images/themes/theme1/bg.png ←.profile_background_image_url_https– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)` |
+| +100.0% |  +9.968 KiB | 0.2% → 0.3% | 9.97 KiB → 19.9 KiB | `自分が幸せだと周りも幸せにできる！  \nそんな人生を精一杯生きるために必要な言葉をお届けします♪ …` | `自分が幸せだと周りも幸せにできる！  \nそんな人生を精一杯生きるために必要な言葉をお届けします♪ … ←.description– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                      |
+| +100.0% |  +9.562 KiB | 0.2% → 0.3% | 9.56 KiB → 19.1 KiB | `http://abs.twimg.com/images/themes/theme1/bg.png`    | `http://abs.twimg.com/images/themes/theme1/bg.png ←.profile_background_image_url– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`        |
+| +100.0% |  +9.062 KiB | 0.2% → 0.3% | 9.06 KiB → 18.1 KiB | `<a href="https://twitter.com/shiawaseomamori" rel…`  | `<a href="https://twitter.com/shiawaseomamori" rel… ←.source– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                           |
+| +100.0% |  +7.312 KiB | 0.1% → 0.3% | 7.31 KiB → 14.6 KiB | `C0DEED`                                              | `C0DEED ←.profile_sidebar_border_color– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                  |
+| +100.0% |  +5.437 KiB | 0.1% → 0.2% | 5.44 KiB → 10.9 KiB | `http://pbs.twimg.com/profile_images/5017424376062…`  | `http://pbs.twimg.com/profile_images/5017424376062… ←.profile_image_url– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                 |
+| +100.0% |  +5.437 KiB | 0.1% → 0.2% | 5.44 KiB → 10.9 KiB | `https://pbs.twimg.com/profile_images/501742437606…`  | `https://pbs.twimg.com/profile_images/501742437606… ←.profile_image_url_https– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`           |
+| +100.0% |  +4.531 KiB | 0.1% → 0.2% | 4.53 KiB → 9.06 KiB | `https://pbs.twimg.com/profile_banners/2745121514/…`  | `https://pbs.twimg.com/profile_banners/2745121514/… ←.profile_banner_url– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                |
+| +100.0% |  +4.054 KiB |        0.1% | 4.05 KiB → 8.11 KiB | `recent`                                              | `recent ←.result_type– Object ←.metadata– Object ←(several paths)– (GC root)`                                                                                          |
+| +100.0% |  +3.867 KiB |        0.1% | 3.87 KiB → 7.73 KiB | `333333`                                              | `333333 ←.profile_text_color– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                            |
+| +100.0% |   +3.75 KiB |        0.1% |  3.75 KiB → 7.5 KiB | `DDEEF6`                                              | `DDEEF6 ←.profile_sidebar_fill_color– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                    |
+| +100.0% |  +3.679 KiB |        0.1% | 3.68 KiB → 7.36 KiB | `0084B4`                                              | `0084B4 ←.profile_link_color– Object ←.user– Object ←(several paths)– (GC root)`                                                                                       |
+| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `2745121514`                                          | `2745121514 ←.id_str– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                                    |
+| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `幸せの☆お守り`                                             | `幸せの☆お守り ←.name– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                                         |
+| +100.0% |  +3.625 KiB |        0.1% | 3.63 KiB → 7.25 KiB | `shiawaseomamori`                                     | `shiawaseomamori ←.screen_name– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                          |
+| +100.0% |  +2.718 KiB |        0.1% | 2.72 KiB → 5.44 KiB | `Sun Aug 31 00:16:06 +0000 2014`                      | `Sun Aug 31 00:16:06 +0000 2014 ←.created_at– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                                           |
+| +100.0% |  +2.718 KiB |        0.1% | 2.72 KiB → 5.44 KiB | `Tue Aug 19 14:45:19 +0000 2014`                      | `Tue Aug 19 14:45:19 +0000 2014 ←.created_at– Object ←.user– Object ←.retweeted_status– Object ←(several paths)– (GC root)`                                            |

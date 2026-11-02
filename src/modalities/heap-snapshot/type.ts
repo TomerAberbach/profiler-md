@@ -12,7 +12,17 @@ export type HeapSnapshot = {
 
   nodeCount: number
 
-  /** The edges pointing at a node of the snapshot, retaining it or not. */
+  /**
+   * Whether the parser added the GC root at ordinal 0, the snapshot's only
+   * `synthetic` node, because the format records no root node. The added node
+   * counts toward no statistic.
+   */
+  addedGcRoot?: boolean
+
+  /**
+   * The edges pointing at a node of the snapshot, retaining it or not, excluding
+   * those of a GC root the parser added.
+   */
   edgeCount: number
 
   nodeAdjacencyGraph: NodeAdjacencyGraph
@@ -155,6 +165,9 @@ export type RetainerEdge =
       label: string
     }
   | { type: `unlabeled` }
+
+/** What a node's displayed name is formatted from. */
+export type NodeLabel = Partial<Pick<RetainerNode, `name` | `nameLocation`>>
 
 export type RetainerNode = {
   /** The retainer's node ordinal. */

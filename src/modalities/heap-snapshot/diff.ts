@@ -925,7 +925,12 @@ export type RetainerGroup = {
 
 export type DiffedConstructorRetainerGroup = (
   DiffedInstanceGroup | DiffedJointlyRetainedNodeGroup
-) & { nodeCount: number }
+) & {
+  /** The group's first node. */
+  nodeOrdinal: number
+
+  nodeCount: number
+}
 
 /** One side's instances of a constructor that share a retainer path. */
 type DiffedInstanceGroup = RetainerGroup & {
@@ -994,7 +999,7 @@ export const groupConstructorNodes = (
   constructorName: string,
   paths: RetainerPaths,
   options: FormattingProfileToMdOptions,
-): WithFirstOrdinal<DiffedConstructorRetainerGroup>[] => [
+): DiffedConstructorRetainerGroup[] => [
   ...groupInstancesByPath(
     (constructor?.instances ?? []).filter(instance =>
       options.showEntry(instance, snapshot.context),
@@ -1021,11 +1026,8 @@ const groupJointlyRetainedNodes = (
   entityName: string,
   paths: RetainerPaths,
   options: FormattingProfileToMdOptions,
-): WithFirstOrdinal<DiffedConstructorRetainerGroup>[] => {
-  const keyToGroup = new Map<
-    number | string,
-    WithFirstOrdinal<DiffedConstructorRetainerGroup>
-  >()
+): DiffedConstructorRetainerGroup[] => {
+  const keyToGroup = new Map<number | string, DiffedConstructorRetainerGroup>()
   for (const nodeOrdinal of jointlyRetainedOrdinals) {
     const node = snapshot.nodeOf(nodeOrdinal, options)
     if (!isShownRetainedNode(node, snapshot, options)) {
@@ -1055,18 +1057,12 @@ const groupJointlyRetainedNodes = (
   return [...keyToGroup.values()]
 }
 
-/** A group of a constructor's nodes, and the first of them. */
-type WithFirstOrdinal<Group> = Group & { nodeOrdinal: number }
-
 /** Groups {@link instances} by the retainer paths {@link pathOf} interns. */
 const groupInstancesByPath = (
   instances: readonly AggregatedHeapSnapshotNode[],
   pathOf: (nodeOrdinal: number) => number,
-): WithFirstOrdinal<DiffedConstructorRetainerGroup>[] => {
-  const pathToGroup = new Map<
-    number,
-    WithFirstOrdinal<DiffedConstructorRetainerGroup>
-  >()
+): DiffedConstructorRetainerGroup[] => {
+  const pathToGroup = new Map<number, DiffedConstructorRetainerGroup>()
   for (const instance of instances) {
     const path = pathOf(instance.id)
     let group = pathToGroup.get(path)

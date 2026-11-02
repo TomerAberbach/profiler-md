@@ -532,7 +532,10 @@ const buildHeapSnapshot = (
   return {
     type: `heap-snapshot`,
     nodeCount,
-    edgeCount: references.successorOrdinals.length,
+    addedGcRoot: true,
+    edgeCount:
+      references.successorOrdinals.length -
+      references.successorCounts[GC_ROOT_ORDINAL]!,
     nodeAdjacencyGraph,
     selfSizeOf: nodeOrdinal => selfSizes[nodeOrdinal]!,
     nodes: heapSnapshotNodes(dump, nodes, names),

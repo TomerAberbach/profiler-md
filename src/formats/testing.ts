@@ -74,20 +74,22 @@ export const detectionLogs = (filename: string, md: string): unknown[] => {
 export const inputWarnings = (filename: string): readonly string[] =>
   INPUT_WARNINGS.get(filename) ?? []
 
-const INPUT_WARNINGS: ReadonlyMap<string, readonly string[]> = new Map(
-  // V8's sampling heap profiler returns a sample whose node the call tree
-  // omits: https://issues.chromium.org/issues/566593637
+// V8's sampling heap profiler returns a sample whose node the call tree omits:
+// https://issues.chromium.org/issues/566593637
+const INPUT_WARNINGS: ReadonlyMap<string, readonly string[]> = new Map([
   [
     `javascript.chrome.base.heapprofile`,
+    [
+      `warn: skipped 1 sample referencing a missing node, whose 16.8\u{A0}KiB stay out of the totals`,
+    ],
+  ],
+  [
     `javascript.node.base.heapprofile`,
-  ].map(
-    filename =>
-      [
-        filename,
-        [`warn: skipped 1 sample referencing a missing node`],
-      ] as const,
-  ),
-)
+    [
+      `warn: skipped 1 sample referencing a missing node, whose 1.47\u{A0}MiB stay out of the totals`,
+    ],
+  ],
+])
 
 /**
  * The smallest of the given inputs, as a single-element array, or an empty

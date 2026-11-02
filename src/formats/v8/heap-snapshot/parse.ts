@@ -147,7 +147,9 @@ export const parseV8HeapSnapshot = (
         retainerEdge(edgeIndex, snapshot, fieldLayout),
       retainerOf: nodeOrdinal => ({
         id: nodeOrdinal,
-        ...nodeName(nodeOrdinal, snapshot, fieldLayout),
+        ...(nodeOrdinal === 0
+          ? { name: `(GC root)` }
+          : nodeName(nodeOrdinal, snapshot, fieldLayout)),
         location: nodeOrdinalToLocation[nodeOrdinal],
       }),
       isInternalNode: nodeOrdinal =>
@@ -215,6 +217,7 @@ type FieldLayout = {
 
   locationFieldCount: number
   edgeTypeElement: number
+  edgeTypeHidden: number
 
   /**
    * Nodes held only by weak edges can be garbage-collected, so these are
@@ -298,6 +301,7 @@ const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
     nodeTypeSlicedString: nodeTypeToIndex.get(`sliced string`)!,
 
     edgeTypeElement: edgeTypeToIndex.get(`element`)!,
+    edgeTypeHidden: edgeTypeToIndex.get(`hidden`)!,
     edgeTypeWeak: edgeTypeToIndex.get(`weak`)!,
   }
 }
@@ -652,6 +656,12 @@ const retainerEdge = (
         ? edgeNameOrIndex
         : undefined,
     }
+  }
+
+  // A hidden edge's field holds an index, like an element's, rather than the
+  // index of a string. The index has no meaning a reader could use.
+  if (edgeType === fieldLayout.edgeTypeHidden) {
+    return { type: `unlabeled` }
   }
 
   const name = strings[edgeNameOrIndex]!

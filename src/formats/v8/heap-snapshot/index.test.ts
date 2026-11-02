@@ -758,6 +758,60 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`a hidden edge's index is no string index`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeV8Snapshot({
+        nodeCount: 3,
+        edgeCount: 2,
+        nodes: [
+          ...makeV8Node({
+            type: NODE_TYPE_SYNTHETIC,
+            name: 0,
+            id: 1,
+            selfSize: 0,
+            edgeCount: 1,
+          }),
+          ...makeV8Node({
+            type: NODE_TYPE_OBJECT,
+            name: 1,
+            id: 3,
+            selfSize: 200,
+            edgeCount: 1,
+          }),
+          ...makeV8Node({
+            type: NODE_TYPE_OBJECT,
+            name: 2,
+            id: 5,
+            selfSize: 100,
+            edgeCount: 0,
+          }),
+        ],
+        edges: [
+          ...makeV8Edge({
+            type: EDGE_TYPE_PROPERTY,
+            nameOrIndex: 1,
+            toNode: 6,
+          }),
+          ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 1, toNode: 12 }),
+        ],
+        strings: [``, `Parent`, `Child`],
+      }),
+      normalizeProfileToMdOptions({}),
+    )
+
+    expect(selfSizeRetainerPathTables(md, `Child`)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `100 B`,
+          Nodes: `1`,
+          Path: `Child ← Parent`,
+        },
+      ],
+    ])
+  })
+
   test(`edge names that look like unknown locations are shown verbatim`, () => {
     // Root -> parent (Object) via HIDDEN, parent -> child (Object) via a
     // PROPERTY edge literally named `unknown`. The edge name is not a file URL,
@@ -1244,7 +1298,7 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
     rowAt(`a ← (GC root)`),
     rowAt(`b ←.x– a`),
     rowAt(`c ←.y– b ←.x– a`),
-    rowAt(`xx ← (GC root)`),
+    rowAt(`xx ←(several paths)– (GC root)`),
   ])
 })
 
