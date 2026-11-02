@@ -1,6 +1,7 @@
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId } from '../location.ts'
+import type { SourceReferenceNormalizer } from '../location.ts'
 import type { FunctionCategory } from '../modalities/category-sets.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
@@ -159,6 +160,19 @@ export type OriginSpec = {
    * property's name stripped, or `undefined` for a name with none.
    */
   matchHeapSnapshotEdgeName?: (name: string) => string | undefined
+
+  /**
+   * Returns the source reference of a function, constructor, or heap snapshot
+   * retainer the format located at {@link reference}. Rewrites a source name
+   * this origin's runtime gives code it compiled into itself, which the format
+   * read as a file reference.
+   *
+   * Applies after {@link normalizeStackFrame}, to the reference that identifies
+   * the function.
+   *
+   * Defaults to the identity when omitted.
+   */
+  normalizeSourceReference?: SourceReferenceNormalizer
 
   /**
    * Normalizes a raw stack frame to a canonical form.

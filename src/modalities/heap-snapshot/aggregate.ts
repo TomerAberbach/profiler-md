@@ -1,6 +1,7 @@
 import { once } from '../../helpers/once.ts'
 import {
   formatSourceLocation,
+  normalizeSourceLocation,
   sourceReferenceId,
   sourceReferenceKind,
 } from '../../location.ts'
@@ -11,6 +12,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../../options.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import {
@@ -207,8 +209,8 @@ export type RetainerPathEdge =
  * Aggregates one {@link HeapSnapshot}.
  *
  * The constructor computes everything that needs no origin, including the
- * entries origin detection reads. {@link aggregate} categorizes under the
- * resolved origin.
+ * entries origin detection reads. {@link aggregate} normalizes locations and
+ * categorizes under the resolved origin.
  */
 export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
   readonly #nodeCount: number
@@ -216,7 +218,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
   readonly #selfSizeOf: (nodeOrdinal: number) => number
   readonly #retainerEdgeOf: HeapSnapshot[`retainerEdgeOf`]
-  readonly #retainerOf: HeapSnapshot[`retainerOf`]
+  #retainerOf: HeapSnapshot[`retainerOf`]
 
   readonly #isInternalNode: (nodeOrdinal: number) => boolean
 
@@ -450,6 +452,12 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
+    const { normalizeSourceReference } = originSpecOf(context.origin)
+    const normalizeLocation = (location: SourceLocation) =>
+      normalizeSourceLocation(location, normalizeSourceReference)
+    this.#normalizeLocations(normalizeLocation)
+    this.#retainerOf = normalizedRetainerOf(this.#retainerOf, normalizeLocation)
+
     const preorder = computeDominatorTreePreorder(this.#immediateDominatorGraph)
     const logLowerBound = once(() =>
       options.logger.info?.(
@@ -497,6 +505,31 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
           ordinal => nodeOf(ordinal, options),
         ),
       isInternalNode: this.#isInternalNode,
+    }
+  }
+
+  /**
+   * Normalizes the constructors' and functions' locations. An instance shares
+   * its constructor's location, because a constructor groups nodes by name and
+   * location.
+   */
+  #normalizeLocations(
+    normalizeLocation: (location: SourceLocation) => SourceLocation,
+  ): void {
+    for (const fn of this.#functions) {
+      if (fn.location) {
+        fn.location = normalizeLocation(fn.location)
+      }
+    }
+    for (const constructor of this.#constructors) {
+      if (!constructor.location) {
+        continue
+      }
+      const location = normalizeLocation(constructor.location)
+      constructor.location = location
+      for (const instance of constructor.instances) {
+        instance.location = location
+      }
     }
   }
 
@@ -668,6 +701,19 @@ const computeRetainerHop = (
   }
   return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
 }
+
+/** Wraps {@link retainerOf} to normalize each retainer's location. */
+const normalizedRetainerOf =
+  (
+    retainerOf: HeapSnapshot[`retainerOf`],
+    normalizeLocation: (location: SourceLocation) => SourceLocation,
+  ): HeapSnapshot[`retainerOf`] =>
+  nodeOrdinal => {
+    const retainer = retainerOf(nodeOrdinal)
+    return retainer.location
+      ? { ...retainer, location: normalizeLocation(retainer.location) }
+      : retainer
+  }
 
 export const GC_ROOT_NAME = `(GC root)`
 

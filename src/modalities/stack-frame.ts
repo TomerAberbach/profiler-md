@@ -1,11 +1,13 @@
 import {
   makeSourceLocation,
+  normalizeSourceLocation,
   unresolvedSourceReferenceString,
   withSourceReferenceId,
 } from '../location.ts'
 import type {
   SourceLocation,
   SourcePosition,
+  SourceReferenceNormalizer,
   UnresolvedSourceReference,
 } from '../location.ts'
 import type {
@@ -123,7 +125,11 @@ export class StackFrameTable {
 
   private constructor(frames: StackFrame[]) {
     this.#frames = frames
-    this.#functions = new StackFrameFunctions(frames, `definition`)
+    this.#functions = new StackFrameFunctions(
+      frames,
+      `definition`,
+      reference => reference,
+    )
   }
 
   /** Adds the raw frames to {@link detector}, once, until decided. */
@@ -154,13 +160,22 @@ export class StackFrameTable {
   }
 
   #normalize(context: ProfileToMdContext): StackFrameFunctionTable {
-    const { functionIdentity, isTruncationMarker, normalizeStackFrame } =
-      originSpecOf(context.origin)
-    return new StackFrameFunctionTable(
-      this.#frames.map(frame =>
-        dropLocationName(frame, normalizeStackFrame(frame, context.format)),
-      ),
+    const {
       functionIdentity,
+      isTruncationMarker,
+      normalizeStackFrame,
+      normalizeSourceReference,
+    } = originSpecOf(context.origin)
+    const frames = this.#frames.map(frame =>
+      dropLocationName(frame, normalizeStackFrame(frame, context.format)),
+    )
+    return new StackFrameFunctionTable(
+      frames,
+      new StackFrameFunctions(
+        frames,
+        functionIdentity,
+        normalizeSourceReference,
+      ),
       index => isTruncationMarker(this.#frames[index]!),
     )
   }
@@ -205,11 +220,11 @@ export class StackFrameFunctionTable {
 
   public constructor(
     frames: (StackFrame | null)[],
-    identity: FunctionIdentity,
+    functions: StackFrameFunctions,
     isTruncationMarker: (index: number) => boolean,
   ) {
     this.#frames = frames
-    this.#functions = new StackFrameFunctions(frames, identity)
+    this.#functions = functions
     this.#isTruncationMarker = isTruncationMarker
   }
 
@@ -259,15 +274,19 @@ export const ANONYMOUS_STACK_FRAME_FUNCTION: StackFrameFunction = {
 class StackFrameFunctions {
   readonly #frames: readonly (StackFrame | null)[]
   readonly #identity: FunctionIdentity
+  readonly #normalizeSourceReference: SourceReferenceNormalizer
+
   readonly #functions: StackFrameFunction[] = []
   readonly #keyToFunction = new Map<string, StackFrameFunction>()
 
   public constructor(
     frames: readonly (StackFrame | null)[],
     identity: FunctionIdentity,
+    normalizeSourceReference: SourceReferenceNormalizer,
   ) {
     this.#frames = frames
     this.#identity = identity
+    this.#normalizeSourceReference = normalizeSourceReference
   }
 
   /** Returns the frame's function, or `undefined` for a dropped frame. */
@@ -282,7 +301,12 @@ class StackFrameFunctions {
       const key = functionIdentityKey(frame.name, identifying)
       func = this.#keyToFunction.get(key)
       if (!func) {
-        func = makeStackFrameFunction(frame, identifying, key)
+        func = makeStackFrameFunction(
+          frame,
+          identifying,
+          key,
+          this.#normalizeSourceReference,
+        )
         this.#keyToFunction.set(key, func)
       }
       this.#functions[index] = func
@@ -301,12 +325,17 @@ const makeStackFrameFunction = (
   frame: StackFrame,
   identifying: StackFrame[`definition`],
   key: string,
-): StackFrameFunction => ({
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  name: frame.name || ANONYMOUS_FUNCTION_NAME,
-  location: makeSourceLocation(identifying, identifying?.position),
-  key,
-})
+  normalizeSourceReference: SourceReferenceNormalizer,
+): StackFrameFunction => {
+  const location = makeSourceLocation(identifying, identifying?.position)
+  return {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    name: frame.name || ANONYMOUS_FUNCTION_NAME,
+    location:
+      location && normalizeSourceLocation(location, normalizeSourceReference),
+    key,
+  }
+}
 
 /**
  * Resolves each frame's function to the aggregated function it adds to. A diff

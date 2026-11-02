@@ -1,5 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import type { Format } from '../../formats/registry.ts'
+import { convertJsonToMd } from '../../formats/testing.ts'
+import { v8CpuProfileFormatSpec } from '../../formats/v8/cpu-profile/index.ts'
+import {
+  makeV8CallFrame,
+  makeV8CpuProfileRoot,
+} from '../../formats/v8/cpu-profile/testing.ts'
+import { v8HeapSnapshotFormatSpec } from '../../formats/v8/heap-snapshot/index.ts'
+import { makeClosureSnapshot } from '../../formats/v8/heap-snapshot/testing.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { chromeOriginSpec } from './chrome.ts'
 
@@ -112,6 +122,71 @@ describe(`categorizeEntry`, () => {
 
   test(`a locationless engine frame is stdlib`, () => {
     expect(categorizeEntry(relativeEntry(`get`))).toBe(`stdlib`)
+  })
+})
+
+describe(`normalizeSourceReference`, () => {
+  const locationsShownOf = (
+    convert: (options: NormalizedProfileToMdOptions) => string,
+    name: string,
+  ): unknown[] => {
+    const locations: unknown[] = []
+    convert(
+      normalizeProfileToMdOptions({
+        showEntry: entry => {
+          if (entry.name === name) {
+            locations.push(entry.location)
+          }
+          return true
+        },
+      }),
+    )
+    return locations
+  }
+
+  test(`locates a heap snapshot function in a V8 extension's script by the script's name`, () => {
+    expect(
+      locationsShownOf(
+        options =>
+          convertJsonToMd(
+            v8HeapSnapshotFormatSpec,
+            makeClosureSnapshot(`v8/LoadTimes`),
+            options,
+          ),
+        `myFn`,
+      ),
+    ).toStrictEqual([
+      { type: `logical`, name: `v8/LoadTimes`, line: 6, column: 11 },
+    ])
+  })
+
+  test(`locates a sampled function in a V8 extension's script by the script's name`, () => {
+    expect(
+      locationsShownOf(
+        options =>
+          convertJsonToMd(
+            v8CpuProfileFormatSpec,
+            {
+              nodes: [
+                makeV8CpuProfileRoot([2]),
+                {
+                  id: 2,
+                  hitCount: 1,
+                  callFrame: makeV8CallFrame(`loadTimes`, `v8/LoadTimes`),
+                },
+              ],
+              startTime: 0,
+              endTime: 1000,
+              samples: [2],
+              timeDeltas: [1000],
+            },
+            options,
+          ),
+        `loadTimes`,
+      ),
+    ).toStrictEqual([
+      { type: `logical`, name: `v8/LoadTimes`, line: 1, column: 1 },
+    ])
   })
 })
 

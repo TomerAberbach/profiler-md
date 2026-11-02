@@ -251,6 +251,8 @@ const resolveOriginSpec = (
   countMetric: spec.countMetric ?? (() => undefined),
   hasRuntimeInsertedArcs: spec.hasRuntimeInsertedArcs ?? (() => false),
   matchEntry: spec.matchEntry ?? (() => undefined),
+  normalizeSourceReference:
+    spec.normalizeSourceReference ?? (reference => reference),
   normalizeStackFrame: spec.normalizeStackFrame ?? (frame => frame),
   isTruncationMarker: spec.isTruncationMarker ?? (() => false),
   isOriginHint: (hint, format) =>
