@@ -80,12 +80,12 @@ const getBuiltinNames = (): ReadonlySet<string> => {
     if (!object) {
       return
     }
-    for (const key of Object.getOwnPropertyNames(object)) {
+    for (const key of Reflect.ownKeys(object)) {
       if (
         typeof Object.getOwnPropertyDescriptor(object, key)?.value ===
         `function`
       ) {
-        names.add(key)
+        names.add(typeof key === `symbol` ? `[${key.description}]` : key)
       }
     }
   }
