@@ -398,7 +398,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toStrictEqual([
       `Collected 3 samples.`,
       `Recorded 8 objects.`,
-      `Allocated 4\u{A0}KiB.`,
+      `Sampled 4\u{A0}KiB.`,
     ])
     expect(selfSamplesTables(md)).toStrictEqual([
       [
@@ -410,7 +410,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(selfSizeTables(md, `Heap profile`)).toStrictEqual([
+    expect(selfSizeTables(md, `Sampled heap profile`)).toStrictEqual([
       [
         {
           '%': `100.0%`,

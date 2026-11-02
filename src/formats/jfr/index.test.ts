@@ -4,7 +4,7 @@ import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   callStackTables,
   callTreeLines,
-  selfObjectsTables,
+  selfSampledObjectsTables,
   selfSamplesTables,
   selfSizeTables,
   selfTimeTables,
@@ -254,7 +254,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toStrictEqual([
       `Collected 1 sample.`,
       `Allocated 1\u{A0}KiB over 1 sample (1\u{A0}KiB per sample).`,
-      `Retained 512\u{A0}B over 1 object (512\u{A0}B per object).`,
+      `Retained 512\u{A0}B over 1 sampled object (512\u{A0}B per sampled object).`,
       `Allocated 256\u{A0}B over 1 sample (256\u{A0}B per sample).`,
       `Blocked 3.0ms over 1 contention (3.0ms per contention).`,
     ])
@@ -288,7 +288,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `3 KiB`,
-          Objects: `2`,
+          'Sampled objects': `2`,
           Function: `allocate`,
           Location: `com.example.A`,
         },
@@ -324,19 +324,19 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrFormatSpec, bytes, options)
 
-    expect(profileTitles(md)).toStrictEqual([`Object profile`])
-    expect(summaryLines(md)).toStrictEqual([`Recorded 3 objects.`])
-    expect(selfObjectsTables(md)).toStrictEqual([
+    expect(profileTitles(md)).toStrictEqual([`Sampled object profile`])
+    expect(summaryLines(md)).toStrictEqual([`Recorded 3 sampled objects.`])
+    expect(selfSampledObjectsTables(md)).toStrictEqual([
       [
         {
           '%': `66.7%`,
-          Objects: `2`,
+          'Sampled objects': `2`,
           Function: `allocate`,
           Location: `com.example.A`,
         },
         {
           '%': `33.3%`,
-          Objects: `1`,
+          'Sampled objects': `1`,
           Function: `run`,
           Location: `com.example.A`,
         },

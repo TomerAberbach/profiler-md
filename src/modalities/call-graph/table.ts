@@ -11,12 +11,17 @@ export type ArcRow = FunctionMeasureRow & { callCount: number }
 export const arcColumns = (
   measure: MeasureColumns,
   entity: `Caller` | `Callee`,
+  hasCallCounts: boolean,
   options: FormattingProfileToMdOptions,
 ): Table<ArcRow> => [
   ...measureColumns(measure),
-  {
-    header: { content: `Calls`, align: `right` },
-    cellOf: row => countCell(row.callCount),
-  } satisfies Column<ArcRow>,
+  ...(hasCallCounts
+    ? [
+        {
+          header: { content: `Calls`, align: `right` },
+          cellOf: row => countCell(row.callCount),
+        } satisfies Column<ArcRow>,
+      ]
+    : []),
   ...functionNameColumns(entity, options),
 ]

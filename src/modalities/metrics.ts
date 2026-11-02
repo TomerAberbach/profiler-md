@@ -125,7 +125,21 @@ export const ALLOCATED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   pastParticipleVerbPhrase: `bytes allocated`,
 })
 
-/** Bytes allocated and still retained when the profile was captured. */
+/**
+ * Bytes a sampling heap profiler reports, which it may limit to the objects
+ * still alive, by options the profile does not record.
+ */
+export const SAMPLED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
+  titleNoun: `sampled heap`,
+  columnNoun: `size`,
+  pastTenseVerb: `sampled`,
+  pastParticipleVerbPhrase: `bytes sampled`,
+})
+
+/**
+ * Bytes allocated and still retained as of the profile's last measurement: its
+ * capture, or for Go the most recently completed garbage collection.
+ */
 export const RETAINED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `retained heap`,
   columnNoun: `size`,
@@ -342,6 +356,7 @@ const NAME_PHRASES: ReadonlyMap<
     new Map<string, MetricPhrases>([
       [`alloc_space`, ALLOCATED_HEAP_METRIC.phrases],
       [`inuse_space`, RETAINED_HEAP_METRIC.phrases],
+      [`space`, SAMPLED_HEAP_METRIC.phrases],
     ]),
   ],
 ])

@@ -1,6 +1,6 @@
-# Heap profile
+# Sampled heap profile
 
-Allocated 741 MiB over 6,116,491 objects (127 B per object).
+Sampled 741 MiB over 6,116,491 objects (127 B per object).
 
 | Category         |     % |     Size |   Objects |
 | ---------------- | ----: | -------: | --------: |
@@ -64,7 +64,7 @@ Call paths to the hottest functions.
 
 ### Self size
 
-Functions with the most bytes allocated within the function body, excluding callees.
+Functions with the most bytes sampled within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                        | Location                                               |
 | ----: | -------: | ------: | ------------------------------- | ------------------------------------------------------ |
@@ -540,7 +540,7 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 ### Total size
 
-Functions with the most bytes allocated within the function and its callees.
+Functions with the most bytes sampled within the function and its callees.
 
 |     % |    Size |   Objects | Function                                   | Location                                                |
 | ----: | ------: | --------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -1159,7 +1159,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most bytes allocated in their leaf frame.
+Call stacks with the most bytes sampled in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs`) ← `(anonymous)` (`./datadog-pprof-heap.mjs:1:1`) ← `next` ← `run` (`node:internal/modules/esm/module_job`) ← `(anonymous)`
 

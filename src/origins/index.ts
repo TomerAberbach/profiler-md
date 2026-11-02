@@ -250,6 +250,7 @@ const resolveOriginSpec = (
     spec.categorizeHeapSnapshotDeclaredType ?? (() => undefined),
   countMetric: spec.countMetric ?? (() => undefined),
   hasRuntimeInsertedArcs: spec.hasRuntimeInsertedArcs ?? (() => false),
+  recordsCallCounts: spec.recordsCallCounts ?? true,
   matchEntry: spec.matchEntry ?? (() => undefined),
   normalizeSourceReference:
     spec.normalizeSourceReference ?? (reference => reference),

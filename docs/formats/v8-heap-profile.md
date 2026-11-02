@@ -8,7 +8,9 @@ It stores an allocation call tree whose nodes each state the bytes allocated at
 that call site, and a sequence of samples referencing those nodes.
 
 Its samples are allocations, so it converts to a call stack profile of where the
-program allocated rather than what the heap holds.
+program allocated. By default the profile contains only the sampled objects
+still alive when it was written. Options the file does not record also keep the
+objects garbage collection freed.
 
 It supports a single byte metric per profile and a single profile per file.
 

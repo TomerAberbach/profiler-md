@@ -1,6 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory } from '../../modalities/category-sets.ts'
+import { SAMPLES } from '../../modalities/metrics.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory, pathCategory } from '../categorize.ts'
 import { matchEntryFromRules, placeholderPathNormalizer } from '../spec.ts'
@@ -35,6 +36,9 @@ const JULIA_LOCATION_MATCH_RULES: EntryMatchRule[] = [
 export const pprofJlOriginSpec = {
   id: `pprof-jl`,
   formats: [`pprof`],
+  // Every profile it writes samples, including an allocation profile, because
+  // `Profile.Allocs` records only the subset its `sample_rate` selects.
+  countMetric: () => SAMPLES,
   // Only a Julia install lays out its runtime sources under `share/julia/`,
   // and every Julia profile touches `Base` or standard-library code from
   // there.

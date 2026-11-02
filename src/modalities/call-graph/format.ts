@@ -10,6 +10,7 @@ import type {
   FormattingProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
+import { originSpecOf } from '../../origins/index.ts'
 import { sortDiffCategories } from '../category.ts'
 import { formatChange } from '../change.ts'
 import { functionIdMatcher, lineMatcher } from '../diff.ts'
@@ -233,7 +234,15 @@ const formatHottestArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatTable(arcColumns(measure, arcs.entity, options), hottestArcs),
+    formatTable(
+      arcColumns(
+        measure,
+        arcs.entity,
+        originSpecOf(context.origin).recordsCallCounts,
+        options,
+      ),
+      hottestArcs,
+    ),
   ]
 }
 
@@ -431,7 +440,16 @@ const formatDiffFunctionArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatDiffTable(arcColumns(measure, arcs.entity, options), changedArcs),
+    formatDiffTable(
+      arcColumns(
+        measure,
+        arcs.entity,
+        originSpecOf(diff.base.context.origin).recordsCallCounts &&
+          originSpecOf(diff.current.context.origin).recordsCallCounts,
+        options,
+      ),
+      changedArcs,
+    ),
   ]
 }
 
