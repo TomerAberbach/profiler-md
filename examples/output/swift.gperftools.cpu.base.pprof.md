@@ -4,8 +4,8 @@ Took 5.29s over 5,285 samples (1.0ms per sample).
 
 | Category         |     % |    Time | Samples |
 | ---------------- | ----: | ------: | ------: |
-| Ours             | 52.9% |   2.79s |   2,794 |
-| Native           | 30.1% |   1.59s |   1,591 |
+| Ours             | 42.8% |   2.26s |   2,264 |
+| Native           | 40.1% |   2.12s |   2,121 |
 | Standard library | 10.3% | 544.0ms |     544 |
 | Unknown          |  6.7% | 356.0ms |     356 |
 
@@ -95,53 +95,53 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
-|    % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Location                                                                            |
-| ---: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| 6.7% | 355.0ms |     355 | `$s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF`                                                                                                                                                                                                                                                                                                                                                                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:709`        |
-| 3.2% | 167.0ms |     167 | `$s11SwiftParser5LexerO6CursorV9lexTrivia33_40499B5A26053AEB2F96A7C76320F673LL4modeAE0F6ResultVAE0F10LexingModeO_tF`                                                                                                                                                                                                                                                                                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1155`       |
-| 2.7% | 145.0ms |     145 | `$s11SwiftParser5LexerO6CursorV9nextToken17sourceBufferStart14stateAllocatorAC6LexemeVAE_0A6Syntax07BumpPtrK0CtF`                                                                                                                                                                                                                                                                                                                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:427`        |
-| 2.1% | 113.0ms |     113 | `_init`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `crtstuff.c`                                                                        |
-| 2.0% | 106.0ms |     106 | `$s11SwiftSyntax13compareMemory33_132B404099BC4B0D33927A976564E3D3LLySbSPys5UInt8VG_AFSitF`                                                                                                                                                                                                                                                                                                                                                                                               | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:289`          |
-| 1.9% | 100.0ms |     100 | `$s11SwiftSyntax0B4TextV2eeoiySbAC_ACtFZTf4nnd_n`                                                                                                                                                                                                                                                                                                                                                                                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:200`          |
-| 1.6% |  87.0ms |      87 | `$s11SwiftParser5LexerO6CursorV9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtF`                                                                                                                                                                                                                                                                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:928`        |
-| 1.6% |  83.0ms |      83 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF`                                                                                                                                                                                                                                                                                                                                                                                                                            | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:646`        |
-| 1.3% |  69.0ms |      69 | `$s11SwiftParser9TokenSpecV7matches03rawC4Kind7keyword13atStartOfLineSb0A6Syntax03RawcG0O_AH7KeywordOSgyXKSbyXKtF`                                                                                                                                                                                                                                                                                                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:115`           |
-| 1.2% |  63.0ms |      63 | `swift::runtime::SwiftTLSContext::get`                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `crtstuff.c`                                                                        |
-| 1.1% |  57.0ms |      57 | `$s11SwiftParser5LexerO6CursorV4text4upTo0A6Syntax0H4TextVAE_tF`                                                                                                                                                                                                                                                                                                                                                                                                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:634`        |
-| 1.0% |  55.0ms |      55 | `__aarch64_cas8_relax`                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `crtstuff.c`                                                                        |
-| 1.0% |  55.0ms |      55 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF`                                                                                                                                                                                                                                                                                                                                                                                                                | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99`     |
-| 1.0% |  53.0ms |      53 | `$s11SwiftParser22PrepareForKeywordMatchVyAcA5LexerO6LexemeVcfC`                                                                                                                                                                                                                                                                                                                                                                                                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:33`            |
-| 1.0% |  53.0ms |      53 | `__aarch64_cas8_rel`                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `crtstuff.c`                                                                        |
-| 0.8% |  41.0ms |      41 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw7VAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` | `AbsolutePosition.swift.o`                                                          |
-| 0.8% |  41.0ms |      41 | `$s11SwiftSyntax7KeywordOyACSgAA0B4TextVcfCTf4nd_n`                                                                                                                                                                                                                                                                                                                                                                                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/Keyword.swift:254`   |
-| 0.7% |  35.0ms |      35 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm`                                       | `AbsolutePosition.swift.o`                                                          |
-| 0.6% |  32.0ms |      32 | `$s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF`                                                                                                                                                                                                                                                                                                                                                                                                            | `./Sources/profile/main.swift:8`                                                    |
-| 0.6% |  31.0ms |      31 | `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF`                                                                                                                                                                                                                                                                                                                                                                                                                                 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:75` |
+|    % |    Time | Samples | Function                                                                                                                                                                                 | Location                                                                                 |
+| ---: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| 6.7% | 355.0ms |     355 | `$s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF`                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:709`             |
+| 3.2% | 167.0ms |     167 | `$s11SwiftParser5LexerO6CursorV9lexTrivia33_40499B5A26053AEB2F96A7C76320F673LL4modeAE0F6ResultVAE0F10LexingModeO_tF`                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:1155`            |
+| 2.7% | 145.0ms |     145 | `$s11SwiftParser5LexerO6CursorV9nextToken17sourceBufferStart14stateAllocatorAC6LexemeVAE_0A6Syntax07BumpPtrK0CtF`                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:427`             |
+| 2.0% | 106.0ms |     106 | `$s11SwiftSyntax13compareMemory33_132B404099BC4B0D33927A976564E3D3LLySbSPys5UInt8VG_AFSitF`                                                                                              | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:289`               |
+| 1.9% | 100.0ms |     100 | `$s11SwiftSyntax0B4TextV2eeoiySbAC_ACtFZTf4nnd_n`                                                                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:200`               |
+| 1.6% |  87.0ms |      87 | `$s11SwiftParser5LexerO6CursorV9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtF`                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:928`             |
+| 1.6% |  83.0ms |      83 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF`                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:646`             |
+| 1.3% |  69.0ms |      69 | `$s11SwiftParser9TokenSpecV7matches03rawC4Kind7keyword13atStartOfLineSb0A6Syntax03RawcG0O_AH7KeywordOSgyXKSbyXKtF`                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:115`                |
+| 1.1% |  57.0ms |      57 | `$s11SwiftParser5LexerO6CursorV4text4upTo0A6Syntax0H4TextVAE_tF`                                                                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:634`             |
+| 1.0% |  55.0ms |      55 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF`                                                                                                               | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99`          |
+| 1.0% |  53.0ms |      53 | `$s11SwiftParser22PrepareForKeywordMatchVyAcA5LexerO6LexemeVcfC`                                                                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:33`                 |
+| 0.8% |  41.0ms |      41 | `$s11SwiftSyntax7KeywordOyACSgAA0B4TextVcfCTf4nd_n`                                                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/Keyword.swift:254`        |
+| 0.6% |  32.0ms |      32 | `$s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF`                                                                                                           | `./Sources/profile/main.swift:8`                                                         |
+| 0.6% |  31.0ms |      31 | `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF`                                                                                                                                | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:75`      |
+| 0.5% |  28.0ms |      28 | `$s11SwiftParser0B0V43consumeAnyTokenWithoutAdjustingNestingLevel0A6Syntax03RaweJ0VyF`                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:387`                   |
+| 0.5% |  28.0ms |      28 | `$s11SwiftParser9TokenSpecV_9remapping18recoveryPrecedence18allowAtStartOfLineAC0A6Syntax7KeywordO_AG03RawC4KindOSgAA0cG0OSgSbtcfC`                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:101`                |
+| 0.5% |  25.0ms |      25 | `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingB5ArenaChtFZTf4nnnnnnd_n` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568`            |
+| 0.5% |  25.0ms |      25 | `$s11SwiftParser0B0V9LookaheadV25canParseArgumentLabelListSbyF`                                                                                                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:277`                    |
+| 0.5% |  24.0ms |      24 | `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF6$deferL_yyF`                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:76`      |
+| 0.5% |  24.0ms |      24 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF`                                                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4677` |
 
 ##### Native
 
-|    % |    Time | Samples | Function                                                                               | Location    |
-| ---: | ------: | ------: | -------------------------------------------------------------------------------------- | ----------- |
-| 6.2% | 329.0ms |     329 | `swift_release`                                                                        | `<unknown>` |
-| 4.8% | 255.0ms |     255 | `swift_retain`                                                                         | `<unknown>` |
-| 3.2% | 168.0ms |     168 | `swift_release_n`                                                                      | `<unknown>` |
-| 1.4% |  76.0ms |      76 | `swift_isUniquelyReferenced_nonNull_native`                                            | `<unknown>` |
-| 1.4% |  74.0ms |      74 | `swift_beginAccess`                                                                    | `<unknown>` |
-| 1.4% |  72.0ms |      72 | `swift_endAccess`                                                                      | `<unknown>` |
-| 1.3% |  69.0ms |      69 | `swift_isUniquelyReferenced_native`                                                    | `<unknown>` |
-| 1.2% |  63.0ms |      63 | `$s11SwiftParser0B0V9LookaheadVWOs`                                                    | `<unknown>` |
-| 1.0% |  53.0ms |      53 | `brk`                                                                                  | `<unknown>` |
-| 0.5% |  29.0ms |      29 | `swift_bridgeObjectRetain`                                                             | `<unknown>` |
-| 0.5% |  28.0ms |      28 | `$s11SwiftParser0B0VWOr`                                                               | `<unknown>` |
-| 0.5% |  28.0ms |      28 | `malloc_usable_size`                                                                   | `<unknown>` |
-| 0.5% |  26.0ms |      26 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF`                         | `<unknown>` |
-| 0.5% |  25.0ms |      25 | `$s11SwiftParser0B0V9LookaheadVWOr`                                                    | `<unknown>` |
-| 0.4% |  23.0ms |      23 | `swift_retain_n`                                                                       | `<unknown>` |
-| 0.4% |  23.0ms |      23 | `memcmp`                                                                               | `<unknown>` |
-| 0.4% |  20.0ms |      20 | `__libc_malloc`                                                                        | `<unknown>` |
-| 0.4% |  19.0ms |      19 | `$s11SwiftParser0B0V9LookaheadVAA13TokenConsumerA2aFP07currentD0AA5LexerO6LexemeVvgTW` | `<unknown>` |
-| 0.4% |  19.0ms |      19 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP07currentC0AA5LexerO6LexemeVvgTW`            | `<unknown>` |
-| 0.3% |  17.0ms |      17 | `swift_arrayDestroy`                                                                   | `<unknown>` |
+|    % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Location                   |
+| ---: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 6.2% | 329.0ms |     329 | `swift_release`                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `<unknown>`                |
+| 4.8% | 255.0ms |     255 | `swift_retain`                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>`                |
+| 3.2% | 168.0ms |     168 | `swift_release_n`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>`                |
+| 2.1% | 113.0ms |     113 | `_init`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `crtstuff.c`               |
+| 1.4% |  76.0ms |      76 | `swift_isUniquelyReferenced_nonNull_native`                                                                                                                                                                                                                                                                                                                                                                                                                                               | `<unknown>`                |
+| 1.4% |  74.0ms |      74 | `swift_beginAccess`                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>`                |
+| 1.4% |  72.0ms |      72 | `swift_endAccess`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>`                |
+| 1.3% |  69.0ms |      69 | `swift_isUniquelyReferenced_native`                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>`                |
+| 1.2% |  63.0ms |      63 | `$s11SwiftParser0B0V9LookaheadVWOs`                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>`                |
+| 1.2% |  63.0ms |      63 | `swift::runtime::SwiftTLSContext::get`                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `crtstuff.c`               |
+| 1.0% |  55.0ms |      55 | `__aarch64_cas8_relax`                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | `crtstuff.c`               |
+| 1.0% |  53.0ms |      53 | `__aarch64_cas8_rel`                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `crtstuff.c`               |
+| 1.0% |  53.0ms |      53 | `brk`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `<unknown>`                |
+| 0.8% |  41.0ms |      41 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw7VAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` | `AbsolutePosition.swift.o` |
+| 0.7% |  35.0ms |      35 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm`                                       | `AbsolutePosition.swift.o` |
+| 0.5% |  29.0ms |      29 | `swift_bridgeObjectRetain`                                                                                                                                                                                                                                                                                                                                                                                                                                                                | `<unknown>`                |
+| 0.5% |  28.0ms |      28 | `$s11SwiftParser0B0VWOr`                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | `<unknown>`                |
+| 0.5% |  28.0ms |      28 | `malloc_usable_size`                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>`                |
+| 0.5% |  26.0ms |      26 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF`                                                                                                                                                                                                                                                                                                                                                                                                                            | `<unknown>`                |
+| 0.5% |  25.0ms |      25 | `$s11SwiftParser0B0V9LookaheadVWOr`                                                                                                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>`                |
 
 ##### Standard library
 
@@ -294,6 +294,50 @@ Lines with the largest contribution to each function's self time.
 | ----: | -----: | ------: | ----------------------------------------------------------------------------------- |
 | 64.5% | 20.0ms |      20 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:83` |
 | 35.5% | 11.0ms |      11 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:82` |
+
+##### `$s11SwiftParser0B0V43consumeAnyTokenWithoutAdjustingNestingLevel0A6Syntax03RaweJ0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:387`)
+
+|     % |   Time | Samples | Location                                                               |
+| ----: | -----: | ------: | ---------------------------------------------------------------------- |
+| 82.1% | 23.0ms |      23 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:389` |
+
+##### `$s11SwiftParser9TokenSpecV_9remapping18recoveryPrecedence18allowAtStartOfLineAC0A6Syntax7KeywordO_AG03RawC4KindOSgAA0cG0OSgSbtcfC` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:101`)
+
+|     % |   Time | Samples | Location                                                                  |
+| ----: | -----: | ------: | ------------------------------------------------------------------------- |
+| 75.0% | 21.0ms |      21 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:112` |
+| 25.0% |  7.0ms |       7 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:101` |
+
+##### `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingB5ArenaChtFZTf4nnnnnnd_n` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568`)
+
+|     % |   Time | Samples | Location                                                                      |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------- |
+| 88.0% | 22.0ms |      22 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:591` |
+| 12.0% |  3.0ms |       3 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568` |
+
+##### `$s11SwiftParser0B0V9LookaheadV25canParseArgumentLabelListSbyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:277`)
+
+|     % |   Time | Samples | Location                                                              |
+| ----: | -----: | ------: | --------------------------------------------------------------------- |
+| 44.0% | 11.0ms |      11 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:278` |
+| 36.0% |  9.0ms |       9 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:286` |
+| 16.0% |  4.0ms |       4 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:284` |
+|  4.0% |  1.0ms |       1 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:277` |
+
+##### `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF6$deferL_yyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:76`)
+
+|     % |   Time | Samples | Location                                                                            |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------- |
+| 79.2% | 19.0ms |      19 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:77` |
+| 20.8% |  5.0ms |       5 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:78` |
+
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4677`)
+
+|    % |  Time | Samples | Location                                                                                 |
+| ---: | ----: | ------: | ---------------------------------------------------------------------------------------- |
+| 8.3% | 2.0ms |       2 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4678` |
+| 8.3% | 2.0ms |       2 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4679` |
+| 8.3% | 2.0ms |       2 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4681` |
 
 ##### `$ss7UnicodeO6ScalarV11SwiftParserE22isAsciiIdentifierStartSbvg` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift:37`)
 
@@ -452,13 +496,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | -----: | ------: | ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | 100.0% | 57.0ms |      57 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:2002` |
 
-##### `__aarch64_cas8_relax` (`crtstuff.c`)
-
-|     % |   Time | Samples | Caller           | Location    |
-| ----: | -----: | ------: | ---------------- | ----------- |
-| 87.3% | 48.0ms |      48 | `swift_retain`   | `<unknown>` |
-| 12.7% |  7.0ms |       7 | `swift_retain_n` | `<unknown>` |
-
 ##### `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99`)
 
 |     % |   Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                              | Location                                                                         |
@@ -468,6 +505,13 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 12.7% |  7.0ms |       7 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c30MissingExprB0V_11placeholder_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw7VAhA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnn_nTm`                                                                                 | `AbsolutePosition.swift.o`                                                       |
 |  9.1% |  5.0ms |       5 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate_5countSryxGxm_SitlFAA03RawB0VSg_Ttg5`                                                                                                                                                                                                                                                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:139` |
 |  9.1% |  5.0ms |       5 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` | `AbsolutePosition.swift.o`                                                       |
+
+##### `__aarch64_cas8_relax` (`crtstuff.c`)
+
+|     % |   Time | Samples | Caller           | Location    |
+| ----: | -----: | ------: | ---------------- | ----------- |
+| 87.3% | 48.0ms |      48 | `swift_retain`   | `<unknown>` |
+| 12.7% |  7.0ms |       7 | `swift_retain_n` | `<unknown>` |
 
 ##### `$s11SwiftParser22PrepareForKeywordMatchVyAcA5LexerO6LexemeVcfC` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:33`)
 
@@ -499,16 +543,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 97.8% | 44.0ms |      44 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyFSbs7UnicodeO6ScalarVXEfU0_`                                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:2008` |
 |  2.2% |  1.0ms |       1 | `$s11SwiftParser5LexerO6CursorV7advance2ifS2bs7UnicodeO6ScalarVXE_tF04$s11a7Parser5c2O6d119V9lexNormal33_40499B5A26053AEB2F96A7C76320F673LL17sourceBufferStart29preferRegexOverBinaryOperatorAC6ResultVAE_SbtFSbs7gkH6VXEfU_Tf1cn_nTm` | `Attributes.swift.o`                                                          |
 
-##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw7VAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` (`AbsolutePosition.swift.o`)
-
-|     % |   Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Location     |
-| ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| 63.4% | 26.0ms |      26 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx7VAjA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                     | `crtstuff.c` |
-| 22.0% |  9.0ms |       9 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw9VAjljA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                              | `crtstuff.c` |
-|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c45TupleExprB0V_9leftParen_8elements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw20VAjA0c7Labelede4Listw9VAjljA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c7Labeledv4ListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                           | `crtstuff.c` |
-|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c70FunctionSignatureB0V_15parameterClause_16effectSpecifiers_06returnG0_5n22AcA0c15UnexpectedNodesw20VSg_AA0cd9Parametergw15VAjA0cd6Effectiw16VSgAjA0c6Returngw9VSgAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cu9ParameteryB0VAsA0cu16EffectSpecifiersB0VSgAsA0c6ReturnyB0VSgASTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
-|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c46KeyPathExprB0V_9backslash_4root_10components_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx11VAjA0c4Typex25VSgAjA0cde13ComponentListx7VAjA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4TypeB0VSgAsA0cuv13ComponentListB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n`                                         | `crtstuff.c` |
-
 ##### `$s11SwiftSyntax7KeywordOyACSgAA0B4TextVcfCTf4nd_n` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/Keyword.swift:254`)
 
 |     % |   Time | Samples | Caller                                                                                                                                                                          | Location                                                                      |
@@ -518,6 +552,16 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 17.1% |  7.0ms |       7 | `$s11SwiftParser5LexerO6CursorV13lexIdentifierAC6ResultVyF`                                                                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:2002` |
 |  4.9% |  2.0ms |       2 | `$s11SwiftSyntax7KeywordOyACSgAA0B4TextVcfC`                                                                                                                                    | `<unknown>`                                                                   |
 |  2.4% |  1.0ms |       1 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm` | `Attributes.swift.o`                                                          |
+
+##### `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c54MissingDeclB0V_10attributes_9modifiers_11placeholder_5n22AcA0c15UnexpectedNodesw23VSg_AA0c13AttributeListw17VAjA0ce8Modifiermw12VAjA0c5Tokenw7VAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c13AttributeListB0VAsA0cv12ModifierListB0VAsA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnnnnnn_nTm` (`AbsolutePosition.swift.o`)
+
+|     % |   Time | Samples | Caller                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Location     |
+| ----: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 63.4% | 26.0ms |      26 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax019c45MemberAccessExprB0V_4base_6period_8declName_5n22AcA0c15UnexpectedNodesx9VSg_AA0cfx14VSgAjA0c5Tokenx22VAjA0c13DeclReferencefx7VAjA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cwB0VSgAsA0c5TokenB0VAsA0c13DeclReferencewB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                     | `crtstuff.c` |
+| 22.0% |  9.0ms |       9 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c48CodeBlockB0V_9leftBrace_10statements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw17VAjA0cde8ItemListw9VAjljA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0cuv8ItemListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                              | `crtstuff.c` |
+|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax012c45TupleExprB0V_9leftParen_8elements_05rightG0_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw20VAjA0c7Labelede4Listw9VAjljA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c7Labeledv4ListB0VAsuSTf1nnnncn_nTf4nnnndnnnnnnn_n`                                                                           | `crtstuff.c` |
+|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax020c70FunctionSignatureB0V_15parameterClause_16effectSpecifiers_06returnG0_5n22AcA0c15UnexpectedNodesw20VSg_AA0cd9Parametergw15VAjA0cd6Effectiw16VSgAjA0c6Returngw9VSgAjA0B5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cu9ParameteryB0VAsA0cu16EffectSpecifiersB0VSgAsA0c6ReturnyB0VSgASTf1nnnncn_nTf4nnnndnnnnnnn_n` | `crtstuff.c` |
+|  2.4% |  1.0ms |       1 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c46KeyPathExprB0V_9backslash_4root_10components_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx11VAjA0c4Typex25VSgAjA0cde13ComponentListx7VAjA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VAsA0c4TypeB0VSgAsA0cuv13ComponentListB0VASTf1nnnncn_nTf4nnnndnnnnnnn_n`                                         | `crtstuff.c` |
 
 ##### `$sSpsRi_zrlE10initialize2toyxn_tF11SwiftSyntax03RawD4DataV_Tg5` (`<unknown>`)
 
@@ -555,6 +599,19 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | -----: | ------: | ------------------------ | ----------- |
 | 100.0% | 29.0ms |      29 | `$s11SwiftParser0B0VWOr` | `<unknown>` |
 
+##### `$s11SwiftParser0B0V43consumeAnyTokenWithoutAdjustingNestingLevel0A6Syntax03RaweJ0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:387`)
+
+|      % |   Time | Samples | Caller                                                     | Location                                                               |
+| -----: | -----: | ------: | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 100.0% | 28.0ms |      28 | `$s11SwiftParser0B0V15consumeAnyToken0A6Syntax03RaweF0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:382` |
+
+##### `$s11SwiftParser9TokenSpecV_9remapping18recoveryPrecedence18allowAtStartOfLineAC0A6Syntax7KeywordO_AG03RawC4KindOSgAA0cG0OSgSbtcfC` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:101`)
+
+|     % |   Time | Samples | Caller                                                                                                                           | Location                                                                     |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 78.6% | 22.0ms |      22 | `$s11SwiftParser19DeclarationModifierO6lexeme20experimentalFeaturesACSgAA5LexerO6LexemeV_AA0B0V012ExperimentalG0VtcfCTf4ndd_n`   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:385` |
+| 21.4% |  6.0ms |       6 | `$s11SwiftParser21ContextualDeclKeywordO6lexeme20experimentalFeaturesACSgAA5LexerO6LexemeV_AA0B0V012ExperimentalH0VtcfCTf4ndd_n` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpecSet.swift:206` |
+
 ##### `$s11SwiftParser0B0VWOr` (`<unknown>`)
 
 |     % |  Time | Samples | Caller                                                                                                                                   | Location                                                                  |
@@ -579,6 +636,22 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | -----: | ------: | ---------------------------------------------------- | ---------------------------------------------------------------------------- |
 | 100.0% | 26.0ms |      26 | `$s11SwiftParser5LexerO6CursorV7advances5UInt8VSgyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:669` |
 
+##### `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingB5ArenaChtFZTf4nnnnnnd_n` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568`)
+
+|     % |   Time | Samples | Caller                                                                                 | Location                                                                  |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 44.0% | 11.0ms |      11 | `$s11SwiftParser0B0V43consumeAnyTokenWithoutAdjustingNestingLevel0A6Syntax03RaweJ0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:387`    |
+| 20.0% |  5.0ms |       5 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                    | `<unknown>`                                                               |
+| 12.0% |  3.0ms |       3 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_TG5`                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
+|  8.0% |  2.0ms |       2 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift` |
+|  8.0% |  2.0ms |       2 | `$s11SwiftParser13TokenConsumerPAAE3eaty0C0QzAA0C4SpecVFAA0B0V_Tg5`                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:213` |
+
+##### `$s11SwiftParser0B0V9LookaheadV25canParseArgumentLabelListSbyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:277`)
+
+|      % |   Time | Samples | Caller                                                                                        | Location                                                             |
+| -----: | -----: | ------: | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 100.0% | 25.0ms |      25 | `$s11SwiftParser0B0V17parseArgLabelListy0A6Syntax020RawDeclNameArgumentsG0VSgAC0iJ7OptionsVF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Names.swift:98` |
+
 ##### `$s11SwiftParser0B0V9LookaheadVWOr` (`<unknown>`)
 
 |     % |  Time | Samples | Caller                                                                                                                                   | Location    |
@@ -589,58 +662,23 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 12.0% | 3.0ms |       3 | `$s11SwiftParser0B0V9LookaheadV25canParseArgumentLabelListSbyF`                                                                          | `<unknown>` |
 |  8.0% | 2.0ms |       2 | `$s11SwiftParser13TokenConsumerPAAE20atStartOfDeclaration12isAtTopLevel13allowInitDecl0M8RecoveryS2b_S2btFAA0B0V_Tg5`                    | `<unknown>` |
 
-##### `swift_retain_n` (`<unknown>`)
+##### `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF6$deferL_yyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:76`)
 
-|     % |  Time | Samples | Caller                                                                                                                                     | Location    |
-| ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| 17.4% | 4.0ms |       4 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA017DeclReferenceExprB0VcACYbcfu263_` | `<unknown>` |
-|  8.7% | 2.0ms |       2 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA017ExpressionPatternB0VcACYbcfu403_` | `<unknown>` |
-|  8.7% | 2.0ms |       2 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA011LabeledExprB0VcACYbcfu623_`       | `<unknown>` |
-|  8.7% | 2.0ms |       2 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzFAA0bC12ContinueKindOAA016FunctionCallExprB0VcACYbcfu435_`  | `<unknown>` |
-|  4.3% | 1.0ms |       1 | `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF`                                                          | `<unknown>` |
+|      % |   Time | Samples | Caller                                                    | Location                                                                            |
+| -----: | -----: | ------: | --------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 100.0% | 24.0ms |      24 | `$s11SwiftParser5LexerO14LexemeSequenceV7advanceAC0D0VyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/LexemeSequence.swift:75` |
 
-##### `memcmp` (`<unknown>`)
+##### `$s11SwiftSyntax0B7VisitorC5visit33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` (`./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:4677`)
 
-|      % |   Time | Samples | Caller                                                                                      | Location                                                                   |
-| -----: | -----: | ------: | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 100.0% | 23.0ms |      23 | `$s11SwiftSyntax13compareMemory33_132B404099BC4B0D33927A976564E3D3LLySbSPys5UInt8VG_AFSitF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxText.swift:289` |
+|      % |   Time | Samples | Caller                                                                                     | Location                                                                                 |
+| -----: | -----: | ------: | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| 100.0% | 24.0ms |      24 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:5255` |
 
 ##### `$sSls11SubSequenceQzRszrlE8popFirst7ElementQzSgyFs5SliceVySRys5UInt8VGG_Tg5` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift`)
 
 |      % |   Time | Samples | Caller                                                         | Location                                                                     |
 | -----: | -----: | ------: | -------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | 100.0% | 22.0ms |      22 | `$s11SwiftParser5LexerO6CursorV8PositionV7advances5UInt8VSgyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Cursor.swift:646` |
-
-##### `__libc_malloc` (`<unknown>`)
-
-|     % |   Time | Samples | Caller            | Location    |
-| ----: | -----: | ------: | ----------------- | ----------- |
-| 90.0% | 18.0ms |      18 | `swift_slowAlloc` | `<unknown>` |
-| 10.0% |  2.0ms |       2 | `posix_memalign`  | `<unknown>` |
-
-##### `$s11SwiftParser0B0V9LookaheadVAA13TokenConsumerA2aFP07currentD0AA5LexerO6LexemeVvgTW` (`<unknown>`)
-
-|     % |   Time | Samples | Caller                                                                                                                                                            | Location                                                                      |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 57.9% | 11.0ms |      11 | `$s11SwiftParser13TokenConsumerPAAE2at5anyInqd__4spec_AA0C17ConsumptionHandleV6handletSgqd__m_tAA0C7SpecSetRd__lFAA0B0V9LookaheadV_AA19DeclarationModifierOTt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:141` |
-| 26.3% |  5.0ms |       5 | `$s11SwiftParser13TokenConsumerPAAE2at5anyInqd__4spec_AA0C17ConsumptionHandleV6handletSgqd__m_tAA0C7SpecSetRd__lFAA0B0V9LookaheadV_AA19CanBeStatementStartOTt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:141` |
-| 15.8% |  3.0ms |       3 | `$s11SwiftParser13TokenConsumerPAAE2at6prefixSb0A6Syntax0G4TextV_tFAA0B0V9LookaheadV_Tg5`                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:172` |
-
-##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP07currentC0AA5LexerO6LexemeVvgTW` (`<unknown>`)
-
-|     % |  Time | Samples | Caller                                                                                                                                                            | Location                                                                      |
-| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 42.1% | 8.0ms |       8 | `$s11SwiftParser13TokenConsumerPAAE2at5anyInqd__4spec_AA0C17ConsumptionHandleV6handletSgqd__m_tAA0C7SpecSetRd__lFAA0B0V_AA30SingleValueStatementExpressionOTt0g5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:141` |
-| 10.5% | 2.0ms |       2 | `$s11SwiftParser13TokenConsumerPAAE2atySbAA0C4SpecVFAA0B0V_TG5`                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:84`  |
-| 10.5% | 2.0ms |       2 | `$s11SwiftParser13TokenConsumerPAAE2atySbAA0C4SpecV_AFtFAA0B0V_Tg5`                                                                                               | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:95`  |
-| 10.5% | 2.0ms |       2 | `$s11SwiftParser13TokenConsumerPAAE2atySbAA0C4SpecVFAA0B0V_Tg5`                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:84`  |
-|  5.3% | 1.0ms |       1 | `$s11SwiftParser13TokenConsumerPAAE2at6prefixSb0A6Syntax0G4TextV_tFAA0B0V_Tg5`                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:172` |
-
-##### `swift_arrayDestroy` (`<unknown>`)
-
-|      % |   Time | Samples | Caller                            | Location    |
-| -----: | -----: | ------: | --------------------------------- | ----------- |
-| 100.0% | 17.0ms |      17 | `$ss23_ContiguousArrayStorageCfD` | `<unknown>` |
 
 ##### `$ss5UInt8VSQsSQ2eeoiySbx_xtFZTW` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/CharacterInfo.swift`)
 
@@ -752,53 +790,53 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Ours
 
-|     % |  Time | Samples | Function                                                                                                                                                                                                              | Location                                                                                       |
-| ----: | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 91.5% | 4.84s |   4,836 | `profile_main`                                                                                                                                                                                                        | `./Sources/profile/main.swift:1`                                                               |
-| 67.2% | 3.55s |   3,549 | `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ`                                                                                                                                                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift:22`                 |
-| 66.9% | 3.54s |   3,535 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ`                                                                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift:278` |
-| 66.8% | 3.53s |   3,533 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm` | `Attributes.swift.o`                                                                           |
-| 66.8% | 3.53s |   3,533 | `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF`                                                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:90`                        |
-| 66.8% | 3.53s |   3,533 | `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF`                                                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:46`                        |
-| 66.8% | 3.53s |   3,528 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF`                                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:130`                       |
-| 66.7% | 3.53s |   3,526 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF`                                                                              | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:213`                       |
-| 66.0% | 3.49s |   3,490 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF`                                                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:175`                   |
-| 58.4% | 3.09s |   3,087 | `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF`                                                                                                                              | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:844`                   |
-| 58.4% | 3.08s |   3,084 | `$s11SwiftParser0B0V19parseMemberDeclList0A6Syntax03Rawd9BlockItemfG0VyF`                                                                                                                                             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:815`                   |
-| 58.2% | 3.07s |   3,074 | `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF`                                                                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:766`                   |
-| 47.1% | 2.49s |   2,487 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF`                                                                                                    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:62`                        |
-| 42.5% | 2.24s |   2,244 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm`                                       | `Attributes.swift.o`                                                                           |
-| 41.6% | 2.20s |   2,197 | `$s11SwiftParser0B0V14parseCodeBlock10introducer13allowInitDecl0A6Syntax03RawdeJ0VAG0k5TokenJ0VSg_SbtF`                                                                                                               | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:111`                       |
-| 41.4% | 2.19s |   2,190 | `$s11SwiftParser0B0V22parseOptionalCodeBlock13allowInitDecl0A6Syntax03RawefJ0VSgSb_tF`                                                                                                                                | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:99`                        |
-| 35.2% | 1.86s |   1,862 | `$s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF`                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:152`                    |
-| 34.3% | 1.81s |   1,813 | `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF`                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:399`                    |
-| 33.5% | 1.77s |   1,772 | `$s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF`                                                                                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:122`                    |
-| 29.7% | 1.57s |   1,570 | `$s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF`                                                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:180`                       |
+|     % |  Time | Samples | Function                                                                                                                                 | Location                                                                                       |
+| ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| 91.5% | 4.84s |   4,836 | `profile_main`                                                                                                                           | `./Sources/profile/main.swift:1`                                                               |
+| 67.2% | 3.55s |   3,549 | `$s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ`                                                                        | `./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift:22`                 |
+| 66.9% | 3.54s |   3,535 | `$s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ`                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift:278` |
+| 66.8% | 3.53s |   3,533 | `$s11SwiftParser0B0V27parseTopLevelCodeBlockItems0A6Syntax03Rawfg8ItemListI0VyF`                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:90`                        |
+| 66.8% | 3.53s |   3,533 | `$s11SwiftParser0B0V15parseSourceFile0A6Syntax03RawdeF0VyF`                                                                              | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:46`                        |
+| 66.8% | 3.53s |   3,528 | `$s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF`                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:130`                       |
+| 66.7% | 3.53s |   3,526 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:213`                       |
+| 66.0% | 3.49s |   3,490 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF`                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:175`                   |
+| 58.4% | 3.09s |   3,087 | `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF`                                                 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:844`                   |
+| 58.4% | 3.08s |   3,084 | `$s11SwiftParser0B0V19parseMemberDeclList0A6Syntax03Rawd9BlockItemfG0VyF`                                                                | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:815`                   |
+| 58.2% | 3.07s |   3,074 | `$s11SwiftParser0B0V20parseMemberBlockItem0A6Syntax03RawdefG0VSgyF`                                                                      | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:766`                   |
+| 47.1% | 2.49s |   2,487 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF`                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:62`                        |
+| 41.6% | 2.20s |   2,197 | `$s11SwiftParser0B0V14parseCodeBlock10introducer13allowInitDecl0A6Syntax03RawdeJ0VAG0k5TokenJ0VSg_SbtF`                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:111`                       |
+| 41.4% | 2.19s |   2,190 | `$s11SwiftParser0B0V22parseOptionalCodeBlock13allowInitDecl0A6Syntax03RawefJ0VSgSb_tF`                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:99`                        |
+| 35.2% | 1.86s |   1,862 | `$s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF`                     | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:152`                    |
+| 34.3% | 1.81s |   1,813 | `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF`              | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:399`                    |
+| 33.5% | 1.77s |   1,772 | `$s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF`                             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:122`                    |
+| 29.7% | 1.57s |   1,570 | `$s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF`                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:180`                       |
+| 29.7% | 1.57s |   1,569 | `$s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF`                                                                             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58`                      |
+| 27.5% | 1.45s |   1,452 | `$s11SwiftParser0B0V20parseFuncDeclarationy0A6Syntax015RawFunctionDeclF0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF`             | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1143`                  |
 
 ##### Native
 
-|     % |    Time | Samples | Function                                                                                                                                                    | Location    |
-| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 92.5% |   4.89s |   4,889 | `__libc_start_main`                                                                                                                                         | `<unknown>` |
-| 92.5% |   4.89s |   4,889 | `_start`                                                                                                                                                    | `<unknown>` |
-| 11.4% | 600.0ms |     600 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                                                                                         | `<unknown>` |
-|  7.2% | 379.0ms |     379 | `swift_release`                                                                                                                                             | `<unknown>` |
-|  5.7% | 303.0ms |     303 | `swift_retain`                                                                                                                                              | `<unknown>` |
-|  4.8% | 253.0ms |     253 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC09remapping0C0Qz0A6Syntax03RawC4KindO_tFTW`                                                         | `<unknown>` |
-|  4.3% | 228.0ms |     228 | `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF`                            | `<unknown>` |
-|  3.9% | 207.0ms |     207 | `$s11SwiftSyntax0B4TextV2eeoiySbAC_ACtFZ`                                                                                                                   | `<unknown>` |
-|  3.8% | 202.0ms |     202 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA` | `<unknown>` |
-|  3.2% | 171.0ms |     171 | `swift_release_n`                                                                                                                                           | `<unknown>` |
-|  2.9% | 154.0ms |     154 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF`                                                                  | `<unknown>` |
-|  2.3% | 121.0ms |     121 | `swift_slowAlloc`                                                                                                                                           | `<unknown>` |
-|  2.2% | 118.0ms |     118 | `__libc_malloc`                                                                                                                                             | `<unknown>` |
-|  2.2% | 117.0ms |     117 | `swift_beginAccess`                                                                                                                                         | `<unknown>` |
-|  2.1% | 111.0ms |     111 | `swift_endAccess`                                                                                                                                           | `<unknown>` |
-|  2.0% | 108.0ms |     108 | `$s11SwiftParser0B0V9LookaheadVWOs`                                                                                                                         | `<unknown>` |
-|  1.9% |  98.0ms |      98 | `posix_memalign`                                                                                                                                            | `<unknown>` |
-|  1.8% |  95.0ms |      95 | `$s11SwiftParser9TokenSpecV2teoiySbAC_AA5LexerO6LexemeVtFZ0A6Syntax7KeywordOSgyXEfu_`                                                                       | `<unknown>` |
-|  1.6% |  87.0ms |      87 | `$s11SwiftSyntax0B8ProtocolPAAE3rawAA03RawB0Vvg`                                                                                                            | `<unknown>` |
-|  1.6% |  82.0ms |      82 | `$s11SwiftParser0B0VWOr`                                                                                                                                    | `<unknown>` |
+|     % |    Time | Samples | Function                                                                                                                                                                                                                          | Location             |
+| ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| 92.5% |   4.89s |   4,889 | `__libc_start_main`                                                                                                                                                                                                               | `<unknown>`          |
+| 92.5% |   4.89s |   4,889 | `_start`                                                                                                                                                                                                                          | `<unknown>`          |
+| 66.8% |   3.53s |   3,533 | `$s11SwiftParser0B0V22parseCodeBlockItemList12isAtTopLevel13allowInitDecl5until0A6Syntax03RawdefgP0VSb_S2bACzXEtF04$s11a9Syntax017defg6B0V0A6b35E5parse4fromAcD0G0Vz_tFZAA03RawcdefT19VAHzXEfU_SbAHzXEfU_Tf1nncn_nTm`             | `Attributes.swift.o` |
+| 42.5% |   2.24s |   2,244 | `$s11SwiftParser0B0V27parseNominalTypeDeclaration3for5attrs15introucerHandlexxm_AC14DeclAttributesVAA019RecoveryConsumptionJ0VtAA0deF5TraitRzlF0A6Syntax08RawClasskP0V_Tt0g5Tm`                                                   | `Attributes.swift.o` |
+| 11.4% | 600.0ms |     600 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW`                                                                                                                                                               | `<unknown>`          |
+|  7.2% | 379.0ms |     379 | `swift_release`                                                                                                                                                                                                                   | `<unknown>`          |
+|  6.8% | 360.0ms |     360 | `$s11SwiftParser0B0V20parseParameterClause_0cD0xxm_10Parameters_0D6SyntaxQZACzXEtAA03RawdE5TraitRzlF0aG00h7ClosuredeG0V_Tt0g504$s11a17Parser0B0V30parsej47SignatureIfPresent0A6Syntax03RawdeH0VSgyFAE0id9dU10VACzXEfU0_Tf1cn_nTm` | `Attributes.swift.o` |
+|  6.1% | 324.0ms |     324 | `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l14SwitchCaseListK0V_Tg5Tm`   | `Attributes.swift.o` |
+|  5.9% | 311.0ms |     311 | `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm`                      | `Attributes.swift.o` |
+|  5.7% | 303.0ms |     303 | `swift_retain`                                                                                                                                                                                                                    | `<unknown>`          |
+|  4.8% | 253.0ms |     253 | `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC09remapping0C0Qz0A6Syntax03RawC4KindO_tFTW`                                                                                                                               | `<unknown>`          |
+|  4.3% | 228.0ms |     228 | `$s11SwiftParser0B0V21parseTrailingClosures6flavor0A6Syntax014RawClosureExprG0V_AF0h8Multipledi11ElementListG0VtAC0J6FlavorO_tF`                                                                                                  | `<unknown>`          |
+|  3.9% | 207.0ms |     207 | `$s11SwiftSyntax0B4TextV2eeoiySbAC_ACtFZ`                                                                                                                                                                                         | `<unknown>`          |
+|  3.8% | 202.0ms |     202 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA`                                                                       | `<unknown>`          |
+|  3.2% | 171.0ms |     171 | `swift_release_n`                                                                                                                                                                                                                 | `<unknown>`          |
+|  2.9% | 154.0ms |     154 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF`                                                                                                                                        | `<unknown>`          |
+|  2.3% | 121.0ms |     121 | `swift_slowAlloc`                                                                                                                                                                                                                 | `<unknown>`          |
+|  2.2% | 118.0ms |     118 | `__libc_malloc`                                                                                                                                                                                                                   | `<unknown>`          |
+|  2.2% | 117.0ms |     117 | `swift_beginAccess`                                                                                                                                                                                                               | `<unknown>`          |
+|  2.1% | 113.0ms |     113 | `_init`                                                                                                                                                                                                                           | `crtstuff.c`         |
 
 ##### Standard library
 
@@ -994,6 +1032,18 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | 100.0% | 1.57s |   1,570 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:213` |
 
+##### `$s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58`)
+
+|      % |  Time | Samples | Caller                                                                                                           | Location                                                                 |
+| -----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 100.0% | 1.57s |   1,569 | `$s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:180` |
+
+##### `$s11SwiftParser0B0V20parseFuncDeclarationy0A6Syntax015RawFunctionDeclF0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1143`)
+
+|      % |  Time | Samples | Caller                                                                           | Location                                                                     |
+| -----: | ----: | ------: | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 100.0% | 1.45s |   1,452 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:175` |
+
 ##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
 
 |     % |    Time | Samples | Caller                                                                                                                              | Location                                                                      |
@@ -1011,6 +1061,28 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 17.2% | 65.0ms |      65 | `$s11SwiftParser0B0VWOs`                                                                   | `<unknown>`                                                                              |
 | 11.9% | 45.0ms |      45 | `$s11SwiftParser0B0V9LookaheadVWOs`                                                        | `<unknown>`                                                                              |
 |  8.4% | 32.0ms |      32 | `$s11SwiftSyntax0B7VisitorC13visitChildren33_F966D2E530B0A562820FA4876E472C28LLyyAA0B0VzF` | `<unknown>`                                                                              |
+
+##### `$s11SwiftParser0B0V20parseParameterClause_0cD0xxm_10Parameters_0D6SyntaxQZACzXEtAA03RawdE5TraitRzlF0aG00h7ClosuredeG0V_Tt0g504$s11a17Parser0B0V30parsej47SignatureIfPresent0A6Syntax03RawdeH0VSgyFAE0id9dU10VACzXEfU0_Tf1cn_nTm` (`Attributes.swift.o`)
+
+|     % |    Time | Samples | Caller                                                                                                                     | Location                                                                      |
+| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 93.3% | 336.0ms |     336 | `$s11SwiftParser0B0V22parseFunctionSignature0A6Syntax03RawdeF0VyF`                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1203` |
+|  4.4% |  16.0ms |      16 | `$s11SwiftParser0B0V24parseEnumCaseDeclarationy0A6Syntax03Rawde4DeclG0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:862`  |
+|  2.2% |   8.0ms |       8 | `$s11SwiftParser0B0V30parseClosureSignatureIfPresent0A6Syntax03RawdeH0VSgyF`                                               | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:1709`  |
+
+##### `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l14SwitchCaseListK0V_Tg5Tm` (`Attributes.swift.o`)
+
+|     % |    Time | Samples | Caller                                                                                                                                                                                                                         | Location                                                                 |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| 66.0% | 214.0ms |     214 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF`                                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:213` |
+| 33.6% | 109.0ms |     109 | `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l15MemberBlockItemK0V_Tg5` | `crtstuff.c`                                                             |
+|  0.3% |   1.0ms |       1 | `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l14SwitchCaseListK0V_Tg5`  | `crtstuff.c`                                                             |
+
+##### `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm` (`Attributes.swift.o`)
+
+|      % |    Time | Samples | Caller                                                                                                                                                                                                                          | Location             |
+| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| 100.0% | 311.0ms |     311 | `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l14SwitchCaseListK0V_Tg5Tm` | `Attributes.swift.o` |
 
 ##### `swift_retain` (`<unknown>`)
 
@@ -1089,22 +1161,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 99.1% | 116.0ms |     116 | `$s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF` | `./Sources/profile/main.swift:8`                                             |
 |  0.9% |   1.0ms |       1 | `$s11SwiftParser0B0V9LookaheadV24canParseClosureSignatureSbyF`                 | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:2478` |
 
-##### `swift_endAccess` (`<unknown>`)
-
-|      % |    Time | Samples | Caller                                                                         | Location                         |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------ | -------------------------------- |
-| 100.0% | 111.0ms |     111 | `$s7profile11KindCounterC8visitAnyy11SwiftSyntax0g15VisitorContinueB0OAE0G0VF` | `./Sources/profile/main.swift:8` |
-
-##### `$s11SwiftParser0B0V9LookaheadVWOs` (`<unknown>`)
-
-|     % |   Time | Samples | Caller                                                                                                                                                                                                                                                      | Location    |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 33.3% | 36.0ms |      36 | `$s11SwiftParser0B0V25parseIdentifierExpression6flavor0A6Syntax07RawExprG0VAC0I6FlavorO_tF`                                                                                                                                                                 | `<unknown>` |
-| 12.0% | 13.0ms |      13 | `$s11SwiftParser0B0V15parseTypeScalar19misplacedSpecifiers0A6Syntax03RawdH0VSayAF0i5TokenH0VG_tF`                                                                                                                                                           | `<unknown>` |
-| 12.0% | 13.0ms |      13 | `$s11SwiftParser0B0V17parseArgLabelListy0A6Syntax020RawDeclNameArgumentsG0VSgAC0iJ7OptionsVF`                                                                                                                                                               | `<unknown>` |
-|  9.3% | 10.0ms |      10 | `$s11SwiftParser0B0V27parseDottedExpressionSuffix12previousNode0A6Syntax018RawUnexpectedNodesI0VSg16unexpectedPeriod_AF0j5TokenI0V6periodAF0j17DeclReferenceExprI0V8declNameAF0j21GenericArgumentClauseI0VSg8genericstxSg_tAF0jiH8ProtocolRzlFAF0jsI0V_Tg5` | `<unknown>` |
-|  5.6% |  6.0ms |       6 | `$s11SwiftParser0B0V19parseSwitchCaseBody0A6Syntax020RawCodeBlockItemListG0VyF`                                                                                                                                                                             | `<unknown>` |
-
 ##### `$sSD_7defaultq_x_q_yXKtciM11SwiftSyntax0C4KindO_SiTg5` (`./Sources/profile/main.swift`)
 
 |      % |    Time | Samples | Caller                                                                         | Location                         |
@@ -1124,18 +1180,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 99.0% | 99.0ms |      99 | `$s11SwiftSyntax16BumpPtrAllocatorC12startNewSlab33_61CB623A74FD1871D887FFA45954E6F5LLyyF` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:65` |
 |  1.0% |  1.0ms |       1 | `$s11SwiftSyntax16BumpPtrAllocatorC8allocate9byteCount9alignmentSwSi_SitF`                 | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/BumpPtrAllocator.swift:99` |
 
-##### `posix_memalign` (`<unknown>`)
-
-|      % |   Time | Samples | Caller            | Location    |
-| -----: | -----: | ------: | ----------------- | ----------- |
-| 100.0% | 98.0ms |      98 | `swift_slowAlloc` | `<unknown>` |
-
-##### `$s11SwiftParser9TokenSpecV2teoiySbAC_AA5LexerO6LexemeVtFZ0A6Syntax7KeywordOSgyXEfu_` (`<unknown>`)
-
-|      % |   Time | Samples | Caller                                                                                                             | Location                                                                  |
-| -----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| 100.0% | 95.0ms |      95 | `$s11SwiftParser9TokenSpecV7matches03rawC4Kind7keyword13atStartOfLineSb0A6Syntax03RawcG0O_AH7KeywordOSgyXKSbyXKtF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenSpec.swift:115` |
-
 ##### `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm` (`Attributes.swift.o`)
 
 |     % |   Time | Samples | Caller                                                                                                                  | Location    |
@@ -1145,22 +1189,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |  7.7% |  7.0ms |       7 | `$sSa16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtF11SwiftSyntax014RawLabeledExprM0V_Tg5` | `<unknown>` |
 |  6.6% |  6.0ms |       6 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax019RawConditionElementI0V_Tg5`                              | `<unknown>` |
 |  6.6% |  6.0ms |       6 | `$sSa034_makeUniqueAndReserveCapacityIfNotB0yyF11SwiftSyntax017RawSwitchCaseItemI0V_Tg5`                                | `<unknown>` |
-
-##### `$s11SwiftSyntax0B8ProtocolPAAE3rawAA03RawB0Vvg` (`<unknown>`)
-
-|      % |   Time | Samples | Caller                                            | Location                                                                       |
-| -----: | -----: | ------: | ------------------------------------------------- | ------------------------------------------------------------------------------ |
-| 100.0% | 87.0ms |      87 | `$s11SwiftSyntax0B8ProtocolPAAE4kindAA0B4KindOvg` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/SyntaxProtocol.swift:174` |
-
-##### `$s11SwiftParser0B0VWOr` (`<unknown>`)
-
-|     % |   Time | Samples | Caller                                                                                                                                                   | Location    |
-| ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 31.7% | 26.0ms |      26 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF`                 | `<unknown>` |
-| 23.2% | 19.0ms |      19 | `$s11SwiftParser0B0V19isStartOfReturnExpr33_6E0C74828AE17B0892E3EAA0DDDABE24LLSbyF`                                                                      | `<unknown>` |
-| 18.3% | 15.0ms |      15 | `$s11SwiftParser0B0V18parseArgumentLabel0A6Syntax018RawUnexpectedNodesF0VSg_AE0g5TokenF0VtyF`                                                            | `<unknown>` |
-| 13.4% | 11.0ms |      11 | `$s11SwiftParser0B0V19parseParameterNames33_2A07BF7189F78565624DE0BE19FE8761LLAC0dE0AELLVyF`                                                             | `<unknown>` |
-|  4.9% |  4.0ms |       4 | `$s11SwiftParser0B0V25parseArgumentListElements7pattern6flavor18allowTrailingCommaSay0A6Syntax014RawLabeledExprL0VGAC14PatternContextO_AC0O6FlavorOSbtF` | `<unknown>` |
 
 ##### `$ss25isKnownUniquelyReferencedySbxSgzRlzClF11SwiftSyntax0F0V4InfoC_Tg5` (`<unknown>`)
 
@@ -1432,6 +1460,26 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 99.9% | 1.57s |   1,569 | `$s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF`    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58`    |
 |  0.1% | 1.0ms |       1 | `$s11SwiftParser13TokenConsumerPAAE2atySbAA0C4SpecVFAA0B0V_Tg5` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TokenConsumer.swift:84` |
 
+##### `$s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58`)
+
+|     % |    Time | Samples | Callee                                                                                                          | Location                                                                     |
+| ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 51.2% | 803.0ms |     803 | `$s11SwiftParser0B0V21parseSwitchExpression12switchHandle0A6Syntax03Rawd4ExprH0VAA019RecoveryConsumptionG0V_tF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:2199` |
+| 35.9% | 563.0ms |     563 | `$s11SwiftParser0B0V20parseReturnStatement12returnHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF`  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:699`   |
+| 21.0% | 330.0ms |     330 | `$s11SwiftParser0B0V17parseIfExpression8ifHandle0A6Syntax03Rawd4ExprH0VAA019RecoveryConsumptionG0V_tF`          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:2146` |
+|  5.5% |  87.0ms |      87 | `$s11SwiftParser0B0V19parseGuardStatement11guardHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF`    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:141`   |
+|  4.3% |  67.0ms |      67 | `$s11SwiftParser0B0V19parseWhileStatement11whileHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF`    | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:515`   |
+
+##### `$s11SwiftParser0B0V20parseFuncDeclarationy0A6Syntax015RawFunctionDeclF0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF` (`./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1143`)
+
+|     % |    Time | Samples | Callee                                                                                                                                                                                                                                                                                                                       | Location                                                                                        |
+| ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 87.0% |   1.26s |   1,263 | `$s11SwiftParser0B0V22parseOptionalCodeBlock13allowInitDecl0A6Syntax03RawefJ0VSgSb_tF`                                                                                                                                                                                                                                       | `./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:99`                         |
+| 12.1% | 175.0ms |     175 | `$s11SwiftParser0B0V22parseFunctionSignature0A6Syntax03RawdeF0VyF`                                                                                                                                                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1203`                   |
+|  0.5% |   7.0ms |       7 | `$s11SwiftParser0B0V16expectIdentifier15keywordRecovery018allowSelfOrCapitalh2AsD00g8KeywordskD00A6Syntax018RawUnexpectedNodesM0VSg_AH0n5TokenM0VtSb_S2btF`                                                                                                                                                                  | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:676`                          |
+|  0.4% |   6.0ms |       6 | `$s11SwiftParser0B0V22parseGenericParameters0A6Syntax03Rawd15ParameterClauseF0VyF`                                                                                                                                                                                                                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:414`                    |
+|  0.3% |   4.0ms |       4 | `$s11SwiftSyntax015RawFunctionDeclB0V_10attributes_9modifiers_11funcKeyword_4name_22genericParameterClause_9signature_0k5WhereM0_4body_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VAoA0ce8ModifieruB0VAoA0c5TokenB0VAouoA0c7GenericlmB0VSgAoA0cd9SignatureB0VAoA0cxomB0VSgAoA0c9CodeBlockB0VSgAoA0B5ArenaChtcfC` | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesEF.swift:1872` |
+
 ##### `$s11SwiftParser0B0VAA13TokenConsumerA2aDP010consumeAnyC00C0QzyFTW` (`<unknown>`)
 
 |     % |    Time | Samples | Callee                                                                                                                                                                                   | Location                                                                                  |
@@ -1446,6 +1494,33 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |     % |   Time | Samples | Callee               | Location     |
 | ----: | -----: | ------: | -------------------- | ------------ |
 | 13.2% | 50.0ms |      50 | `__aarch64_cas8_rel` | `crtstuff.c` |
+
+##### `$s11SwiftParser0B0V20parseParameterClause_0cD0xxm_10Parameters_0D6SyntaxQZACzXEtAA03RawdE5TraitRzlF0aG00h7ClosuredeG0V_Tt0g504$s11a17Parser0B0V30parsej47SignatureIfPresent0A6Syntax03RawdeH0VSgyFAE0id9dU10VACzXEfU0_Tf1cn_nTm` (`Attributes.swift.o`)
+
+|     % |    Time | Samples | Callee                                                                                                       | Location                                                                   |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 80.8% | 291.0ms |     291 | `$s11SwiftParser0B0V22parseFunctionParameter0A6Syntax03RawdeF0VyF`                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parameters.swift:93`  |
+|  5.6% |  20.0ms |      20 | `$s11SwiftParser0B0V6expecty0A6Syntax018RawUnexpectedNodesD0VSg10unexpected_AE0e5TokenD0V5tokentAA0I4SpecVF` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:586`     |
+|  4.2% |  15.0ms |      15 | `$s11SwiftParser0B0V15consumeAnyToken0A6Syntax03RaweF0VyF`                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:382`     |
+|  3.3% |  12.0ms |      12 | `$s11SwiftParser0B0V22parseEnumCaseParameter0A6Syntax03RawdefG0VyF`                                          | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parameters.swift:203` |
+|  1.4% |   5.0ms |       5 | `$s11SwiftParser0B0V21parseClosureParameter0A6Syntax03RawdeF0VyF`                                            | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parameters.swift:156` |
+
+##### `$s11SwiftParser0B0V21parsePoundIfDirective_012addSemicolonE6Needed6syntax0A6Syntax03Rawe10ConfigDeclK0VxSgACz_SbtXE_AJx_SbACztXEAG0lem6ClauseK0V8ElementsOSgACz_SayxGtXEtAG0lK12NodeProtocolRzlFAG0l14SwitchCaseListK0V_Tg5Tm` (`Attributes.swift.o`)
+
+|     % |    Time | Samples | Callee                                                                                                                                                                                                       | Location                                                                      |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| 96.0% | 311.0ms |     311 | `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm` | `Attributes.swift.o`                                                          |
+|  3.4% |  11.0ms |      11 | `$s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF`                                                                                         | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:152`   |
+|  0.3% |   1.0ms |       1 | `$s11SwiftParser0B0V15consumeAnyToken0A6Syntax03RaweF0VyF`                                                                                                                                                   | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Parser.swift:382`        |
+|  0.3% |   1.0ms |       1 | `$s11SwiftSyntax03RawB0V11parsedToken4kind9wholeText9textRange8presence15tokenDiagnostic5arenaAcA0cE4KindO_AA0bH0VSnySiGAA14SourcePresenceOAA0eM0VSgAA07ParsingB5ArenaChtFZTf4nnnnnnd_n`                     | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Raw/RawSyntax.swift:568` |
+
+##### `$s11SwiftParser0B0V27parseIfConfigClauseElements33_1E02694F10AA4BDBAC79D2721DA1F1D0LL_012addSemicolonD6NeededSayxGxSgACz_SbtXE_AHx_SbACztXEt0A6Syntax03RawS12NodeProtocolRzlFAI0t14SwitchCaseListS0V_Tg5Tm` (`Attributes.swift.o`)
+
+|     % |    Time | Samples | Callee                                                                                                                                                      | Location                                                                     |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 65.0% | 202.0ms |     202 | `$s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtFAJSgACz_SbtXEfU0_TA` | `<unknown>`                                                                  |
+| 34.7% | 108.0ms |     108 | `$s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tFAF0jf9BlockItemI0VSgACz_SbtXEfU0_`                                           | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:179` |
+|  0.3% |   1.0ms |       1 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm`          | `Attributes.swift.o`                                                         |
 
 ##### `swift_retain` (`<unknown>`)
 
@@ -1512,18 +1587,6 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 27.4% | 32.0ms |      32 | `swift::runtime::SwiftTLSContext::get` | `crtstuff.c` |
 |  9.4% | 11.0ms |      11 | `swift::runtime::AccessSet::insert`    | `crtstuff.c` |
 
-##### `swift_endAccess` (`<unknown>`)
-
-|     % |   Time | Samples | Callee                                 | Location     |
-| ----: | -----: | ------: | -------------------------------------- | ------------ |
-| 35.1% | 39.0ms |      39 | `swift::runtime::SwiftTLSContext::get` | `crtstuff.c` |
-
-##### `$s11SwiftParser0B0V9LookaheadVWOs` (`<unknown>`)
-
-|     % |   Time | Samples | Callee          | Location    |
-| ----: | -----: | ------: | --------------- | ----------- |
-| 41.7% | 45.0ms |      45 | `swift_release` | `<unknown>` |
-
 ##### `$sSD_7defaultq_x_q_yXKtciM11SwiftSyntax0C4KindO_SiTg5` (`./Sources/profile/main.swift`)
 
 |     % |   Time | Samples | Callee                                                                                                                    | Location    |
@@ -1544,20 +1607,6 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | -----: | ------: | ------: | ----------------- | ----------- |
 | 100.0% | 100.0ms |     100 | `swift_slowAlloc` | `<unknown>` |
 
-##### `posix_memalign` (`<unknown>`)
-
-|     % |   Time | Samples | Callee          | Location    |
-| ----: | -----: | ------: | --------------- | ----------- |
-| 99.0% | 97.0ms |      97 | `__libc_malloc` | `<unknown>` |
-|  1.0% |  1.0ms |       1 | `(anonymous)`   | `<unknown>` |
-
-##### `$s11SwiftParser9TokenSpecV2teoiySbAC_AA5LexerO6LexemeVtFZ0A6Syntax7KeywordOSgyXEfu_` (`<unknown>`)
-
-|     % |   Time | Samples | Callee                                                     | Location                                                                          |
-| ----: | -----: | ------: | ---------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 94.7% | 90.0ms |      90 | `$s11SwiftSyntax7KeywordOyACSgAA0B4TextVcfCTf4nd_n`        | `./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/Keyword.swift:254` |
-|  2.1% |  2.0ms |       2 | `$s11SwiftParser5LexerO6LexemeV9tokenText0A6Syntax0gF0Vvg` | `./.build/checkouts/swift-syntax/Sources/SwiftParser/Lexer/Lexeme.swift:115`      |
-
 ##### `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm` (`Attributes.swift.o`)
 
 |     % |   Time | Samples | Callee                              | Location     |
@@ -1567,20 +1616,6 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 19.8% | 18.0ms |      18 | `swift_allocObject`                 | `<unknown>`  |
 | 16.5% | 15.0ms |      15 | `(anonymous)`                       | `<unknown>`  |
 |  8.8% |  8.0ms |       8 | `swift::RefCounts::doDecrementSlow` | `crtstuff.c` |
-
-##### `$s11SwiftSyntax0B8ProtocolPAAE3rawAA03RawB0Vvg` (`<unknown>`)
-
-|      % |   Time | Samples | Callee          | Location    |
-| -----: | -----: | ------: | --------------- | ----------- |
-| 100.0% | 87.0ms |      87 | `swift_release` | `<unknown>` |
-
-##### `$s11SwiftParser0B0VWOr` (`<unknown>`)
-
-|     % |   Time | Samples | Callee                                          | Location    |
-| ----: | -----: | ------: | ----------------------------------------------- | ----------- |
-| 37.8% | 31.0ms |      31 | `swift_bridgeObjectRetain`                      | `<unknown>` |
-| 26.8% | 22.0ms |      22 | `swift_retain`                                  | `<unknown>` |
-|  1.2% |  1.0ms |       1 | `$s11SwiftParser22IncrementalParseLookupVSgWOy` | `<unknown>` |
 
 ##### `$ss25isKnownUniquelyReferencedySbxSgzRlzClF11SwiftSyntax0F0V4InfoC_Tg5` (`<unknown>`)
 
