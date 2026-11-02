@@ -163,12 +163,21 @@ run_systing() {
       mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
 
       # Both sides run from one path, so their frames name the same binary.
+      # zstd 1.5.7 raised the default worker count from one to a quarter of the
+      # logical cores, and the window fixes how long each worker records, so -T1
+      # keeps the worker count from reading as a change in time.
+      #
+      # With the input in the page cache, a read rarely enters uninterruptible
+      # sleep, so a side can record none and hold one profile fewer than the
+      # other. Dropping the cache makes each side read the input from disk.
       for side in base current; do
         cp "/work/zstd-$side" /work/zstd
+        sync
+        echo 3 >/proc/sys/vm/drop_caches
         systing --duration 12 \
           --output "/out/cpu.$side.systing" \
           --output-dir "/work/traces-$side" \
-          -- /work/zstd -19 -f -q "$INPUT" -o /dev/null || true
+          -- /work/zstd -19 -T1 -f -q "$INPUT" -o /dev/null || true
         [ -s "/out/cpu.$side.systing" ]
       done
     '
