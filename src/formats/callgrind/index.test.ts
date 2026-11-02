@@ -45,6 +45,48 @@ const options = normalizeProfileToMdOptions({
   showEntry: () => true,
 })
 
+test(`locates a system library's function by its object, not its build-relative file`, () => {
+  const md = convertBytesToMd(
+    callgrindFormatSpec,
+    makeCallgrind([
+      `# callgrind format`,
+      `events: Ir`,
+      `ob=/usr/lib/libc.so.6`,
+      `fl=./string/memcpy.c`,
+      `fn=memcpy`,
+      `3 10`,
+      `ob=/usr/lib/ld-linux.so.1`,
+      `fl=./string/memcpy.c`,
+      `fn=memcpy`,
+      `3 20`,
+    ]),
+    options,
+  )
+
+  expect(md).toContain(`/usr/lib/libc.so.6`)
+  expect(md).toContain(`/usr/lib/ld-linux.so.1`)
+  expect(md).not.toContain(`string/memcpy.c`)
+  expect(linesTables(md, `memcpy`)).toStrictEqual([])
+})
+
+test(`locates a function by its object in a library directly under the root`, () => {
+  const md = convertBytesToMd(
+    callgrindFormatSpec,
+    makeCallgrind([
+      `# callgrind format`,
+      `events: Ir`,
+      `ob=/lib64/ld-linux-x86-64.so.2`,
+      `fl=./elf/rtld.c`,
+      `fn=_dl_start`,
+      `3 10`,
+    ]),
+    options,
+  )
+
+  expect(md).toContain(`/lib64/ld-linux-x86-64.so.2`)
+  expect(md).not.toContain(`elf/rtld.c`)
+})
+
 describe(`matches`, () => {
   test(`accepts a file with the format marker as its first line`, () => {
     expect(

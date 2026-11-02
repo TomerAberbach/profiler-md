@@ -361,7 +361,7 @@ response of the recording as a HAR entry: URLs, request and response headers,
 cookies, and request bodies. Those can include session cookies, credentials, and
 your location or public IP address, which some sites store in a cookie or echo
 in a response header. Disable the Network instrument before recording, or redact
-the sensitive headers and cookies before sharing the file.
+the sensitive headers, cookies, and request bodies before sharing the file.
 
 ### Heap snapshots
 

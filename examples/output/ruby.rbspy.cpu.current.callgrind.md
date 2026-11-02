@@ -429,7 +429,7 @@ Categories accounting for at least 1.0% of self samples.
 
 #### Callers
 
-Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
+Callers with the largest contribution to each function's total samples. Inlining can make caller attribution imprecise, and for recursive calls, values and percentages can exceed the profile's total.
 
 ##### `Rails::Engine#call` (`/usr/local/bundle/gems/railties-8.1.4/lib/rails/engine.rb`)
 
@@ -834,7 +834,7 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 #### Callees
 
-Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
+Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and for recursive calls, values and percentages can exceed the profile's total.
 
 ##### `<main>` (`./profile.rb`)
 

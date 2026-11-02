@@ -809,7 +809,7 @@ Functions with the largest decrease in samples collected within the function and
 
 #### Callers
 
-Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and percentages can exceed 100% for recursive calls.
+Callers with the largest change in contribution to each function's total samples. Inlining can make caller attribution imprecise, and for recursive calls, values and percentages can exceed the profile's total.
 
 ##### `Kernel#extend [c function]` (`<unknown>`)
 
@@ -1556,7 +1556,7 @@ Callers with the largest change in contribution to each function's total samples
 
 #### Callees
 
-Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can exceed 100% for recursive calls.
+Callees with the largest change in contribution to each function's total samples. Inlining can make callee attribution imprecise, and for recursive calls, values and percentages can exceed the profile's total.
 
 ##### `Kernel#extend [c function]` (`<unknown>`)
 

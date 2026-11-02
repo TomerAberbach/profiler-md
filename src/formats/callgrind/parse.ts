@@ -13,6 +13,7 @@ import {
   SAMPLES,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { isSystemLibraryPath } from '../../origins/categorize.ts'
 import { FormatParseError } from '../error.ts'
 import type { RecordTally } from '../spec.ts'
 
@@ -814,8 +815,25 @@ const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
   // A function compiled without debug info has no source file. Its ELF object
   // (e.g. `/usr/lib/libc.so.6`) is the next best location, so categorization by
   // path still applies to system libraries.
-  definition: sourceOf(func.file) ?? sourceOf(func.object),
+  definition:
+    (isBuildRelativeInSystemLibrary(func) ? undefined : sourceOf(func.file)) ??
+    sourceOf(func.object),
 })
+
+/**
+ * Whether a function of a system library states a file relative to where the
+ * library was built (`./string/memcpy.c`), which exists nowhere near the program
+ * and which reads as the program's own. Two libraries can state the same path,
+ * so their object identifies the function, and the file's lines mean nothing
+ * against the object.
+ */
+const isBuildRelativeInSystemLibrary = ({
+  file,
+  object,
+}: CallgrindFunction): boolean =>
+  sourceOf(file) !== undefined &&
+  !file.startsWith(`/`) &&
+  isSystemLibraryPath(object)
 
 /** Callgrind's recursion-separation suffix, e.g. `_dl_start'2`. */
 const RECURSION_SUFFIX = /'\d+$/u
@@ -832,7 +850,9 @@ const CALLS = countMetricOf(`call`, { improvement: `decrease` })
 
 const callGraphFunction = (func: CallgrindFunction): CallGraphFunction => ({
   selfValues: func.selfValues,
-  lineToValues: func.lineToValues,
+  lineToValues: isBuildRelativeInSystemLibrary(func)
+    ? new Map<number, number[]>()
+    : func.lineToValues,
   arcs: Array.from(func.calleeToCalls, ([callee, call]) => ({
     callee: callee.index,
     callCount: call.callCount,

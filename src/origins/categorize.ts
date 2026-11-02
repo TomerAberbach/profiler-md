@@ -97,9 +97,14 @@ export const systemDirectoryCategory = ({
   return SYSTEM_LIBRARY_DIRECTORY.test(pathOrName) ? `native` : undefined
 }
 
+/** Whether {@link path} is under a directory a system's libraries install to. */
+export const isSystemLibraryPath = (path: string): boolean =>
+  SYSTEM_LIBRARY_DIRECTORY.test(path)
+
 const SYSTEM_INCLUDE_DIRECTORY = /^\/usr\/(?:local\/)?include\//u
 
-const SYSTEM_LIBRARY_DIRECTORY = /^\/usr\/(?:local\/)?(?:lib|lib64|libexec)\//u
+const SYSTEM_LIBRARY_DIRECTORY =
+  /^\/(?:usr\/(?:local\/)?)?(?:lib|lib64|libexec)\//u
 
 /**
  * Categorizes a frame with no source location as `native`, or as `unknown` when

@@ -536,4 +536,4 @@ const arcSectionDescription = (
   metric: Metric,
   ranking: `with the largest` | `with the largest change in`,
 ): string =>
-  `${entity}s ${ranking} contribution to each function's total ${metric.phrases.proseNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise, and percentages can exceed 100% for recursive calls.`
+  `${entity}s ${ranking} contribution to each function's total ${metric.phrases.proseNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise, and for recursive calls, values and percentages can exceed the profile's total.`
