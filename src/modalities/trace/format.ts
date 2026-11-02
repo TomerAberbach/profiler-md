@@ -811,36 +811,41 @@ const formatInstanceSections = ({
       if (span.instances.length < 2 && trace.duration === undefined) {
         return []
       }
-      const rows = selectTopN(
-        span.instances,
-        breakdownLimit(options),
-        ({ time }) => time,
-      ).map(({ start, time, cpuTime, threadId, attributes }) => ({
-        start,
-        time,
-        cpuTime,
-        total: span.summedTime,
-        thread:
-          threadId === undefined ? undefined : index.threadName.get(threadId),
-        attributes: formatAttributes(attributes),
-      }))
+      const rows = instanceRowsOf(span, index, options)
       if (rows.length === 0) {
         return []
       }
       return [
         eventHeading(headingLevel + 1, span),
-        formatTable(
-          instanceColumns({
-            hasCpuTime: rows.some(({ cpuTime }) => cpuTime !== undefined),
-            hasStart: rows.some(({ start }) => start !== undefined),
-            hasThread: rows.some(({ thread }) => thread !== undefined),
-            hasAttributes: rows.some(({ attributes }) => attributes !== ``),
-          }),
-          rows,
-        ),
+        formatTable(instanceColumnsOf(rows), rows),
       ]
     }),
   )
+
+const instanceRowsOf = (
+  span: AggregatedTraceSpan,
+  index: TraceIndex,
+  options: FormattingProfileToMdOptions,
+) =>
+  selectTopN(span.instances, breakdownLimit(options), ({ time }) => time).map(
+    ({ start, time, cpuTime, threadId, attributes }) => ({
+      start,
+      time,
+      cpuTime,
+      total: span.summedTime,
+      thread:
+        threadId === undefined ? undefined : index.threadName.get(threadId),
+      attributes: formatAttributes(attributes),
+    }),
+  )
+
+const instanceColumnsOf = (rows: ReturnType<typeof instanceRowsOf>) =>
+  instanceColumns({
+    hasCpuTime: rows.some(({ cpuTime }) => cpuTime !== undefined),
+    hasStart: rows.some(({ start }) => start !== undefined),
+    hasThread: rows.some(({ thread }) => thread !== undefined),
+    hasAttributes: rows.some(({ attributes }) => attributes !== ``),
+  })
 
 const formatAttributes = (
   attributes: readonly TraceAttribute[] | undefined,
