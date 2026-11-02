@@ -777,13 +777,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ##### `runWithCancellationToken` (`./node_modules/typescript/lib/typescript.js`)
 
-|     % |    Time | Samples | Callee                 | Location                                                |
-| ----: | ------: | ------: | ---------------------- | ------------------------------------------------------- |
-| 93.7% |  11.46s |   9,122 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:123397:27` |
-|  6.2% | 756.1ms |     602 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:123389:26` |
-|  0.1% |  11.3ms |       9 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:123402:44` |
-| <0.1% |   1.3ms |       1 | `(anonymous:L#123389)` | `./node_modules/typescript/lib/typescript.js`           |
-| <0.1% |   1.3ms |       1 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:123386:26` |
+|     % |    Time | Samples | Callee        | Location                                                |
+| ----: | ------: | ------: | ------------- | ------------------------------------------------------- |
+| 93.7% |  11.46s |   9,122 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123397:27` |
+|  6.2% | 756.1ms |     602 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123389:26` |
+|  0.1% |  11.3ms |       9 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123402:44` |
+| <0.1% |   1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123389`    |
+| <0.1% |   1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123386:26` |
 
 ##### `(anonymous)` (`./node_modules/typescript/lib/typescript.js:123321:41`)
 
@@ -793,12 +793,12 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ##### `flatMap` (`./node_modules/typescript/lib/typescript.js`)
 
-|      % |   Time | Samples | Callee                | Location                                                |
-| -----: | -----: | ------: | --------------------- | ------------------------------------------------------- |
-| 100.0% | 12.22s |   9,727 | `(anonymous)`         | `./node_modules/typescript/lib/typescript.js:123321:41` |
-|  <0.1% |  1.3ms |       1 | `(anonymous)`         | `./node_modules/typescript/lib/typescript.js:123321:42` |
-|  <0.1% |  1.3ms |       1 | `(anonymous)`         | `./node_modules/typescript/lib/typescript.js:123321:33` |
-|  <0.1% |  1.3ms |       1 | `(anonymous:L#21101)` | `./node_modules/typescript/lib/typescript.js`           |
+|      % |   Time | Samples | Callee        | Location                                                |
+| -----: | -----: | ------: | ------------- | ------------------------------------------------------- |
+| 100.0% | 12.22s |   9,727 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123321:41` |
+|  <0.1% |  1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123321:42` |
+|  <0.1% |  1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:123321:33` |
+|  <0.1% |  1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:21101`     |
 
 ##### `getDiagnosticsHelper` (`./node_modules/typescript/lib/typescript.js`)
 

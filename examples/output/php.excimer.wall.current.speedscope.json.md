@@ -130,15 +130,15 @@ Categories accounting for at least 1.0% of self time.
 |  0.1% |   4.0ms |       4 | `Composer\Util\Filesystem::isAbsolutePath`                | `./composer/src/Composer/Util/Filesystem.php`                  |
 |  0.1% |   2.0ms |       2 | `Composer\Util\StreamContextFactory::getTlsDefaults`      | `./composer/src/Composer/Util/StreamContextFactory.php`        |
 |  0.1% |   2.0ms |       2 | `Composer\Autoload\AutoloadGenerator::dump`               | `./composer/src/Composer/Autoload/AutoloadGenerator.php`       |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Command/InstallCommand.php`           |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Command/InstallCommand.php`           |
 | <0.1% |   1.0ms |       1 | `Composer\Factory::createComposer`                        | `./composer/src/Composer/Factory.php`                          |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Package/Loader/RootPackageLoader.php` |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Repository/PlatformRepository.php`    |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Repository/ComposerRepository.php`    |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Package/Loader/RootPackageLoader.php` |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Repository/PlatformRepository.php`    |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Repository/ComposerRepository.php`    |
 | <0.1% |   1.0ms |       1 | `Composer\Repository\RepositoryManager::createRepository` | `./composer/src/Composer/Repository/RepositoryManager.php`     |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Downloader/GitDownloader.php`         |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Downloader/ArchiveDownloader.php`     |
-| <0.1% |   1.0ms |       1 | `(anonymous)`                                             | `./composer/src/Composer/Package/Archiver/PharArchiver.php`    |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Downloader/GitDownloader.php`         |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Downloader/ArchiveDownloader.php`     |
+| <0.1% |   1.0ms |       1 | `(file scope)`                                            | `./composer/src/Composer/Package/Archiver/PharArchiver.php`    |
 | <0.1% |   1.0ms |       1 | `Composer\Command\DumpAutoloadCommand::execute`           | `./composer/src/Composer/Command/DumpAutoloadCommand.php`      |
 
 #### Callers
@@ -337,7 +337,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ----------------------------------------------- | --------------------------------------------------------- |
 | 100.0% | 2.0ms |       2 | `Composer\Command\DumpAutoloadCommand::execute` | `./composer/src/Composer/Command/DumpAutoloadCommand.php` |
 
-##### `(anonymous)` (`./composer/src/Composer/Command/InstallCommand.php`)
+##### `(file scope)` (`./composer/src/Composer/Command/InstallCommand.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
@@ -349,19 +349,19 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | -------------------------- | ------------------------------------- |
 | 100.0% | 1.0ms |       1 | `Composer\Factory::create` | `./composer/src/Composer/Factory.php` |
 
-##### `(anonymous)` (`./composer/src/Composer/Package/Loader/RootPackageLoader.php`)
+##### `(file scope)` (`./composer/src/Composer/Package/Loader/RootPackageLoader.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
 | 100.0% | 1.0ms |       1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
 
-##### `(anonymous)` (`./composer/src/Composer/Repository/PlatformRepository.php`)
+##### `(file scope)` (`./composer/src/Composer/Repository/PlatformRepository.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
 | 100.0% | 1.0ms |       1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
 
-##### `(anonymous)` (`./composer/src/Composer/Repository/ComposerRepository.php`)
+##### `(file scope)` (`./composer/src/Composer/Repository/ComposerRepository.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
@@ -373,19 +373,19 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ---------------------------------------------------- | ---------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `Composer\Repository\RepositoryFactory::createRepos` | `./composer/src/Composer/Repository/RepositoryFactory.php` |
 
-##### `(anonymous)` (`./composer/src/Composer/Downloader/GitDownloader.php`)
+##### `(file scope)` (`./composer/src/Composer/Downloader/GitDownloader.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
 | 100.0% | 1.0ms |       1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
 
-##### `(anonymous)` (`./composer/src/Composer/Downloader/ArchiveDownloader.php`)
+##### `(file scope)` (`./composer/src/Composer/Downloader/ArchiveDownloader.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
 | 100.0% | 1.0ms |       1 | `(anonymous)` | `./composer/vendor/composer/ClassLoader.php:575` |
 
-##### `(anonymous)` (`./composer/src/Composer/Package/Archiver/PharArchiver.php`)
+##### `(file scope)` (`./composer/src/Composer/Package/Archiver/PharArchiver.php`)
 
 |      % |  Time | Samples | Caller        | Location                                         |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------ |
@@ -403,7 +403,7 @@ Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                                  | Location                                                                   |
 | -----: | ------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 100.0% |   3.94s |   3,250 | `(anonymous)`                                             | `./profile.php`                                                            |
+| 100.0% |   3.94s |   3,250 | `(file scope)`                                            | `./profile.php`                                                            |
 |  99.9% |   3.94s |   3,246 | `Symfony\Component\Console\Application::run`              | `./composer/vendor/symfony/console/Application.php`                        |
 |  99.9% |   3.94s |   3,246 | `Composer\Console\Application::run`                       | `./composer/src/Composer/Console/Application.php`                          |
 |  99.5% |   3.92s |   3,242 | `Composer\Console\Application::doRun`                     | `./composer/src/Composer/Console/Application.php`                          |
@@ -457,7 +457,7 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function                                                      | Location                                                       |
 | -----: | ------: | ------: | ------------------------------------------------------------- | -------------------------------------------------------------- |
-| 100.0% |   3.94s |   3,250 | `(anonymous)`                                                 | `./profile.php`                                                |
+| 100.0% |   3.94s |   3,250 | `(file scope)`                                                | `./profile.php`                                                |
 |  99.9% |   3.94s |   3,246 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
 |  99.5% |   3.92s |   3,242 | `Composer\Console\Application::doRun`                         | `./composer/src/Composer/Console/Application.php`              |
 |  74.1% |   2.92s |   2,922 | `Composer\Command\DumpAutoloadCommand::execute`               | `./composer/src/Composer/Command/DumpAutoloadCommand.php`      |
@@ -490,9 +490,9 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 ##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
 
-|      % |  Time | Samples | Caller        | Location        |
-| -----: | ----: | ------: | ------------- | --------------- |
-| 100.0% | 3.94s |   3,246 | `(anonymous)` | `./profile.php` |
+|      % |  Time | Samples | Caller         | Location        |
+| -----: | ----: | ------: | -------------- | --------------- |
+| 100.0% | 3.94s |   3,246 | `(file scope)` | `./profile.php` |
 
 ##### `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`)
 
@@ -732,13 +732,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 Callees with the largest contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`./profile.php`)
+##### `(file scope)` (`./profile.php`)
 
 |     % |  Time | Samples | Callee                                      | Location                                          |
 | ----: | ----: | ------: | ------------------------------------------- | ------------------------------------------------- |
 | 99.9% | 3.94s |   3,246 | `Composer\Console\Application::run`         | `./composer/src/Composer/Console/Application.php` |
 |  0.1% | 2.0ms |       2 | `Composer\Console\Application::__construct` | `./composer/src/Composer/Console/Application.php` |
-| <0.1% | 1.0ms |       1 | `(anonymous)`                               | `./composer/src/bootstrap.php`                    |
+| <0.1% | 1.0ms |       1 | `(file scope)`                              | `./composer/src/bootstrap.php`                    |
 | <0.1% | 1.0ms |       1 | `Composer\Autoload\ClassLoader::loadClass`  | `./composer/vendor/composer/ClassLoader.php`      |
 
 ##### `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`)
@@ -1011,7 +1011,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 Call stacks with the most time spent in their leaf frame.
 
-Common call stack: `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`) ← `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`) ← `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`) ← `(anonymous)` (`./profile.php`)
+Common call stack: `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`) ← `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`) ← `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`) ← `(file scope)` (`./profile.php`)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

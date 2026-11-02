@@ -764,12 +764,12 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ##### `runWithCancellationToken` (`./node_modules/typescript/lib/typescript.js`)
 
-|     % |    Time | Samples | Callee                 | Location                                                |
-| ----: | ------: | ------: | ---------------------- | ------------------------------------------------------- |
-| 93.5% |  11.07s |   8,824 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:124979:27` |
-|  6.4% | 758.7ms |     605 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:124971:26` |
-|  0.1% |   7.5ms |       6 | `(anonymous)`          | `./node_modules/typescript/lib/typescript.js:124984:44` |
-| <0.1% |   1.3ms |       1 | `(anonymous:L#124984)` | `./node_modules/typescript/lib/typescript.js`           |
+|     % |    Time | Samples | Callee        | Location                                                |
+| ----: | ------: | ------: | ------------- | ------------------------------------------------------- |
+| 93.5% |  11.07s |   8,824 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124979:27` |
+|  6.4% | 758.7ms |     605 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124971:26` |
+|  0.1% |   7.5ms |       6 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124984:44` |
+| <0.1% |   1.3ms |       1 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124984`    |
 
 ##### `getBindAndCheckDiagnosticsForFile` (`./node_modules/typescript/lib/typescript.js`)
 
