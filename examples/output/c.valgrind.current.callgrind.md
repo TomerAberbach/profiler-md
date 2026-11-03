@@ -1,11 +1,11 @@
 # Instruction profile
 
-Recorded 40,514,776 instructions.
+Recorded 40,483,273 instructions.
 
 | Category |      % | Instructions |
 | -------- | -----: | -----------: |
-| Ours     | 100.0% |   40,505,815 |
-| Native   |  <0.1% |        8,961 |
+| Ours     | 100.0% |   40,475,806 |
+| Native   |  <0.1% |        7,467 |
 
 Paths starting with `./` or `../` are relative to `/src/zstd/`.
 
@@ -24,7 +24,7 @@ Categories accounting for at least 1.0% of self instructions.
 |     % | Instructions | Function                                          | Location                                  |
 | ----: | -----------: | ------------------------------------------------- | ----------------------------------------- |
 | 29.9% |   12,117,580 | `ZSTD_encodeSequences`                            | `./lib/common/bitstream.h`                |
-| 27.1% |   10,994,690 | `ZSTD_compressBlock_doubleFast`                   | `./lib/compress/zstd_double_fast.c`       |
+| 27.2% |   10,994,690 | `ZSTD_compressBlock_doubleFast`                   | `./lib/compress/zstd_double_fast.c`       |
 | 23.1% |    9,349,738 | `ZSTD_compressBlock_doubleFast`                   | `./lib/compress/zstd_compress_internal.h` |
 |  4.8% |    1,957,739 | `HIST_count_parallel_wksp`                        | `./lib/compress/hist.c`                   |
 |  3.7% |    1,507,463 | `ZSTD_XXH64_update`                               | `./lib/common/xxhash.h`                   |
@@ -33,16 +33,16 @@ Categories accounting for at least 1.0% of self instructions.
 |  1.5% |      613,032 | `ZSTD_recordFingerprint_43`                       | `./lib/compress/zstd_preSplit.c`          |
 |  1.1% |      425,540 | `HUF_compress1X_usingCTable_internal.constprop.0` | `./lib/compress/huf_compress.c`           |
 |  0.6% |      225,079 | `FSE_buildCTable_wksp`                            | `./lib/compress/fse_compress.c`           |
-|  0.5% |      184,695 | `__GI_memcpy`                                     | `sysdeps/aarch64/memcpy.S`                |
+|  0.5% |      182,959 | `__GI_memcpy`                                     | `sysdeps/aarch64/memcpy.S`                |
 |  0.2% |       99,044 | `HUF_buildCTable_wksp`                            | `./lib/compress/huf_compress.c`           |
-|  0.2% |       92,389 | `__GI_memset`                                     | `sysdeps/aarch64/memset.S`                |
-|  0.1% |       29,090 | `do_lookup_x`                                     | `elf/elf/dl-lookup.c`                     |
+|  0.2% |       92,177 | `__GI_memset`                                     | `sysdeps/aarch64/memset.S`                |
+|  0.1% |       28,664 | `do_lookup_x`                                     | `elf/elf/dl-lookup.c`                     |
 |  0.1% |       24,316 | `FSE_writeNCount_generic`                         | `./lib/compress/fse_compress.c`           |
-|  0.1% |       22,533 | `_dl_lookup_symbol_x`                             | `elf/elf/dl-lookup.c`                     |
+|  0.1% |       22,361 | `_dl_lookup_symbol_x`                             | `elf/elf/dl-lookup.c`                     |
 | <0.1% |       19,193 | `FSE_compress_usingCTable_generic`                | `./lib/compress/fse_compress.c`           |
 | <0.1% |       16,413 | `FSE_normalizeCount`                              | `./lib/compress/fse_compress.c`           |
 | <0.1% |       13,490 | `HUF_writeCTable_wksp`                            | `./lib/compress/huf_compress.c`           |
-| <0.1% |       12,686 | `_int_malloc`                                     | `malloc/malloc/malloc.c`                  |
+| <0.1% |       12,385 | `_int_malloc`                                     | `malloc/malloc/malloc.c`                  |
 
 #### Lines
 
@@ -147,11 +147,11 @@ Lines with the largest contribution to each function's self instructions.
 
 |     % | Instructions | Location                       |
 | ----: | -----------: | ------------------------------ |
-| 12.3% |       22,771 | `sysdeps/aarch64/memcpy.S:166` |
-| 12.3% |       22,771 | `sysdeps/aarch64/memcpy.S:167` |
-| 12.3% |       22,771 | `sysdeps/aarch64/memcpy.S:168` |
-| 12.3% |       22,771 | `sysdeps/aarch64/memcpy.S:169` |
-| 12.3% |       22,771 | `sysdeps/aarch64/memcpy.S:170` |
+| 12.4% |       22,771 | `sysdeps/aarch64/memcpy.S:166` |
+| 12.4% |       22,771 | `sysdeps/aarch64/memcpy.S:167` |
+| 12.4% |       22,771 | `sysdeps/aarch64/memcpy.S:168` |
+| 12.4% |       22,771 | `sysdeps/aarch64/memcpy.S:169` |
+| 12.4% |       22,771 | `sysdeps/aarch64/memcpy.S:170` |
 
 ##### `HUF_buildCTable_wksp` (`./lib/compress/huf_compress.c`)
 
@@ -167,21 +167,21 @@ Lines with the largest contribution to each function's self instructions.
 
 |     % | Instructions | Location                       |
 | ----: | -----------: | ------------------------------ |
-| 19.1% |       17,635 | `sysdeps/aarch64/memset.S:131` |
-| 19.1% |       17,635 | `sysdeps/aarch64/memset.S:132` |
-| 19.1% |       17,635 | `sysdeps/aarch64/memset.S:133` |
-| 19.1% |       17,635 | `sysdeps/aarch64/memset.S:134` |
-| 19.1% |       17,635 | `sysdeps/aarch64/memset.S:135` |
+| 19.1% |       17,611 | `sysdeps/aarch64/memset.S:131` |
+| 19.1% |       17,611 | `sysdeps/aarch64/memset.S:132` |
+| 19.1% |       17,611 | `sysdeps/aarch64/memset.S:133` |
+| 19.1% |       17,611 | `sysdeps/aarch64/memset.S:134` |
+| 19.1% |       17,611 | `sysdeps/aarch64/memset.S:135` |
 
 ##### `do_lookup_x` (`elf/elf/dl-lookup.c`)
 
 |    % | Instructions | Location                  |
 | ---: | -----------: | ------------------------- |
-| 7.8% |        2,278 | `elf/elf/dl-lookup.c:348` |
-| 5.8% |        1,688 | `elf/elf/dl-lookup.c:388` |
-| 5.8% |        1,688 | `elf/elf/dl-lookup.c:403` |
-| 5.7% |        1,648 | `elf/elf/dl-lookup.c:374` |
-| 5.3% |        1,548 | `elf/elf/dl-lookup.c:416` |
+| 7.8% |        2,244 | `elf/elf/dl-lookup.c:348` |
+| 5.8% |        1,664 | `elf/elf/dl-lookup.c:388` |
+| 5.8% |        1,664 | `elf/elf/dl-lookup.c:403` |
+| 5.7% |        1,624 | `elf/elf/dl-lookup.c:374` |
+| 5.3% |        1,524 | `elf/elf/dl-lookup.c:416` |
 
 ##### `FSE_writeNCount_generic` (`./lib/compress/fse_compress.c`)
 
@@ -197,11 +197,11 @@ Lines with the largest contribution to each function's self instructions.
 
 |    % | Instructions | Location                  |
 | ---: | -----------: | ------------------------- |
-| 8.9% |        2,010 | `elf/elf/dl-lookup.c:756` |
-| 6.5% |        1,474 | `elf/elf/dl-lookup.c:776` |
-| 4.2% |          938 | `elf/elf/dl-lookup.c:762` |
-| 3.6% |          804 | `elf/elf/dl-lookup.c:768` |
-| 1.2% |          268 | `elf/elf/dl-lookup.c:758` |
+| 8.9% |        1,980 | `elf/elf/dl-lookup.c:756` |
+| 6.5% |        1,452 | `elf/elf/dl-lookup.c:776` |
+| 4.1% |          924 | `elf/elf/dl-lookup.c:762` |
+| 3.5% |          792 | `elf/elf/dl-lookup.c:768` |
+| 1.2% |          264 | `elf/elf/dl-lookup.c:758` |
 
 ##### `FSE_compress_usingCTable_generic` (`./lib/compress/fse_compress.c`)
 
@@ -237,11 +237,11 @@ Lines with the largest contribution to each function's self instructions.
 
 |    % | Instructions | Location                      |
 | ---: | -----------: | ----------------------------- |
-| 6.5% |          830 | `malloc/malloc/malloc.c:1348` |
-| 6.4% |          818 | `malloc/malloc/malloc.c:3980` |
-| 5.6% |          711 | `malloc/malloc/malloc.c:4265` |
-| 4.3% |          546 | `malloc/malloc/malloc.c:4405` |
-| 4.3% |          545 | `malloc/malloc/malloc.c:4268` |
+| 6.5% |          810 | `malloc/malloc/malloc.c:1348` |
+| 6.4% |          798 | `malloc/malloc/malloc.c:3980` |
+| 5.6% |          696 | `malloc/malloc/malloc.c:4265` |
+| 4.3% |          534 | `malloc/malloc/malloc.c:4268` |
+| 4.3% |          534 | `malloc/malloc/malloc.c:4405` |
 
 ### Total instructions
 
@@ -255,14 +255,14 @@ Categories accounting for at least 1.0% of self instructions.
 
 |     % | Instructions | Function                        | Location                                   |
 | ----: | -----------: | ------------------------------- | ------------------------------------------ |
-| 96.9% |   39,273,650 | `ZSTD_compress_frameChunk`      | `./lib/compress/zstd_compress.c`           |
-| 50.2% |   20,346,166 | `ZSTD_buildSeqStore`            | `./lib/compress/zstd_compress.c`           |
-| 50.2% |   20,345,061 | `ZSTD_compressBlock_doubleFast` | `./lib/compress/zstd_double_fast.c`        |
-| 50.2% |   20,344,346 | `ZSTD_compressBlock_doubleFast` | `./lib/compress/zstd_compress_internal.h`  |
-| 49.6% |   20,103,537 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress.c`           |
-| 49.6% |   20,103,424 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress_internal.h`  |
-| 47.3% |   19,170,352 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress.c`           |
-| 47.3% |   19,170,285 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress_internal.h`  |
+| 97.0% |   39,273,650 | `ZSTD_compress_frameChunk`      | `./lib/compress/zstd_compress.c`           |
+| 50.3% |   20,346,166 | `ZSTD_buildSeqStore`            | `./lib/compress/zstd_compress.c`           |
+| 50.3% |   20,345,061 | `ZSTD_compressBlock_doubleFast` | `./lib/compress/zstd_double_fast.c`        |
+| 50.3% |   20,344,346 | `ZSTD_compressBlock_doubleFast` | `./lib/compress/zstd_compress_internal.h`  |
+| 49.7% |   20,103,537 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress.c`           |
+| 49.7% |   20,103,424 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress_internal.h`  |
+| 47.4% |   19,170,352 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress.c`           |
+| 47.4% |   19,170,285 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress_internal.h`  |
 | 29.9% |   12,119,716 | `ZSTD_encodeSequences`          | `./lib/compress/zstd_compress_sequences.c` |
 | 29.9% |   12,118,460 | `ZSTD_encodeSequences`          | `./lib/common/mem.h`                       |
 | 29.9% |   12,117,580 | `ZSTD_encodeSequences`          | `./lib/common/bitstream.h`                 |

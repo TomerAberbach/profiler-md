@@ -1,11 +1,11 @@
 # Instruction profile
 
-Recorded 39,558,155 instructions.
+Recorded 39,557,650 instructions.
 
 | Category |      % | Instructions |
 | -------- | -----: | -----------: |
-| Ours     | 100.0% |   39,550,586 |
-| Native   |  <0.1% |        7,569 |
+| Ours     | 100.0% |   39,550,183 |
+| Native   |  <0.1% |        7,467 |
 
 Paths starting with `./` or `../` are relative to `/src/zstd/`.
 
@@ -258,8 +258,8 @@ Categories accounting for at least 1.0% of self instructions.
 | 50.7% |   20,043,157 | `ZSTD_compressBlock_doubleFast` | `./lib/compress/zstd_compress_internal.h`  |
 | 49.8% |   19,696,431 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress.c`           |
 | 49.8% |   19,696,318 | `ZSTD_compressContinue_public`  | `./lib/compress/zstd_compress_internal.h`  |
-| 47.1% |   18,651,635 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress.c`           |
-| 47.1% |   18,651,568 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress_internal.h`  |
+| 47.2% |   18,651,635 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress.c`           |
+| 47.2% |   18,651,568 | `ZSTD_compressEnd_public`       | `./lib/compress/zstd_compress_internal.h`  |
 | 30.6% |   12,119,320 | `ZSTD_encodeSequences`          | `./lib/compress/zstd_compress_sequences.c` |
 | 30.6% |   12,118,064 | `ZSTD_encodeSequences`          | `./lib/common/mem.h`                       |
 | 30.6% |   12,117,184 | `ZSTD_encodeSequences`          | `./lib/common/bitstream.h`                 |
