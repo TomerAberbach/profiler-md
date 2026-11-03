@@ -222,6 +222,7 @@ const JVM_REASON = `the JVM profilers record class names, which identify no file
  * `script:NAME`, with why its example pairs have no ground truth.
  */
 const UNSCORED_PINS: ReadonlyMap<string, string> = new Map([
+  [`c:HEAP_INPUT_BYTES`, `it pins how much text each side compresses`],
   [`haskell:SIDE_ITERATIONS`, `it pins how many iterations each side runs`],
   [
     `javascript:HEAP_SNAPSHOT_COPIES`,

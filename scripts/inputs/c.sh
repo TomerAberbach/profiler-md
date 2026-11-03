@@ -9,6 +9,10 @@ ZSTD_REPO="https://github.com/facebook/zstd"
 # to a quarter of the logical cores, so every capture passes -T1 to keep the
 # worker count from reading as a change in the code.
 declare -A ZSTD_TAG=([base]="v1.5.6" [current]="v1.5.7")
+# The two releases allocate almost the same bytes for one input, leaving the
+# heap diff with nothing to report, so the current side's heap capture compresses
+# more of the text.
+declare -A HEAP_INPUT_BYTES=([base]=4194304 [current]=8388608)
 # systing is not published to crates.io, so cargo installs it from its repository.
 SYSTING_TAG="v1.13.14"
 # Debian 13 packages clang 19, and DOCKER_IMAGE's Debian 12 packages clang 14.
@@ -54,6 +58,7 @@ run_for_side() {
       # `set -o pipefail`.
       unzip -p /work/dickens.zip dickens >/work/dickens.full
       head -c 4194304 /work/dickens.full >"$INPUT"
+      head -c "'"${HEAP_INPUT_BYTES[$side]}"'" /work/dickens.full >/work/heap-input.bin
       rm -f /work/dickens.full
 
       # `-print -quit` stops at the first match: no `| head` pipe whose early
@@ -71,7 +76,7 @@ run_for_side() {
       # unwind tables instead, so it walks through libc.
       TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=1048576 \
-        "$ZSTD" -19 -T1 -f -q "$INPUT" -o /dev/null
+        "$ZSTD" -19 -T1 -f -q /work/heap-input.bin -o /dev/null
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
 
       cp "$ZSTD" /out/binary
