@@ -676,11 +676,11 @@ for (const path of paths) {
 
 if (failed > 0) {
   console.error(
-    `\n${failed} of ${paths.length} inputs contain data about the generating machine. Regenerate them without it (see docs/languages/ for the profiler's flags), or redact it.`,
+    `\n${failed} of ${paths.length} inputs contain sensitive data about the generating machine. Regenerate them without it (see docs/languages/ for the profiler's flags), or redact it.`,
   )
   process.exitCode = 1
 } else {
   console.log(
-    `${paths.length} inputs contain no data about the generating machine`,
+    `${paths.length} inputs contain no sensitive data about the generating machine`,
   )
 }

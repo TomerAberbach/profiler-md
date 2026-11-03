@@ -129,9 +129,10 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   come from the `languages` of every registered format spec
 - When a profiler emits no supported format, the format is missing. Implement it
   (`/new-format`)
-- An input should never contain data about the machine that generated it (e.g.
-  no environment variables, process list, etc.).
-  `scripts/check-input-privacy.ts` verifies this
+- An input should never contain sensitive data about the machine that generated
+  it (e.g. environment variables, the process list, credentials).
+  `scripts/check-input-privacy.ts` verifies this. Harmless data about the
+  machine is fine (e.g. the CPU model, the kernel, a user name in a path)
 
 ### Types
 
