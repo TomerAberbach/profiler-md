@@ -198,12 +198,6 @@ java -XX:FlightRecorderOptions:stackdepth=2048 -XX:StartFlightRecording=filename
 jfr summary all.jfr
 ```
 
-The `profile` and `default` templates also record the JVM's environment
-variables (`jdk.InitialEnvironmentVariable`) and every process running on the
-machine (`jdk.SystemProcess`). Neither contributes to the output, and both
-describe the machine rather than the program, so disable them before sharing a
-recording. The `settings=none` recipes above record only the events they list.
-
 ### async-profiler
 
 `--all` enables `cpu`, `wall`, `alloc`, `live`, `nativemem`, and `lock` at once.
@@ -238,3 +232,31 @@ neither writes a text summary.
 
 The default `cpu` event works on macOS, where it samples CPU time through a
 timer. Hardware events such as `cache-misses` require Linux `perf_events`.
+
+### Sharing a recording
+
+JFR's `profile` and `default` templates record events that describe the machine
+rather than the program:
+
+- `jdk.InitialEnvironmentVariable`: the JVM's environment variables
+- `jdk.SystemProcess`: every process running on the machine
+- `jdk.NativeLibrary`: the loaded libraries
+- `jdk.OSInformation`: the kernel
+- `jdk.InitialSystemProperty`: the system properties
+
+The all-events recipe above disables the first two. The `settings=none` recipes
+record only the events they list.
+
+async-profiler records the last three by default. `--jfropts 7` omits them,
+along with the CPU and JVM information:
+
+```sh
+asprof -d 30 --jfropts 7 -f profile.jfr <pid>
+```
+
+To remove events from an existing recording, use `jfr scrub`, which JDK 19 and
+later include:
+
+```sh
+jfr scrub --exclude-events jdk.NativeLibrary,jdk.OSInformation,jdk.InitialSystemProperty profile.jfr shared.jfr
+```
