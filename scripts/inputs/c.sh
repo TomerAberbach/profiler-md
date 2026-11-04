@@ -5,7 +5,9 @@ source scripts/inputs/_common.sh
 
 ZSTD_REPO="https://github.com/facebook/zstd"
 # Base and current profile consecutive zstd releases, so a diff compares two
-# versions of the same code.
+# versions of the same code. zstd 1.5.7 raised the default worker count from one
+# to a quarter of the logical cores, so every capture passes -T1 to keep the
+# worker count from reading as a change in the code.
 declare -A ZSTD_TAG=([base]="v1.5.6" [current]="v1.5.7")
 # systing is not published to crates.io, so cargo installs it from its repository.
 SYSTING_TAG="v1.13.14"
@@ -61,7 +63,7 @@ run_for_side() {
 
       # 1 kHz sampling, against the 100 Hz default, gives a denser profile.
       CPUPROFILE=/out/cpu.raw CPUPROFILE_FREQUENCY=1000 LD_PRELOAD="$LIBPROFILER" \
-        "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+        "$ZSTD" -19 -T1 -f -q "$INPUT" -o /dev/null
 
       # tcmalloc dumps numbered heap.NNNN.heap files.
       # libc lacks frame pointers, so the default frame pointer walk continues
@@ -69,7 +71,7 @@ run_for_side() {
       # unwind tables instead, so it walks through libc.
       TCMALLOC_STACKTRACE_METHOD=libgcc HEAPPROFILE=/out/heap LD_PRELOAD="$LIBTCMALLOC" \
         HEAP_PROFILE_ALLOCATION_INTERVAL=1048576 \
-        "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+        "$ZSTD" -19 -T1 -f -q "$INPUT" -o /dev/null
       cp "$(ls -1 /out/heap.*.heap | sort | tail -n1)" /out/heap.raw
 
       cp "$ZSTD" /out/binary
@@ -172,9 +174,6 @@ run_systing() {
       mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
 
       # Both sides run from one path, so their frames name the same binary.
-      # zstd 1.5.7 raised the default worker count from one to a quarter of the
-      # logical cores, and the window fixes how long each worker records, so -T1
-      # keeps the worker count from reading as a change in time.
       #
       # With the input in the page cache, a read rarely enters uninterruptible
       # sleep, so a side can record none and hold one profile fewer than the
@@ -237,7 +236,7 @@ capture_callgrind() {
       rm -f /work/dickens.full
 
       valgrind --tool=callgrind --callgrind-out-file=/out/callgrind.out \
-        "$ZSTD" -3 -f -q "$INPUT" -o /dev/null
+        "$ZSTD" -3 -T1 -f -q "$INPUT" -o /dev/null
     ' -e SIDE="$side"
 
   cp "$dir/callgrind.out" "$out"
@@ -286,7 +285,7 @@ capture_perf() {
       # cpu-clock rather than the default cycles: the VM the container runs in
       # exposes no PMU, so the hardware counter would fall back anyway.
       perf record -F 999 -e cpu-clock --call-graph fp -o /out/cpu.perf.data \
-        -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+        -- "$ZSTD" -19 -T1 -f -q "$INPUT" -o /dev/null
     ' --privileged -e SIDE="$side"
 
   cp "$dir/cpu.perf.data" "$out"
@@ -349,7 +348,7 @@ capture_simpleperf() {
       # cpu-clock rather than the default cpu-cycles: the VM the container runs
       # in exposes no PMU.
       /out/simpleperf record -f 999 -e cpu-clock --call-graph fp \
-        -o /out/cpu.perf.data -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+        -o /out/cpu.perf.data -- "$ZSTD" -19 -T1 -f -q "$INPUT" -o /dev/null
       rm /out/simpleperf
     ' --privileged -e SIDE="$side" || return 1
 
