@@ -53,9 +53,13 @@ record_side() {
   rm -rf "$run"
   mkdir -p "$run" || return 1
 
+  # Both reports record the program's arguments, so the document is read from
+  # the run's directory, and the reports name no path in the checkout.
+  cp "$TWITTER_JSON" "$run/twitter.json" || return 1
+
   # -pj writes the JSON report and -l-au the eventlog, both from the same run's
   # cost-centre samples.
-  ( cd "$run" && "$binary" "$TWITTER_JSON" "${SIDE_ITERATIONS[$side]}" +RTS -pj -l-au -RTS >/dev/null ) \
+  ( cd "$run" && "$binary" twitter.json "${SIDE_ITERATIONS[$side]}" +RTS -pj -l-au -RTS >/dev/null ) \
     || return 1
 
   recorded+="$side "
