@@ -112,10 +112,16 @@ run_systing() {
   local dir="$WORKDIR/c-systing"
   mkdir -p "$dir"
 
-  notice "Profiling zstd with systing (base + current; builds systing from source)"
+  # Building systing takes most of the capture's time, so the binary is cached
+  # per tag and image. It links against the image's libraries.
+  local cache="$PROFILER_MD_INPUT_GENERATION_CACHE/systing-$SYSTING_TAG-${DOCKER_IMAGE//:/-}"
+  mkdir -p "$cache"
+
+  notice "Profiling zstd with systing (base + current; builds systing from source unless cached)"
 
   docker run --rm --privileged --pid=host \
     -v "$dir:/out" \
+    -v "$cache:/systing" \
     -e SYSTING_TAG="$SYSTING_TAG" \
     -e ZSTD_TAG_base="${ZSTD_TAG[base]}" -e ZSTD_TAG_current="${ZSTD_TAG[current]}" \
     "$DOCKER_IMAGE" \
@@ -127,14 +133,17 @@ run_systing() {
         build-essential git ca-certificates curl unzip \
         clang libelf-dev pkg-config bpftool
 
-      # systing builds its BPF skeletons with rustfmt, which the minimal
-      # profile excludes.
-      curl -sSf --retry 5 https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt -q
-      . "$HOME/.cargo/env"
-      # The generated Perfetto protobuf crate and DuckDB compiling side by side
-      # exhaust the memory Docker allocates to its VM.
-      cargo install -j 2 --locked -q --git https://github.com/josefbacik/systing.git \
-        --tag "$SYSTING_TAG" systing
+      if [ ! -x /systing/bin/systing ]; then
+        # systing builds its BPF skeletons with rustfmt, which the minimal
+        # profile excludes.
+        curl -sSf --retry 5 https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt -q
+        . "$HOME/.cargo/env"
+        # The generated Perfetto protobuf crate and DuckDB compiling side by
+        # side exhaust the memory Docker allocates to its VM.
+        cargo install -j 2 --locked -q --root /systing \
+          --git https://github.com/josefbacik/systing.git --tag "$SYSTING_TAG" systing
+      fi
+      export PATH="/systing/bin:$PATH"
 
       # Frame pointers so systing'"'"'s unwinder can walk the stack, and debug
       # info so frames carry source locations. Each side builds in /src/zstd,

@@ -12,6 +12,10 @@ GENERATED_INPUTS="$REPO/examples/input"
 export GENERATED_INPUTS
 mkdir -p "$REPO/examples/input"
 
+# Outlives a run, unlike a workload script's WORKDIR. Set it to a directory
+# outside the checkout to share the cache across worktrees.
+export PROFILER_MD_INPUT_GENERATION_CACHE="${PROFILER_MD_INPUT_GENERATION_CACHE:-$REPO/node_modules/.cache/profiler-md-input-generation}"
+
 # Re-exec inside the nix dev shell so the full profiler toolchain is on PATH.
 #
 # The shell drops the host environment and keeps only what the toolchain
@@ -19,7 +23,7 @@ mkdir -p "$REPO/examples/input"
 # profiles (e.g. JFR's `jdk.InitialEnvironmentVariable`) and the inputs are
 # committed to a public repository. The shell keeps PATH for the host's Docker
 # CLI, HOME and USER for the tools' caches and configuration, the certificate
-# file for downloads, and the cache variables for `julia.sh`'s depot.
+# file for downloads, and the input generation cache.
 #
 # Set anything else a workload requires in the dev shell.
 if [[ -z "${PROFILER_MD_INPUT_GENERATION_SHELL:-}" ]]; then
@@ -28,7 +32,7 @@ if [[ -z "${PROFILER_MD_INPUT_GENERATION_SHELL:-}" ]]; then
     --keep-env-var PATH --keep-env-var HOME --keep-env-var USER \
     --keep-env-var LANG --keep-env-var TERM \
     --keep-env-var NIX_SSL_CERT_FILE --keep-env-var SSL_CERT_FILE \
-    --keep-env-var XDG_CACHE_HOME --keep-env-var PROFILER_MD_INPUT_GENERATION_CACHE \
+    --keep-env-var PROFILER_MD_INPUT_GENERATION_CACHE \
     --keep-env-var DOCKER_HOST --keep-env-var DOCKER_CONFIG \
     --keep-env-var PROFILER_MD_INPUT_GENERATION_SHELL \
     --command "$REPO/scripts/generate-inputs" "$@"
