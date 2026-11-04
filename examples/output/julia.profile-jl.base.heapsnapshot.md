@@ -1,15 +1,15 @@
 # Heap snapshot
 
-Held 136 MiB over 1,716,926 nodes and 5,832,237 edges.
+Held 135 MiB over 1,716,917 nodes and 5,635,607 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
-| String             | 35.0% | 47.7 MiB | 294,016 |
-| Array              | 27.9% | 38.1 MiB | 578,379 |
-| Code               | 22.6% | 30.8 MiB | 450,216 |
-| Internal           | 10.7% | 14.6 MiB | 256,755 |
-| Object             |  3.2% | 4.35 MiB |  97,465 |
-| Symbol             |  0.4% |  619 KiB |  28,696 |
+| String             | 35.4% | 47.7 MiB | 294,016 |
+| Array              | 27.1% | 36.5 MiB | 578,376 |
+| Code               | 22.9% | 30.8 MiB | 450,216 |
+| Internal           | 10.8% | 14.6 MiB | 256,752 |
+| Object             |  3.2% | 4.34 MiB |  97,462 |
+| Symbol             |  0.4% |  618 KiB |  28,696 |
 | Function           | <0.1% |   66 KiB |   8,396 |
 | Number             | <0.1% | 42.6 KiB |   2,938 |
 | Regular expression | <0.1% | 1.34 KiB |      43 |
@@ -30,7 +30,7 @@ Categories accounting for at least 1.0% of self size.
 
 |    % |    Size | Instances | Constructor                 |
 | ---: | ------: | --------: | --------------------------- |
-| 0.6% | 885 KiB |    14,864 | `<foreign memory - malloc>` |
+| 0.6% | 884 KiB |    14,861 | `<foreign memory - malloc>` |
 
 #### Retainer paths
 
@@ -41,7 +41,7 @@ Retainer paths with the largest contribution to each constructor's self size.
 |     % |     Size | Instances | Path                                                                                                                             |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------- |
 | 20.9% |  185 KiB |         2 | `<foreign memory - malloc> ←.<native>– Memory{Tuple{UInt64, UInt64, UInt64}} ←.ref.mem– Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
-| 19.8% |  175 KiB |     4,715 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                       |
+| 19.8% |  175 KiB |     4,712 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                       |
 |  8.4% |   74 KiB |        17 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                      |
 |  7.2% |   64 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– Base`                                                     |
 |  2.8% | 24.9 KiB |       796 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method`                         |
@@ -58,7 +58,7 @@ Categories accounting for at least 1.0% of self size.
 
 |    % |    Size | Instances | Constructor                 |
 | ---: | ------: | --------: | --------------------------- |
-| 0.6% | 885 KiB |    14,864 | `<foreign memory - malloc>` |
+| 0.6% | 884 KiB |    14,861 | `<foreign memory - malloc>` |
 
 #### Retainer paths
 
@@ -69,7 +69,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 |     % |     Size | Instances | Path                                                                                                                             |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------- |
 | 20.9% |  185 KiB |         2 | `<foreign memory - malloc> ←.<native>– Memory{Tuple{UInt64, UInt64, UInt64}} ←.ref.mem– Array{Tuple{UInt64, UInt64, UInt64}, 1}` |
-| 19.8% |  175 KiB |     4,715 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                       |
+| 19.8% |  175 KiB |     4,712 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                       |
 |  8.4% |   74 KiB |        17 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.speckeyset– Method`                                                      |
 |  7.2% |   64 KiB |         1 | `<foreign memory - malloc> ←.<native>– Memory{UInt16} ←.bindingkeyset– Base`                                                     |
 |  2.8% | 24.9 KiB |       796 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method`                         |
