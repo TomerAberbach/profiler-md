@@ -43,7 +43,7 @@ FREE_COMPILER_ARGS=(
 )
 
 run_jvm_workload() {
-  local dir jvm_arg
+  local cfg=$1 dir jvm_arg
   local java_flags=()
   for jvm_arg in "${@:4}"; do java_flags+=("-J$jvm_arg"); done
   ensure_source || return 1
@@ -51,7 +51,11 @@ run_jvm_workload() {
   local opt_in_flags=()
   local fqn
   for fqn in "${OPT_INS[@]}"; do opt_in_flags+=("-opt-in=$fqn"); done
-  kotlinc "${opt_in_flags[@]}" "${FREE_COMPILER_ARGS[@]}" "${java_flags[@]}" -d "$dir" "$source"
+  # The compiler runs on one thread by default, so it contends for no lock.
+  local thread_flags=()
+  [[ "$cfg" == lock ]] && thread_flags=(-Xbackend-threads=0)
+  kotlinc "${opt_in_flags[@]}" "${FREE_COMPILER_ARGS[@]}" "${thread_flags[@]}" \
+    "${java_flags[@]}" -d "$dir" "$source"
 }
 
 emit_jvm_captures
