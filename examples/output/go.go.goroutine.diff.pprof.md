@@ -1,12 +1,12 @@
 # Goroutine profile diff
 
-Recorded 1 goroutine.
+Recorded 4 goroutines.
 
 | Category         | Change | Delta |      % | Goroutines |
 | ---------------- | -----: | ----: | -----: | ---------: |
-| Standard library |   0.0% |     0 | 100.0% |          1 |
+| Standard library |   0.0% |     0 | 100.0% |          4 |
 
-Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
+Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/`.
 
 ## Call tree
 
