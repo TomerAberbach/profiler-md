@@ -17,6 +17,10 @@ PUPPETEER_VERSION=24.15.0
 # Base and current chart the tweets in headless Chrome with consecutive d3
 # releases, whose minified bundle moves its closures along one line.
 declare -A D3_VERSION=([base]=7.8.5 [current]=7.9.0)
+# A heap snapshot holds what the workload retains, so retaining the same document
+# on both sides leaves the diff with nothing to report. The sides retain a
+# different number of parsed copies.
+declare -A HEAP_SNAPSHOT_COPIES=([base]=1 [current]=2)
 ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
 
@@ -86,7 +90,14 @@ capture_node_heap_snapshot() {
   local out=$1 side=$2
   fetch_twitter_json || return 1
   notice "Heap snapshotting parsed twitter.json using node ($side)"
-  node "$assets/heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
+  # A snapshot holds the script's path, the arguments, and the working directory,
+  # so the capture runs from a directory outside the checkout. The directory is
+  # fixed, so a side regenerated alone records the same paths as the other.
+  local run=/tmp/profiler-md-node-heap-snapshot
+  fresh_run_dir "$run" "$assets/heap-snapshot.mjs" "$TWITTER_JSON" || return 1
+  ( cd "$run" && node heap-snapshot.mjs twitter.json snapshot.heapsnapshot \
+    "${HEAP_SNAPSHOT_COPIES[$side]}" >&2 ) || return 1
+  mv "$run/snapshot.heapsnapshot" "$out"
 }
 
 capture_node_heap_all_allocations() {
@@ -154,16 +165,18 @@ capture_bun_cpu() {
 capture_bun_v8_heap_snapshot() {
   local out=$1 side=$2
   local profdir prof
-  profdir="$WORKDIR/bun-v8-heap-snapshot-$side"
-  mkdir -p "$profdir"
+  # A snapshot holds the script's path and the arguments, so the capture runs from
+  # a fixed directory outside the checkout.
+  profdir=/tmp/profiler-md-bun-heap-snapshot
   fetch_twitter_json || return 1
+  fresh_run_dir "$profdir" "$assets/bun-heap-snapshot.mjs" "$TWITTER_JSON" || return 1
   notice "V8 heap snapshotting parsed twitter.json using bun ($side)"
   # `bun --heap-prof` writes a V8 heap snapshot on exit. Its `--heap-prof-dir`
   # mishandles absolute paths, stripping the leading slash and resolving the
   # rest against the cwd, so run from inside profdir and let it default to the
-  # cwd. The asset and generated-input paths are absolute, so the cd leaves them
-  # unaffected.
-  ( cd "$profdir" && bun --heap-prof "$assets/bun-heap-snapshot.mjs" "$TWITTER_JSON" >&2 )
+  # cwd.
+  ( cd "$profdir" && bun --heap-prof bun-heap-snapshot.mjs twitter.json \
+    "${HEAP_SNAPSHOT_COPIES[$side]}" >&2 )
   prof="$(find "$profdir" -name '*.heapsnapshot' | head -1)"
   [[ -n "$prof" ]] || { echo "  bun produced no .heapsnapshot" >&2; return 1; }
   mv "$prof" "$out"
@@ -175,7 +188,8 @@ capture_bun_jsc_heap_snapshot() {
   notice "JSC heap snapshotting parsed twitter.json using bun ($side)"
   # Bun's `generateHeapSnapshot("jsc")` returns the JSC Inspector heap snapshot
   # Safari exports.
-  bun "$assets/bun-jsc-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
+  bun "$assets/bun-jsc-heap-snapshot.mjs" "$TWITTER_JSON" "$out" \
+    "${HEAP_SNAPSHOT_COPIES[$side]}" >&2
 }
 
 capture_chrome_cpu() {

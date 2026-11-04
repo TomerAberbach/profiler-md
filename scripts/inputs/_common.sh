@@ -266,6 +266,16 @@ emit() {
   case "$out" in *.base.*) _emitted_bases+=("$out") ;; esac
 }
 
+# Empties $1, a directory that outlives the run, and copies the remaining
+# arguments into it.
+fresh_run_dir() {
+  local dir=$1
+  shift
+  rm -rf "$dir" || return 1
+  mkdir -p "$dir" || return 1
+  cp "$@" "$dir/"
+}
+
 # Wrap each capture in `try`, so a failing capture sets `status`, which the
 # script exits with, instead of aborting the script under set -e. A function
 # `try` calls runs in a `||` context, where set -e is off, so guard each of its
