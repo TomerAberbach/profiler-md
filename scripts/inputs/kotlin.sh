@@ -53,7 +53,7 @@ run_jvm_workload() {
   for fqn in "${OPT_INS[@]}"; do opt_in_flags+=("-opt-in=$fqn"); done
   # The compiler runs on one thread by default, so it contends for no lock.
   local thread_flags=()
-  [[ "$cfg" == lock ]] && thread_flags=(-Xbackend-threads=0)
+  [[ "$cfg" == lock || "$cfg" == all ]] && thread_flags=(-Xbackend-threads=0)
   kotlinc "${opt_in_flags[@]}" "${FREE_COMPILER_ARGS[@]}" "${thread_flags[@]}" \
     "${java_flags[@]}" -d "$dir" "$source"
 }
