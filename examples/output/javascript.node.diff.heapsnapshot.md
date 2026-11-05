@@ -77,46 +77,46 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
-| Change |        Delta |             % |                Size |     Instances | Constructor | Location    |
-| -----: | -----------: | ------------: | ------------------: | ------------: | ----------- | ----------- |
-| +34.2% | +446.429 KiB | 24.9% → 30.7% | 1.28 MiB → 1.71 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
-| +54.1% |  +76.015 KiB |   2.7% → 3.8% |   140 KiB → 216 KiB | 1,231 → 2,281 | `Array`     | `<unknown>` |
+|  Change |        Delta |             % |                Size |     Instances | Constructor | Location    |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ----------- | ----------- |
+| +300.7% | +453.171 KiB |  2.9% → 10.6% |   151 KiB → 604 KiB | 1,231 → 2,281 | `Array`     | `<unknown>` |
+|  +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
 
 ##### Object
 
 | Change |        Delta |             % |                Size |     Instances | Constructor | Location    |
 | -----: | -----------: | ------------: | ------------------: | ------------: | ----------- | ----------- |
-| +34.2% | +446.429 KiB | 24.9% → 30.7% | 1.28 MiB → 1.71 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
+| +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
 
 ##### Array
 
-| Change |       Delta |           % |              Size |     Instances | Constructor | Location    |
-| -----: | ----------: | ----------: | ----------------: | ------------: | ----------- | ----------- |
-| +54.1% | +76.015 KiB | 2.7% → 3.8% | 140 KiB → 216 KiB | 1,231 → 2,281 | `Array`     | `<unknown>` |
+|  Change |        Delta |            % |              Size |     Instances | Constructor | Location    |
+| ------: | -----------: | -----------: | ----------------: | ------------: | ----------- | ----------- |
+| +300.7% | +453.171 KiB | 2.9% → 10.6% | 151 KiB → 604 KiB | 1,231 → 2,281 | `Array`     | `<unknown>` |
 
 #### Retainer paths
 
 Retainer paths with the largest change in contribution to each constructor's retained size.
 
+##### `Array` (`<unknown>`)
+
+|  Change |      Delta |            % |                Size | Instances | Path                                                                             |
+| ------: | ---------: | -----------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
+| +100.4% | +25.39 KiB | 16.8% → 8.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object`                               |
+| +100.0% | +6.914 KiB |  4.6% → 2.3% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`                                        |
+|  +87.2% | +5.429 KiB |  4.1% → 1.9% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object`                                       |
+| +100.0% | +5.187 KiB |  3.4% → 1.7% | 5.19 KiB → 10.4 KiB |  83 → 166 | `Array ←.indices– Object ←[0]– Array ←.user_mentions– Object ←.entities– Object` |
+| +100.0% | +4.156 KiB |  2.8% → 1.4% | 4.16 KiB → 8.31 KiB | 100 → 200 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object`   |
+
 ##### `Object` (`<unknown>`)
 
 |  Change |        Delta |             % |               Size | Instances | Path                                               |
 | ------: | -----------: | ------------: | -----------------: | --------: | -------------------------------------------------- |
-|  +50.0% | +446.281 KiB | 68.3% → 76.3% | 892 KiB → 1.31 MiB | 223 → 323 | `Object ← (GC root)`                               |
-| +100.0% |  +179.96 KiB | 13.8% → 20.5% |  180 KiB → 360 KiB |  73 → 146 | `Object ←.retweeted_status– Object`                |
-| +100.1% | +135.015 KiB | 10.3% → 15.4% |  135 KiB → 270 KiB | 100 → 200 | `Object ←.user– Object`                            |
-| +100.1% |  +99.359 KiB |  7.6% → 11.3% | 99.3 KiB → 199 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
-|  +98.9% |  +50.484 KiB |   3.9% → 5.8% |   51 KiB → 102 KiB | 100 → 200 | `Object ←.entities– Object`                        |
-
-##### `Array` (`<unknown>`)
-
-|  Change |      Delta |             % |                Size | Instances | Path                                                                             |
-| ------: | ---------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
-| +100.4% | +25.39 KiB | 18.0% → 23.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object`                               |
-| +100.0% | +6.914 KiB |   4.9% → 6.4% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`                                        |
-|  +87.2% | +5.429 KiB |   4.4% → 5.4% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object`                                       |
-| +100.0% | +5.187 KiB |   3.7% → 4.8% | 5.19 KiB → 10.4 KiB |  83 → 166 | `Array ←.indices– Object ←[0]– Array ←.user_mentions– Object ←.entities– Object` |
-| +100.0% | +4.156 KiB |   3.0% → 3.8% | 4.16 KiB → 8.31 KiB | 100 → 200 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object`   |
+|  +50.0% | +446.281 KiB | 64.3% → 72.9% | 892 KiB → 1.31 MiB | 223 → 323 | `Object ← (GC root)`                               |
+| +100.0% |  +179.96 KiB | 13.0% → 19.6% |  180 KiB → 360 KiB |  73 → 146 | `Object ←.retweeted_status– Object`                |
+| +100.1% | +135.015 KiB |  9.7% → 14.7% |  135 KiB → 270 KiB | 100 → 200 | `Object ←.user– Object`                            |
+| +100.1% |  +99.359 KiB |  7.2% → 10.8% | 99.3 KiB → 199 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
+|  +98.9% |  +50.484 KiB |   3.7% → 5.5% |   51 KiB → 102 KiB | 100 → 200 | `Object ←.entities– Object`                        |
 
 ## Largest functions
 

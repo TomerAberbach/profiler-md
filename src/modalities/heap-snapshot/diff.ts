@@ -55,14 +55,18 @@ export type AggregatedHeapSnapshotDiff = {
   strings: AggregatedHeapSnapshotEntityDiff[]
 }
 
-export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<{
-  instances: AggregatedHeapSnapshotNode[]
-}>
+export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<
+  Pick<AggregatedHeapSnapshotConstructor, `minRetainedSize`> & {
+    instances: AggregatedHeapSnapshotNode[]
+  }
+>
 
 /** A function's side, with its instances' node ordinals. */
-export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<{
-  instanceOrdinals: number[]
-}>
+export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<
+  Pick<AggregatedHeapSnapshotFunction, `minRetainedSize`> & {
+    instanceOrdinals: number[]
+  }
+>
 
 /**
  * One side's data for an entity matched across the base and current snapshots,
@@ -248,7 +252,7 @@ const mergeConstructors = (
         location: constructor.location,
         category: constructor.category,
         selfSize: constructor.selfSize,
-        retainedSize: constructor.retainedSize,
+        minRetainedSize: constructor.minRetainedSize,
         instanceCount: constructor.instances.length,
         instances: constructor.instances,
       }
@@ -257,7 +261,7 @@ const mergeConstructors = (
     },
     merge: (merged, constructor) => {
       merged.selfSize += constructor.selfSize
-      merged.retainedSize += constructor.retainedSize
+      merged.minRetainedSize += constructor.minRetainedSize
       merged.instanceCount += constructor.instances.length
       if (!copiedInstances.has(merged)) {
         merged.instances = [...merged.instances]
@@ -295,13 +299,13 @@ const mergeFunctions = (
       location: func.location,
       category: func.category,
       selfSize: func.selfSize,
-      retainedSize: func.retainedSize,
+      minRetainedSize: func.minRetainedSize,
       instanceCount: func.instanceOrdinals.length,
       instanceOrdinals: [...func.instanceOrdinals],
     }),
     merge: (merged, func) => {
       merged.selfSize += func.selfSize
-      merged.retainedSize += func.retainedSize
+      merged.minRetainedSize += func.minRetainedSize
       merged.instanceCount += func.instanceOrdinals.length
       merged.instanceOrdinals.push(...func.instanceOrdinals)
     },
@@ -383,7 +387,6 @@ const mergeStrings = (
     const merged = valueToString.get(string.name)
     if (merged) {
       merged.selfSize += string.selfSize
-      merged.retainedSize += string.selfSize
       merged.instanceCount++
     } else {
       valueToString.set(string.name, {
@@ -392,7 +395,6 @@ const mergeStrings = (
         name: string.name,
         category: string.category,
         selfSize: string.selfSize,
-        retainedSize: string.selfSize,
         instanceCount: 1,
       })
     }

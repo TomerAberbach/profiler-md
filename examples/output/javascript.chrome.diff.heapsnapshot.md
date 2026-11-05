@@ -161,11 +161,11 @@ Constructors with the largest increase in instance bytes, including nodes only t
 |  Change |       Delta |             % |                Size |     Instances | Constructor                       | Location                                    |
 | ------: | ----------: | ------------: | ------------------: | ------------: | --------------------------------- | ------------------------------------------- |
 | +136.7% | +885.71 KiB | 20.1% → 49.4% |   648 KiB → 1.5 MiB |             1 | `Window / http://127.0.0.1:52789` | `<unknown>`                                 |
-|   +0.2% |  +2.585 KiB | 33.7% → 35.1% | 1.06 MiB → 1.07 MiB |         1,723 | `Object`                          | `<unknown>`                                 |
-|   +0.5% |  +2.308 KiB | 14.7% → 15.3% |   474 KiB → 476 KiB |           160 | `SVGGElement`                     | `<unknown>`                                 |
-|   +2.2% |  +2.308 KiB |   3.2% → 3.4% |   103 KiB → 105 KiB |            37 | `SVGPathElement`                  | `<unknown>`                                 |
+|  +37.8% | +423.14 KiB | 34.7% → 49.7% | 1.09 MiB → 1.51 MiB |         1,723 | `Object`                          | `<unknown>`                                 |
+|   +0.5% |  +2.308 KiB | 14.8% → 15.5% |   479 KiB → 481 KiB |           160 | `SVGGElement`                     | `<unknown>`                                 |
+|   +0.9% |  +2.308 KiB |   8.3% → 8.7% |   269 KiB → 271 KiB |            37 | `SVGPathElement`                  | `<unknown>`                                 |
 |   +0.5% |  +2.308 KiB | 14.9% → 15.5% |   480 KiB → 483 KiB |             4 | `SVGSVGElement`                   | `<unknown>`                                 |
-|   +0.1% |      +808 B | 18.3% → 19.1% |   592 KiB → 593 KiB | 3,706 → 3,705 | `Array`                           | `<unknown>`                                 |
+|   +0.1% |      +808 B | 21.0% → 21.9% |   678 KiB → 679 KiB | 3,706 → 3,705 | `Array`                           | `<unknown>`                                 |
 |     new |      +232 B |  0.0% → <0.1% |         0 B → 232 B |         0 → 1 | `ww`                              | `./node_modules/d3/dist/d3.min.js:2:216042` |
 |     ~0% |      +146 B | 17.2% → 17.8% |             554 KiB |            47 | `system / ExternalStringData`     | `<unknown>`                                 |
 |   +0.1% |       +40 B |   2.3% → 2.4% |            74.2 KiB |            10 | `Window`                          | `<unknown>`                                 |
@@ -174,8 +174,8 @@ Constructors with the largest increase in instance bytes, including nodes only t
 
 | Change |      Delta |             % |              Size | Instances | Constructor                   | Location    |
 | -----: | ---------: | ------------: | ----------------: | --------: | ----------------------------- | ----------- |
-|  +0.5% | +2.308 KiB | 14.7% → 15.3% | 474 KiB → 476 KiB |       160 | `SVGGElement`                 | `<unknown>` |
-|  +2.2% | +2.308 KiB |   3.2% → 3.4% | 103 KiB → 105 KiB |        37 | `SVGPathElement`              | `<unknown>` |
+|  +0.5% | +2.308 KiB | 14.8% → 15.5% | 479 KiB → 481 KiB |       160 | `SVGGElement`                 | `<unknown>` |
+|  +0.9% | +2.308 KiB |   8.3% → 8.7% | 269 KiB → 271 KiB |        37 | `SVGPathElement`              | `<unknown>` |
 |  +0.5% | +2.308 KiB | 14.9% → 15.5% | 480 KiB → 483 KiB |         4 | `SVGSVGElement`               | `<unknown>` |
 |    ~0% |     +146 B | 17.2% → 17.8% |           554 KiB |        47 | `system / ExternalStringData` | `<unknown>` |
 |  +0.1% |      +40 B |   2.3% → 2.4% |          74.2 KiB |        10 | `Window`                      | `<unknown>` |
@@ -185,14 +185,14 @@ Constructors with the largest increase in instance bytes, including nodes only t
 |  Change |       Delta |             % |                Size | Instances | Constructor                       | Location                                    |
 | ------: | ----------: | ------------: | ------------------: | --------: | --------------------------------- | ------------------------------------------- |
 | +136.7% | +885.71 KiB | 20.1% → 49.4% |   648 KiB → 1.5 MiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>`                                 |
-|   +0.2% |  +2.585 KiB | 33.7% → 35.1% | 1.06 MiB → 1.07 MiB |     1,723 | `Object`                          | `<unknown>`                                 |
+|  +37.8% | +423.14 KiB | 34.7% → 49.7% | 1.09 MiB → 1.51 MiB |     1,723 | `Object`                          | `<unknown>`                                 |
 |     new |      +232 B |  0.0% → <0.1% |         0 B → 232 B |     0 → 1 | `ww`                              | `./node_modules/d3/dist/d3.min.js:2:216042` |
 
 ##### Array
 
 | Change |  Delta |             % |              Size |     Instances | Constructor | Location    |
 | -----: | -----: | ------------: | ----------------: | ------------: | ----------- | ----------- |
-|  +0.1% | +808 B | 18.3% → 19.1% | 592 KiB → 593 KiB | 3,706 → 3,705 | `Array`     | `<unknown>` |
+|  +0.1% | +808 B | 21.0% → 21.9% | 678 KiB → 679 KiB | 3,706 → 3,705 | `Array`     | `<unknown>` |
 
 #### Improvements
 
@@ -200,7 +200,7 @@ Constructors with the largest decrease in instance bytes, including nodes only t
 
 |  Change |        Delta |             % |               Size | Instances | Constructor                  | Location                                    |
 | ------: | -----------: | ------------: | -----------------: | --------: | ---------------------------- | ------------------------------------------- |
-|  -22.9% |  -103.16 KiB | 13.9% → 11.2% |  450 KiB → 347 KiB | 429 → 426 | `system / Context`           | `<unknown>`                                 |
+|  -20.6% | -103.359 KiB | 15.6% → 12.9% |  503 KiB → 399 KiB | 429 → 426 | `system / Context`           | `<unknown>`                                 |
 | removed |  -102.73 KiB |   3.2% → 0.0% |      103 KiB → 0 B |     1 → 0 | `Float32Array`               | `<unknown>`                                 |
 |  -94.8% | -102.671 KiB |   3.4% → 0.2% |  108 KiB → 5.6 KiB |   15 → 14 | `ArrayBuffer`                | `<unknown>`                                 |
 |  -96.7% | -102.621 KiB |   3.3% → 0.1% | 106 KiB → 3.47 KiB |    10 → 9 | `system / JSArrayBufferData` | `<unknown>`                                 |
@@ -216,7 +216,7 @@ Constructors with the largest decrease in instance bytes, including nodes only t
 
 |  Change |        Delta |             % |              Size | Instances | Constructor        | Location                                    |
 | ------: | -----------: | ------------: | ----------------: | --------: | ------------------ | ------------------------------------------- |
-|  -22.9% |  -103.16 KiB | 13.9% → 11.2% | 450 KiB → 347 KiB | 429 → 426 | `system / Context` | `<unknown>`                                 |
+|  -20.6% | -103.359 KiB | 15.6% → 12.9% | 503 KiB → 399 KiB | 429 → 426 | `system / Context` | `<unknown>`                                 |
 |  -94.8% | -102.671 KiB |   3.4% → 0.2% | 108 KiB → 5.6 KiB |   15 → 14 | `ArrayBuffer`      | `<unknown>`                                 |
 | removed |       -232 B |  <0.1% → 0.0% |       232 B → 0 B |     1 → 0 | `xw`               | `./node_modules/d3/dist/d3.min.js:2:215993` |
 
@@ -240,17 +240,17 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |  Change |        Delta |            % |               Size | Instances | Path                                                                                                                                         |
 | ------: | -----------: | -----------: | -----------------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------- |
-|  -88.0% | -328.015 KiB | 34.3% → 4.1% | 373 KiB → 44.8 KiB |   48 → 32 | `Object ← (GC root)`                                                                                                                         |
-|     new | +260.562 KiB | 0.0% → 23.9% |      0 B → 261 KiB |     0 → 1 | `Object ←.d3– Window / http://127.0.0.1:52789`                                                                                               |
-|     new |  +67.761 KiB |  0.0% → 6.2% |     0 B → 67.8 KiB |    0 → 15 | `Object ←(several paths)– Window / http://127.0.0.1:52789`                                                                                   |
-| removed |  -30.007 KiB |  2.8% → 0.0% |       30 KiB → 0 B |     1 → 0 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                   |
-|     new |  +29.976 KiB |  0.0% → 2.7% |       0 B → 30 KiB |     0 → 1 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82034) ←.Su– system / Context ←(several paths)– Window / http://127.0.0.1:52789` |
+|  -88.0% | -328.015 KiB | 33.3% → 2.9% | 373 KiB → 44.8 KiB |   48 → 32 | `Object ← (GC root)`                                                                                                                         |
+|     new | +260.562 KiB | 0.0% → 16.9% |      0 B → 261 KiB |     0 → 1 | `Object ←.d3– Window / http://127.0.0.1:52789`                                                                                               |
+|     new |  +67.761 KiB |  0.0% → 4.4% |     0 B → 67.8 KiB |    0 → 15 | `Object ←(several paths)– Window / http://127.0.0.1:52789`                                                                                   |
+| removed |  -30.007 KiB |  2.7% → 0.0% |       30 KiB → 0 B |     1 → 0 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                                                   |
+|     new |  +29.976 KiB |  0.0% → 1.9% |       0 B → 30 KiB |     0 → 1 | `Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82034) ←.Su– system / Context ←(several paths)– Window / http://127.0.0.1:52789` |
 
 ##### `SVGGElement` (`<unknown>`)
 
 |  Change |      Delta |             % |             Size | Instances | Path                                                                                                            |
 | ------: | ---------: | ------------: | ---------------: | --------: | --------------------------------------------------------------------------------------------------------------- |
-|   +2.3% | +2.308 KiB | 20.9% → 21.3% | 99 KiB → 101 KiB |         1 | `SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|   +2.3% | +2.308 KiB | 20.7% → 21.0% | 99 KiB → 101 KiB |         1 | `SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 | removed |      -16 B |  <0.1% → 0.0% |       16 B → 0 B |     1 → 0 | `SVGGElement ←[1]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                          |
 |     new |      +16 B |  0.0% → <0.1% |       0 B → 16 B |     0 → 1 | `SVGGElement ←[9]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                          |
 
@@ -258,7 +258,7 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |  Change |      Delta |             % |                Size | Instances | Path                                                                                                                                             |
 | ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-|   +2.7% | +2.308 KiB | 82.6% → 82.9% | 85.1 KiB → 87.5 KiB |        21 | `SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|   +2.7% | +2.308 KiB | 31.6% → 32.2% | 85.1 KiB → 87.5 KiB |        21 | `SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 | removed |      -16 B |  <0.1% → 0.0% |          16 B → 0 B |     1 → 0 | `SVGPathElement ←[12]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                       |
 |     new |      +16 B |  0.0% → <0.1% |          0 B → 16 B |     0 → 1 | `SVGPathElement ←[10]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                       |
 
@@ -274,11 +274,11 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |  Change |      Delta |           % |           Size | Instances | Path                                                                                                                                                                |
 | ------: | ---------: | ----------: | -------------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateViridis– Object`                                       |
-| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`                                        |
-| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`                                         |
-| removed | -6.023 KiB | 1.0% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object`                                       |
-|     new | +6.023 KiB | 0.0% → 1.0% | 0 B → 6.02 KiB |     0 → 1 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186206) ←.interpolateViridis– Object ←.d3– Window / http://127.0.0.1:52789` |
+| removed | -6.023 KiB | 0.9% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateViridis– Object`                                       |
+| removed | -6.023 KiB | 0.9% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`                                        |
+| removed | -6.023 KiB | 0.9% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`                                         |
+| removed | -6.023 KiB | 0.9% → 0.0% | 6.02 KiB → 0 B |     1 → 0 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object`                                       |
+|     new | +6.023 KiB | 0.0% → 0.9% | 0 B → 6.02 KiB |     0 → 1 | `Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186206) ←.interpolateViridis– Object ←.d3– Window / http://127.0.0.1:52789` |
 
 ##### `ww` (`./node_modules/d3/dist/d3.min.js:2:216042`)
 
@@ -305,11 +305,11 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 |    Change |        Delta |             % |            Size | Instances | Path                                                                                                               |
 | --------: | -----------: | ------------: | --------------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
-|   -100.0% | -385.949 KiB | 85.7% → <0.1% |  386 KiB → 80 B |    32 → 4 | `system / Context ← (GC root)`                                                                                     |
-| +59829.8% | +282.789 KiB |  0.1% → 81.6% | 484 B → 283 KiB |    1 → 28 | `system / Context ←(several paths)– Window / http://127.0.0.1:52789`                                               |
-|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
-|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
-|   removed |   -6.046 KiB |   1.3% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
+|   -100.0% | -385.949 KiB | 76.8% → <0.1% |  386 KiB → 80 B |    32 → 4 | `system / Context ← (GC root)`                                                                                     |
+| +59829.8% | +282.789 KiB |  0.1% → 71.0% | 484 B → 283 KiB |    1 → 28 | `system / Context ←(several paths)– Window / http://127.0.0.1:52789`                                               |
+|   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
+|   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
+|   removed |   -6.046 KiB |   1.2% → 0.0% |  6.05 KiB → 0 B |     1 → 0 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
 
 ##### `Float32Array` (`<unknown>`)
 
