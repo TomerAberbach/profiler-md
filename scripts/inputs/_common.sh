@@ -239,7 +239,7 @@ verify_generated_input() {
   [[ "$markdown" == '# '* ]] \
     || { echo "  RECORDED nothing (make the workload exercise this configuration): $(rel "$out")" >&2; return 1; }
   node "$REPO/scripts/check-input-privacy.ts" "$out" >/dev/null \
-    || { echo "  CONTAINS data about this machine (see above; disable it in the profiler, or redact it): $(rel "$out")" >&2; return 1; }
+    || { echo "  CONTAINS sensitive data about this machine (see above; disable it in the profiler, or redact it): $(rel "$out")" >&2; return 1; }
   echo "Verified $(rel "$out")"
 }
 
