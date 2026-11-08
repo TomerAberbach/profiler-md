@@ -530,15 +530,15 @@ Constructors with the most instance bytes, including nodes only the instances ke
 
 |     % |     Size | Instances | Constructor                  | Location                                  |
 | ----: | -------: | --------: | ---------------------------- | ----------------------------------------- |
-| 30.7% | 1.71 MiB |     3,438 | `Object`                     | `<unknown>`                               |
-|  7.0% |  400 KiB |       792 | `system / Context`           | `<unknown>`                               |
-|  6.3% |  359 KiB |        28 | `Map`                        | `<unknown>`                               |
-|  3.8% |  216 KiB |     2,281 | `Array`                      | `<unknown>`                               |
-|  3.5% |  197 KiB |       359 | `BuiltinModule`              | `node:internal/bootstrap/realm:239:14`    |
+| 32.2% | 1.79 MiB |     3,438 | `Object`                     | `<unknown>`                               |
+| 22.2% | 1.23 MiB |       792 | `system / Context`           | `<unknown>`                               |
+| 10.6% |  604 KiB |     2,281 | `Array`                      | `<unknown>`                               |
+|  6.3% |  362 KiB |        28 | `Map`                        | `<unknown>`                               |
+|  3.5% |  199 KiB |       359 | `BuiltinModule`              | `node:internal/bootstrap/realm:239:14`    |
 |  1.8% |  103 KiB |       193 | `Error`                      | `<unknown>`                               |
 |  0.9% | 52.1 KiB |        97 | `TypeError`                  | `<unknown>`                               |
 |  0.5% | 27.2 KiB |        24 | `Set`                        | `<unknown>`                               |
-|  0.4% | 20.5 KiB |         2 | `console`                    | `<unknown>`                               |
+|  0.4% | 23.2 KiB |         2 | `console`                    | `<unknown>`                               |
 |  0.3% | 19.3 KiB |         1 | `NodeEnvironmentFlagsSet`    | `node:internal/process/per_thread:438:16` |
 |  0.3% | 18.4 KiB |         2 | `Stream`                     | `node:internal/streams/legacy:11:16`      |
 |  0.3% | 16.8 KiB |         1 | `FixedQueue`                 | `node:internal/fixed_queue:92:14`         |
@@ -559,14 +559,14 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor               | Location                                      |
 | ----: | -------: | --------: | ------------------------- | --------------------------------------------- |
-| 30.7% | 1.71 MiB |     3,438 | `Object`                  | `<unknown>`                                   |
-|  7.0% |  400 KiB |       792 | `system / Context`        | `<unknown>`                                   |
-|  6.3% |  359 KiB |        28 | `Map`                     | `<unknown>`                                   |
-|  3.5% |  197 KiB |       359 | `BuiltinModule`           | `node:internal/bootstrap/realm:239:14`        |
+| 32.2% | 1.79 MiB |     3,438 | `Object`                  | `<unknown>`                                   |
+| 22.2% | 1.23 MiB |       792 | `system / Context`        | `<unknown>`                                   |
+|  6.3% |  362 KiB |        28 | `Map`                     | `<unknown>`                                   |
+|  3.5% |  199 KiB |       359 | `BuiltinModule`           | `node:internal/bootstrap/realm:239:14`        |
 |  1.8% |  103 KiB |       193 | `Error`                   | `<unknown>`                                   |
 |  0.9% | 52.1 KiB |        97 | `TypeError`               | `<unknown>`                                   |
 |  0.5% | 27.2 KiB |        24 | `Set`                     | `<unknown>`                                   |
-|  0.4% | 20.5 KiB |         2 | `console`                 | `<unknown>`                                   |
+|  0.4% | 23.2 KiB |         2 | `console`                 | `<unknown>`                                   |
 |  0.3% | 19.3 KiB |         1 | `NodeEnvironmentFlagsSet` | `node:internal/process/per_thread:438:16`     |
 |  0.3% | 18.4 KiB |         2 | `Stream`                  | `node:internal/streams/legacy:11:16`          |
 |  0.3% | 16.8 KiB |         1 | `FixedQueue`              | `node:internal/fixed_queue:92:14`             |
@@ -584,7 +584,7 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor      | Location    |
 | ----: | -------: | --------: | ---------------- | ----------- |
-|  3.8% |  216 KiB |     2,281 | `Array`          | `<unknown>` |
+| 10.6% |  604 KiB |     2,281 | `Array`          | `<unknown>` |
 |  0.1% | 6.15 KiB |         9 | `Uint8Array`     | `<unknown>` |
 |  0.1% |  3.2 KiB |        13 | `Float64Array`   | `<unknown>` |
 | <0.1% | 1.77 KiB |         5 | `Int8Array`      | `<unknown>` |
@@ -628,51 +628,51 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                               |
 | ----: | -------: | --------: | -------------------------------------------------- |
-| 76.3% | 1.31 MiB |       323 | `Object ← (GC root)`                               |
-| 20.5% |  360 KiB |       146 | `Object ←.retweeted_status– Object`                |
-| 15.4% |  270 KiB |       200 | `Object ←.user– Object`                            |
-| 11.3% |  199 KiB |       146 | `Object ←.user– Object ←.retweeted_status– Object` |
-|  5.8% |  102 KiB |       200 | `Object ←.entities– Object`                        |
+| 72.9% | 1.31 MiB |       323 | `Object ← (GC root)`                               |
+| 19.6% |  360 KiB |       146 | `Object ←.retweeted_status– Object`                |
+| 14.7% |  270 KiB |       200 | `Object ←.user– Object`                            |
+| 10.8% |  199 KiB |       146 | `Object ←.user– Object ←.retweeted_status– Object` |
+|  5.5% |  102 KiB |       200 | `Object ←.entities– Object`                        |
 
 ##### `system / Context` (`<unknown>`)
 
 |     % |     Size | Instances | Path                                                                                                                    |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 63.0% |  252 KiB |       125 | `system / Context ← (GC root)`                                                                                          |
-| 18.0% |   72 KiB |         1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)`                                    |
-|  2.6% | 10.6 KiB |         1 | `system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
-|  1.5% | 5.96 KiB |        44 | `system / Context ←(several paths)– Object`                                                                             |
-|  0.7% | 2.97 KiB |         8 | `system / Context ←.context– logger (node:internal/util/debuglog:120:18) ←.debug– system / Context`                     |
+| 20.0% |  252 KiB |       125 | `system / Context ← (GC root)`                                                                                          |
+|  5.7% |   72 KiB |         1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)`                                    |
+|  0.8% | 10.6 KiB |         1 | `system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
+|  0.5% | 5.96 KiB |        44 | `system / Context ←(several paths)– Object`                                                                             |
+|  0.2% | 2.97 KiB |         8 | `system / Context ←.context– logger (node:internal/util/debuglog:120:18) ←.debug– system / Context`                     |
+
+##### `Array` (`<unknown>`)
+
+|    % |     Size | Instances | Path                                                                                                                                                 |
+| ---: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 8.4% | 50.7 KiB |       200 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
+| 2.7% |   16 KiB |         1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
+| 2.4% | 14.6 KiB |        20 | `Array ← (GC root)`                                                                                                                                  |
+| 2.3% | 13.8 KiB |       200 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
+| 1.9% | 11.7 KiB |        12 | `Array ←.media– Object ←.entities– Object`                                                                                                           |
 
 ##### `Map` (`<unknown>`)
 
 |     % |     Size | Instances | Path                                                              |
 | ----: | -------: | --------: | ----------------------------------------------------------------- |
-| 57.9% |  208 KiB |         1 | `Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 34.3% |  123 KiB |         8 | `Map ← (GC root)`                                                 |
+| 57.5% |  208 KiB |         1 | `Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 34.0% |  123 KiB |         8 | `Map ← (GC root)`                                                 |
 |  3.9% | 14.1 KiB |         1 | `Map ←.messages– system / Context`                                |
 |  2.0% | 7.07 KiB |         1 | `Map ←.encodings– system / Context`                               |
 |  0.6% | 2.03 KiB |         1 | `Map ←.wellKnownPrototypes– system / Context`                     |
-
-##### `Array` (`<unknown>`)
-
-|     % |     Size | Instances | Path                                                                                                                                                 |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 23.4% | 50.7 KiB |       200 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
-|  7.4% |   16 KiB |         1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
-|  6.7% | 14.6 KiB |        20 | `Array ← (GC root)`                                                                                                                                  |
-|  6.4% | 13.8 KiB |       200 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
-|  5.4% | 11.7 KiB |        12 | `Array ←.media– Object ←.entities– Object`                                                                                                           |
 
 ##### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 
 |     % |     Size | Instances | Path                                                                                                   |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------ |
-| 13.4% | 26.3 KiB |         1 | `BuiltinModule ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  4.2% | 8.23 KiB |         1 | `BuiltinModule ←.1121– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  3.9% | 7.63 KiB |         1 | `BuiltinModule ←.608– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+| 13.2% | 26.3 KiB |         1 | `BuiltinModule ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  4.1% | 8.23 KiB |         1 | `BuiltinModule ←.1121– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  3.8% | 7.63 KiB |         1 | `BuiltinModule ←.608– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
 |  2.7% | 5.41 KiB |         1 | `BuiltinModule ←.389– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
-|  2.7% | 5.27 KiB |         1 | `BuiltinModule ←.860– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+|  2.6% | 5.27 KiB |         1 | `BuiltinModule ←.860– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
 
 ##### `Error` (`<unknown>`)
 
@@ -706,9 +706,9 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `console` (`<unknown>`)
 
-|      % |     Size | Instances | Path                  |
-| -----: | -------: | --------: | --------------------- |
-| 100.0% | 20.5 KiB |         2 | `console ← (GC root)` |
+|     % |     Size | Instances | Path                  |
+| ----: | -------: | --------: | --------------------- |
+| 88.4% | 20.5 KiB |         2 | `console ← (GC root)` |
 
 ##### `NodeEnvironmentFlagsSet` (`node:internal/process/per_thread:438:16`)
 
@@ -1011,24 +1011,24 @@ Functions with the most instance bytes, including nodes only the instances keep 
 | ---: | -------: | --------: | ----: | ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 3.7% |  209 KiB |         1 |     1 | `BuiltinModule`        | `node:internal/bootstrap/realm:239:14`         | `BuiltinModule ← (GC root)`                                                                                                                      |
 | 2.4% |  135 KiB |       133 |   106 | `NodeError`            | `node:internal/errors:437:20`                  | `NodeError ←.ERR_HTTP2_PSEUDOHEADER_NOT_ALLOWED– Object`                                                                                         |
-| 2.0% |  112 KiB |       109 |    64 | `NodeError`            | `node:internal/errors:498:20`                  | `NodeError ← (GC root)`                                                                                                                          |
+| 2.0% |  113 KiB |       109 |    64 | `NodeError`            | `node:internal/errors:498:20`                  | `NodeError ← (GC root)`                                                                                                                          |
 | 1.3% | 72.2 KiB |         1 |     1 | `internalBinding`      | `node:internal/bootstrap/realm:185:45`         | `internalBinding ← (GC root)`                                                                                                                    |
 | 0.8% | 45.3 KiB |        44 |    16 | `NodeError`            | `node:internal/errors:466:20`                  | `NodeError ←.ERR_HTTP2_INVALID_SETTING_VALUE– Object`                                                                                            |
-| 0.6% | 35.2 KiB |       467 |   344 | `native_bind`          | `<unknown>`                                    | `native_bind ←.trace– console`                                                                                                                   |
-| 0.5% | 28.5 KiB |        27 |    24 | `deprecated`           | `node:internal/util:187:22`                    | `deprecated ← (GC root)`                                                                                                                         |
+| 0.6% | 35.7 KiB |       467 |   344 | `native_bind`          | `<unknown>`                                    | `native_bind ←.trace– console`                                                                                                                   |
+| 0.5% | 28.6 KiB |        27 |    24 | `deprecated`           | `node:internal/util:187:22`                    | `deprecated ← (GC root)`                                                                                                                         |
 | 0.2% | 12.5 KiB |         1 |     1 | `Interface`            | `node:internal/readline/interface:350:1`       | `Interface ← (GC root)`                                                                                                                          |
-| 0.2% | 12.3 KiB |        19 |    13 | `HideStackFramesError` | `node:internal/errors:407:16`                  | `HideStackFramesError ← (GC root)`                                                                                                               |
-| 0.2% | 9.06 KiB |        40 |     8 | `wrappedFn`            | `node:internal/errors:535:21`                  | `wrappedFn ← (GC root)`                                                                                                                          |
+| 0.2% | 12.4 KiB |        19 |    13 | `HideStackFramesError` | `node:internal/errors:407:16`                  | `HideStackFramesError ← (GC root)`                                                                                                               |
+| 0.2% | 9.38 KiB |        40 |     8 | `wrappedFn`            | `node:internal/errors:535:21`                  | `wrappedFn ← (GC root)`                                                                                                                          |
 | 0.1% | 8.37 KiB |         1 |     1 | `inspect`              | `node:internal/util/inspect:354:17`            | `inspect ← (GC root)`                                                                                                                            |
 | 0.1% | 8.35 KiB |         1 |     1 | `Module`               | `node:internal/modules/cjs/loader:332:16`      | `Module ← (GC root)`                                                                                                                             |
-| 0.1% | 8.31 KiB |       133 |   108 | `(anonymous)`          | `node:internal/errors:452:27`                  | `(anonymous) ←.<symbol kIsNodeError>– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                |
-| 0.1% | 8.31 KiB |       133 |   108 | `(anonymous)`          | `node:internal/errors:448:28`                  | `(anonymous) ←.get constructor– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                      |
-| 0.1% | 7.52 KiB |        10 |     9 | `SafeIterator`         | `node:internal/per_context/primordials:330:16` | `SafeIterator ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.<symbol Symbol.iterator>– Set` |
-| 0.1% | 7.39 KiB |        12 |    11 | `NodeError`            | `node:internal/errors:395:16`                  | `NodeError ← (GC root)`                                                                                                                          |
-| 0.1% | 7.27 KiB |       133 |   108 | `toString`             | `node:internal/errors:456:17`                  | `toString ←.toString– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                                |
-| 0.1% | 7.27 KiB |       133 |   106 | `NodeError`            | `node:internal/errors:434:36`                  | `NodeError ←.<symbol>– NodeError (node:internal/errors:437:20)`                                                                                  |
-| 0.1% | 7.27 KiB |         1 |     1 | `FileHandle`           | `node:internal/fs/promises:158:14`             | `FileHandle ← (GC root)`                                                                                                                         |
-| 0.1% | 6.96 KiB |         8 |     8 | `(anonymous)`          | `node:internal/per_context/primordials:385:32` | `(anonymous) ←.<symbol Symbol.iterator>– Set`                                                                                                    |
+| 0.1% | 8.34 KiB |       133 |   108 | `(anonymous)`          | `node:internal/errors:452:27`                  | `(anonymous) ←.<symbol kIsNodeError>– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                |
+| 0.1% | 8.34 KiB |       133 |   108 | `(anonymous)`          | `node:internal/errors:448:28`                  | `(anonymous) ←.get constructor– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                      |
+| 0.1% | 8.09 KiB |        69 |     6 | `(anonymous)`          | `<unknown>`                                    | `(anonymous) ← (GC root)`                                                                                                                        |
+| 0.1% | 7.73 KiB |        10 |     9 | `SafeIterator`         | `node:internal/per_context/primordials:330:16` | `SafeIterator ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.<symbol Symbol.iterator>– Set` |
+| 0.1% | 7.59 KiB |         8 |     8 | `(anonymous)`          | `node:internal/per_context/primordials:385:32` | `(anonymous) ←.<symbol Symbol.iterator>– Set`                                                                                                    |
+| 0.1% | 7.41 KiB |        12 |    11 | `NodeError`            | `node:internal/errors:395:16`                  | `NodeError ← (GC root)`                                                                                                                          |
+| 0.1% |  7.3 KiB |       133 |   108 | `toString`             | `node:internal/errors:456:17`                  | `toString ←.toString– Error ←.prototype– NodeError (node:internal/errors:437:20)`                                                                |
+| 0.1% |  7.3 KiB |       133 |   106 | `NodeError`            | `node:internal/errors:434:36`                  | `NodeError ←.<symbol>– NodeError (node:internal/errors:437:20)`                                                                                  |
 
 ### Retained nodes
 
@@ -1154,15 +1154,35 @@ Retained nodes with the largest contribution to each function's retained size.
 | 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←.set parent– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)` |
 | 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←.get parent– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)` |
 
+#### `(anonymous)` (`<unknown>`)
+
+|    % |  Self | Name                       | Location    | Path                                                                      |
+| ---: | ----: | -------------------------- | ----------- | ------------------------------------------------------------------------- |
+| 3.2% | 264 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)` |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
+| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
+| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
+
 #### `SafeIterator` (`node:internal/per_context/primordials:330:16`)
 
 |    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
 | ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
-| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16)`                                                                                                                  |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
+| 2.0% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Map`  |
+
+#### `(anonymous)` (`node:internal/per_context/primordials:385:32`)
+
+|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
+| ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
 | 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
 | 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Map`  |
+| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Set` |
+| 2.1% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Set`  |
 
 #### `NodeError` (`node:internal/errors:395:16`)
 
@@ -1173,26 +1193,6 @@ Retained nodes with the largest contribution to each function's retained size.
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– SystemError (node:internal/errors:276:14) ←.prototype– NodeError (node:internal/errors:395:16)`                                                                          |
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– NodeError (node:internal/errors:395:16) ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:395:16)` |
 | 1.9% | 144 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– NodeError (node:internal/errors:395:16)`                                                                                                       |
-
-#### `FileHandle` (`node:internal/fs/promises:158:14`)
-
-|     % |     Self | Name                       | Location    | Path                                                                                                                                                                    |
-| ----: | -------: | -------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 21.5% | 1.56 KiB | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– EventEmitter (node:events:220:22) ←.prototype– FileHandle (node:internal/fs/promises:158:14)`                                        |
-|  1.9% |    144 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– FileHandle (node:internal/fs/promises:158:14)`                                                             |
-|  1.3% |     96 B | `system / ScopeInfo`       | `<unknown>` | `system / ScopeInfo ←.name_or_scope_info– FileHandle ←.shared– FileHandle (node:internal/fs/promises:154:39) ←.<symbol>– FileHandle (node:internal/fs/promises:158:14)` |
-|  1.2% |     88 B | `system / BytecodeArray`   | `<unknown>` | `system / BytecodeArray ←.function_data– FileHandle ←.shared– FileHandle (node:internal/fs/promises:154:39) ←.<symbol>– FileHandle (node:internal/fs/promises:158:14)`  |
-|  1.0% |     72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– EventEmitter (node:events:220:22) ←.prototype– FileHandle (node:internal/fs/promises:158:14)`                                                      |
-
-#### `(anonymous)` (`node:internal/per_context/primordials:385:32`)
-
-|    % |  Self | Name                  | Location    | Path                                                                                                                                                                                                                                 |
-| ---: | ----: | --------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2.2% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Map` |
-| 2.2% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.keys– Map`    |
-| 2.2% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Map`  |
-| 2.2% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.entries– Set` |
-| 2.2% | 160 B | `(object properties)` | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– SafeIterator (node:internal/per_context/primordials:330:16) ←.<dummy>– system / Context ←.context– (anonymous) (node:internal/per_context/primordials:385:32) ←.values– Set`  |
 
 ## Largest strings
 

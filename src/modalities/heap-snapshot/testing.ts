@@ -119,6 +119,7 @@ export const makeAggregatedHeapSnapshot = ({
   functions,
   strings,
   outermostInstanceOrdinalsOf: instanceOrdinals => instanceOrdinals,
+  retainedSizeOf: entity => entity.minRetainedSize,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
   retainedNodesOf: () => [],
@@ -209,7 +210,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
   location,
   category,
   selfSize,
-  retainedSize,
+  minRetainedSize: retainedSize,
   instances: Array.from({ length: instanceCount }, (_, index) => ({
     type: `node`,
     id: index,
@@ -241,7 +242,7 @@ export const makeAggregatedHeapSnapshotFunction = ({
   location,
   category,
   selfSize,
-  retainedSize,
+  minRetainedSize: retainedSize,
   instanceOrdinals: Array.from({ length: instanceCount }, (_, index) => index),
 })
 
@@ -259,7 +260,6 @@ export const makeAggregatedHeapSnapshotString = ({
   name: value,
   category,
   selfSize,
-  retainedSize: selfSize,
 })
 
 export const selfSizeTables = (md: string): Table[] =>

@@ -521,26 +521,26 @@ Constructors with the most instance bytes, including nodes only the instances ke
 
 |     % |     Size | Instances | Constructor                       | Location    |
 | ----: | -------: | --------: | --------------------------------- | ----------- |
-| 33.7% | 1.06 MiB |     1,723 | `Object`                          | `<unknown>` |
+| 34.7% | 1.09 MiB |     1,723 | `Object`                          | `<unknown>` |
+| 21.0% |  678 KiB |     3,706 | `Array`                           | `<unknown>` |
 | 20.1% |  648 KiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>` |
-| 18.3% |  592 KiB |     3,706 | `Array`                           | `<unknown>` |
 | 17.2% |  554 KiB |        47 | `system / ExternalStringData`     | `<unknown>` |
+| 15.6% |  503 KiB |       429 | `system / Context`                | `<unknown>` |
 | 14.9% |  480 KiB |         4 | `SVGSVGElement`                   | `<unknown>` |
-| 14.7% |  474 KiB |       160 | `SVGGElement`                     | `<unknown>` |
-| 13.9% |  450 KiB |       429 | `system / Context`                | `<unknown>` |
-|  3.7% |  120 KiB |       203 | `SVGCircleElement`                | `<unknown>` |
+| 14.8% |  479 KiB |       160 | `SVGGElement`                     | `<unknown>` |
+|  8.3% |  269 KiB |        37 | `SVGPathElement`                  | `<unknown>` |
+|  3.7% |  121 KiB |       203 | `SVGCircleElement`                | `<unknown>` |
 |  3.4% |  108 KiB |        15 | `ArrayBuffer`                     | `<unknown>` |
 |  3.3% |  106 KiB |        10 | `system / JSArrayBufferData`      | `<unknown>` |
-|  3.2% |  103 KiB |        37 | `SVGPathElement`                  | `<unknown>` |
 |  3.2% |  103 KiB |         1 | `Float32Array`                    | `<unknown>` |
+|  3.1% |   99 KiB |       112 | `SVGRectElement`                  | `<unknown>` |
 |  2.9% | 93.8 KiB |     1,500 | `SVGAnimatedLength`               | `<unknown>` |
-|  2.6% | 83.8 KiB |       112 | `SVGRectElement`                  | `<unknown>` |
 |  2.3% | 74.2 KiB |        10 | `Window`                          | `<unknown>` |
 |  1.5% | 47.8 KiB |         1 | `Window / ://`                    | `<unknown>` |
-|  1.4% | 45.5 KiB |        61 | `SVGTextElement`                  | `<unknown>` |
+|  1.4% | 45.8 KiB |        61 | `SVGTextElement`                  | `<unknown>` |
 |  1.2% | 38.6 KiB |       705 | `SVGAnimatedString`               | `<unknown>` |
 |  1.2% | 37.8 KiB |       605 | `SVGAnimatedTransformList`        | `<unknown>` |
-|  0.9% | 28.8 KiB |        49 | `SVGLineElement`                  | `<unknown>` |
+|  0.9% | 28.9 KiB |        49 | `SVGLineElement`                  | `<unknown>` |
 
 #### Categories
 
@@ -552,22 +552,22 @@ Categories accounting for at least 1.0% of self size.
 | ----: | -------: | --------: | ----------------------------- | ----------- |
 | 17.2% |  554 KiB |        47 | `system / ExternalStringData` | `<unknown>` |
 | 14.9% |  480 KiB |         4 | `SVGSVGElement`               | `<unknown>` |
-| 14.7% |  474 KiB |       160 | `SVGGElement`                 | `<unknown>` |
-|  3.7% |  120 KiB |       203 | `SVGCircleElement`            | `<unknown>` |
+| 14.8% |  479 KiB |       160 | `SVGGElement`                 | `<unknown>` |
+|  8.3% |  269 KiB |        37 | `SVGPathElement`              | `<unknown>` |
+|  3.7% |  121 KiB |       203 | `SVGCircleElement`            | `<unknown>` |
 |  3.3% |  106 KiB |        10 | `system / JSArrayBufferData`  | `<unknown>` |
-|  3.2% |  103 KiB |        37 | `SVGPathElement`              | `<unknown>` |
+|  3.1% |   99 KiB |       112 | `SVGRectElement`              | `<unknown>` |
 |  2.9% | 93.8 KiB |     1,500 | `SVGAnimatedLength`           | `<unknown>` |
-|  2.6% | 83.8 KiB |       112 | `SVGRectElement`              | `<unknown>` |
 |  2.3% | 74.2 KiB |        10 | `Window`                      | `<unknown>` |
-|  1.4% | 45.5 KiB |        61 | `SVGTextElement`              | `<unknown>` |
+|  1.4% | 45.8 KiB |        61 | `SVGTextElement`              | `<unknown>` |
 |  1.2% | 38.6 KiB |       705 | `SVGAnimatedString`           | `<unknown>` |
 |  1.2% | 37.8 KiB |       605 | `SVGAnimatedTransformList`    | `<unknown>` |
-|  0.9% | 28.8 KiB |        49 | `SVGLineElement`              | `<unknown>` |
-|  0.9% | 28.7 KiB |       103 | `SVGTitleElement`             | `<unknown>` |
+|  0.9% | 28.9 KiB |        49 | `SVGLineElement`              | `<unknown>` |
+|  0.9% | 28.8 KiB |       103 | `SVGTitleElement`             | `<unknown>` |
 |  0.8% | 24.3 KiB |       389 | `SVGAnimatedNumber`           | `<unknown>` |
 |  0.4% | 14.5 KiB |       232 | `SVGAnimatedLengthList`       | `<unknown>` |
 |  0.3% | 9.84 KiB |       126 | `Text`                        | `<unknown>` |
-|  0.2% | 5.23 KiB |         3 | `HTMLDocument`                | `<unknown>` |
+|  0.2% | 5.31 KiB |         3 | `HTMLDocument`                | `<unknown>` |
 |  0.1% | 3.63 KiB |        58 | `SVGAnimatedNumberList`       | `<unknown>` |
 |  0.1% | 3.17 KiB |        58 | `SVGAnimatedEnumeration`      | `<unknown>` |
 
@@ -575,12 +575,12 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor                       | Location                                    |
 | ----: | -------: | --------: | --------------------------------- | ------------------------------------------- |
-| 33.7% | 1.06 MiB |     1,723 | `Object`                          | `<unknown>`                                 |
+| 34.7% | 1.09 MiB |     1,723 | `Object`                          | `<unknown>`                                 |
 | 20.1% |  648 KiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>`                                 |
-| 13.9% |  450 KiB |       429 | `system / Context`                | `<unknown>`                                 |
+| 15.6% |  503 KiB |       429 | `system / Context`                | `<unknown>`                                 |
 |  3.4% |  108 KiB |        15 | `ArrayBuffer`                     | `<unknown>`                                 |
 |  1.5% | 47.8 KiB |         1 | `Window / ://`                    | `<unknown>`                                 |
-|  0.4% | 12.5 KiB |       107 | `Qd`                              | `./node_modules/d3/dist/d3.min.js:2:140541` |
+|  0.5% | 15.2 KiB |       107 | `Qd`                              | `./node_modules/d3/dist/d3.min.js:2:140541` |
 |  0.2% | 6.45 KiB |         1 | `Object / `                       | `<unknown>`                                 |
 |  0.2% | 5.91 KiB |        37 | `Error`                           | `<unknown>`                                 |
 |  0.2% | 5.64 KiB |         1 | `Document`                        | `<unknown>`                                 |
@@ -600,7 +600,7 @@ Categories accounting for at least 1.0% of self size.
 
 |     % |     Size | Instances | Constructor      | Location    |
 | ----: | -------: | --------: | ---------------- | ----------- |
-| 18.3% |  592 KiB |     3,706 | `Array`          | `<unknown>` |
+| 21.0% |  678 KiB |     3,706 | `Array`          | `<unknown>` |
 |  3.2% |  103 KiB |         1 | `Float32Array`   | `<unknown>` |
 |  0.1% | 2.71 KiB |        10 | `Float64Array`   | `<unknown>` |
 |  0.1% | 2.11 KiB |         1 | `Uint32Array`    | `<unknown>` |
@@ -614,27 +614,27 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.9% |  597 KiB |         1 | `Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                                              |
-| 34.3% |  373 KiB |        48 | `Object ← (GC root)`                                                                                                                                                |
-|  9.5% |  103 KiB |       200 | `Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                     |
-|  7.1% | 77.7 KiB |        21 | `Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  3.3% | 35.7 KiB |        73 | `Object ←.retweeted_status– Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                          |
+| 53.4% |  597 KiB |         1 | `Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                                              |
+| 33.3% |  373 KiB |        48 | `Object ← (GC root)`                                                                                                                                                |
+|  9.2% |  103 KiB |       200 | `Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                     |
+|  6.9% | 77.7 KiB |        21 | `Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  3.2% | 35.7 KiB |        73 | `Object ←.retweeted_status– Object ←(several paths)– Object ←.__retained– Window / http://127.0.0.1:52789`                                                          |
+
+##### `Array` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                                                                                                                                                                                             |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 70.7% |  480 KiB |         1 | `Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                                                                         |
+| 11.3% | 76.9 KiB |        20 | `Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                         |
+| 11.1% | 75.1 KiB |        20 | `Array ←[0]– Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
+| 11.0% | 74.6 KiB |        20 | `Array ←[0]– Array ←[0]– Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  1.7% | 11.8 KiB |         1 | `Array ←.coordinates– Object ←.__data__– SVGPathElement ←[5]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                     |
 
 ##### `Window / http://127.0.0.1:52789` (`<unknown>`)
 
 |      % |    Size | Instances | Path                                          |
 | -----: | ------: | --------: | --------------------------------------------- |
 | 100.0% | 648 KiB |         1 | `Window / http://127.0.0.1:52789 ← (GC root)` |
-
-##### `Array` (`<unknown>`)
-
-|     % |     Size | Instances | Path                                                                                                                                                                                                             |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 81.0% |  480 KiB |         1 | `Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                                                                                                                         |
-| 13.0% | 76.9 KiB |        20 | `Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                         |
-| 12.7% | 75.1 KiB |        20 | `Array ←[0]– Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-| 12.6% | 74.6 KiB |        20 | `Array ←[0]– Array ←[0]– Array ←.coordinates– Object ←.__data__– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  2.0% | 11.8 KiB |         1 | `Array ←.coordinates– Object ←.__data__– SVGPathElement ←[5]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                     |
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -645,6 +645,16 @@ Retainer paths with the largest contribution to each constructor's retained size
 | <0.1% |     65 B |         1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/node_modules/d3/dist/d3.mi…`   |
 | <0.1% |     47 B |         1 | `system / ExternalStringData ←.1 / backing_store– http://127.0.0.1:52789/workload.mjs`                  |
 | <0.1% |     44 B |         1 | `system / ExternalStringData ←.1 / backing_store– puppeteer___ariaQuerySelectorAll`                     |
+
+##### `system / Context` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                                                                                               |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
+| 76.8% |  386 KiB |        32 | `system / Context ← (GC root)`                                                                                     |
+|  1.7% | 8.71 KiB |        13 | `system / Context ←(several paths)– Object`                                                                        |
+|  1.2% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
+|  1.2% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
+|  1.2% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
 
 ##### `SVGSVGElement` (`<unknown>`)
 
@@ -659,28 +669,28 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                     |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 55.4% |  262 KiB |         9 | `SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                               |
-| 23.7% |  112 KiB |         1 | `SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                          |
-| 23.2% |  110 KiB |        98 | `SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`            |
-| 20.9% |   99 KiB |         1 | `SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                          |
-| 15.2% | 71.9 KiB |        43 | `SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+| 54.8% |  262 KiB |         9 | `SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                               |
+| 23.5% |  112 KiB |         1 | `SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                          |
+| 22.9% |  110 KiB |        98 | `SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`            |
+| 20.7% |   99 KiB |         1 | `SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                                          |
+| 15.0% | 71.9 KiB |        43 | `SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 
-##### `system / Context` (`<unknown>`)
+##### `SVGPathElement` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                               |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------ |
-| 85.7% |  386 KiB |        32 | `system / Context ← (GC root)`                                                                                     |
-|  1.9% | 8.71 KiB |        13 | `system / Context ←(several paths)– Object`                                                                        |
-|  1.3% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateInferno– Object` |
-|  1.3% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolateMagma– Object`   |
-|  1.3% | 6.05 KiB |         1 | `system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:186157) ←.interpolatePlasma– Object`  |
+|     % |     Size | Instances | Path                                                                                                                                                        |
+| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 31.6% | 85.1 KiB |        21 | `SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`            |
+|  4.5% | 12.2 KiB |         1 | `SVGPathElement ←[5]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                        |
+|  0.5% | 1.35 KiB |         1 | `SVGPathElement ←[6]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                        |
+|  0.5% | 1.34 KiB |         3 | `SVGPathElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  0.4% | 1.07 KiB |         3 | `SVGPathElement ←[7]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 
 ##### `SVGCircleElement` (`<unknown>`)
 
 |     % |     Size | Instances | Path                                                                                                                                                                 |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 52.7% | 63.2 KiB |        98 | `SVGCircleElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`        |
-| 45.1% |   54 KiB |        98 | `SVGCircleElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+| 52.3% | 63.2 KiB |        98 | `SVGCircleElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`        |
+| 44.7% |   54 KiB |        98 | `SVGCircleElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  0.5% |    660 B |         1 | `SVGCircleElement ←[4]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                    |
 |  0.5% |    660 B |         1 | `SVGCircleElement ←[3]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                    |
 |  0.5% |    564 B |         1 | `SVGCircleElement ←[7]– SVGGElement ←[3]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
@@ -705,21 +715,21 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  0.2% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.us– system / Context` |
 |  0.2% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array ←._partials– T (./node_modules/d3/dist/d3.min.js:2:3159) ←.rh– system / Context` |
 
-##### `SVGPathElement` (`<unknown>`)
-
-|     % |     Size | Instances | Path                                                                                                                                                        |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 82.6% | 85.1 KiB |        21 | `SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`            |
-| 11.8% | 12.2 KiB |         1 | `SVGPathElement ←[5]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                        |
-|  1.3% | 1.35 KiB |         1 | `SVGPathElement ←[6]– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                        |
-|  1.3% | 1.34 KiB |         3 | `SVGPathElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.0% | 1.07 KiB |         3 | `SVGPathElement ←[7]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-
 ##### `Float32Array` (`<unknown>`)
 
 |      % |    Size | Instances | Path                                 |
 | -----: | ------: | --------: | ------------------------------------ |
 | 100.0% | 103 KiB |         1 | `Float32Array ←.e– system / Context` |
+
+##### `SVGRectElement` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                                                                                                                                        |
+| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 81.0% | 80.2 KiB |       105 | `SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  1.6% | 1.62 KiB |         2 | `SVGRectElement ←[4]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
+|  1.6% | 1.62 KiB |         2 | `SVGRectElement ←[3]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
+|  0.3% |    292 B |         1 | `SVGRectElement ← (GC root)`                                                                                                                                |
+| <0.1% |     16 B |         1 | `SVGRectElement ←[9]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                   |
 
 ##### `SVGAnimatedLength` (`<unknown>`)
 
@@ -730,16 +740,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 7.0% | 6.56 KiB |       105 | `SVGAnimatedLength ←[8]– SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`  |
 | 7.0% | 6.56 KiB |       105 | `SVGAnimatedLength ←[7]– SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`  |
 | 7.0% | 6.56 KiB |       105 | `SVGAnimatedLength ←[5]– SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`  |
-
-##### `SVGRectElement` (`<unknown>`)
-
-|     % |     Size | Instances | Path                                                                                                                                                        |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 95.8% | 80.2 KiB |       105 | `SVGRectElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.9% | 1.62 KiB |         2 | `SVGRectElement ←[4]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  1.9% | 1.62 KiB |         2 | `SVGRectElement ←[3]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
-|  0.3% |    292 B |         1 | `SVGRectElement ← (GC root)`                                                                                                                                |
-| <0.1% |     16 B |         1 | `SVGRectElement ←[9]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                   |
 
 ##### `Window` (`<unknown>`)
 
@@ -761,7 +761,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                          |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 72.3% | 32.9 KiB |        43 | `SVGTextElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+| 72.0% | 32.9 KiB |        43 | `SVGTextElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 | 14.5% | 6.63 KiB |         8 | `SVGTextElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                   |
 |  5.4% | 2.47 KiB |         3 | `SVGTextElement ←[8]– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  1.9% |    876 B |         1 | `SVGTextElement ←[6]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                               |
@@ -791,8 +791,8 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                          |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 92.6% | 26.7 KiB |        43 | `SVGLineElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  6.5% | 1.86 KiB |         3 | `SVGLineElement ←[7]– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
+| 92.4% | 26.7 KiB |        43 | `SVGLineElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  6.4% | 1.86 KiB |         3 | `SVGLineElement ←[7]– SVGGElement ←[8]– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  0.8% |    244 B |         1 | `SVGLineElement ← (GC root)`                                                                                                                                                  |
 |  0.1% |     16 B |         1 | `SVGLineElement ←[7]– InternalNode ←[1]– InternalNode ←[1]– InternalNode`                                                                                                     |
 |  0.1% |     16 B |         1 | `SVGLineElement ←.509– array`                                                                                                                                                 |
@@ -801,7 +801,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                                                                                                                                                                |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 97.4% | 27.9 KiB |        98 | `SVGTitleElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+| 97.2% | 27.9 KiB |        98 | `SVGTitleElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  1.0% |    292 B |         1 | `SVGTitleElement ←[8]– SVGGElement ←[4]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  1.0% |    292 B |         1 | `SVGTitleElement ←[8]– SVGGElement ←[3]– SVGGElement ←[10]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`             |
 |  0.5% |    148 B |         1 | `SVGTitleElement ← (GC root)`                                                                                                                                       |
@@ -817,6 +817,13 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 11.1% | 2.69 KiB |        43 | `SVGAnimatedNumber ←[9]– SVGLineElement ←[7]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  5.4% | 1.31 KiB |        21 | `SVGAnimatedNumber ←[6]– SVGPathElement ←(several paths)– SVGGElement ←[11]– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                              |
 
+##### `Qd` (`./node_modules/d3/dist/d3.min.js:2:140541`)
+
+|     % |     Size | Instances | Path                                                                                                                                            |
+| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| 81.2% | 12.4 KiB |       106 | `Qd ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
+|  0.9% |    148 B |         1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context`                                                         |
+
 ##### `SVGAnimatedLengthList` (`<unknown>`)
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                      |
@@ -826,13 +833,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 18.5% | 2.69 KiB |        43 | `SVGAnimatedLengthList ←[7]– SVGTextElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 | 18.5% | 2.69 KiB |        43 | `SVGAnimatedLengthList ←[5]– SVGTextElement ←[8]– SVGGElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
 |  3.4% |    512 B |         8 | `SVGAnimatedLengthList ←[8]– SVGTextElement ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789`                   |
-
-##### `Qd` (`./node_modules/d3/dist/d3.min.js:2:140541`)
-
-|     % |     Size | Instances | Path                                                                                                                                            |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| 98.8% | 12.4 KiB |       106 | `Qd ←(several paths)– SVGGElement ←(several paths)– SVGSVGElement ←[0]– Array ←.detached– Object ←.__retained– Window / http://127.0.0.1:52789` |
-|  1.2% |    148 B |         1 | `Qd ←.prototype– Up (./node_modules/d3/dist/d3.min.js:2:147114) ←.Up– system / Context`                                                         |
 
 ##### `Text` (`<unknown>`)
 
@@ -870,7 +870,7 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 |     % |     Size | Instances | Path                        |
 | ----: | -------: | --------: | --------------------------- |
-| 99.7% | 5.21 KiB |         2 | `HTMLDocument ← (GC root)`  |
+| 98.2% | 5.21 KiB |         2 | `HTMLDocument ← (GC root)`  |
 |  0.3% |     16 B |         1 | `HTMLDocument ←.155– array` |
 
 ##### `TypedArray` (`<unknown>`)
@@ -997,24 +997,24 @@ Functions with the most instance bytes, including nodes only the instances keep 
 |    % | Retained | Instances | Paths | Name          | Location                                    | Example path                                                                                                                        |
 | ---: | -------: | --------: | ----: | ------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | 1.0% |   31 KiB |         1 |     1 | `Su`          | `./node_modules/d3/dist/d3.min.js:2:82035`  | `Su ←.Su– system / Context`                                                                                                         |
-| 0.8% | 24.3 KiB |         4 |     4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:186157` | `(anonymous) ←.interpolateInferno– Object`                                                                                          |
+| 0.8% | 24.4 KiB |         4 |     4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:186157` | `(anonymous) ←.interpolateInferno– Object`                                                                                          |
 | 0.7% |   23 KiB |         1 |     1 | `qu`          | `./node_modules/d3/dist/d3.min.js:2:87903`  | `qu ← (GC root)`                                                                                                                    |
 | 0.7% | 21.6 KiB |         1 |     1 | `update`      | `./node_modules/d3/dist/d3.min.js:2:82533`  | `update ←.update– Object ←.prototype– Su (./node_modules/d3/dist/d3.min.js:2:82035) ←.Su– system / Context`                         |
 | 0.6% | 18.7 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  | `(anonymous) ← (GC root)`                                                                                                           |
 | 0.4% | 12.9 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:231984` | `(anonymous) ←.forceLink– Object`                                                                                                   |
 | 0.4% | 12.7 KiB |         1 |     1 | `Lu`          | `./node_modules/d3/dist/d3.min.js:2:94637`  | `Lu ←.Delaunay– Object`                                                                                                             |
-| 0.4% | 11.8 KiB |        27 |    27 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:41766`  | `(anonymous) ←.interpolateBrBG– Object`                                                                                             |
+| 0.4% |   12 KiB |        27 |    27 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:41766`  | `(anonymous) ←.interpolateBrBG– Object`                                                                                             |
 | 0.4% | 11.4 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:223060` | `(anonymous) ←.contourDensity– Object`                                                                                              |
 | 0.3% |   11 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:233399` | `(anonymous) ←.forceManyBody– Object`                                                                                               |
 | 0.3% |   11 KiB |         1 |     1 | `Q`           | `./node_modules/d3/dist/d3.min.js:2:6993`   | `Q ←.bin– Object`                                                                                                                   |
 | 0.3% | 9.69 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:230973` | `(anonymous) ←.forceCollide– Object`                                                                                                |
 | 0.3% | 9.39 KiB |        81 |    81 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:40205`  | `(anonymous) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateSpectral– Object` |
+| 0.3% | 9.22 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                                 | `(anonymous) ← (GC root)`                                                                                                           |
 | 0.3% | 8.99 KiB |         1 |     1 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235388` | `(anonymous) ←.forceSimulation– Object`                                                                                             |
 | 0.3% |  8.4 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:94865`  | `_init ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                               |
-| 0.2% | 7.86 KiB |        14 |    14 | `safe`        | `extensions::SafeBuiltins:26:22`            | `safe ←.<symbol extensions::SafeBuiltins::Array>– Window / http://127.0.0.1:52789`                                                  |
-| 0.2% | 7.48 KiB |        27 |     9 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037` | `i ← (GC root)`                                                                                                                     |
+| 0.2% | 7.95 KiB |        27 |     9 | `i`           | `./node_modules/d3/dist/d3.min.js:2:159037` | `i ← (GC root)`                                                                                                                     |
+| 0.2% | 7.89 KiB |        14 |    14 | `safe`        | `extensions::SafeBuiltins:26:22`            | `safe ←.<symbol extensions::SafeBuiltins::Array>– Window / http://127.0.0.1:52789`                                                  |
 | 0.2% | 7.39 KiB |         1 |     1 | `_init`       | `./node_modules/d3/dist/d3.min.js:2:88246`  | `_init ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                  |
-| 0.2% | 7.15 KiB |        44 |    20 | `(anonymous)` | `<unknown>`                                 | `(anonymous) ← (GC root)`                                                                                                           |
 | 0.2% | 6.95 KiB |         1 |     1 | `ed`          | `./node_modules/d3/dist/d3.min.js:2:131060` | `ed ←.ed– system / Context`                                                                                                         |
 
 ### Retained nodes
@@ -1151,6 +1151,16 @@ Retained nodes with the largest contribution to each function's retained size.
 | 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.o– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object`   |
 | 0.5% | 52 B | `(object elements)` | `<unknown>` | `(object elements) ←.elements– Array ←.t– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:40205) ←.a– system / Context ←.context– (anonymous) (./node_modules/d3/dist/d3.min.js:2:41766) ←.interpolateRdYlGn– Object`   |
 
+#### `(anonymous)` (`<unknown>`)
+
+|    % |  Self | Name                                                   | Location    | Path                                                                                                                                                                                                |
+| ---: | ----: | ------------------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.5% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
+| 1.5% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
+| 1.5% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
+| 1.1% | 104 B | `(function anonymous(\n) {\nreturn () => typeof glob…` | `<unknown>` | `(function anonymous(\n) {\nreturn () => typeof glob… ←.source– code ←.script– (shared function info) ←.shared– (anonymous) ←.6– array ←.table– Map ←.L– system / Context ←(several paths)– Object` |
+| 0.8% |  80 B | `(object properties)`                                  | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous) ←.puppeteer___ariaQuerySelectorAll– Window / http://127.0.0.1:52789`                                                             |
+
 #### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:235388`)
 
 |     % |     Self | Name                         | Location    | Path                                                                                                                                                                                                                                       |
@@ -1171,16 +1181,6 @@ Retained nodes with the largest contribution to each function's retained size.
 |  4.6% |    392 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object` |
 |  4.1% |    356 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:94865) ←._init– Object ←.prototype– Lu (./node_modules/d3/dist/d3.min.js:2:94637) ←.Delaunay– Object`                                                |
 
-#### `safe` (`extensions::SafeBuiltins:26:22`)
-
-|    % |  Self | Name                       | Location    | Path                                                                                                                                                                             |
-| ---: | ----: | -------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5.2% | 416 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Array>– Window / http://127.0.0.1:52789`                            |
-| 5.2% | 416 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Array>– Window / ://`                                               |
-| 2.2% | 176 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Object>– Window / http://127.0.0.1:52789` |
-| 2.2% | 176 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Object>– Window / ://`                    |
-| 1.9% | 152 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::String>– Window / http://127.0.0.1:52789` |
-
 #### `i` (`./node_modules/d3/dist/d3.min.js:2:159037`)
 
 |    % | Self | Name                     | Location                                    | Path                                                                                                                                              |
@@ -1188,8 +1188,18 @@ Retained nodes with the largest contribution to each function's retained size.
 | 0.6% | 48 B | `(shared function info)` | `<unknown>`                                 | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:159886) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
 | 0.6% | 48 B | `(shared function info)` | `<unknown>`                                 | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162441) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
 | 0.6% | 48 B | `(shared function info)` | `<unknown>`                                 | `(shared function info) ←.shared– (anonymous) (./node_modules/d3/dist/d3.min.js:2:162824) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)` |
-| 0.4% | 28 B | `(anonymous)`            | `./node_modules/d3/dist/d3.min.js:2:159886` | `(anonymous) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                              |
-| 0.4% | 28 B | `(anonymous)`            | `./node_modules/d3/dist/d3.min.js:2:159637` | `(anonymous) ←.count– i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                              |
+| 0.3% | 28 B | `(anonymous)`            | `./node_modules/d3/dist/d3.min.js:2:159886` | `(anonymous) ←.every– i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                              |
+| 0.3% | 28 B | `(anonymous)`            | `./node_modules/d3/dist/d3.min.js:2:159637` | `(anonymous) ←.count– i (./node_modules/d3/dist/d3.min.js:2:159037)`                                                                              |
+
+#### `safe` (`extensions::SafeBuiltins:26:22`)
+
+|    % |  Self | Name                       | Location    | Path                                                                                                                                                                             |
+| ---: | ----: | -------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.1% | 416 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Array>– Window / http://127.0.0.1:52789`                            |
+| 5.1% | 416 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Array>– Window / ://`                                               |
+| 2.2% | 176 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Object>– Window / http://127.0.0.1:52789` |
+| 2.2% | 176 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::Object>– Window / ://`                    |
+| 1.9% | 152 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– safe (extensions::SafeBuiltins:26:22) ←.<symbol extensions::SafeBuiltins::String>– Window / http://127.0.0.1:52789` |
 
 #### `_init` (`./node_modules/d3/dist/d3.min.js:2:88246`)
 
@@ -1200,16 +1210,6 @@ Retained nodes with the largest contribution to each function's retained size.
 |  9.8% |    740 B | `system / FeedbackVector`        | `<unknown>` | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                                                     |
 |  4.9% |    372 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.bytecode_offset_table– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)`                                                |
 |  4.8% |    360 B | `system / TrustedByteArray`      | `<unknown>` | `system / TrustedByteArray ←.relocation_info– (instruction stream for _init) ←.instruction_stream– (code for _init) ←.trusted_function_data– _init ←.shared– _init (./node_modules/d3/dist/d3.min.js:2:88246) ←._init– Object ←.prototype– qu (./node_modules/d3/dist/d3.min.js:2:87903)` |
-
-#### `(anonymous)` (`<unknown>`)
-
-|    % |  Self | Name                                                   | Location    | Path                                                                                                                                                                                                |
-| ---: | ----: | ------------------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.9% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
-| 1.9% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
-| 1.9% | 140 B | `system / DescriptorArray`                             | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                           |
-| 1.4% | 104 B | `(function anonymous(\n) {\nreturn () => typeof glob…` | `<unknown>` | `(function anonymous(\n) {\nreturn () => typeof glob… ←.source– code ←.script– (shared function info) ←.shared– (anonymous) ←.6– array ←.table– Map ←.L– system / Context ←(several paths)– Object` |
-| 1.1% |  80 B | `(object properties)`                                  | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous) ←.puppeteer___ariaQuerySelectorAll– Window / http://127.0.0.1:52789`                                                             |
 
 #### `ed` (`./node_modules/d3/dist/d3.min.js:2:131060`)
 
