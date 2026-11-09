@@ -473,6 +473,12 @@ class OutermostNodeFinder {
    * or the visited node. It searches backward from those predecessors through
    * the nodes the pass has not visited, up to visited nodes, whose entities
    * are final.
+   *
+   * When no path does, the entity retains the visited node, and so every node
+   * the search expanded, because a path to one of them that avoids the entity
+   * would reach the visited node too. When one does, a path from the GC root
+   * that avoids the entity reaches every node between the visited node and the
+   * search's last node. The search records both, for later searches.
    */
   #isReachedAvoiding(
     entityIndex: number,
@@ -481,27 +487,40 @@ class OutermostNodeFinder {
   ): boolean {
     this.#searchState ??= newSearchState(this.#nodeOrdinalToEntityIndex.length)
     const state = this.#searchState
-    const { stack } = state
+    const { stack, expandedOrdinals, ordinalToFinding } = state
+    const retainedFinding = entityIndex + 1
+    const reachedFinding = -retainedFinding
     const endIndex = this.#preorderIndexToEndIndex[preorderIndex]!
     state.searchNumber++
     state.stackSize = 0
 
     this.#pushPredecessors(state, nodeOrdinal)
+    let expandedCount = 0
     while (state.stackSize > 0) {
       const ordinal = stack[--state.stackSize]!
-      if (this.#nodeOrdinalToEntityIndex[ordinal] === entityIndex) {
+      const finding = ordinalToFinding[ordinal]!
+      if (
+        this.#nodeOrdinalToEntityIndex[ordinal] === entityIndex ||
+        finding === retainedFinding
+      ) {
         continue
       }
       const searchedPreorderIndex = this.#ordinalToPreorderIndex[ordinal]!
       if (
-        searchedPreorderIndex < preorderIndex &&
-        !this.#isRetained(entityIndex, searchedPreorderIndex)
+        finding === reachedFinding ||
+        (searchedPreorderIndex < preorderIndex &&
+          !this.#isRetained(entityIndex, searchedPreorderIndex))
       ) {
+        recordReachedPath(state, ordinal, nodeOrdinal, reachedFinding)
         return true
       }
       if (searchedPreorderIndex >= endIndex) {
+        expandedOrdinals[expandedCount++] = ordinal
         this.#pushPredecessors(state, ordinal)
       }
+    }
+    for (let index = 0; index < expandedCount; index++) {
+      ordinalToFinding[expandedOrdinals[index]!] = retainedFinding
     }
     return false
   }
@@ -517,6 +536,7 @@ class OutermostNodeFinder {
         state.ordinalToSearchNumber[predecessorOrdinal] !== state.searchNumber
       ) {
         state.ordinalToSearchNumber[predecessorOrdinal] = state.searchNumber
+        state.ordinalToSearchedFromOrdinal[predecessorOrdinal] = ordinal
         state.stack[state.stackSize++] = predecessorOrdinal
       }
     }
@@ -595,15 +615,44 @@ type SearchState = {
 
   /** The number of the last search that pushed each node. */
   ordinalToSearchNumber: Int32Array
+
+  /** The node whose predecessors this search reached each node through. */
+  ordinalToSearchedFromOrdinal: Int32Array
   stack: Int32Array
+  expandedOrdinals: Int32Array
+
+  /**
+   * What a search found about each node the pass has not visited, for one
+   * entity: its index + 1 when it retains the node, that value negated when a
+   * path avoiding it reaches the node, or 0.
+   */
+  ordinalToFinding: Int32Array
 }
 
 const newSearchState = (nodeCount: number): SearchState => ({
   searchNumber: 0,
   stackSize: 0,
   ordinalToSearchNumber: new Int32Array(nodeCount),
+  ordinalToSearchedFromOrdinal: new Int32Array(nodeCount),
   stack: new Int32Array(nodeCount),
+  expandedOrdinals: new Int32Array(nodeCount),
+  ordinalToFinding: new Int32Array(nodeCount),
 })
+
+const recordReachedPath = (
+  { ordinalToFinding, ordinalToSearchedFromOrdinal }: SearchState,
+  reachedOrdinal: number,
+  startOrdinal: number,
+  reachedFinding: number,
+): void => {
+  for (
+    let ordinal = reachedOrdinal;
+    ordinal !== startOrdinal;
+    ordinal = ordinalToSearchedFromOrdinal[ordinal]!
+  ) {
+    ordinalToFinding[ordinal] = reachedFinding
+  }
+}
 
 /**
  * The reachable nodes in a preorder of the dominator tree that visits each
