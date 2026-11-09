@@ -113,7 +113,9 @@ export type ImmediateDominatorGraph = {
   /**
    * Node `i`'s immediate dominatees occupy
    * `[immediateDominateeOrdinalToStartOffset[i], immediateDominateeOrdinalToStartOffset[i + 1])`
-   * in {@link ImmediateDominatorGraph.offsetToImmediateDominateeOrdinal}.
+   * in {@link ImmediateDominatorGraph.offsetToImmediateDominateeOrdinal}, in
+   * reverse postorder of the DFS from the GC root. Each node there comes before
+   * its successors, except across an edge that closes a cycle.
    */
   immediateDominateeOrdinalToStartOffset: Int32Array
   offsetToImmediateDominateeOrdinal: Int32Array
@@ -151,6 +153,8 @@ export const computeImmediateDominatorGraph = (
   const dfsStackDfsIndices = new Int32Array(nodeCount)
   const dfsStackOffsets = new Int32Array(nodeCount)
   dfsStackOffsets[0] = ordinalToSuccessorStartOffset[0]!
+  const postorderOrdinals = new Int32Array(nodeCount)
+  let postorderIndex = 0
   let dfsIndex = 1
   let dfsStackSize = 1
   do {
@@ -161,6 +165,7 @@ export const computeImmediateDominatorGraph = (
     const endOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
 
     if (nextOffset === endOffset) {
+      postorderOrdinals[postorderIndex++] = nodeOrdinal
       dfsStackSize--
       continue
     }
@@ -299,15 +304,15 @@ export const computeImmediateDominatorGraph = (
     immediateDominateeOrdinalToStartOffset[nodeCount]!,
   )
   dominatorOrdinalToDominateeCount.fill(0)
-  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
+  // The GC root finishes last, and has no dominator to list it.
+  for (let index = reachableCount - 2; index >= 0; index--) {
+    const nodeOrdinal = postorderOrdinals[index]!
     const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    if (dominatorOrdinal !== -1) {
-      offsetToImmediateDominateeOrdinal[
-        immediateDominateeOrdinalToStartOffset[dominatorOrdinal]! +
-          dominatorOrdinalToDominateeCount[dominatorOrdinal]!
-      ] = nodeOrdinal
-      dominatorOrdinalToDominateeCount[dominatorOrdinal]!++
-    }
+    offsetToImmediateDominateeOrdinal[
+      immediateDominateeOrdinalToStartOffset[dominatorOrdinal]! +
+        dominatorOrdinalToDominateeCount[dominatorOrdinal]!
+    ] = nodeOrdinal
+    dominatorOrdinalToDominateeCount[dominatorOrdinal]!++
   }
 
   return {

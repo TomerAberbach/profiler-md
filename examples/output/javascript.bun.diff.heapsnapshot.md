@@ -60,8 +60,8 @@ Constructors with the largest increase in instance bytes, including nodes only t
 | +40.1% | +512.377 KiB | 83.4% → 91.5% | 1.25 MiB → 1.75 MiB |             1 | `GlobalObject`           |
 | +63.8% | +423.535 KiB | 43.4% → 55.6% |  664 KiB → 1.06 MiB | 1,367 → 2,631 | `Object`                 |
 |  +5.7% |   +2.828 KiB |   3.2% → 2.7% | 49.5 KiB → 52.3 KiB |             1 | `InternalModuleRegistry` |
-|  +0.3% |        +48 B |   1.2% → 0.9% | 18.3 KiB → 18.4 KiB |             2 | `WriteStream`            |
 |  +0.1% |        +48 B |   3.4% → 2.7% |            52.4 KiB |             1 | `url `                   |
+|  +0.3% |        +48 B |   1.2% → 0.9% | 18.3 KiB → 18.4 KiB |             2 | `WriteStream`            |
 
 #### Improvements
 

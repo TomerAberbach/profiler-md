@@ -35,6 +35,7 @@ import {
   nodeKey,
   shownRetainedNodes,
 } from './aggregate.ts'
+import type { EntityRetention } from './retained.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 export type AggregatedHeapSnapshotDiff = {
@@ -56,16 +57,16 @@ export type AggregatedHeapSnapshotDiff = {
 }
 
 export type DiffedHeapSnapshotConstructor = DiffedHeapSnapshotEntity<
-  Pick<AggregatedHeapSnapshotConstructor, `minRetainedSize`> & {
+  {
     instances: AggregatedHeapSnapshotNode[]
-  }
+  } & EntityRetention
 >
 
 /** A function's side, with its instances' node ordinals. */
 export type DiffedHeapSnapshotFunction = DiffedHeapSnapshotEntity<
-  Pick<AggregatedHeapSnapshotFunction, `minRetainedSize`> & {
+  {
     instanceOrdinals: number[]
-  }
+  } & EntityRetention
 >
 
 /**
@@ -108,34 +109,73 @@ export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
-): AggregatedHeapSnapshotDiff => ({
-  base,
-  current,
-  nodeCategoryToStats: matchDiffedMaps(
-    base.nodeCategoryToStats,
-    current.nodeCategoryToStats,
-  ),
-  constructors: matchDiffedEntities(
+): AggregatedHeapSnapshotDiff => {
+  const constructors = matchDiffedEntities(
     base,
     current,
     snapshot => snapshot.constructors,
     mergeConstructors,
     options,
-  ),
-  functions: matchDiffedEntities(
+  )
+  const functions = matchDiffedEntities(
     base,
     current,
     snapshot => snapshot.functions,
     mergeFunctions,
     options,
-  ),
-  strings: entityDiffsFromMatches(
-    matchDiffedMaps(
-      mergeStrings(base.strings),
-      mergeStrings(current.strings),
-    ).values(),
-  ),
-})
+  )
+  assignMergedRetentions(base, `base`, constructors, functions)
+  assignMergedRetentions(current, `current`, constructors, functions)
+  return {
+    base,
+    current,
+    nodeCategoryToStats: matchDiffedMaps(
+      base.nodeCategoryToStats,
+      current.nodeCategoryToStats,
+    ),
+    constructors,
+    functions,
+    strings: entityDiffsFromMatches(
+      matchDiffedMaps(
+        mergeStrings(base.strings),
+        mergeStrings(current.strings),
+      ).values(),
+    ),
+  }
+}
+
+/**
+ * Assigns a side's merged constructors' and functions' retentions from one pass,
+ * so they count the nodes their unmerged entities retain only together.
+ */
+const assignMergedRetentions = (
+  { retentionsOf }: Pick<AggregatedHeapSnapshot, `retentionsOf`>,
+  side: `base` | `current`,
+  constructors: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>[],
+  functions: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotFunction>[],
+): void => {
+  const mergedEntities: EntityRetention[] = []
+  const instanceOrdinalSets: number[][] = []
+  for (const { [side]: constructor } of constructors) {
+    if (constructor?.merged) {
+      mergedEntities.push(constructor)
+      instanceOrdinalSets.push(constructor.instances.map(({ id }) => id))
+    }
+  }
+  for (const { [side]: func } of functions) {
+    if (func?.merged) {
+      mergedEntities.push(func)
+      instanceOrdinalSets.push(func.instanceOrdinals)
+    }
+  }
+  if (mergedEntities.length === 0) {
+    return
+  }
+  const retentions = retentionsOf(instanceOrdinalSets)
+  for (const [index, entity] of mergedEntities.entries()) {
+    Object.assign(entity, retentions[index])
+  }
+}
 
 /**
  * Pairs the sides' entities by match key and, where several share one, by
@@ -225,10 +265,9 @@ const entityDiffsFromMatches = <Entity extends DiffedHeapSnapshotEntity>(
  * by. The JVM includes an address in the names of the hidden classes it
  * generates for lambdas, so one class's lambdas share a match key.
  *
- * A merged constructor takes the entry match's name its members share, because
- * each member's own name contains the per-run part they differ in. Merged
- * members can be categorized differently, so it takes the category of its
- * largest member.
+ * A merged constructor takes the entry match's name its unmerged entities
+ * share, because each one's own name contains the per-run part they differ in.
+ * They can be categorized differently, so it takes the category of the largest.
  */
 const mergeConstructors = (
   constructors: AggregatedHeapSnapshotConstructor[],
@@ -236,8 +275,8 @@ const mergeConstructors = (
   options: FormattingProfileToMdOptions,
 ): DiffedHeapSnapshotConstructor[] => {
   const largestSelfSizes = new Map<DiffedHeapSnapshotConstructor, number>()
-  // A merged constructor shares its first member's instances until another
-  // member merges into it.
+  // A merged constructor shares its first unmerged entity's instances until
+  // another unmerged entity merges into it.
   const copiedInstances = new Set<DiffedHeapSnapshotConstructor>()
   return mergeLinelessEntities({
     entities: constructors,
@@ -252,16 +291,16 @@ const mergeConstructors = (
         location: constructor.location,
         category: constructor.category,
         selfSize: constructor.selfSize,
-        minRetainedSize: constructor.minRetainedSize,
+        retainedSize: constructor.retainedSize,
         instanceCount: constructor.instances.length,
         instances: constructor.instances,
+        outermostInstanceOrdinals: constructor.outermostInstanceOrdinals,
       }
       largestSelfSizes.set(diffed, constructor.selfSize)
       return diffed
     },
     merge: (merged, constructor) => {
       merged.selfSize += constructor.selfSize
-      merged.minRetainedSize += constructor.minRetainedSize
       merged.instanceCount += constructor.instances.length
       if (!copiedInstances.has(merged)) {
         merged.instances = [...merged.instances]
@@ -299,13 +338,13 @@ const mergeFunctions = (
       location: func.location,
       category: func.category,
       selfSize: func.selfSize,
-      minRetainedSize: func.minRetainedSize,
+      retainedSize: func.retainedSize,
       instanceCount: func.instanceOrdinals.length,
       instanceOrdinals: [...func.instanceOrdinals],
+      outermostInstanceOrdinals: func.outermostInstanceOrdinals,
     }),
     merge: (merged, func) => {
       merged.selfSize += func.selfSize
-      merged.minRetainedSize += func.minRetainedSize
       merged.instanceCount += func.instanceOrdinals.length
       merged.instanceOrdinals.push(...func.instanceOrdinals)
     },
@@ -315,6 +354,8 @@ const mergeFunctions = (
  * Converts a side's entities to their diffed form, merging each entity that
  * has no line and that the other side lacks into the first such entity that
  * shares its match key, which then takes the entry match's name and location.
+ * {@link diffAggregatedHeapSnapshots} assigns a merged entity's retention once
+ * both kinds of entity have merged.
  */
 const mergeLinelessEntities = <
   Entity extends AggregatedHeapSnapshotEntity,
@@ -364,6 +405,7 @@ const mergeLinelessEntities = <
       diffed.push(first)
     }
   }
+
   return diffed
 }
 
@@ -387,6 +429,7 @@ const mergeStrings = (
     const merged = valueToString.get(string.name)
     if (merged) {
       merged.selfSize += string.selfSize
+      merged.retainedSize += string.selfSize
       merged.instanceCount++
     } else {
       valueToString.set(string.name, {
@@ -395,6 +438,7 @@ const mergeStrings = (
         name: string.name,
         category: string.category,
         selfSize: string.selfSize,
+        retainedSize: string.selfSize,
         instanceCount: 1,
       })
     }
@@ -956,10 +1000,14 @@ export const groupFunctionRetainedNodes = (
   retainerPaths: DiffRetainerPaths,
   options: FormattingProfileToMdOptions,
 ): DiffedRetainedNodeGroup[] => {
+  const entity = fn[side]
+  if (!entity) {
+    return []
+  }
   const pathWithin = retainerPaths.within[side]
   const keyToGroup = new Map<number | string, DiffedRetainedNodeGroup>()
   for (const { node, instanceOrdinal } of shownRetainedNodes(
-    fn[side]?.instanceOrdinals ?? [],
+    entity,
     diff[side],
     options,
   )) {

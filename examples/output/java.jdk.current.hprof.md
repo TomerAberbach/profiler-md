@@ -651,9 +651,9 @@ Categories accounting for at least 1.0% of self size.
 |  1.0% |   139 KiB |        38 | `java.util.LinkedHashSet`                     |
 |  1.0% |   135 KiB |     1,323 | `java.util.LinkedHashMap$Entry`               |
 |  0.9% |   116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`        |
+|  0.7% |  93.7 KiB |        27 | `org.renaissance.core.BenchmarkDescriptor`    |
 |  0.6% |    79 KiB |        72 | `java.lang.Module`                            |
 |  0.6% |  77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`         |
-|  0.6% |  77.4 KiB |       224 | `java.util.HashSet`                           |
 
 ##### String
 
@@ -902,6 +902,16 @@ Retainer paths with the largest contribution to each constructor's retained size
 | -----: | ------: | --------: | ----------------------------------------------------------------------------------------------- |
 | 100.0% | 116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider ←(several paths)– class java.time.zone.ZoneRulesProvider` |
 
+##### `org.renaissance.core.BenchmarkDescriptor`
+
+|     % |  Size | Instances | Path                                                                                                                                                                                              |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.5% | 504 B |        21 | `org.renaissance.core.BenchmarkDescriptor ← (GC root)`                                                                                                                                            |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[54]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[50]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[36]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[32]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+
 ##### `byte[][]`
 
 |      % |     Size | Instances | Path                                                         |
@@ -927,16 +937,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 | 15.7% | 12.3 KiB |        39 | `java.util.ImmutableCollections$SetN ←.packages– java.lang.module.ModuleDescriptor`                                                                                    |
 |  5.6% | 4.37 KiB |        21 | `java.util.ImmutableCollections$SetN ←.requires– java.lang.module.ModuleDescriptor`                                                                                    |
 |  2.1% |  1.6 KiB |         6 | `java.util.ImmutableCollections$SetN ←.provides– java.lang.module.ModuleDescriptor`                                                                                    |
-
-##### `java.util.HashSet`
-
-|     % |     Size | Instances | Path                                                                                                                                               |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 31.7% | 24.6 KiB |         1 | `java.util.HashSet ←.c– java.util.Collections$UnmodifiableSet ←.ZONE_IDS– class java.time.zone.ZoneRulesProvider`                                  |
-| 19.1% | 14.8 KiB |        60 | `java.util.HashSet ←.reads– java.lang.Module`                                                                                                      |
-|  1.4% | 1.12 KiB |         5 | `java.util.HashSet ←.value– java.util.HashMap$Node ←[2]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.exportedPackages– java.lang.Module` |
-|  1.4% | 1.09 KiB |         5 | `java.util.HashSet ←.value– java.util.HashMap$Node ←[0]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.exportedPackages– java.lang.Module` |
-|  1.4% | 1.06 KiB |         5 | `java.util.HashSet ←.value– java.util.HashMap$Node ←[9]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.exportedPackages– java.lang.Module` |
 
 ##### `java.lang.ref.SoftReference[]`
 

@@ -204,7 +204,7 @@ export const resolveEntryFilter = ({
   return { ...options, showEntry: () => true }
 }
 
-export type DiffEntityCategories<Entity> = {
+type DiffEntityCategories<Entity> = {
   categories: EntryCategory[]
   categoryOf: (entity: Entity) => EntryCategory
 }
@@ -213,7 +213,7 @@ export type DiffEntityCategories<Entity> = {
  * A diff's ranking of entities by one measure: the entities whose value
  * increased and decreased the most, overall and within each category.
  */
-export type DiffEntityRanking<Entity> = {
+type DiffEntityRanking<Entity> = {
   increases: ActiveDiffEntity<Entity>[]
   decreases: ActiveDiffEntity<Entity>[]
   categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
