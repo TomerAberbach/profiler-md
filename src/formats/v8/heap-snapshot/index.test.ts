@@ -363,6 +363,71 @@ const makeJointlyRetainedSnapshot = (arraySize: number) => {
   })
 }
 
+// Two parallel chains of the same constructors, which both hold edges to every
+// leaf node, so each leaf is an outermost node of every constructor. Their pairs
+// exceed the work limit of a graph this small.
+const makeOverWorkLimitSnapshot = () => {
+  const chainLength = 1100
+  const leafCount = 1100
+  const leafName = chainLength + 1
+  const toNode = (ordinal: number) =>
+    makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 * ordinal })
+  const leafOrdinals = Array.from(
+    { length: leafCount },
+    (_, index) => 1 + 2 * chainLength + index,
+  )
+  const chainNodes = (firstOrdinal: number) =>
+    Array.from({ length: chainLength }, (_, index) => {
+      const isLast = index === chainLength - 1
+      return {
+        node: makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: index + 1,
+          id: 2 * (firstOrdinal + index) + 1,
+          selfSize: 8,
+          edgeCount: isLast ? leafCount : 1,
+        }),
+        edges: isLast
+          ? leafOrdinals.flatMap(toNode)
+          : toNode(firstOrdinal + index + 1),
+      }
+    })
+  const chains = [...chainNodes(1), ...chainNodes(1 + chainLength)]
+  return makeV8Snapshot({
+    nodeCount: 1 + 2 * chainLength + leafCount,
+    edgeCount: 2 + 2 * (chainLength - 1) + 2 * leafCount,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }),
+      ...chains.flatMap(({ node }) => node),
+      ...leafOrdinals.flatMap(ordinal =>
+        makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: leafName,
+          id: 2 * ordinal + 1,
+          selfSize: 8,
+          edgeCount: 0,
+        }),
+      ),
+    ],
+    edges: [
+      ...toNode(1),
+      ...toNode(1 + chainLength),
+      ...chains.flatMap(({ edges }) => edges),
+    ],
+    strings: [
+      ``,
+      ...Array.from({ length: chainLength }, (_, index) => `Chain${index}`),
+      `Leaf`,
+    ],
+  })
+}
+
 describe(`convert`, () => {
   test(`formats all sections`, () => {
     const md = convertJsonToMd(
@@ -673,6 +738,21 @@ describe(`convert`, () => {
           Constructor: `Array`,
         },
       ],
+    ])
+  })
+
+  test(`logs that retained sizes are lower bounds when the heap exceeds the work limit`, () => {
+    convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeOverWorkLimitSnapshot(),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expectLogs([
+      `debug: origin candidates, in priority order: bun, node, chrome, profile-jl`,
+      `info: fallback origin: chrome`,
+      `debug: no entry marked another origin`,
+      `info: retained sizes are lower bounds because the heap exceeded the work limit for nodes that instances retain only together`,
     ])
   })
 

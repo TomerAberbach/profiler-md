@@ -1,3 +1,4 @@
+import { once } from '../../helpers/once.ts'
 import {
   formatSourceLocation,
   sourceReferenceId,
@@ -24,6 +25,7 @@ import {
   computeDominatorTreePreorder,
   computeEntityRetentions,
   computeNodeOrdinalToRetainedSize,
+  newEntityRetentionsBudget,
 } from './retained.ts'
 import type { DominatorTreePreorder, EntityRetention } from './retained.ts'
 import type {
@@ -137,7 +139,8 @@ export type AggregatedHeapSnapshotEntity = {
 
   /**
    * Bytes allocated for the entity's nodes, as well as all nodes that would be
-   * freed if they were garbage collected.
+   * freed if they were garbage collected. A lower bound on a graph that exhausts
+   * the budget of {@link computeEntityRetentions}.
    */
   retainedSize: number
 
@@ -433,7 +436,12 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
     const preorder = computeDominatorTreePreorder(this.#immediateDominatorGraph)
-    this.#assignRetentions(preorder)
+    const logLowerBound = once(() =>
+      options.logger.info?.(
+        `retained sizes are lower bounds because the heap exceeded the work limit for nodes that instances retain only together`,
+      ),
+    )
+    this.#assignRetentions(preorder, logLowerBound)
 
     const categories = this.#categoryKeys.newResolver(context.origin)
     this.#entityCategorizer.categorize(
@@ -460,6 +468,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
           preorder,
           this.#newNodeOrdinalToSetIndex(instanceOrdinalSets),
           instanceOrdinalSets.length,
+          logLowerBound,
         ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
@@ -481,12 +490,16 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
    * Assigns the constructors' and functions' retentions from one pass, because
    * a node is an instance of at most one of them.
    */
-  #assignRetentions(preorder: DominatorTreePreorder): void {
+  #assignRetentions(
+    preorder: DominatorTreePreorder,
+    logLowerBound: () => void,
+  ): void {
     const entities = [...this.#constructors, ...this.#functions]
     const retentions = this.#computeRetentions(
       preorder,
       this.#newNodeOrdinalToEntityIndex(),
       entities.length,
+      logLowerBound,
     )
     for (const [index, entity] of entities.entries()) {
       Object.assign(entity, retentions[index])
@@ -524,14 +537,22 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     preorder: DominatorTreePreorder,
     nodeOrdinalToEntityIndex: Int32Array,
     entityCount: number,
+    logLowerBound: () => void,
   ): EntityRetention[] {
-    return computeEntityRetentions({
+    const nodeAdjacencyGraph = this.#nodeAdjacencyGraph
+    const budget = newEntityRetentionsBudget({ nodeAdjacencyGraph, preorder })
+    const retentions = computeEntityRetentions({
       nodeOrdinalToRetainedSize: this.#nodeOrdinalToRetainedSize,
-      nodeAdjacencyGraph: this.#nodeAdjacencyGraph,
+      nodeAdjacencyGraph,
       preorder,
       nodeOrdinalToEntityIndex,
       entityCount,
+      budget,
     })
+    if (budget.isExhausted) {
+      logLowerBound()
+    }
+    return retentions
   }
 
   /**
