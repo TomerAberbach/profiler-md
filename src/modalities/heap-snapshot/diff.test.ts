@@ -17,6 +17,7 @@ import type {
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {
+  fixedRetentions,
   makeAggregatedHeapSnapshot,
   makeAggregatedHeapSnapshotConstructor,
   makeAggregatedHeapSnapshotFunction,
@@ -170,6 +171,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           instanceCount: 1,
         }),
       ],
+      retentionsOf: fixedRetentions(200),
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
@@ -408,6 +410,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`merges same-side constructors with no line that share a match key`, () => {
     const base = makeAggregatedHeapSnapshot({
+      retentionsOf: fixedRetentions(100),
       context: JDK_CONTEXT,
       constructors: [
         jdkLambda(`000000b801205218`, 40),
@@ -488,6 +491,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           instanceCount: 1,
         })
       const base = makeAggregatedHeapSnapshot({
+        retentionsOf: fixedRetentions(100),
         constructors: [chunk(`abc`, 40), chunk(`def`, 60)],
       })
       const current = makeAggregatedHeapSnapshot({
@@ -981,6 +985,9 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
                 }),
                 id: instanceOrdinals[0]!,
                 instanceOrdinals,
+                outermostInstanceOrdinals: fn.nestsInstances
+                  ? instanceOrdinals.slice(0, 1)
+                  : instanceOrdinals,
               },
             ]
           : [],

@@ -647,8 +647,8 @@ Categories accounting for at least 1.0% of self size.
 |  0.9% |   123 KiB |     1,191 | `java.util.LinkedHashMap$Entry`                            |
 |  0.9% |   121 KiB |       624 | `java.lang.invoke.MethodType`                              |
 |  0.8% |   116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`                     |
+|  0.6% |  79.3 KiB |        27 | `org.renaissance.core.BenchmarkDescriptor`                 |
 |  0.6% |    79 KiB |        72 | `java.lang.Module`                                         |
-|  0.6% |  77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`                      |
 
 ##### String
 
@@ -905,6 +905,16 @@ Retainer paths with the largest contribution to each constructor's retained size
 | -----: | -------: | --------: | ------------------------------------------------------------ |
 | 100.0% | 89.4 KiB |         1 | `byte[][] ←.ruleArray– class sun.util.calendar.ZoneInfoFile` |
 
+##### `org.renaissance.core.BenchmarkDescriptor`
+
+|     % |  Size | Instances | Path                                                                                                                                                                                              |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.6% | 504 B |        21 | `org.renaissance.core.BenchmarkDescriptor ← (GC root)`                                                                                                                                            |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[54]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[50]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[36]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+| <0.1% |  24 B |         1 | `org.renaissance.core.BenchmarkDescriptor ←.value– java.util.HashMap$Node ←[32]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.benchmarkDescriptors– org.renaissance.core.BenchmarkSuite` |
+
 ##### `java.lang.Module`
 
 |     % |     Size | Instances | Path                                                                                                                                                                              |
@@ -914,16 +924,6 @@ Retainer paths with the largest contribution to each constructor's retained size
 |  0.6% |    509 B |         1 | `java.lang.Module ←.value– java.util.HashMap$Node ←[16]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.nameToModule– java.lang.ModuleLayer`                               |
 |  0.6% |    481 B |         1 | `java.lang.Module ←.value– java.util.HashMap$Node ←[41]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.nameToModule– java.lang.ModuleLayer`                               |
 |  0.6% |    481 B |         1 | `java.lang.Module ←.value– java.util.HashMap$Node ←[118]– java.util.HashMap$Node[] ←.table– java.util.HashMap ←.nameToModule– java.lang.ModuleLayer`                              |
-
-##### `java.util.ImmutableCollections$SetN`
-
-|     % |     Size | Instances | Path                                                                                                                                                                   |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 48.0% | 37.4 KiB |         1 | `java.util.ImmutableCollections$SetN ←(several paths)– sun.util.cldr.CLDRLocaleProviderAdapter ←(several paths)– class sun.util.locale.provider.LocaleProviderAdapter` |
-| 21.0% | 16.4 KiB |        22 | `java.util.ImmutableCollections$SetN ←.exports– java.lang.module.ModuleDescriptor`                                                                                     |
-| 15.7% | 12.3 KiB |        39 | `java.util.ImmutableCollections$SetN ←.packages– java.lang.module.ModuleDescriptor`                                                                                    |
-|  5.6% | 4.37 KiB |        21 | `java.util.ImmutableCollections$SetN ←.requires– java.lang.module.ModuleDescriptor`                                                                                    |
-|  2.1% |  1.6 KiB |         6 | `java.util.ImmutableCollections$SetN ←.provides– java.lang.module.ModuleDescriptor`                                                                                    |
 
 ##### `char[]`
 

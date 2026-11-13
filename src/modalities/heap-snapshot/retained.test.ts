@@ -2,10 +2,9 @@ import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import {
-  attributeEntityMinRetainedSizes,
+  computeDominatorTreePreorder,
+  computeEntityRetentions,
   computeNodeOrdinalToRetainedSize,
-  newInstancesRetainedSizeOf,
-  newOutermostInstanceOrdinalsOf,
 } from './retained.ts'
 import { makeNodeAdjacencyGraph } from './testing.ts'
 
@@ -26,19 +25,6 @@ test(`computeNodeOrdinalToRetainedSize excludes unreachable nodes from the root'
   expect([...nodeOrdinalToRetainedSize]).toStrictEqual([14, 6, 2, 16, 32])
 })
 
-// 0 → 1 → 2 → 3 and 0 → 4, with 5 unreachable
-const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
-  computeImmediateDominatorGraph(
-    6,
-    makeNodeAdjacencyGraph(6, [
-      [0, 1],
-      [1, 2],
-      [2, 3],
-      [0, 4],
-    ]),
-  ).ordinalToImmediateDominatorOrdinal,
-)
-
 test.each([
   {
     scenario: `no instance dominates another`,
@@ -46,18 +32,18 @@ test.each([
     expected: [3, 4],
   },
   {
-    scenario: `an instance dominates a later one`,
+    scenario: `an instance dominates another`,
     instanceOrdinals: [2, 3],
     expected: [2],
   },
   {
-    scenario: `an instance dominates an earlier one through a node between them`,
-    instanceOrdinals: [3, 4, 1],
-    expected: [4, 1],
+    scenario: `an instance dominates another through a node between them`,
+    instanceOrdinals: [1, 3, 4],
+    expected: [1, 4],
   },
   {
     scenario: `an instance is unreachable`,
-    instanceOrdinals: [5, 4],
+    instanceOrdinals: [4, 5],
     expected: [4],
   },
   {
@@ -66,12 +52,26 @@ test.each([
     expected: [],
   },
 ])(
-  `newOutermostInstanceOrdinalsOf selects the reachable instances no other dominates when $scenario`,
+  `computeEntityRetentions lists the reachable instances no other dominates when $scenario`,
   ({ instanceOrdinals, expected }) => {
-    const outermostInstanceOrdinals =
-      outermostInstanceOrdinalsOf(instanceOrdinals)
+    // 0 → 1 → 2 → 3 and 0 → 4, with 5 unreachable
+    const retentions = entityRetentionsOf({
+      nodeCount: 6,
+      edges: [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [0, 4],
+      ],
+      nodeOrdinalToEntityIndex: Array.from({ length: 6 }, (_, ordinal) =>
+        instanceOrdinals.includes(ordinal) ? 0 : -1,
+      ),
+      selfSizes: [0, 0, 0, 0, 0, 0],
+    })
 
-    expect(outermostInstanceOrdinals).toStrictEqual(expected)
+    expect(new Set(retentions[0]!.outermostInstanceOrdinals)).toStrictEqual(
+      new Set(expected),
+    )
   },
 )
 
@@ -98,147 +98,186 @@ const graphWithEntities = fc.integer({ min: 1, max: 40 }).chain(nodeCount =>
 )
 
 test.prop([graphWithEntities])(
-  `newInstancesRetainedSizeOf sums the nodes that removing the instances leaves unreachable`,
-  ({ nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }) => {
-    const { instancesRetainedSizeOf, entityInstanceOrdinals } = retainedSizesOf(
-      { nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes },
-    )
+  `computeEntityRetentions sums the nodes that removing an entity's instances leaves unreachable`,
+  graph => {
+    const retentions = entityRetentionsOf(graph)
 
-    const reachableOrdinals = (removedOrdinals: readonly number[]) => {
-      const reached = new Set([0, ...removedOrdinals])
-      const stack = [0]
-      while (stack.length > 0) {
-        const fromOrdinal = stack.pop()!
-        for (const [edgeFromOrdinal, toOrdinal] of edges) {
-          if (edgeFromOrdinal === fromOrdinal && !reached.has(toOrdinal)) {
-            reached.add(toOrdinal)
-            stack.push(toOrdinal)
-          }
-        }
-      }
-      for (const removedOrdinal of removedOrdinals) {
-        reached.delete(removedOrdinal)
-      }
-      reached.add(0)
-      return reached
-    }
-    const reachable = reachableOrdinals([])
-    expect(entityInstanceOrdinals.map(instancesRetainedSizeOf)).toStrictEqual(
-      entityInstanceOrdinals.map(instanceOrdinals => {
-        if (instanceOrdinals.includes(0)) {
-          return [...reachable].reduce(
-            (sum, nodeOrdinal) => sum + selfSizes[nodeOrdinal]!,
-            0,
-          )
-        }
-        const stillReachable = reachableOrdinals(instanceOrdinals)
-        return [...reachable]
-          .filter(nodeOrdinal => !stillReachable.has(nodeOrdinal))
-          .reduce((sum, nodeOrdinal) => sum + selfSizes[nodeOrdinal]!, 0)
-      }),
+    expect(retentions.map(({ retainedSize }) => retainedSize)).toStrictEqual(
+      bruteForceRetainedSizes(graph),
     )
   },
 )
 
-test.prop([graphWithEntities])(
-  `attributeEntityMinRetainedSizes sums at least the outermost instances' retained sizes and at most the instances' retained size`,
-  ({ nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }) => {
-    const {
-      entities,
-      instancesRetainedSizeOf,
-      entityInstanceOrdinals,
-      outermostRetainedSizeOf,
-    } = retainedSizesOf({
-      nodeCount,
-      edges,
-      nodeOrdinalToEntityIndex,
-      selfSizes,
-    })
-
-    for (const [entityIndex, { minRetainedSize }] of entities.entries()) {
-      const instanceOrdinals = entityInstanceOrdinals[entityIndex]!
-      expect(minRetainedSize).toBeGreaterThanOrEqual(
-        outermostRetainedSizeOf(instanceOrdinals),
-      )
-      expect(minRetainedSize).toBeLessThanOrEqual(
-        instancesRetainedSizeOf(instanceOrdinals),
-      )
-    }
-  },
-)
-
-test(`attributeEntityMinRetainedSizes counts a node the instances retain only together`, () => {
-  // 0 → 1 → 3 and 0 → 2 → 3, where 1 and 2 are the entity's instances and 3
-  // retains 4
-  const { entities } = retainedSizesOf({
-    nodeCount: 5,
+test.each([
+  {
+    scenario: `a node the instances retain only together holds an edge to a node it does not dominate`,
+    // 0 → 1 → 3 → 4 and 0 → 2 → 3, with 1 → 4
     edges: [
       [0, 1],
       [0, 2],
       [1, 3],
       [2, 3],
       [3, 4],
+      [1, 4],
     ],
-    nodeOrdinalToEntityIndex: [-1, 0, 0, -1, -1],
-    selfSizes: [0, 1, 2, 4, 8],
+    expected: 1 + 2 + 4 + 8,
+  },
+  {
+    scenario: `a node the instances retain only together has an edge from a node it dominates`,
+    // 0 → 1 → 3 → 4 → 3 and 0 → 2 → 3
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+      [3, 4],
+      [4, 3],
+    ],
+    expected: 1 + 2 + 4 + 8,
+  },
+  {
+    scenario: `the instances retain a cycle only together that no node in it dominates`,
+    // 0 → 1 → 3 ⇄ 4 and 0 → 2 → 4
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 4],
+      [3, 4],
+      [4, 3],
+    ],
+    expected: 1 + 2 + 4 + 8,
+  },
+  {
+    scenario: `a node outside the instances also holds an edge to the node`,
+    // 0 → 1 → 3 → 4, 0 → 2 → 3, and 0 → 4
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+      [3, 4],
+      [0, 4],
+    ],
+    expected: 1 + 2 + 4,
+  },
+])(
+  `computeEntityRetentions counts the nodes the instances retain when $scenario`,
+  ({ edges, expected }) => {
+    // 1 and 2 are the entity's instances
+    const retentions = entityRetentionsOf({
+      nodeCount: 5,
+      edges: edges as [number, number][],
+      nodeOrdinalToEntityIndex: [-1, 0, 0, -1, -1],
+      selfSizes: [0, 1, 2, 4, 8],
+    })
+
+    expect(retentions.map(({ retainedSize }) => retainedSize)).toStrictEqual([
+      expected,
+    ])
+  },
+)
+
+test(`computeEntityRetentions counts a doubly linked list the instances retain only together at its ends`, () => {
+  // 0 → 1 → 3 ⇄ 4 ⇄ 5 ⇄ 6 ← 2 ← 0, where 1 and 2 are the entity's instances
+  const retentions = entityRetentionsOf({
+    nodeCount: 7,
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 6],
+      [3, 4],
+      [4, 3],
+      [4, 5],
+      [5, 4],
+      [5, 6],
+      [6, 5],
+    ],
+    nodeOrdinalToEntityIndex: [-1, 0, 0, -1, -1, -1, -1],
+    selfSizes: [0, 1, 2, 4, 8, 16, 32],
   })
 
-  expect(entities).toStrictEqual([{ minRetainedSize: 15 }])
+  expect(retentions.map(({ retainedSize }) => retainedSize)).toStrictEqual([
+    1 + 2 + 4 + 8 + 16 + 32,
+  ])
 })
 
-const retainedSizesOf = ({
-  nodeCount,
-  edges,
-  nodeOrdinalToEntityIndex,
-  selfSizes,
-}: {
+type GraphWithEntities = {
   nodeCount: number
   edges: readonly (readonly [number, number])[]
   nodeOrdinalToEntityIndex: readonly number[]
   selfSizes: readonly number[]
-}) => {
+}
+
+const entityRetentionsOf = ({
+  nodeCount,
+  edges,
+  nodeOrdinalToEntityIndex,
+  selfSizes,
+}: GraphWithEntities): ReturnType<typeof computeEntityRetentions> => {
   const nodeAdjacencyGraph = makeNodeAdjacencyGraph(nodeCount, edges)
   const immediateDominatorGraph = computeImmediateDominatorGraph(
     nodeCount,
     nodeAdjacencyGraph,
   )
-  const selfSizeOf = (nodeOrdinal: number) => selfSizes[nodeOrdinal]!
-  const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
-    selfSizeOf,
-    immediateDominatorGraph,
-  )
-  const entityCount = Math.max(-1, ...nodeOrdinalToEntityIndex) + 1
-  const entities = Array.from({ length: entityCount }, () => ({
-    minRetainedSize: 0,
-  }))
-  attributeEntityMinRetainedSizes(
-    nodeOrdinalToRetainedSize,
+  return computeEntityRetentions({
+    nodeOrdinalToRetainedSize: computeNodeOrdinalToRetainedSize(
+      nodeOrdinal => selfSizes[nodeOrdinal]!,
+      immediateDominatorGraph,
+    ),
     nodeAdjacencyGraph,
-    immediateDominatorGraph,
-    Int32Array.from(nodeOrdinalToEntityIndex),
-    entities,
-  )
+    preorder: computeDominatorTreePreorder(immediateDominatorGraph),
+    nodeOrdinalToEntityIndex: Int32Array.from(nodeOrdinalToEntityIndex),
+    entityCount: entityInstanceOrdinals(nodeOrdinalToEntityIndex).length,
+  })
+}
 
-  const outermostInstanceOrdinalsOf = newOutermostInstanceOrdinalsOf(
-    immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+const bruteForceRetainedSizes = ({
+  edges,
+  nodeOrdinalToEntityIndex,
+  selfSizes,
+}: GraphWithEntities): number[] => {
+  const reachableOrdinals = (removedOrdinals: readonly number[]) => {
+    const reached = new Set<number>()
+    if (removedOrdinals.includes(0)) {
+      return reached
+    }
+    reached.add(0)
+    const stack = [0]
+    while (stack.length > 0) {
+      const fromOrdinal = stack.pop()!
+      for (const [edgeFromOrdinal, toOrdinal] of edges) {
+        if (
+          edgeFromOrdinal === fromOrdinal &&
+          !reached.has(toOrdinal) &&
+          !removedOrdinals.includes(toOrdinal)
+        ) {
+          reached.add(toOrdinal)
+          stack.push(toOrdinal)
+        }
+      }
+    }
+    return reached
+  }
+  const reachable = reachableOrdinals([])
+  return entityInstanceOrdinals(nodeOrdinalToEntityIndex).map(
+    instanceOrdinals => {
+      const stillReachable = reachableOrdinals(instanceOrdinals)
+      return [...reachable]
+        .filter(nodeOrdinal => !stillReachable.has(nodeOrdinal))
+        .reduce((sum, nodeOrdinal) => sum + selfSizes[nodeOrdinal]!, 0)
+    },
   )
-  return {
-    entities,
-    entityInstanceOrdinals: entities.map((_, entityIndex) =>
+}
+
+const entityInstanceOrdinals = (
+  nodeOrdinalToEntityIndex: readonly number[],
+): number[][] =>
+  Array.from(
+    { length: Math.max(-1, ...nodeOrdinalToEntityIndex) + 1 },
+    (_, entityIndex) =>
       nodeOrdinalToEntityIndex.flatMap((index, nodeOrdinal) =>
         index === entityIndex ? nodeOrdinal : [],
       ),
-    ),
-    instancesRetainedSizeOf: newInstancesRetainedSizeOf(
-      nodeAdjacencyGraph,
-      nodeOrdinalToRetainedSize,
-      selfSizeOf,
-      outermostInstanceOrdinalsOf,
-    ),
-    outermostRetainedSizeOf: (instanceOrdinals: readonly number[]) =>
-      outermostInstanceOrdinalsOf(instanceOrdinals).reduce(
-        (sum, nodeOrdinal) => sum + nodeOrdinalToRetainedSize[nodeOrdinal]!,
-        0,
-      ),
-  }
-}
+  )

@@ -77,16 +77,18 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 Constructors with the largest increase in instance bytes, including nodes only the instances keep alive. Categories account for at least 1.0% of self size on the base or the current side.
 
-|  Change |        Delta |             % |                Size |     Instances | Constructor | Location    |
-| ------: | -----------: | ------------: | ------------------: | ------------: | ----------- | ----------- |
-| +300.7% | +453.171 KiB |  2.9% → 10.6% |   151 KiB → 604 KiB | 1,231 → 2,281 | `Array`     | `<unknown>` |
-|  +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
+|  Change |        Delta |             % |                Size |     Instances | Constructor        | Location    |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ------------------ | ----------- |
+| +300.7% | +453.171 KiB |  2.9% → 10.6% |   151 KiB → 604 KiB | 1,231 → 2,281 | `Array`            | `<unknown>` |
+|  +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`           | `<unknown>` |
+|     ~0% |       +136 B | 24.1% → 22.2% |            1.23 MiB |           792 | `system / Context` | `<unknown>` |
 
 ##### Object
 
-| Change |        Delta |             % |                Size |     Instances | Constructor | Location    |
-| -----: | -----------: | ------------: | ------------------: | ------------: | ----------- | ----------- |
-| +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`    | `<unknown>` |
+| Change |        Delta |             % |                Size |     Instances | Constructor        | Location    |
+| -----: | -----------: | ------------: | ------------------: | ------------: | ------------------ | ----------- |
+| +32.4% | +448.796 KiB | 26.4% → 32.2% | 1.35 MiB → 1.79 MiB | 2,174 → 3,438 | `Object`           | `<unknown>` |
+|    ~0% |       +136 B | 24.1% → 22.2% |            1.23 MiB |           792 | `system / Context` | `<unknown>` |
 
 ##### Array
 

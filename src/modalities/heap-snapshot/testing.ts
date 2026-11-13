@@ -21,7 +21,6 @@ import type {
 import type { PathSnapshot } from './diff.ts'
 import { computeStartOffsets } from './graph.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
-import { newOutermostInstanceOrdinalsOf } from './retained.ts'
 import type { HeapSnapshotNodeCategory, RetainerNode } from './type.ts'
 
 /**
@@ -99,6 +98,9 @@ export const makeAggregatedHeapSnapshot = ({
     (heldSize, entity) => heldSize + entity.selfSize,
     0,
   ),
+  retentionsOf = () => {
+    throw new Error(`expected retentionsOf for a snapshot whose entities merge`)
+  },
 }: {
   context?: ProfileToMdContext
   heldSize?: number
@@ -108,6 +110,9 @@ export const makeAggregatedHeapSnapshot = ({
   constructors?: AggregatedHeapSnapshotConstructor[]
   functions?: AggregatedHeapSnapshotFunction[]
   strings?: AggregatedHeapSnapshotString[]
+
+  /** What a diff assigns the snapshot's merged entities. */
+  retentionsOf?: AggregatedHeapSnapshot[`retentionsOf`]
 } = {}): AggregatedHeapSnapshot => ({
   type: `heap-snapshot`,
   context,
@@ -118,12 +123,20 @@ export const makeAggregatedHeapSnapshot = ({
   constructors,
   functions,
   strings,
-  outermostInstanceOrdinalsOf: instanceOrdinals => instanceOrdinals,
-  retainedSizeOf: entity => entity.minRetainedSize,
+  retentionsOf,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
   retainedNodesOf: () => [],
 })
+
+/** A snapshot's {@link AggregatedHeapSnapshot.retentionsOf} with one size per set. */
+export const fixedRetentions =
+  (retainedSize: number): AggregatedHeapSnapshot[`retentionsOf`] =>
+  instanceOrdinalSets =>
+    instanceOrdinalSets.map(() => ({
+      retainedSize,
+      outermostInstanceOrdinals: [],
+    }))
 
 /**
  * The retainer hops of nodes at the given retainer paths, by node ordinal, and
@@ -134,8 +147,7 @@ export const makeAggregatedHeapSnapshot = ({
 export const makeRetainerHops = (
   paths: readonly (readonly RetainerPathStep[])[],
   endOrdinals: readonly (number | undefined)[] = [],
-): PathSnapshot &
-  Pick<AggregatedHeapSnapshot, `outermostInstanceOrdinalsOf`> => {
+): PathSnapshot => {
   const hops: RetainerHop[] = []
   const retainers: RetainerNode[] = []
   let nodeCount = paths.length
@@ -156,19 +168,11 @@ export const makeRetainerHops = (
       retainedOrdinal = dominatorOrdinal
     }
   }
-  // A node without a hop dominates itself, like the GC root.
-  const ordinalToImmediateDominatorOrdinal = Int32Array.from(
-    { length: nodeCount },
-    (_, nodeOrdinal) => hops[nodeOrdinal]?.dominatorOrdinal ?? nodeOrdinal,
-  )
   const retainerHopOf = (nodeOrdinal: number) => hops[nodeOrdinal]
   const retainerOf = (nodeOrdinal: number): RetainerNode =>
     retainers[nodeOrdinal] ?? { id: nodeOrdinal, name: `` }
   return {
     nodeCount,
-    outermostInstanceOrdinalsOf: newOutermostInstanceOrdinalsOf(
-      ordinalToImmediateDominatorOrdinal,
-    ),
     retainerHopOf,
     retainerOf,
   }
@@ -210,7 +214,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
   location,
   category,
   selfSize,
-  minRetainedSize: retainedSize,
+  retainedSize,
   instances: Array.from({ length: instanceCount }, (_, index) => ({
     type: `node`,
     id: index,
@@ -219,6 +223,10 @@ export const makeAggregatedHeapSnapshotConstructor = ({
     selfSize: 0,
     retainedSize: 0,
   })),
+  outermostInstanceOrdinals: Array.from(
+    { length: instanceCount },
+    (_, index) => index,
+  ),
 })
 
 export const makeAggregatedHeapSnapshotFunction = ({
@@ -242,8 +250,12 @@ export const makeAggregatedHeapSnapshotFunction = ({
   location,
   category,
   selfSize,
-  minRetainedSize: retainedSize,
+  retainedSize,
   instanceOrdinals: Array.from({ length: instanceCount }, (_, index) => index),
+  outermostInstanceOrdinals: Array.from(
+    { length: instanceCount },
+    (_, index) => index,
+  ),
 })
 
 export const makeAggregatedHeapSnapshotString = ({
@@ -260,6 +272,7 @@ export const makeAggregatedHeapSnapshotString = ({
   name: value,
   category,
   selfSize,
+  retainedSize: selfSize,
 })
 
 export const selfSizeTables = (md: string): Table[] =>

@@ -498,9 +498,9 @@ Retained nodes with the largest contribution to each function's retained size.
 | ---: | ----: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | 0.6% | 484 B | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject`                         |
 | 0.4% | 375 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← Function ←.createNativeReadableStream– GlobalObject` |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableByteStreamController– GlobalObject`                                         |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBReader– GlobalObject`                                             |
-| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.isReadableStreamBYOBRequest– GlobalObject`                                            |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.createFIFO– GlobalObject`                                                             |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.internalRequire– GlobalObject`                                                        |
+| 0.1% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← Function ←.loadEsmIntoCjs– GlobalObject`                                                         |
 
 #### `matchesGlob`
 
@@ -514,13 +514,13 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `SafeIterator`
 
-|    % | Self | Name   | Path                                                                                                                                                                         |
-| ---: | ---: | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                         |
-| 1.3% | 96 B | `call` | `call ←.next_– JSLexicalEnvironment ← SafeIterator ←(several paths)– GlobalObject`                                                                                           |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject` |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.keys– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`    |
-| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.values– Object ←.homeObject– SafeSet ←(several paths)– GlobalObject`  |
+|    % | Self | Name   | Path                                                                                                                                                                                                                                    |
+| ---: | ---: | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.3% | 96 B | `call` | `call ←.next_– JSLexicalEnvironment ← SafeIterator ←.SafeStringIterator– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                                                                        |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeStringIterator– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`                                                                                      |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.Symbol.iterator– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.values– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`          |
+| 1.3% | 96 B | `call` | `call ←.factory– JSLexicalEnvironment ← SafeIterator ←.SafeIterator– JSLexicalEnvironment ← Function ←.keys– Object ←.homeObject– SafeMap ←.SafeMap– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject`            |
 
 #### `duplexPair`
 
@@ -528,7 +528,7 @@ Retained nodes with the largest contribution to each function's retained size.
 | ----: | -------: | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | 22.7% | 1.41 KiB | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– duplexPair ←(several paths)– GlobalObject`                         |
 | 10.7% |    678 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– duplexPair ←(several paths)– GlobalObject` |
-|  2.0% |    128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– duplexPair ←(several paths)– GlobalObject`                                             |
+|  2.0% |    128 B | `FunctionExecutable`        | `FunctionExecutable ← duplexPair ←(several paths)– GlobalObject`                                                             |
 |  2.0% |    128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– duplexPair ←(several paths)– GlobalObject`                                             |
 |  2.0% |    128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– duplexPair ←(several paths)– GlobalObject`                                             |
 
@@ -536,11 +536,11 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % |  Self | Name                   | Path                                                                                     |
 | ---: | ----: | ---------------------- | ---------------------------------------------------------------------------------------- |
-| 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.constructor– AsyncFunction ← GlobalObject`                  |
 | 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject` |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rmdir– Object ←(several paths)– GlobalObject`    |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.rm– Object ←(several paths)– GlobalObject`       |
-| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.lutimes– Object ←(several paths)– GlobalObject`  |
+| 1.8% | 112 B | `Structure`            | `Structure ← AsyncFunction ←.constructor– AsyncFunction ← GlobalObject`                  |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.access– Object ←(several paths)– GlobalObject`   |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.copyFile– Object ←(several paths)– GlobalObject` |
+| 0.8% |  48 B | `JSLexicalEnvironment` | `JSLexicalEnvironment ← AsyncFunction ←.chown– Object ←(several paths)– GlobalObject`    |
 
 #### `SafeMap`
 
@@ -608,19 +608,19 @@ Retained nodes with the largest contribution to each function's retained size.
 | ----: | ----: | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | 28.2% | 900 B | `FunctionCodeBlock`         | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject`                         |
 | 15.1% | 484 B | `UnlinkedFunctionCodeBlock` | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject` |
-|  4.0% | 128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject`                                             |
-|  4.0% | 128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject`                                             |
 |  4.0% | 128 B | `FunctionExecutable`        | `FunctionExecutable ← PassThrough ←(several paths)– GlobalObject`                                                             |
+|  4.0% | 128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject`                                             |
+|  4.0% | 128 B | `FunctionExecutable`        | `FunctionExecutable ←(several paths)– PassThrough ←(several paths)– GlobalObject`                                             |
 
 #### `anonymous`
 
-|    % | Self | Name               | Path                                                               |
-| ---: | ---: | ------------------ | ------------------------------------------------------------------ |
-| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←(several paths)– GlobalObject`      |
-| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.charCodeAt– String ← GlobalObject` |
-| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.substr– String ← GlobalObject`     |
-| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.endsWith– String ← GlobalObject`   |
-| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←(several paths)– GlobalObject`      |
+|    % | Self | Name               | Path                                                                             |
+| ---: | ---: | ------------------ | -------------------------------------------------------------------------------- |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.evictIsolationSourceProviderCache– GlobalObject` |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.evaluateCommonJSModule– GlobalObject`            |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.createCommonJSModule– GlobalObject`              |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.createInternalModuleById– GlobalObject`          |
+| 2.5% | 80 B | `NativeExecutable` | `NativeExecutable ← anonymous ←.resolveSync– GlobalObject`                       |
 
 #### `pipeline`
 
@@ -636,9 +636,9 @@ Retained nodes with the largest contribution to each function's retained size.
 
 |    % | Self | Name               | Path                                                         |
 | ---: | ---: | ------------------ | ------------------------------------------------------------ |
-| 2.7% | 80 B | `NativeExecutable` | `NativeExecutable ← get ←(several paths)– GlobalObject`      |
-| 2.7% | 80 B | `NativeExecutable` | `NativeExecutable ← get ←(several paths)– GlobalObject`      |
 | 2.7% | 80 B | `NativeExecutable` | `NativeExecutable ← get ← GetterSetter ←.self– GlobalObject` |
+| 2.7% | 80 B | `NativeExecutable` | `NativeExecutable ← get ←(several paths)– GlobalObject`      |
+| 2.7% | 80 B | `NativeExecutable` | `NativeExecutable ← get ←(several paths)– GlobalObject`      |
 | 0.6% | 18 B | `get`              | `get ←.name– get ← GetterSetter ←.self– GlobalObject`        |
 | 0.6% | 17 B | `get`              | `get ←.name– get ←(several paths)– GlobalObject`             |
 
@@ -658,18 +658,18 @@ Retained nodes with the largest contribution to each function's retained size.
 | ----: | ----: | -------------------- | ---------------------------------------------------------------------------------------------------- |
 | 33.8% | 828 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject` |
 | 24.7% | 604 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← forEach`                                                   |
+|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
+|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
 |  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← forEach`                                                                       |
-|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
-|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
 
 #### `set`
 
 |    % | Self | Name               | Path                                                         |
 | ---: | ---: | ------------------ | ------------------------------------------------------------ |
-| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
-| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
-| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
 | 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ← GetterSetter ←.self– GlobalObject` |
+| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
+| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
+| 3.3% | 80 B | `NativeExecutable` | `NativeExecutable ← set ←(several paths)– GlobalObject`      |
 | 0.7% | 18 B | `set`              | `set ←.name– set ← GetterSetter ←.self– GlobalObject`        |
 
 #### `call`

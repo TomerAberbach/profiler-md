@@ -1215,6 +1215,129 @@ test(`diffProfiles ranks a constructor by the change in the nodes its instances 
   ])
 })
 
+// A synthetic root retaining a `Foo<outer>` node, which holds a `Foo<inner>` node
+// of the same type, which holds an `Array` node of `arraySize` bytes.
+const makeNestedSnapshot = (
+  outer: string,
+  inner: string,
+  arraySize: number,
+  fooNodeType: number = NODE_TYPE_OBJECT,
+) =>
+  makeV8Snapshot({
+    nodeCount: 4,
+    edgeCount: 3,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 1,
+      }),
+      ...makeV8Node({
+        type: fooNodeType,
+        name: 1,
+        id: 3,
+        selfSize: 24,
+        edgeCount: 1,
+      }),
+      ...makeV8Node({
+        type: fooNodeType,
+        name: 2,
+        id: 5,
+        selfSize: 24,
+        edgeCount: 1,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 3,
+        id: 7,
+        selfSize: arraySize,
+        edgeCount: 0,
+      }),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 4, toNode: 12 }),
+      ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 4, toNode: 18 }),
+    ],
+    strings: [``, `Foo<${outer}>`, `Foo<${inner}>`, `Array`, `next`],
+  })
+
+test(`diffProfiles counts the nodes a merged constructor's unmerged entities retain once`, () => {
+  const md = diffProfiles(
+    {
+      data: JSON.stringify(makeNestedSnapshot(`1`, `2`, 800)),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      data: JSON.stringify(makeNestedSnapshot(`3`, `4`, 1600)),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      baseURL: null,
+      matchEntry: ({ name }) => ({ name: (name ?? ``).replace(/<\d>$/u, ``) }),
+    },
+  )
+
+  expect(rankingTables(md, `Retained size`, `Regressions`)).toStrictEqual([
+    [
+      {
+        Change: `+94.3%`,
+        Delta: `+800 B`,
+        '%': `100.0%`,
+        Size: `848 B → 1.61 KiB`,
+        Instances: `2`,
+        Constructor: `Foo`,
+      },
+      {
+        Change: `+100.0%`,
+        Delta: `+800 B`,
+        '%': `94.3% → 97.1%`,
+        Size: `800 B → 1.56 KiB`,
+        Instances: `1`,
+        Constructor: `Array`,
+      },
+    ],
+  ])
+})
+
+test(`diffProfiles counts the nodes a merged function's unmerged entities retain once`, () => {
+  const md = diffProfiles(
+    {
+      data: JSON.stringify(
+        makeNestedSnapshot(`1`, `2`, 800, NODE_TYPE_CLOSURE),
+      ),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      data: JSON.stringify(
+        makeNestedSnapshot(`3`, `4`, 1600, NODE_TYPE_CLOSURE),
+      ),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      baseURL: null,
+      matchEntry: ({ name }) => ({ name: (name ?? ``).replace(/<\d>$/u, ``) }),
+    },
+  )
+
+  expect(rankingTables(md, `Largest functions`, `Regressions`)).toStrictEqual([
+    [
+      {
+        Change: `+94.3%`,
+        Delta: `+800 B`,
+        '%': `100.0%`,
+        Retained: `848 B → 1.61 KiB`,
+        Instances: `2`,
+        Paths: `2`,
+        Name: `Foo`,
+        'Example path': `Foo<3> ← (GC root)`,
+      },
+    ],
+  ])
+})
+
 describe(`malformed snapshots`, () => {
   // A synthetic root retaining one object.
   const makeSnapshot = ({
