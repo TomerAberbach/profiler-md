@@ -16,7 +16,7 @@ Held 135 MiB → 136 MiB (+1.2 MiB, +0.9%) over 1,716,917 → 1,715,213 nodes
 | Native             |   0.0% |          0 B |         <0.1% |                48 B |                 3 |
 | Synthetic          |   0.0% |          0 B |         <0.1% |                16 B |                19 |
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -38,7 +38,7 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `<foreign memory - malloc>`
 
-|  Change |  Delta |             % |       Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                                           |
+|  Change |  Delta |             % |       Size |         Nodes | Path                                                                                                                                                                                                                                                                                                                                                           |
 | ------: | -----: | ------------: | ---------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |   -0.1% | -160 B | 19.8% → 19.7% |    175 KiB | 4,712 → 4,716 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                                     |
 | removed |  -96 B |  <0.1% → 0.0% | 96 B → 0 B |         3 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1387]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |
@@ -64,7 +64,7 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `<foreign memory - malloc>`
 
-|  Change |  Delta |             % |       Size |     Instances | Path                                                                                                                                                                                                                                                                                                                                                           |
+|  Change |  Delta |             % |       Size |         Nodes | Path                                                                                                                                                                                                                                                                                                                                                           |
 | ------: | -----: | ------------: | ---------: | ------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |   -0.1% | -160 B | 19.8% → 19.7% |    175 KiB | 4,712 → 4,716 | `<foreign memory - malloc> ←.<native>– Memory{UInt8} ←.speckeyset– Method`                                                                                                                                                                                                                                                                                     |
 | removed |  -96 B |  <0.1% → 0.0% | 96 B → 0 B |         3 → 0 | `<foreign memory - malloc> ←.<native>– Memory{UInt64} ←.ref.mem– Array{UInt64, 1} ←.root_blocks– Method ←(several paths)– Core.TypeMapEntry ←[1]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[1387]– Memory{Any} ←.arg1– Core.TypeMapLevel ←[15]– Memory{Any} ←.name1– Core.TypeMapLevel ←[14543]– Memory{Any} ←.arg1– Core.TypeMapLevel ←.defs– Core.MethodTable` |

@@ -75,10 +75,19 @@ export type AggregatedHeapSnapshot = {
   /** The node as a retainer path step shows it. */
   retainerOf: (nodeOrdinal: number) => RetainerNode
 
+  nodeOf: (
+    nodeOrdinal: number,
+    options: FormattingProfileToMdOptions,
+  ) => AggregatedHeapSnapshotNode
+
+  /** The nodes the node dominates. */
   retainedNodesOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
   ) => AggregatedHeapSnapshotNode[]
+
+  /** Whether the node is a bookkeeping node that never points to user code. */
+  isInternalNode: (nodeOrdinal: number) => boolean
 }
 
 export type NodeCategoryStats = {
@@ -185,10 +194,14 @@ export type RetainerPathStep = {
  * A retainer path step's edge. A path that groups the elements of an array
  * records an element edge as any element. A step whose retainer holds no edge
  * to the node, which it retains through the node's several retainers, records
- * several retainers.
+ * several retainers. On a step to a node that an entity's instances retain only
+ * together, it records that every path passes through an instance of the entity.
  */
 export type RetainerPathEdge =
-  RetainerEdge | { type: `any-element` } | { type: `several-retainers` }
+  | RetainerEdge
+  | { type: `any-element` }
+  | { type: `several-retainers` }
+  | { type: `several-instance-paths`; entityName: string }
 
 /**
  * Aggregates one {@link HeapSnapshot}.
@@ -353,6 +366,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         retainedSize: 0,
         instances: [],
         outermostInstanceOrdinals: [],
+        jointlyRetainedOrdinals: [],
       }
       this.#constructors.push(constructor)
       this.#keyToConstructorIndex.set(key, constructorIndex)
@@ -400,6 +414,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         retainedSize: 0,
         instanceOrdinals: [],
         outermostInstanceOrdinals: [],
+        jointlyRetainedOrdinals: [],
       })
       this.#keyToFunctionIndex.set(key, functionIndex)
     }
@@ -453,6 +468,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const categoryOf = this.#newNodeCategorizer(categories)
     this.#categorizeNodes(categoryOf)
 
+    const nodeOf = this.#newNodeBuilder(categoryOf)
+
     return {
       type: `heap-snapshot`,
       context,
@@ -472,17 +489,14 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         ),
       retainerHopOf: this.#retainerHopOf,
       retainerOf: this.#retainerOf,
+      nodeOf,
       retainedNodesOf: (nodeOrdinal, options) =>
         computeRetainedNodes(
           nodeOrdinal,
           this.#immediateDominatorGraph,
-          this.#nodeOrdinalToRetainedSize,
-          this.#selfSizeOf,
-          ordinal => formatRetainerName(this.#retainerOf(ordinal), options),
-          this.#isInternalNode,
-          this.#entityLocationOf,
-          categoryOf,
+          ordinal => nodeOf(ordinal, options),
         ),
+      isInternalNode: this.#isInternalNode,
     }
   }
 
@@ -591,6 +605,20 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       }
     }
   }
+
+  #newNodeBuilder(
+    categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
+  ): AggregatedHeapSnapshot[`nodeOf`] {
+    return (ordinal, options) => ({
+      type: `node`,
+      id: ordinal,
+      name: formatRetainerName(this.#retainerOf(ordinal), options),
+      category: categoryOf(ordinal),
+      selfSize: this.#selfSizeOf(ordinal),
+      retainedSize: this.#nodeOrdinalToRetainedSize[ordinal]!,
+      location: this.#entityLocationOf(ordinal),
+    })
+  }
 }
 
 /** A node's immediate dominator, and the dominator's edge to the node. */
@@ -641,7 +669,11 @@ const computeRetainerHop = (
   return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
 }
 
-const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = { type: `several-retainers` }
+export const GC_ROOT_NAME = `(GC root)`
+
+const SEVERAL_RETAINERS_EDGE: RetainerPathEdge = {
+  type: `several-retainers`,
+}
 
 /**
  * An entity's effective location: its explicit location, falling back to its
@@ -698,6 +730,8 @@ export const formatRetainerEdge = (
       return `[]`
     case `several-retainers`:
       return `(several paths)`
+    case `several-instance-paths`:
+      return `(several ${edge.entityName} paths)`
     case `labeled`:
       return edge.label
     case `unlabeled`:
@@ -711,78 +745,89 @@ const computeRetainedNodes = (
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
-  nodeOrdinalToRetainedSize: Float64Array,
-  selfSizeOf: (nodeOrdinal: number) => number,
-  nameOf: (nodeOrdinal: number) => string,
-  isInternalNode: (nodeOrdinal: number) => boolean,
-  locationOf: (nodeOrdinal: number) => SourceLocation | undefined,
-  categoryOf: (nodeOrdinal: number) => HeapSnapshotNodeCategory,
+  nodeOf: (nodeOrdinal: number) => AggregatedHeapSnapshotNode,
 ): AggregatedHeapSnapshotNode[] => {
   const retainedNodes: AggregatedHeapSnapshotNode[] = []
 
   const dominateeOrdinals: number[] = []
-  const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
-  const childEndOffset =
-    immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
-  for (let offset = childStartOffset; offset < childEndOffset; offset++) {
-    dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
-  }
-
-  while (dominateeOrdinals.length > 0) {
-    const current = dominateeOrdinals.pop()!
-    if (!isInternalNode(current)) {
-      retainedNodes.push({
-        type: `node`,
-        id: current,
-        name: nameOf(current),
-        category: categoryOf(current),
-        selfSize: selfSizeOf(current),
-        retainedSize: nodeOrdinalToRetainedSize[current]!,
-        location: locationOf(current),
-      })
-    }
-
-    const dominateeStartOffset =
-      immediateDominateeOrdinalToStartOffset[current]!
-    const dominateeEndOffset =
-      immediateDominateeOrdinalToStartOffset[current + 1]!
+  const pushDominatees = (ordinal: number) => {
+    const endOffset = immediateDominateeOrdinalToStartOffset[ordinal + 1]!
     for (
-      let offset = dominateeStartOffset;
-      offset < dominateeEndOffset;
+      let offset = immediateDominateeOrdinalToStartOffset[ordinal]!;
+      offset < endOffset;
       offset++
     ) {
       dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
     }
   }
 
+  pushDominatees(nodeOrdinal)
+  while (dominateeOrdinals.length > 0) {
+    const current = dominateeOrdinals.pop()!
+    retainedNodes.push(nodeOf(current))
+    pushDominatees(current)
+  }
+
   return retainedNodes
 }
 
-/** A shown retained node, and the instance retaining it. */
-type ShownRetainedNode = {
+/** A shown retained node, and the outermost node of the entity retaining it. */
+export type ShownRetainedNode = {
   node: AggregatedHeapSnapshotNode
-  instanceOrdinal: number
+
+  retainingOrdinal: number
+
+  /** Whether {@link retainingOrdinal} is a jointly retained node. */
+  isJointlyRetained: boolean
 }
 
 /**
- * Yields each shown node the entity's outermost instances retain, and the
- * instance retaining it.
+ * Yields each shown node the entity retains, other than its outermost instances:
+ * those instances' retained nodes, and the entity's jointly retained nodes with
+ * their retained nodes.
  */
 export function* shownRetainedNodes(
   {
     outermostInstanceOrdinals,
-  }: Pick<EntityRetention, `outermostInstanceOrdinals`>,
-  {
-    retainedNodesOf,
-    context,
-  }: Pick<AggregatedHeapSnapshot, `retainedNodesOf` | `context`>,
+    jointlyRetainedOrdinals,
+  }: Pick<
+    EntityRetention,
+    `outermostInstanceOrdinals` | `jointlyRetainedOrdinals`
+  >,
+  snapshot: ShownNodeSnapshot &
+    Pick<AggregatedHeapSnapshot, `nodeOf` | `retainedNodesOf`>,
   options: FormattingProfileToMdOptions,
 ): Iterable<ShownRetainedNode> {
-  for (const instanceOrdinal of outermostInstanceOrdinals) {
-    for (const node of retainedNodesOf(instanceOrdinal, options)) {
-      if (options.showEntry(node, context)) {
-        yield { node, instanceOrdinal }
+  for (const retainingOrdinal of outermostInstanceOrdinals) {
+    for (const node of snapshot.retainedNodesOf(retainingOrdinal, options)) {
+      if (isShownRetainedNode(node, snapshot, options)) {
+        yield { node, retainingOrdinal, isJointlyRetained: false }
+      }
+    }
+  }
+  for (const retainingOrdinal of jointlyRetainedOrdinals) {
+    for (const node of [
+      snapshot.nodeOf(retainingOrdinal, options),
+      ...snapshot.retainedNodesOf(retainingOrdinal, options),
+    ]) {
+      if (isShownRetainedNode(node, snapshot, options)) {
+        yield { node, retainingOrdinal, isJointlyRetained: true }
       }
     }
   }
 }
+
+type ShownNodeSnapshot = Pick<
+  AggregatedHeapSnapshot,
+  `isInternalNode` | `context`
+>
+
+/**
+ * Whether a listing of the nodes an entity retains shows {@link node}: one the
+ * entry filter keeps, other than an internal node.
+ */
+export const isShownRetainedNode = (
+  node: AggregatedHeapSnapshotNode,
+  { isInternalNode, context }: ShownNodeSnapshot,
+  options: FormattingProfileToMdOptions,
+): boolean => !isInternalNode(node.id) && options.showEntry(node, context)

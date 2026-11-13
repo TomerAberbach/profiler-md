@@ -22,6 +22,8 @@ Held 5.13 MiB → 5.57 MiB (+449.875 KiB, +8.6%) over 68,532 → 76,227 nodes
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-node-heap-snapshot/`.
 
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
+
 ## Largest constructors
 
 ### Self size
@@ -53,7 +55,7 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Object` (`<unknown>`)
 
-|  Change |       Delta |             % |                Size | Instances | Path                                               |
+|  Change |       Delta |             % |                Size |     Nodes | Path                                               |
 | ------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------- |
 | +100.0% | +33.484 KiB | 18.8% → 21.5% |   33.5 KiB → 67 KiB | 100 → 200 | `Object ←.user– Object`                            |
 | +100.0% | +24.507 KiB | 13.8% → 15.7% |   24.5 KiB → 49 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
@@ -63,7 +65,7 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Array` (`<unknown>`)
 
-|  Change |      Delta |           % |                Size | Instances | Path                                                                           |
+|  Change |      Delta |           % |                Size |     Nodes | Path                                                                           |
 | ------: | ---------: | ----------: | ------------------: | --------: | ------------------------------------------------------------------------------ |
 | +101.0% | +3.125 KiB | 8.0% → 8.7% | 3.09 KiB → 6.22 KiB |  99 → 199 | `Array ←.hashtags– Object ←.entities– Object`                                  |
 | +100.0% | +3.125 KiB | 8.1% → 8.8% | 3.13 KiB → 6.25 KiB | 100 → 200 | `Array ←.symbols– Object ←.entities– Object`                                   |
@@ -102,23 +104,29 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `Array` (`<unknown>`)
 
-|  Change |      Delta |            % |                Size | Instances | Path                                                                             |
-| ------: | ---------: | -----------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
-| +100.4% | +25.39 KiB | 16.8% → 8.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object`                               |
-| +100.0% | +6.914 KiB |  4.6% → 2.3% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`                                        |
-|  +87.2% | +5.429 KiB |  4.1% → 1.9% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object`                                       |
-| +100.0% | +5.187 KiB |  3.4% → 1.7% | 5.19 KiB → 10.4 KiB |  83 → 166 | `Array ←.indices– Object ←[0]– Array ←.user_mentions– Object ←.entities– Object` |
-| +100.0% | +4.156 KiB |  2.8% → 1.4% | 4.16 KiB → 8.31 KiB | 100 → 200 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object`   |
+|  Change |        Delta |            % |                Size |     Nodes | Path                                               |
+| ------: | -----------: | -----------: | ------------------: | --------: | -------------------------------------------------- |
+|     new | +443.359 KiB | 0.0% → 73.4% |       0 B → 443 KiB |   0 → 100 | `Object ←(several Array paths)– (GC root)`         |
+| +100.4% |   +25.39 KiB | 16.8% → 8.4% | 25.3 KiB → 50.7 KiB | 100 → 200 | `Array ←.user_mentions– Object ←.entities– Object` |
+| +185.6% |   +8.789 KiB |  3.1% → 2.2% | 4.73 KiB → 13.5 KiB |   12 → 18 | `system / Map ←(several Array paths)– (GC root)`   |
+| +100.0% |   +6.914 KiB |  4.6% → 2.3% | 6.91 KiB → 13.8 KiB | 100 → 200 | `Array ←.urls– Object ←.entities– Object`          |
+|  +87.2% |   +5.429 KiB |  4.1% → 1.9% | 6.23 KiB → 11.7 KiB |    6 → 12 | `Array ←.media– Object ←.entities– Object`         |
 
 ##### `Object` (`<unknown>`)
 
-|  Change |        Delta |             % |               Size | Instances | Path                                               |
+|  Change |        Delta |             % |               Size |     Nodes | Path                                               |
 | ------: | -----------: | ------------: | -----------------: | --------: | -------------------------------------------------- |
 |  +50.0% | +446.281 KiB | 64.3% → 72.9% | 892 KiB → 1.31 MiB | 223 → 323 | `Object ← (GC root)`                               |
 | +100.0% |  +179.96 KiB | 13.0% → 19.6% |  180 KiB → 360 KiB |  73 → 146 | `Object ←.retweeted_status– Object`                |
 | +100.1% | +135.015 KiB |  9.7% → 14.7% |  135 KiB → 270 KiB | 100 → 200 | `Object ←.user– Object`                            |
 | +100.1% |  +99.359 KiB |  7.2% → 10.8% | 99.3 KiB → 199 KiB |  73 → 146 | `Object ←.user– Object ←.retweeted_status– Object` |
 |  +98.9% |  +50.484 KiB |   3.7% → 5.5% |   51 KiB → 102 KiB | 100 → 200 | `Object ←.entities– Object`                        |
+
+##### `system / Context` (`<unknown>`)
+
+|  Change |  Delta |     % |         Size | Nodes | Path                                                 |
+| ------: | -----: | ----: | -----------: | ----: | ---------------------------------------------------- |
+| +154.5% | +136 B | <0.1% | 88 B → 224 B |     1 | `isURL ←(several system / Context paths)– (GC root)` |
 
 ## Largest functions
 

@@ -22,7 +22,7 @@ Held 5.13 MiB over 68,532 nodes and 285,572 edges.
 
 Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-node-heap-snapshot/`.
 
-`B ←(several paths)– A` means `A` retains `B` only through other nodes, along several paths.
+`B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
 ## Largest constructors
 
@@ -128,401 +128,401 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Object` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                               |
-| ----: | -------: | --------: | -------------------------------------------------- |
-| 18.8% | 33.5 KiB |       100 | `Object ←.user– Object`                            |
-| 15.7% | 27.9 KiB |       223 | `Object ← (GC root)`                               |
-| 13.8% | 24.5 KiB |        73 | `Object ←.user– Object ←.retweeted_status– Object` |
-|  8.4% | 14.9 KiB |        73 | `Object ←.retweeted_status– Object`                |
-|  3.1% | 5.52 KiB |       100 | `Object ←.entities– Object`                        |
+|     % |     Size | Nodes | Path                                               |
+| ----: | -------: | ----: | -------------------------------------------------- |
+| 18.8% | 33.5 KiB |   100 | `Object ←.user– Object`                            |
+| 15.7% | 27.9 KiB |   223 | `Object ← (GC root)`                               |
+| 13.8% | 24.5 KiB |    73 | `Object ←.user– Object ←.retweeted_status– Object` |
+|  8.4% | 14.9 KiB |    73 | `Object ←.retweeted_status– Object`                |
+|  3.1% | 5.52 KiB |   100 | `Object ←.entities– Object`                        |
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                  |
-| ----: | -------: | --------: | --------------------------------------------------------------------- |
-| 48.8% | 36.5 KiB |       125 | `system / Context ← (GC root)`                                        |
-|  3.6% | 2.69 KiB |        43 | `system / Context ←.context– NodeError (node:internal/errors:498:20)` |
-|  2.9% | 2.16 KiB |        44 | `system / Context ←(several paths)– Object`                           |
-|  2.3% | 1.75 KiB |        28 | `system / Context ←.context– NodeError (node:internal/errors:437:20)` |
-|  2.1% | 1.55 KiB |        33 | `system / Context ←.context– wrappedFn (node:internal/errors:535:21)` |
+|     % |     Size | Nodes | Path                                                                  |
+| ----: | -------: | ----: | --------------------------------------------------------------------- |
+| 48.8% | 36.5 KiB |   125 | `system / Context ← (GC root)`                                        |
+|  3.6% | 2.69 KiB |    43 | `system / Context ←.context– NodeError (node:internal/errors:498:20)` |
+|  2.9% | 2.16 KiB |    44 | `system / Context ←(several paths)– Object`                           |
+|  2.3% | 1.75 KiB |    28 | `system / Context ←.context– NodeError (node:internal/errors:437:20)` |
+|  2.1% | 1.55 KiB |    33 | `system / Context ←.context– wrappedFn (node:internal/errors:535:21)` |
 
 ##### `Array` (`<unknown>`)
 
-|    % |     Size | Instances | Path                                                                           |
-| ---: | -------: | --------: | ------------------------------------------------------------------------------ |
-| 8.1% | 3.13 KiB |       100 | `Array ←.symbols– Object ←.entities– Object`                                   |
-| 8.1% | 3.13 KiB |       100 | `Array ←.urls– Object ←.entities– Object`                                      |
-| 8.1% | 3.13 KiB |       100 | `Array ←.user_mentions– Object ←.entities– Object`                             |
-| 8.1% | 3.13 KiB |       100 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object` |
-| 8.0% | 3.09 KiB |        99 | `Array ←.hashtags– Object ←.entities– Object`                                  |
+|    % |     Size | Nodes | Path                                                                           |
+| ---: | -------: | ----: | ------------------------------------------------------------------------------ |
+| 8.1% | 3.13 KiB |   100 | `Array ←.symbols– Object ←.entities– Object`                                   |
+| 8.1% | 3.13 KiB |   100 | `Array ←.urls– Object ←.entities– Object`                                      |
+| 8.1% | 3.13 KiB |   100 | `Array ←.user_mentions– Object ←.entities– Object`                             |
+| 8.1% | 3.13 KiB |   100 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object` |
+| 8.0% | 3.09 KiB |    99 | `Array ←.hashtags– Object ←.entities– Object`                                  |
 
 ##### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 
-|    % |  Size | Instances | Path                                                                                                  |
-| ---: | ----: | --------: | ----------------------------------------------------------------------------------------------------- |
-| 1.4% | 400 B |         5 | `BuiltinModule ← (GC root)`                                                                           |
-| 0.3% |  80 B |         1 | `BuiltinModule ←.260– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 0.3% |  80 B |         1 | `BuiltinModule ←.263– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 0.3% |  80 B |         1 | `BuiltinModule ←.266– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 0.3% |  80 B |         1 | `BuiltinModule ←.269– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|    % |  Size | Nodes | Path                                                                                                  |
+| ---: | ----: | ----: | ----------------------------------------------------------------------------------------------------- |
+| 1.4% | 400 B |     5 | `BuiltinModule ← (GC root)`                                                                           |
+| 0.3% |  80 B |     1 | `BuiltinModule ←.260– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 0.3% |  80 B |     1 | `BuiltinModule ←.263– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 0.3% |  80 B |     1 | `BuiltinModule ←.266– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 0.3% |  80 B |     1 | `BuiltinModule ←.269– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                                                                  |
-| ----: | ------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 78.1% | 8.1 KiB |         4 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer`                                                                             |
-|  7.1% |   752 B |         6 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array`                                                      |
-|  2.7% |   288 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object`                          |
-|  2.4% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array`                                                         |
-|  2.4% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array ←.unhexTable– system / Context ←(several paths)– Object` |
+|     % |    Size | Nodes | Path                                                                                                                                  |
+| ----: | ------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 78.1% | 8.1 KiB |     4 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer`                                                                             |
+|  7.1% |   752 B |     6 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array`                                                      |
+|  2.7% |   288 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object`                          |
+|  2.4% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array`                                                         |
+|  2.4% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array ←.unhexTable– system / Context ←(several paths)– Object` |
 
 ##### `Error` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                         |
-| ----: | ----: | --------: | ------------------------------------------------------------ |
-| 10.2% | 504 B |        21 | `Error ←.prototype– NodeError (node:internal/errors:437:20)` |
-|  8.4% | 416 B |         8 | `Error ← (GC root)`                                          |
-|  8.2% | 408 B |        17 | `Error ←.prototype– NodeError (node:internal/errors:498:20)` |
-|  5.8% | 288 B |        12 | `Error ←.prototype– NodeError (node:internal/errors:466:20)` |
-|  1.1% |  56 B |         1 | `Error ←.prototype– CompileError`                            |
+|     % |  Size | Nodes | Path                                                         |
+| ----: | ----: | ----: | ------------------------------------------------------------ |
+| 10.2% | 504 B |    21 | `Error ←.prototype– NodeError (node:internal/errors:437:20)` |
+|  8.4% | 416 B |     8 | `Error ← (GC root)`                                          |
+|  8.2% | 408 B |    17 | `Error ←.prototype– NodeError (node:internal/errors:498:20)` |
+|  5.8% | 288 B |    12 | `Error ←.prototype– NodeError (node:internal/errors:466:20)` |
+|  1.1% |  56 B |     1 | `Error ←.prototype– CompileError`                            |
 
 ##### `Node / IsolateData` (`<unknown>`)
 
-|      % |    Size | Instances | Path                             |
-| -----: | ------: | --------: | -------------------------------- |
-| 100.0% | 4.2 KiB |         1 | `Node / IsolateData ← (GC root)` |
+|      % |    Size | Nodes | Path                             |
+| -----: | ------: | ----: | -------------------------------- |
+| 100.0% | 4.2 KiB |     1 | `Node / IsolateData ← (GC root)` |
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                 |
-| ----: | ----: | --------: | ------------------------------------ |
-| 16.8% | 528 B |         6 | `ArrayBuffer ←.buffer– Float64Array` |
-| 13.0% | 408 B |         5 | `ArrayBuffer ← (GC root)`            |
-| 11.2% | 352 B |         4 | `ArrayBuffer ←.buffer– Uint32Array`  |
-|  8.4% | 264 B |         3 | `ArrayBuffer ←.buffer– Int32Array`   |
-|  5.6% | 176 B |         2 | `ArrayBuffer ←.buffer– Uint8Array`   |
+|     % |  Size | Nodes | Path                                 |
+| ----: | ----: | ----: | ------------------------------------ |
+| 16.8% | 528 B |     6 | `ArrayBuffer ←.buffer– Float64Array` |
+| 13.0% | 408 B |     5 | `ArrayBuffer ← (GC root)`            |
+| 11.2% | 352 B |     4 | `ArrayBuffer ←.buffer– Uint32Array`  |
+|  8.4% | 264 B |     3 | `ArrayBuffer ←.buffer– Int32Array`   |
+|  5.6% | 176 B |     2 | `ArrayBuffer ←.buffer– Uint8Array`   |
 
 ##### `TypeError` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                        |
-| ----: | ----: | --------: | --------------------------------------------------------------------------- |
-| 18.6% | 432 B |        18 | `TypeError ←.prototype– NodeError (node:internal/errors:498:20)`            |
-|  9.3% | 216 B |         9 | `TypeError ←.prototype– NodeError (node:internal/errors:466:20)`            |
-|  6.2% | 144 B |         6 | `TypeError ←.prototype– NodeError (node:internal/errors:437:20)`            |
-|  5.2% | 120 B |         5 | `TypeError ← (GC root)`                                                     |
-|  4.1% |  96 B |         4 | `TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)` |
+|     % |  Size | Nodes | Path                                                                        |
+| ----: | ----: | ----: | --------------------------------------------------------------------------- |
+| 18.6% | 432 B |    18 | `TypeError ←.prototype– NodeError (node:internal/errors:498:20)`            |
+|  9.3% | 216 B |     9 | `TypeError ←.prototype– NodeError (node:internal/errors:466:20)`            |
+|  6.2% | 144 B |     6 | `TypeError ←.prototype– NodeError (node:internal/errors:437:20)`            |
+|  5.2% | 120 B |     5 | `TypeError ← (GC root)`                                                     |
+|  4.1% |  96 B |     4 | `TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)` |
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                               |
-| ----: | ----: | --------: | -------------------------------------------------- |
-| 53.8% | 672 B |         7 | `Float64Array ← (GC root)`                         |
-|  7.7% |  96 B |         1 | `Float64Array ←.statFsValues– Object`              |
-|  7.7% |  96 B |         1 | `Float64Array ←.cpuValues– system / Context`       |
-|  7.7% |  96 B |         1 | `Float64Array ←.threadCpuValues– system / Context` |
-|  7.7% |  96 B |         1 | `Float64Array ←.memValues– system / Context`       |
+|     % |  Size | Nodes | Path                                               |
+| ----: | ----: | ----: | -------------------------------------------------- |
+| 53.8% | 672 B |     7 | `Float64Array ← (GC root)`                         |
+|  7.7% |  96 B |     1 | `Float64Array ←.statFsValues– Object`              |
+|  7.7% |  96 B |     1 | `Float64Array ←.cpuValues– system / Context`       |
+|  7.7% |  96 B |     1 | `Float64Array ←.threadCpuValues– system / Context` |
+|  7.7% |  96 B |     1 | `Float64Array ←.memValues– system / Context`       |
 
 ##### `Node / BindingData` (`<unknown>`)
 
-|      % |     Size | Instances | Path                             |
-| -----: | -------: | --------: | -------------------------------- |
-| 100.0% | 1.19 KiB |         8 | `Node / BindingData ← (GC root)` |
+|      % |     Size | Nodes | Path                             |
+| -----: | -------: | ----: | -------------------------------- |
+| 100.0% | 1.19 KiB |     8 | `Node / BindingData ← (GC root)` |
 
 ##### `Node / std::basic_string` (`<unknown>`)
 
-|    % | Size | Instances | Path                                                                                                      |
-| ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------- |
-| 2.9% | 33 B |         1 | `Node / std::basic_string ←[28]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 32 B |         1 | `Node / std::basic_string ←[18]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[12]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[15]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[16]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+|    % | Size | Nodes | Path                                                                                                      |
+| ---: | ---: | ----: | --------------------------------------------------------------------------------------------------------- |
+| 2.9% | 33 B |     1 | `Node / std::basic_string ←[28]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 32 B |     1 | `Node / std::basic_string ←[18]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[12]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[15]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[16]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
 
 ##### `Promise` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                                                                                                                                                        |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 38.4% | 344 B |         7 | `Promise ← (GC root)`                                                                                                                                                                                                                                                                                                                       |
-| 21.4% | 192 B |         4 | `Promise ←.modulePromise– ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                                                                                          |
-| 21.4% | 192 B |         4 | `Promise ←.linked– ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                                                                                                 |
-|  5.4% |  48 B |         1 | `Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                                                                                                         |
-|  5.4% |  48 B |         1 | `Promise ←.(Bootstrapper)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)` |
+|     % |  Size | Nodes | Path                                                                                                                                                                                                                                                                                                                                        |
+| ----: | ----: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.4% | 344 B |     7 | `Promise ← (GC root)`                                                                                                                                                                                                                                                                                                                       |
+| 21.4% | 192 B |     4 | `Promise ←.modulePromise– ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                                                                                          |
+| 21.4% | 192 B |     4 | `Promise ←.linked– ModuleJob (node:internal/modules/esm/module_job:133:14)`                                                                                                                                                                                                                                                                 |
+|  5.4% |  48 B |     1 | `Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                                                                                                         |
+|  5.4% |  48 B |     1 | `Promise ←.(Bootstrapper)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)` |
 
 ##### `Map` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                        |
-| ----: | ----: | --------: | ------------------------------------------- |
-| 29.4% | 256 B |         8 | `Map ← (GC root)`                           |
-|  7.3% |  64 B |         2 | `Map ←.realpathCache– system / Context`     |
-|  3.7% |  32 B |         1 | `Map ←._times– console`                     |
-|  3.7% |  32 B |         1 | `Map ←.<symbol counts>– console`            |
-|  3.7% |  32 B |         1 | `Map ←.kWarnedEntryTypes– system / Context` |
+|     % |  Size | Nodes | Path                                        |
+| ----: | ----: | ----: | ------------------------------------------- |
+| 29.4% | 256 B |     8 | `Map ← (GC root)`                           |
+|  7.3% |  64 B |     2 | `Map ←.realpathCache– system / Context`     |
+|  3.7% |  32 B |     1 | `Map ←._times– console`                     |
+|  3.7% |  32 B |     1 | `Map ←.<symbol counts>– console`            |
+|  3.7% |  32 B |     1 | `Map ←.kWarnedEntryTypes– system / Context` |
 
 ##### `Channel` (`node:diagnostics_channel:182:14`)
 
-|     % |  Size | Instances | Path                                                  |
-| ----: | ----: | --------: | ----------------------------------------------------- |
-| 66.7% | 576 B |        12 | `Channel ← (GC root)`                                 |
-|  5.6% |  48 B |         1 | `Channel ←.execveDiagnosticChannel– system / Context` |
-|  5.6% |  48 B |         1 | `Channel ←.onLog– system / Context`                   |
-|  5.6% |  48 B |         1 | `Channel ←.onWarn– system / Context`                  |
-|  5.6% |  48 B |         1 | `Channel ←.onError– system / Context`                 |
+|     % |  Size | Nodes | Path                                                  |
+| ----: | ----: | ----: | ----------------------------------------------------- |
+| 66.7% | 576 B |    12 | `Channel ← (GC root)`                                 |
+|  5.6% |  48 B |     1 | `Channel ←.execveDiagnosticChannel– system / Context` |
+|  5.6% |  48 B |     1 | `Channel ←.onLog– system / Context`                   |
+|  5.6% |  48 B |     1 | `Channel ←.onWarn– system / Context`                  |
+|  5.6% |  48 B |     1 | `Channel ←.onError– system / Context`                 |
 
 ##### `WeakReference` (`node:internal/util:889:14`)
 
-|    % | Size | Instances | Path                                                                                                         |
-| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------ |
-| 5.6% | 48 B |         1 | `WeakReference ←.38– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-| 5.6% | 48 B |         1 | `WeakReference ←.41– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-| 5.6% | 48 B |         1 | `WeakReference ←.44– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-| 5.6% | 48 B |         1 | `WeakReference ←.47– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-| 5.6% | 48 B |         1 | `WeakReference ←.50– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+|    % | Size | Nodes | Path                                                                                                         |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------------------ |
+| 5.6% | 48 B |     1 | `WeakReference ←.38– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+| 5.6% | 48 B |     1 | `WeakReference ←.41– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+| 5.6% | 48 B |     1 | `WeakReference ←.44– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+| 5.6% | 48 B |     1 | `WeakReference ←.47– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+| 5.6% | 48 B |     1 | `WeakReference ←.50– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
 
 ##### `Set` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                                                   |
-| ----: | ---: | --------: | ------------------------------------------------------------------------------------------------------ |
-| 12.4% | 96 B |         3 | `Set ←(several paths)– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 10.3% | 80 B |         2 | `Set ← (GC root)`                                                                                      |
-|  4.1% | 32 B |         1 | `Set ←.defaultConditionsSet– system / Context`                                                         |
-|  4.1% | 32 B |         1 | `Set ←.cjsConditions– system / Context`                                                                |
-|  4.1% | 32 B |         1 | `Set ←.gcPersistentSignals– system / Context`                                                          |
+|     % | Size | Nodes | Path                                                                                                   |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------ |
+| 12.4% | 96 B |     3 | `Set ←(several paths)– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 10.3% | 80 B |     2 | `Set ← (GC root)`                                                                                      |
+|  4.1% | 32 B |     1 | `Set ←.defaultConditionsSet– system / Context`                                                         |
+|  4.1% | 32 B |     1 | `Set ←.cjsConditions– system / Context`                                                                |
+|  4.1% | 32 B |     1 | `Set ←.gcPersistentSignals– system / Context`                                                          |
 
 ##### `Uint8Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                                                 |
-| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 54.3% | 408 B |         5 | `Uint8Array ← (GC root)`                                                                                                                                                                                                             |
-| 12.8% |  96 B |         1 | `Uint8Array ←.uInt8Float32Array– system / Context`                                                                                                                                                                                   |
-| 12.8% |  96 B |         1 | `Uint8Array ←.uInt8Float64Array– system / Context`                                                                                                                                                                                   |
-| 12.8% |  96 B |         1 | `Uint8Array ←.empty– system / Context`                                                                                                                                                                                               |
-|  7.4% |  56 B |         1 | `Uint8Array ←.prototype– SlowBuffer (node:buffer:428:20) ←.SlowBuffer– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.311– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|     % |  Size | Nodes | Path                                                                                                                                                                                                                                 |
+| ----: | ----: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 54.3% | 408 B |     5 | `Uint8Array ← (GC root)`                                                                                                                                                                                                             |
+| 12.8% |  96 B |     1 | `Uint8Array ←.uInt8Float32Array– system / Context`                                                                                                                                                                                   |
+| 12.8% |  96 B |     1 | `Uint8Array ←.uInt8Float64Array– system / Context`                                                                                                                                                                                   |
+| 12.8% |  96 B |     1 | `Uint8Array ←.empty– system / Context`                                                                                                                                                                                               |
+|  7.4% |  56 B |     1 | `Uint8Array ←.prototype– SlowBuffer (node:buffer:428:20) ←.SlowBuffer– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.311– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `Node / PrincipalRealm` (`<unknown>`)
 
-|      % |  Size | Instances | Path                                |
-| -----: | ----: | --------: | ----------------------------------- |
-| 100.0% | 752 B |         1 | `Node / PrincipalRealm ← (GC root)` |
+|      % |  Size | Nodes | Path                                |
+| -----: | ----: | ----: | ----------------------------------- |
+| 100.0% | 752 B |     1 | `Node / PrincipalRealm ← (GC root)` |
 
 ##### `RangeError` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                    |
-| ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 19.4% | 144 B |         6 | `RangeError ←.prototype– NodeError (node:internal/errors:498:20)`                                                       |
-|  6.5% |  48 B |         2 | `RangeError ← (GC root)`                                                                                                |
-|  6.5% |  48 B |         2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
-|  6.5% |  48 B |         2 | `RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                            |
-|  6.5% |  48 B |         2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                       |
+|     % |  Size | Nodes | Path                                                                                                                    |
+| ----: | ----: | ----: | ----------------------------------------------------------------------------------------------------------------------- |
+| 19.4% | 144 B |     6 | `RangeError ←.prototype– NodeError (node:internal/errors:498:20)`                                                       |
+|  6.5% |  48 B |     2 | `RangeError ← (GC root)`                                                                                                |
+|  6.5% |  48 B |     2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
+|  6.5% |  48 B |     2 | `RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                            |
+|  6.5% |  48 B |     2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                       |
 
 ##### `AsyncWrap` (`<unknown>`)
 
-|    % | Size | Instances | Path                                    |
-| ---: | ---: | --------: | --------------------------------------- |
-| 7.7% | 56 B |         1 | `AsyncWrap ← (GC root)`                 |
-| 7.7% | 56 B |         1 | `AsyncWrap ←.prototype– DirHandle`      |
-| 7.7% | 56 B |         1 | `AsyncWrap ←.prototype– ShutdownWrap`   |
-| 7.7% | 56 B |         1 | `AsyncWrap ←.prototype– WriteWrap`      |
-| 7.7% | 56 B |         1 | `AsyncWrap ←.prototype– TCPConnectWrap` |
+|    % | Size | Nodes | Path                                    |
+| ---: | ---: | ----: | --------------------------------------- |
+| 7.7% | 56 B |     1 | `AsyncWrap ← (GC root)`                 |
+| 7.7% | 56 B |     1 | `AsyncWrap ←.prototype– DirHandle`      |
+| 7.7% | 56 B |     1 | `AsyncWrap ←.prototype– ShutdownWrap`   |
+| 7.7% | 56 B |     1 | `AsyncWrap ←.prototype– WriteWrap`      |
+| 7.7% | 56 B |     1 | `AsyncWrap ←.prototype– TCPConnectWrap` |
 
 ##### `ModuleJob` (`node:internal/modules/esm/module_job:133:14`)
 
-|      % |  Size | Instances | Path                    |
-| -----: | ----: | --------: | ----------------------- |
-| 100.0% | 704 B |         4 | `ModuleJob ← (GC root)` |
+|      % |  Size | Nodes | Path                    |
+| -----: | ----: | ----: | ----------------------- |
+| 100.0% | 704 B |     4 | `ModuleJob ← (GC root)` |
 
 ##### `Uint32Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                  |
-| ----: | ----: | --------: | ------------------------------------- |
-| 85.7% | 576 B |         6 | `Uint32Array ← (GC root)`             |
-| 14.3% |  96 B |         1 | `Uint32Array ←.urlComponents– Object` |
+|     % |  Size | Nodes | Path                                  |
+| ----: | ----: | ----: | ------------------------------------- |
+| 85.7% | 576 B |     6 | `Uint32Array ← (GC root)`             |
+| 14.3% |  96 B |     1 | `Uint32Array ←.urlComponents– Object` |
 
 ##### `WeakRef` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                                                                                                      |
-| ----: | ---: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 12.2% | 80 B |         2 | `WeakRef ← (GC root)`                                                                                                                                     |
-|  4.9% | 32 B |         1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.38– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-|  4.9% | 32 B |         1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.41– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-|  4.9% | 32 B |         1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.44– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-|  4.9% | 32 B |         1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.47– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+|     % | Size | Nodes | Path                                                                                                                                                      |
+| ----: | ---: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 12.2% | 80 B |     2 | `WeakRef ← (GC root)`                                                                                                                                     |
+|  4.9% | 32 B |     1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.38– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+|  4.9% | 32 B |     1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.41– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+|  4.9% | 32 B |     1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.44– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+|  4.9% | 32 B |     1 | `WeakRef ←.#weak– WeakReference (node:internal/util:889:14) ←.47– array ←.table– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |  Size | Instances | Path                     |
-| -----: | ----: | --------: | ------------------------ |
-| 100.0% | 616 B |        11 | `TypedArray ← (GC root)` |
+|      % |  Size | Nodes | Path                     |
+| -----: | ----: | ----: | ------------------------ |
+| 100.0% | 616 B |    11 | `TypedArray ← (GC root)` |
 
 ##### `Node / async_wrap_providers` (`<unknown>`)
 
-|      % |  Size | Instances | Path                                                                     |
-| -----: | ----: | --------: | ------------------------------------------------------------------------ |
-| 100.0% | 528 B |         1 | `Node / async_wrap_providers ←.async_wrap_providers– Node / IsolateData` |
+|      % |  Size | Nodes | Path                                                                     |
+| -----: | ----: | ----: | ------------------------------------------------------------------------ |
+| 100.0% | 528 B |     1 | `Node / async_wrap_providers ←.async_wrap_providers– Node / IsolateData` |
 
 ##### `Socket` (`node:net:362:16`)
 
-|      % |  Size | Instances | Path                 |
-| -----: | ----: | --------: | -------------------- |
-| 100.0% | 496 B |         1 | `Socket ← (GC root)` |
+|      % |  Size | Nodes | Path                 |
+| -----: | ----: | ----: | -------------------- |
+| 100.0% | 496 B |     1 | `Socket ← (GC root)` |
 
 ##### `Int8Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                                                                                                                                                                         |
-| ----: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 20.0% | 96 B |         1 | `Int8Array ← (GC root)`                                                                                                                                                                                                      |
-| 20.0% | 96 B |         1 | `Int8Array ←.noEscapeAuth– system / Context ←(several paths)– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1313– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 20.0% | 96 B |         1 | `Int8Array ←.noEscape– system / Context`                                                                                                                                                                                     |
-| 20.0% | 96 B |         1 | `Int8Array ←.unhexTable– system / Context ←(several paths)– Object`                                                                                                                                                          |
-| 20.0% | 96 B |         1 | `Int8Array ←.noEscape– system / Context ←(several paths)– Object`                                                                                                                                                            |
+|     % | Size | Nodes | Path                                                                                                                                                                                                                         |
+| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 20.0% | 96 B |     1 | `Int8Array ← (GC root)`                                                                                                                                                                                                      |
+| 20.0% | 96 B |     1 | `Int8Array ←.noEscapeAuth– system / Context ←(several paths)– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1313– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 20.0% | 96 B |     1 | `Int8Array ←.noEscape– system / Context`                                                                                                                                                                                     |
+| 20.0% | 96 B |     1 | `Int8Array ←.unhexTable– system / Context ←(several paths)– Object`                                                                                                                                                          |
+| 20.0% | 96 B |     1 | `Int8Array ←.noEscape– system / Context ←(several paths)– Object`                                                                                                                                                            |
 
 ##### `WritableState` (`node:internal/streams/writable:304:23`)
 
-|     % |  Size | Instances | Path                                                                                         |
-| ----: | ----: | --------: | -------------------------------------------------------------------------------------------- |
-| 66.7% | 304 B |         2 | `WritableState ←._writableState– SyncWriteStream (node:internal/fs/sync_write_stream:12:25)` |
-| 33.3% | 152 B |         1 | `WritableState ←._writableState– Socket (node:net:362:16)`                                   |
+|     % |  Size | Nodes | Path                                                                                         |
+| ----: | ----: | ----: | -------------------------------------------------------------------------------------------- |
+| 66.7% | 304 B |     2 | `WritableState ←._writableState– SyncWriteStream (node:internal/fs/sync_write_stream:12:25)` |
+| 33.3% | 152 B |     1 | `WritableState ←._writableState– Socket (node:net:362:16)`                                   |
 
 ##### `Node / ModuleWrap` (`<unknown>`)
 
-|      % |  Size | Instances | Path                            |
-| -----: | ----: | --------: | ------------------------------- |
-| 100.0% | 448 B |         4 | `Node / ModuleWrap ← (GC root)` |
+|      % |  Size | Nodes | Path                            |
+| -----: | ----: | ----: | ------------------------------- |
+| 100.0% | 448 B |     4 | `Node / ModuleWrap ← (GC root)` |
 
 ##### `ModuleWrap` (`<unknown>`)
 
-|     % |  Size | Instances | Path                      |
-| ----: | ----: | --------: | ------------------------- |
-| 80.0% | 320 B |         4 | `ModuleWrap ← (GC root)`  |
-| 20.0% |  80 B |         1 | `ModuleWrap ←.439– array` |
+|     % |  Size | Nodes | Path                      |
+| ----: | ----: | ----: | ------------------------- |
+| 80.0% | 320 B |     4 | `ModuleWrap ← (GC root)`  |
+| 20.0% |  80 B |     1 | `ModuleWrap ←.439– array` |
 
 ##### `FinalizationRegistry` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                                                          |
-| ----: | ---: | --------: | ------------------------------------------------------------------------------------------------------------- |
-| 20.0% | 80 B |         1 | `FinalizationRegistry ←.clearTimeoutRegistry– system / Context`                                               |
-| 20.0% | 80 B |         1 | `FinalizationRegistry ←.dependantSignalsCleanupRegistry– system / Context`                                    |
-| 20.0% | 80 B |         1 | `FinalizationRegistry ←.sourceSignalsCleanupRegistry– system / Context`                                       |
-| 20.0% | 80 B |         1 | `FinalizationRegistry ←.#finalizers– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
-| 20.0% | 80 B |         2 | `FinalizationRegistry ← (GC root)`                                                                            |
+|     % | Size | Nodes | Path                                                                                                          |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------------- |
+| 20.0% | 80 B |     1 | `FinalizationRegistry ←.clearTimeoutRegistry– system / Context`                                               |
+| 20.0% | 80 B |     1 | `FinalizationRegistry ←.dependantSignalsCleanupRegistry– system / Context`                                    |
+| 20.0% | 80 B |     1 | `FinalizationRegistry ←.sourceSignalsCleanupRegistry– system / Context`                                       |
+| 20.0% | 80 B |     1 | `FinalizationRegistry ←.#finalizers– WeakRefMap (node:diagnostics_channel:38:1) ←.channels– system / Context` |
+| 20.0% | 80 B |     2 | `FinalizationRegistry ← (GC root)`                                                                            |
 
 ##### `Node / AliasedFloat64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                      |
-| ----: | ---: | --------: | ------------------------------------------------------------------------- |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.async_ids_stack– Node / AsyncHooks`         |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.async_id_fields– Node / AsyncHooks`         |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.stats_field_array– Node / BindingData`      |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.statfs_field_array– Node / BindingData`     |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.heap_statistics_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                      |
+| ----: | ---: | ----: | ------------------------------------------------------------------------- |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.async_ids_stack– Node / AsyncHooks`         |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.async_id_fields– Node / AsyncHooks`         |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.stats_field_array– Node / BindingData`      |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.statfs_field_array– Node / BindingData`     |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.heap_statistics_buffer– Node / BindingData` |
 
 ##### `Node / AliasedUint32Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                    |
-| ----: | ---: | --------: | ----------------------------------------------------------------------- |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ← (GC root)`                                 |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.fields– Node / AsyncHooks`                 |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.fields– Node / ImmediateInfo`              |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.hrtime_buffer– Node / BindingData`         |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.url_components_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                    |
+| ----: | ---: | ----: | ----------------------------------------------------------------------- |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ← (GC root)`                                 |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.fields– Node / AsyncHooks`                 |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.fields– Node / ImmediateInfo`              |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.hrtime_buffer– Node / BindingData`         |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.url_components_buffer– Node / BindingData` |
 
 ##### `Int32Array` (`<unknown>`)
 
-|      % |  Size | Instances | Path                     |
-| -----: | ----: | --------: | ------------------------ |
-| 100.0% | 288 B |         3 | `Int32Array ← (GC root)` |
+|      % |  Size | Nodes | Path                     |
+| -----: | ----: | ----: | ------------------------ |
+| 100.0% | 288 B |     3 | `Int32Array ← (GC root)` |
 
 ##### `Node / AsyncHooks` (`<unknown>`)
 
-|      % |  Size | Instances | Path                            |
-| -----: | ----: | --------: | ------------------------------- |
-| 100.0% | 240 B |         1 | `Node / AsyncHooks ← (GC root)` |
+|      % |  Size | Nodes | Path                            |
+| -----: | ----: | ----: | ------------------------------- |
+| 100.0% | 240 B |     1 | `Node / AsyncHooks ← (GC root)` |
 
 ##### `BigInt64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                         |
-| ----: | ---: | --------: | -------------------------------------------- |
-| 50.0% | 96 B |         1 | `BigInt64Array ←.bigintStatValues– Object`   |
-| 50.0% | 96 B |         1 | `BigInt64Array ←.bigintStatFsValues– Object` |
+|     % | Size | Nodes | Path                                         |
+| ----: | ---: | ----: | -------------------------------------------- |
+| 50.0% | 96 B |     1 | `BigInt64Array ←.bigintStatValues– Object`   |
+| 50.0% | 96 B |     1 | `BigInt64Array ←.bigintStatFsValues– Object` |
 
 ##### `Node / AliasedInt32Array` (`<unknown>`)
 
-|      % |  Size | Instances | Path                                   |
-| -----: | ----: | --------: | -------------------------------------- |
-| 100.0% | 168 B |         3 | `Node / AliasedInt32Array ← (GC root)` |
+|      % |  Size | Nodes | Path                                   |
+| -----: | ----: | ----: | -------------------------------------- |
+| 100.0% | 168 B |     3 | `Node / AliasedInt32Array ← (GC root)` |
 
 ##### `Node / AliasedUint8Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                         |
-| ----: | ---: | --------: | ---------------------------------------------------------------------------- |
-| 50.0% | 56 B |         1 | `Node / AliasedUint8Array ←.fields– Node / TickInfo`                         |
-| 50.0% | 56 B |         1 | `Node / AliasedUint8Array ←.is_building_snapshot_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                         |
+| ----: | ---: | ----: | ---------------------------------------------------------------------------- |
+| 50.0% | 56 B |     1 | `Node / AliasedUint8Array ←.fields– Node / TickInfo`                         |
+| 50.0% | 56 B |     1 | `Node / AliasedUint8Array ←.is_building_snapshot_buffer– Node / BindingData` |
 
 ##### `Node / AliasedBigInt64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                          |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------- |
-| 50.0% | 56 B |         1 | `Node / AliasedBigInt64Array ←.stats_field_bigint_array– Node / BindingData`  |
-| 50.0% | 56 B |         1 | `Node / AliasedBigInt64Array ←.statfs_field_bigint_array– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                          |
+| ----: | ---: | ----: | ----------------------------------------------------------------------------- |
+| 50.0% | 56 B |     1 | `Node / AliasedBigInt64Array ←.stats_field_bigint_array– Node / BindingData`  |
+| 50.0% | 56 B |     1 | `Node / AliasedBigInt64Array ←.statfs_field_bigint_array– Node / BindingData` |
 
 ##### `Array Iterator` (`<unknown>`)
 
-|      % |  Size | Instances | Path                         |
-| -----: | ----: | --------: | ---------------------------- |
-| 100.0% | 104 B |         2 | `Array Iterator ← (GC root)` |
+|      % |  Size | Nodes | Path                         |
+| -----: | ----: | ----: | ---------------------------- |
+| 100.0% | 104 B |     2 | `Array Iterator ← (GC root)` |
 
 ##### `BigUint64Array` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                |
-| -----: | ---: | --------: | --------------------------------------------------- |
-| 100.0% | 96 B |         1 | `BigUint64Array ←.hrBigintValues– system / Context` |
+|      % | Size | Nodes | Path                                                |
+| -----: | ---: | ----: | --------------------------------------------------- |
+| 100.0% | 96 B |     1 | `BigUint64Array ←.hrBigintValues– system / Context` |
 
 ##### `Float32Array` (`<unknown>`)
 
-|      % | Size | Instances | Path                                            |
-| -----: | ---: | --------: | ----------------------------------------------- |
-| 100.0% | 96 B |         1 | `Float32Array ←.float32Array– system / Context` |
+|      % | Size | Nodes | Path                                            |
+| -----: | ---: | ----: | ----------------------------------------------- |
+| 100.0% | 96 B |     1 | `Float32Array ←.float32Array– system / Context` |
 
 ##### `Node / BlobBindingData` (`<unknown>`)
 
-|      % | Size | Instances | Path                                 |
-| -----: | ---: | --------: | ------------------------------------ |
-| 100.0% | 96 B |         1 | `Node / BlobBindingData ← (GC root)` |
+|      % | Size | Nodes | Path                                 |
+| -----: | ---: | ----: | ------------------------------------ |
+| 100.0% | 96 B |     1 | `Node / BlobBindingData ← (GC root)` |
 
 ##### `Node / CleanupQueue` (`<unknown>`)
 
-|      % | Size | Instances | Path                              |
-| -----: | ---: | --------: | --------------------------------- |
-| 100.0% | 80 B |         1 | `Node / CleanupQueue ← (GC root)` |
+|      % | Size | Nodes | Path                              |
+| -----: | ---: | ----: | --------------------------------- |
+| 100.0% | 80 B |     1 | `Node / CleanupQueue ← (GC root)` |
 
 ##### `Node / ImmediateInfo` (`<unknown>`)
 
-|      % | Size | Instances | Path                               |
-| -----: | ---: | --------: | ---------------------------------- |
-| 100.0% | 64 B |         1 | `Node / ImmediateInfo ← (GC root)` |
+|      % | Size | Nodes | Path                               |
+| -----: | ---: | ----: | ---------------------------------- |
+| 100.0% | 64 B |     1 | `Node / ImmediateInfo ← (GC root)` |
 
 ##### `Node / TickInfo` (`<unknown>`)
 
-|      % | Size | Instances | Path                          |
-| -----: | ---: | --------: | ----------------------------- |
-| 100.0% | 64 B |         1 | `Node / TickInfo ← (GC root)` |
+|      % | Size | Nodes | Path                          |
+| -----: | ---: | ----: | ----------------------------- |
+| 100.0% | 64 B |     1 | `Node / TickInfo ← (GC root)` |
 
 ##### `Node / NodeArrayBufferAllocator` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                                   |
-| -----: | ---: | --------: | ---------------------------------------------------------------------- |
-| 100.0% | 32 B |         1 | `Node / NodeArrayBufferAllocator ←.node_allocator– Node / IsolateData` |
+|      % | Size | Nodes | Path                                                                   |
+| -----: | ---: | ----: | ---------------------------------------------------------------------- |
+| 100.0% | 32 B |     1 | `Node / NodeArrayBufferAllocator ←.node_allocator– Node / IsolateData` |
 
 ##### `Node / js_promise_hooks` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                            |
-| -----: | ---: | --------: | --------------------------------------------------------------- |
-| 100.0% | 32 B |         1 | `Node / js_promise_hooks ←.js_promise_hooks– Node / AsyncHooks` |
+|      % | Size | Nodes | Path                                                            |
+| -----: | ---: | ----: | --------------------------------------------------------------- |
+| 100.0% | 32 B |     1 | `Node / js_promise_hooks ←.js_promise_hooks– Node / AsyncHooks` |
 
 ##### `Node / BaseObjectList` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                              |
-| -----: | ---: | --------: | ----------------------------------------------------------------- |
-| 100.0% | 24 B |         1 | `Node / BaseObjectList ←.base_object_list– Node / PrincipalRealm` |
+|      % | Size | Nodes | Path                                                              |
+| -----: | ---: | ----: | ----------------------------------------------------------------- |
+| 100.0% | 24 B |     1 | `Node / BaseObjectList ←.base_object_list– Node / PrincipalRealm` |
 
 ### Retained size
 
@@ -626,382 +626,386 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `Object` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                   |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------ |
-| 64.3% |  892 KiB |       223 | `Object ← (GC root)`                                                                                   |
-| 13.0% |  180 KiB |        73 | `Object ←.retweeted_status– Object`                                                                    |
-|  9.7% |  135 KiB |       100 | `Object ←.user– Object`                                                                                |
-|  7.2% | 99.3 KiB |        73 | `Object ←.user– Object ←.retweeted_status– Object`                                                     |
-|  5.2% | 71.9 KiB |         1 | `Object ←.<dummy>– system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)` |
+|     % |     Size | Nodes | Path                                                                                                   |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------ |
+| 64.3% |  892 KiB |   223 | `Object ← (GC root)`                                                                                   |
+| 13.0% |  180 KiB |    73 | `Object ←.retweeted_status– Object`                                                                    |
+|  9.7% |  135 KiB |   100 | `Object ←.user– Object`                                                                                |
+|  7.2% | 99.3 KiB |    73 | `Object ←.user– Object ←.retweeted_status– Object`                                                     |
+|  5.2% | 71.9 KiB |     1 | `Object ←.<dummy>– system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)` |
 
 ##### `system / Context` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                    |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 20.0% |  252 KiB |       125 | `system / Context ← (GC root)`                                                                                          |
-|  5.7% |   72 KiB |         1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)`                                    |
-|  0.8% | 10.6 KiB |         1 | `system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
-|  0.5% | 5.96 KiB |        44 | `system / Context ←(several paths)– Object`                                                                             |
-|  0.2% | 2.97 KiB |         8 | `system / Context ←.context– logger (node:internal/util/debuglog:120:18) ←.debug– system / Context`                     |
+|     % |     Size | Nodes | Path                                                                                 |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------ |
+| 20.5% |  259 KiB |    48 | `Object ←(several system / Context paths)– (GC root)`                                |
+| 20.0% |  252 KiB |   125 | `system / Context ← (GC root)`                                                       |
+| 16.6% |  209 KiB |     1 | `BuiltinModule ←(several system / Context paths)– (GC root)`                         |
+|  7.7% | 97.7 KiB |     2 | `Map ←(several system / Context paths)– (GC root)`                                   |
+|  5.7% |   72 KiB |     1 | `system / Context ←.context– internalBinding (node:internal/bootstrap/realm:185:45)` |
 
 ##### `Map` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                              |
-| ----: | -------: | --------: | ----------------------------------------------------------------- |
-| 57.5% |  208 KiB |         1 | `Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 34.0% |  123 KiB |         8 | `Map ← (GC root)`                                                 |
-|  3.9% | 14.1 KiB |         1 | `Map ←.messages– system / Context`                                |
-|  2.0% | 7.07 KiB |         1 | `Map ←.encodings– system / Context`                               |
-|  0.6% | 2.03 KiB |         1 | `Map ←.wellKnownPrototypes– system / Context`                     |
+|     % |     Size | Nodes | Path                                                              |
+| ----: | -------: | ----: | ----------------------------------------------------------------- |
+| 57.5% |  208 KiB |     1 | `Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 34.0% |  123 KiB |     8 | `Map ← (GC root)`                                                 |
+|  3.9% | 14.1 KiB |     1 | `Map ←.messages– system / Context`                                |
+|  2.0% | 7.07 KiB |     1 | `Map ←.encodings– system / Context`                               |
+|  0.6% | 2.03 KiB |     1 | `Map ←.wellKnownPrototypes– system / Context`                     |
 
 ##### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 
-|     % |     Size | Instances | Path                                                                                                   |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------ |
-| 13.2% | 26.3 KiB |         1 | `BuiltinModule ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  4.1% | 8.23 KiB |         1 | `BuiltinModule ←.1121– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  3.8% | 7.63 KiB |         1 | `BuiltinModule ←.608– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
-|  2.7% | 5.41 KiB |         1 | `BuiltinModule ←.389– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
-|  2.6% | 5.27 KiB |         1 | `BuiltinModule ←.860– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+|     % |     Size | Nodes | Path                                                                                                   |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------ |
+| 13.2% | 26.3 KiB |     1 | `BuiltinModule ←.1316– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  4.1% | 8.23 KiB |     1 | `BuiltinModule ←.1121– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  3.8% | 7.63 KiB |     1 | `BuiltinModule ←.608– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+|  2.7% | 5.41 KiB |     1 | `BuiltinModule ←.389– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
+|  2.6% | 5.27 KiB |     1 | `BuiltinModule ←.860– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`  |
 
 ##### `Array` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                                                 |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 16.8% | 25.3 KiB |       100 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
-| 10.6% |   16 KiB |         1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
-|  8.4% | 12.7 KiB |        20 | `Array ← (GC root)`                                                                                                                                  |
-|  7.0% | 10.5 KiB |         1 | `Array ←.nodeFlags– system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`           |
-|  4.6% | 6.91 KiB |       100 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
+|     % |     Size | Nodes | Path                                                                                                                                                 |
+| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 16.8% | 25.3 KiB |   100 | `Array ←.user_mentions– Object ←.entities– Object`                                                                                                   |
+| 10.6% |   16 KiB |     1 | `Array ←.list– FixedCircularBuffer (node:internal/fixed_queue:61:14) ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
+|  8.4% | 12.7 KiB |    20 | `Array ← (GC root)`                                                                                                                                  |
+|  7.0% | 10.5 KiB |     1 | `Array ←.nodeFlags– system / Context ←(several paths)– Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)`           |
+|  4.6% | 6.91 KiB |   100 | `Array ←.urls– Object ←.entities– Object`                                                                                                            |
 
 ##### `Error` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                          |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------- |
-| 11.6% |   12 KiB |        21 | `Error ←.prototype– NodeError (node:internal/errors:437:20)`                                  |
-|  9.4% |  9.7 KiB |        17 | `Error ←.prototype– NodeError (node:internal/errors:498:20)`                                  |
-|  6.6% | 6.84 KiB |        12 | `Error ←.prototype– NodeError (node:internal/errors:466:20)`                                  |
-|  2.3% | 2.33 KiB |         8 | `Error ← (GC root)`                                                                           |
-|  0.6% |    584 B |         1 | `Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_SOURCE_MAP_CORRUPT– Object` |
+|     % |     Size | Nodes | Path                                                                                          |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------------- |
+| 11.6% |   12 KiB |    21 | `Error ←.prototype– NodeError (node:internal/errors:437:20)`                                  |
+|  9.4% |  9.7 KiB |    17 | `Error ←.prototype– NodeError (node:internal/errors:498:20)`                                  |
+|  6.6% | 6.84 KiB |    12 | `Error ←.prototype– NodeError (node:internal/errors:466:20)`                                  |
+|  2.3% | 2.33 KiB |     8 | `Error ← (GC root)`                                                                           |
+|  0.6% |    584 B |     1 | `Error ←.prototype– NodeError (node:internal/errors:498:20) ←.ERR_SOURCE_MAP_CORRUPT– Object` |
 
 ##### `TypeError` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                        |
-| ----: | -------: | --------: | --------------------------------------------------------------------------- |
-| 19.7% | 10.3 KiB |        18 | `TypeError ←.prototype– NodeError (node:internal/errors:498:20)`            |
-|  9.9% | 5.13 KiB |         9 | `TypeError ←.prototype– NodeError (node:internal/errors:466:20)`            |
-|  6.6% | 3.42 KiB |         6 | `TypeError ←.prototype– NodeError (node:internal/errors:437:20)`            |
-|  5.5% | 2.85 KiB |         5 | `TypeError ← (GC root)`                                                     |
-|  2.6% | 1.34 KiB |         4 | `TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)` |
+|     % |     Size | Nodes | Path                                                                        |
+| ----: | -------: | ----: | --------------------------------------------------------------------------- |
+| 19.7% | 10.3 KiB |    18 | `TypeError ←.prototype– NodeError (node:internal/errors:498:20)`            |
+|  9.9% | 5.13 KiB |     9 | `TypeError ←.prototype– NodeError (node:internal/errors:466:20)`            |
+|  6.6% | 3.42 KiB |     6 | `TypeError ←.prototype– NodeError (node:internal/errors:437:20)`            |
+|  5.5% | 2.85 KiB |     5 | `TypeError ← (GC root)`                                                     |
+|  2.6% | 1.34 KiB |     4 | `TypeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)` |
 
 ##### `Set` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                 |
-| ----: | -------: | --------: | ------------------------------------------------------------------------------------ |
-| 43.9% | 11.9 KiB |         1 | `Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
-| 19.9% | 5.41 KiB |         2 | `Set ← (GC root)`                                                                    |
-|  9.5% | 2.57 KiB |         1 | `Set ←.canBeRequiredByUsersWithoutSchemeList– system / Context`                      |
-|  9.5% | 2.57 KiB |         1 | `Set ←.canBeRequiredByUsersList– system / Context`                                   |
-|  4.9% | 1.32 KiB |         1 | `Set ←.builtInObjects– system / Context`                                             |
+|     % |     Size | Nodes | Path                                                                                 |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------ |
+| 43.9% | 11.9 KiB |     1 | `Set ←.__proto__– NodeEnvironmentFlagsSet (node:internal/process/per_thread:438:16)` |
+| 19.9% | 5.41 KiB |     2 | `Set ← (GC root)`                                                                    |
+|  9.5% | 2.57 KiB |     1 | `Set ←.canBeRequiredByUsersWithoutSchemeList– system / Context`                      |
+|  9.5% | 2.57 KiB |     1 | `Set ←.canBeRequiredByUsersList– system / Context`                                   |
+|  4.9% | 1.32 KiB |     1 | `Set ←.builtInObjects– system / Context`                                             |
 
 ##### `console` (`<unknown>`)
 
-|     % |     Size | Instances | Path                  |
-| ----: | -------: | --------: | --------------------- |
-| 88.4% | 20.5 KiB |         2 | `console ← (GC root)` |
+|     % |     Size | Nodes | Path                                            |
+| ----: | -------: | ----: | ----------------------------------------------- |
+| 88.4% | 20.5 KiB |     2 | `console ← (GC root)`                           |
+|  0.5% |    120 B |     1 | `context ←(several console paths)– (GC root)`   |
+|  0.5% |    120 B |     1 | `timeStamp ←(several console paths)– (GC root)` |
+|  0.5% |    120 B |     1 | `timeEnd ←(several console paths)– (GC root)`   |
+|  0.5% |    120 B |     1 | `timeLog ←(several console paths)– (GC root)`   |
 
 ##### `NodeEnvironmentFlagsSet` (`node:internal/process/per_thread:438:16`)
 
-|      % |     Size | Instances | Path                                  |
-| -----: | -------: | --------: | ------------------------------------- |
-| 100.0% | 19.3 KiB |         1 | `NodeEnvironmentFlagsSet ← (GC root)` |
+|      % |     Size | Nodes | Path                                  |
+| -----: | -------: | ----: | ------------------------------------- |
+| 100.0% | 19.3 KiB |     1 | `NodeEnvironmentFlagsSet ← (GC root)` |
 
 ##### `Stream` (`node:internal/streams/legacy:11:16`)
 
-|      % |     Size | Instances | Path                 |
-| -----: | -------: | --------: | -------------------- |
-| 100.0% | 18.4 KiB |         2 | `Stream ← (GC root)` |
+|      % |     Size | Nodes | Path                 |
+| -----: | -------: | ----: | -------------------- |
+| 100.0% | 18.4 KiB |     2 | `Stream ← (GC root)` |
 
 ##### `FixedQueue` (`node:internal/fixed_queue:92:14`)
 
-|      % |     Size | Instances | Path                                   |
-| -----: | -------: | --------: | -------------------------------------- |
-| 100.0% | 16.8 KiB |         1 | `FixedQueue ←.queue– system / Context` |
+|      % |     Size | Nodes | Path                                   |
+| -----: | -------: | ----: | -------------------------------------- |
+| 100.0% | 16.8 KiB |     1 | `FixedQueue ←.queue– system / Context` |
 
 ##### `RangeError` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                                    |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
-| 20.4% | 3.42 KiB |         6 | `RangeError ←.prototype– NodeError (node:internal/errors:498:20)`                                                       |
-|  6.8% | 1.14 KiB |         2 | `RangeError ← (GC root)`                                                                                                |
-|  6.8% | 1.14 KiB |         2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
-|  6.8% | 1.14 KiB |         2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                       |
-|  4.0% |    688 B |         2 | `RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                            |
+|     % |     Size | Nodes | Path                                                                                                                    |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------- |
+| 20.4% | 3.42 KiB |     6 | `RangeError ←.prototype– NodeError (node:internal/errors:498:20)`                                                       |
+|  6.8% | 1.14 KiB |     2 | `RangeError ← (GC root)`                                                                                                |
+|  6.8% | 1.14 KiB |     2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20) ←.RangeError– NodeError (node:internal/errors:466:20)` |
+|  6.8% | 1.14 KiB |     2 | `RangeError ←.prototype– NodeError (node:internal/errors:466:20)`                                                       |
+|  4.0% |    688 B |     2 | `RangeError ←.prototype– HideStackFramesError (node:internal/errors:407:16)`                                            |
 
 ##### `FixedCircularBuffer` (`node:internal/fixed_queue:61:14`)
 
-|      % |     Size | Instances | Path                                                                                                 |
-| -----: | -------: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 100.0% | 16.5 KiB |         1 | `FixedCircularBuffer ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
+|      % |     Size | Nodes | Path                                                                                                 |
+| -----: | -------: | ----: | ---------------------------------------------------------------------------------------------------- |
+| 100.0% | 16.5 KiB |     1 | `FixedCircularBuffer ←.tail– FixedQueue (node:internal/fixed_queue:92:14) ←.queue– system / Context` |
 
 ##### `EventEmitter` (`node:events:220:22`)
 
-|     % |     Size | Instances | Path                                                                                                                                                                                                                                               |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 38.4% | 6.29 KiB |         1 | `EventEmitter ←.prototype– FileHandle (node:internal/fs/promises:158:14)`                                                                                                                                                                          |
-| 22.4% | 3.67 KiB |         1 | `EventEmitter ←.prototype– Server (node:net:1763:16)`                                                                                                                                                                                              |
-| 11.8% | 1.93 KiB |         1 | `EventEmitter ←.prototype– StatWatcher (node:internal/fs/watchers:78:21)`                                                                                                                                                                          |
-| 10.4% |  1.7 KiB |         1 | `EventEmitter ←.prototype– FSWatcher (node:internal/fs/watchers:197:19) ←.FSWatcher– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.677– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  9.1% | 1.48 KiB |         1 | `EventEmitter ←.prototype– FSWatcher (node:internal/fs/recursive_watch:48:14) ←.FSWatcher– Object`                                                                                                                                                 |
+|     % |     Size | Nodes | Path                                                                                                                                                                                                                                               |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.4% | 6.29 KiB |     1 | `EventEmitter ←.prototype– FileHandle (node:internal/fs/promises:158:14)`                                                                                                                                                                          |
+| 22.4% | 3.67 KiB |     1 | `EventEmitter ←.prototype– Server (node:net:1763:16)`                                                                                                                                                                                              |
+| 11.8% | 1.93 KiB |     1 | `EventEmitter ←.prototype– StatWatcher (node:internal/fs/watchers:78:21)`                                                                                                                                                                          |
+| 10.4% |  1.7 KiB |     1 | `EventEmitter ←.prototype– FSWatcher (node:internal/fs/watchers:197:19) ←.FSWatcher– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.677– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  9.1% | 1.48 KiB |     1 | `EventEmitter ←.prototype– FSWatcher (node:internal/fs/recursive_watch:48:14) ←.FSWatcher– Object`                                                                                                                                                 |
 
 ##### `ArrayBuffer` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                             |
-| ----: | -------: | --------: | ---------------------------------------------------------------- |
-| 65.0% | 9.17 KiB |         5 | `ArrayBuffer ← (GC root)`                                        |
-|  8.9% | 1.25 KiB |         6 | `ArrayBuffer ←.buffer– Float64Array`                             |
-|  2.9% |    412 B |         4 | `ArrayBuffer ←.buffer– Uint32Array`                              |
-|  2.6% |    376 B |         1 | `ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object` |
-|  2.4% |    344 B |         1 | `ArrayBuffer ←.buffer– Int8Array`                                |
+|     % |     Size | Nodes | Path                                                             |
+| ----: | -------: | ----: | ---------------------------------------------------------------- |
+| 65.0% | 9.17 KiB |     5 | `ArrayBuffer ← (GC root)`                                        |
+|  8.9% | 1.25 KiB |     6 | `ArrayBuffer ←.buffer– Float64Array`                             |
+|  2.9% |    412 B |     4 | `ArrayBuffer ←.buffer– Uint32Array`                              |
+|  2.6% |    376 B |     1 | `ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object` |
+|  2.4% |    344 B |     1 | `ArrayBuffer ←.buffer– Int8Array`                                |
 
 ##### `global` (`<unknown>`)
 
-|      % |     Size | Instances | Path                 |
-| -----: | -------: | --------: | -------------------- |
-| 100.0% | 14.1 KiB |         2 | `global ← (GC root)` |
+|      % |     Size | Nodes | Path                 |
+| -----: | -------: | ----: | -------------------- |
+| 100.0% | 14.1 KiB |     2 | `global ← (GC root)` |
 
 ##### `Duplex` (`node:internal/streams/duplex:64:16`)
 
-|     % |     Size | Instances | Path                                                                                                                                                                    |
-| ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 92.1% | 12.2 KiB |         2 | `Duplex ← (GC root)`                                                                                                                                                    |
-|  7.9% | 1.04 KiB |         1 | `Duplex ←.prototype– DuplexSide (node:internal/streams/duplexpair:15:14) ←.DuplexSide– system / Context ←.context– duplexPair (node:internal/streams/duplexpair:55:20)` |
+|     % |     Size | Nodes | Path                                                                                                                                                                    |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 92.1% | 12.2 KiB |     2 | `Duplex ← (GC root)`                                                                                                                                                    |
+|  7.9% | 1.04 KiB |     1 | `Duplex ←.prototype– DuplexSide (node:internal/streams/duplexpair:15:14) ←.DuplexSide– system / Context ←.context– duplexPair (node:internal/streams/duplexpair:55:20)` |
 
 ##### `InterfaceConstructor` (`node:internal/readline/interface:139:30`)
 
-|      % |     Size | Instances | Path                                                                                   |
-| -----: | -------: | --------: | -------------------------------------------------------------------------------------- |
-| 100.0% | 12.1 KiB |         1 | `InterfaceConstructor ←.prototype– Interface (node:internal/readline/interface:350:1)` |
+|      % |     Size | Nodes | Path                                                                                   |
+| -----: | -------: | ----: | -------------------------------------------------------------------------------------- |
+| 100.0% | 12.1 KiB |     1 | `InterfaceConstructor ←.prototype– Interface (node:internal/readline/interface:350:1)` |
 
 ##### `system / JSArrayBufferData` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                                                                  |
-| ----: | ------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 78.1% | 8.1 KiB |         4 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer`                                                                             |
-|  7.1% |   752 B |         6 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array`                                                      |
-|  2.7% |   288 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object`                          |
-|  2.4% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array`                                                         |
-|  2.4% |   256 B |         1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array ←.unhexTable– system / Context ←(several paths)– Object` |
+|     % |    Size | Nodes | Path                                                                                                                                  |
+| ----: | ------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 78.1% | 8.1 KiB |     4 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer`                                                                             |
+|  7.1% |   752 B |     6 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Float64Array`                                                      |
+|  2.7% |   288 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– BigInt64Array ←.bigintStatValues– Object`                          |
+|  2.4% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array`                                                         |
+|  2.4% |   256 B |     1 | `system / JSArrayBufferData ←.backing_store– ArrayBuffer ←.buffer– Int8Array ←.unhexTable– system / Context ←(several paths)– Object` |
 
 ##### `process` (`<unknown>`)
 
-|     % |     Size | Instances | Path                  |
-| ----: | -------: | --------: | --------------------- |
-| 99.7% | 7.57 KiB |         1 | `process ← (GC root)` |
-|  0.3% |     24 B |         1 | `process ←.28– array` |
+|     % |     Size | Nodes | Path                  |
+| ----: | -------: | ----: | --------------------- |
+| 99.7% | 7.57 KiB |     1 | `process ← (GC root)` |
+|  0.3% |     24 B |     1 | `process ←.28– array` |
 
 ##### `ModuleJobBase` (`node:internal/modules/esm/module_job:109:14`)
 
-|     % |     Size | Instances | Path                                                                                                                                                                                                                                                                   |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 88.0% | 5.88 KiB |         1 | `ModuleJobBase ← (GC root)`                                                                                                                                                                                                                                            |
-| 12.0% |    824 B |         1 | `ModuleJobBase ←.prototype– ModuleJobSync (node:internal/modules/esm/module_job:374:14) ←.ModuleJobSync– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.800– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|     % |     Size | Nodes | Path                                                                                                                                                                                                                                                                   |
+| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 88.0% | 5.88 KiB |     1 | `ModuleJobBase ← (GC root)`                                                                                                                                                                                                                                            |
+| 12.0% |    824 B |     1 | `ModuleJobBase ←.prototype– ModuleJobSync (node:internal/modules/esm/module_job:374:14) ←.ModuleJobSync– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.800– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
 
 ##### `Uint8Array` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                                                                                                                                                                 |
-| ----: | ------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 89.5% | 5.5 KiB |         5 | `Uint8Array ← (GC root)`                                                                                                                                                                                                             |
-|  4.6% |   288 B |         1 | `Uint8Array ←.prototype– SlowBuffer (node:buffer:428:20) ←.SlowBuffer– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.311– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-|  2.9% |   184 B |         1 | `Uint8Array ←.empty– system / Context`                                                                                                                                                                                               |
-|  1.5% |    96 B |         1 | `Uint8Array ←.uInt8Float32Array– system / Context`                                                                                                                                                                                   |
-|  1.5% |    96 B |         1 | `Uint8Array ←.uInt8Float64Array– system / Context`                                                                                                                                                                                   |
+|     % |    Size | Nodes | Path                                                                                                                                                                                                                                 |
+| ----: | ------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 89.5% | 5.5 KiB |     5 | `Uint8Array ← (GC root)`                                                                                                                                                                                                             |
+|  4.6% |   288 B |     1 | `Uint8Array ←.prototype– SlowBuffer (node:buffer:428:20) ←.SlowBuffer– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.311– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+|  2.9% |   184 B |     1 | `Uint8Array ←.empty– system / Context`                                                                                                                                                                                               |
+|  1.5% |    96 B |     1 | `Uint8Array ←.uInt8Float32Array– system / Context`                                                                                                                                                                                   |
+|  1.5% |    96 B |     1 | `Uint8Array ←.uInt8Float64Array– system / Context`                                                                                                                                                                                   |
 
 ##### `Node / IsolateData` (`<unknown>`)
 
-|      % |     Size | Instances | Path                             |
-| -----: | -------: | --------: | -------------------------------- |
-| 100.0% | 4.76 KiB |         1 | `Node / IsolateData ← (GC root)` |
+|      % |     Size | Nodes | Path                             |
+| -----: | -------: | ----: | -------------------------------- |
+| 100.0% | 4.76 KiB |     1 | `Node / IsolateData ← (GC root)` |
 
 ##### `Float64Array` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                              |
-| ----: | -------: | --------: | ------------------------------------------------- |
-| 59.7% | 1.91 KiB |         7 | `Float64Array ← (GC root)`                        |
-|  9.5% |    312 B |         1 | `Float64Array ←.resourceValues– system / Context` |
-|  7.3% |    240 B |         1 | `Float64Array ←.statFsValues– Object`             |
-|  7.3% |    240 B |         1 | `Float64Array ←.memValues– system / Context`      |
-|  6.6% |    216 B |         1 | `Float64Array ←.cpuValues– system / Context`      |
+|     % |     Size | Nodes | Path                                              |
+| ----: | -------: | ----: | ------------------------------------------------- |
+| 59.7% | 1.91 KiB |     7 | `Float64Array ← (GC root)`                        |
+|  9.5% |    312 B |     1 | `Float64Array ←.resourceValues– system / Context` |
+|  7.3% |    240 B |     1 | `Float64Array ←.statFsValues– Object`             |
+|  7.3% |    240 B |     1 | `Float64Array ←.memValues– system / Context`      |
+|  6.6% |    216 B |     1 | `Float64Array ←.cpuValues– system / Context`      |
 
 ##### `Node / PrincipalRealm` (`<unknown>`)
 
-|      % |     Size | Instances | Path                                |
-| -----: | -------: | --------: | ----------------------------------- |
-| 100.0% | 1.88 KiB |         1 | `Node / PrincipalRealm ← (GC root)` |
+|      % |     Size | Nodes | Path                                |
+| -----: | -------: | ----: | ----------------------------------- |
+| 100.0% | 1.88 KiB |     1 | `Node / PrincipalRealm ← (GC root)` |
 
 ##### `Node / BindingData` (`<unknown>`)
 
-|      % |     Size | Instances | Path                             |
-| -----: | -------: | --------: | -------------------------------- |
-| 100.0% | 1.79 KiB |         8 | `Node / BindingData ← (GC root)` |
+|      % |     Size | Nodes | Path                             |
+| -----: | -------: | ----: | -------------------------------- |
+| 100.0% | 1.79 KiB |     8 | `Node / BindingData ← (GC root)` |
 
 ##### `Int8Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                                         |
-| ----: | ----: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 24.2% | 440 B |         1 | `Int8Array ← (GC root)`                                                                                                                                                                                                      |
-| 24.2% | 440 B |         1 | `Int8Array ←.unhexTable– system / Context ←(several paths)– Object`                                                                                                                                                          |
-| 17.2% | 312 B |         1 | `Int8Array ←.noEscapeAuth– system / Context ←(several paths)– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1313– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 17.2% | 312 B |         1 | `Int8Array ←.noEscape– system / Context`                                                                                                                                                                                     |
-| 17.2% | 312 B |         1 | `Int8Array ←.noEscape– system / Context ←(several paths)– Object`                                                                                                                                                            |
+|     % |  Size | Nodes | Path                                                                                                                                                                                                                         |
+| ----: | ----: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 24.2% | 440 B |     1 | `Int8Array ← (GC root)`                                                                                                                                                                                                      |
+| 24.2% | 440 B |     1 | `Int8Array ←.unhexTable– system / Context ←(several paths)– Object`                                                                                                                                                          |
+| 17.2% | 312 B |     1 | `Int8Array ←.noEscapeAuth– system / Context ←(several paths)– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1313– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
+| 17.2% | 312 B |     1 | `Int8Array ←.noEscape– system / Context`                                                                                                                                                                                     |
+| 17.2% | 312 B |     1 | `Int8Array ←.noEscape– system / Context ←(several paths)– Object`                                                                                                                                                            |
 
 ##### `Uint32Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                  |
-| ----: | ----: | --------: | ------------------------------------- |
-| 81.8% | 988 B |         6 | `Uint32Array ← (GC root)`             |
-| 18.2% | 220 B |         1 | `Uint32Array ←.urlComponents– Object` |
+|     % |  Size | Nodes | Path                                  |
+| ----: | ----: | ----: | ------------------------------------- |
+| 81.8% | 988 B |     6 | `Uint32Array ← (GC root)`             |
+| 18.2% | 220 B |     1 | `Uint32Array ←.urlComponents– Object` |
 
 ##### `Node / builtins_with_cache` (`<unknown>`)
 
-|      % |     Size | Instances | Path                                                                      |
-| -----: | -------: | --------: | ------------------------------------------------------------------------- |
-| 100.0% | 1.12 KiB |         1 | `Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+|      % |     Size | Nodes | Path                                                                      |
+| -----: | -------: | ----: | ------------------------------------------------------------------------- |
+| 100.0% | 1.12 KiB |     1 | `Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
 
 ##### `Node / std::basic_string` (`<unknown>`)
 
-|    % | Size | Instances | Path                                                                                                      |
-| ---: | ---: | --------: | --------------------------------------------------------------------------------------------------------- |
-| 2.9% | 33 B |         1 | `Node / std::basic_string ←[28]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 32 B |         1 | `Node / std::basic_string ←[18]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[12]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[15]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
-| 2.8% | 31 B |         1 | `Node / std::basic_string ←[16]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+|    % | Size | Nodes | Path                                                                                                      |
+| ---: | ---: | ----: | --------------------------------------------------------------------------------------------------------- |
+| 2.9% | 33 B |     1 | `Node / std::basic_string ←[28]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 32 B |     1 | `Node / std::basic_string ←[18]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[12]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[15]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
+| 2.8% | 31 B |     1 | `Node / std::basic_string ←[16]– Node / builtins_with_cache ←.builtins_with_cache– Node / PrincipalRealm` |
 
 ##### `BigInt64Array` (`<unknown>`)
 
-|     % |  Size | Instances | Path                                         |
-| ----: | ----: | --------: | -------------------------------------------- |
-| 66.3% | 472 B |         1 | `BigInt64Array ←.bigintStatValues– Object`   |
-| 33.7% | 240 B |         1 | `BigInt64Array ←.bigintStatFsValues– Object` |
+|     % |  Size | Nodes | Path                                         |
+| ----: | ----: | ----: | -------------------------------------------- |
+| 66.3% | 472 B |     1 | `BigInt64Array ←.bigintStatValues– Object`   |
+| 33.7% | 240 B |     1 | `BigInt64Array ←.bigintStatFsValues– Object` |
 
 ##### `Int32Array` (`<unknown>`)
 
-|      % |  Size | Instances | Path                     |
-| -----: | ----: | --------: | ------------------------ |
-| 100.0% | 584 B |         3 | `Int32Array ← (GC root)` |
+|      % |  Size | Nodes | Path                     |
+| -----: | ----: | ----: | ------------------------ |
+| 100.0% | 584 B |     3 | `Int32Array ← (GC root)` |
 
 ##### `Node / async_wrap_providers` (`<unknown>`)
 
-|      % |  Size | Instances | Path                                                                     |
-| -----: | ----: | --------: | ------------------------------------------------------------------------ |
-| 100.0% | 528 B |         1 | `Node / async_wrap_providers ←.async_wrap_providers– Node / IsolateData` |
+|      % |  Size | Nodes | Path                                                                     |
+| -----: | ----: | ----: | ------------------------------------------------------------------------ |
+| 100.0% | 528 B |     1 | `Node / async_wrap_providers ←.async_wrap_providers– Node / IsolateData` |
 
 ##### `Node / ModuleWrap` (`<unknown>`)
 
-|      % |  Size | Instances | Path                            |
-| -----: | ----: | --------: | ------------------------------- |
-| 100.0% | 448 B |         4 | `Node / ModuleWrap ← (GC root)` |
+|      % |  Size | Nodes | Path                            |
+| -----: | ----: | ----: | ------------------------------- |
+| 100.0% | 448 B |     4 | `Node / ModuleWrap ← (GC root)` |
 
 ##### `Node / AsyncHooks` (`<unknown>`)
 
-|      % |  Size | Instances | Path                            |
-| -----: | ----: | --------: | ------------------------------- |
-| 100.0% | 440 B |         1 | `Node / AsyncHooks ← (GC root)` |
+|      % |  Size | Nodes | Path                            |
+| -----: | ----: | ----: | ------------------------------- |
+| 100.0% | 440 B |     1 | `Node / AsyncHooks ← (GC root)` |
 
 ##### `Node / AliasedFloat64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                      |
-| ----: | ---: | --------: | ------------------------------------------------------------------------- |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.async_ids_stack– Node / AsyncHooks`         |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.async_id_fields– Node / AsyncHooks`         |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.stats_field_array– Node / BindingData`      |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.statfs_field_array– Node / BindingData`     |
-| 14.3% | 56 B |         1 | `Node / AliasedFloat64Array ←.heap_statistics_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                      |
+| ----: | ---: | ----: | ------------------------------------------------------------------------- |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.async_ids_stack– Node / AsyncHooks`         |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.async_id_fields– Node / AsyncHooks`         |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.stats_field_array– Node / BindingData`      |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.statfs_field_array– Node / BindingData`     |
+| 14.3% | 56 B |     1 | `Node / AliasedFloat64Array ←.heap_statistics_buffer– Node / BindingData` |
 
 ##### `Node / AliasedUint32Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                    |
-| ----: | ---: | --------: | ----------------------------------------------------------------------- |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ← (GC root)`                                 |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.fields– Node / AsyncHooks`                 |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.fields– Node / ImmediateInfo`              |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.hrtime_buffer– Node / BindingData`         |
-| 16.7% | 56 B |         1 | `Node / AliasedUint32Array ←.url_components_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                    |
+| ----: | ---: | ----: | ----------------------------------------------------------------------- |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ← (GC root)`                                 |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.fields– Node / AsyncHooks`                 |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.fields– Node / ImmediateInfo`              |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.hrtime_buffer– Node / BindingData`         |
+| 16.7% | 56 B |     1 | `Node / AliasedUint32Array ←.url_components_buffer– Node / BindingData` |
 
 ##### `Array Iterator` (`<unknown>`)
 
-|      % |  Size | Instances | Path                         |
-| -----: | ----: | --------: | ---------------------------- |
-| 100.0% | 304 B |         2 | `Array Iterator ← (GC root)` |
+|      % |  Size | Nodes | Path                         |
+| -----: | ----: | ----: | ---------------------------- |
+| 100.0% | 304 B |     2 | `Array Iterator ← (GC root)` |
 
 ##### `Node / AliasedInt32Array` (`<unknown>`)
 
-|      % |  Size | Instances | Path                                   |
-| -----: | ----: | --------: | -------------------------------------- |
-| 100.0% | 168 B |         3 | `Node / AliasedInt32Array ← (GC root)` |
+|      % |  Size | Nodes | Path                                   |
+| -----: | ----: | ----: | -------------------------------------- |
+| 100.0% | 168 B |     3 | `Node / AliasedInt32Array ← (GC root)` |
 
 ##### `Node / ImmediateInfo` (`<unknown>`)
 
-|      % |  Size | Instances | Path                               |
-| -----: | ----: | --------: | ---------------------------------- |
-| 100.0% | 120 B |         1 | `Node / ImmediateInfo ← (GC root)` |
+|      % |  Size | Nodes | Path                               |
+| -----: | ----: | ----: | ---------------------------------- |
+| 100.0% | 120 B |     1 | `Node / ImmediateInfo ← (GC root)` |
 
 ##### `Node / TickInfo` (`<unknown>`)
 
-|      % |  Size | Instances | Path                          |
-| -----: | ----: | --------: | ----------------------------- |
-| 100.0% | 120 B |         1 | `Node / TickInfo ← (GC root)` |
+|      % |  Size | Nodes | Path                          |
+| -----: | ----: | ----: | ----------------------------- |
+| 100.0% | 120 B |     1 | `Node / TickInfo ← (GC root)` |
 
 ##### `Node / AliasedUint8Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                         |
-| ----: | ---: | --------: | ---------------------------------------------------------------------------- |
-| 50.0% | 56 B |         1 | `Node / AliasedUint8Array ←.fields– Node / TickInfo`                         |
-| 50.0% | 56 B |         1 | `Node / AliasedUint8Array ←.is_building_snapshot_buffer– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                         |
+| ----: | ---: | ----: | ---------------------------------------------------------------------------- |
+| 50.0% | 56 B |     1 | `Node / AliasedUint8Array ←.fields– Node / TickInfo`                         |
+| 50.0% | 56 B |     1 | `Node / AliasedUint8Array ←.is_building_snapshot_buffer– Node / BindingData` |
 
 ##### `Node / AliasedBigInt64Array` (`<unknown>`)
 
-|     % | Size | Instances | Path                                                                          |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------- |
-| 50.0% | 56 B |         1 | `Node / AliasedBigInt64Array ←.stats_field_bigint_array– Node / BindingData`  |
-| 50.0% | 56 B |         1 | `Node / AliasedBigInt64Array ←.statfs_field_bigint_array– Node / BindingData` |
+|     % | Size | Nodes | Path                                                                          |
+| ----: | ---: | ----: | ----------------------------------------------------------------------------- |
+| 50.0% | 56 B |     1 | `Node / AliasedBigInt64Array ←.stats_field_bigint_array– Node / BindingData`  |
+| 50.0% | 56 B |     1 | `Node / AliasedBigInt64Array ←.statfs_field_bigint_array– Node / BindingData` |
 
 ##### `BigUint64Array` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                |
-| -----: | ---: | --------: | --------------------------------------------------- |
-| 100.0% | 96 B |         1 | `BigUint64Array ←.hrBigintValues– system / Context` |
+|      % | Size | Nodes | Path                                                |
+| -----: | ---: | ----: | --------------------------------------------------- |
+| 100.0% | 96 B |     1 | `BigUint64Array ←.hrBigintValues– system / Context` |
 
 ##### `Float32Array` (`<unknown>`)
 
-|      % | Size | Instances | Path                                            |
-| -----: | ---: | --------: | ----------------------------------------------- |
-| 100.0% | 96 B |         1 | `Float32Array ←.float32Array– system / Context` |
+|      % | Size | Nodes | Path                                            |
+| -----: | ---: | ----: | ----------------------------------------------- |
+| 100.0% | 96 B |     1 | `Float32Array ←.float32Array– system / Context` |
 
 ##### `Node / BlobBindingData` (`<unknown>`)
 
-|      % | Size | Instances | Path                                 |
-| -----: | ---: | --------: | ------------------------------------ |
-| 100.0% | 96 B |         1 | `Node / BlobBindingData ← (GC root)` |
+|      % | Size | Nodes | Path                                 |
+| -----: | ---: | ----: | ------------------------------------ |
+| 100.0% | 96 B |     1 | `Node / BlobBindingData ← (GC root)` |
 
 ##### `Node / CleanupQueue` (`<unknown>`)
 
-|      % | Size | Instances | Path                              |
-| -----: | ---: | --------: | --------------------------------- |
-| 100.0% | 80 B |         1 | `Node / CleanupQueue ← (GC root)` |
+|      % | Size | Nodes | Path                              |
+| -----: | ---: | ----: | --------------------------------- |
+| 100.0% | 80 B |     1 | `Node / CleanupQueue ← (GC root)` |
 
 ##### `Node / NodeArrayBufferAllocator` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                                   |
-| -----: | ---: | --------: | ---------------------------------------------------------------------- |
-| 100.0% | 32 B |         1 | `Node / NodeArrayBufferAllocator ←.node_allocator– Node / IsolateData` |
+|      % | Size | Nodes | Path                                                                   |
+| -----: | ---: | ----: | ---------------------------------------------------------------------- |
+| 100.0% | 32 B |     1 | `Node / NodeArrayBufferAllocator ←.node_allocator– Node / IsolateData` |
 
 ##### `Node / js_promise_hooks` (`<unknown>`)
 
-|      % | Size | Instances | Path                                                            |
-| -----: | ---: | --------: | --------------------------------------------------------------- |
-| 100.0% | 32 B |         1 | `Node / js_promise_hooks ←.js_promise_hooks– Node / AsyncHooks` |
+|      % | Size | Nodes | Path                                                            |
+| -----: | ---: | ----: | --------------------------------------------------------------- |
+| 100.0% | 32 B |     1 | `Node / js_promise_hooks ←.js_promise_hooks– Node / AsyncHooks` |
 
 ## Largest functions
 
@@ -1126,13 +1130,13 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `wrappedFn` (`node:internal/errors:535:21`)
 
-|    % | Self | Name                      | Location                          | Path                                                                                                                                                                                                                                                                |
-| ---: | ---: | ------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.8% | 72 B | `system / FeedbackVector` | `<unknown>`                       | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (node:internal/validators:162:40) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                |
-| 0.7% | 64 B | `genericNodeError`        | `node:internal/errors:981:67`     | `genericNodeError ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                                                                                                     |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/validators:607:3`  | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21) ←.checkRangesOrGetDefault– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1163– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/validators:546:49` | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21) ←.validateLinkHeaderValue– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1163– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)` |
-| 0.6% | 56 B | `(anonymous)`             | `node:internal/validators:486:43` | `(anonymous) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21) ←.validateUndefined– Object ←.exports– BuiltinModule (node:internal/bootstrap/realm:239:14) ←.1163– array ←.table– Map ←.map– BuiltinModule (node:internal/bootstrap/realm:239:14)`       |
+|    % |  Self | Name                       | Location                      | Path                                                                                                                                                                                 |
+| ---: | ----: | -------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1.3% | 120 B | `system / DescriptorArray` | `<unknown>`                   | `system / DescriptorArray ←.descriptors– system / Map ←(several wrappedFn paths)– (GC root)`                                                                                         |
+| 1.1% | 104 B | `system / FeedbackVector`  | `<unknown>`                   | `system / FeedbackVector ←.value– system / FeedbackCell ←(several wrappedFn paths)– (GC root)`                                                                                       |
+| 0.8% |  72 B | `system / FeedbackVector`  | `<unknown>`                   | `system / FeedbackVector ←.value– system / FeedbackCell ←.feedback_cell– (anonymous) (node:internal/validators:162:40) ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)` |
+| 0.8% |  72 B | `system / Map`             | `<unknown>`                   | `system / Map ←(several wrappedFn paths)– (GC root)`                                                                                                                                 |
+| 0.7% |  64 B | `genericNodeError`         | `node:internal/errors:981:67` | `genericNodeError ←.withoutStackTrace– wrappedFn (node:internal/errors:535:21)`                                                                                                      |
 
 #### `inspect` (`node:internal/util/inspect:354:17`)
 
@@ -1154,15 +1158,27 @@ Retained nodes with the largest contribution to each function's retained size.
 | 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←._debug– Module (node:internal/modules/cjs/loader:332:16)`                         |
 | 3.0% | 256 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– deprecated (node:internal/util:159:22) ←.get parent– Object ←.prototype– Module (node:internal/modules/cjs/loader:332:16)` |
 
+#### `(anonymous)` (`node:internal/errors:452:27`)
+
+|    % | Self | Name                    | Location    | Path                                                            |
+| ---: | ---: | ----------------------- | ----------- | --------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several (anonymous) paths)– (GC root)` |
+
+#### `(anonymous)` (`node:internal/errors:448:28`)
+
+|    % | Self | Name                    | Location    | Path                                                            |
+| ---: | ---: | ----------------------- | ----------- | --------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several (anonymous) paths)– (GC root)` |
+
 #### `(anonymous)` (`<unknown>`)
 
-|    % |  Self | Name                       | Location    | Path                                                                      |
-| ---: | ----: | -------------------------- | ----------- | ------------------------------------------------------------------------- |
-| 3.2% | 264 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)` |
-| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
-| 1.9% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– Object ←.prototype– (anonymous)`       |
-| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
-| 0.9% |  72 B | `system / Map`             | `<unknown>` | `system / Map ←.map– (anonymous)`                                         |
+|    % |  Self | Name                       | Location                  | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ---: | ----: | -------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3.2% | 264 B | `system / DescriptorArray` | `<unknown>`               | `system / DescriptorArray ←.descriptors– system / Map ←.map– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>`               | `(object properties) ←.properties– Object ←.prototype– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 1.9% | 160 B | `(object properties)`      | `<unknown>`               | `(object properties) ←.properties– Object ←.prototype– (anonymous)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 1.4% | 120 B | `array`                    | `<unknown>`               | `array ←.parameters_and_registers– Generator (node:internal/modules/run_main:105:47) ←.extension– system / Context ←(several paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several (anonymous) paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)` |
+| 1.3% | 104 B | `URLContext`               | `node:internal/url:175:1` | `URLContext ←.#context– URL (node:internal/url:802:14) ←(several paths)– Generator (node:internal/modules/esm/loader:679:34) ←.extension– system / Context ←(several (anonymous) paths)– system / PromiseReaction ←.reactions_or_result– Promise ←.(Bootstrapper)– Generator (node:internal/modules/esm/module_job:332:12)`                                                                                                                                                                                                                 |
 
 #### `SafeIterator` (`node:internal/per_context/primordials:330:16`)
 
@@ -1193,6 +1209,18 @@ Retained nodes with the largest contribution to each function's retained size.
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– SystemError (node:internal/errors:276:14) ←.prototype– NodeError (node:internal/errors:395:16)`                                                                          |
 | 2.1% | 160 B | `(object properties)`      | `<unknown>` | `(object properties) ←.properties– NodeError (node:internal/errors:395:16) ←.prototype– HideStackFramesError (node:internal/errors:407:16) ←.HideStackFramesError– NodeError (node:internal/errors:395:16)` |
 | 1.9% | 144 B | `system / DescriptorArray` | `<unknown>` | `system / DescriptorArray ←.descriptors– system / Map ←.map– NodeError (node:internal/errors:395:16)`                                                                                                       |
+
+#### `toString` (`node:internal/errors:456:17`)
+
+|    % | Self | Name                    | Location    | Path                                                         |
+| ---: | ---: | ----------------------- | ----------- | ------------------------------------------------------------ |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several toString paths)– (GC root)` |
+
+#### `NodeError` (`node:internal/errors:434:36`)
+
+|    % | Self | Name                    | Location    | Path                                                          |
+| ---: | ---: | ----------------------- | ----------- | ------------------------------------------------------------- |
+| 0.3% | 24 B | `system / FeedbackCell` | `<unknown>` | `system / FeedbackCell ←(several NodeError paths)– (GC root)` |
 
 ## Largest strings
 

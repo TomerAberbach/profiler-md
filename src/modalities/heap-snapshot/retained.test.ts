@@ -161,6 +161,26 @@ test(`computeEntityRetentions repeats no long search for an entity a path avoids
   ])
 })
 
+test(`computeEntityRetentions reports the nodes an entity's instances retain only together`, () => {
+  // 0 → 1 → 3 → 4 and 0 → 2 → 3, where 1 and 2 are the entity's instances
+  const retentions = entityRetentionsOf({
+    nodeCount: 5,
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+      [3, 4],
+    ],
+    nodeOrdinalToEntityIndex: [-1, 0, 0, -1, -1],
+    selfSizes: [0, 1, 2, 4, 8],
+  })
+
+  expect(
+    retentions.map(({ jointlyRetainedOrdinals }) => jointlyRetainedOrdinals),
+  ).toStrictEqual([[3]])
+})
+
 test.each([
   {
     scenario: `a node the instances retain only together holds an edge to a node it does not dominate`,

@@ -126,7 +126,11 @@ export const makeAggregatedHeapSnapshot = ({
   retentionsOf,
   retainerHopOf: () => undefined,
   retainerOf: nodeOrdinal => ({ id: nodeOrdinal, name: `` }),
+  nodeOf: () => {
+    throw new Error(`expected no jointly retained nodes`)
+  },
   retainedNodesOf: () => [],
+  isInternalNode: () => false,
 })
 
 /** A snapshot's {@link AggregatedHeapSnapshot.retentionsOf} with one size per set. */
@@ -136,6 +140,7 @@ export const fixedRetentions =
     instanceOrdinalSets.map(() => ({
       retainedSize,
       outermostInstanceOrdinals: [],
+      jointlyRetainedOrdinals: [],
     }))
 
 /**
@@ -227,6 +232,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
     { length: instanceCount },
     (_, index) => index,
   ),
+  jointlyRetainedOrdinals: [],
 })
 
 export const makeAggregatedHeapSnapshotFunction = ({
@@ -256,6 +262,7 @@ export const makeAggregatedHeapSnapshotFunction = ({
     { length: instanceCount },
     (_, index) => index,
   ),
+  jointlyRetainedOrdinals: [],
 })
 
 export const makeAggregatedHeapSnapshotString = ({
@@ -320,4 +327,4 @@ export const retainedNodeTables = (md: string, name: string): Table[] => {
 export const largestStringsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest strings`)
 
-export const SEVERAL_PATHS_NOTE = `\`B ←(several paths)– A\` means \`A\` retains \`B\` only through other nodes, along several paths.`
+export const SEVERAL_PATHS_NOTE = `\`B ←(several paths)– A\` means \`A\` retains \`B\` only through other nodes, and \`(several C paths)\` means every path passes through an instance of \`C\`, though no single instance retains \`B\`.`

@@ -3,6 +3,7 @@ import {
   functionTables,
   largestStringsTables,
   retainedNodeTables,
+  retainedSizeRetainerPathTables,
   retainedSizeTables,
   selfSizeRetainerPathTables,
   selfSizeTables,
@@ -320,22 +321,27 @@ const makeStringSnapshot = (value: string) =>
     strings: [``, `MyClass`, value],
   })
 
+const property = (name: number, toOrdinal: number) =>
+  makeV8Edge({
+    type: EDGE_TYPE_PROPERTY,
+    nameOrIndex: name,
+    toNode: 6 * toOrdinal,
+  })
+
 // A synthetic root retaining two `Owner` nodes, which both hold an edge to one
 // `Joint` node holding an `Array` node of `arraySize` bytes. Neither `Owner`
 // dominates the `Joint` node, though only the two keep it reachable.
-const makeJointlyRetainedSnapshot = (arraySize: number) => {
+const makeJointlyRetainedSnapshot = (
+  arraySize: number,
+  ownerNodeType: number = NODE_TYPE_OBJECT,
+) => {
   const object = (
     name: number,
     id: number,
     selfSize: number,
     edgeCount: number,
-  ) => makeV8Node({ type: NODE_TYPE_OBJECT, name, id, selfSize, edgeCount })
-  const property = (name: number, toOrdinal: number) =>
-    makeV8Edge({
-      type: EDGE_TYPE_PROPERTY,
-      nameOrIndex: name,
-      toNode: 6 * toOrdinal,
-    })
+    type: number = NODE_TYPE_OBJECT,
+  ) => makeV8Node({ type, name, id, selfSize, edgeCount })
   return makeV8Snapshot({
     nodeCount: 5,
     edgeCount: 5,
@@ -347,8 +353,8 @@ const makeJointlyRetainedSnapshot = (arraySize: number) => {
         selfSize: 0,
         edgeCount: 2,
       }),
-      ...object(1, 3, 24, 1),
-      ...object(1, 5, 24, 1),
+      ...object(1, 3, 24, 1, ownerNodeType),
+      ...object(1, 5, 24, 1, ownerNodeType),
       ...object(2, 7, 16, 1),
       ...object(3, 9, arraySize, 0),
     ],
@@ -466,7 +472,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `200 B`,
-          Instances: `1`,
+          Nodes: `1`,
           Path: `MyClass ← (GC root)`,
         },
       ],
@@ -741,6 +747,75 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`a constructor's retainer paths show the nodes its instances retain only together`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeJointlyRetainedSnapshot(800),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(retainedSizeRetainerPathTables(md, `Owner`)).toStrictEqual([
+      [
+        {
+          '%': `94.4%`,
+          Size: `816 B`,
+          Nodes: `1`,
+          Path: `Joint ←(several Owner paths)– (GC root)`,
+        },
+        {
+          '%': `5.6%`,
+          Size: `48 B`,
+          Nodes: `2`,
+          Path: `Owner ← (GC root)`,
+        },
+      ],
+    ])
+  })
+
+  test(`a constructor's self size retainer paths omit the nodes its instances retain only together`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeJointlyRetainedSnapshot(800),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(selfSizeRetainerPathTables(md, `Owner`)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `48 B`,
+          Nodes: `2`,
+          Path: `Owner ← (GC root)`,
+        },
+      ],
+    ])
+  })
+
+  test(`a function's retained nodes include the nodes its instances retain only together`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeJointlyRetainedSnapshot(800, NODE_TYPE_CLOSURE),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
+
+    expect(retainedNodeTables(md, `Owner`)).toStrictEqual([
+      [
+        {
+          '%': `92.6%`,
+          Self: `800 B`,
+          Name: `Array`,
+          Path: `Array ←.data– Joint ←(several Owner paths)– (GC root)`,
+        },
+        {
+          '%': `1.9%`,
+          Self: `16 B`,
+          Name: `Joint`,
+          Path: `Joint ←(several Owner paths)– (GC root)`,
+        },
+      ],
+    ])
+  })
+
   test(`logs that retained sizes are lower bounds when the heap exceeds the work limit`, () => {
     convertJsonToMd(
       v8HeapSnapshotFormatSpec,
@@ -805,7 +880,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `50 B`,
-          Instances: `1`,
+          Nodes: `1`,
           Path: `child ←.unknown– parent`,
         },
       ],
@@ -876,7 +951,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `50 B`,
-          Instances: `1`,
+          Nodes: `1`,
           Path: `child ←(several paths)– holder`,
         },
       ],
@@ -935,7 +1010,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `50 B`,
-          Instances: `1`,
+          Nodes: `1`,
           Path: `child ←[<unknown>]– parent`,
         },
       ],
@@ -1117,7 +1192,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `250 B`,
-          Instances: `2`,
+          Nodes: `2`,
           Path: `Widget ← (GC root)`,
         },
       ],
@@ -1136,7 +1211,7 @@ describe(`convert`, () => {
         {
           '%': `80.0%`,
           Size: `200 B`,
-          Instances: `1`,
+          Nodes: `1`,
           Path: `Widget ← (GC root)`,
         },
       ],
@@ -1156,7 +1231,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `300 B`,
-          Instances: `2`,
+          Nodes: `2`,
           Path: `Array ← (GC root)`,
         },
       ],
@@ -1189,12 +1264,6 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
   const snapshotWithSize = (selfSize: number) => {
     const object = (name: number, id: number, edgeCount: number) =>
       makeV8Node({ type: NODE_TYPE_OBJECT, name, id, selfSize, edgeCount })
-    const property = (name: number, toOrdinal: number) =>
-      makeV8Edge({
-        type: EDGE_TYPE_PROPERTY,
-        nameOrIndex: name,
-        toNode: 6 * toOrdinal,
-      })
     return makeV8Snapshot({
       nodeCount: 7,
       edgeCount: 7,
@@ -1237,7 +1306,7 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
         Delta: `+8 B`,
         '%': `100.0%`,
         Size: `8 B → 16 B`,
-        Instances: `1`,
+        Nodes: `1`,
         Path: path,
       },
     ],
@@ -1290,6 +1359,62 @@ test(`diffProfiles ranks a constructor by the change in the nodes its instances 
         Size: `800 B → 1.56 KiB`,
         Instances: `1`,
         Constructor: `Array`,
+      },
+    ],
+  ])
+})
+
+test(`diffProfiles shows the change in the nodes a constructor's instances retain only together`, () => {
+  const md = diffProfiles(
+    {
+      data: JSON.stringify(makeJointlyRetainedSnapshot(800)),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      data: JSON.stringify(makeJointlyRetainedSnapshot(1600)),
+      format: `v8-heap-snapshot`,
+    },
+    { baseURL: null },
+  )
+
+  expect(retainedSizeRetainerPathTables(md, `Owner`)).toStrictEqual([
+    [
+      {
+        Change: `+98.0%`,
+        Delta: `+800 B`,
+        '%': `94.4% → 97.1%`,
+        Size: `816 B → 1.58 KiB`,
+        Nodes: `1`,
+        Path: `Joint ←(several Owner paths)– (GC root)`,
+      },
+    ],
+  ])
+})
+
+test(`diffProfiles shows the change in the nodes a function's instances retain only together`, () => {
+  const md = diffProfiles(
+    {
+      data: JSON.stringify(makeJointlyRetainedSnapshot(800, NODE_TYPE_CLOSURE)),
+      format: `v8-heap-snapshot`,
+    },
+    {
+      data: JSON.stringify(
+        makeJointlyRetainedSnapshot(1600, NODE_TYPE_CLOSURE),
+      ),
+      format: `v8-heap-snapshot`,
+    },
+    { baseURL: null },
+  )
+
+  expect(retainedNodeTables(md, `Owner`)).toStrictEqual([
+    [
+      {
+        Change: `+100.0%`,
+        Delta: `+800 B`,
+        '%': `92.6% → 96.2%`,
+        Self: `800 B → 1.56 KiB`,
+        Name: `Array`,
+        'Path to function': `Array ←.data– Joint ←(several Owner paths)– Owner`,
       },
     ],
   ])
