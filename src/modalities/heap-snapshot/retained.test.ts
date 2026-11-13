@@ -147,6 +147,20 @@ test(`computeEntityRetentions counts each instance's own retained size past the 
   ])
 })
 
+test(`computeEntityRetentions repeats no long search for an entity a path avoids`, () => {
+  const searchedNodeCount = 2000
+  const graph = makeRepeatedSearchGraph(searchedNodeCount)
+
+  const budget = new WorkBudget(8 * (graph.nodeCount + graph.edges.length))
+
+  const retentions = entityRetentionsOf(graph, budget)
+
+  expect(budget.isExhausted).toBe(false)
+  expect(retentions.map(({ retainedSize }) => retainedSize)).toStrictEqual([
+    searchedNodeCount,
+  ])
+})
+
 test.each([
   {
     scenario: `a node the instances retain only together holds an edge to a node it does not dominate`,
@@ -247,6 +261,61 @@ type GraphWithEntities = {
   edges: readonly (readonly [number, number])[]
   nodeOrdinalToEntityIndex: readonly number[]
   selfSizes: readonly number[]
+}
+
+/**
+ * A chain alternating {@link searchedNodeCount} instances of one entity and
+ * nodes that a back chain of as many nodes also holds edges to. A path
+ * avoiding the instances reaches the back chain, so a search from each
+ * non-instance walks it unless an earlier search recorded that path.
+ */
+const makeRepeatedSearchGraph = (
+  searchedNodeCount: number,
+): GraphWithEntities => {
+  const avoidingOrdinal = 1
+  const instanceOrdinal = (index: number) => 2 + index
+  const searchedOrdinal = (index: number) => 2 + searchedNodeCount + index
+  const backChainOrdinal = (index: number) => 2 + 2 * searchedNodeCount + index
+  const lastBackChainOrdinal = backChainOrdinal(searchedNodeCount - 1)
+  const headOrdinal = lastBackChainOrdinal + 1
+  const nodeCount = headOrdinal + 1
+  const indices = Array.from({ length: searchedNodeCount }, (_, index) => index)
+  const edges: [number, number][] = [
+    [0, instanceOrdinal(0)],
+    [0, avoidingOrdinal],
+    [avoidingOrdinal, headOrdinal],
+    ...indices.flatMap((index): [number, number][] => [
+      [instanceOrdinal(index), searchedOrdinal(index)],
+      ...(index + 1 < searchedNodeCount
+        ? ([[searchedOrdinal(index), instanceOrdinal(index + 1)]] as [
+            number,
+            number,
+          ][])
+        : []),
+    ]),
+    [searchedOrdinal(searchedNodeCount - 1), headOrdinal],
+    [headOrdinal, backChainOrdinal(0)],
+    ...indices
+      .slice(1)
+      .map((index): [number, number] => [
+        backChainOrdinal(index - 1),
+        backChainOrdinal(index),
+      ]),
+    ...indices.map((index): [number, number] => [
+      lastBackChainOrdinal,
+      searchedOrdinal(index),
+    ]),
+  ]
+  return {
+    nodeCount,
+    edges,
+    nodeOrdinalToEntityIndex: Array.from({ length: nodeCount }, (_, ordinal) =>
+      ordinal >= instanceOrdinal(0) && ordinal < searchedOrdinal(0) ? 0 : -1,
+    ),
+    selfSizes: Array.from({ length: nodeCount }, (_, ordinal) =>
+      ordinal >= instanceOrdinal(0) && ordinal < searchedOrdinal(0) ? 1 : 0,
+    ),
+  }
 }
 
 const entityRetentionsOf = (
