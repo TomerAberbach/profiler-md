@@ -100,6 +100,7 @@ const configNames: Record<string, string> = {
   [`cpu-stackdepth-64`]: `CPU (stackdepth=64)`,
   [`wall-maxdepth-16`]: `wall (max depth 16)`,
   goroutineleak: `goroutine leak`,
+  py310: `Python 3.10`,
 }
 
 type VariantGroup = {

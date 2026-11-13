@@ -846,6 +846,67 @@ describe(`convert`, () => {
     ])
   })
 
+  test.each([
+    {
+      version: `3.10`,
+      pythonVersion: 0x03_0a_00_00,
+      // Ranges of two bytes, each one instruction, each moving the line by one
+      // before the range it states.
+      expectedLines: [`./hot.py:12`, `./hot.py:11`],
+    },
+    {
+      version: `3.9`,
+      pythonVersion: 0x03_09_00_00,
+      // Offsets in bytes, each moving the line by one after the offset it
+      // advances to, so offsets 0 and 1 precede the first move.
+      expectedLines: [`./hot.py:10`],
+    },
+  ])(
+    `reads a line table of pairs from a $version capture`,
+    ({ pythonVersion, expectedLines }) => {
+      const md = convertBytesToMd(
+        memrayFormatSpec,
+        makeMemray({
+          pythonVersion,
+          codeObjects: [
+            {
+              id: 1,
+              functionName: `hot`,
+              filename: `/app/hot.py`,
+              firstLineNumber: 10,
+              lineTable: [2, 1, 2, 1],
+            },
+          ],
+          records: [
+            { type: `thread`, threadId: MAIN_THREAD_ID },
+            { type: `push`, codeObjectId: 1, instructionOffset: 0 },
+            {
+              type: `alloc`,
+              allocator: MEMRAY_MALLOC,
+              address: 0x1000,
+              size: 1024,
+            },
+            { type: `pop` },
+            { type: `push`, codeObjectId: 1, instructionOffset: 1 },
+            {
+              type: `alloc`,
+              allocator: MEMRAY_MALLOC,
+              address: 0x2000,
+              size: 3072,
+            },
+          ],
+        }),
+        options(),
+      )
+
+      expect(
+        linesTables(md, `hot`)
+          .flat()
+          .map(row => row.Location),
+      ).toStrictEqual(expectedLines)
+    },
+  )
+
   test(`reads the totals a --aggregate capture states per stack`, () => {
     const md = convertBytesToMd(
       memrayFormatSpec,
