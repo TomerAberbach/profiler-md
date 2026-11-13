@@ -294,7 +294,7 @@ describe(`call tree`, () => {
       ),
     ).toStrictEqual([
       [
-        `└── 1s (100.0%) main at ./src/main.ts:1`,
+        `└── 1.00s (100.0%) main at ./src/main.ts:1`,
         `    ├── 970.0ms (97.0%) mid at 10`,
         `    │   └── 970.0ms (97.0%) hot at ./src/hot.ts:5`,
         `    ├── 10.0ms (1.0%) cold0 at ./src/cold.ts:10`,
@@ -519,7 +519,7 @@ describe(`call tree`, () => {
       ),
     ).toStrictEqual([
       [
-        `└── 1s (100.0%) main at ./src/main.ts:1`,
+        `└── 1.00s (100.0%) main at ./src/main.ts:1`,
         `    ├── 500.0ms (49.9%) hot at 2`,
         `    └── 500.0ms (49.9%) wide at 3`,
         `        └── 500.0ms (49.9%) 10 more callees, led by (5.0%) each0 at ./src/each.ts:1`,
@@ -650,7 +650,7 @@ describe(`call tree`, () => {
       ),
     ).toStrictEqual([
       [
-        `└── 10s (100.0%) main at ./src/main.ts:1`,
+        `└── 10.00s (100.0%) main at ./src/main.ts:1`,
         `    └── 9.96s (99.6%) hot at ./src/hot.ts:1`,
       ],
     ])
@@ -672,7 +672,7 @@ describe(`call tree`, () => {
       ),
     ).toStrictEqual([
       [
-        `└── 10s (100.0%) main at ./src/main.ts:1`,
+        `└── 10.00s (100.0%) main at ./src/main.ts:1`,
         `    ├── 9.92s (99.2%) hot at ./src/hot.ts:1`,
         `    └── 80.0ms (0.8%) 20 more callees, led by (<0.1%) tiny0 at ./src/tiny.ts:1`,
       ],

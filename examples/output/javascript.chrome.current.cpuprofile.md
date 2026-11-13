@@ -1,10 +1,10 @@
 # CPU profile
 
-Took 4.22s over 3,379 samples (1.3ms per sample).
+Took 4.23s over 3,379 samples (1.3ms per sample).
 
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
-| Third-party       | 92.4% |   3.90s |   3,134 |
+| Third-party       | 92.4% |   3.91s |   3,134 |
 | Native            |  3.4% | 142.1ms |     104 |
 | Garbage collector |  3.3% | 137.6ms |     108 |
 | Ours              |  0.8% |  32.6ms |      26 |
@@ -19,12 +19,12 @@ Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 Call paths to the hottest functions.
 
 ```
-├── 4s (94.7%) (anonymous) at ./run.mjs:1:1
-│   └── 3.99s (94.6%) globalThis.buildAndRetainDom at ./workload.mjs:1:32
+├── 4.00s (94.7%) (anonymous) at ./run.mjs:1:1
+│   └── 4.00s (94.6%) globalThis.buildAndRetainDom at ./workload.mjs:1:32
 │       ├── 3.71s (87.9%) chartLayouts at 116:24
-│       │   ├── 2.13s (50.6%) h at ./node_modules/d3/dist/d3.min.js:2:235656
+│       │   ├── 2.14s (50.6%) h at ./node_modules/d3/dist/d3.min.js:2:235656
 │       │   │   └── 2.13s (50.5%, self 1.9%) (anonymous) at 2:235751
-│       │   │       ├── 1.21s (28.8%, self 11.0%) f at 2:233501
+│       │   │       ├── 1.22s (28.8%, self 11.0%) f at 2:233501
 │       │   │       │   ├── 621.2ms (14.7%, self 0.9%, self 1.7% globally) Fc.visit at 2:105681
 │       │   │       │   │   └── 581.2ms (13.7%, self 14.3% globally) h at 2:233933
 │       │   │       │   ├── 66.0ms (1.6%, self 1.0%, self 1.5% globally) Fc.visitAfter at 2:106049
@@ -39,7 +39,7 @@ Call paths to the hottest functions.
 │       │   │       │       └── 37.9ms (0.9%) u at 2:231519
 │       │   │       └── 12.4ms (0.3%) l at 2:232151
 │       │   ├── 1.28s (30.3%) d at ./node_modules/d3/dist/d3.min.js:2:223550
-│       │   │   ├── … 1.06s (25.2%, self 23.0%) (anonymous) at ./node_modules/d3/dist/d3.min.js:2:77113
+│       │   │   ├── … 1.07s (25.2%, self 23.0%) (anonymous) at ./node_modules/d3/dist/d3.min.js:2:77113
 │       │   │   │   └── 92.2ms (2.2%, self 1.8%) p at 2:77576
 │       │   │   ├── 160.1ms (3.8%) h at 2:223199
 │       │   │   │   └── 152.5ms (3.6%) (anonymous) at 2:1144
@@ -464,17 +464,17 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                       | Location                                    |
 | ----: | ------: | ------: | ------------------------------ | ------------------------------------------- |
-| 94.7% |      4s |   3,210 | `(anonymous)`                  | `./run.mjs:1:1`                             |
-| 94.6% |   3.99s |   3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                       |
+| 94.7% |   4.00s |   3,210 | `(anonymous)`                  | `./run.mjs:1:1`                             |
+| 94.6% |   4.00s |   3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32`                       |
 | 87.9% |   3.71s |   2,980 | `chartLayouts`                 | `./workload.mjs:116:24`                     |
-| 50.6% |   2.13s |   1,704 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:235656` |
+| 50.6% |   2.14s |   1,704 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:235656` |
 | 50.5% |   2.13s |   1,699 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:235751` |
 | 30.3% |   1.28s |   1,039 | `d`                            | `./node_modules/d3/dist/d3.min.js:2:223550` |
-| 28.8% |   1.21s |     970 | `f`                            | `./node_modules/d3/dist/d3.min.js:2:233501` |
-| 25.5% |   1.07s |     876 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:76982`  |
-| 25.5% |   1.07s |     876 | `i`                            | `./node_modules/d3/dist/d3.min.js:2:76807`  |
+| 28.8% |   1.22s |     970 | `f`                            | `./node_modules/d3/dist/d3.min.js:2:233501` |
+| 25.5% |   1.08s |     876 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:76982`  |
+| 25.5% |   1.08s |     876 | `i`                            | `./node_modules/d3/dist/d3.min.js:2:76807`  |
 | 25.4% |   1.07s |     875 | `o`                            | `./node_modules/d3/dist/d3.min.js:2:77004`  |
-| 25.2% |   1.06s |     868 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:77113`  |
+| 25.2% |   1.07s |     868 | `(anonymous)`                  | `./node_modules/d3/dist/d3.min.js:2:77113`  |
 | 22.2% | 939.3ms |     749 | `Fc.visit`                     | `./node_modules/d3/dist/d3.min.js:2:105681` |
 | 19.0% | 804.2ms |     641 | `a`                            | `./node_modules/d3/dist/d3.min.js:2:231054` |
 | 14.3% | 605.2ms |     482 | `h`                            | `./node_modules/d3/dist/d3.min.js:2:233933` |
@@ -493,14 +493,14 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function      | Location                                    |
 | ----: | ------: | ------: | ------------- | ------------------------------------------- |
-| 50.6% |   2.13s |   1,704 | `h`           | `./node_modules/d3/dist/d3.min.js:2:235656` |
+| 50.6% |   2.14s |   1,704 | `h`           | `./node_modules/d3/dist/d3.min.js:2:235656` |
 | 50.5% |   2.13s |   1,699 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235751` |
 | 30.3% |   1.28s |   1,039 | `d`           | `./node_modules/d3/dist/d3.min.js:2:223550` |
-| 28.8% |   1.21s |     970 | `f`           | `./node_modules/d3/dist/d3.min.js:2:233501` |
-| 25.5% |   1.07s |     876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982`  |
-| 25.5% |   1.07s |     876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`  |
+| 28.8% |   1.22s |     970 | `f`           | `./node_modules/d3/dist/d3.min.js:2:233501` |
+| 25.5% |   1.08s |     876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982`  |
+| 25.5% |   1.08s |     876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`  |
 | 25.4% |   1.07s |     875 | `o`           | `./node_modules/d3/dist/d3.min.js:2:77004`  |
-| 25.2% |   1.06s |     868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  |
+| 25.2% |   1.07s |     868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113`  |
 | 22.2% | 939.3ms |     749 | `Fc.visit`    | `./node_modules/d3/dist/d3.min.js:2:105681` |
 | 19.0% | 804.2ms |     641 | `a`           | `./node_modules/d3/dist/d3.min.js:2:231054` |
 | 14.3% | 605.2ms |     482 | `h`           | `./node_modules/d3/dist/d3.min.js:2:233933` |
@@ -539,7 +539,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller        | Location        |
 | -----: | ----: | ------: | ------------- | --------------- |
-| 100.0% | 3.99s |   3,207 | `(anonymous)` | `./run.mjs:1:1` |
+| 100.0% | 4.00s |   3,207 | `(anonymous)` | `./run.mjs:1:1` |
 
 ##### `chartLayouts` (`./workload.mjs:116:24`)
 
@@ -551,7 +551,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller         | Location                |
 | -----: | ----: | ------: | -------------- | ----------------------- |
-| 100.0% | 2.13s |   1,704 | `chartLayouts` | `./workload.mjs:116:24` |
+| 100.0% | 2.14s |   1,704 | `chartLayouts` | `./workload.mjs:116:24` |
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:235751`)
 
@@ -569,19 +569,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller        | Location                                    |
 | -----: | ----: | ------: | ------------- | ------------------------------------------- |
-| 100.0% | 1.21s |     970 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235751` |
+| 100.0% | 1.22s |     970 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:235751` |
 
 ##### `(anonymous)` (`./node_modules/d3/dist/d3.min.js:2:76982`)
 
 |      % |  Time | Samples | Caller | Location                                   |
 | -----: | ----: | ------: | ------ | ------------------------------------------ |
-| 100.0% | 1.07s |     876 | `i`    | `./node_modules/d3/dist/d3.min.js:2:76807` |
+| 100.0% | 1.08s |     876 | `i`    | `./node_modules/d3/dist/d3.min.js:2:76807` |
 
 ##### `i` (`./node_modules/d3/dist/d3.min.js:2:76807`)
 
 |      % |  Time | Samples | Caller | Location                                    |
 | -----: | ----: | ------: | ------ | ------------------------------------------- |
-| 100.0% | 1.07s |     876 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223550` |
+| 100.0% | 1.08s |     876 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223550` |
 
 ##### `o` (`./node_modules/d3/dist/d3.min.js:2:77004`)
 
@@ -593,7 +593,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller | Location                                   |
 | -----: | ----: | ------: | ------ | ------------------------------------------ |
-| 100.0% | 1.06s |     868 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
+| 100.0% | 1.07s |     868 | `o`    | `./node_modules/d3/dist/d3.min.js:2:77004` |
 
 ##### `Fc.visit` (`./node_modules/d3/dist/d3.min.js:2:105681`)
 
@@ -723,7 +723,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                         | Location              |
 | ----: | ----: | ------: | ------------------------------ | --------------------- |
-| 99.9% | 3.99s |   3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
+| 99.9% | 4.00s |   3,207 | `globalThis.buildAndRetainDom` | `./workload.mjs:1:32` |
 
 ##### `globalThis.buildAndRetainDom` (`./workload.mjs:1:32`)
 
@@ -739,7 +739,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee | Location                                    |
 | ----: | ------: | ------: | ------ | ------------------------------------------- |
-| 57.6% |   2.13s |   1,704 | `h`    | `./node_modules/d3/dist/d3.min.js:2:235656` |
+| 57.6% |   2.14s |   1,704 | `h`    | `./node_modules/d3/dist/d3.min.js:2:235656` |
 | 34.5% |   1.28s |   1,039 | `d`    | `./node_modules/d3/dist/d3.min.js:2:223550` |
 |  4.2% | 154.5ms |     125 | `attr` | `./node_modules/d3/dist/d3.min.js:2:25709`  |
 |  1.2% |  45.1ms |      36 | `join` | `./node_modules/d3/dist/d3.min.js:2:24162`  |
@@ -756,7 +756,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee | Location                                    |
 | ----: | ------: | ------: | ------ | ------------------------------------------- |
-| 57.1% |   1.21s |     970 | `f`    | `./node_modules/d3/dist/d3.min.js:2:233501` |
+| 57.1% |   1.22s |     970 | `f`    | `./node_modules/d3/dist/d3.min.js:2:233501` |
 | 37.7% | 803.3ms |     640 | `a`    | `./node_modules/d3/dist/d3.min.js:2:231054` |
 |  0.6% |  12.4ms |      10 | `l`    | `./node_modules/d3/dist/d3.min.js:2:232151` |
 |  0.5% |  10.1ms |       8 | `g`    | `./node_modules/d3/dist/d3.min.js:2:231215` |
@@ -766,7 +766,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee        | Location                                    |
 | ----: | ------: | ------: | ------------- | ------------------------------------------- |
-| 84.0% |   1.07s |     876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`  |
+| 84.0% |   1.08s |     876 | `i`           | `./node_modules/d3/dist/d3.min.js:2:76807`  |
 | 12.5% | 160.1ms |     127 | `h`           | `./node_modules/d3/dist/d3.min.js:2:223199` |
 |  3.0% |  38.8ms |      31 | `J`           | `./node_modules/d3/dist/d3.min.js:2:8205`   |
 |  0.4% |   5.1ms |       4 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:223701` |
@@ -791,13 +791,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee        | Location                                   |
 | -----: | ----: | ------: | ------------- | ------------------------------------------ |
-| 100.0% | 1.07s |     876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
+| 100.0% | 1.08s |     876 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:76982` |
 
 ##### `o` (`./node_modules/d3/dist/d3.min.js:2:77004`)
 
 |     % |  Time | Samples | Callee        | Location                                   |
 | ----: | ----: | ------: | ------------- | ------------------------------------------ |
-| 99.2% | 1.06s |     868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
+| 99.2% | 1.07s |     868 | `(anonymous)` | `./node_modules/d3/dist/d3.min.js:2:77113` |
 |  0.1% | 1.3ms |       1 | `au`          | `./node_modules/d3/dist/d3.min.js:2:79110` |
 |  0.1% | 1.3ms |       1 | `p`           | `./node_modules/d3/dist/d3.min.js:2:77576` |
 

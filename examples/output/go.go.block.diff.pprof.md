@@ -1,10 +1,10 @@
 # Contention profile diff
 
-Blocked 1.50s (+1.17ms, +0.1%) over 13 contentions (115.9ms → 116.0ms per contention).
+Blocked 1.51s (+1.17ms, +0.1%) over 13 contentions (115.9ms → 116.0ms per contention).
 
 | Category         | Change |   Delta |      % |  Time | Contentions |
 | ---------------- | -----: | ------: | -----: | ----: | ----------: |
-| Standard library |  +0.1% | +1.17ms | 100.0% | 1.50s |          13 |
+| Standard library |  +0.1% | +1.17ms | 100.0% | 1.51s |          13 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/`.
 
@@ -13,8 +13,8 @@ Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/
 Call paths to the hottest and most changed functions.
 
 ```
-└── 1.50s (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
-    └── 1.50s (100.0%) main.main at ./profile.go:82
+└── 1.51s (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+    └── 1.51s (100.0%) main.main at ./profile.go:82
         ├── 1.32s → 1.34s (87.8% → 89.0%) main.workload at 16
         │   └── 1.32s → 1.34s (87.8% → 89.0%) sync.(*WaitGroup).Wait at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160
         └── 178.4ms → 161.0ms (11.8% → 10.7%) runtime/pprof.StopCPUProfile at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950
@@ -89,8 +89,8 @@ Functions with the largest increase in time blocked within the function and its 
 | -----: | -------: | ------------: | --------------: | ----------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 |  +1.5% | +19.46ms | 87.8% → 89.0% |   1.32s → 1.34s |           1 | `sync.(*WaitGroup).Wait`                       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`        |
 |  +1.5% | +19.46ms | 87.8% → 89.0% |   1.32s → 1.34s |           1 | `main.workload`                                | `./profile.go:16`                                                                                 |
-|  +0.1% |  +1.17ms |        100.0% |           1.50s |           3 | `main.main`                                    | `./profile.go:82`                                                                                 |
-|  +0.1% |  +1.17ms |        100.0% |           1.50s |           3 | `runtime.main`                                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
+|  +0.1% |  +1.17ms |        100.0% |           1.51s |           3 | `main.main`                                    | `./profile.go:82`                                                                                 |
+|  +0.1% |  +1.17ms |        100.0% |           1.51s |           3 | `runtime.main`                                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 |    new |  +0.02ms |  0.0% → <0.1% |    0ms → 16.9µs |      0 → 10 | `runtime.mallocgcSmallScanNoHeader`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1503`       |
 |    new |  +0.02ms |  0.0% → <0.1% |    0ms → 16.9µs |      0 → 10 | `runtime.growslice`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/slice.go:178`         |
 | +54.4% |  +0.01ms |         <0.1% | 11.0µs → 16.9µs |          10 | `runtime.gcBgMarkStartWorkers`                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1672`          |
@@ -110,7 +110,7 @@ Functions with the largest increase in time blocked within the function and its 
 | Change |    Delta |             % |            Time | Contentions | Function                                       | Location                                                                                          |
 | -----: | -------: | ------------: | --------------: | ----------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 |  +1.5% | +19.46ms | 87.8% → 89.0% |   1.32s → 1.34s |           1 | `sync.(*WaitGroup).Wait`                       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`        |
-|  +0.1% |  +1.17ms |        100.0% |           1.50s |           3 | `runtime.main`                                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
+|  +0.1% |  +1.17ms |        100.0% |           1.51s |           3 | `runtime.main`                                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 |    new |  +0.02ms |  0.0% → <0.1% |    0ms → 16.9µs |      0 → 10 | `runtime.mallocgcSmallScanNoHeader`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1503`       |
 |    new |  +0.02ms |  0.0% → <0.1% |    0ms → 16.9µs |      0 → 10 | `runtime.growslice`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/slice.go:178`         |
 | +54.4% |  +0.01ms |         <0.1% | 11.0µs → 16.9µs |          10 | `runtime.mallocgc`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067`       |
@@ -169,7 +169,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |      % |  Time | Contentions | Caller         | Location                                                                                 |
 | -----: | ------: | -----: | ----: | ----------: | -------------- | ---------------------------------------------------------------------------------------- |
-|  +0.1% | +1.17ms | 100.0% | 1.50s |           3 | `runtime.main` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149` |
+|  +0.1% | +1.17ms | 100.0% | 1.51s |           3 | `runtime.main` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149` |
 
 ##### `runtime.mallocgcSmallScanNoHeader` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1503`)
 
@@ -319,7 +319,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |      % |  Time | Contentions | Callee      | Location          |
 | -----: | ------: | -----: | ----: | ----------: | ----------- | ----------------- |
-|  +0.1% | +1.17ms | 100.0% | 1.50s |           3 | `main.main` | `./profile.go:82` |
+|  +0.1% | +1.17ms | 100.0% | 1.51s |           3 | `main.main` | `./profile.go:82` |
 
 ##### `runtime.mallocgcSmallScanNoHeader` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1503`)
 

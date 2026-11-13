@@ -1,10 +1,10 @@
 # Wall time profile
 
-Took 15.74s over 1,555 samples (10.1ms per sample).
+Took 15.75s over 1,555 samples (10.1ms per sample).
 
 | Category         |     % |    Time | Samples |
 | ---------------- | ----: | ------: | ------: |
-| Native           | 54.1% |   8.51s |     839 |
+| Native           | 54.1% |   8.52s |     839 |
 | Third-party      | 42.6% |   6.70s |     663 |
 | Standard library |  1.7% | 274.1ms |      27 |
 | Ours             |  1.6% | 257.3ms |      26 |
@@ -18,16 +18,16 @@ Paths starting with `./` or `../` are relative to `/src/app/`.
 Call paths to the hottest functions.
 
 ```
-└── 15.74s (100.0%) <main> at profile.rb
+└── 15.75s (100.0%) <main> at profile.rb
     ├── … 14.88s (94.5%) ActionDispatch::Static#call at /usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/static.rb
-    │   └── … 14.78s (93.9%) ActiveSupport::Callbacks#run_callbacks at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb
+    │   └── … 14.79s (93.9%) ActiveSupport::Callbacks#run_callbacks at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb
     │       ├── … 13.37s (84.9%) AbstractController::Rendering#render at /usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/rendering.rb
-    │       │   └── … 13.24s (84.1%) ActionView::TemplateRenderer#render at /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb
-    │       │       └── … 13.19s (83.8%) ActiveSupport::Notifications.instrument at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb
-    │       │           └── … 13.13s (83.4%) Kernel#public_send [c function]
+    │       │   └── … 13.25s (84.1%) ActionView::TemplateRenderer#render at /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb
+    │       │       └── … 13.20s (83.8%) ActiveSupport::Notifications.instrument at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb
+    │       │           └── … 13.14s (83.4%) Kernel#public_send [c function]
     │       │               ├── 9.26s (58.8%) #<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112 at ./app/views/statuses/index.html.erb
-    │       │               │   └── 9.23s (58.7%) Array#each at <internal:array>
-    │       │               │       ├── 7.05s (44.8%, self 1.5%) block in _app_views_statuses_index_html_erb___3573933945962839437_3112 at ./app/views/statuses/index.html.erb
+    │       │               │   └── 9.24s (58.7%) Array#each at <internal:array>
+    │       │               │       ├── 7.06s (44.8%, self 1.5%) block in _app_views_statuses_index_html_erb___3573933945962839437_3112 at ./app/views/statuses/index.html.erb
     │       │               │       │   ├── 5.84s (37.1%) ActionView::Helpers::SanitizeHelper#sanitize at /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb
     │       │               │       │   │   └── 5.81s (36.9%) Rails::HTML::Concern::ComposedSanitize#sanitize at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
     │       │               │       │   │       ├── … 1.82s (11.6%) Nokogiri::XML::DocumentFragment#to_html at /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
@@ -41,12 +41,12 @@ Call paths to the hottest functions.
     │       │               │       ├── … 709.7ms (4.5%) Module#extend_object [c function]
     │       │               │       ├── … 311.6ms (2.0%) ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment at /usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb
     │       │               │       │   └── 262.8ms (1.7%, self 1.6%, self 2.8% globally) String#gsub [c function]
-    │       │               │       └── 1.01s (6.5%) 4 more callees, led by (4.3%) block in scrub_attributes at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
-    │       │               ├── … 3.26s (20.8%) ActiveSupport::NumberHelper::NumberConverter#execute at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb
-    │       │               │   └── 3.18s (20.2%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb
-    │       │               │       ├── 3.10s (19.7%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts
+    │       │               │       └── 1.02s (6.5%) 4 more callees, led by (4.3%) block in scrub_attributes at /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │       │               ├── … 3.27s (20.8%) ActiveSupport::NumberHelper::NumberConverter#execute at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb
+    │       │               │   └── 3.19s (20.2%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb
+    │       │               │       ├── 3.11s (19.7%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts
     │       │               │       │   ├── … 2.71s (17.2%) ActiveSupport::NumberHelper::NumberConverter#format_options at /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb
-    │       │               │       │   │   ├── 2.53s (16.1%, self 9.5%) ActiveSupport::NumberHelper::NumberConverter#i18n_format_options
+    │       │               │       │   │   ├── 2.54s (16.1%, self 9.5%) ActiveSupport::NumberHelper::NumberConverter#i18n_format_options
     │       │               │       │   │   │   └── 1.04s (6.6%) 2 more callees, led by (6.4%) I18n::Base#translate at /usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb
     │       │               │       │   │   └── 165.2ms (1.0%) 2 more callees, led by (0.7%) ActiveSupport::NumberHelper::NumberConverter#default_format_options
     │       │               │       │   └── 332.9ms (2.1%) 3 more callees, led by (1.1%) String#split [c function]
@@ -749,26 +749,26 @@ Functions with the most wall time spent within the function and its callees.
 
 |      % |   Time | Samples | Function                                 | Location                                                                                       |
 | -----: | -----: | ------: | ---------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 15.74s |   1,554 | `<main>`                                 | `profile.rb`                                                                                   |
+| 100.0% | 15.75s |   1,554 | `<main>`                                 | `profile.rb`                                                                                   |
 |  94.9% | 14.94s |   1,475 | `Rails::Engine#call`                     | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb`                                  |
-|  94.8% | 14.92s |   1,473 | `ActionDispatch::SSL#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`              |
-|  94.8% | 14.92s |   1,473 | `ActionDispatch::AssumeSSL#call`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`       |
-|  94.5% | 14.88s |   1,469 | `Rack::Sendfile#call`                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                       |
+|  94.8% | 14.93s |   1,473 | `ActionDispatch::SSL#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`              |
+|  94.8% | 14.93s |   1,473 | `ActionDispatch::AssumeSSL#call`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`       |
+|  94.5% | 14.89s |   1,469 | `Rack::Sendfile#call`                    | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                       |
 |  94.5% | 14.88s |   1,468 | `ActionDispatch::Static#call`            | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/static.rb`           |
 |  94.1% | 14.82s |   1,461 | `Rack::Runtime#call`                     | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/runtime.rb`                                        |
 |  94.1% | 14.82s |   1,461 | `ActionDispatch::Executor#call`          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/executor.rb`         |
-|  94.1% | 14.81s |   1,460 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb`                 |
+|  94.1% | 14.82s |   1,460 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb`                 |
 |  94.1% | 14.81s |   1,460 | `ActionDispatch::RequestId#call`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb`       |
 |  94.1% | 14.81s |   1,460 | `Rack::MethodOverride#call`              | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb`                                |
-|  94.0% | 14.80s |   1,459 | `ActionDispatch::RemoteIp#call`          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`        |
-|  93.9% | 14.79s |   1,458 | `Rails::Rack::Logger#call_app`           | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
-|  93.9% | 14.79s |   1,458 | `Rails::Rack::Logger#call`               | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
-|  93.9% | 14.79s |   1,458 | `Rails::Rack::SilenceRequest#call`       | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`                    |
-|  93.9% | 14.78s |   1,457 | `ActionDispatch::Cookies#call`           | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`          |
-|  93.9% | 14.78s |   1,457 | `block in call`                          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
-|  93.9% | 14.78s |   1,457 | `ActionDispatch::Callbacks#call`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
-|  93.9% | 14.78s |   1,457 | `ActionDispatch::DebugExceptions#call`   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
-|  93.9% | 14.78s |   1,457 | `ActionDispatch::ShowExceptions#call`    | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`  |
+|  94.0% | 14.81s |   1,459 | `ActionDispatch::RemoteIp#call`          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`        |
+|  93.9% | 14.80s |   1,458 | `Rails::Rack::Logger#call_app`           | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
+|  93.9% | 14.80s |   1,458 | `Rails::Rack::Logger#call`               | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
+|  93.9% | 14.80s |   1,458 | `Rails::Rack::SilenceRequest#call`       | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`                    |
+|  93.9% | 14.79s |   1,457 | `ActionDispatch::Cookies#call`           | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`          |
+|  93.9% | 14.79s |   1,457 | `block in call`                          | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
+|  93.9% | 14.79s |   1,457 | `ActionDispatch::Callbacks#call`         | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
+|  93.9% | 14.79s |   1,457 | `ActionDispatch::DebugExceptions#call`   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
+|  93.9% | 14.79s |   1,457 | `ActionDispatch::ShowExceptions#call`    | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`  |
 
 #### Categories
 
@@ -778,10 +778,10 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                     | Location    |
 | ----: | ------: | ------: | -------------------------------------------- | ----------- |
-| 83.4% |  13.13s |   1,288 | `Kernel#public_send [c function]`            | `<unknown>` |
-| 29.7% |   4.67s |     457 | `Integer#upto [c function]`                  | `<unknown>` |
+| 83.4% |  13.14s |   1,288 | `Kernel#public_send [c function]`            | `<unknown>` |
+| 29.7% |   4.68s |     457 | `Integer#upto [c function]`                  | `<unknown>` |
 | 12.9% |   2.03s |     200 | `(unknown) [c function]`                     | `<unknown>` |
-| 10.7% |   1.67s |     165 | `Enumerable#map [c function]`                | `<unknown>` |
+| 10.7% |   1.68s |     165 | `Enumerable#map [c function]`                | `<unknown>` |
 |  9.3% |   1.47s |     144 | `Hash#each [c function]`                     | `<unknown>` |
 |  6.3% | 985.6ms |      98 | `Nokogiri::XML::Node#children [c function]`  | `<unknown>` |
 |  5.9% | 922.5ms |      94 | `Digest::Base#<< [c function]`               | `<unknown>` |
@@ -804,24 +804,24 @@ Categories accounting for at least 1.0% of self time.
 |     % |   Time | Samples | Function                                     | Location                                                                                       |
 | ----: | -----: | ------: | -------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | 94.9% | 14.94s |   1,475 | `Rails::Engine#call`                         | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb`                                  |
-| 94.8% | 14.92s |   1,473 | `ActionDispatch::SSL#call`                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`              |
-| 94.8% | 14.92s |   1,473 | `ActionDispatch::AssumeSSL#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`       |
-| 94.5% | 14.88s |   1,469 | `Rack::Sendfile#call`                        | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                       |
+| 94.8% | 14.93s |   1,473 | `ActionDispatch::SSL#call`                   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`              |
+| 94.8% | 14.93s |   1,473 | `ActionDispatch::AssumeSSL#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`       |
+| 94.5% | 14.89s |   1,469 | `Rack::Sendfile#call`                        | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`                                       |
 | 94.5% | 14.88s |   1,468 | `ActionDispatch::Static#call`                | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/static.rb`           |
 | 94.1% | 14.82s |   1,461 | `Rack::Runtime#call`                         | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/runtime.rb`                                        |
 | 94.1% | 14.82s |   1,461 | `ActionDispatch::Executor#call`              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/executor.rb`         |
-| 94.1% | 14.81s |   1,460 | `ActiveSupport::Callbacks#run_callbacks`     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb`                 |
+| 94.1% | 14.82s |   1,460 | `ActiveSupport::Callbacks#run_callbacks`     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb`                 |
 | 94.1% | 14.81s |   1,460 | `ActionDispatch::RequestId#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb`       |
 | 94.1% | 14.81s |   1,460 | `Rack::MethodOverride#call`                  | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb`                                |
-| 94.0% | 14.80s |   1,459 | `ActionDispatch::RemoteIp#call`              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`        |
-| 93.9% | 14.79s |   1,458 | `Rails::Rack::Logger#call_app`               | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
-| 93.9% | 14.79s |   1,458 | `Rails::Rack::Logger#call`                   | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
-| 93.9% | 14.79s |   1,458 | `Rails::Rack::SilenceRequest#call`           | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`                    |
-| 93.9% | 14.78s |   1,457 | `ActionDispatch::Cookies#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`          |
-| 93.9% | 14.78s |   1,457 | `block in call`                              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
-| 93.9% | 14.78s |   1,457 | `ActionDispatch::Callbacks#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
-| 93.9% | 14.78s |   1,457 | `ActionDispatch::DebugExceptions#call`       | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
-| 93.9% | 14.78s |   1,457 | `ActionDispatch::ShowExceptions#call`        | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`  |
+| 94.0% | 14.81s |   1,459 | `ActionDispatch::RemoteIp#call`              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`        |
+| 93.9% | 14.80s |   1,458 | `Rails::Rack::Logger#call_app`               | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
+| 93.9% | 14.80s |   1,458 | `Rails::Rack::Logger#call`                   | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`                             |
+| 93.9% | 14.80s |   1,458 | `Rails::Rack::SilenceRequest#call`           | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`                    |
+| 93.9% | 14.79s |   1,457 | `ActionDispatch::Cookies#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`          |
+| 93.9% | 14.79s |   1,457 | `block in call`                              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
+| 93.9% | 14.79s |   1,457 | `ActionDispatch::Callbacks#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`        |
+| 93.9% | 14.79s |   1,457 | `ActionDispatch::DebugExceptions#call`       | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
+| 93.9% | 14.79s |   1,457 | `ActionDispatch::ShowExceptions#call`        | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`  |
 | 93.8% | 14.77s |   1,455 | `Rack::Session::Abstract::Persisted#context` | `/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb`                    |
 
 ##### Standard library
@@ -853,9 +853,9 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function                                                                                    | Location                                   |
 | -----: | ------: | ------: | ------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| 100.0% |  15.74s |   1,554 | `<main>`                                                                                    | `profile.rb`                               |
-|  79.9% |  12.58s |   1,236 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112`     | `./app/views/statuses/index.html.erb`      |
-|  79.7% |  12.55s |   1,233 | `block in _app_views_statuses_index_html_erb___3573933945962839437_3112`                    | `./app/views/statuses/index.html.erb`      |
+| 100.0% |  15.75s |   1,554 | `<main>`                                                                                    | `profile.rb`                               |
+|  79.9% |  12.59s |   1,236 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112`     | `./app/views/statuses/index.html.erb`      |
+|  79.7% |  12.56s |   1,233 | `block in _app_views_statuses_index_html_erb___3573933945962839437_3112`                    | `./app/views/statuses/index.html.erb`      |
 |   3.5% | 546.9ms |      52 | `#<Class:0xffff71e26550>#_app_views_layouts_application_html_erb__2593190439123575800_3144` | `./app/views/layouts/application.html.erb` |
 |   2.2% | 341.6ms |      33 | `block (2 levels) in _app_views_statuses_index_html_erb___3573933945962839437_3112`         | `./app/views/statuses/index.html.erb`      |
 |   0.1% |   9.4ms |       1 | `<compiled>`                                                                                | `./Gemfile`                                |
@@ -874,19 +874,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |   Time | Samples | Caller                           | Location                                                                                 |
 | -----: | -----: | ------: | -------------------------------- | ---------------------------------------------------------------------------------------- |
-| 100.0% | 14.92s |   1,473 | `ActionDispatch::AssumeSSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb` |
+| 100.0% | 14.93s |   1,473 | `ActionDispatch::AssumeSSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb` |
 
 ##### `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`)
 
 |      % |   Time | Samples | Caller               | Location                                                      |
 | -----: | -----: | ------: | -------------------- | ------------------------------------------------------------- |
-| 100.0% | 14.92s |   1,473 | `Rails::Engine#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb` |
+| 100.0% | 14.93s |   1,473 | `Rails::Engine#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/engine.rb` |
 
 ##### `Rack::Sendfile#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`)
 
 |      % |   Time | Samples | Caller                     | Location                                                                          |
 | -----: | -----: | ------: | -------------------------- | --------------------------------------------------------------------------------- |
-| 100.0% | 14.88s |   1,469 | `ActionDispatch::SSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb` |
+| 100.0% | 14.89s |   1,469 | `ActionDispatch::SSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb` |
 
 ##### `ActionDispatch::Static#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/static.rb`)
 
@@ -910,8 +910,8 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Caller                                         | Location                                                                                |
 | ----: | -----: | ------: | ---------------------------------------------- | --------------------------------------------------------------------------------------- |
-| 99.8% | 14.78s |   1,457 | `ActionDispatch::Callbacks#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
-| 90.6% | 13.41s |   1,316 | `AbstractController::Callbacks#process_action` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/callbacks.rb`        |
+| 99.8% | 14.79s |   1,457 | `ActionDispatch::Callbacks#call`               | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
+| 90.6% | 13.42s |   1,316 | `AbstractController::Callbacks#process_action` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/callbacks.rb`        |
 |  0.2% | 29.3ms |       3 | `ActiveSupport::ExecutionWrapper#complete`     | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/execution_wrapper.rb`  |
 
 ##### `ActionDispatch::RequestId#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb`)
@@ -930,55 +930,55 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |   Time | Samples | Caller                           | Location                                                                                 |
 | -----: | -----: | ------: | -------------------------------- | ---------------------------------------------------------------------------------------- |
-| 100.0% | 14.80s |   1,459 | `ActionDispatch::RequestId#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb` |
+| 100.0% | 14.81s |   1,459 | `ActionDispatch::RequestId#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb` |
 
 ##### `Rails::Rack::Logger#call_app` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`)
 
 |      % |   Time | Samples | Caller                     | Location                                                           |
 | -----: | -----: | ------: | -------------------------- | ------------------------------------------------------------------ |
-| 100.0% | 14.79s |   1,458 | `Rails::Rack::Logger#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
+| 100.0% | 14.80s |   1,458 | `Rails::Rack::Logger#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
 
 ##### `Rails::Rack::Logger#call` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`)
 
 |      % |   Time | Samples | Caller                             | Location                                                                    |
 | -----: | -----: | ------: | ---------------------------------- | --------------------------------------------------------------------------- |
-| 100.0% | 14.79s |   1,458 | `Rails::Rack::SilenceRequest#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb` |
+| 100.0% | 14.80s |   1,458 | `Rails::Rack::SilenceRequest#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb` |
 
 ##### `Rails::Rack::SilenceRequest#call` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`)
 
 |      % |   Time | Samples | Caller                          | Location                                                                                |
 | -----: | -----: | ------: | ------------------------------- | --------------------------------------------------------------------------------------- |
-| 100.0% | 14.79s |   1,458 | `ActionDispatch::RemoteIp#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb` |
+| 100.0% | 14.80s |   1,458 | `ActionDispatch::RemoteIp#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb` |
 
 ##### `ActionDispatch::Cookies#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`)
 
 |      % |   Time | Samples | Caller          | Location                                                                                |
 | -----: | -----: | ------: | --------------- | --------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `block in call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
+| 100.0% | 14.79s |   1,457 | `block in call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
 
 ##### `block in call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`)
 
 |      % |   Time | Samples | Caller                                   | Location                                                                       |
 | -----: | -----: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------ |
-| 100.0% | 14.78s |   1,457 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb` |
+| 100.0% | 14.79s |   1,457 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb` |
 
 ##### `ActionDispatch::Callbacks#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`)
 
 |      % |   Time | Samples | Caller                                 | Location                                                                                       |
 | -----: | -----: | ------: | -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::DebugExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::DebugExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
 
 ##### `ActionDispatch::DebugExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb`)
 
 |      % |   Time | Samples | Caller                                | Location                                                                                      |
 | -----: | -----: | ------: | ------------------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::ShowExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb` |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::ShowExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb` |
 
 ##### `ActionDispatch::ShowExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`)
 
 |      % |   Time | Samples | Caller                         | Location                                                           |
 | -----: | -----: | ------: | ------------------------------ | ------------------------------------------------------------------ |
-| 100.0% | 14.78s |   1,457 | `Rails::Rack::Logger#call_app` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
+| 100.0% | 14.79s |   1,457 | `Rails::Rack::Logger#call_app` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
 
 ##### `Rack::Session::Abstract::Persisted#context` (`/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb`)
 
@@ -991,7 +991,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Samples | Caller                                                                                  | Location                                                                                |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | 93.2% |  13.61s |   1,336 | `ActionDispatch::Journey::Router#recognize`                                             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router.rb`       |
-| 86.1% |  12.56s |   1,234 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112` | `./app/views/statuses/index.html.erb`                                                   |
+| 86.1% |  12.57s |   1,234 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112` | `./app/views/statuses/index.html.erb`                                                   |
 |  6.3% | 922.5ms |      94 | `Rack::ETag#digest_body`                                                                | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                    |
 |  6.1% | 898.1ms |      87 | `Rails::HTML::PermitScrubber#scrub_attributes`                                          | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`         |
 |  5.4% | 791.1ms |      77 | `block in decorate`                                                                     | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
@@ -1000,20 +1000,20 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |   Time | Samples | Caller                                   | Location                                                                             |
 | -----: | -----: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------------ |
-| 100.0% | 13.13s |   1,288 | `ActionView::Base#_run`                  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/base.rb`                  |
-|  25.3% |  3.32s |     326 | `block in delegate_number_helper_method` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb` |
+| 100.0% | 13.14s |   1,288 | `ActionView::Base#_run`                  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/base.rb`                  |
+|  25.3% |  3.33s |     326 | `block in delegate_number_helper_method` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb` |
 
 ##### `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112` (`./app/views/statuses/index.html.erb`)
 
 |      % |   Time | Samples | Caller                            | Location    |
 | -----: | -----: | ------: | --------------------------------- | ----------- |
-| 100.0% | 12.58s |   1,236 | `Kernel#public_send [c function]` | `<unknown>` |
+| 100.0% | 12.59s |   1,236 | `Kernel#public_send [c function]` | `<unknown>` |
 
 ##### `block in _app_views_statuses_index_html_erb___3573933945962839437_3112` (`./app/views/statuses/index.html.erb`)
 
 |      % |   Time | Samples | Caller       | Location           |
 | -----: | -----: | ------: | ------------ | ------------------ |
-| 100.0% | 12.55s |   1,233 | `Array#each` | `<internal:array>` |
+| 100.0% | 12.56s |   1,233 | `Array#each` | `<internal:array>` |
 
 ##### `Integer#upto [c function]` (`<unknown>`)
 
@@ -1326,21 +1326,21 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee                             | Location                                                                                 |
 | ----: | -----: | ------: | ---------------------------------- | ---------------------------------------------------------------------------------------- |
-| 99.9% | 14.92s |   1,473 | `ActionDispatch::AssumeSSL#call`   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb` |
+| 99.9% | 14.93s |   1,473 | `ActionDispatch::AssumeSSL#call`   | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb` |
 |  0.1% | 19.1ms |       2 | `Rails::Application#build_request` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/application.rb`                       |
 
 ##### `ActionDispatch::SSL#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb`)
 
 |     % |   Time | Samples | Callee                | Location                                                 |
 | ----: | -----: | ------: | --------------------- | -------------------------------------------------------- |
-| 99.8% | 14.88s |   1,469 | `Rack::Sendfile#call` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb` |
+| 99.8% | 14.89s |   1,469 | `Rack::Sendfile#call` | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb` |
 |  0.2% | 27.6ms |       3 | `Kernel#tap`          | `<internal:kernel>`                                      |
 
 ##### `ActionDispatch::AssumeSSL#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/assume_ssl.rb`)
 
 |      % |   Time | Samples | Callee                     | Location                                                                          |
 | -----: | -----: | ------: | -------------------------- | --------------------------------------------------------------------------------- |
-| 100.0% | 14.92s |   1,473 | `ActionDispatch::SSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb` |
+| 100.0% | 14.93s |   1,473 | `ActionDispatch::SSL#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/ssl.rb` |
 
 ##### `Rack::Sendfile#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/sendfile.rb`)
 
@@ -1372,15 +1372,15 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee                                                     | Location                                                                                |
 | ----: | -----: | ------: | ---------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| 99.8% | 14.78s |   1,457 | `block in call`                                            | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
-| 90.6% | 13.41s |   1,316 | `block in process_action`                                  | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/callbacks.rb`        |
+| 99.8% | 14.79s |   1,457 | `block in call`                                            | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
+| 90.6% | 13.42s |   1,316 | `block in process_action`                                  | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/callbacks.rb`        |
 |  0.2% | 29.3ms |       3 | `ActiveSupport::Callbacks::CallbackSequence#invoke_before` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb`          |
 
 ##### `ActionDispatch::RequestId#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb`)
 
 |     % |   Time | Samples | Callee                                      | Location                                                                                 |
 | ----: | -----: | ------: | ------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| 99.9% | 14.80s |   1,459 | `ActionDispatch::RemoteIp#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`  |
+| 99.9% | 14.81s |   1,459 | `ActionDispatch::RemoteIp#call`             | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/remote_ip.rb`  |
 |  0.1% |  8.7ms |       1 | `ActionDispatch::RequestId#make_request_id` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/request_id.rb` |
 
 ##### `Rack::MethodOverride#call` (`/usr/local/bundle/gems/rack-3.2.7/lib/rack/method_override.rb`)
@@ -1393,27 +1393,27 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee                               | Location                                                                        |
 | ----: | -----: | ------: | ------------------------------------ | ------------------------------------------------------------------------------- |
-| 99.9% | 14.79s |   1,458 | `Rails::Rack::SilenceRequest#call`   | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`     |
+| 99.9% | 14.80s |   1,458 | `Rails::Rack::SilenceRequest#call`   | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`     |
 |  0.1% |  8.8ms |       1 | `ActionDispatch::Request#remote_ip=` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/http/request.rb` |
 
 ##### `Rails::Rack::Logger#call_app` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`)
 
 |      % |   Time | Samples | Callee                                                    | Location                                                                                        |
 | -----: | -----: | ------: | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::ShowExceptions#call`                     | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`   |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::ShowExceptions#call`                     | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`   |
 |  <0.1% |  7.3ms |       1 | `ActiveSupport::Notifications::Instrumenter#build_handle` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications/instrumenter.rb` |
 
 ##### `Rails::Rack::Logger#call` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb`)
 
 |      % |   Time | Samples | Callee                         | Location                                                           |
 | -----: | -----: | ------: | ------------------------------ | ------------------------------------------------------------------ |
-| 100.0% | 14.79s |   1,458 | `Rails::Rack::Logger#call_app` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
+| 100.0% | 14.80s |   1,458 | `Rails::Rack::Logger#call_app` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
 
 ##### `Rails::Rack::SilenceRequest#call` (`/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/silence_request.rb`)
 
 |      % |   Time | Samples | Callee                     | Location                                                           |
 | -----: | -----: | ------: | -------------------------- | ------------------------------------------------------------------ |
-| 100.0% | 14.79s |   1,458 | `Rails::Rack::Logger#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
+| 100.0% | 14.80s |   1,458 | `Rails::Rack::Logger#call` | `/usr/local/bundle/gems/railties-8.1.3.1/lib/rails/rack/logger.rb` |
 
 ##### `ActionDispatch::Cookies#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb`)
 
@@ -1426,25 +1426,25 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |   Time | Samples | Callee                         | Location                                                                              |
 | -----: | -----: | ------: | ------------------------------ | ------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::Cookies#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb` |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::Cookies#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/cookies.rb` |
 
 ##### `ActionDispatch::Callbacks#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb`)
 
 |      % |   Time | Samples | Callee                                   | Location                                                                       |
 | -----: | -----: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------ |
-| 100.0% | 14.78s |   1,457 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb` |
+| 100.0% | 14.79s |   1,457 | `ActiveSupport::Callbacks#run_callbacks` | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb` |
 
 ##### `ActionDispatch::DebugExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb`)
 
 |      % |   Time | Samples | Callee                           | Location                                                                                |
 | -----: | -----: | ------: | -------------------------------- | --------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::Callbacks#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::Callbacks#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/callbacks.rb` |
 
 ##### `ActionDispatch::ShowExceptions#call` (`/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/show_exceptions.rb`)
 
 |      % |   Time | Samples | Callee                                 | Location                                                                                       |
 | -----: | -----: | ------: | -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 100.0% | 14.78s |   1,457 | `ActionDispatch::DebugExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
+| 100.0% | 14.79s |   1,457 | `ActionDispatch::DebugExceptions#call` | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/debug_exceptions.rb` |
 
 ##### `Rack::Session::Abstract::Persisted#context` (`/usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb`)
 
@@ -1459,7 +1459,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Samples | Callee                                                                   | Location                                                                                |
 | ----: | ------: | ------: | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
 | 93.2% |  13.61s |   1,336 | `block in recognize`                                                     | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router.rb`       |
-| 86.0% |  12.55s |   1,233 | `block in _app_views_statuses_index_html_erb___3573933945962839437_3112` | `./app/views/statuses/index.html.erb`                                                   |
+| 86.0% |  12.56s |   1,233 | `block in _app_views_statuses_index_html_erb___3573933945962839437_3112` | `./app/views/statuses/index.html.erb`                                                   |
 |  6.3% | 922.5ms |      94 | `block in digest_body`                                                   | `/usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb`                                    |
 |  6.1% | 888.7ms |      86 | `block in scrub_attributes`                                              | `/usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb`         |
 |  5.3% | 771.1ms |      75 | `block (2 levels) in decorate`                                           | `/usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb` |
@@ -1468,7 +1468,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                                                                                      | Location                                                                           |
 | ----: | ------: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 95.8% |  12.58s |   1,236 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112`     | `./app/views/statuses/index.html.erb`                                              |
+| 95.8% |  12.59s |   1,236 | `#<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112`     | `./app/views/statuses/index.html.erb`                                              |
 | 25.1% |   3.30s |     323 | `ActiveSupport::NumberHelper#number_to_delimited`                                           | `/usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper.rb` |
 |  4.2% | 546.9ms |      52 | `#<Class:0xffff71e26550>#_app_views_layouts_application_html_erb__2593190439123575800_3144` | `./app/views/layouts/application.html.erb`                                         |
 
@@ -1476,14 +1476,14 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee                                      | Location                                                                           |
 | ----: | -----: | ------: | ------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 99.8% | 12.56s |   1,234 | `Array#each`                                | `<internal:array>`                                                                 |
+| 99.8% | 12.57s |   1,234 | `Array#each`                                | `<internal:array>`                                                                 |
 |  0.2% | 21.7ms |       2 | `ActionView::Helpers::TextHelper#pluralize` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/text_helper.rb` |
 
 ##### `block in _app_views_statuses_index_html_erb___3573933945962839437_3112` (`./app/views/statuses/index.html.erb`)
 
 |     % |    Time | Samples | Callee                                                    | Location                                                                               |
 | ----: | ------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| 60.3% |   7.56s |     742 | `ActionView::Helpers::SanitizeHelper#sanitize`            | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb` |
+| 60.3% |   7.57s |     742 | `ActionView::Helpers::SanitizeHelper#sanitize`            | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb` |
 | 27.3% |   3.43s |     336 | `ActionView::Helpers::NumberHelper#number_with_delimiter` | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/number_helper.rb`   |
 |  2.9% | 361.9ms |      36 | `block in define_url_helper`                              | `/usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/routing/route_set.rb`   |
 |  2.8% | 346.0ms |      35 | `ActionView::Helpers::UrlHelper#link_to`                  | `/usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb`      |

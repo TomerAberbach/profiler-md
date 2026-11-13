@@ -4,7 +4,7 @@ Took 5.24s over 5,239 samples (1.0ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
-| Ours     | 92.6% |   4.85s |   4,852 |
+| Ours     | 92.6% |   4.86s |   4,852 |
 | Native   |  5.2% | 272.3ms |     272 |
 | Kernel   |  2.2% | 115.1ms |     115 |
 
@@ -19,7 +19,7 @@ Call paths to the hottest functions.
 ```
 └── … 5.24s (100.0%) 0x1130c at ./binary
     ├── 3.90s (74.4%) 0x10144
-    │   ├── 1.60s (30.6%) 0x44b48
+    │   ├── 1.61s (30.6%) 0x44b48
     │   │   ├── … 1.50s (28.7%) 0x4aa18 at ./binary
     │   │   │   ├── 823.8ms (15.7%) 0x383d0
     │   │   │   │   ├── 94.1ms (1.8%) 0x532e4
@@ -30,8 +30,8 @@ Call paths to the hottest functions.
     │   │   │   │   └── 729.7ms (13.9%) 25 more callees, led by (8.8%) 0x537bc
     │   │   │   └── 679.7ms (13.0%) 51 more callees, led by (2.8%) 0x36670
     │   │   └── 103.1ms (2.0%) 17 more callees, led by (0.8%) 0x4a1ac
-    │   ├── 1.51s (28.9%) 0x45be0
-    │   │   └── … 1.51s (28.9%) 0x368f8 at ./binary
+    │   ├── 1.52s (28.9%) 0x45be0
+    │   │   └── … 1.52s (28.9%) 0x368f8 at ./binary
     │   │       ├── … 608.6ms (11.6%) 0x6449c at ./binary
     │   │       │   └── 608.6ms (11.6%) 40 more callees, led by (3.9%) 0x36b64
     │   │       └── 906.9ms (17.3%) 24 more callees, led by (6.7%) 0x642d8 at ./binary
@@ -586,16 +586,16 @@ Functions with the most time spent within the function and its callees.
 | 100.0% |   5.24s |   5,239 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | 100.0% |   5.24s |   5,239 | `0xdf70`  | `./binary`                             |
 |  74.4% |   3.90s |   3,900 | `0x10144` | `./binary`                             |
-|  50.7% |   2.65s |   2,657 | `0x368f8` | `./binary`                             |
+|  50.7% |   2.66s |   2,657 | `0x368f8` | `./binary`                             |
 |  40.7% |   2.13s |   2,131 | `0x4aa18` | `./binary`                             |
 |  38.4% |   2.01s |   2,010 | `0x45be0` | `./binary`                             |
 |  32.5% |   1.70s |   1,703 | `0x44b48` | `./binary`                             |
 |  31.7% |   1.66s |   1,661 | `0x6449c` | `./binary`                             |
 |  30.9% |   1.62s |   1,621 | `0x383d0` | `./binary`                             |
 |  24.9% |   1.30s |   1,303 | `0x62fd4` | `./binary`                             |
-|  23.0% |   1.20s |   1,205 | `0x36b64` | `./binary`                             |
-|  22.1% |   1.15s |   1,158 | `0x537bc` | `./binary`                             |
-|  20.7% |   1.08s |   1,084 | `0x53c28` | `./binary`                             |
+|  23.0% |   1.21s |   1,205 | `0x36b64` | `./binary`                             |
+|  22.1% |   1.16s |   1,158 | `0x537bc` | `./binary`                             |
+|  20.7% |   1.09s |   1,084 | `0x53c28` | `./binary`                             |
 |  14.8% | 775.8ms |     775 | `0x642d8` | `./binary`                             |
 |  13.4% | 703.7ms |     703 | `0x66174` | `./binary`                             |
 |  12.9% | 678.7ms |     678 | `0x36d98` | `./binary`                             |
@@ -613,16 +613,16 @@ Categories accounting for at least 1.0% of self time.
 | 100.0% |   5.24s |   5,239 | `0x1130c` | `./binary` |
 | 100.0% |   5.24s |   5,239 | `0xdf70`  | `./binary` |
 |  74.4% |   3.90s |   3,900 | `0x10144` | `./binary` |
-|  50.7% |   2.65s |   2,657 | `0x368f8` | `./binary` |
+|  50.7% |   2.66s |   2,657 | `0x368f8` | `./binary` |
 |  40.7% |   2.13s |   2,131 | `0x4aa18` | `./binary` |
 |  38.4% |   2.01s |   2,010 | `0x45be0` | `./binary` |
 |  32.5% |   1.70s |   1,703 | `0x44b48` | `./binary` |
 |  31.7% |   1.66s |   1,661 | `0x6449c` | `./binary` |
 |  30.9% |   1.62s |   1,621 | `0x383d0` | `./binary` |
 |  24.9% |   1.30s |   1,303 | `0x62fd4` | `./binary` |
-|  23.0% |   1.20s |   1,205 | `0x36b64` | `./binary` |
-|  22.1% |   1.15s |   1,158 | `0x537bc` | `./binary` |
-|  20.7% |   1.08s |   1,084 | `0x53c28` | `./binary` |
+|  23.0% |   1.21s |   1,205 | `0x36b64` | `./binary` |
+|  22.1% |   1.16s |   1,158 | `0x537bc` | `./binary` |
+|  20.7% |   1.09s |   1,084 | `0x53c28` | `./binary` |
 |  14.8% | 775.8ms |     775 | `0x642d8` | `./binary` |
 |  13.4% | 703.7ms |     703 | `0x66174` | `./binary` |
 |  12.9% | 678.7ms |     678 | `0x36d98` | `./binary` |
@@ -723,7 +723,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 76.8% |   1.63s |   1,637 | `0x44b48` | `./binary` |
+| 76.8% |   1.64s |   1,637 | `0x44b48` | `./binary` |
 | 22.4% | 478.5ms |     478 | `0x64480` | `./binary` |
 |  6.9% | 146.1ms |     146 | `0x642bc` | `./binary` |
 
@@ -731,7 +731,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 75.4% |   1.51s |   1,515 | `0x10144` | `./binary` |
+| 75.4% |   1.52s |   1,515 | `0x10144` | `./binary` |
 | 33.2% | 668.7ms |     668 | `0x537bc` | `./binary` |
 |  0.6% |  13.0ms |      13 | `0x53624` | `./binary` |
 
@@ -739,7 +739,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 94.2% |   1.60s |   1,605 | `0x10144` | `./binary` |
+| 94.2% |   1.61s |   1,605 | `0x10144` | `./binary` |
 | 27.0% | 460.5ms |     460 | `0x537bc` | `./binary` |
 |  4.2% |  72.1ms |      72 | `0x100f0` | `./binary` |
 |  1.2% |  20.0ms |      20 | `0x53624` | `./binary` |
@@ -754,7 +754,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 77.0% |   1.24s |   1,248 | `0x4aa18` | `./binary` |
+| 77.0% |   1.25s |   1,248 | `0x4aa18` | `./binary` |
 | 10.2% | 166.2ms |     166 | `0x642d8` | `./binary` |
 |  7.5% | 121.1ms |     121 | `0x3695c` | `./binary` |
 |  5.6% |  90.1ms |      90 | `0x6449c` | `./binary` |
@@ -784,7 +784,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location   |
 | -----: | ----: | ------: | --------- | ---------- |
-| 100.0% | 1.15s |   1,158 | `0x383d0` | `./binary` |
+| 100.0% | 1.16s |   1,158 | `0x383d0` | `./binary` |
 
 ##### `0x53c28` (`./binary`)
 
@@ -1132,8 +1132,8 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 41.2% |   1.60s |   1,605 | `0x44b48` | `./binary` |
-| 38.8% |   1.51s |   1,515 | `0x45be0` | `./binary` |
+| 41.2% |   1.61s |   1,605 | `0x44b48` | `./binary` |
+| 38.8% |   1.52s |   1,515 | `0x45be0` | `./binary` |
 | 14.0% | 546.5ms |     546 | `0x368f8` | `./binary` |
 |  3.8% | 147.1ms |     147 | `0x45934` | `./binary` |
 |  0.7% |  29.0ms |      29 | `0x44e28` | `./binary` |
@@ -1152,7 +1152,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 58.6% |   1.24s |   1,248 | `0x383d0` | `./binary` |
+| 58.6% |   1.25s |   1,248 | `0x383d0` | `./binary` |
 | 10.3% | 220.2ms |     220 | `0x366a8` | `./binary` |
 |  7.9% | 168.2ms |     168 | `0x36d98` | `./binary` |
 |  7.9% | 168.2ms |     168 | `0x36670` | `./binary` |
@@ -1169,7 +1169,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee    | Location   |
 | ----: | -----: | ------: | --------- | ---------- |
-| 96.1% |  1.63s |   1,637 | `0x4aa18` | `./binary` |
+| 96.1% |  1.64s |   1,637 | `0x4aa18` | `./binary` |
 |  2.6% | 45.0ms |      45 | `0x4a1ac` | `./binary` |
 |  0.6% | 10.0ms |      10 | `0x4a2b8` | `./binary` |
 |  0.5% |  8.0ms |       8 | `0x4a944` | `./binary` |
@@ -1189,7 +1189,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 71.4% |   1.15s |   1,158 | `0x537bc` | `./binary` |
+| 71.4% |   1.16s |   1,158 | `0x537bc` | `./binary` |
 | 15.5% | 251.3ms |     251 | `0x53784` | `./binary` |
 |  7.7% | 125.1ms |     125 | `0x532e4` | `./binary` |
 |  3.1% |  51.1ms |      51 | `0x534a0` | `./binary` |

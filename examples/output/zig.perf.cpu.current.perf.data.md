@@ -1,10 +1,10 @@
 # CPU profile
 
-Took 5.95s over 5,954 samples (1.0ms per sample).
+Took 5.96s over 5,954 samples (1.0ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
-| Ours     | 97.6% |   5.81s |   5,813 |
+| Ours     | 97.6% |   5.82s |   5,813 |
 | Kernel   |  1.8% | 108.1ms |     108 |
 | Native   |  0.6% |  33.0ms |      33 |
 
@@ -17,10 +17,10 @@ Paths starting with `./` or `../` are relative to `/tmp/`.
 Call paths to the hottest functions.
 
 ```
-└── … 5.95s (100.0%) 0x16900 at ./binary
+└── … 5.96s (100.0%) 0x16900 at ./binary
     ├── 4.17s (70.0%) 0x15964
     │   ├── 1.70s (28.6%) 0x6503c
-    │   │   ├── … 1.60s (27.0%) 0x78ff4 at ./binary
+    │   │   ├── … 1.61s (27.0%) 0x78ff4 at ./binary
     │   │   │   ├── 904.9ms (15.2%) 0x61a90
     │   │   │   │   ├── 135.1ms (2.3%) 0x7197c
     │   │   │   │   │   ├── 92.1ms (1.5%) 0x79dc4
@@ -30,9 +30,9 @@ Call paths to the hottest functions.
     │   │   │   │   └── 769.8ms (12.9%) 25 more callees, led by (8.0%) 0x71d44
     │   │   │   └── 704.7ms (11.8%) 45 more callees, led by (2.6%) 0x60c90
     │   │   └── 94.1ms (1.6%) 17 more callees, led by (0.6%) 0x782ec
-    │   ├── 1.63s (27.5%) 0x6639c
+    │   ├── 1.64s (27.5%) 0x6639c
     │   │   └── … 1.62s (27.2%) 0x5eff4 at ./binary
-    │   │       ├── … 1.06s (17.9%) 0x672f0 at ./binary
+    │   │       ├── … 1.07s (17.9%) 0x672f0 at ./binary
     │   │       │   ├── 272.3ms (4.6%) 0x61f50
     │   │       │   │   ├── 11.0ms (0.2%) 0x6a110
     │   │       │   │   │   └── 5.0ms (0.1%, self 0.9% globally) 0x7b36c
@@ -404,20 +404,20 @@ Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function  | Location                               |
 | -----: | ------: | ------: | --------- | -------------------------------------- |
-| 100.0% |   5.95s |   5,954 | `0x16900` | `./binary`                             |
-| 100.0% |   5.95s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 100.0% |   5.95s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 100.0% |   5.95s |   5,954 | `0x13e30` | `./binary`                             |
+| 100.0% |   5.96s |   5,954 | `0x16900` | `./binary`                             |
+| 100.0% |   5.96s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.96s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.96s |   5,954 | `0x13e30` | `./binary`                             |
 |  70.0% |   4.17s |   4,170 | `0x15964` | `./binary`                             |
 |  47.2% |   2.81s |   2,808 | `0x5eff4` | `./binary`                             |
-|  39.2% |   2.33s |   2,335 | `0x78ff4` | `./binary`                             |
-|  36.7% |   2.18s |   2,187 | `0x672f0` | `./binary`                             |
-|  35.9% |   2.13s |   2,136 | `0x6639c` | `./binary`                             |
+|  39.2% |   2.34s |   2,335 | `0x78ff4` | `./binary`                             |
+|  36.7% |   2.19s |   2,187 | `0x672f0` | `./binary`                             |
+|  35.9% |   2.14s |   2,136 | `0x6639c` | `./binary`                             |
 |  30.1% |   1.79s |   1,792 | `0x6503c` | `./binary`                             |
-|  28.5% |   1.69s |   1,695 | `0x61a90` | `./binary`                             |
-|  20.6% |   1.22s |   1,226 | `0x71d44` | `./binary`                             |
+|  28.5% |   1.70s |   1,695 | `0x61a90` | `./binary`                             |
+|  20.6% |   1.23s |   1,226 | `0x71d44` | `./binary`                             |
 |  20.2% |   1.20s |   1,200 | `0x61f50` | `./binary`                             |
-|  19.3% |   1.14s |   1,147 | `0x674d4` | `./binary`                             |
+|  19.3% |   1.15s |   1,147 | `0x674d4` | `./binary`                             |
 |  16.2% | 968.0ms |     967 | `0x6f75c` | `./binary`                             |
 |  15.5% | 921.9ms |     921 | `0x6a0c8` | `./binary`                             |
 |  15.3% | 912.9ms |     912 | `0x672d4` | `./binary`                             |
@@ -433,18 +433,18 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function  | Location   |
 | -----: | ------: | ------: | --------- | ---------- |
-| 100.0% |   5.95s |   5,954 | `0x16900` | `./binary` |
-| 100.0% |   5.95s |   5,954 | `0x13e30` | `./binary` |
+| 100.0% |   5.96s |   5,954 | `0x16900` | `./binary` |
+| 100.0% |   5.96s |   5,954 | `0x13e30` | `./binary` |
 |  70.0% |   4.17s |   4,170 | `0x15964` | `./binary` |
 |  47.2% |   2.81s |   2,808 | `0x5eff4` | `./binary` |
-|  39.2% |   2.33s |   2,335 | `0x78ff4` | `./binary` |
-|  36.7% |   2.18s |   2,187 | `0x672f0` | `./binary` |
-|  35.9% |   2.13s |   2,136 | `0x6639c` | `./binary` |
+|  39.2% |   2.34s |   2,335 | `0x78ff4` | `./binary` |
+|  36.7% |   2.19s |   2,187 | `0x672f0` | `./binary` |
+|  35.9% |   2.14s |   2,136 | `0x6639c` | `./binary` |
 |  30.1% |   1.79s |   1,792 | `0x6503c` | `./binary` |
-|  28.5% |   1.69s |   1,695 | `0x61a90` | `./binary` |
-|  20.6% |   1.22s |   1,226 | `0x71d44` | `./binary` |
+|  28.5% |   1.70s |   1,695 | `0x61a90` | `./binary` |
+|  20.6% |   1.23s |   1,226 | `0x71d44` | `./binary` |
 |  20.2% |   1.20s |   1,200 | `0x61f50` | `./binary` |
-|  19.3% |   1.14s |   1,147 | `0x674d4` | `./binary` |
+|  19.3% |   1.15s |   1,147 | `0x674d4` | `./binary` |
 |  16.2% | 968.0ms |     967 | `0x6f75c` | `./binary` |
 |  15.5% | 921.9ms |     921 | `0x6a0c8` | `./binary` |
 |  15.3% | 912.9ms |     912 | `0x672d4` | `./binary` |
@@ -487,19 +487,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 5.95s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 5.96s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x27744` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 5.95s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 5.96s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location   |
 | -----: | ----: | ------: | --------- | ---------- |
-| 100.0% | 5.95s |   5,954 | `0x13e30` | `./binary` |
+| 100.0% | 5.96s |   5,954 | `0x13e30` | `./binary` |
 
 ##### `0x15964` (`./binary`)
 
@@ -511,7 +511,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 75.4% |   2.11s |   2,117 | `0x6639c` | `./binary` |
+| 75.4% |   2.12s |   2,117 | `0x6639c` | `./binary` |
 | 23.4% | 658.7ms |     658 | `0x6944c` | `./binary` |
 | 19.8% | 555.6ms |     555 | `0x15964` | `./binary` |
 | 11.9% | 335.3ms |     335 | `0x5e5a4` | `./binary` |
@@ -528,13 +528,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location   |
 | -----: | ----: | ------: | --------- | ---------- |
-| 100.0% | 2.18s |   2,187 | `0x5eff4` | `./binary` |
+| 100.0% | 2.19s |   2,187 | `0x5eff4` | `./binary` |
 
 ##### `0x6639c` (`./binary`)
 
 |     % |    Time | Samples | Caller    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 76.7% |   1.63s |   1,638 | `0x15964` | `./binary` |
+| 76.7% |   1.64s |   1,638 | `0x15964` | `./binary` |
 | 31.6% | 674.7ms |     674 | `0x71d44` | `./binary` |
 |  0.4% |   9.0ms |       9 | `0x71c40` | `./binary` |
 
@@ -561,7 +561,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location   |
 | -----: | ----: | ------: | --------- | ---------- |
-| 100.0% | 1.22s |   1,226 | `0x61a90` | `./binary` |
+| 100.0% | 1.23s |   1,226 | `0x61a90` | `./binary` |
 
 ##### `0x61f50` (`./binary`)
 
@@ -784,26 +784,26 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee    | Location   |
 | -----: | ----: | ------: | --------- | ---------- |
-| 100.0% | 5.95s |   5,954 | `0x16900` | `./binary` |
+| 100.0% | 5.96s |   5,954 | `0x16900` | `./binary` |
 
 ##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 5.95s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 5.96s |   5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x13e30` (`./binary`)
 
 |      % |  Time | Samples | Callee    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 5.95s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 5.96s |   5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x15964` (`./binary`)
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
 | 40.8% |   1.70s |   1,702 | `0x6503c` | `./binary` |
-| 39.3% |   1.63s |   1,638 | `0x6639c` | `./binary` |
+| 39.3% |   1.64s |   1,638 | `0x6639c` | `./binary` |
 | 13.3% | 555.6ms |     555 | `0x5eff4` | `./binary` |
 |  4.6% | 192.2ms |     192 | `0x6627c` | `./binary` |
 |  0.6% |  25.0ms |      25 | `0x651bc` | `./binary` |
@@ -812,7 +812,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 77.9% |   2.18s |   2,187 | `0x672f0` | `./binary` |
+| 77.9% |   2.19s |   2,187 | `0x672f0` | `./binary` |
 | 32.5% | 912.9ms |     912 | `0x672d4` | `./binary` |
 |  1.5% |  42.0ms |      42 | `0x6716c` | `./binary` |
 |  1.3% |  37.0ms |      37 | `0x673a8` | `./binary` |
@@ -842,7 +842,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Callee    | Location   |
 | ----: | -----: | ------: | --------- | ---------- |
-| 99.1% |  2.11s |   2,117 | `0x5eff4` | `./binary` |
+| 99.1% |  2.12s |   2,117 | `0x5eff4` | `./binary` |
 |  0.5% | 10.0ms |      10 | `0x5efd4` | `./binary` |
 |  0.2% |  4.0ms |       4 | `0x5e6dc` | `./binary` |
 |  0.1% |  2.0ms |       2 | `0x5efa0` | `./binary` |
@@ -862,7 +862,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location   |
 | ----: | ------: | ------: | --------- | ---------- |
-| 72.3% |   1.22s |   1,226 | `0x71d44` | `./binary` |
+| 72.3% |   1.23s |   1,226 | `0x71d44` | `./binary` |
 | 16.3% | 277.3ms |     277 | `0x71cf8` | `./binary` |
 |  9.7% | 165.2ms |     165 | `0x7197c` | `./binary` |
 |  3.9% |  66.1ms |      66 | `0x71b24` | `./binary` |

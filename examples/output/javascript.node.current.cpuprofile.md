@@ -1,10 +1,10 @@
 # CPU profile
 
-Took 2.38s over 2,472 samples (966.8µs per sample).
+Took 2.39s over 2,472 samples (966.8µs per sample).
 
 | Category           |     % |    Time | Samples |
 | ------------------ | ----: | ------: | ------: |
-| Third-party        | 86.5% |   2.06s |   2,215 |
+| Third-party        | 86.5% |   2.07s |   2,215 |
 | Garbage collector  |  7.6% | 181.2ms |     148 |
 | Standard library   |  4.7% | 113.0ms |      85 |
 | Native             |  1.1% |  25.3ms |      21 |
@@ -21,8 +21,8 @@ Call paths to the hottest functions.
 ```
 ├── 2.17s (90.9%) (anonymous) at ./cpuprofile-run.mjs
 │   └── 2.16s (90.6%) typeCheckProject at ./tsc-workload.mjs:3:33
-│       ├── … 1.65s (69.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
-│       │   ├── … 1.50s (63.2%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:88583:33
+│       ├── … 1.66s (69.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
+│       │   ├── … 1.51s (63.2%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:88583:33
 │       │   │   ├── … 784.2ms (32.8%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js:81135:64
 │       │   │   │   ├── 761.0ms (31.8%) checkSourceElement at 88199:30
 │       │   │   │   │   └── … 759.8ms (31.8%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
@@ -700,9 +700,9 @@ Functions with the most time spent within the function and its callees.
 |     % |  Time | Samples | Function                                   | Location                                                |
 | ----: | ----: | ------: | ------------------------------------------ | ------------------------------------------------------- |
 | 90.9% | 2.17s |   2,283 | `(anonymous)`                              | `./cpuprofile-run.mjs`                                  |
-| 90.6% | 2.16s |   2,284 | `typeCheckProject`                         | `./tsc-workload.mjs:3:33`                               |
+| 90.6% | 2.17s |   2,284 | `typeCheckProject`                         | `./tsc-workload.mjs:3:33`                               |
 | 81.0% | 1.93s |   2,079 | `forEach`                                  | `./node_modules/typescript/lib/typescript.js:2378:17`   |
-| 69.7% | 1.66s |   1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2625:17`   |
+| 69.7% | 1.67s |   1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2625:17`   |
 | 69.6% | 1.66s |   1,822 | `getSemanticDiagnosticsForFile`            | `./node_modules/typescript/lib/typescript.js:124957:41` |
 | 69.6% | 1.66s |   1,822 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:124899:76` |
 | 69.6% | 1.66s |   1,821 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:124967:37` |
@@ -712,13 +712,13 @@ Functions with the most time spent within the function and its callees.
 | 69.6% | 1.66s |   1,821 | `getBindAndCheckDiagnosticsForFile`        | `./node_modules/typescript/lib/typescript.js:124963:45` |
 | 69.5% | 1.66s |   1,821 | `getDiagnosticsHelper`                     | `./node_modules/typescript/lib/typescript.js:124895:32` |
 | 69.5% | 1.66s |   1,821 | `getSemanticDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:124909:34` |
-| 63.4% | 1.51s |   1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:88583:33`  |
-| 63.4% | 1.51s |   1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:88552:27`  |
-| 63.4% | 1.51s |   1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:88649:47`  |
-| 63.4% | 1.51s |   1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:88656:32`  |
-| 63.4% | 1.51s |   1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:88635:27`  |
-| 62.3% | 1.48s |   1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:88208:36`  |
-| 62.3% | 1.48s |   1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:88199:30`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:88583:33`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:88552:27`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:88649:47`  |
+| 63.4% | 1.52s |   1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:88656:32`  |
+| 63.4% | 1.52s |   1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:88635:27`  |
+| 62.3% | 1.49s |   1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:88208:36`  |
+| 62.3% | 1.49s |   1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:88199:30`  |
 
 #### Categories
 
@@ -729,7 +729,7 @@ Categories accounting for at least 1.0% of self time.
 |     % |  Time | Samples | Function                                   | Location                                                |
 | ----: | ----: | ------: | ------------------------------------------ | ------------------------------------------------------- |
 | 81.0% | 1.93s |   2,079 | `forEach`                                  | `./node_modules/typescript/lib/typescript.js:2378:17`   |
-| 69.7% | 1.66s |   1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2625:17`   |
+| 69.7% | 1.67s |   1,823 | `flatMap`                                  | `./node_modules/typescript/lib/typescript.js:2625:17`   |
 | 69.6% | 1.66s |   1,822 | `getSemanticDiagnosticsForFile`            | `./node_modules/typescript/lib/typescript.js:124957:41` |
 | 69.6% | 1.66s |   1,822 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:124899:76` |
 | 69.6% | 1.66s |   1,821 | `(anonymous)`                              | `./node_modules/typescript/lib/typescript.js:124967:37` |
@@ -739,15 +739,15 @@ Categories accounting for at least 1.0% of self time.
 | 69.6% | 1.66s |   1,821 | `getBindAndCheckDiagnosticsForFile`        | `./node_modules/typescript/lib/typescript.js:124963:45` |
 | 69.5% | 1.66s |   1,821 | `getDiagnosticsHelper`                     | `./node_modules/typescript/lib/typescript.js:124895:32` |
 | 69.5% | 1.66s |   1,821 | `getSemanticDiagnostics`                   | `./node_modules/typescript/lib/typescript.js:124909:34` |
-| 63.4% | 1.51s |   1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:88583:33`  |
-| 63.4% | 1.51s |   1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:88552:27`  |
-| 63.4% | 1.51s |   1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:88649:47`  |
-| 63.4% | 1.51s |   1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:88656:32`  |
-| 63.4% | 1.51s |   1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:88635:27`  |
-| 62.3% | 1.48s |   1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:88208:36`  |
-| 62.3% | 1.48s |   1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:88199:30`  |
-| 47.7% | 1.13s |   1,188 | `checkBlock`                               | `./node_modules/typescript/lib/typescript.js:85011:22`  |
-| 45.6% | 1.08s |   1,116 | `checkExpressionWorker`                    | `./node_modules/typescript/lib/typescript.js:82811:33`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFileWorker`                    | `./node_modules/typescript/lib/typescript.js:88583:33`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFile`                          | `./node_modules/typescript/lib/typescript.js:88552:27`  |
+| 63.4% | 1.52s |   1,596 | `checkSourceFileWithEagerDiagnostics`      | `./node_modules/typescript/lib/typescript.js:88649:47`  |
+| 63.4% | 1.52s |   1,596 | `getDiagnosticsWorker`                     | `./node_modules/typescript/lib/typescript.js:88656:32`  |
+| 63.4% | 1.52s |   1,596 | `getDiagnostics2`                          | `./node_modules/typescript/lib/typescript.js:88635:27`  |
+| 62.3% | 1.49s |   1,572 | `checkSourceElementWorker`                 | `./node_modules/typescript/lib/typescript.js:88208:36`  |
+| 62.3% | 1.49s |   1,572 | `checkSourceElement`                       | `./node_modules/typescript/lib/typescript.js:88199:30`  |
+| 47.7% | 1.14s |   1,188 | `checkBlock`                               | `./node_modules/typescript/lib/typescript.js:85011:22`  |
+| 45.6% | 1.09s |   1,116 | `checkExpressionWorker`                    | `./node_modules/typescript/lib/typescript.js:82811:33`  |
 
 ##### Garbage collector
 
@@ -804,7 +804,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller                         | Location                                                |
 | ----: | ------: | ------: | ------------------------------ | ------------------------------------------------------- |
-| 58.8% |   1.13s |   1,186 | `checkBlock`                   | `./node_modules/typescript/lib/typescript.js:85011:22`  |
+| 58.8% |   1.14s |   1,186 | `checkBlock`                   | `./node_modules/typescript/lib/typescript.js:85011:22`  |
 | 37.4% | 724.5ms |     824 | `checkSourceFileWorker`        | `./node_modules/typescript/lib/typescript.js:88583:33`  |
 | 30.2% | 583.8ms |     554 | `checkVariableDeclarationList` | `./node_modules/typescript/lib/typescript.js:85407:40`  |
 | 16.3% | 314.4ms |     307 | `createProgram`                | `./node_modules/typescript/lib/typescript.js:123840:23` |
@@ -877,37 +877,37 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller            | Location                                               |
 | -----: | ----: | ------: | ----------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:88552:27` |
+| 100.0% | 1.52s |   1,596 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:88552:27` |
 
 ##### `checkSourceFile` (`./node_modules/typescript/lib/typescript.js:88552:27`)
 
 |      % |  Time | Samples | Caller                                | Location                                               |
 | -----: | ----: | ------: | ------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:88649:47` |
+| 100.0% | 1.52s |   1,596 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:88649:47` |
 
 ##### `checkSourceFileWithEagerDiagnostics` (`./node_modules/typescript/lib/typescript.js:88649:47`)
 
 |      % |  Time | Samples | Caller                 | Location                                               |
 | -----: | ----: | ------: | ---------------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:88656:32` |
+| 100.0% | 1.52s |   1,596 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:88656:32` |
 
 ##### `getDiagnosticsWorker` (`./node_modules/typescript/lib/typescript.js:88656:32`)
 
 |      % |  Time | Samples | Caller            | Location                                               |
 | -----: | ----: | ------: | ----------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `getDiagnostics2` | `./node_modules/typescript/lib/typescript.js:88635:27` |
+| 100.0% | 1.52s |   1,596 | `getDiagnostics2` | `./node_modules/typescript/lib/typescript.js:88635:27` |
 
 ##### `getDiagnostics2` (`./node_modules/typescript/lib/typescript.js:88635:27`)
 
 |      % |  Time | Samples | Caller        | Location                                                |
 | -----: | ----: | ------: | ------------- | ------------------------------------------------------- |
-| 100.0% | 1.51s |   1,596 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124967:37` |
+| 100.0% | 1.52s |   1,596 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:124967:37` |
 
 ##### `checkSourceElementWorker` (`./node_modules/typescript/lib/typescript.js:88208:36`)
 
 |      % |  Time | Samples | Caller               | Location                                               |
 | -----: | ----: | ------: | -------------------- | ------------------------------------------------------ |
-| 100.0% | 1.48s |   1,572 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:88199:30` |
+| 100.0% | 1.49s |   1,572 | `checkSourceElement` | `./node_modules/typescript/lib/typescript.js:88199:30` |
 |   0.1% | 1.2ms |       1 | `forEach`            | `./node_modules/typescript/lib/typescript.js:2378:17`  |
 
 ##### `checkSourceElement` (`./node_modules/typescript/lib/typescript.js:88199:30`)
@@ -924,7 +924,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Caller                     | Location                                               |
 | ----: | -----: | ------: | -------------------------- | ------------------------------------------------------ |
-| 99.9% |  1.13s |   1,185 | `checkSourceElementWorker` | `./node_modules/typescript/lib/typescript.js:88208:36` |
+| 99.9% |  1.14s |   1,185 | `checkSourceElementWorker` | `./node_modules/typescript/lib/typescript.js:88208:36` |
 |  3.5% | 39.8ms |      38 | `checkTryStatement`        | `./node_modules/typescript/lib/typescript.js:86397:29` |
 | <0.1% |  0.1ms |       2 | `checkTypeReferenceNode`   | `./node_modules/typescript/lib/typescript.js:83518:34` |
 
@@ -932,7 +932,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                      | Location                                               |
 | -----: | ----: | ------: | --------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.08s |   1,116 | `checkExpression`           | `./node_modules/typescript/lib/typescript.js:82771:27` |
+| 100.0% | 1.09s |   1,116 | `checkExpression`           | `./node_modules/typescript/lib/typescript.js:82771:27` |
 |  <0.1% | 0.3ms |       4 | `getFreshTypeOfLiteralType` | `./node_modules/typescript/lib/typescript.js:65649:37` |
 
 ##### `(anonymous)` (`node:internal/modules/cjs/loader:1878:37`)
@@ -1144,7 +1144,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                             | Location                                                |
 | ----: | ------: | ------: | ---------------------------------- | ------------------------------------------------------- |
-| 91.1% |   1.51s |   1,596 | `getDiagnostics2`                  | `./node_modules/typescript/lib/typescript.js:88635:27`  |
+| 91.1% |   1.52s |   1,596 | `getDiagnostics2`                  | `./node_modules/typescript/lib/typescript.js:88635:27`  |
 |  8.8% | 146.5ms |     223 | `getTypeChecker`                   | `./node_modules/typescript/lib/typescript.js:124848:26` |
 |  0.1% |   0.9ms |       1 | `getMergedBindAndCheckDiagnostics` | `./node_modules/typescript/lib/typescript.js:124987:44` |
 | <0.1% |   0.1ms |       1 | `skipTypeChecking`                 | `./node_modules/typescript/lib/typescript.js:22519:26`  |
@@ -1197,31 +1197,31 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                  | Location                                               |
 | -----: | ----: | ------: | ----------------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `checkSourceFileWorker` | `./node_modules/typescript/lib/typescript.js:88583:33` |
+| 100.0% | 1.52s |   1,596 | `checkSourceFileWorker` | `./node_modules/typescript/lib/typescript.js:88583:33` |
 
 ##### `checkSourceFileWithEagerDiagnostics` (`./node_modules/typescript/lib/typescript.js:88649:47`)
 
 |      % |  Time | Samples | Callee            | Location                                               |
 | -----: | ----: | ------: | ----------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:88552:27` |
+| 100.0% | 1.52s |   1,596 | `checkSourceFile` | `./node_modules/typescript/lib/typescript.js:88552:27` |
 
 ##### `getDiagnosticsWorker` (`./node_modules/typescript/lib/typescript.js:88656:32`)
 
 |      % |  Time | Samples | Callee                                | Location                                               |
 | -----: | ----: | ------: | ------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:88649:47` |
+| 100.0% | 1.52s |   1,596 | `checkSourceFileWithEagerDiagnostics` | `./node_modules/typescript/lib/typescript.js:88649:47` |
 
 ##### `getDiagnostics2` (`./node_modules/typescript/lib/typescript.js:88635:27`)
 
 |      % |  Time | Samples | Callee                 | Location                                               |
 | -----: | ----: | ------: | ---------------------- | ------------------------------------------------------ |
-| 100.0% | 1.51s |   1,596 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:88656:32` |
+| 100.0% | 1.52s |   1,596 | `getDiagnosticsWorker` | `./node_modules/typescript/lib/typescript.js:88656:32` |
 
 ##### `checkSourceElementWorker` (`./node_modules/typescript/lib/typescript.js:88208:36`)
 
 |     % |    Time | Samples | Callee                     | Location                                               |
 | ----: | ------: | ------: | -------------------------- | ------------------------------------------------------ |
-| 76.4% |   1.13s |   1,185 | `checkBlock`               | `./node_modules/typescript/lib/typescript.js:85011:22` |
+| 76.4% |   1.14s |   1,185 | `checkBlock`               | `./node_modules/typescript/lib/typescript.js:85011:22` |
 | 39.2% | 584.2ms |     555 | `checkVariableStatement`   | `./node_modules/typescript/lib/typescript.js:85414:34` |
 | 39.2% | 583.8ms |     554 | `checkVariableDeclaration` | `./node_modules/typescript/lib/typescript.js:85396:36` |
 | 24.6% | 365.8ms |     370 | `checkExpressionStatement` | `./node_modules/typescript/lib/typescript.js:85419:36` |
@@ -1231,13 +1231,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                     | Location                                               |
 | -----: | ----: | ------: | -------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.48s |   1,572 | `checkSourceElementWorker` | `./node_modules/typescript/lib/typescript.js:88208:36` |
+| 100.0% | 1.49s |   1,572 | `checkSourceElementWorker` | `./node_modules/typescript/lib/typescript.js:88208:36` |
 
 ##### `checkBlock` (`./node_modules/typescript/lib/typescript.js:85011:22`)
 
 |     % |  Time | Samples | Callee                    | Location                                               |
 | ----: | ----: | ------: | ------------------------- | ------------------------------------------------------ |
-| 99.8% | 1.13s |   1,186 | `forEach`                 | `./node_modules/typescript/lib/typescript.js:2378:17`  |
+| 99.8% | 1.14s |   1,186 | `forEach`                 | `./node_modules/typescript/lib/typescript.js:2378:17`  |
 |  0.1% | 1.3ms |       1 | `isFunctionOrModuleBlock` | `./node_modules/typescript/lib/typescript.js:15584:33` |
 |  0.1% | 1.3ms |       1 | `isSourceFile`            | `./node_modules/typescript/lib/typescript.js:30503:22` |
 |  0.1% | 1.3ms |       1 | `checkSourceElement`      | `./node_modules/typescript/lib/typescript.js:88199:30` |

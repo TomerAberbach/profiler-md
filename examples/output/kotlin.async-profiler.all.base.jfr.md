@@ -3483,7 +3483,7 @@ Blocked 1.35s over 1,259 contentions (1.1ms per contention).
 Call paths to the hottest functions.
 
 ```
-└── … 1.34s (99.7%, self 0.6%) generateFile(JvmBackendContext, IrFile, List, boolean) at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
+└── … 1.35s (99.7%, self 0.6%) generateFile(JvmBackendContext, IrFile, List, boolean) at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
     ├── 1.28s (95.0%) generate() at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen
     │   ├── 1.26s (93.2%) generateMethod(IrFunction, SourceMapper)
     │   │   ├── 1.11s (82.4%, self 69.3%) generateMethodNode(IrFunction)
@@ -3853,7 +3853,7 @@ Functions with the most time blocked within the function and its callees.
 | 100.0% |   1.35s |       1,254 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 | 100.0% |   1.35s |       1,254 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x000000800188f020` |
 | 100.0% |   1.35s |       1,254 | `run()`                                                                                                           | `java.util.concurrent.CompletableFuture$AsyncRun`                                 |
-|  99.7% |   1.34s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+|  99.7% |   1.35s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 |  95.0% |   1.28s |         869 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  93.2% |   1.26s |         791 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  82.4% |   1.11s |         507 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
@@ -3877,7 +3877,7 @@ Categories accounting for at least 1.0% of self time.
 | -----: | ------: | ----------: | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | 100.0% |   1.35s |       1,254 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 | 100.0% |   1.35s |       1,254 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x000000800188f020` |
-|  99.7% |   1.34s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+|  99.7% |   1.35s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
 |  95.0% |   1.28s |         869 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  93.2% |   1.26s |         791 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  82.4% |   1.11s |         507 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
@@ -3940,7 +3940,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller                                                                                                            | Location                                               |
 | -----: | ----: | ----------: | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.34s |       1,224 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 100.0% | 1.35s |       1,224 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 
 ##### `generate()` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
@@ -4081,7 +4081,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Contentions | Callee                                                   | Location                                               |
 | ----: | ----: | ----------: | -------------------------------------------------------- | ------------------------------------------------------ |
-| 99.8% | 1.34s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 99.8% | 1.35s |       1,224 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 |  0.2% | 3.0ms |          30 | `getUnitStats()`                                         | `org.jetbrains.kotlin.util.PerformanceManager`         |
 
 ##### `run()` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x000000800188f020`)
