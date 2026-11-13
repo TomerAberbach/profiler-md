@@ -20,9 +20,9 @@ profiler-md
 │   ├── testing.ts                # Test-only log assertion and cross-modality Markdown assertion helpers
 │   ├── test-setup.ts             # Vitest setup that fails a test leaving a logged warning or error unasserted
 │   └── helpers/                  # Generic (non-profiling) utility functions
-├── docs/
+├── docs/                         # Docs printed by `--help` and linked from the readme (has its own CLAUDE.md)
 │   ├── api.md                    # Programmatic API guide linked from the readme
-│   ├── languages/                # Per-language generation instructions (`profiler-md --help <language>`, has its own CLAUDE.md)
+│   ├── languages/                # Per-language generation instructions (`profiler-md --help <language>`)
 │   └── formats/                  # Per-format descriptions (`profiler-md --help <format>`)
 ├── skills/                       # Agent skills published with the package
 ├── eslint-rules/                 # Local ESLint rules enforcing the message wording and stream write conventions below

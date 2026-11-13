@@ -1,6 +1,6 @@
 # V8 CPU profile
 
-The V8 CPU profile is a JSON format produced by the
+The V8 CPU profile is a JSON format written by the
 [V8 JavaScript engine's sampling profiler](https://v8.dev/docs/profile).
 
 It stores a call tree (nodes) and the sequence of samples taken from it, each

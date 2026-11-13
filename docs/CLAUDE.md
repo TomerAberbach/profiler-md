@@ -1,4 +1,11 @@
-# Language docs
+# Docs
+
+- NEVER state what the tool doesn't support (e.g. a rejected flag, an unread
+  record type, a skipped frame). File an issue for it instead. The error or
+  warning reports it at runtime, and a doc statement goes stale once the tool
+  supports it
+
+## Language docs
 
 - A top-level section is what the profile measures (e.g. `## CPU profiling`,
   `## Memory profiling`), opening with what it records and what it is useful

@@ -2,7 +2,7 @@
 
 The
 [JSC heap snapshot](https://webkit.org/blog/6425/memory-debugging-with-web-inspector)
-is a JSON format produced by JavaScriptCore, the JavaScript engine of Safari and
+is a JSON format written by JavaScriptCore, the JavaScript engine of Safari and
 WebKit, that captures the full live object graph at a point in time.
 
 A heap snapshot is a flat integer array of node records (an id, a self size, a
@@ -10,9 +10,10 @@ class name, and flags marking VM-internal instances) and a flat integer array of
 edge records (the two nodes it connects, a type, and a name), alongside the
 string tables the class and edge names index into.
 
-Heap snapshots show what objects exist in memory, unlike heap profiles, which
-sample allocations. That makes them useful for diagnosing memory leaks rather
-than allocation hotspots.
+It converts to a heap snapshot, which shows what the heap holds rather than
+where allocation happens.
+
+It supports a single heap snapshot per file.
 
 Files use the `.json` extension and contain `"type": "Inspector"` and a
 `"version"`: `3` in current WebKit and in Bun's `generateHeapSnapshot("jsc")`,

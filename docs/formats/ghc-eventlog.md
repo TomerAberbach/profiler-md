@@ -2,9 +2,11 @@
 
 The GHC eventlog is the binary event stream
 [GHC](https://downloads.haskell.org/ghc/latest/docs/users_guide/eventlog-formats.html)'s
-runtime writes for a program run with `+RTS -l`, recording what the runtime did
-and when: garbage collections and thread scheduling. A program compiled with
-`-prof` and run with `+RTS -p` adds one cost-centre sample per tick.
+runtime writes for a program run with `+RTS -l`, recording the event classes
+`-l` selects, such as garbage collections and thread scheduling. A program
+compiled with `-prof` and run with `+RTS -p` adds one cost-centre sample per
+tick. `+RTS -l-au` records those samples without the garbage collection and
+scheduling events.
 
 A log opens with a header declaring every event type the runtime can write, each
 with its payload size. The events follow, in the order they happened: the

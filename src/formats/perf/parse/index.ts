@@ -7,10 +7,10 @@ export { PERF_MAGIC, SWAPPED_PERF_MAGIC, V1_PERF_MAGIC } from './file.ts'
 /**
  * Parses a `perf.data` file into one call stack profile per sampled event.
  *
- * A `perf.data` file carries no symbol tables, so an address resolves no
- * further than the object it fell in. Each frame is one address within one
- * mapped file, named by its file-relative offset, which is both what
- * `perf script` prints for an unsymbolized frame and what `addr2line` takes.
+ * The parser reads no symbol tables, so an address resolves no further than the
+ * object it fell in. Each frame is one address within one mapped file, named by
+ * its file-relative offset, which is both what `perf script` prints for an
+ * unsymbolized frame and what `addr2line` takes.
  * The runtime address it was sampled at would pair nothing across a diff, since
  * where a file is mapped in memory varies per run.
  *

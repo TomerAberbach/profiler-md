@@ -75,7 +75,7 @@ phases with `Debug.Trace.traceEventIO` to profile a run in parts.
 
 An eventlog contains cost-centre samples only when the time profiler runs, which
 `-pj` turns on alongside the JSON report. `-p` turns it on too, but writes the
-text report, which is for reading by hand, so profiler-md rejects it.
+text report, which is for reading by hand.
 
 #### RTS options
 

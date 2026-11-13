@@ -13,8 +13,7 @@ process and thread it was recorded on.
 A file converts to a trace. Duration and complete events become spans nested per
 thread, async events become async spans, instant events become instants, and
 each series of a counter event becomes a gauge. An event's string arguments
-become its attributes. This tool leaves flow, object, sample, and memory dump
-events unread.
+become its attributes.
 
 It supports a single trace per file.
 
