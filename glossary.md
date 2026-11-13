@@ -312,8 +312,8 @@ of any modality.
   function **entity**'s **nodes** are its **instances**, and a string **entity**
   is exactly one **node**
 - An **entity**'s **retained size** counts every node its **instances** keep
-  reachable, alone or together. Its **retained nodes** come from its **outermost
-  instances** only
+  reachable, alone or together, up to a work limit past which it is a lower
+  bound. Its **retained nodes** come from its **outermost instances** only
 - An **entity**'s **outermost nodes** are its **outermost instances** and its
   **jointly retained nodes**, and its **retained size** sums their **retained
   sizes**

@@ -1,4 +1,5 @@
 import { DynamicTypedArray } from '../../helpers/array.ts'
+import { WorkBudget } from '../../helpers/work-budget.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 
 export const computeNodeOrdinalToRetainedSize = (
@@ -55,6 +56,12 @@ type EntityRetentionsArgs = {
   /** -1 for a node that is no entity's instance. */
   nodeOrdinalToEntityIndex: Int32Array
   entityCount: number
+
+  /**
+   * Exhausted once the pass stops finding the nodes instances retain only
+   * together, from {@link newEntityRetentionsBudget}.
+   */
+  budget: WorkBudget
 }
 
 /**
@@ -65,10 +72,34 @@ type EntityRetentionsArgs = {
  * reaches only through the node. The nodes an entity retains are the dominator
  * subtrees of its outermost nodes, the nodes it retains that no other node it
  * retains dominates, so its retained size sums their retained sizes.
+ *
+ * Computing this exactly can take time quadratic in the graph's size, so the
+ * pass stops finding nodes the instances retain only together once it exhausts
+ * the budget. Past that, the sizes omit those found later, and count the
+ * instances' own retained sizes.
  */
 export const computeEntityRetentions = (
   args: EntityRetentionsArgs,
 ): EntityRetention[] => new OutermostNodeFinder(args).find()
+
+/**
+ * A budget far above what the committed inputs need, at most about 0.84 units
+ * of work per node and edge, and enough to keep a small graph's sizes exact.
+ */
+export const newEntityRetentionsBudget = ({
+  nodeAdjacencyGraph: { offsetToPredecessorOrdinal },
+  preorder: { preorderIndexToOrdinal },
+}: Pick<EntityRetentionsArgs, `nodeAdjacencyGraph` | `preorder`>): WorkBudget =>
+  new WorkBudget(
+    Math.max(
+      MIN_WORK_LIMIT,
+      WORK_LIMIT_PER_NODE_AND_EDGE *
+        (preorderIndexToOrdinal.length + offsetToPredecessorOrdinal.length),
+    ),
+  )
+
+const MIN_WORK_LIMIT = 2 ** 20
+const WORK_LIMIT_PER_NODE_AND_EDGE = 16
 
 /**
  * Finds each entity's outermost nodes in one pass over the dominator tree
@@ -80,6 +111,9 @@ export const computeEntityRetentions = (
  * from a visited predecessor up to, but excluding, the immediate dominator, and
  * the other predecessors filter them. The preorder visits a predecessor after
  * the node only across an edge that closes a cycle, so a search checks those.
+ *
+ * A node the budget stops keeps the entities already found to retain it, so
+ * every outermost node found is a node the entity retains.
  */
 class OutermostNodeFinder {
   readonly #retentions: EntityRetention[]
@@ -93,6 +127,7 @@ class OutermostNodeFinder {
   readonly #preorderIndexToEndIndex: Int32Array
   readonly #preorderIndexToDepth: Int32Array
   readonly #nodeOrdinalToEntityIndex: Int32Array
+  readonly #budget: WorkBudget
 
   /** Each entity's indices are ascending. */
   readonly #entityIndexToOutermostPreorderIndices: (number[] | undefined)[]
@@ -136,6 +171,7 @@ class OutermostNodeFinder {
     },
     nodeOrdinalToEntityIndex,
     entityCount,
+    budget,
   }: EntityRetentionsArgs) {
     this.#nodeOrdinalToRetainedSize = nodeOrdinalToRetainedSize
     this.#ordinalToPredecessorStartOffset = ordinalToPredecessorStartOffset
@@ -146,6 +182,7 @@ class OutermostNodeFinder {
     this.#preorderIndexToEndIndex = preorderIndexToEndIndex
     this.#preorderIndexToDepth = preorderIndexToDepth
     this.#nodeOrdinalToEntityIndex = nodeOrdinalToEntityIndex
+    this.#budget = budget
 
     const reachableCount = preorderIndexToOrdinal.length
     this.#retentions = new Array<EntityRetention>(entityCount)
@@ -187,7 +224,9 @@ class OutermostNodeFinder {
     const nodeOrdinal = this.#preorderIndexToOrdinal[preorderIndex]!
 
     this.#addInstanceEntity(nodeOrdinal, preorderIndex)
-    this.#addJointlyRetainingEntities(nodeOrdinal, preorderIndex)
+    this.#budget.run(() =>
+      this.#addJointlyRetainingEntities(nodeOrdinal, preorderIndex),
+    )
 
     const endOffset = this.#retainingEntityCount
     this.#assignOutermostAncestor(preorderIndex, startOffset < endOffset)
@@ -315,6 +354,7 @@ class OutermostNodeFinder {
         this.#preorderIndexToRetainingEntityStartOffset[pathPreorderIndex]!
       const endOffset =
         this.#preorderIndexToRetainingEntityStartOffset[pathPreorderIndex + 1]!
+      this.#budget.spend(1 + endOffset - startOffset)
       for (let offset = startOffset; offset < endOffset; offset++) {
         const entityIndex = offsetToRetainingEntityIndex[offset]!
         if (this.#entityIndexToLastNodeNumber[entityIndex] !== nodeNumber) {
@@ -367,6 +407,7 @@ class OutermostNodeFinder {
     predecessorPreorderIndex: number,
     candidateCount: number,
   ): number {
+    this.#budget.spend(candidateCount)
     let keptCount = 0
     for (let index = 0; index < candidateCount; index++) {
       const entityIndex = this.#candidateEntityIndices[index]!
@@ -468,6 +509,7 @@ class OutermostNodeFinder {
   #pushPredecessors(state: SearchState, ordinal: number): void {
     const startOffset = this.#ordinalToPredecessorStartOffset[ordinal]!
     const endOffset = this.#ordinalToPredecessorStartOffset[ordinal + 1]!
+    this.#budget.spend(1 + endOffset - startOffset)
     for (let offset = startOffset; offset < endOffset; offset++) {
       const predecessorOrdinal = this.#offsetToPredecessorOrdinal[offset]!
       if (

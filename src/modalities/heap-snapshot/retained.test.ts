@@ -1,11 +1,14 @@
 import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
+import { WorkBudget } from '../../helpers/work-budget.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import {
   computeDominatorTreePreorder,
   computeEntityRetentions,
   computeNodeOrdinalToRetainedSize,
+  newEntityRetentionsBudget,
 } from './retained.ts'
+import type { EntityRetention } from './retained.ts'
 import { makeNodeAdjacencyGraph } from './testing.ts'
 
 test(`computeNodeOrdinalToRetainedSize excludes unreachable nodes from the root's retained size`, () => {
@@ -107,6 +110,42 @@ test.prop([graphWithEntities])(
     )
   },
 )
+
+test.prop([graphWithEntities, fc.nat({ max: 200 })])(
+  `computeEntityRetentions never exceeds an entity's retained size at any work limit`,
+  (graph, workLimit) => {
+    const retentions = entityRetentionsOf(graph, new WorkBudget(workLimit))
+
+    const exactRetainedSizes = bruteForceRetainedSizes(graph)
+    for (const [entityIndex, { retainedSize }] of retentions.entries()) {
+      expect(retainedSize).toBeLessThanOrEqual(exactRetainedSizes[entityIndex]!)
+    }
+  },
+)
+
+test(`computeEntityRetentions counts each instance's own retained size past the work limit`, () => {
+  // 0 → 1 → 3 and 0 → 2 → 3, where 1 and 2 are the entity's instances
+  const graph = {
+    nodeCount: 4,
+    edges: [
+      [0, 1],
+      [0, 2],
+      [1, 3],
+      [2, 3],
+    ] as [number, number][],
+    nodeOrdinalToEntityIndex: [-1, 0, 0, -1],
+    selfSizes: [0, 1, 2, 4],
+  }
+
+  const budget = new WorkBudget(0)
+
+  const retentions = entityRetentionsOf(graph, budget)
+
+  expect(budget.isExhausted).toBe(true)
+  expect(retentions.map(({ retainedSize }) => retainedSize)).toStrictEqual([
+    1 + 2,
+  ])
+})
 
 test.each([
   {
@@ -210,26 +249,27 @@ type GraphWithEntities = {
   selfSizes: readonly number[]
 }
 
-const entityRetentionsOf = ({
-  nodeCount,
-  edges,
-  nodeOrdinalToEntityIndex,
-  selfSizes,
-}: GraphWithEntities): ReturnType<typeof computeEntityRetentions> => {
+const entityRetentionsOf = (
+  { nodeCount, edges, nodeOrdinalToEntityIndex, selfSizes }: GraphWithEntities,
+  budget?: WorkBudget,
+): EntityRetention[] => {
   const nodeAdjacencyGraph = makeNodeAdjacencyGraph(nodeCount, edges)
   const immediateDominatorGraph = computeImmediateDominatorGraph(
     nodeCount,
     nodeAdjacencyGraph,
   )
+  const preorder = computeDominatorTreePreorder(immediateDominatorGraph)
   return computeEntityRetentions({
     nodeOrdinalToRetainedSize: computeNodeOrdinalToRetainedSize(
       nodeOrdinal => selfSizes[nodeOrdinal]!,
       immediateDominatorGraph,
     ),
     nodeAdjacencyGraph,
-    preorder: computeDominatorTreePreorder(immediateDominatorGraph),
+    preorder,
     nodeOrdinalToEntityIndex: Int32Array.from(nodeOrdinalToEntityIndex),
     entityCount: entityInstanceOrdinals(nodeOrdinalToEntityIndex).length,
+    budget:
+      budget ?? newEntityRetentionsBudget({ nodeAdjacencyGraph, preorder }),
   })
 }
 
