@@ -1,4 +1,6 @@
 import plur from 'plur'
+import { formatConjunction } from '../helpers/format.ts'
+import type { Logger } from '../logger.ts'
 
 export type Metric = (
   | {
@@ -111,9 +113,11 @@ export type DiffMetric = {
   currentIndex: number
 }
 
+/** Returns the metrics both sides measure, warning about any only one measures. */
 export const matchDiffedMetrics = (
   baseMetrics: Metric[],
   currentMetrics: Metric[],
+  logger: Logger,
 ): DiffMetric[] => {
   const matchedMetrics: DiffMetric[] = []
   for (let baseIndex = 0; baseIndex < baseMetrics.length; baseIndex++) {
@@ -134,7 +138,40 @@ export const matchDiffedMetrics = (
       }
     }
   }
+
+  if (matchedMetrics.length > 0) {
+    warnUnmatchedMetrics(
+      `base`,
+      baseMetrics.filter(
+        (_, index) =>
+          !matchedMetrics.some(({ baseIndex }) => baseIndex === index),
+      ),
+      logger,
+    )
+    warnUnmatchedMetrics(
+      `current`,
+      currentMetrics.filter(
+        (_, index) =>
+          !matchedMetrics.some(({ currentIndex }) => currentIndex === index),
+      ),
+      logger,
+    )
+  }
   return matchedMetrics
+}
+
+const warnUnmatchedMetrics = (
+  side: string,
+  metrics: Metric[],
+  logger: Logger,
+): void => {
+  if (metrics.length > 0) {
+    logger.warn?.(
+      `diff omits metrics only the ${side} side measures, got: ${formatConjunction(
+        metrics.map(metric => metric.phrases.pastParticipleVerbPhrase),
+      )}`,
+    )
+  }
 }
 
 /**
