@@ -63,19 +63,28 @@ describe(`matches`, () => {
     ).toBe(true)
   })
 
-  test(`parse reports the unsupported version`, () => {
+  test(`parse reports an unsupported or missing version`, () => {
     expect(() =>
       parseSysting(
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
         noopRecordTally,
       ),
-    ).toThrow(`version 2`)
+    ).toThrow(`unsupported systing_profile_export, expected 1, got: 2`)
     expect(() =>
       parseSysting(
         makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
         noopRecordTally,
       ),
-    ).toThrow(`version 0`)
+    ).toThrow(`unsupported systing_profile_export, expected 1, got: 0`)
+    expect(() =>
+      parseSysting(
+        makeSysting([], {
+          ...systingHeader,
+          systing_profile_export: undefined,
+        }),
+        noopRecordTally,
+      ),
+    ).toThrow(`unsupported systing_profile_export, expected 1, got: undefined`)
   })
 
   test(`accepts an unsupported stack order, leaving parse to reject it`, () => {

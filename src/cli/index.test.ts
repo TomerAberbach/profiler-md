@@ -1075,7 +1075,7 @@ test.concurrent.each([
     scenario: `stdin with an unsupported systing export`,
     args: [],
     input: `{"systing_profile_export": 2}\n`,
-    expectedStderr: `systing: unsupported version 2, expected 1`,
+    expectedStderr: `systing: unsupported systing_profile_export, expected 1, got: 2`,
     expectedStatus: 1,
   },
   {
