@@ -4,7 +4,7 @@ export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
   }
 
   const object = json as Record<string, unknown>
-  if (object.version !== 1) {
+  if (typeof object.version !== `number`) {
     return false
   }
 
