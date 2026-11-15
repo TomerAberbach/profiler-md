@@ -45,6 +45,7 @@
   "files": [
     "dist",
     "docs",
+    "!docs/CLAUDE.md",
     "skills"
   ],
   "type": "module",
