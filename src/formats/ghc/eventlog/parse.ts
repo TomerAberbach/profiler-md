@@ -194,7 +194,8 @@ class Eventlog {
 
   /**
    * Yields one sample per tick the profiler recorded, skipping each sample
-   * that references a cost centre the log never defines.
+   * that references a cost centre the log never defines or whose event ends
+   * before its stack.
    *
    * Every sample measured the same interval, so they share one {@link values}
    * array rather than allocating a copy per tick. The aggregator only reads it.
@@ -205,12 +206,18 @@ class Eventlog {
     recordTally: RecordTally,
   ): Iterable<Observation> {
     let skippedSamples = 0
-    samples: for (const { eventType, payload } of this.#events()) {
+    let overrunSamples = 0
+    samples: for (const { eventType, payload, size } of this.#events()) {
       if (eventType !== TIME_PROFILE_SAMPLE) {
         continue
       }
 
-      const depth = this.#sampleStackDepth(payload)
+      const depth =
+        size > SAMPLE_STACK_DEPTH ? this.#sampleStackDepth(payload) : Infinity
+      if (SAMPLE_STACK + depth * COST_CENTRE_ID_SIZE > size) {
+        overrunSamples++
+        continue
+      }
       const frameIndices = new Array<number>(depth)
       for (let index = 0; index < depth; index++) {
         const frameIndex =
@@ -228,6 +235,11 @@ class Eventlog {
       `sample`,
       `referencing a missing cost centre`,
       skippedSamples,
+    )
+    recordTally.skipped(
+      `sample`,
+      `whose event ends before its stack`,
+      overrunSamples,
     )
   }
 
