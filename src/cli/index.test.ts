@@ -1,6 +1,13 @@
 import { execFile, spawn } from 'node:child_process'
 import { createWriteStream } from 'node:fs'
-import { chmod, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import {
+  chmod,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rm,
+  writeFile,
+} from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -682,6 +689,36 @@ test.concurrent(
     expect(status).toBe(0)
     expect(stdout).toContain(`/mapped/original.ts`)
     expect(stdout).not.toContain(dir)
+
+    await rm(dir, { recursive: true })
+  },
+)
+
+test.concurrent(
+  `--source-maps resolves relative sources against the source map's directory`,
+  async () => {
+    const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+    const sourceMapDir = join(dir, `maps`)
+    await mkdir(sourceMapDir)
+    await writeFile(
+      join(sourceMapDir, `tsc-workload.mjs.map`),
+      JSON.stringify({
+        version: 3,
+        file: tscWorkloadUrl,
+        sources: [`src/original.ts`],
+        names: [],
+        mappings: typeCheckProjectMappings,
+      }),
+    )
+
+    const { status, stdout } = await runCli([
+      cpuProfilePath,
+      `--source-maps`,
+      `${sourceMapDir}/*.map`,
+    ])
+
+    expect(status).toBe(0)
+    expect(stdout).toContain(`maps/src/original.ts`)
 
     await rm(dir, { recursive: true })
   },

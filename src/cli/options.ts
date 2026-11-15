@@ -1,5 +1,5 @@
 import { glob, readFile } from 'node:fs/promises'
-import { dirname, resolve } from 'node:path'
+import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import type { DeepReadonly } from '../helpers/types.ts'
@@ -438,7 +438,7 @@ const parseSourceMap = (
 }
 
 /**
- * Pre-resolves relative source paths against the map file's directory so that
+ * Pre-resolves relative source paths against the map file's path so that
  * `source-map-js` returns absolute URLs.
  */
 const resolveSourceMapSources = (
@@ -454,7 +454,7 @@ const resolveSourceMapSources = (
     sources: sourceMap.sources.map(source =>
       absoluteFileReference(source)
         ? source
-        : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
+        : new URL(source, pathToFileURL(resolve(path))).href,
     ),
   }
 }
