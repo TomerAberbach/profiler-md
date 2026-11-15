@@ -179,13 +179,11 @@ function* sampledObservations(
     `referencing a missing frame`,
     missingFrameCount,
   )
-  if (sampleCount < profile.samples.length) {
-    recordTally.skipped(
-      `sample`,
-      `without a weight`,
-      profile.samples.length - sampleCount,
-    )
-  }
+  recordTally.skipped(
+    `sample`,
+    `without a weight`,
+    profile.samples.length - sampleCount,
+  )
 }
 
 const eventedProfile = (

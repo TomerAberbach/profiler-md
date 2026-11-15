@@ -292,9 +292,6 @@ class CallgrindProfileBuilder {
   /** Maps the part's cost-line value positions onto global event indices. */
   #setPartEvents(rest: string): void {
     const names = rest.split(/\s+/u).filter(name => name.length > 0)
-    if (names.length === 0) {
-      throw new FormatParseError(`empty events header`)
-    }
     this.#partEventIndices = names.map(name => this.#eventIndex(name))
   }
 
@@ -328,14 +325,6 @@ class CallgrindProfileBuilder {
   /** Declares the subposition columns cost lines start with. */
   #setPositions(rest: string): void {
     const columns = rest.split(/\s+/u).filter(name => name.length > 0)
-    if (
-      columns.length === 0 ||
-      columns.some(column => column !== `instr` && column !== `line`)
-    ) {
-      throw new FormatParseError(
-        `invalid positions header, got: ${JSON.stringify(rest)}`,
-      )
-    }
     this.#subpositionCount = columns.length
     this.#lineSubpositionIndex = columns.indexOf(`line`)
     this.#lastSubpositions = []

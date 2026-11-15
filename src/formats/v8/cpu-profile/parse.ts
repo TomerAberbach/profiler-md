@@ -158,13 +158,11 @@ function* cpuObservations(
     }
   }
   recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
-  if (sampleCount < profile.samples.length) {
-    recordTally.skipped(
-      `sample`,
-      `without a time delta`,
-      profile.samples.length - sampleCount,
-    )
-  }
+  recordTally.skipped(
+    `sample`,
+    `without a time delta`,
+    profile.samples.length - sampleCount,
+  )
 }
 
 function* cpuLineMetrics(

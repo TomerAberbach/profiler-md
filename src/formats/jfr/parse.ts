@@ -348,8 +348,6 @@ type StackTraceLayout = {
   framesField: Field
   /** The stack trace's `truncated` flag, if the recorder declares one. */
   truncatedField: Field | undefined
-  /** Every field of a frame, each a scalar. */
-  frameFields: Field[]
   methodIndex: number
   lineIndex: number
   /**
@@ -790,7 +788,6 @@ class JfrParser {
     this.#stackTraceLayout = {
       framesField,
       truncatedField: type?.fields.find(field => field.name === `truncated`),
-      frameFields: frameType.fields,
       methodIndex,
       lineIndex,
       frameFieldKinds: Uint8Array.from(frameType.fields, field => field.kind),
@@ -970,10 +967,9 @@ class JfrParser {
   }
 
   #readFrames(layout: StackTraceLayout): FlatStackTrace {
-    const { frameFields, methodIndex, lineIndex, frameFieldKinds } = layout
-    const length = this.#readLength(frameFields.length)
+    const { methodIndex, lineIndex, frameFieldKinds: kinds } = layout
+    const length = this.#readLength(kinds.length)
     const bytes = this.#bytes
-    const kinds = frameFieldKinds
     const fieldCount = kinds.length
     const methods = new Array<number>(length)
     let leafLine = 0
