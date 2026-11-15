@@ -43,7 +43,7 @@ type CallGraphArc = {
   /** The called function's index in {@link CallGraph.functions}. */
   callee: number
 
-  /** The recorded number of calls, or `0` when the format records none. */
+  /** The number of calls the arc records. */
   callCount: number
 
   /**

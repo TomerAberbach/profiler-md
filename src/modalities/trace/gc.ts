@@ -16,15 +16,11 @@ import type {
  */
 export const gcEvents = ({
   span,
-  pause,
   cause,
   heapUsedBefore,
   heapUsedAfter,
 }: {
   span: TraceSpan
-
-  /** Whether the collector stopped the program for the span's duration. */
-  pause: boolean
 
   /** Why the collection ran, as the profiler states it. */
   cause?: string
@@ -79,7 +75,7 @@ export const gcEvents = ({
   return {
     event: {
       ...span,
-      category: pause ? `garbage-collection-pause` : `garbage-collection`,
+      category: `garbage-collection-pause`,
       attributes,
     },
     readings,

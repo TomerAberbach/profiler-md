@@ -77,7 +77,6 @@ export type TraceSpan = TraceEventFields & {
   /** Absent for a span the input never ends. */
   duration?: number
 
-  /** The span's CPU time, when recorded. */
   cpuDuration?: number
 
   /**

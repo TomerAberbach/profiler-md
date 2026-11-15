@@ -1,4 +1,3 @@
-import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import { formatCategory } from '../format.ts'
@@ -11,6 +10,7 @@ import {
   textCell,
 } from '../table.ts'
 import type { Table } from '../table.ts'
+import { formatRetainerName } from './aggregate.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
 
 /** A category's row on one side. */
@@ -168,8 +168,7 @@ const entityColumns = (
   {
     header: nameLabel,
     cellOf: row =>
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      codeCell(displayName(row.entity, options) || `(unknown)`),
+      codeCell(formatRetainerName(row.entity, options) || `(unknown)`),
   },
   ...(hasLocation
     ? [
@@ -181,15 +180,3 @@ const entityColumns = (
       ]
     : []),
 ]
-
-/**
- * An entity's displayed name: its URL-shaped name formatted relative to the
- * base URL when it has one, and its raw name otherwise.
- */
-export const displayName = (
-  entity: { name?: string; nameLocation?: FileReference },
-  options: FormattingProfileToMdOptions,
-): string | undefined =>
-  entity.nameLocation
-    ? formatSourceLocation(entity.nameLocation, options)
-    : entity.name

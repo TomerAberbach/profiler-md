@@ -5,9 +5,8 @@ import {
   selfSamplesTables,
   selfSizeTables,
   selfTimeTables,
-  totalTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
-import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
@@ -1134,64 +1133,5 @@ describe(`convert`, () => {
       `debug: no entry marked another origin`,
       `warn: skipped 1 sample referencing a missing location`,
     ])
-  })
-})
-
-describe(`options`, () => {
-  const basePprof = makePprof({
-    functions: [
-      { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
-      { id: 2, name: `funcB`, filename: `/project/src/b.ts`, startLine: 1 },
-    ],
-    locations: [
-      { id: 1, lines: [{ functionId: 1, line: 5 }] },
-      { id: 2, lines: [{ functionId: 2, line: 10 }] },
-    ],
-    samples: [
-      { locationIds: [2, 1], values: [100_000] },
-      { locationIds: [2, 1], values: [100_000] },
-    ],
-  })
-
-  test(`topN limits functions shown`, () => {
-    const md = convertBytesToMd(
-      pprofFormatSpec,
-      basePprof,
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        topN: 1,
-      }),
-    )
-
-    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([1])
-  })
-
-  test(`showEntry hides entries while preserving metrics`, () => {
-    // `funcA` is excluded; `funcB`'s total still shows
-    const md = convertBytesToMd(
-      pprofFormatSpec,
-      basePprof,
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        showEntry: row => defaultShowEntry(row) && row.name !== `funcA`,
-      }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toStrictEqual([expect.not.arrayContaining([`funcA`])])
-    expect(callersTables(md, `funcB`)).toHaveLength(0)
-  })
-
-  test(`baseURL: null shows absolute paths`, () => {
-    const md = convertBytesToMd(
-      pprofFormatSpec,
-      basePprof,
-      normalizeProfileToMdOptions({ baseURL: null }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toStrictEqual([[expect.stringMatching(/^\//u)]])
   })
 })

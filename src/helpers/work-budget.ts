@@ -27,21 +27,19 @@ export class WorkBudget {
   }
 
   /**
-   * Runs the computation unless the budget is exhausted, and returns whether it
-   * finished. A computation the budget stops keeps the effects it had.
+   * Runs the computation unless the budget is exhausted. A computation the
+   * budget stops keeps the effects it had.
    */
-  public run(compute: () => void): boolean {
+  public run(compute: () => void): void {
     if (this.isExhausted) {
-      return false
+      return
     }
     try {
       compute()
-      return true
     } catch (error) {
-      if (error instanceof WorkBudgetExhaustedError) {
-        return false
+      if (!(error instanceof WorkBudgetExhaustedError)) {
+        throw error
       }
-      throw error
     }
   }
 }

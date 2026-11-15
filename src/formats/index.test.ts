@@ -19,7 +19,7 @@ import {
   profileTitles,
   rankingTables,
 } from '../testing.ts'
-import { FormatDetectError, mayBeParserBug } from './error.ts'
+import { FormatDetectError, unclassifiedParseFailures } from './error.ts'
 import {
   diffProfiles,
   formats,
@@ -693,7 +693,7 @@ describe(`profileToMd`, () => {
       expect((thrown as Error).message).toMatch(
         `v8-cpu-profile: failed to parse the input`,
       )
-      expect(mayBeParserBug(thrown)).toBe(true)
+      expect(unclassifiedParseFailures(thrown)).toHaveLength(1)
     },
   )
 
@@ -714,7 +714,7 @@ describe(`profileToMd`, () => {
       expect((thrown as Error).message).toMatch(
         `v8-cpu-profile: failed to parse the input`,
       )
-      expect(mayBeParserBug(thrown)).toBe(true)
+      expect(unclassifiedParseFailures(thrown)).toHaveLength(1)
     },
   )
 
@@ -737,7 +737,7 @@ describe(`profileToMd`, () => {
       expectLogs(specifiedLogs)
 
       expect((detected as Error).message).toBe((specified as Error).message)
-      expect(mayBeParserBug(detected)).toBe(true)
+      expect(unclassifiedParseFailures(detected)).toHaveLength(1)
     },
   )
 
@@ -749,7 +749,7 @@ describe(`profileToMd`, () => {
       thrown = error
     }
 
-    expect(mayBeParserBug(thrown)).toBe(false)
+    expect(unclassifiedParseFailures(thrown)).toStrictEqual([])
   })
 
   test.each([

@@ -1084,34 +1084,6 @@ describe(`malformed recordings`, () => {
   })
 })
 
-describe(`options`, () => {
-  test(`topN limits functions shown`, () => {
-    const bytes = makeJfr({
-      methods: [
-        { name: `allocate`, className: `com.example.A` },
-        { name: `run`, className: `com.example.A` },
-      ],
-      stackTraces: [
-        {
-          frames: [
-            { method: 0, line: 7 },
-            { method: 1, line: 3 },
-          ],
-        },
-      ],
-      events: [{ type: `alloc`, stack: 0, value: 2048 }],
-    })
-
-    const md = convertBytesToMd(
-      jfrFormatSpec,
-      bytes,
-      normalizeProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
-    )
-
-    expect(totalSizeTables(md).map(table => table.length)).toStrictEqual([1])
-  })
-})
-
 describe(`streaming parse`, () => {
   const bytes = makeJfr({
     methods: [

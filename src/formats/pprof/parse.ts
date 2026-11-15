@@ -539,9 +539,9 @@ const knownPprofLine = (
  * within it so an address interns without a composite key.
  *
  * A frame in a named file is named by its offset into the file, as `pprof`
- * names it, because the offset is the same across runs. A frame in an anonymous mapping, such as JIT code, is named
- * by its address, because the same offset into two anonymous mappings is two
- * different pieces of code.
+ * names it, because the offset is the same across runs. A frame in an
+ * anonymous mapping, such as JIT code, is named by its address, because the
+ * same offset into two anonymous mappings is two different pieces of code.
  */
 class PprofMapping {
   readonly #source: StackFrame[`definition`]

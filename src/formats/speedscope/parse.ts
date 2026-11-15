@@ -179,16 +179,12 @@ function* sampledObservations(
     // so reverse in place instead of copying every record's stack.
     yield { values: [weight], frameIndices: frameIndices.reverse() }
   }
-  if (missingFrameCount > 0) {
-    recordTally.skipped(
-      `sample`,
-      `referencing a missing frame`,
-      missingFrameCount,
-    )
-  }
-  if (negativeWeightCount > 0) {
-    recordTally.skipped(`sample`, `with a negative weight`, negativeWeightCount)
-  }
+  recordTally.skipped(
+    `sample`,
+    `referencing a missing frame`,
+    missingFrameCount,
+  )
+  recordTally.skipped(`sample`, `with a negative weight`, negativeWeightCount)
   if (sampleCount < profile.samples.length) {
     recordTally.skipped(
       `sample`,

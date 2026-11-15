@@ -378,9 +378,7 @@ const computeNodeAdjacencyGraph = (
       `the nodes' edge counts sum to ${nodeEdgesStartIndex / edgeFieldCount} edges, got: ${totalEdgeCount}`,
     )
   }
-  if (skippedEdgeCount > 0) {
-    recordTally.skipped(`edge`, `pointing at no node`, skippedEdgeCount)
-  }
+  recordTally.skipped(`edge`, `pointing at no node`, skippedEdgeCount)
   if (retainingEdgeCount < totalEdgeCount) {
     // Weak edges left unused entries at the end, so copy to an exact-size
     // array to free them.
@@ -526,7 +524,6 @@ const computeScriptIdToFileLocation = (
     const nodeIndex = locations[locationIndex + locationObjectIndexOffset]!
     const nodeType = nodes[nodeIndex + nodeTypeOffset]
     if (nodeType !== nodeTypeClosure) {
-      // Only closures have location urls.
       continue
     }
 

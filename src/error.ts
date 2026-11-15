@@ -6,7 +6,7 @@
  * a failure is a bug in this package. The exception is a parser failing on an
  * error it did not classify, which is either an input violating the format in
  * a way the parser does not check or a parser bug. That failure throws a
- * `ProfilerMdError` too, and `mayBeParserBug` identifies it.
+ * `ProfilerMdError` too, and `unclassifiedParseFailures` identifies it.
  */
 export class ProfilerMdError extends Error {
   public constructor(message: string, options?: ErrorOptions) {

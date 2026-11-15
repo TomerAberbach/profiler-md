@@ -3,9 +3,8 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
-import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
-  callersTables,
   categoryTables,
   expectLogs,
   linesTables,
@@ -566,53 +565,6 @@ describe(`options`, () => {
       },
     ],
     sampleDurations: [0.01, 0.02, 0.005],
-  })
-
-  test(`showEntry hides entries while preserving metrics`, () => {
-    // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = convertJsonToMd(
-      webkitTimelineRecordingFormatSpec,
-      structuredClone(baseRecording),
-      normalizeProfileToMdOptions({
-        baseURL: `/project/`,
-        showEntry: row => defaultShowEntry(row) && row.name !== `work`,
-      }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toStrictEqual([expect.not.arrayContaining([`work`])])
-    expect(callersTables(md, `work`)).toHaveLength(0)
-  })
-
-  test(`topN limits functions shown`, () => {
-    const md = convertJsonToMd(
-      webkitTimelineRecordingFormatSpec,
-      structuredClone(baseRecording),
-      normalizeProfileToMdOptions({
-        baseURL: `/project/`,
-        topN: 1,
-      }),
-    )
-
-    expect(selfTimeTables(md).map(table => table.length)).toStrictEqual([1])
-    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([1])
-  })
-
-  test(`baseURL: null shows absolute paths`, () => {
-    const md = convertJsonToMd(
-      webkitTimelineRecordingFormatSpec,
-      structuredClone(baseRecording),
-      normalizeProfileToMdOptions({
-        baseURL: null,
-      }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toStrictEqual([
-      [expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)],
-    ])
   })
 
   test(`categorizeFunctions overrides the detected categories`, () => {

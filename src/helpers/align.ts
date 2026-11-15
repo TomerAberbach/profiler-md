@@ -14,9 +14,9 @@
  * position with several candidates at one cost pairs with the nearest.
  *
  * `offsetChangeCost` is the cost of a pair whose offset differs from the
- * previous pair's, {@link OFFSET_CHANGE_COST} by default. A higher cost
- * requires longer runs at a new offset. It must be a multiple of half a unit,
- * like {@link UNPAIRED_COST}, so that ties are broken by offsets alone.
+ * previous pair's. A higher cost requires longer runs at a new offset. It must
+ * be a multiple of half a unit, like {@link UNPAIRED_COST}, so that ties are
+ * broken by offsets alone.
  *
  * It compares only the positions, so the pairing is a guess whenever several
  * edit histories produce the same positions.
@@ -33,7 +33,7 @@
 export const alignPositions = (
   base: readonly number[],
   current: readonly number[],
-  { offsetChangeCost = OFFSET_CHANGE_COST }: { offsetChangeCost?: number } = {},
+  { offsetChangeCost }: { offsetChangeCost: number },
 ): Int32Array => {
   assertStrictlyIncreasing(base)
   assertStrictlyIncreasing(current)
@@ -111,18 +111,6 @@ export const alignPositions = (
 }
 
 export const UNPAIRED_COST = 2
-
-/**
- * The cost of a pair whose offset differs from the previous pair's.
- *
- * It is between one and two unpaired positions' cost. A run of pairs at a new
- * offset takes one change to enter and one to leave, so the alignment starts a
- * new offset only for a run of at least two pairs, or for a run that ends the
- * lists, which it never leaves. A lower cost pairs a lone position whose
- * offset neither adjacent position shares, and a higher one requires longer
- * runs.
- */
-export const OFFSET_CHANGE_COST = 3.5
 
 const assertStrictlyIncreasing = (positions: ArrayLike<number>) => {
   for (let index = 1; index < positions.length; index++) {
@@ -428,7 +416,7 @@ type ColumnShifts = { lowestShift: number; highestShift: number }
  *
  * An alignment's cost excludes the unpaired positions after its last pair, as
  * `cost - UNPAIRED_COST * (row + column)`. A pair extends any alignment before
- * it for its offset's cost less `2 * UNPAIRED_COST`, plus `OFFSET_CHANGE_COST`
+ * it for its offset's cost less `2 * UNPAIRED_COST`, plus `offsetChange`
  * when the offsets differ. Offsets are equal only for pairs in increasing rows
  * and columns, because both lists are strictly increasing.
  */

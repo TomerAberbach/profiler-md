@@ -50,7 +50,7 @@ export const diffAggregatedTraces = (
     base.categoryToStats,
     current.categoryToStats,
   ),
-  threads: matchByName(base.threads, current.threads),
+  threads: matchByKey(base.threads, current.threads, ({ name }) => name),
   // An async span and a thread span sharing a name are two entities.
   spans: [false, true].flatMap(async =>
     matchEvents(
@@ -104,12 +104,6 @@ const matchGauges = (
       ? [{ base: diff.base }, { current: diff.current }]
       : [diff],
   )
-
-/** Pairs each side's values sharing a name, which is unique within a side. */
-const matchByName = <Value extends { name: string }>(
-  base: readonly Value[],
-  current: readonly Value[],
-): Diff<Value>[] => matchByKey(base, current, ({ name }) => name)
 
 /** Pairs each side's values sharing a key, which is unique within a side. */
 const matchByKey = <Value>(

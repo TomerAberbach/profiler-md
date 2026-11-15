@@ -26,7 +26,6 @@ export type V8CpuProfile = {
   timeDeltas: number[]
 }
 
-/** A single function call within a V8 CPU profile. */
 export type V8CpuProfileNode = {
   id: number
 

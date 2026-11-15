@@ -3,10 +3,7 @@ import {
   selfSizeTables,
   totalSizeTables,
 } from '../../../modalities/call-stack-profile/testing.ts'
-import {
-  defaultShowEntry,
-  normalizeProfileToMdOptions,
-} from '../../../options.ts'
+import { normalizeProfileToMdOptions } from '../../../options.ts'
 import { callersTables, categoryTables, expectLogs } from '../../../testing.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapProfileFormatSpec } from './index.ts'
@@ -608,59 +605,6 @@ describe(`convert`, () => {
 })
 
 describe(`options`, () => {
-  test(`showEntry hides entries while preserving metrics`, () => {
-    // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
-    // because its only direct caller (`funcB`) is excluded.
-    const md = convertJsonToMd(
-      v8HeapProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
-      }),
-    )
-
-    expect(
-      selfSizeTables(md).map(table => table.map(row => row.Function)),
-    ).toStrictEqual([expect.not.arrayContaining([`funcB`])])
-    expect(callersTables(md, `funcC`)).toHaveLength(0)
-  })
-
-  test(`topN limits functions shown`, () => {
-    const md = convertJsonToMd(
-      v8HeapProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        topN: 2,
-      }),
-    )
-
-    expect(selfSizeTables(md).map(table => table.length)).toStrictEqual([2])
-    expect(totalSizeTables(md).map(table => table.length)).toStrictEqual([2])
-  })
-
-  test(`baseURL: null shows absolute paths`, () => {
-    const md = convertJsonToMd(
-      v8HeapProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({
-        baseURL: null,
-      }),
-    )
-
-    expect(
-      selfSizeTables(md).map(table => table.map(row => row.Location)),
-    ).toStrictEqual([
-      [
-        expect.stringMatching(/^\//u),
-        expect.stringMatching(/^\//u),
-        // A built-in module has no file path to make absolute.
-        `node:internal/modules/esm/loader:1:1`,
-      ],
-    ])
-  })
-
   test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
       v8HeapProfileFormatSpec,

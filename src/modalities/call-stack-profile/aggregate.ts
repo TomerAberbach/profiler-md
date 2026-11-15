@@ -10,8 +10,8 @@ import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator, OtherSideInput } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
 import {
+  ANONYMOUS_STACK_FRAME_FUNCTION,
   FunctionMerger,
-  parseStackFrameFunction,
   StackFrameTable,
 } from '../stack-frame.ts'
 import type {
@@ -537,7 +537,7 @@ class ObservationsAggregator {
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
       this.#registerFunction(
         ANONYMOUS_FUNCTION_KEY,
-        parseStackFrameFunction({}),
+        ANONYMOUS_STACK_FRAME_FUNCTION,
       )
     )
   }

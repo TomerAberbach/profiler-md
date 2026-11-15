@@ -631,11 +631,13 @@ export class RetainerPaths {
 
       while (hops.length > 0) {
         const { dominatorOrdinal, edge, internal } = hops.pop()!
-        // A path within a dominator ends before the internal nodes near the GC
-        // root, so it keeps every step.
+        // A path drops its trailing steps through internal nodes, which are VM
+        // bookkeeping that never points to user code. A path within a
+        // dominator ends before the internal nodes near the GC root, so it
+        // keeps every step.
         const isRestEmpty =
           path === RetainerPaths.ROOT && !this.#isWithinDominator
-        if (keepsRetainerStep(internal, isRestEmpty)) {
+        if (!(isRestEmpty && internal)) {
           // A dominator retains many nodes, so it's read and its label
           // formatted once.
           ordinalToRetainer[dominatorOrdinal] ??=
@@ -878,15 +880,6 @@ export class RetainerPaths {
     return located
   }
 }
-
-/**
- * Whether a retainer path keeps a hop's step, given whether the hop's
- * dominator is internal and whether the path from it outward is empty. A path
- * drops its trailing steps through internal nodes, which are VM bookkeeping
- * that never points to user code.
- */
-const keepsRetainerStep = (internal: boolean, isRestEmpty: boolean): boolean =>
-  !(isRestEmpty && internal)
 
 const ANY_ELEMENT_EDGE: RetainerPathEdge = { type: `any-element` }
 

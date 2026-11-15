@@ -48,7 +48,6 @@ const createHighlighterCore = async (): Promise<HighlighterCore> => {
   const go = import(`@shikijs/langs/go`)
   const java = import(`@shikijs/langs/java`)
   const js = import(`@shikijs/langs/js`)
-  const python = import(`@shikijs/langs/python`)
   const rust = import(`@shikijs/langs/rust`)
   const sh = import(`@shikijs/langs/sh`)
   const toml = import(`@shikijs/langs/toml`)
@@ -57,7 +56,7 @@ const createHighlighterCore = async (): Promise<HighlighterCore> => {
   const onigurumaEngineWasm = import(`@shikijs/engine-oniguruma/wasm-inlined`)
 
   return (await shikiCore).createHighlighterCore({
-    langs: [markdown, c, go, java, js, python, rust, sh, toml],
+    langs: [markdown, c, go, java, js, rust, sh, toml],
     themes: [kindlingTheme],
     engine: (await onigurumaEngine).createOnigurumaEngine(onigurumaEngineWasm),
   })
@@ -725,9 +724,6 @@ const renderToken = (
     if (token.fontStyle & FONT_STYLE_UNDERLINE) {
       styled = ansis.underline(styled)
     }
-    if (token.fontStyle & FONT_STYLE_STRIKETHROUGH) {
-      styled = ansis.strikethrough(styled)
-    }
   }
   return styled
 }
@@ -747,4 +743,3 @@ const tintCool = ({ red, green, blue }: Rgb, intensity: number): Rgb => ({
 const FONT_STYLE_ITALIC = 1
 const FONT_STYLE_BOLD = 2
 const FONT_STYLE_UNDERLINE = 4
-const FONT_STYLE_STRIKETHROUGH = 8

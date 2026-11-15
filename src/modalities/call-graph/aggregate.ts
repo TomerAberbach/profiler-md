@@ -9,7 +9,10 @@ import { originSpecOf } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
-import { parseStackFrameFunction, StackFrameTable } from '../stack-frame.ts'
+import {
+  ANONYMOUS_STACK_FRAME_FUNCTION,
+  StackFrameTable,
+} from '../stack-frame.ts'
 import type {
   StackFrameFunction,
   StackFrameFunctionTable,
@@ -83,7 +86,7 @@ export type AggregatedCallGraphFunction = {
 type AggregatedCallGraphCallerMetrics = {
   caller: AggregatedCallGraphFunction
 
-  /** The recorded number of calls, or `0` when the format records none. */
+  /** The number of calls the arc records. */
   callCount: number
 
   /**
@@ -97,7 +100,7 @@ type AggregatedCallGraphCallerMetrics = {
 type AggregatedCallGraphCalleeMetrics = {
   callee: AggregatedCallGraphFunction
 
-  /** The recorded number of calls, or `0` when the format records none. */
+  /** The number of calls the arc records. */
   callCount: number
 
   /**
@@ -200,7 +203,7 @@ class FunctionsAggregator {
         this.#keyToFunction.get(key) ??
         this.#registerFunction(
           key,
-          frameFunction ?? parseStackFrameFunction({}),
+          frameFunction ?? ANONYMOUS_STACK_FRAME_FUNCTION,
         )
       )
     })

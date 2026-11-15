@@ -161,7 +161,7 @@ export class StackFrameTable {
         dropLocationName(frame, normalizeStackFrame(frame, context.format)),
       ),
       functionIdentity,
-      index => isTruncationMarker(this.#frames[index]!, context.format),
+      index => isTruncationMarker(this.#frames[index]!),
     )
   }
 }
@@ -245,15 +245,11 @@ export class StackFrameFunctionTable {
   }
 }
 
-export const parseStackFrameFunction = (
-  frame: StackFrame,
-): StackFrameFunction => {
-  const identifying = identifyingReference(frame, `definition`)
-  return makeStackFrameFunction(
-    frame,
-    identifying,
-    functionIdentityKey(frame.name, identifying),
-  )
+/** The function a frame with no name or location parses to. */
+export const ANONYMOUS_STACK_FRAME_FUNCTION: StackFrameFunction = {
+  name: ANONYMOUS_FUNCTION_NAME,
+  location: undefined,
+  key: ``,
 }
 
 /**

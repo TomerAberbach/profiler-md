@@ -171,8 +171,7 @@ export const formatCallStackProfile = (
 }
 
 /**
- * {@link options} with `showEntry` memoized by the profile's function IDs,
- * along with whether it shows any of {@link profile}'s functions.
+ * {@link options} with `showEntry` memoized by the profile's function IDs.
  *
  * The option's own per-entry cache is a `WeakMap`, whose lookup is too slow to
  * run once per stack frame. Function IDs are unique only within one profile,

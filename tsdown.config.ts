@@ -17,11 +17,6 @@ const libraryConfig = {
       compress: {
         passes: 3,
       },
-      mangle: {
-        properties: {
-          regex: `^_[^_]+`,
-        },
-      },
     }),
     treeShakeable(),
   ],

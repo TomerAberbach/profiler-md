@@ -137,7 +137,7 @@ of any modality.
 | Term                     | Definition                                                                         | Aliases to avoid |
 | ------------------------ | ---------------------------------------------------------------------------------- | ---------------- |
 | **Arc**                  | A directed caller→callee record of the calls' count and total cost                 | edge, call       |
-| **Call count**           | The number of calls an arc records, or 0 when the format records none              | —                |
+| **Call count**           | The number of calls an arc records                                                 | —                |
 | **Recursion cycle**      | A strongly connected component of the parsed call graph                            | —                |
 | **Runtime-inserted arc** | An arc an origin marks as coming from the runtime rather than the profiled program | —                |
 
