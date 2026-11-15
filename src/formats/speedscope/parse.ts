@@ -157,14 +157,9 @@ function* sampledObservations(
   recordTally: RecordTally,
 ): Iterable<Observation> {
   const sampleCount = Math.min(profile.samples.length, profile.weights.length)
-  let negativeWeightCount = 0
   let missingFrameCount = 0
   for (let index = 0; index < sampleCount; index++) {
     const weight = profile.weights[index]!
-    if (weight < 0) {
-      negativeWeightCount++
-      continue
-    }
     // A zero-weight or empty-stack record still counts: dropping it would
     // make the count (and, for an empty stack, the total value) disagree with
     // other presentations of the same recording. The aggregator attributes an
@@ -184,7 +179,6 @@ function* sampledObservations(
     `referencing a missing frame`,
     missingFrameCount,
   )
-  recordTally.skipped(`sample`, `with a negative weight`, negativeWeightCount)
   if (sampleCount < profile.samples.length) {
     recordTally.skipped(
       `sample`,
