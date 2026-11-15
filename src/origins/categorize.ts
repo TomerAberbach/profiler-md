@@ -13,8 +13,20 @@ export const categorizeGenericEntry = (
 ): FunctionCategory =>
   syntheticFrameCategory(entry) ??
   systemDirectoryCategory(entry) ??
+  toolchainObjectCategory(entry) ??
   locationlessCategory(entry) ??
   `ours`
+
+/**
+ * Categorizes a frame a symbolizer attributed to an object file, or to GCC's C
+ * runtime startup source, as `native`, because neither is the program's source.
+ */
+const toolchainObjectCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined =>
+  pathCategory(entry, `native`, TOOLCHAIN_OBJECT)
+
+const TOOLCHAIN_OBJECT = /(?:^|\/)crtstuff\.c$|\.o$/u
 
 /**
  * Categorizes an engine's synthetic profiler frames, named like `(idle)` or

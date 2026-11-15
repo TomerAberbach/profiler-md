@@ -27,6 +27,13 @@ describe(`categorizeEntry`, () => {
     ).toBe(`native`)
   })
 
+  test.each([`crtstuff.c`, `swift/stdlib/Bridging.o`])(
+    `a function the symbolizer attributed to %s is native`,
+    path => {
+      expect(categorizeEntry(relativeEntry(`frame_dummy`, path))).toBe(`native`)
+    },
+  )
+
   // A toolchain header is the standard library's own source.
   test(`a system-include source is stdlib`, () => {
     expect(
