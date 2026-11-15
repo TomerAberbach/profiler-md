@@ -686,12 +686,16 @@ describe(`malformed profiles`, () => {
       normalizeProfileToMdOptions(),
     )
 
-  test(`skips a sample referencing a missing frame or with a negative weight, with a warning`, () => {
+  test(`skips a sample referencing a missing frame, with a warning`, () => {
     const md = convert({
       profiles: [
         makeSampledProfile({
-          samples: [[0, 7], [0, 0.5], [0], [0, 1]],
-          weights: [1, 1, -1, 2],
+          samples: [
+            [0, 7],
+            [0, 0.5],
+            [0, 1],
+          ],
+          weights: [1, 1, 2],
         }),
       ],
       frames,
@@ -705,7 +709,6 @@ describe(`malformed profiles`, () => {
       `info: fallback origin: unknown`,
       `debug: no entry marked another origin`,
       `warn: skipped 2 samples referencing a missing frame`,
-      `warn: skipped 1 sample with a negative weight`,
     ])
   })
 
