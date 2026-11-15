@@ -262,20 +262,11 @@ class SystingProfileBuilder {
 const NO_VALUES: number[] = []
 
 const parseSystingHeader = (line: string): SystingHeader => {
-  const json = parseJson(line)
-  if (typeof json !== `object` || json === null || Array.isArray(json)) {
-    throw new FormatParseError(`header is not an object`)
-  }
-
-  const header = json as SystingHeader
-  const version = header.systing_profile_export
-  if (!Number.isSafeInteger(version)) {
+  const header = parseJson(line) as SystingHeader | null
+  if (header?.systing_profile_export !== 1) {
     throw new FormatParseError(
-      `header is missing the systing_profile_export version`,
+      `unsupported systing_profile_export, expected 1, got: ${JSON.stringify(header?.systing_profile_export)}`,
     )
-  }
-  if (version !== 1) {
-    throw new FormatParseError(`unsupported version ${version}, expected 1`)
   }
   const stackOrder = header.stack_order ?? `leaf_first`
   if (stackOrder !== `leaf_first`) {
