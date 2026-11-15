@@ -10,6 +10,9 @@ import { alignPositions, BAND_PAIRS_LIMIT, UNPAIRED_COST } from './align.ts'
  */
 const OFFSET_CHANGE_COST = 3.5
 
+const align = (base: readonly number[], current: readonly number[]) =>
+  alignPositions(base, current, { offsetChangeCost: OFFSET_CHANGE_COST })
+
 /** A strictly increasing list over a small range, so offsets repeat across pairs. */
 const positions = (): fc.Arbitrary<number[]> =>
   fc
@@ -139,9 +142,9 @@ const pairsOf = (pairs: Int32Array): [number, number][] =>
 test.prop([positions(), positions()])(
   `alignPositions pairs each current position at most once, in increasing order`,
   (base, current) => {
-    const currentIndexes = pairsOf(
-      alignPositions(base, current, { offsetChangeCost: OFFSET_CHANGE_COST }),
-    ).map(([, currentIndex]) => currentIndex)
+    const currentIndexes = pairsOf(align(base, current)).map(
+      ([, currentIndex]) => currentIndex,
+    )
 
     expect(
       currentIndexes.filter(index => index < 0 || index >= current.length),
@@ -166,9 +169,7 @@ const offsetsOf = (
 test.prop([positions(), positions()])(
   `alignPositions returns the cheapest alignment with the least sum of absolute offsets`,
   (base, current) => {
-    const pairs = pairsOf(
-      alignPositions(base, current, { offsetChangeCost: OFFSET_CHANGE_COST }),
-    )
+    const pairs = pairsOf(align(base, current))
 
     expect({
       cost: alignmentCost(base, current, pairs),
@@ -182,9 +183,7 @@ test.prop([positions(), fc.integer({ min: -20, max: 20 })])(
   (base, offset) => {
     const current = base.map(position => position + offset)
 
-    const pairs = alignPositions(base, current, {
-      offsetChangeCost: OFFSET_CHANGE_COST,
-    })
+    const pairs = align(base, current)
 
     expect([...pairs]).toStrictEqual(base.map((_, index) => index))
   },
@@ -195,9 +194,7 @@ test.prop([
 ])(
   `alignPositions pairs every current position with its own when the base adds positions`,
   ([base, current]) => {
-    const pairs = alignPositions(base, current, {
-      offsetChangeCost: OFFSET_CHANGE_COST,
-    })
+    const pairs = align(base, current)
 
     expect(pairsOf(pairs)).toStrictEqual(
       current.map((position, index) => [base.indexOf(position), index]),
@@ -210,9 +207,7 @@ test.prop([
 ])(
   `alignPositions pairs every base position with its own when the current adds positions`,
   ([base, current]) => {
-    const pairs = alignPositions(base, current, {
-      offsetChangeCost: OFFSET_CHANGE_COST,
-    })
+    const pairs = align(base, current)
 
     expect([...pairs]).toStrictEqual(
       base.map(position => current.indexOf(position)),
@@ -228,9 +223,9 @@ test.each([
 ])(
   `alignPositions throws on $base and $current, which are not strictly increasing`,
   ({ base, current }) => {
-    expect(() =>
-      alignPositions(base, current, { offsetChangeCost: OFFSET_CHANGE_COST }),
-    ).toThrow(`positions must be strictly increasing`)
+    expect(() => align(base, current)).toThrow(
+      `positions must be strictly increasing`,
+    )
   },
 )
 
@@ -284,9 +279,7 @@ test.each([
     expected: [-1, 0],
   },
 ])(`alignPositions pairs $name`, ({ base, current, expected }) => {
-  expect([
-    ...alignPositions(base, current, { offsetChangeCost: OFFSET_CHANGE_COST }),
-  ]).toStrictEqual(expected)
+  expect([...align(base, current)]).toStrictEqual(expected)
 })
 
 test(`alignPositions pairs each shared position with its own when the band stops widening`, () => {
@@ -312,9 +305,7 @@ test(`alignPositions pairs each shared position with its own when the band stops
   const base = all.filter(() => random() >= 0.2)
   const current = all.filter(() => random() >= 0.2).map(moved)
 
-  const pairs = alignPositions(base, current, {
-    offsetChangeCost: OFFSET_CHANGE_COST,
-  })
+  const pairs = align(base, current)
 
   expect(pairsOf(pairs)).toStrictEqual(
     base.flatMap((position, index) => {
@@ -339,9 +330,7 @@ test(`alignPositions pairs only equal positions when its first band would exceed
   )
   const current = [...moved, ...unmoved, ...added]
 
-  const pairs = alignPositions(base, current, {
-    offsetChangeCost: OFFSET_CHANGE_COST,
-  })
+  const pairs = align(base, current)
 
   expect(pairsOf(pairs)).toStrictEqual(
     unmoved.map((position, index) => [

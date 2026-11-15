@@ -213,8 +213,11 @@ class Eventlog {
       }
 
       const depth =
-        size > SAMPLE_STACK_DEPTH ? this.#sampleStackDepth(payload) : Infinity
-      if (SAMPLE_STACK + depth * COST_CENTRE_ID_SIZE > size) {
+        size > SAMPLE_STACK_DEPTH ? this.#sampleStackDepth(payload) : undefined
+      if (
+        depth === undefined ||
+        SAMPLE_STACK + depth * COST_CENTRE_ID_SIZE > size
+      ) {
         overrunSamples++
         continue
       }

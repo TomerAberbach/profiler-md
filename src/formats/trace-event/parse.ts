@@ -113,20 +113,16 @@ class TraceEventParser {
   }
 
   #tallySkippedRecords(): void {
-    if (this.#unreadPhaseCount > 0) {
-      this.#recordTally.skipped(
-        `event`,
-        `in a phase this format's parser leaves unread`,
-        this.#unreadPhaseCount,
-      )
-    }
-    if (this.#unbegunEndCount > 0) {
-      this.#recordTally.skipped(
-        `end event`,
-        `ending nothing begun`,
-        this.#unbegunEndCount,
-      )
-    }
+    this.#recordTally.skipped(
+      `event`,
+      `in a phase this format's parser leaves unread`,
+      this.#unreadPhaseCount,
+    )
+    this.#recordTally.skipped(
+      `end event`,
+      `ending nothing begun`,
+      this.#unbegunEndCount,
+    )
   }
 
   /**
