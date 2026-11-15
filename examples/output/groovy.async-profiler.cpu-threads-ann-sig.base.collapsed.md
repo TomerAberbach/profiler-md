@@ -2,12 +2,13 @@
 
 Collected 655 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Compiler         | 54.4% |     356 |
-| Native           | 32.4% |     212 |
-| Standard library | 12.8% |      84 |
-| JIT              |  0.5% |       3 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Compiler          | 54.4% |     356 |
+| Native            | 31.8% |     208 |
+| Standard library  | 12.8% |      84 |
+| Garbage collector |  0.6% |       4 |
+| JIT               |  0.5% |       3 |
 
 `…` stands for omitted frames.
 
@@ -135,11 +136,11 @@ Categories accounting for at least 1.0% of self samples.
 | 0.5% |       3 | `CompiledMethod::cleanup_inline_caches_impl(bool, bool)`                                                                                                                    | `<unknown>` |
 | 0.5% |       3 | `FieldInfoReader::read_field_info(FieldInfo&)`                                                                                                                              | `<unknown>` |
 | 0.3% |       2 | `inflate_fast`                                                                                                                                                              | `<unknown>` |
-| 0.3% |       2 | `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)`                                                                                                               | `<unknown>` |
 | 0.3% |       2 | `ResourceBitMap::ResourceBitMap(unsigned long, bool)`                                                                                                                       | `<unknown>` |
 | 0.3% |       2 | `bsearch`                                                                                                                                                                   | `<unknown>` |
 | 0.3% |       2 | `void G1ScanEvacuatedObjClosure::do_oop_work<narrowOop>(narrowOop*)`                                                                                                        | `<unknown>` |
 | 0.3% |       2 | `Continuation::is_return_barrier_entry(unsigned char*)`                                                                                                                     | `<unknown>` |
+| 0.3% |       2 | `java_lang_Throwable::fill_in_stack_trace(Handle, methodHandle const&, JavaThread*)`                                                                                        | `<unknown>` |
 
 ##### Standard library
 
@@ -426,12 +427,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ----------------------------------------------- | ----------- |
 | 100.0% |       2 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `<unknown>` |
 
-##### `G1ParScanThreadState::trim_queue_to_threshold(unsigned int)` (`<unknown>`)
-
-|      % | Samples | Caller                                                              | Location    |
-| -----: | ------: | ------------------------------------------------------------------- | ----------- |
-| 100.0% |       2 | `G1ScanHRForRegionClosure::scan_memregion(unsigned int, MemRegion)` | `<unknown>` |
-
 ##### `ResourceBitMap::ResourceBitMap(unsigned long, bool)` (`<unknown>`)
 
 |     % | Samples | Caller                               | Location    |
@@ -457,6 +452,12 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | ----: | ------: | ------------------------------------------------------------ | ----------- |
 | 50.0% |       1 | `SharedRuntime::resolve_sub_helper(bool, bool, JavaThread*)` | `<unknown>` |
 | 50.0% |       1 | `frame::sender_for_compiled_frame(RegisterMap*) const`       | `<unknown>` |
+
+##### `java_lang_Throwable::fill_in_stack_trace(Handle, methodHandle const&, JavaThread*)` (`<unknown>`)
+
+|      % | Samples | Caller                                                                  | Location    |
+| -----: | ------: | ----------------------------------------------------------------------- | ----------- |
+| 100.0% |       2 | `java_lang_Throwable::fill_in_stack_trace(Handle, methodHandle const&)` | `<unknown>` |
 
 ##### `join(PredictionContext, PredictionContext, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
 

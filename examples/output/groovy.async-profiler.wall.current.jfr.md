@@ -4,11 +4,11 @@ Collected 2,910 samples.
 
 | Category          |     % | Samples |
 | ----------------- | ----: | ------: |
-| Native            | 92.1% |   2,680 |
+| Native            | 92.0% |   2,678 |
 | Compiler          |  6.0% |     174 |
 | Standard library  |  1.8% |      53 |
+| Garbage collector |  0.1% |       3 |
 | JIT               |  0.1% |       2 |
-| Garbage collector | <0.1% |       1 |
 
 `…` stands for omitted frames.
 

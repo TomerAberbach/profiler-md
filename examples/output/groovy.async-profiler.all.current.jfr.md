@@ -5,11 +5,11 @@ Collected 1,684 samples.
 | Category          |     % | Samples |
 | ----------------- | ----: | ------: |
 | Compiler          | 52.4% |     883 |
-| Native            | 28.9% |     486 |
+| Native            | 27.4% |     462 |
 | Standard library  | 17.5% |     295 |
+| Garbage collector |  1.5% |      26 |
 | JIT               |  0.6% |      10 |
 | Ours              |  0.5% |       8 |
-| Garbage collector |  0.1% |       2 |
 
 `…` stands for omitted frames.
 
@@ -130,7 +130,6 @@ Categories accounting for at least 1.0% of self samples.
 | 0.7% |      11 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`   |
 | 0.7% |      11 | `_platform_memmove`                                                                                                                                      | `libsystem_platform.dylib` |
 | 0.7% |      11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `libjvm.dylib`             |
-| 0.7% |      11 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`             |
 | 0.6% |      10 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`             |
 | 0.5% |       9 | `bsearch`                                                                                                                                                | `libsystem_c.dylib`        |
 | 0.5% |       9 | `InstanceKlass::find_method_index`                                                                                                                       | `libjvm.dylib`             |
@@ -140,8 +139,9 @@ Categories accounting for at least 1.0% of self samples.
 | 0.4% |       6 | `__psynch_cvbroad`                                                                                                                                       | `libsystem_kernel.dylib`   |
 | 0.4% |       6 | `Dict::Insert`                                                                                                                                           | `libjvm.dylib`             |
 | 0.4% |       6 | `RegisterMap::RegisterMap`                                                                                                                               | `libjvm.dylib`             |
-| 0.4% |       6 | `G1ParScanThreadState::trim_queue_to_threshold`                                                                                                          | `libjvm.dylib`             |
 | 0.3% |       5 | `__psynch_mutexdrop`                                                                                                                                     | `libsystem_kernel.dylib`   |
+| 0.3% |       5 | `vmSymbols::find_sid`                                                                                                                                    | `libjvm.dylib`             |
+| 0.3% |       5 | `ScopeDesc::decode_body`                                                                                                                                 | `libjvm.dylib`             |
 
 ##### Standard library
 
@@ -167,6 +167,21 @@ Categories accounting for at least 1.0% of self samples.
 | 0.1% |       2 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
 | 0.1% |       2 | `guard(Object, Object, Object)`                                                                               | `java.lang.invoke.LambdaForm$MH.0x00000070010aac00`    |
 | 0.1% |       2 | `makePairwiseConvertByEditor(MethodHandle, MethodType, boolean, boolean)`                                     | `java.lang.invoke.MethodHandleImpl`                    |
+
+##### Garbage collector
+
+|    % | Samples | Function                                                                          | Location       |
+| ---: | ------: | --------------------------------------------------------------------------------- | -------------- |
+| 0.7% |      11 | `G1ParScanThreadState::do_copy_to_survivor_space`                                 | `libjvm.dylib` |
+| 0.4% |       6 | `G1ParScanThreadState::trim_queue_to_threshold`                                   | `libjvm.dylib` |
+| 0.1% |       2 | `g1_post_barrier_slow`                                                            | `<unknown>`    |
+| 0.1% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`          | `libjvm.dylib` |
+| 0.1% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` | `libjvm.dylib` |
+| 0.1% |       1 | `G1CardSet::add_to_howl`                                                          | `libjvm.dylib` |
+| 0.1% |       1 | `G1CardSet::add_card`                                                             | `libjvm.dylib` |
+| 0.1% |       1 | `HeapRegion::block_size`                                                          | `libjvm.dylib` |
+| 0.1% |       1 | `G1ParScanThreadState::start_partial_objarray`                                    | `libjvm.dylib` |
+| 0.1% |       1 | `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr`                 | `libjvm.dylib` |
 
 #### Lines
 
@@ -565,6 +580,21 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------------------------------------- | ------------------------- |
 | 100.0% |       5 | `_pthread_mutex_firstfit_unlock_slow` | `libsystem_pthread.dylib` |
 
+##### `vmSymbols::find_sid` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                         | Location       |
+| ----: | ------: | ---------------------------------------------- | -------------- |
+| 60.0% |       3 | `ciObjectFactory::get_symbol`                  | `libjvm.dylib` |
+| 40.0% |       2 | `MethodHandles::signature_polymorphic_name_id` | `libjvm.dylib` |
+
+##### `ScopeDesc::decode_body` (`libjvm.dylib`)
+
+|     % | Samples | Caller                          | Location       |
+| ----: | ------: | ------------------------------- | -------------- |
+| 60.0% |       3 | `ScopeDesc::ScopeDesc`          | `libjvm.dylib` |
+| 20.0% |       1 | `ScopeDesc::sender`             | `libjvm.dylib` |
+| 20.0% |       1 | `CompiledMethod::scope_desc_at` | `libjvm.dylib` |
+
 ##### `equals(Object, Object)` (`java.util.Objects`)
 
 |      % | Samples | Caller           | Location                               |
@@ -694,6 +724,55 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ----------------------------------------------------------------- | ----------------------------------- |
 | 100.0% |       2 | `makePairwiseConvert(MethodHandle, MethodType, boolean, boolean)` | `java.lang.invoke.MethodHandleImpl` |
 
+##### `g1_post_barrier_slow` (`<unknown>`)
+
+|     % | Samples | Caller                                                                                      | Location                                             |
+| ----: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 50.0% |       1 | `toArray()`                                                                                 | `java.lang.PublicMethods`                            |
+| 50.0% |       1 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                             | Location       |
+| -----: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                             | Location       |
+| -----: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+
+##### `G1CardSet::add_to_howl` (`libjvm.dylib`)
+
+|      % | Samples | Caller                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |       1 | `G1CardSet::add_card` | `libjvm.dylib` |
+
+##### `G1CardSet::add_card` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                                                 | Location       |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------ | -------------- |
+| 100.0% |       1 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+
+##### `HeapRegion::block_size` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                          | Location       |
+| -----: | ------: | ------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::start_partial_objarray` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                          | Location       |
+| -----: | ------: | ----------------------------------------------- | -------------- |
+| 100.0% |       1 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+
+##### `G1MergeHeapRootsTask::G1MergeLogBufferCardsClosure::do_card_ptr` (`libjvm.dylib`)
+
+|      % | Samples | Caller                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |       1 | `G1MergeHeapRootsTask::work` | `libjvm.dylib` |
+
 ### Total samples
 
 Functions with the most samples collected within the function and its callees.
@@ -799,6 +878,31 @@ Categories accounting for at least 1.0% of self samples.
 | 28.1% |     473 | `invoke(Object, Object, Object)`                                                              | `java.lang.invoke.LambdaForm$MH.0x00000070010a9800`  |
 | 28.0% |     471 | `invokeVirtual(Object, Object)`                                                               | `java.lang.invoke.DirectMethodHandle$Holder`         |
 | 27.9% |     470 | `invoke(Object, Object)`                                                                      | `java.lang.invoke.LambdaForm$MH.0x000000700102b000`  |
+
+##### Garbage collector
+
+|    % | Samples | Function                                                                           | Location       |
+| ---: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 1.9% |      32 | `G1EvacuateRegionsBaseTask::work`                                                  | `libjvm.dylib` |
+| 1.8% |      30 | `G1ParScanThreadState::trim_queue_to_threshold`                                    | `libjvm.dylib` |
+| 1.3% |      22 | `G1ParScanThreadState::do_copy_to_survivor_space`                                  | `libjvm.dylib` |
+| 1.2% |      20 | `G1EvacuateRegionsTask::scan_roots`                                                | `libjvm.dylib` |
+| 0.9% |      15 | `G1ScanHRForRegionClosure::scan_memregion`                                         | `libjvm.dylib` |
+| 0.9% |      15 | `G1ScanHRForRegionClosure::scan_heap_roots`                                        | `libjvm.dylib` |
+| 0.9% |      15 | `G1ScanHRForRegionClosure::do_heap_region`                                         | `libjvm.dylib` |
+| 0.9% |      15 | `G1RemSet::scan_heap_roots`                                                        | `libjvm.dylib` |
+| 0.7% |      12 | `G1ParEvacuateFollowersClosure::do_void`                                           | `libjvm.dylib` |
+| 0.7% |      12 | `G1EvacuateRegionsTask::evacuate_live_objects`                                     | `libjvm.dylib` |
+| 0.4% |       7 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+| 0.4% |       7 | `HeapRegionManager::par_iterate`                                                   | `libjvm.dylib` |
+| 0.4% |       7 | `G1RebuildRSAndScrubTask::work`                                                    | `libjvm.dylib` |
+| 0.4% |       6 | `G1CMBitMap::iterate`                                                              | `libjvm.dylib` |
+| 0.4% |       6 | `G1CMTask::do_marking_step`                                                        | `libjvm.dylib` |
+| 0.4% |       6 | `G1CMConcurrentMarkingTask::work`                                                  | `libjvm.dylib` |
+| 0.4% |       6 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`           | `libjvm.dylib` |
+| 0.4% |       6 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`  | `libjvm.dylib` |
+| 0.3% |       5 | `G1RootProcessor::process_java_roots`                                              | `libjvm.dylib` |
+| 0.3% |       5 | `G1RootProcessor::evacuate_roots`                                                  | `libjvm.dylib` |
 
 #### Callers
 
@@ -1211,6 +1315,132 @@ Callers with the largest contribution to each function's total samples. Inlining
 |      % | Samples | Caller                                   | Location       |
 | -----: | ------: | ---------------------------------------- | -------------- |
 | 100.0% |      32 | `JvmtiExport::post_sampled_object_alloc` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
+
+|      % | Samples | Caller              | Location       |
+| -----: | ------: | ------------------- | -------------- |
+| 100.0% |      32 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                              | Location       |
+| ----: | ------: | ------------------------------------------------------------------- | -------------- |
+| 43.3% |      13 | `G1ScanHRForRegionClosure::scan_memregion`                          | `libjvm.dylib` |
+| 23.3% |       7 | `G1ParEvacuateFollowersClosure::do_void`                            | `libjvm.dylib` |
+| 16.7% |       5 | `G1ParScanThreadState::steal_and_trim_queue`                        | `libjvm.dylib` |
+| 13.3% |       4 | `void G1ParCopyClosure<(G1Barrier)1, false>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
+|  3.3% |       1 | `void G1ParCopyClosure<(G1Barrier)0, true>::do_oop_work<oopDesc*>`  | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                          | Location       |
+| ----: | ------: | ----------------------------------------------- | -------------- |
+| 95.5% |      21 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+|  4.5% |       1 | `G1ScanHRForRegionClosure::scan_memregion`      | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::scan_roots` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |      20 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                                                                                                          | Location       |
+| -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| 100.0% |      15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |      15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+|      % | Samples | Caller                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |      15 | `G1RemSet::scan_heap_roots` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
+
+|      % | Samples | Caller                              | Location       |
+| -----: | ------: | ----------------------------------- | -------------- |
+| 100.0% |      15 | `G1EvacuateRegionsTask::scan_roots` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                         | Location       |
+| -----: | ------: | ---------------------------------------------- | -------------- |
+| 100.0% |      12 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |      12 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` (`libjvm.dylib`)
+
+|      % | Samples | Caller                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |       7 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+
+|      % | Samples | Caller                          | Location       |
+| -----: | ------: | ------------------------------- | -------------- |
+| 100.0% |       7 | `G1RebuildRSAndScrubTask::work` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::work` (`libjvm.dylib`)
+
+|      % | Samples | Caller              | Location       |
+| -----: | ------: | ------------------- | -------------- |
+| 100.0% |       7 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1CMBitMap::iterate` (`libjvm.dylib`)
+
+|      % | Samples | Caller                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |       6 | `G1CMTask::do_marking_step` | `libjvm.dylib` |
+
+##### `G1CMTask::do_marking_step` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       6 | `G1CMConcurrentMarkingTask::work` | `libjvm.dylib` |
+
+##### `G1CMConcurrentMarkingTask::work` (`libjvm.dylib`)
+
+|      % | Samples | Caller              | Location       |
+| -----: | ------: | ------------------- | -------------- |
+| 100.0% |       6 | `WorkerThread::run` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                                             | Location       |
+| ----: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 83.3% |       5 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb`  | `libjvm.dylib` |
+| 16.7% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                             | Location       |
+| -----: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       6 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+
+##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       5 | `G1RootProcessor::evacuate_roots` | `libjvm.dylib` |
+
+##### `G1RootProcessor::evacuate_roots` (`libjvm.dylib`)
+
+|      % | Samples | Caller                              | Location       |
+| -----: | ------: | ----------------------------------- | -------------- |
+| 100.0% |       5 | `G1EvacuateRegionsTask::scan_roots` | `libjvm.dylib` |
 
 #### Callees
 
@@ -1725,6 +1955,139 @@ Callees with the largest contribution to each function's total samples. Inlining
 | 93.8% |      30 | `Profiler::recordSample`  | `libasyncProfiler.dylib` |
 |  3.1% |       1 | `thread_self_trap`        | `libsystem_kernel.dylib` |
 |  3.1% |       1 | `jvmti_GetClassSignature` | `libjvm.dylib`           |
+
+##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                         | Location       |
+| ----: | ------: | ---------------------------------------------- | -------------- |
+| 62.5% |      20 | `G1EvacuateRegionsTask::scan_roots`            | `libjvm.dylib` |
+| 37.5% |      12 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                            | Location       |
+| ----: | ------: | ------------------------------------------------- | -------------- |
+| 70.0% |      21 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
+|  3.3% |       1 | `G1ParScanThreadState::do_partial_array`          | `libjvm.dylib` |
+|  3.3% |       1 | `G1ParScanThreadState::start_partial_objarray`    | `libjvm.dylib` |
+|  3.3% |       1 | `fwd_copy_again`                                  | `libjvm.dylib` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                                                                                       | Location       |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| 50.0% |      11 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::scan_roots` (`libjvm.dylib`)
+
+|     % | Samples | Callee                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 75.0% |      15 | `G1RemSet::scan_heap_roots`       | `libjvm.dylib` |
+| 25.0% |       5 | `G1RootProcessor::evacuate_roots` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_memregion` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                                          | Location       |
+| ----: | ------: | ------------------------------------------------------------------------------- | -------------- |
+| 86.7% |      13 | `G1ParScanThreadState::trim_queue_to_threshold`                                 | `libjvm.dylib` |
+|  6.7% |       1 | `G1ParScanThreadState::do_copy_to_survivor_space`                               | `libjvm.dylib` |
+|  6.7% |       1 | `HeapWordImpl** HeapRegion::oops_on_memregion_iterate<G1ScanCardClosure, true>` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::scan_heap_roots` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                                                                                                                                          | Location       |
+| -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |
+| 100.0% |      15 | `void G1ScanHRForRegionClosure::ChunkScanner::on_dirty_cards<G1ScanHRForRegionClosure::scan_heap_roots(HeapRegion*)::'lambda'(unsigned char*, unsigned char*)>` | `libjvm.dylib` |
+
+##### `G1ScanHRForRegionClosure::do_heap_region` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                      | Location       |
+| -----: | ------: | ------------------------------------------- | -------------- |
+| 100.0% |      15 | `G1ScanHRForRegionClosure::scan_heap_roots` | `libjvm.dylib` |
+
+##### `G1RemSet::scan_heap_roots` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |      15 | `G1ScanHRForRegionClosure::do_heap_region` | `libjvm.dylib` |
+
+##### `G1ParEvacuateFollowersClosure::do_void` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                          | Location       |
+| ----: | ------: | ----------------------------------------------- | -------------- |
+| 58.3% |       7 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+| 41.7% |       5 | `G1ParScanThreadState::steal_and_trim_queue`    | `libjvm.dylib` |
+
+##### `G1EvacuateRegionsTask::evacuate_live_objects` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                   | Location       |
+| -----: | ------: | ---------------------------------------- | -------------- |
+| 100.0% |      12 | `G1ParEvacuateFollowersClosure::do_void` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                                            | Location       |
+| ----: | ------: | --------------------------------------------------------------------------------- | -------------- |
+| 85.7% |       6 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` | `libjvm.dylib` |
+| 14.3% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`          | `libjvm.dylib` |
+
+##### `HeapRegionManager::par_iterate` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                                                             | Location       |
+| -----: | ------: | ---------------------------------------------------------------------------------- | -------------- |
+| 100.0% |       7 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_region` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::work` (`libjvm.dylib`)
+
+|      % | Samples | Callee                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |       7 | `HeapRegionManager::par_iterate` | `libjvm.dylib` |
+
+##### `G1CMBitMap::iterate` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                         | Location       |
+| ----: | ------: | ---------------------------------------------- | -------------- |
+| 66.7% |       4 | `void G1CMTask::process_grey_task_entry<true>` | `libjvm.dylib` |
+| 33.3% |       2 | `G1CMTask::drain_local_queue`                  | `libjvm.dylib` |
+
+##### `G1CMTask::do_marking_step` (`libjvm.dylib`)
+
+|      % | Samples | Callee                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |       6 | `G1CMBitMap::iterate` | `libjvm.dylib` |
+
+##### `G1CMConcurrentMarkingTask::work` (`libjvm.dylib`)
+
+|      % | Samples | Callee                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |       6 | `G1CMTask::do_marking_step` | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                                                                 | Location       |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------ | -------------- |
+| 50.0% |       3 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` | `libjvm.dylib` |
+| 16.7% |       1 | `void InstanceMirrorKlass::oop_oop_iterate<narrowOop, G1RebuildRemSetClosure>`                         | `libjvm.dylib` |
+| 16.7% |       1 | `void InstanceRefKlass::oop_oop_iterate<narrowOop, G1RebuildRemSetClosure>`                            | `libjvm.dylib` |
+
+##### `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                                   | Location       |
+| ----: | ------: | ------------------------------------------------------------------------ | -------------- |
+| 83.3% |       5 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` | `libjvm.dylib` |
+
+##### `G1RootProcessor::process_java_roots` (`libjvm.dylib`)
+
+|     % | Samples | Callee                               | Location       |
+| ----: | ------: | ------------------------------------ | -------------- |
+| 80.0% |       4 | `ClassLoaderDataGraph::roots_cld_do` | `libjvm.dylib` |
+| 20.0% |       1 | `Threads::possibly_parallel_oops_do` | `libjvm.dylib` |
+
+##### `G1RootProcessor::evacuate_roots` (`libjvm.dylib`)
+
+|      % | Samples | Callee                                | Location       |
+| -----: | ------: | ------------------------------------- | -------------- |
+| 100.0% |       5 | `G1RootProcessor::process_java_roots` | `libjvm.dylib` |
 
 ## Hottest call stacks
 

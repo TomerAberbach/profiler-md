@@ -2,14 +2,15 @@
 
 Collected 6,185 samples.
 
-| Category         |     % | Samples |
-| ---------------- | ----: | ------: |
-| Native           | 83.1% |   5,138 |
-| Ours             | 11.0% |     681 |
-| Standard library |  3.0% |     185 |
-| Unknown          |  2.5% |     152 |
-| JIT              |  0.2% |      15 |
-| Compiler         |  0.2% |      14 |
+| Category          |     % | Samples |
+| ----------------- | ----: | ------: |
+| Native            | 82.9% |   5,129 |
+| Ours              | 11.0% |     681 |
+| Standard library  |  3.0% |     185 |
+| Unknown           |  2.5% |     152 |
+| JIT               |  0.2% |      15 |
+| Compiler          |  0.2% |      14 |
+| Garbage collector |  0.1% |       9 |
 
 `…` stands for omitted frames.
 
@@ -109,14 +110,14 @@ Categories accounting for at least 1.0% of self samples.
 | <0.1% |       2 | `ObjArrayAllocator::initialize`                                                                 | `libjvm.dylib`            |
 | <0.1% |       2 | `_pthread_cond_wait`                                                                            | `libsystem_pthread.dylib` |
 | <0.1% |       2 | `inflate_fast`                                                                                  | `libzip.dylib`            |
-| <0.1% |       2 | `G1FullGCMarker::follow_object`                                                                 | `libjvm.dylib`            |
-| <0.1% |       2 | `G1FullGCMarker::mark_object`                                                                   | `libjvm.dylib`            |
 | <0.1% |       2 | `void HeapRegion::apply_to_marked_objects<G1AdjustLiveClosure>`                                 | `libjvm.dylib`            |
 | <0.1% |       2 | `void OopOopIterateDispatch<G1AdjustClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` | `libjvm.dylib`            |
 | <0.1% |       1 | `arrayof_oop_disjoint_arraycopy`                                                                | `<unknown>`               |
-| <0.1% |       1 | `G1FullGCCompactTask::copy_object_to_new_location`                                              | `libjvm.dylib`            |
 | <0.1% |       1 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>`                                 | `libjvm.dylib`            |
-| <0.1% |       1 | `G1ParScanThreadState::do_partial_array`                                                        | `libjvm.dylib`            |
+| <0.1% |       1 | `java_lang_Thread::set_thread_status`                                                           | `libjvm.dylib`            |
+| <0.1% |       1 | `Method::is_final_method`                                                                       | `libjvm.dylib`            |
+| <0.1% |       1 | `java_lang_invoke_MethodHandle::type`                                                           | `libjvm.dylib`            |
+| <0.1% |       1 | `InstanceKlass::find_method_index`                                                              | `libjvm.dylib`            |
 
 ##### Ours
 
@@ -542,18 +543,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ----------------------------------------------- | -------------- |
 | 100.0% |       2 | `Java_java_util_zip_Inflater_inflateBytesBytes` | `libzip.dylib` |
 
-##### `G1FullGCMarker::follow_object` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                  | Location       |
-| -----: | ------: | --------------------------------------- | -------------- |
-| 100.0% |       2 | `G1FullGCMarker::follow_marking_stacks` | `libjvm.dylib` |
-
-##### `G1FullGCMarker::mark_object` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                                          | Location       |
-| -----: | ------: | --------------------------------------------------------------- | -------------- |
-| 100.0% |       2 | `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` | `libjvm.dylib` |
-
 ##### `void HeapRegion::apply_to_marked_objects<G1AdjustLiveClosure>` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                  | Location       |
@@ -597,23 +586,35 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | -------------------- | --------------------- |
 | 100.0% |       1 | `addAll(Collection)` | `java.util.ArrayList` |
 
-##### `G1FullGCCompactTask::copy_object_to_new_location` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                | Location       |
-| -----: | ------: | ------------------------------------- | -------------- |
-| 100.0% |       1 | `G1FullGCCompactTask::compact_region` | `libjvm.dylib` |
-
 ##### `void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>` (`libjvm.dylib`)
 
 |      % | Samples | Caller                             | Location       |
 | -----: | ------: | ---------------------------------- | -------------- |
 | 100.0% |       1 | `G1FullGCMarker::complete_marking` | `libjvm.dylib` |
 
-##### `G1ParScanThreadState::do_partial_array` (`libjvm.dylib`)
+##### `java_lang_Thread::set_thread_status` (`libjvm.dylib`)
 
-|      % | Samples | Caller                                          | Location       |
-| -----: | ------: | ----------------------------------------------- | -------------- |
-| 100.0% |       1 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
+|      % | Samples | Caller                                         | Location       |
+| -----: | ------: | ---------------------------------------------- | -------------- |
+| 100.0% |       1 | `JavaThreadParkedState::JavaThreadParkedState` | `libjvm.dylib` |
+
+##### `Method::is_final_method` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                 | Location       |
+| -----: | ------: | -------------------------------------- | -------------- |
+| 100.0% |       1 | `klassVtable::update_inherited_vtable` | `libjvm.dylib` |
+
+##### `java_lang_invoke_MethodHandle::type` (`libjvm.dylib`)
+
+|      % | Samples | Caller                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |       1 | `BootstrapInfo::resolve_bsm` | `libjvm.dylib` |
+
+##### `InstanceKlass::find_method_index` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |       1 | `InstanceKlass::find_local_method` | `libjvm.dylib` |
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 

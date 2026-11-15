@@ -5,11 +5,11 @@ Collected 1,510 samples.
 | Category          |     % | Samples |
 | ----------------- | ----: | ------: |
 | Compiler          | 54.9% |     829 |
-| Native            | 27.1% |     409 |
+| Native            | 26.6% |     401 |
 | Standard library  | 16.0% |     242 |
 | Ours              |  1.1% |      16 |
 | JIT               |  0.9% |      13 |
-| Garbage collector |  0.1% |       1 |
+| Garbage collector |  0.6% |       9 |
 
 `…` stands for omitted frames.
 
@@ -136,12 +136,12 @@ Categories accounting for at least 1.0% of self samples.
 | 0.4% |       6 | `ClassLoaderDataGraphKlassIteratorAtomic::next_klass`                                                                                                    | `libjvm.dylib`             |
 | 0.4% |       6 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `libjvm.dylib`             |
 | 0.3% |       5 | `frame::sender_for_compiled_frame`                                                                                                                       | `libjvm.dylib`             |
-| 0.3% |       5 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`             |
 | 0.3% |       4 | `Dictionary::find`                                                                                                                                       | `libjvm.dylib`             |
 | 0.3% |       4 | `vmSymbols::find_sid`                                                                                                                                    | `libjvm.dylib`             |
 | 0.3% |       4 | `posix_madvise`                                                                                                                                          | `libsystem_kernel.dylib`   |
 | 0.3% |       4 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                           | `libjvm.dylib`             |
 | 0.2% |       3 | `SymbolTable::lookup_only`                                                                                                                               | `libjvm.dylib`             |
+| 0.2% |       3 | `_platform_memmove`                                                                                                                                      | `libsystem_platform.dylib` |
 
 ##### Standard library
 
@@ -616,12 +616,6 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------------------------------------------ | -------------- |
 | 100.0% |       5 | `java_lang_Throwable::fill_in_stack_trace` | `libjvm.dylib` |
 
-##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
-
-|      % | Samples | Caller                                          | Location       |
-| -----: | ------: | ----------------------------------------------- | -------------- |
-| 100.0% |       5 | `G1ParScanThreadState::trim_queue_to_threshold` | `libjvm.dylib` |
-
 ##### `cast(Object)` (`java.lang.Class`)
 
 |      % | Samples | Caller                                  | Location                                     |
@@ -666,6 +660,14 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |      % | Samples | Caller                                         | Location       |
 | -----: | ------: | ---------------------------------------------- | -------------- |
 | 100.0% |       3 | `ClassFileParser::parse_constant_pool_entries` | `libjvm.dylib` |
+
+##### `_platform_memmove` (`libsystem_platform.dylib`)
+
+|     % | Samples | Caller                              | Location       |
+| ----: | ------: | ----------------------------------- | -------------- |
+| 33.3% |       1 | `SharedRuntime::resolve_sub_helper` | `libjvm.dylib` |
+| 33.3% |       1 | `PhaseIdealLoop::set_idom`          | `libjvm.dylib` |
+| 33.3% |       1 | `Type::Initialize`                  | `libjvm.dylib` |
 
 ##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x000000f801088800`)
 
@@ -940,11 +942,11 @@ Categories accounting for at least 1.0% of self samples.
 |  3.0% |      45 | `PredictedCallGenerator::generate`          | `libjvm.dylib`            |
 |  2.3% |      34 | `IRScope::IRScope`                          | `libjvm.dylib`            |
 |  2.3% |      34 | `IR::IR`                                    | `libjvm.dylib`            |
-|  2.1% |      31 | `G1EvacuateRegionsBaseTask::work`           | `libjvm.dylib`            |
 |  2.0% |      30 | `java_lang_Throwable::fill_in_stack_trace`  | `libjvm.dylib`            |
 |  2.0% |      30 | `JVM_FillInStackTrace`                      | `libjvm.dylib`            |
 |  2.0% |      30 | `Java_java_lang_Throwable_fillInStackTrace` | `libjava.dylib`           |
 |  1.7% |      25 | `tlv_get_addr`                              | `libdyld.dylib`           |
+|  1.5% |      22 | `Dict::Insert`                              | `libjvm.dylib`            |
 
 ##### Standard library
 
@@ -1493,12 +1495,6 @@ Callers with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | ------------------------ | -------------- |
 | 100.0% |      34 | `Compilation::build_hir` | `libjvm.dylib` |
 
-##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
-
-|      % | Samples | Caller              | Location       |
-| -----: | ------: | ------------------- | -------------- |
-| 100.0% |      31 | `WorkerThread::run` | `libjvm.dylib` |
-
 ##### `java_lang_Throwable::fill_in_stack_trace` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                     | Location       |
@@ -1527,6 +1523,12 @@ Callers with the largest contribution to each function's total samples. Inlining
 | 8.0% |       2 | `TypeInterfaces::intersection_with` | `libjvm.dylib` |
 | 8.0% |       2 | `PhaseLive::add_liveout`            | `libjvm.dylib` |
 | 4.0% |       1 | `InstanceKlass::find_local_field`   | `libjvm.dylib` |
+
+##### `Dict::Insert` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location       |
+| -----: | ------: | ---------------- | -------------- |
+| 100.0% |      22 | `Type::hashcons` | `libjvm.dylib` |
 
 #### Callees
 
@@ -2153,14 +2155,6 @@ Callees with the largest contribution to each function's total samples. Inlining
 | -----: | ------: | ------------------ | -------------- |
 | 100.0% |      34 | `IRScope::IRScope` | `libjvm.dylib` |
 
-##### `G1EvacuateRegionsBaseTask::work` (`libjvm.dylib`)
-
-|     % | Samples | Callee                                         | Location       |
-| ----: | ------: | ---------------------------------------------- | -------------- |
-| 45.2% |      14 | `G1EvacuateRegionsTask::scan_roots`            | `libjvm.dylib` |
-| 41.9% |      13 | `G1RemSet::scan_collection_set_code_roots`     | `libjvm.dylib` |
-| 12.9% |       4 | `G1EvacuateRegionsTask::evacuate_live_objects` | `libjvm.dylib` |
-
 ##### `java_lang_Throwable::fill_in_stack_trace` (`libjvm.dylib`)
 
 |     % | Samples | Callee                                     | Location       |
@@ -2182,6 +2176,16 @@ Callees with the largest contribution to each function's total samples. Inlining
 |      % | Samples | Callee                 | Location       |
 | -----: | ------: | ---------------------- | -------------- |
 | 100.0% |      30 | `JVM_FillInStackTrace` | `libjvm.dylib` |
+
+##### `Dict::Insert` (`libjvm.dylib`)
+
+|     % | Samples | Callee                   | Location       |
+| ----: | ------: | ------------------------ | -------------- |
+| 63.6% |      14 | `Type::cmp`              | `libjvm.dylib` |
+|  9.1% |       2 | `Dict::doubhash`         | `libjvm.dylib` |
+|  4.5% |       1 | `Type::uhash`            | `libjvm.dylib` |
+|  4.5% |       1 | `TypeInstKlassPtr::hash` | `libjvm.dylib` |
+|  4.5% |       1 | `TypeAryPtr::hash`       | `libjvm.dylib` |
 
 ## Hottest call stacks
 
