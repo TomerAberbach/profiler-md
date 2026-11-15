@@ -40,6 +40,15 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(located(`summarize`, `Profile.hs`))).toBe(`ours`)
   })
 
+  test.each([
+    [`Main.CAF`, `ours`],
+    [`Data.Aeson.Types.CAF`, `ours`],
+    [`Main.CAF:main1`, `ours`],
+    [`GHC.Internal.IO.Handle.FD.CAF`, `stdlib`],
+  ])(`a module's CAF %s is %s`, (name, expected) => {
+    expect(categorizeEntry(named(name))).toBe(expected)
+  })
+
   test(`a cost centre with a placeholder source is native`, () => {
     expect(categorizeEntry(named(`MAIN.MAIN`))).toBe(`native`)
   })
