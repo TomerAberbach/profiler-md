@@ -60,13 +60,13 @@ describe(`matches`, () => {
     expect(webkitTimelineRecordingFormatSpec.matches(42)).toBe(false)
   })
 
-  test(`rejects wrong version`, () => {
+  test(`accepts a version other than 1`, () => {
     expect(
       webkitTimelineRecordingFormatSpec.matches({
         version: 2,
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   test(`rejects missing version`, () => {
