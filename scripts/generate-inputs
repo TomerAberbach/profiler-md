@@ -46,7 +46,6 @@ langs=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --all) mode=all ;;
-    --missing) mode=missing ;;
     -*) echo "unknown flag: $1" >&2; exit 1 ;;
     *) langs+=("$1") ;;
   esac

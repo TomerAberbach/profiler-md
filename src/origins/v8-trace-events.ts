@@ -69,7 +69,6 @@ export const normalizeV8TraceEvent = (
     event.arguments ?? {}
   return gcEvents({
     span: { ...event, arguments: rest },
-    pause: true,
     cause: typeof type === `string` ? type : undefined,
     heapUsedBefore:
       typeof usedHeapSizeBefore === `number` ? usedHeapSizeBefore : undefined,

@@ -340,20 +340,6 @@ const totalCpuTime = (hasNesting: boolean): SpanMeasure => ({
   hasDetail: false,
 })
 
-const ELAPSED_TIME: SpanMeasure = {
-  title: `Elapsed time`,
-  noun: `elapsed time`,
-  description: `time elapsed from start to end`,
-  valueOf: ({ totalTime }) => totalTime,
-  time: {
-    header: `Time`,
-    distributionOf: span => durationDistributionOf(span),
-  },
-  population: ASYNC_SPANS,
-  neighbors: [PARENTS, CHILDREN],
-  hasDetail: true,
-}
-
 /** A span's mean and longest durations, nested in its own name or not. */
 const durationDistributionOf = (
   span: AggregatedTraceSpan,
@@ -361,6 +347,17 @@ const durationDistributionOf = (
   mean: meanOf(span.summedTime, span.timedCount),
   max: span.maxTime,
 })
+
+const ELAPSED_TIME: SpanMeasure = {
+  title: `Elapsed time`,
+  noun: `elapsed time`,
+  description: `time elapsed from start to end`,
+  valueOf: ({ totalTime }) => totalTime,
+  time: { header: `Time`, distributionOf: durationDistributionOf },
+  population: ASYNC_SPANS,
+  neighbors: [PARENTS, CHILDREN],
+  hasDetail: true,
+}
 
 const COUNT_DESCRIPTION = `occurrences recorded`
 
@@ -1466,26 +1463,18 @@ const formatDiffThreadSections = ({
       paragraph(shareSentence(`Threads with the largest change in`, share)),
     ],
     events.flatMap(event =>
-      Math.max(
-        event.base?.threadIdToStats.size ?? 0,
-        event.current?.threadIdToStats.size ?? 0,
-      ) === 0
-        ? []
-        : formatDiffStatsTable({
-            event,
-            entity: `Thread`,
-            baseStats:
-              event.base &&
-              namedStats(event.base.threadIdToStats, indexes.base.threadName),
-            currentStats:
-              event.current &&
-              namedStats(
-                event.current.threadIdToStats,
-                indexes.current.threadName,
-              ),
-            options,
-            headingLevel: headingLevel + 1,
-          }),
+      formatDiffStatsTable({
+        event,
+        entity: `Thread`,
+        baseStats:
+          event.base &&
+          namedStats(event.base.threadIdToStats, indexes.base.threadName),
+        currentStats:
+          event.current &&
+          namedStats(event.current.threadIdToStats, indexes.current.threadName),
+        options,
+        headingLevel: headingLevel + 1,
+      }),
     ),
   )
 

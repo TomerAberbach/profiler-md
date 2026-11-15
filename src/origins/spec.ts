@@ -194,7 +194,7 @@ export type OriginSpec = {
    *
    * Defaults to no frame being a marker when omitted.
    */
-  isTruncationMarker?: (input: StackFrame, format: Format) => boolean
+  isTruncationMarker?: (input: StackFrame) => boolean
 
   /**
    * Which recorded position identifies and locates this origin's functions.
@@ -235,10 +235,7 @@ export type OriginSpec = {
    *
    * Defaults to the identity when omitted.
    */
-  normalizeTraceEvent?: (
-    input: TraceEvent,
-    format: Format,
-  ) => NormalizedTraceEvent
+  normalizeTraceEvent?: (input: TraceEvent) => NormalizedTraceEvent
 }
 
 /** A trace event, alone or with the gauge readings its arguments record. */

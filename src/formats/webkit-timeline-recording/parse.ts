@@ -117,9 +117,7 @@ export const parseWebKitTimelineRecording = (
       })
     }
   }
-  if (skippedSamples > 0) {
-    recordTally.skipped(`sample`, `without a duration`, skippedSamples)
-  }
+  recordTally.skipped(`sample`, `without a duration`, skippedSamples)
 
   return [
     {

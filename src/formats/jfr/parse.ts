@@ -146,9 +146,7 @@ const recordBytesAfterChunks = (
   recordTally: RecordTally,
   byteCount: number,
 ): void => {
-  if (byteCount > 0) {
-    recordTally.skipped(`byte`, `not forming a chunk`, byteCount)
-  }
+  recordTally.skipped(`byte`, `not forming a chunk`, byteCount)
 }
 
 const jfrToProfiles = ({
@@ -355,12 +353,10 @@ type StackTraceLayout = {
   methodIndex: number
   lineIndex: number
   /**
-   * The frame fields' kinds when every one is a varint or byte, so frame
-   * reading decodes them in a loop over locals instead of a call and a switch
-   * per field. Undefined when a frame field is a float, double, string, or
-   * nested object.
+   * The frame fields' kinds, each a varint or byte, so frame reading decodes
+   * them in a loop over locals instead of a call and a switch per field.
    */
-  frameFieldKinds: Uint8Array | undefined
+  frameFieldKinds: Uint8Array
 }
 
 type Field = {
@@ -586,12 +582,12 @@ class JfrParser {
     this.#frequency =
       // A missing/zero frequency degrades to a nanosecond clock.
       this.#readInt64(FREQUENCY_FIELD) || NANOSECONDS_PER_SECOND
-    const skipReason = this.#loadChunkTypes(0)
+    const skipReason = this.#loadChunkTypes()
     if (skipReason !== undefined) {
       this.#recordTally.skipped(`chunk`, skipReason)
       return
     }
-    const { pools, rawEvents } = this.#readChunkBody(0, chunkBytes.length)
+    const { pools, rawEvents } = this.#readChunkBody()
     this.#resolve(pools, rawEvents)
   }
 
@@ -625,14 +621,10 @@ class JfrParser {
    * Returns why the chunk must be skipped, or `undefined` when its types
    * loaded.
    */
-  #loadChunkTypes(chunkStart: number): string | undefined {
+  #loadChunkTypes(): string | undefined {
     const chunkEnd = this.#bytes.length
-    const metadataStart =
-      chunkStart + this.#readInt64(chunkStart + METADATA_OFFSET_FIELD)
-    if (
-      !(metadataStart >= chunkStart + CHUNK_HEADER_SIZE) ||
-      metadataStart >= chunkEnd
-    ) {
+    const metadataStart = this.#readInt64(METADATA_OFFSET_FIELD)
+    if (!(metadataStart >= CHUNK_HEADER_SIZE) || metadataStart >= chunkEnd) {
       return NO_METADATA
     }
     this.#position = metadataStart
@@ -675,8 +667,6 @@ class JfrParser {
     return Number(this.#view.getBigInt64(offset))
   }
 
-  // Metadata
-
   #parseMetadata(): Map<number, TypeDef> {
     // The element tree's strings are interned in a leading table that the
     // elements reference by index, so read it before the tree itself.
@@ -717,8 +707,6 @@ class JfrParser {
 
     return { name, attributes, children }
   }
-
-  // Generic value reading
 
   /**
    * Sets every field's {@link Field.kind}, and {@link Field.nested} for a
@@ -787,13 +775,14 @@ class JfrParser {
     const lineIndex = frameType.fields.findIndex(
       field => field.name === `lineNumber`,
     )
-    // Every frame field must be a scalar, so `#readFramesGeneric` can read each
-    // with `#readSingle` and trust that the `method` and `lineNumber` values
-    // are numbers.
     if (
       methodIndex === -1 ||
       lineIndex === -1 ||
-      frameType.fields.some(field => field.array)
+      frameType.fields.some(
+        field =>
+          field.array ||
+          (field.kind !== FIELD_VARINT && field.kind !== FIELD_BYTE),
+      )
     ) {
       return
     }
@@ -804,24 +793,21 @@ class JfrParser {
       frameFields: frameType.fields,
       methodIndex,
       lineIndex,
-      frameFieldKinds: frameType.fields.every(
-        field => field.kind === FIELD_VARINT || field.kind === FIELD_BYTE,
-      )
-        ? Uint8Array.from(frameType.fields, field => field.kind)
-        : undefined,
+      frameFieldKinds: Uint8Array.from(frameType.fields, field => field.kind),
     }
   }
 
-  #readChunkBody(
-    chunkStart: number,
-    chunkEnd: number,
-  ): { pools: Map<number, Map<number, unknown>>; rawEvents: RawEvent[] } {
+  #readChunkBody(): {
+    pools: Map<number, Map<number, unknown>>
+    rawEvents: RawEvent[]
+  } {
+    const chunkEnd = this.#bytes.length
     const eventKinds = this.#eventKinds()
     const pools = new Map<number, Map<number, unknown>>()
     const rawEvents: RawEvent[] = []
     const unreadableEventCounts = new Map<UnreadableRecordReason, number>()
 
-    this.#position = chunkStart + CHUNK_HEADER_SIZE
+    this.#position = CHUNK_HEADER_SIZE
     while (this.#position < chunkEnd) {
       const eventStart = this.#position
       const size = this.#readVarint()
@@ -870,8 +856,6 @@ class JfrParser {
     return { pools, rawEvents }
   }
 
-  // Events
-
   /**
    * Maps this chunk's type IDs to their supported event kinds. An event type
    * declared without its kind's value field, as an older JDK writes it, drops
@@ -896,8 +880,6 @@ class JfrParser {
     }
     return eventKinds
   }
-
-  // Constant pools
 
   #parseConstantPool(
     pools: Map<number, Map<number, unknown>>,
@@ -990,10 +972,6 @@ class JfrParser {
   #readFrames(layout: StackTraceLayout): FlatStackTrace {
     const { frameFields, methodIndex, lineIndex, frameFieldKinds } = layout
     const length = this.#readLength(frameFields.length)
-    if (frameFieldKinds === undefined) {
-      return this.#readFramesGeneric(layout, length)
-    }
-
     const bytes = this.#bytes
     const kinds = frameFieldKinds
     const fieldCount = kinds.length
@@ -1037,37 +1015,6 @@ class JfrParser {
       }
     }
     this.#position = position
-    return { methods, leafLine, truncated: false }
-  }
-
-  /**
-   * Reads frames one field at a time through the generic single-value reader,
-   * for a frame type with a non-numeric field.
-   */
-  #readFramesGeneric(
-    { frameFields, methodIndex, lineIndex }: StackTraceLayout,
-    length: number,
-  ): FlatStackTrace {
-    const methods: number[] = []
-    let leafLine = 0
-    for (let i = 0; i < length; i++) {
-      let method = 0
-      let lineNumber = 0
-      // Every frame field is a scalar (the layout resolver disables the fast
-      // path otherwise), so each reads with `#readSingle`.
-      for (let k = 0; k < frameFields.length; k++) {
-        const value = this.#readSingle(frameFields[k]!)
-        if (k === methodIndex) {
-          method = value as number
-        } else if (k === lineIndex) {
-          lineNumber = value as number
-        }
-      }
-      methods.push(method)
-      if (i === 0) {
-        leafLine = lineNumber
-      }
-    }
     return { methods, leafLine, truncated: false }
   }
 
@@ -1201,8 +1148,6 @@ class JfrParser {
     return length
   }
 
-  // Primitive readers
-
   #readVarint(): number {
     // Most varints are a single byte, so return it without the loop's counter,
     // multiplier, and continuation checks.
@@ -1235,8 +1180,6 @@ class JfrParser {
     return (ticks * NANOSECONDS_PER_SECOND) / this.#frequency
   }
 
-  // Resolution
-
   #resolve(
     pools: Map<number, Map<number, unknown>>,
     rawEvents: RawEvent[],
@@ -1265,13 +1208,11 @@ class JfrParser {
         this.#events.push(event)
       }
     }
-    if (missingStackCount > 0) {
-      this.#recordTally.skipped(
-        `event`,
-        `referencing a missing stack trace`,
-        missingStackCount,
-      )
-    }
+    this.#recordTally.skipped(
+      `event`,
+      `referencing a missing stack trace`,
+      missingStackCount,
+    )
   }
 
   #chunkResolver(pools: Map<number, Map<number, unknown>>): ChunkResolver {
@@ -1533,10 +1474,7 @@ const indexTypeIdsByName = (
 ): Map<string, number> => {
   const typeIdsByName = new Map<string, number>()
   for (const [id, type] of types) {
-    // Type names are unique within a chunk; keep the first if any repeat.
-    if (!typeIdsByName.has(type.name)) {
-      typeIdsByName.set(type.name, id)
-    }
+    typeIdsByName.set(type.name, id)
   }
   return typeIdsByName
 }

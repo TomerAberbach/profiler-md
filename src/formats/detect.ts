@@ -59,9 +59,6 @@ const binaryFormatSpecs = formatSpecs.filter(
 /**
  * Runs a format spec's detection and parse, recording a rejection instead of
  * throwing when the input matches the format but fails to parse.
- *
- * A `matches` that throws counts as no match, because it is a cheap prefilter
- * that never validates the input.
  */
 const detectWithFormatSpec = <Input>(
   formatSpec: FormatSpec & Detect<Input> & Parse<Input>,
@@ -69,14 +66,7 @@ const detectWithFormatSpec = <Input>(
   rejections: FormatRejectionError[],
   { logger }: AggregationProfileToMdOptions,
 ): ParseResult | undefined => {
-  try {
-    if (!formatSpec.matches(input)) {
-      return undefined
-    }
-  } catch (error: unknown) {
-    logger.debug?.(
-      `skipped ${formatSpec.id} because its detection threw: ${reasonOf(error)}`,
-    )
+  if (!formatSpec.matches(input)) {
     return undefined
   }
 

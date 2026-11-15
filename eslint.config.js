@@ -69,13 +69,7 @@ export default [
       'vitest/expect-expect': [
         `error`,
         {
-          assertFunctionNames: [
-            `expect`,
-            `expect*`,
-            `expectTypeOf`,
-            `assert`,
-            `assertType`,
-          ],
+          assertFunctionNames: [`expect*`],
         },
       ],
     },

@@ -18,23 +18,17 @@ export class ObjectIdToOrdinal {
   /** Grows once the table passes this share of its capacity. */
   static readonly #MAX_LOAD = 0.7
 
-  public constructor(initialCapacity = 1 << 12) {
-    const capacity = nextPowerOfTwo(initialCapacity)
+  public constructor() {
+    const capacity = 1 << 12
     this.#objectIds = new Float64Array(capacity)
     this.#ordinals = new Int32Array(capacity)
     this.#mask = capacity - 1
   }
 
-  /**
-   * Assigns {@link ordinal} to {@link objectId}, keeping the ordinal already
-   * assigned when the dump repeats an ID.
-   */
+  /** Assigns {@link ordinal} to {@link objectId}. */
   public set(objectId: number, ordinal: number): void {
     let slot = hashObjectId(objectId) & this.#mask
     while (this.#objectIds[slot] !== 0) {
-      if (this.#objectIds[slot] === objectId) {
-        return
-      }
       slot = (slot + 1) & this.#mask
     }
 
@@ -72,14 +66,6 @@ export class ObjectIdToOrdinal {
       }
     }
   }
-}
-
-const nextPowerOfTwo = (value: number): number => {
-  let result = 1
-  while (result < value) {
-    result *= 2
-  }
-  return result
 }
 
 /**

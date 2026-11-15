@@ -1198,35 +1198,6 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`omits the Calls column when no arc records a call count`, () => {
-    const md = convertBytesToMd(
-      callgrindFormatSpec,
-      makeCallgrind([
-        `events: Ir`,
-        `fl=/app/a.c`,
-        `fn=main`,
-        `1 10`,
-        `cfn=helper`,
-        `calls=0 5`,
-        `1 30`,
-        `fn=helper`,
-        `5 30`,
-      ]),
-      options,
-    )
-
-    expect(calleesTables(md, `main`)).toStrictEqual([
-      [
-        {
-          '%': `75.0%`,
-          Instructions: `30`,
-          Callee: `helper`,
-          Location: `/app/a.c`,
-        },
-      ],
-    ])
-  })
-
   test(`keeps fi= inlined costs in the function but out of its line breakdown`, () => {
     // The inlined cost line's line number belongs to inline.h, not a.c, so it
     // counts toward `main`'s self cost but not its per-line table.
@@ -1414,54 +1385,6 @@ test(`pairs each function's callers and callees in a diff`, () => {
         '%': `66.7% → 78.9%`,
         Instructions: `200 → 300`,
         Calls: `1`,
-        Callee: `compress`,
-        Location: `/src/compress.c`,
-      },
-    ],
-  ])
-})
-
-test(`omits the call counts of a diff with a side that records none`, () => {
-  const base = makeCallgrind([
-    `events: Ir`,
-    `fl=(1) /src/main.c`,
-    `fn=(1) main`,
-    `10 100`,
-    `cfl=(2) /src/compress.c`,
-    `cfn=(2) compress`,
-    `calls=0 20`,
-    `12 200`,
-    `fl=(2)`,
-    `fn=(2)`,
-    `20 200`,
-  ])
-  const current = makeCallgrind([
-    `events: Ir`,
-    `fl=(1) /src/main.c`,
-    `fn=(1) main`,
-    `10 100`,
-    `cfl=(2) /src/compress.c`,
-    `cfn=(2) compress`,
-    `calls=4 20`,
-    `12 300`,
-    `fl=(2)`,
-    `fn=(2)`,
-    `20 300`,
-  ])
-
-  const md = diffProfiles(
-    { data: base, format: `callgrind` },
-    { data: current, format: `callgrind` },
-    { baseURL: `/`, showEntry: () => true },
-  )
-
-  expect(calleesTables(md, `main`)).toStrictEqual([
-    [
-      {
-        Change: `+50.0%`,
-        Delta: `+100`,
-        '%': `66.7% → 75.0%`,
-        Instructions: `200 → 300`,
         Callee: `compress`,
         Location: `/src/compress.c`,
       },

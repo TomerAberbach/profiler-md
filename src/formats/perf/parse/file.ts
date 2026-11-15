@@ -756,14 +756,11 @@ export class PerfFile {
     if (!count) {
       throw new FormatParseError(`no recorded events`)
     }
-    const trailingByteCount = section.size - count * attrSize
-    if (trailingByteCount > 0) {
-      recordTally.skipped(
-        `byte`,
-        `after the last event attribute`,
-        trailingByteCount,
-      )
-    }
+    recordTally.skipped(
+      `byte`,
+      `after the last event attribute`,
+      section.size - count * attrSize,
+    )
 
     const attrs: [EventAttr, ...EventAttr[]] = [
       this.#readAttr(section.offset, attrSize),
@@ -901,13 +898,11 @@ export class PerfFile {
       offset += SECTION_SIZE
     }
 
-    if (skippedCount > 0) {
-      recordTally.skipped(
-        `feature section`,
-        `running past the end of the input`,
-        skippedCount,
-      )
-    }
+    recordTally.skipped(
+      `feature section`,
+      `running past the end of the input`,
+      skippedCount,
+    )
     return features
   }
 

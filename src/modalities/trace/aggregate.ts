@@ -318,7 +318,7 @@ class EventsAggregator {
     const { normalizeTraceEvent, categorizeTraceEvent } = originSpecOf(
       context.origin,
     )
-    this.#normalize = event => normalizeTraceEvent(event, context.format)
+    this.#normalize = normalizeTraceEvent
     this.#categorize = categorizeTraceEvent
     this.#scale = trace.millisecondsPerTimeUnit
     const nameToThread = new Map<string, AggregatedTraceThread>()

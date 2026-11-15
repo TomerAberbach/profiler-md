@@ -75,8 +75,9 @@ export class FormatDetectError extends ProfilerMdError {
 }
 
 /**
- * Whether a conversion error may be a bug in this package rather than an
- * unusable input.
+ * The errors a conversion error wraps that a parser threw without classifying
+ * them, in detection order. Empty when the error is not a conversion error, or
+ * when every wrapped error is a {@link FormatParseError}.
  *
  * A parse that throws a {@link FormatParseError} identified the violation. One
  * that throws anything else failed on an error it did not classify: either the
@@ -84,14 +85,6 @@ export class FormatDetectError extends ProfilerMdError {
  * has a bug. The pipeline reports both as unusable input, because the parser's
  * input is the only variable on its code path. A caller whose input opens in
  * its profiler has the evidence that distinguishes the two.
- */
-export const mayBeParserBug = (error: unknown): boolean =>
-  unclassifiedParseFailures(error).length > 0
-
-/**
- * The errors a conversion error wraps that a parser threw without classifying
- * them, in detection order. Empty when the error is not a conversion error, or
- * when every wrapped error is a {@link FormatParseError}.
  *
  * An error that only restates another, such as one naming the input a failure
  * came from, resolves to its cause.

@@ -79,7 +79,6 @@ import {
   categoryColumns,
   constructorColumns,
   constructorRetainerGroupColumns,
-  displayName,
   functionColumns,
   retainedColumns,
   stringColumns,
@@ -344,7 +343,6 @@ class ShownRetainerPaths {
     return this.#paths.pathOfNodeIn(snapshot)
   }
 
-  /** Formats the retainer path of a node of {@link snapshot}. */
   public ofNode(snapshot: PathSnapshot, nodeOrdinal: number): string {
     return this.ofPath(
       snapshot.retainerOf(nodeOrdinal),
@@ -395,9 +393,7 @@ class ShownRetainerPaths {
       throw new Error(`retainer path formatted outside a recording`)
     }
 
-    const nodeName =
-      formatRetainerName({ ...node, name: node.name ?? `` }, this.#options) ||
-      `(unknown)`
+    const nodeName = formatRetainerName(node, this.#options) || `(unknown)`
     return steps.length === 0
       ? `${nodeName} ← ${GC_ROOT_NAME}`
       : steps.reduce((path, { edge, retainer }) => {
@@ -1284,8 +1280,8 @@ const formatEntityHeading = (
     headingLevel,
     hasLocation
       ? nameLocationPhrasing(
-          displayName(entity, options)!,
+          formatRetainerName(entity, options),
           inlineCode(formatSourceLocation(entity.location, options)),
         )
-      : [inlineCode(displayName(entity, options)!)],
+      : [inlineCode(formatRetainerName(entity, options))],
   )

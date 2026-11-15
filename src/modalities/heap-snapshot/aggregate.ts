@@ -705,9 +705,10 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerName = (
-  { name, nameLocation }: Pick<RetainerNode, `name` | `nameLocation`>,
+  { name, nameLocation }: { name?: string; nameLocation?: FileReference },
   options: FormattingProfileToMdOptions,
-): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
+): string =>
+  nameLocation ? formatSourceLocation(nameLocation, options) : (name ?? ``)
 
 export const formatRetainerEdgeLabel = (
   edge: RetainerPathEdge,

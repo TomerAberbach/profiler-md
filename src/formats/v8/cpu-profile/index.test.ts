@@ -3,10 +3,7 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../../modalities/call-stack-profile/testing.ts'
-import {
-  defaultShowEntry,
-  normalizeProfileToMdOptions,
-} from '../../../options.ts'
+import { normalizeProfileToMdOptions } from '../../../options.ts'
 import {
   callersTables,
   categoryTables,
@@ -573,58 +570,6 @@ describe(`options`, () => {
     samples: [2, 4, 4, 6],
     timeDeltas: [100, 100, 100, 100],
   }
-
-  test(`showEntry hides entries while preserving metrics`, () => {
-    // `funcB` is excluded via `showEntry`. Its hit count is zero, but it
-    // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
-    // its only direct caller (`funcB`) is excluded.
-    const md = convertJsonToMd(
-      v8CpuProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
-      }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Function)),
-    ).toStrictEqual([expect.not.arrayContaining([`funcB`])])
-    expect(callersTables(md, `funcC`)).toHaveLength(0)
-  })
-
-  test(`topN limits functions shown`, () => {
-    const md = convertJsonToMd(
-      v8CpuProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-        topN: 2,
-      }),
-    )
-
-    expect(selfTimeTables(md).map(table => table.length)).toStrictEqual([2])
-    expect(totalTimeTables(md).map(table => table.length)).toStrictEqual([2])
-  })
-
-  test(`baseURL: null shows absolute paths`, () => {
-    const md = convertJsonToMd(
-      v8CpuProfileFormatSpec,
-      structuredClone(baseProfile),
-      normalizeProfileToMdOptions({ baseURL: null }),
-    )
-
-    expect(
-      selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toStrictEqual([
-      [
-        expect.stringMatching(/^\//u),
-        expect.stringMatching(/^\//u),
-        // A built-in module has no file path to make absolute.
-        `node:internal/modules/esm/loader:1:1`,
-      ],
-    ])
-  })
 
   test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(

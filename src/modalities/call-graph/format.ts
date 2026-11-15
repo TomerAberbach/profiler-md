@@ -72,7 +72,6 @@ export const formatCallGraph = (
       graph.functions.some(func => showEntry(func, graph.context)),
     entities: `function`,
   })
-  const hasCallCounts = graphHasCallCounts(graph)
   return [
     heading(headingLevel, formatTitle(graph.metrics)),
     paragraph(formatSummaryLine(graph)),
@@ -93,8 +92,7 @@ export const formatCallGraph = (
           measure,
           options: sectionOptions,
           headingLevel: sectionHeadingLevel,
-          formatBreakdowns: breakdown =>
-            formatHottestArcSections({ ...breakdown, hasCallCounts }),
+          formatBreakdowns: formatHottestArcSections,
         })
       },
     ),
@@ -166,7 +164,6 @@ const formatHottestArcSections = ({
   direction,
   funcs,
   context,
-  hasCallCounts,
   options,
   headingLevel,
 }: {
@@ -174,7 +171,6 @@ const formatHottestArcSections = ({
   direction: CallGraphDirection
   funcs: AggregatedCallGraphFunction[]
   context: ProfileToMdContext
-  hasCallCounts: boolean
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] =>
@@ -195,7 +191,6 @@ const formatHottestArcSections = ({
           measure,
           func,
           arcs,
-          hasCallCounts,
           context,
           options,
           headingLevel: headingLevel + 1,
@@ -212,7 +207,6 @@ const formatHottestArcs = ({
   measure,
   func,
   arcs,
-  hasCallCounts,
   context,
   options,
   headingLevel,
@@ -220,7 +214,6 @@ const formatHottestArcs = ({
   measure: Measure
   func: AggregatedCallGraphFunction
   arcs: Arcs
-  hasCallCounts: boolean
   context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -240,10 +233,7 @@ const formatHottestArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatTable(
-      arcColumns(measure, arcs.entity, hasCallCounts, options),
-      hottestArcs,
-    ),
+    formatTable(arcColumns(measure, arcs.entity, options), hottestArcs),
   ]
 }
 
@@ -266,8 +256,6 @@ export const formatCallGraphDiff = (
   const shownFunctions = diff.functions.filter(func =>
     showDiffEntity(func, diff, sectionOptions.showEntry),
   )
-  const hasCallCounts =
-    graphHasCallCounts(diff.base) && graphHasCallCounts(diff.current)
   return [
     heading(
       headingLevel,
@@ -297,7 +285,6 @@ export const formatCallGraphDiff = (
               ...breakdown,
               diff,
               matchFunctionIds,
-              hasCallCounts,
             }),
         })
       },
@@ -379,7 +366,6 @@ type DiffDetailArgs = {
   measure: DiffMeasure
   direction: CallGraphDirection
   funcs: AggregatedCallGraphFunctionDiff[]
-  hasCallCounts: boolean
   options: FormattingProfileToMdOptions
   headingLevel: number
 }
@@ -419,7 +405,6 @@ const formatDiffFunctionArcs = ({
   measure,
   func,
   arcs,
-  hasCallCounts,
   options,
   headingLevel,
 }: DiffDetailArgs & {
@@ -446,17 +431,9 @@ const formatDiffFunctionArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatDiffTable(
-      arcColumns(measure, arcs.entity, hasCallCounts, options),
-      changedArcs,
-    ),
+    formatDiffTable(arcColumns(measure, arcs.entity, options), changedArcs),
   ]
 }
-
-const graphHasCallCounts = (graph: AggregatedCallGraph): boolean =>
-  graph.functions.some(func =>
-    func.calleeIdToMetrics.values().some(({ callCount }) => callCount > 0),
-  )
 
 type Arcs = {
   entity: `Caller` | `Callee`

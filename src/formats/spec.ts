@@ -55,14 +55,13 @@ type FormatMeta = {
 /**
  * Returns whether the input should be auto-detected as this format.
  *
- * Skipped when the user forces a format.
+ * Skipped when the user specifies a format.
  *
- * It must be **cheap**. Because it's detection-only, it need not agree exactly
- * with what {@link Parse.parse} accepts. It may be a loose prefilter that
- * admits a few non-instances when the real check is expensive (`parse`
- * re-validates and throws, so detection moves on), or stricter than `parse` to
- * keep ambiguous input (e.g. text a user could force) from being auto-detected
- * as this format.
+ * Keep it **cheap**. Recognize the format's canonical structure (a magic
+ * number, a header, a well-formed first record), and accept every version or
+ * variant of it, including one {@link Parse.parse} rejects, so detection
+ * reports the parser's reason. Never throw, because detection runs every
+ * format's `matches` on each input it can't otherwise identify.
  */
 export type Detect<Input> = {
   matches: (input: Input) => boolean
@@ -71,14 +70,14 @@ export type Detect<Input> = {
 /**
  * Converts a format's input into its uniform {@link ParsedInput}s.
  *
- * Runs both when a user forces the format and during auto-detection (after
- * {@link Detect.matches} returns true), so it should accept any valid instance
- * and throw a `FormatParseError` on input that isn't this format, including
- * spec invariants only parsing can check.
+ * Runs both when a user specifies the format and during auto-detection (after
+ * {@link Detect.matches} returns true), so accept every valid instance of the
+ * format, and throw a `FormatParseError` on input that isn't this format.
  *
- * Record on `recordTally` only data the spec forbids, data of a part of the spec
- * the parser doesn't support, or an input cut short, never a record the parser
- * reads. The parsed inputs' lazy iterables may record on it too.
+ * Record on `recordTally` only data the specification forbids, data of a part
+ * of the specification the parser doesn't support, or an input cut short,
+ * never a record the parser reads. The parsed inputs' lazy iterables may record
+ * on it too.
  */
 export type Parse<Input> = {
   parse: (input: Input, recordTally: RecordTally) => ParsedInput[]

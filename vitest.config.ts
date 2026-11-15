@@ -151,7 +151,7 @@ export default defineConfig({
     projects,
     coverage: {
       include: [`src`],
-      exclude: [`**/testing.ts`, `src/test-setup.ts`, `*.bench.ts`],
+      exclude: [`**/testing.ts`, `src/test-setup.ts`],
     },
   },
 })

@@ -15,26 +15,21 @@ export const matchesCallgrind = (bytes: Uint8Array): boolean => {
   let sawEvents = false
   let sawPositionSpec = false
   let index = 0
-  try {
-    for (const line of decodeUtf8Lines(bytes)) {
-      if (index === 0 && line === `# callgrind format`) {
-        return true
-      }
-      if (EVENTS_HEADER.test(line)) {
-        sawEvents = true
-      } else if (POSITION_SPEC.test(line)) {
-        sawPositionSpec = true
-      }
-      if (sawEvents && sawPositionSpec) {
-        return true
-      }
-      if (++index >= MAX_DETECTION_LINES) {
-        break
-      }
+  for (const line of decodeUtf8Lines(bytes)) {
+    if (index === 0 && line === `# callgrind format`) {
+      return true
     }
-  } catch {
-    // Not UTF-8 text.
-    return false
+    if (EVENTS_HEADER.test(line)) {
+      sawEvents = true
+    } else if (POSITION_SPEC.test(line)) {
+      sawPositionSpec = true
+    }
+    if (sawEvents && sawPositionSpec) {
+      return true
+    }
+    if (++index >= MAX_DETECTION_LINES) {
+      break
+    }
   }
   return false
 }
