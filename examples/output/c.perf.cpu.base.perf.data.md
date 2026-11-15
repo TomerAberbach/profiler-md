@@ -1,6 +1,6 @@
 # CPU profile
 
-Took 1.55s over 1,558 samples (1.0ms per sample).
+Took 1.56s over 1,558 samples (1.0ms per sample).
 
 | Category |     % |  Time | Samples |
 | -------- | ----: | ----: | ------: |
@@ -17,7 +17,7 @@ Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 Call paths to the hottest functions.
 
 ```
-└── … 1.55s (99.8%) 0x9cf0 at ./zstd
+└── … 1.56s (99.8%) 0x9cf0 at ./zstd
     ├── 1.27s (81.5%) 0x61404
     │   ├── 1.26s (80.8%) 0x16020
     │   │   └── 1.26s (80.8%) 0x11090
@@ -229,9 +229,9 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function  | Location                               |
 | ----: | ------: | ------: | --------- | -------------------------------------- |
-| 99.8% |   1.55s |   1,555 | `0x9cf0`  | `./zstd`                               |
-| 99.8% |   1.55s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 99.8% |   1.55s |   1,555 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.8% |   1.56s |   1,555 | `0x9cf0`  | `./zstd`                               |
+| 99.8% |   1.56s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.8% |   1.56s |   1,555 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | 99.0% |   1.54s |   1,543 | `0x11090` | `./zstd`                               |
 | 99.0% |   1.54s |   1,543 | `0x16020` | `./zstd`                               |
 | 81.5% |   1.27s |   1,269 | `0x61404` | `./zstd`                               |
@@ -258,7 +258,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function  | Location |
 | ----: | ------: | ------: | --------- | -------- |
-| 99.8% |   1.55s |   1,555 | `0x9cf0`  | `./zstd` |
+| 99.8% |   1.56s |   1,555 | `0x9cf0`  | `./zstd` |
 | 99.0% |   1.54s |   1,543 | `0x11090` | `./zstd` |
 | 99.0% |   1.54s |   1,543 | `0x16020` | `./zstd` |
 | 81.5% |   1.27s |   1,269 | `0x61404` | `./zstd` |
@@ -287,13 +287,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.55s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.56s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x82030` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.55s |   1,555 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.56s |   1,555 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x11090` (`./zstd`)
 
@@ -318,7 +318,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Caller    | Location |
 | ----: | ----: | ------: | --------- | -------- |
-| 99.4% | 1.20s |   1,205 | `0x11090` | `./zstd` |
+| 99.4% | 1.21s |   1,205 | `0x11090` | `./zstd` |
 |  0.6% | 7.0ms |       7 | `0x609c0` | `./zstd` |
 
 ##### `0x17768` (`./zstd`)
@@ -431,19 +431,19 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee   | Location |
 | -----: | ----: | ------: | -------- | -------- |
-| 100.0% | 1.55s |   1,555 | `0x9cf0` | `./zstd` |
+| 100.0% | 1.56s |   1,555 | `0x9cf0` | `./zstd` |
 
 ##### `0xebf5c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.55s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.56s |   1,555 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x11090` (`./zstd`)
 
 |     % |   Time | Samples | Callee    | Location |
 | ----: | -----: | ------: | --------- | -------- |
-| 78.1% |  1.20s |   1,205 | `0x59274` | `./zstd` |
+| 78.1% |  1.21s |   1,205 | `0x59274` | `./zstd` |
 |  2.9% | 44.0ms |      44 | `0x59640` | `./zstd` |
 |  2.4% | 37.0ms |      37 | `0x594d8` | `./zstd` |
 |  2.1% | 33.0ms |      33 | `0x596dc` | `./zstd` |

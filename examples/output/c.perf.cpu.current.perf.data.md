@@ -1,10 +1,10 @@
 # CPU profile
 
-Took 1.80s over 1,807 samples (1.0ms per sample).
+Took 1.81s over 1,807 samples (1.0ms per sample).
 
 | Category |     % |  Time | Samples |
 | -------- | ----: | ----: | ------: |
-| Ours     | 99.5% | 1.79s |   1,798 |
+| Ours     | 99.5% | 1.80s |   1,798 |
 | Kernel   |  0.3% | 6.0ms |       6 |
 | Native   |  0.2% | 3.0ms |       3 |
 
@@ -17,11 +17,11 @@ Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 Call paths to the hottest functions.
 
 ```
-└── … 1.80s (99.8%) 0x9f20 at ./zstd
-    ├── 1.47s (81.7%) 0x62a60
-    │   ├── 1.46s (81.0%) 0x16720
-    │   │   └── 1.46s (81.0%) 0x11630
-    │   │       ├── 1.13s (62.9%) 0x5a3f4
+└── … 1.81s (99.8%) 0x9f20 at ./zstd
+    ├── 1.48s (81.7%) 0x62a60
+    │   ├── 1.47s (81.0%) 0x16720
+    │   │   └── 1.47s (81.0%) 0x11630
+    │   │       ├── 1.14s (62.9%) 0x5a3f4
     │   │       │   ├── 230.2ms (12.7%, self 16.8% globally) 0x60c38
     │   │       │   ├── 229.2ms (12.7%, self 16.2% globally) 0x60980
     │   │       │   ├── 219.2ms (12.1%, self 14.9% globally) 0x609c8
@@ -227,13 +227,13 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Samples | Function  | Location                               |
 | ----: | ------: | ------: | --------- | -------------------------------------- |
-| 99.8% |   1.80s |   1,804 | `0x9f20`  | `./zstd`                               |
-| 99.8% |   1.80s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-| 99.8% |   1.80s |   1,804 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.8% |   1.81s |   1,804 | `0x9f20`  | `./zstd`                               |
+| 99.8% |   1.81s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 99.8% |   1.81s |   1,804 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 | 98.7% |   1.78s |   1,783 | `0x11630` | `./zstd`                               |
 | 98.7% |   1.78s |   1,783 | `0x16720` | `./zstd`                               |
-| 81.7% |   1.47s |   1,477 | `0x62a60` | `./zstd`                               |
-| 78.9% |   1.42s |   1,426 | `0x5a3f4` | `./zstd`                               |
+| 81.7% |   1.48s |   1,477 | `0x62a60` | `./zstd`                               |
+| 78.9% |   1.43s |   1,426 | `0x5a3f4` | `./zstd`                               |
 | 17.8% | 321.3ms |     321 | `0x17e38` | `./zstd`                               |
 | 17.8% | 321.3ms |     321 | `0x62d34` | `./zstd`                               |
 | 16.8% | 303.3ms |     303 | `0x60c38` | `./zstd`                               |
@@ -256,11 +256,11 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function  | Location |
 | ----: | ------: | ------: | --------- | -------- |
-| 99.8% |   1.80s |   1,804 | `0x9f20`  | `./zstd` |
+| 99.8% |   1.81s |   1,804 | `0x9f20`  | `./zstd` |
 | 98.7% |   1.78s |   1,783 | `0x11630` | `./zstd` |
 | 98.7% |   1.78s |   1,783 | `0x16720` | `./zstd` |
-| 81.7% |   1.47s |   1,477 | `0x62a60` | `./zstd` |
-| 78.9% |   1.42s |   1,426 | `0x5a3f4` | `./zstd` |
+| 81.7% |   1.48s |   1,477 | `0x62a60` | `./zstd` |
+| 78.9% |   1.43s |   1,426 | `0x5a3f4` | `./zstd` |
 | 17.8% | 321.3ms |     321 | `0x17e38` | `./zstd` |
 | 17.8% | 321.3ms |     321 | `0x62d34` | `./zstd` |
 | 16.8% | 303.3ms |     303 | `0x60c38` | `./zstd` |
@@ -285,13 +285,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.80s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.81s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x82030` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Caller    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.80s |   1,804 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.81s |   1,804 | `0xebf5c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x11630` (`./zstd`)
 
@@ -303,14 +303,14 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Caller    | Location |
 | ----: | ------: | ------: | --------- | -------- |
-| 82.1% |   1.46s |   1,464 | `0x62a60` | `./zstd` |
+| 82.1% |   1.47s |   1,464 | `0x62a60` | `./zstd` |
 | 17.9% | 319.3ms |     319 | `0x17e38` | `./zstd` |
 
 ##### `0x62a60` (`./zstd`)
 
 |      % |  Time | Samples | Caller   | Location |
 | -----: | ----: | ------: | -------- | -------- |
-| 100.0% | 1.47s |   1,477 | `0x9f20` | `./zstd` |
+| 100.0% | 1.48s |   1,477 | `0x9f20` | `./zstd` |
 
 ##### `0x5a3f4` (`./zstd`)
 
@@ -420,7 +420,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee    | Location |
 | ----: | ------: | ------: | --------- | -------- |
-| 81.9% |   1.47s |   1,477 | `0x62a60` | `./zstd` |
+| 81.9% |   1.48s |   1,477 | `0x62a60` | `./zstd` |
 | 17.8% | 321.3ms |     321 | `0x62d34` | `./zstd` |
 |  0.3% |   5.0ms |       5 | `0x62afc` | `./zstd` |
 |  0.1% |   1.0ms |       1 | `0xa2e60` | `./zstd` |
@@ -429,13 +429,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee   | Location |
 | -----: | ----: | ------: | -------- | -------- |
-| 100.0% | 1.80s |   1,804 | `0x9f20` | `./zstd` |
+| 100.0% | 1.81s |   1,804 | `0x9f20` | `./zstd` |
 
 ##### `0xebf5c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |  Time | Samples | Callee    | Location                               |
 | -----: | ----: | ------: | --------- | -------------------------------------- |
-| 100.0% | 1.80s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% | 1.81s |   1,804 | `0x82030` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x11630` (`./zstd`)
 
@@ -457,7 +457,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee    | Location |
 | ----: | ----: | ------: | --------- | -------- |
-| 99.1% | 1.46s |   1,464 | `0x16720` | `./zstd` |
+| 99.1% | 1.47s |   1,464 | `0x16720` | `./zstd` |
 |  0.5% | 8.0ms |       8 | `0x168b8` | `./zstd` |
 |  0.1% | 2.0ms |       2 | `0x163b0` | `./zstd` |
 |  0.1% | 2.0ms |       2 | `0x16898` | `./zstd` |

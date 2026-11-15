@@ -4,8 +4,8 @@ Recorded 42,533 → 42,414 events (-119, -0.3%) over 5.42s → 5.60s (+181.20ms,
 
 | Category                 | Change |     Delta |             % |              Time |           Count |
 | ------------------------ | -----: | --------: | ------------: | ----------------: | --------------: |
-| Script                   |  +4.1% | +187.56ms | 84.4% → 85.0% |     4.57s → 4.76s | 12,865 → 12,940 |
-| Garbage collection       | +11.5% | +197.83ms | 31.7% → 34.2% |     1.72s → 1.91s |   1,933 → 1,989 |
+| Script                   |  +4.1% | +187.56ms | 84.4% → 85.0% |     4.58s → 4.77s | 12,865 → 12,940 |
+| Garbage collection       | +11.5% | +197.83ms | 31.7% → 34.2% |     1.72s → 1.92s |   1,933 → 1,989 |
 | Garbage collection pause |  +5.3% |  +37.05ms | 13.0% → 13.2% | 704.0ms → 741.0ms | 11,275 → 10,996 |
 | I/O                      | -36.6% |  -43.11ms |   2.2% → 1.3% |  117.7ms → 74.5ms | 14,795 → 14,864 |
 | Compilation              |  +5.3% |   +0.67ms |          0.2% |   12.6ms → 13.3ms |   1,580 → 1,540 |
@@ -17,8 +17,8 @@ Threads with the largest change in time in spans. Threads run concurrently, so p
 
 | Change |     Delta |             % |          Time |           Count | Thread                 |
 | -----: | --------: | ------------: | ------------: | --------------: | ---------------------- |
-| +11.5% | +197.64ms | 31.7% → 34.2% | 1.72s → 1.91s |   1,901 → 1,958 | `PlatformWorkerThread` |
-|  +3.4% | +182.19ms |         99.9% | 5.41s → 5.59s | 40,500 → 40,324 | `JavaScriptMainThread` |
+| +11.5% | +197.64ms | 31.7% → 34.2% | 1.72s → 1.92s |   1,901 → 1,958 | `PlatformWorkerThread` |
+|  +3.4% | +182.19ms |         99.9% | 5.42s → 5.60s | 40,500 → 40,324 | `JavaScriptMainThread` |
 
 ## Longest thread spans
 
@@ -32,7 +32,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 
 |  Change |     Delta |             % |              Time |           Count |            Mean |             Max | Span                                           |
 | ------: | --------: | ------------: | ----------------: | --------------: | --------------: | --------------: | ---------------------------------------------- |
-|   +3.9% | +174.36ms | 82.0% → 82.5% |     4.44s → 4.62s |               1 |   4.44s → 4.62s |   4.44s → 4.62s | `RunMicrotasks`                                |
+|   +3.9% | +174.36ms | 82.0% → 82.5% |     4.45s → 4.62s |               1 |   4.45s → 4.62s |   4.45s → 4.62s | `RunMicrotasks`                                |
 |  +12.5% |  +61.50ms |   9.1% → 9.9% | 492.5ms → 554.0ms |       195 → 201 |   2.5ms → 2.8ms |  8.6ms → 13.4ms | `V8.GC_BACKGROUND_UNPARK`                      |
 |  +32.9% |  +59.02ms |   3.3% → 4.3% | 179.5ms → 238.5ms |         30 → 23 |  6.0ms → 10.4ms | 16.8ms → 29.9ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |   +6.6% |  +51.61ms | 14.4% → 14.9% | 782.2ms → 833.8ms |   1,391 → 1,413 |           0.6ms |   4.7ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
@@ -57,7 +57,7 @@ Thread spans with the largest increase in time, excluding child spans. Categorie
 
 | Change |     Delta |             % |            Time |         Count |            Mean |             Max | Span                                       |
 | -----: | --------: | ------------: | --------------: | ------------: | --------------: | --------------: | ------------------------------------------ |
-|  +3.9% | +174.36ms | 82.0% → 82.5% |   4.44s → 4.62s |             1 |   4.44s → 4.62s |   4.44s → 4.62s | `RunMicrotasks`                            |
+|  +3.9% | +174.36ms | 82.0% → 82.5% |   4.45s → 4.62s |             1 |   4.45s → 4.62s |   4.45s → 4.62s | `RunMicrotasks`                            |
 | +15.7% |   +9.97ms |   1.2% → 1.3% | 63.5ms → 73.4ms | 2,730 → 2,757 | 23.2µs → 26.6µs |   0.3ms → 0.9ms | `V8.HandleInterrupts`                      |
 |  +3.7% |   +1.81ms |          0.9% | 48.6ms → 50.4ms | 6,931 → 6,944 |   7.0µs → 7.3µs |           0.3ms | `V8.BytecodeBudgetInterrupt`               |
 |  +8.9% |   +0.87ms |          0.2% |  9.8ms → 10.7ms | 2,718 → 2,735 |   3.6µs → 3.9µs | 49.0µs → 48.0µs | `V8.StackGuard`                            |
@@ -623,7 +623,7 @@ Thread spans with the largest increase in time, including child spans. Categorie
 
 | Change |     Delta |             % |              Time |           Count |            Mean |             Max | Span                                           |
 | -----: | --------: | ------------: | ----------------: | --------------: | --------------: | --------------: | ---------------------------------------------- |
-|  +3.4% | +182.42ms |         99.8% |     5.41s → 5.59s |               1 |   5.41s → 5.59s |   5.41s → 5.59s | `RunMicrotasks`                                |
+|  +3.4% | +182.42ms |         99.8% |     5.41s → 5.60s |               1 |   5.41s → 5.60s |   5.41s → 5.60s | `RunMicrotasks`                                |
 | +12.5% |  +61.50ms |   9.1% → 9.9% | 492.5ms → 554.0ms |       195 → 201 |   2.5ms → 2.8ms |  8.6ms → 13.4ms | `V8.GC_BACKGROUND_UNPARK`                      |
 | +32.9% |  +59.03ms |   3.3% → 4.3% | 179.5ms → 238.5ms |         30 → 23 |  6.0ms → 10.4ms | 16.8ms → 29.9ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |  +6.6% |  +51.61ms | 14.4% → 14.9% | 782.2ms → 833.8ms |   1,391 → 1,413 |           0.6ms |   4.7ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
@@ -648,7 +648,7 @@ Thread spans with the largest increase in time, including child spans. Categorie
 
 | Change |     Delta |           % |            Time |         Count |            Mean |           Max | Span                                       |
 | -----: | --------: | ----------: | --------------: | ------------: | --------------: | ------------: | ------------------------------------------ |
-|  +3.4% | +182.42ms |       99.8% |   5.41s → 5.59s |             1 |   5.41s → 5.59s | 5.41s → 5.59s | `RunMicrotasks`                            |
+|  +3.4% | +182.42ms |       99.8% |   5.41s → 5.60s |             1 |   5.41s → 5.60s | 5.41s → 5.60s | `RunMicrotasks`                            |
 | +12.1% |  +10.38ms | 1.6% → 1.7% | 85.9ms → 96.3ms | 2,718 → 2,735 | 31.6µs → 35.2µs | 8.5ms → 5.5ms | `V8.StackGuard`                            |
 | +13.2% |  +10.08ms | 1.4% → 1.5% | 76.4ms → 86.4ms | 2,730 → 2,757 | 28.0µs → 31.4µs | 8.5ms → 5.5ms | `V8.HandleInterrupts`                      |
 |  +3.6% |   +1.77ms |        0.9% | 48.6ms → 50.4ms | 6,931 → 6,944 |   7.0µs → 7.3µs |         0.3ms | `V8.BytecodeBudgetInterrupt`               |
@@ -830,7 +830,7 @@ Threads with the largest change in contribution to each span's total time.
 
 | Change |     Delta |      % |          Time | Count |          Mean |           Max | Thread                 |
 | -----: | --------: | -----: | ------------: | ----: | ------------: | ------------: | ---------------------- |
-|  +3.4% | +182.42ms | 100.0% | 5.41s → 5.59s |     1 | 5.41s → 5.59s | 5.41s → 5.59s | `JavaScriptMainThread` |
+|  +3.4% | +182.42ms | 100.0% | 5.41s → 5.60s |     1 | 5.41s → 5.60s | 5.41s → 5.60s | `JavaScriptMainThread` |
 
 ##### `V8.GC_BACKGROUND_UNPARK`
 
@@ -1989,7 +1989,7 @@ Thread spans with the largest increase in time on a CPU, excluding child spans. 
 
 |  Change |     Delta |             % |          CPU time |           Count |            Mean |             Max | Span                                           |
 | ------: | --------: | ------------: | ----------------: | --------------: | --------------: | --------------: | ---------------------------------------------- |
-|   +4.0% | +175.04ms | 81.0% → 81.5% |     4.39s → 4.56s |               1 |   4.39s → 4.56s |   4.39s → 4.56s | `RunMicrotasks`                                |
+|   +4.0% | +175.04ms | 81.0% → 81.5% |     4.39s → 4.57s |               1 |   4.39s → 4.57s |   4.39s → 4.57s | `RunMicrotasks`                                |
 |   +8.1% |  +55.61ms | 12.7% → 13.3% | 689.1ms → 744.8ms |   1,391 → 1,413 |           0.5ms |   4.6ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
 |  +32.8% |  +54.92ms |   3.1% → 4.0% | 167.7ms → 222.6ms |         30 → 23 |   5.6ms → 9.7ms | 15.6ms → 28.6ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |  +11.9% |  +24.24ms |   3.7% → 4.1% | 203.0ms → 227.2ms |             348 |   0.6ms → 0.7ms |   1.5ms → 1.7ms | `V8.GC_SCAVENGER_SCAVENGE`                     |
@@ -2014,7 +2014,7 @@ Thread spans with the largest increase in time on a CPU, excluding child spans. 
 
 | Change |     Delta |             % |        CPU time |         Count |            Mean |             Max | Span                                       |
 | -----: | --------: | ------------: | --------------: | ------------: | --------------: | --------------: | ------------------------------------------ |
-|  +4.0% | +175.04ms | 81.0% → 81.5% |   4.39s → 4.56s |             1 |   4.39s → 4.56s |   4.39s → 4.56s | `RunMicrotasks`                            |
+|  +4.0% | +175.04ms | 81.0% → 81.5% |   4.39s → 4.57s |             1 |   4.39s → 4.57s |   4.39s → 4.57s | `RunMicrotasks`                            |
 | +14.6% |   +9.26ms |   1.2% → 1.3% | 63.2ms → 72.5ms | 2,730 → 2,757 | 23.2µs → 26.3µs |   0.3ms → 0.4ms | `V8.HandleInterrupts`                      |
 |  +4.8% |   +2.27ms |          0.9% | 47.6ms → 49.8ms | 6,931 → 6,944 |   6.9µs → 7.2µs |           0.3ms | `V8.BytecodeBudgetInterrupt`               |
 |  +8.5% |   +0.79ms |          0.2% |  9.4ms → 10.2ms | 2,718 → 2,735 |   3.4µs → 3.7µs | 29.0µs → 40.0µs | `V8.StackGuard`                            |
@@ -2157,7 +2157,7 @@ Thread spans with the largest increase in time on a CPU, including child spans. 
 
 |  Change |     Delta |             % |          CPU time |           Count |            Mean |             Max | Span                                           |
 | ------: | --------: | ------------: | ----------------: | --------------: | --------------: | --------------: | ---------------------------------------------- |
-|   +4.2% | +222.63ms | 96.8% → 97.6% |     5.24s → 5.47s |               1 |   5.24s → 5.47s |   5.24s → 5.47s | `RunMicrotasks`                                |
+|   +4.2% | +222.63ms | 96.8% → 97.6% |     5.25s → 5.47s |               1 |   5.25s → 5.47s |   5.25s → 5.47s | `RunMicrotasks`                                |
 |   +8.1% |  +55.61ms | 12.7% → 13.3% | 689.1ms → 744.8ms |   1,391 → 1,413 |           0.5ms |   4.6ms → 3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
 |  +32.8% |  +54.93ms |   3.1% → 4.0% | 167.7ms → 222.6ms |         30 → 23 |   5.6ms → 9.7ms | 15.6ms → 28.6ms | `V8.GC_MC_BACKGROUND_MARKING`                  |
 |   +6.5% |  +40.21ms | 11.4% → 11.8% | 618.6ms → 658.8ms |             348 |   1.8ms → 1.9ms |           8.5ms | `MinorGC`                                      |
@@ -2182,7 +2182,7 @@ Thread spans with the largest increase in time on a CPU, including child spans. 
 
 | Change |     Delta |             % |        CPU time |         Count |            Mean |           Max | Span                                       |
 | -----: | --------: | ------------: | --------------: | ------------: | --------------: | ------------: | ------------------------------------------ |
-|  +4.2% | +222.63ms | 96.8% → 97.6% |   5.24s → 5.47s |             1 |   5.24s → 5.47s | 5.24s → 5.47s | `RunMicrotasks`                            |
+|  +4.2% | +222.63ms | 96.8% → 97.6% |   5.25s → 5.47s |             1 |   5.25s → 5.47s | 5.25s → 5.47s | `RunMicrotasks`                            |
 | +11.8% |   +9.95ms |   1.6% → 1.7% | 84.6ms → 94.6ms | 2,718 → 2,735 | 31.1µs → 34.6µs | 8.2ms → 5.5ms | `V8.StackGuard`                            |
 | +12.9% |   +9.72ms |   1.4% → 1.5% | 75.5ms → 85.3ms | 2,730 → 2,757 | 27.7µs → 30.9µs | 8.2ms → 5.5ms | `V8.HandleInterrupts`                      |
 |  +4.7% |   +2.23ms |          0.9% | 47.6ms → 49.8ms | 6,931 → 6,944 |   6.9µs → 7.2µs |         0.3ms | `V8.BytecodeBudgetInterrupt`               |
@@ -2443,9 +2443,9 @@ Async spans with the largest increase in time elapsed from start to end.
 
 | Change |     Delta |                  Time | Count |              Mean |           Max | Span               |
 | -----: | --------: | --------------------: | ----: | ----------------: | ------------: | ------------------ |
-|  +3.4% |  +10.823s | 5m 19.30s → 5m 30.12s |    80 |     5.41s → 5.59s | 5.41s → 5.59s | `PROMISE`          |
+|  +3.4% |  +10.824s | 5m 19.30s → 5m 30.13s |    80 |     5.41s → 5.60s | 5.42s → 5.60s | `PROMISE`          |
 |  +3.4% | +183.26ms |         5.41s → 5.59s |     1 |     5.41s → 5.59s | 5.41s → 5.59s | `PIPEWRAP`         |
-|  +3.4% | +182.49ms |         5.41s → 5.59s |    51 | 106.1ms → 109.7ms | 5.40s → 5.59s | `PROMISE_CALLBACK` |
+|  +3.4% | +182.49ms |         5.41s → 5.60s |    51 | 106.1ms → 109.7ms | 5.41s → 5.59s | `PROMISE_CALLBACK` |
 
 #### Parents
 
@@ -2455,7 +2455,7 @@ Parent spans with the largest change in contribution to each span's elapsed time
 
 | Change |     Delta |      % |          Time | Count |              Mean |           Max | Parent    |
 | -----: | --------: | -----: | ------------: | ----: | ----------------: | ------------: | --------- |
-|  +3.4% | +182.49ms | 100.0% | 5.41s → 5.59s |    51 | 106.1ms → 109.7ms | 5.40s → 5.59s | `PROMISE` |
+|  +3.4% | +182.49ms | 100.0% | 5.41s → 5.60s |    51 | 106.1ms → 109.7ms | 5.41s → 5.59s | `PROMISE` |
 
 #### Children
 
@@ -2465,7 +2465,7 @@ Child spans with the largest change in contribution to each span's elapsed time.
 
 | Change |     Delta |    % |          Time | Count |              Mean |           Max | Child              |
 | -----: | --------: | ---: | ------------: | ----: | ----------------: | ------------: | ------------------ |
-|  +3.4% | +182.49ms | 1.7% | 5.41s → 5.59s |    51 | 106.1ms → 109.7ms | 5.40s → 5.59s | `PROMISE_CALLBACK` |
+|  +3.4% | +182.49ms | 1.7% | 5.41s → 5.60s |    51 | 106.1ms → 109.7ms | 5.41s → 5.59s | `PROMISE_CALLBACK` |
 
 ### Count
 

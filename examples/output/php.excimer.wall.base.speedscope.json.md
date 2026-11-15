@@ -16,7 +16,7 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 Call paths to the hottest functions.
 
 ```
-└── … 4.15s (99.8%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
+└── … 4.16s (99.8%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
     ├── 3.99s (95.8%) Composer\Console\Application::doRun at ./composer/src/Composer/Console/Application.php
     │   ├── … 3.69s (88.7%) Symfony\Component\Console\Command\Command::run at ./composer/vendor/symfony/console/Command/Command.php
     │   │   ├── 2.94s (70.7%) Composer\Command\DumpAutoloadCommand::execute at ./composer/src/Composer/Command/DumpAutoloadCommand.php
@@ -406,8 +406,8 @@ Functions with the most time spent within the function and its callees.
 |      % |    Time | Samples | Function                                                  | Location                                                                   |
 | -----: | ------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
 | 100.0% |   4.16s |   3,261 | `(anonymous)`                                             | `./profile.php`                                                            |
-|  99.8% |   4.15s |   3,254 | `Symfony\Component\Console\Application::run`              | `./composer/vendor/symfony/console/Application.php`                        |
-|  99.8% |   4.15s |   3,254 | `Composer\Console\Application::run`                       | `./composer/src/Composer/Console/Application.php`                          |
+|  99.8% |   4.16s |   3,254 | `Symfony\Component\Console\Application::run`              | `./composer/vendor/symfony/console/Application.php`                        |
+|  99.8% |   4.16s |   3,254 | `Composer\Console\Application::run`                       | `./composer/src/Composer/Console/Application.php`                          |
 |  95.8% |   3.99s |   3,252 | `Composer\Console\Application::doRun`                     | `./composer/src/Composer/Console/Application.php`                          |
 |  88.7% |   3.69s |   3,200 | `Symfony\Component\Console\Application::doRun`            | `./composer/vendor/symfony/console/Application.php`                        |
 |  88.7% |   3.69s |   3,198 | `Symfony\Component\Console\Command\Command::run`          | `./composer/vendor/symfony/console/Command/Command.php`                    |
@@ -434,7 +434,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                                  | Location                                                                   |
 | ----: | ------: | ------: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 99.8% |   4.15s |   3,254 | `Symfony\Component\Console\Application::run`              | `./composer/vendor/symfony/console/Application.php`                        |
+| 99.8% |   4.16s |   3,254 | `Symfony\Component\Console\Application::run`              | `./composer/vendor/symfony/console/Application.php`                        |
 | 88.7% |   3.69s |   3,200 | `Symfony\Component\Console\Application::doRun`            | `./composer/vendor/symfony/console/Application.php`                        |
 | 88.7% |   3.69s |   3,198 | `Symfony\Component\Console\Command\Command::run`          | `./composer/vendor/symfony/console/Command/Command.php`                    |
 | 88.7% |   3.69s |   3,198 | `Symfony\Component\Console\Application::doRunCommand`     | `./composer/vendor/symfony/console/Application.php`                        |
@@ -460,7 +460,7 @@ Categories accounting for at least 1.0% of self time.
 |      % |    Time | Samples | Function                                                      | Location                                                       |
 | -----: | ------: | ------: | ------------------------------------------------------------- | -------------------------------------------------------------- |
 | 100.0% |   4.16s |   3,261 | `(anonymous)`                                                 | `./profile.php`                                                |
-|  99.8% |   4.15s |   3,254 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
+|  99.8% |   4.16s |   3,254 | `Composer\Console\Application::run`                           | `./composer/src/Composer/Console/Application.php`              |
 |  95.8% |   3.99s |   3,252 | `Composer\Console\Application::doRun`                         | `./composer/src/Composer/Console/Application.php`              |
 |  70.7% |   2.94s |   2,929 | `Composer\Autoload\AutoloadGenerator::dump`                   | `./composer/src/Composer/Autoload/AutoloadGenerator.php`       |
 |  70.7% |   2.94s |   2,929 | `Composer\Command\DumpAutoloadCommand::execute`               | `./composer/src/Composer/Command/DumpAutoloadCommand.php`      |
@@ -488,13 +488,13 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                              | Location                                          |
 | -----: | ----: | ------: | ----------------------------------- | ------------------------------------------------- |
-| 100.0% | 4.15s |   3,254 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
+| 100.0% | 4.16s |   3,254 | `Composer\Console\Application::run` | `./composer/src/Composer/Console/Application.php` |
 
 ##### `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`)
 
 |      % |  Time | Samples | Caller        | Location        |
 | -----: | ----: | ------: | ------------- | --------------- |
-| 100.0% | 4.15s |   3,254 | `(anonymous)` | `./profile.php` |
+| 100.0% | 4.16s |   3,254 | `(anonymous)` | `./profile.php` |
 
 ##### `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`)
 
@@ -738,7 +738,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                                                 | Location                                              |
 | ----: | ----: | ------: | ------------------------------------------------------ | ----------------------------------------------------- |
-| 99.8% | 4.15s |   3,254 | `Composer\Console\Application::run`                    | `./composer/src/Composer/Console/Application.php`     |
+| 99.8% | 4.16s |   3,254 | `Composer\Console\Application::run`                    | `./composer/src/Composer/Console/Application.php`     |
 |  0.1% | 3.0ms |       3 | `Composer\Console\Application::__construct`            | `./composer/src/Composer/Console/Application.php`     |
 | <0.1% | 2.0ms |       2 | `Composer\Autoload\ClassLoader::loadClass`             | `./composer/vendor/composer/ClassLoader.php`          |
 | <0.1% | 1.0ms |       1 | `(anonymous)`                                          | `./composer/src/bootstrap.php`                        |
@@ -756,7 +756,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                                       | Location                                            |
 | -----: | ----: | ------: | -------------------------------------------- | --------------------------------------------------- |
-| 100.0% | 4.15s |   3,254 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
+| 100.0% | 4.16s |   3,254 | `Symfony\Component\Console\Application::run` | `./composer/vendor/symfony/console/Application.php` |
 
 ##### `Composer\Console\Application::doRun` (`./composer/src/Composer/Console/Application.php`)
 

@@ -1,10 +1,10 @@
 # CPU profile diff
 
-Took 5.24s → 5.95s (+715.72ms, +13.6%) over 5,239 → 5,954 samples (1.0ms per sample).
+Took 5.24s → 5.96s (+715.72ms, +13.6%) over 5,239 → 5,954 samples (1.0ms per sample).
 
 | Category | Change |     Delta |             % |              Time |       Samples |
 | -------- | -----: | --------: | ------------: | ----------------: | ------------: |
-| Ours     | +19.8% | +961.96ms | 92.6% → 97.6% |     4.85s → 5.81s | 4,852 → 5,813 |
+| Ours     | +19.8% | +961.96ms | 92.6% → 97.6% |     4.86s → 5.82s | 4,852 → 5,813 |
 | Native   | -87.9% | -239.24ms |   5.2% → 0.6% |  272.3ms → 33.0ms |      272 → 33 |
 | Kernel   |  -6.1% |   -7.01ms |   2.2% → 1.8% | 115.1ms → 108.1ms |     115 → 108 |
 
@@ -19,13 +19,13 @@ Call paths to the hottest and most changed functions.
 ```
 ├── … 5.24s → 0ms (100.0% → 0.0%) 0x1130c at ./binary
 │   ├── 3.90s → 0ms (74.4% → 0.0%) 0x10144
-│   │   ├── 1.60s → 0ms (30.6% → 0.0%) 0x44b48
+│   │   ├── 1.61s → 0ms (30.6% → 0.0%) 0x44b48
 │   │   │   ├── … 1.50s → 0ms (28.7% → 0.0%) 0x4aa18 at ./binary
 │   │   │   │   └── 1.50s → 0ms (28.7% → 0.0%) 52 more callees, led by (15.7% → 0.0%) 0x383d0
 │   │   │   └── 103.1ms → 0ms (2.0% → 0.0%) 17 more callees, led by (0.8% → 0.0%) 0x4a1ac
-│   │   ├── 1.51s → 0ms (28.9% → 0.0%) 0x45be0
-│   │   │   └── … 1.51s → 0ms (28.9% → 0.0%) 0x368f8 at ./binary
-│   │   │       └── 1.51s → 0ms (28.9% → 0.0%) 25 more callees, led by (11.6% → 0.0%) 0x6449c at ./binary
+│   │   ├── 1.52s → 0ms (28.9% → 0.0%) 0x45be0
+│   │   │   └── … 1.52s → 0ms (28.9% → 0.0%) 0x368f8 at ./binary
+│   │   │       └── 1.52s → 0ms (28.9% → 0.0%) 25 more callees, led by (11.6% → 0.0%) 0x6449c at ./binary
 │   │   └── 779.8ms → 0ms (14.9% → 0.0%) 19 more callees, led by (10.4% → 0.0%) 0x368f8
 │   ├── 521.5ms → 0ms (9.9% → 0.0%) 0xf660
 │   │   ├── 33.0ms → 0ms (0.6% → 0.0%, self 2.8% → 0.0% globally) 0x1392c
@@ -41,11 +41,11 @@ Call paths to the hottest and most changed functions.
 │   │   ├── 27.0ms → 0ms (0.5% → 0.0%, self 2.3% → 0.2% globally) 0x9d200 at /usr/lib/aarch64-linux-gnu/libc.so.6
 │   │   └── 11.0ms → 0ms (0.2% → 0.0%) 0x11f14
 │   └── 751.8ms → 0ms (14.3% → 0.0%) 37 more callees, led by (9.6% → 0.0%) 0xf7d4
-└── … 0ms → 5.95s (0.0% → 100.0%) 0x16900 at ./binary
+└── … 0ms → 5.96s (0.0% → 100.0%) 0x16900 at ./binary
     ├── 0ms → 4.17s (0.0% → 70.0%) 0x15964
     │   ├── 0ms → 1.70s (0.0% → 28.6%) 0x6503c
     │   │   └── 0ms → 1.70s (0.0% → 28.6%) 18 more callees, led by (0.0% → 27.0%) 0x78ff4 at ./binary
-    │   ├── 0ms → 1.63s (0.0% → 27.5%) 0x6639c
+    │   ├── 0ms → 1.64s (0.0% → 27.5%) 0x6639c
     │   │   └── … 0ms → 1.62s (0.0% → 27.2%) 0x5eff4 at ./binary
     │   │       └── 0ms → 1.62s (0.0% → 27.2%) 18 more callees, led by (0.0% → 17.9%) 0x672f0 at ./binary
     │   └── 0ms → 830.8ms (0.0% → 13.9%) 26 more callees, led by (0.0% → 9.3%) 0x5eff4
@@ -56,7 +56,7 @@ Call paths to the hottest and most changed functions.
     │   ├── 0ms → 13.0ms (0.0% → 0.2%, self 0.0% → 1.0% globally) 0x700cc
     │   └── 0ms → 455.5ms (0.0% → 7.6%) 93 more callees, led by (0.0% → 0.8%) 0x6f844
     ├── … 0ms → 179.2ms (0.0% → 3.0%, self 0.0% → 6.2% globally) 0x9a704 at ./binary
-    └── 0ms → 1.01s (0.0% → 17.1%) 30 more callees, led by (0.0% → 10.4%) 0x150ac
+    └── 0ms → 1.02s (0.0% → 17.1%) 30 more callees, led by (0.0% → 10.4%) 0x150ac
 ```
 
 ## Hottest functions
@@ -1042,43 +1042,43 @@ Functions with the largest increase in time spent within the function and its ca
 
 |    Change |     Delta |             % |            Time |       Samples | Function  | Location                               |
 | --------: | --------: | ------------: | --------------: | ------------: | --------- | -------------------------------------- |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x16900` | `./binary`                             |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s |     0 → 5,954 | `0x13e30` | `./binary`                             |
+|       new |   +5.960s | 0.0% → 100.0% |     0ms → 5.96s |     0 → 5,954 | `0x16900` | `./binary`                             |
+|       new |   +5.960s | 0.0% → 100.0% |     0ms → 5.96s |     0 → 5,954 | `0x13e30` | `./binary`                             |
 |       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s |     0 → 4,170 | `0x15964` | `./binary`                             |
-|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s |     0 → 2,808 | `0x5eff4` | `./binary`                             |
-|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s |     0 → 2,335 | `0x78ff4` | `./binary`                             |
-|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s |     0 → 2,187 | `0x672f0` | `./binary`                             |
-|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s |     0 → 2,136 | `0x6639c` | `./binary`                             |
-|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s |     0 → 1,792 | `0x6503c` | `./binary`                             |
-|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s |     0 → 1,695 | `0x61a90` | `./binary`                             |
-|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s |     0 → 1,226 | `0x71d44` | `./binary`                             |
+|       new |   +2.811s |  0.0% → 47.2% |     0ms → 2.81s |     0 → 2,808 | `0x5eff4` | `./binary`                             |
+|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.34s |     0 → 2,335 | `0x78ff4` | `./binary`                             |
+|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.19s |     0 → 2,187 | `0x672f0` | `./binary`                             |
+|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.14s |     0 → 2,136 | `0x6639c` | `./binary`                             |
+|       new |   +1.794s |  0.0% → 30.1% |     0ms → 1.79s |     0 → 1,792 | `0x6503c` | `./binary`                             |
+|       new |   +1.697s |  0.0% → 28.5% |     0ms → 1.70s |     0 → 1,695 | `0x61a90` | `./binary`                             |
+|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.23s |     0 → 1,226 | `0x71d44` | `./binary`                             |
 |       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s |     0 → 1,200 | `0x61f50` | `./binary`                             |
-|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s |     0 → 1,147 | `0x674d4` | `./binary`                             |
+|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.15s |     0 → 1,147 | `0x674d4` | `./binary`                             |
 |       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |       0 → 967 | `0x6f75c` | `./binary`                             |
 |       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |       0 → 921 | `0x6a0c8` | `./binary`                             |
 |       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |       0 → 912 | `0x672d4` | `./binary`                             |
 |       new | +755.76ms |  0.0% → 12.7% |   0ms → 755.8ms |       0 → 755 | `0x6aea0` | `./binary`                             |
 |       new | +728.73ms |  0.0% → 12.2% |   0ms → 728.7ms |       0 → 728 | `0x5ebe0` | `./binary`                             |
 | +72500.0% | +725.73ms | <0.1% → 12.2% | 1.0ms → 726.7ms |       1 → 726 | `0x6944c` | `./binary`                             |
-|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.96s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    +13.6% | +715.72ms |        100.0% |   5.24s → 5.96s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### Ours
 
 |    Change |     Delta |             % |            Time |   Samples | Function  | Location   |
 | --------: | --------: | ------------: | --------------: | --------: | --------- | ---------- |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s | 0 → 5,954 | `0x16900` | `./binary` |
-|       new |   +5.959s | 0.0% → 100.0% |     0ms → 5.95s | 0 → 5,954 | `0x13e30` | `./binary` |
+|       new |   +5.960s | 0.0% → 100.0% |     0ms → 5.96s | 0 → 5,954 | `0x16900` | `./binary` |
+|       new |   +5.960s | 0.0% → 100.0% |     0ms → 5.96s | 0 → 5,954 | `0x13e30` | `./binary` |
 |       new |   +4.174s |  0.0% → 70.0% |     0ms → 4.17s | 0 → 4,170 | `0x15964` | `./binary` |
-|       new |   +2.810s |  0.0% → 47.2% |     0ms → 2.81s | 0 → 2,808 | `0x5eff4` | `./binary` |
-|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.33s | 0 → 2,335 | `0x78ff4` | `./binary` |
-|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.18s | 0 → 2,187 | `0x672f0` | `./binary` |
-|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.13s | 0 → 2,136 | `0x6639c` | `./binary` |
-|       new |   +1.793s |  0.0% → 30.1% |     0ms → 1.79s | 0 → 1,792 | `0x6503c` | `./binary` |
-|       new |   +1.696s |  0.0% → 28.5% |     0ms → 1.69s | 0 → 1,695 | `0x61a90` | `./binary` |
-|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.22s | 0 → 1,226 | `0x71d44` | `./binary` |
+|       new |   +2.811s |  0.0% → 47.2% |     0ms → 2.81s | 0 → 2,808 | `0x5eff4` | `./binary` |
+|       new |   +2.337s |  0.0% → 39.2% |     0ms → 2.34s | 0 → 2,335 | `0x78ff4` | `./binary` |
+|       new |   +2.189s |  0.0% → 36.7% |     0ms → 2.19s | 0 → 2,187 | `0x672f0` | `./binary` |
+|       new |   +2.138s |  0.0% → 35.9% |     0ms → 2.14s | 0 → 2,136 | `0x6639c` | `./binary` |
+|       new |   +1.794s |  0.0% → 30.1% |     0ms → 1.79s | 0 → 1,792 | `0x6503c` | `./binary` |
+|       new |   +1.697s |  0.0% → 28.5% |     0ms → 1.70s | 0 → 1,695 | `0x61a90` | `./binary` |
+|       new |   +1.227s |  0.0% → 20.6% |     0ms → 1.23s | 0 → 1,226 | `0x71d44` | `./binary` |
 |       new |   +1.201s |  0.0% → 20.2% |     0ms → 1.20s | 0 → 1,200 | `0x61f50` | `./binary` |
-|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.14s | 0 → 1,147 | `0x674d4` | `./binary` |
+|       new |   +1.148s |  0.0% → 19.3% |     0ms → 1.15s | 0 → 1,147 | `0x674d4` | `./binary` |
 |       new | +967.97ms |  0.0% → 16.2% |   0ms → 968.0ms |   0 → 967 | `0x6f75c` | `./binary` |
 |       new | +921.92ms |  0.0% → 15.5% |   0ms → 921.9ms |   0 → 921 | `0x6a0c8` | `./binary` |
 |       new | +912.91ms |  0.0% → 15.3% |   0ms → 912.9ms |   0 → 912 | `0x672d4` | `./binary` |
@@ -1092,8 +1092,8 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |     Delta |            % |          Time |       Samples | Function  | Location                               |
 | ------: | --------: | -----------: | ------------: | ------------: | --------- | -------------------------------------- |
-|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
-|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.96s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  +13.6% | +715.72ms |       100.0% | 5.24s → 5.96s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 |     new |  +39.04ms |  0.0% → 0.7% |  0ms → 39.0ms |        0 → 39 | `0xe3e00` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 |     new |  +24.02ms |  0.0% → 0.4% |  0ms → 24.0ms |        0 → 24 | `0x92f68` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 |     new |   +4.00ms |  0.0% → 0.1% |   0ms → 4.0ms |         0 → 4 | `0xdd2b4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
@@ -1148,17 +1148,17 @@ Functions with the largest decrease in time spent within the function and its ca
 | ------: | --------: | ------------: | ------------: | --------: | --------- | ---------- |
 | removed |   -5.244s | 100.0% → 0.0% |   5.24s → 0ms | 5,239 → 0 | `0x1130c` | `./binary` |
 | removed |   -5.244s | 100.0% → 0.0% |   5.24s → 0ms | 5,239 → 0 | `0xdf70`  | `./binary` |
-| removed |   -3.903s |  74.4% → 0.0% |   3.90s → 0ms | 3,900 → 0 | `0x10144` | `./binary` |
-| removed |   -2.659s |  50.7% → 0.0% |   2.65s → 0ms | 2,657 → 0 | `0x368f8` | `./binary` |
+| removed |   -3.904s |  74.4% → 0.0% |   3.90s → 0ms | 3,900 → 0 | `0x10144` | `./binary` |
+| removed |   -2.660s |  50.7% → 0.0% |   2.66s → 0ms | 2,657 → 0 | `0x368f8` | `./binary` |
 | removed |   -2.133s |  40.7% → 0.0% |   2.13s → 0ms | 2,131 → 0 | `0x4aa18` | `./binary` |
 | removed |   -2.012s |  38.4% → 0.0% |   2.01s → 0ms | 2,010 → 0 | `0x45be0` | `./binary` |
-| removed |   -1.704s |  32.5% → 0.0% |   1.70s → 0ms | 1,703 → 0 | `0x44b48` | `./binary` |
-| removed |   -1.662s |  31.7% → 0.0% |   1.66s → 0ms | 1,661 → 0 | `0x6449c` | `./binary` |
-| removed |   -1.622s |  30.9% → 0.0% |   1.62s → 0ms | 1,621 → 0 | `0x383d0` | `./binary` |
+| removed |   -1.705s |  32.5% → 0.0% |   1.70s → 0ms | 1,703 → 0 | `0x44b48` | `./binary` |
+| removed |   -1.663s |  31.7% → 0.0% |   1.66s → 0ms | 1,661 → 0 | `0x6449c` | `./binary` |
+| removed |   -1.623s |  30.9% → 0.0% |   1.62s → 0ms | 1,621 → 0 | `0x383d0` | `./binary` |
 | removed |   -1.304s |  24.9% → 0.0% |   1.30s → 0ms | 1,303 → 0 | `0x62fd4` | `./binary` |
-| removed |   -1.206s |  23.0% → 0.0% |   1.20s → 0ms | 1,205 → 0 | `0x36b64` | `./binary` |
-| removed |   -1.159s |  22.1% → 0.0% |   1.15s → 0ms | 1,158 → 0 | `0x537bc` | `./binary` |
-| removed |   -1.085s |  20.7% → 0.0% |   1.08s → 0ms | 1,084 → 0 | `0x53c28` | `./binary` |
+| removed |   -1.206s |  23.0% → 0.0% |   1.21s → 0ms | 1,205 → 0 | `0x36b64` | `./binary` |
+| removed |   -1.159s |  22.1% → 0.0% |   1.16s → 0ms | 1,158 → 0 | `0x537bc` | `./binary` |
+| removed |   -1.085s |  20.7% → 0.0% |   1.09s → 0ms | 1,084 → 0 | `0x53c28` | `./binary` |
 | removed | -775.78ms |  14.8% → 0.0% | 775.8ms → 0ms |   775 → 0 | `0x642d8` | `./binary` |
 | removed | -703.70ms |  13.4% → 0.0% | 703.7ms → 0ms |   703 → 0 | `0x66174` | `./binary` |
 | removed | -678.68ms |  12.9% → 0.0% | 678.7ms → 0ms |   678 → 0 | `0x36d98` | `./binary` |
@@ -1225,7 +1225,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |        Time |   Samples | Caller    | Location                               |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
-|    new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new | +5.960s | 0.0% → 100.0% | 0ms → 5.96s | 0 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x15964` (`./binary`)
 
@@ -1237,7 +1237,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +2.119s | 0.0% → 75.4% |   0ms → 2.11s | 0 → 2,117 | `0x6639c` | `./binary` |
+|    new |   +2.119s | 0.0% → 75.4% |   0ms → 2.12s | 0 → 2,117 | `0x6639c` | `./binary` |
 |    new | +658.66ms | 0.0% → 23.4% | 0ms → 658.7ms |   0 → 658 | `0x6944c` | `./binary` |
 |    new | +555.56ms | 0.0% → 19.8% | 0ms → 555.6ms |   0 → 555 | `0x15964` | `./binary` |
 |    new | +335.34ms | 0.0% → 11.9% | 0ms → 335.3ms |   0 → 335 | `0x5e5a4` | `./binary` |
@@ -1247,20 +1247,20 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +1.733s | 0.0% → 74.2% |   0ms → 1.73s | 0 → 1,732 | `0x6503c` | `./binary` |
+|    new |   +1.734s | 0.0% → 74.2% |   0ms → 1.73s | 0 → 1,732 | `0x6503c` | `./binary` |
 |    new | +721.72ms | 0.0% → 30.9% | 0ms → 721.7ms |   0 → 721 | `0x672d4` | `./binary` |
 
 ##### `0x672f0` (`./binary`)
 
 | Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-|    new | +2.189s | 0.0% → 100.0% | 0ms → 2.18s | 0 → 2,187 | `0x5eff4` | `./binary` |
+|    new | +2.189s | 0.0% → 100.0% | 0ms → 2.19s | 0 → 2,187 | `0x5eff4` | `./binary` |
 
 ##### `0x6639c` (`./binary`)
 
 | Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +1.639s | 0.0% → 76.7% |   0ms → 1.63s | 0 → 1,638 | `0x15964` | `./binary` |
+|    new |   +1.640s | 0.0% → 76.7% |   0ms → 1.64s | 0 → 1,638 | `0x15964` | `./binary` |
 |    new | +674.67ms | 0.0% → 31.6% | 0ms → 674.7ms |   0 → 674 | `0x71d44` | `./binary` |
 |    new |   +9.01ms |  0.0% → 0.4% |   0ms → 9.0ms |     0 → 9 | `0x71c40` | `./binary` |
 
@@ -1268,7 +1268,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +1.703s | 0.0% → 95.0% |   0ms → 1.70s | 0 → 1,702 | `0x15964` | `./binary` |
+|    new |   +1.704s | 0.0% → 95.0% |   0ms → 1.70s | 0 → 1,702 | `0x15964` | `./binary` |
 |    new | +517.52ms | 0.0% → 28.9% | 0ms → 517.5ms |   0 → 517 | `0x71d44` | `./binary` |
 |    new |  +63.06ms |  0.0% → 3.5% |  0ms → 63.1ms |    0 → 63 | `0x158e8` | `./binary` |
 |    new |  +23.02ms |  0.0% → 1.3% |  0ms → 23.0ms |    0 → 23 | `0x71c40` | `./binary` |
@@ -1287,7 +1287,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-|    new | +1.227s | 0.0% → 100.0% | 0ms → 1.22s | 0 → 1,226 | `0x61a90` | `./binary` |
+|    new | +1.227s | 0.0% → 100.0% | 0ms → 1.23s | 0 → 1,226 | `0x61a90` | `./binary` |
 
 ##### `0x61f50` (`./binary`)
 
@@ -1359,13 +1359,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |      % |          Time |       Samples | Caller    | Location                               |
 | -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
-| +13.6% | +715.72ms | 100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +13.6% | +715.72ms | 100.0% | 5.24s → 5.96s | 5,239 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-|     new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x13e30` | `./binary` |
+|     new | +5.960s | 0.0% → 100.0% | 0ms → 5.96s | 0 → 5,954 | `0x13e30` | `./binary` |
 | removed | -5.244s | 100.0% → 0.0% | 5.24s → 0ms | 5,239 → 0 | `0xdf70`  | `./binary` |
 
 ##### `0x5e5a4` (`./binary`)
@@ -1624,7 +1624,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-| removed | -3.903s | 100.0% → 0.0% | 3.90s → 0ms | 3,900 → 0 | `0x1130c` | `./binary` |
+| removed | -3.904s | 100.0% → 0.0% | 3.90s → 0ms | 3,900 → 0 | `0x1130c` | `./binary` |
 
 ##### `0x368f8` (`./binary`)
 
@@ -1640,7 +1640,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.638s | 76.8% → 0.0% |   1.63s → 0ms | 1,637 → 0 | `0x44b48` | `./binary` |
+| removed |   -1.639s | 76.8% → 0.0% |   1.64s → 0ms | 1,637 → 0 | `0x44b48` | `./binary` |
 | removed | -478.48ms | 22.4% → 0.0% | 478.5ms → 0ms |   478 → 0 | `0x64480` | `./binary` |
 | removed | -146.15ms |  6.9% → 0.0% | 146.1ms → 0ms |   146 → 0 | `0x642bc` | `./binary` |
 
@@ -1648,7 +1648,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.516s | 75.4% → 0.0% |   1.51s → 0ms | 1,515 → 0 | `0x10144` | `./binary` |
+| removed |   -1.517s | 75.4% → 0.0% |   1.52s → 0ms | 1,515 → 0 | `0x10144` | `./binary` |
 | removed | -668.67ms | 33.2% → 0.0% | 668.7ms → 0ms |   668 → 0 | `0x537bc` | `./binary` |
 | removed |  -13.01ms |  0.6% → 0.0% |  13.0ms → 0ms |    13 → 0 | `0x53624` | `./binary` |
 
@@ -1656,7 +1656,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.606s | 94.2% → 0.0% |   1.60s → 0ms | 1,605 → 0 | `0x10144` | `./binary` |
+| removed |   -1.607s | 94.2% → 0.0% |   1.61s → 0ms | 1,605 → 0 | `0x10144` | `./binary` |
 | removed | -460.46ms | 27.0% → 0.0% | 460.5ms → 0ms |   460 → 0 | `0x537bc` | `./binary` |
 | removed |  -72.07ms |  4.2% → 0.0% |  72.1ms → 0ms |    72 → 0 | `0x100f0` | `./binary` |
 | removed |  -20.02ms |  1.2% → 0.0% |  20.0ms → 0ms |    20 → 0 | `0x53624` | `./binary` |
@@ -1665,13 +1665,13 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-| removed | -1.662s | 100.0% → 0.0% | 1.66s → 0ms | 1,661 → 0 | `0x368f8` | `./binary` |
+| removed | -1.663s | 100.0% → 0.0% | 1.66s → 0ms | 1,661 → 0 | `0x368f8` | `./binary` |
 
 ##### `0x383d0` (`./binary`)
 
 |  Change |     Delta |            % |          Time |   Samples | Caller    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.249s | 77.0% → 0.0% |   1.24s → 0ms | 1,248 → 0 | `0x4aa18` | `./binary` |
+| removed |   -1.249s | 77.0% → 0.0% |   1.25s → 0ms | 1,248 → 0 | `0x4aa18` | `./binary` |
 | removed | -166.17ms | 10.2% → 0.0% | 166.2ms → 0ms |   166 → 0 | `0x642d8` | `./binary` |
 | removed | -121.12ms |  7.5% → 0.0% | 121.1ms → 0ms |   121 → 0 | `0x3695c` | `./binary` |
 | removed |  -90.09ms |  5.6% → 0.0% |  90.1ms → 0ms |    90 → 0 | `0x6449c` | `./binary` |
@@ -1701,7 +1701,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Caller    | Location   |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-| removed | -1.159s | 100.0% → 0.0% | 1.15s → 0ms | 1,158 → 0 | `0x383d0` | `./binary` |
+| removed | -1.159s | 100.0% → 0.0% | 1.16s → 0ms | 1,158 → 0 | `0x383d0` | `./binary` |
 
 ##### `0x53c28` (`./binary`)
 
@@ -2049,14 +2049,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |             % |        Time |   Samples | Callee    | Location                               |
 | -----: | ------: | ------------: | ----------: | --------: | --------- | -------------------------------------- |
-|    new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|    new | +5.960s | 0.0% → 100.0% | 0ms → 5.96s | 0 → 5,954 | `0x27818` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x15964` (`./binary`)
 
 | Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +1.703s | 0.0% → 40.8% |   0ms → 1.70s | 0 → 1,702 | `0x6503c` | `./binary` |
-|    new |   +1.639s | 0.0% → 39.3% |   0ms → 1.63s | 0 → 1,638 | `0x6639c` | `./binary` |
+|    new |   +1.704s | 0.0% → 40.8% |   0ms → 1.70s | 0 → 1,702 | `0x6503c` | `./binary` |
+|    new |   +1.640s | 0.0% → 39.3% |   0ms → 1.64s | 0 → 1,638 | `0x6639c` | `./binary` |
 |    new | +555.56ms | 0.0% → 13.3% | 0ms → 555.6ms |   0 → 555 | `0x5eff4` | `./binary` |
 |    new | +192.19ms |  0.0% → 4.6% | 0ms → 192.2ms |   0 → 192 | `0x6627c` | `./binary` |
 |    new |  +25.03ms |  0.0% → 0.6% |  0ms → 25.0ms |    0 → 25 | `0x651bc` | `./binary` |
@@ -2065,7 +2065,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +2.189s | 0.0% → 77.9% |   0ms → 2.18s | 0 → 2,187 | `0x672f0` | `./binary` |
+|    new |   +2.189s | 0.0% → 77.9% |   0ms → 2.19s | 0 → 2,187 | `0x672f0` | `./binary` |
 |    new | +912.91ms | 0.0% → 32.5% | 0ms → 912.9ms |   0 → 912 | `0x672d4` | `./binary` |
 |    new |  +42.04ms |  0.0% → 1.5% |  0ms → 42.0ms |    0 → 42 | `0x6716c` | `./binary` |
 |    new |  +37.04ms |  0.0% → 1.3% |  0ms → 37.0ms |    0 → 37 | `0x673a8` | `./binary` |
@@ -2095,7 +2095,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |            % |         Time |   Samples | Callee    | Location   |
 | -----: | -------: | -----------: | -----------: | --------: | --------- | ---------- |
-|    new |  +2.119s | 0.0% → 99.1% |  0ms → 2.11s | 0 → 2,117 | `0x5eff4` | `./binary` |
+|    new |  +2.119s | 0.0% → 99.1% |  0ms → 2.12s | 0 → 2,117 | `0x5eff4` | `./binary` |
 |    new | +10.01ms |  0.0% → 0.5% | 0ms → 10.0ms |    0 → 10 | `0x5efd4` | `./binary` |
 |    new |  +4.00ms |  0.0% → 0.2% |  0ms → 4.0ms |     0 → 4 | `0x5e6dc` | `./binary` |
 |    new |  +2.00ms |  0.0% → 0.1% |  0ms → 2.0ms |     0 → 2 | `0x5efa0` | `./binary` |
@@ -2105,7 +2105,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |    Delta |            % |         Time |   Samples | Callee    | Location   |
 | -----: | -------: | -----------: | -----------: | --------: | --------- | ---------- |
-|    new |  +1.733s | 0.0% → 96.7% |  0ms → 1.73s | 0 → 1,732 | `0x78ff4` | `./binary` |
+|    new |  +1.734s | 0.0% → 96.7% |  0ms → 1.73s | 0 → 1,732 | `0x78ff4` | `./binary` |
 |    new | +37.04ms |  0.0% → 2.1% | 0ms → 37.0ms |    0 → 37 | `0x782ec` | `./binary` |
 |    new | +14.01ms |  0.0% → 0.8% | 0ms → 14.0ms |    0 → 14 | `0x783f4` | `./binary` |
 |    new | +10.01ms |  0.0% → 0.6% | 0ms → 10.0ms |    0 → 10 | `0x78fdc` | `./binary` |
@@ -2115,7 +2115,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | -----: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-|    new |   +1.227s | 0.0% → 72.3% |   0ms → 1.22s | 0 → 1,226 | `0x71d44` | `./binary` |
+|    new |   +1.227s | 0.0% → 72.3% |   0ms → 1.23s | 0 → 1,226 | `0x71d44` | `./binary` |
 |    new | +277.28ms | 0.0% → 16.3% | 0ms → 277.3ms |   0 → 277 | `0x71cf8` | `./binary` |
 |    new | +165.17ms |  0.0% → 9.7% | 0ms → 165.2ms |   0 → 165 | `0x7197c` | `./binary` |
 |    new |  +66.07ms |  0.0% → 3.9% |  0ms → 66.1ms |    0 → 66 | `0x71b24` | `./binary` |
@@ -2215,14 +2215,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |   Delta |             % |        Time |   Samples | Callee    | Location   |
 | ------: | ------: | ------------: | ----------: | --------: | --------- | ---------- |
-|     new | +5.959s | 0.0% → 100.0% | 0ms → 5.95s | 0 → 5,954 | `0x16900` | `./binary` |
+|     new | +5.960s | 0.0% → 100.0% | 0ms → 5.96s | 0 → 5,954 | `0x16900` | `./binary` |
 | removed | -5.244s | 100.0% → 0.0% | 5.24s → 0ms | 5,239 → 0 | `0x1130c` | `./binary` |
 
 ##### `0x27818` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 | Change |     Delta |      % |          Time |       Samples | Callee    | Location                               |
 | -----: | --------: | -----: | ------------: | ------------: | --------- | -------------------------------------- |
-| +13.6% | +715.72ms | 100.0% | 5.24s → 5.95s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| +13.6% | +715.72ms | 100.0% | 5.24s → 5.96s | 5,239 → 5,954 | `0x27744` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `0x5e5a4` (`./binary`)
 
@@ -2448,7 +2448,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -3.903s | 74.4% → 0.0% |   3.90s → 0ms | 3,900 → 0 | `0x10144` | `./binary` |
+| removed |   -3.904s | 74.4% → 0.0% |   3.90s → 0ms | 3,900 → 0 | `0x10144` | `./binary` |
 | removed | -521.52ms |  9.9% → 0.0% | 521.5ms → 0ms |   521 → 0 | `0xf660`  | `./binary` |
 | removed | -501.50ms |  9.6% → 0.0% | 501.5ms → 0ms |   501 → 0 | `0xf7d4`  | `./binary` |
 | removed |  -74.07ms |  1.4% → 0.0% |  74.1ms → 0ms |    74 → 0 | `0x100f0` | `./binary` |
@@ -2464,8 +2464,8 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.606s | 41.2% → 0.0% |   1.60s → 0ms | 1,605 → 0 | `0x44b48` | `./binary` |
-| removed |   -1.516s | 38.8% → 0.0% |   1.51s → 0ms | 1,515 → 0 | `0x45be0` | `./binary` |
+| removed |   -1.607s | 41.2% → 0.0% |   1.61s → 0ms | 1,605 → 0 | `0x44b48` | `./binary` |
+| removed |   -1.517s | 38.8% → 0.0% |   1.52s → 0ms | 1,515 → 0 | `0x45be0` | `./binary` |
 | removed | -546.55ms | 14.0% → 0.0% | 546.5ms → 0ms |   546 → 0 | `0x368f8` | `./binary` |
 | removed | -147.15ms |  3.8% → 0.0% | 147.1ms → 0ms |   147 → 0 | `0x45934` | `./binary` |
 | removed |  -29.03ms |  0.7% → 0.0% |  29.0ms → 0ms |    29 → 0 | `0x44e28` | `./binary` |
@@ -2474,7 +2474,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.662s | 62.5% → 0.0% |   1.66s → 0ms | 1,661 → 0 | `0x6449c` | `./binary` |
+| removed |   -1.663s | 62.5% → 0.0% |   1.66s → 0ms | 1,661 → 0 | `0x6449c` | `./binary` |
 | removed | -775.78ms | 29.2% → 0.0% | 775.8ms → 0ms |   775 → 0 | `0x642d8` | `./binary` |
 | removed | -637.64ms | 24.0% → 0.0% | 637.6ms → 0ms |   637 → 0 | `0x64480` | `./binary` |
 | removed | -195.20ms |  7.3% → 0.0% | 195.2ms → 0ms |   195 → 0 | `0x642bc` | `./binary` |
@@ -2484,7 +2484,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.249s | 58.6% → 0.0% |   1.24s → 0ms | 1,248 → 0 | `0x383d0` | `./binary` |
+| removed |   -1.249s | 58.6% → 0.0% |   1.25s → 0ms | 1,248 → 0 | `0x383d0` | `./binary` |
 | removed | -220.22ms | 10.3% → 0.0% | 220.2ms → 0ms |   220 → 0 | `0x366a8` | `./binary` |
 | removed | -168.17ms |  7.9% → 0.0% | 168.2ms → 0ms |   168 → 0 | `0x36d98` | `./binary` |
 | removed | -168.17ms |  7.9% → 0.0% | 168.2ms → 0ms |   168 → 0 | `0x36670` | `./binary` |
@@ -2501,7 +2501,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |    Delta |            % |         Time |   Samples | Callee    | Location   |
 | ------: | -------: | -----------: | -----------: | --------: | --------- | ---------- |
-| removed |  -1.638s | 96.1% → 0.0% |  1.63s → 0ms | 1,637 → 0 | `0x4aa18` | `./binary` |
+| removed |  -1.639s | 96.1% → 0.0% |  1.64s → 0ms | 1,637 → 0 | `0x4aa18` | `./binary` |
 | removed | -45.05ms |  2.6% → 0.0% | 45.0ms → 0ms |    45 → 0 | `0x4a1ac` | `./binary` |
 | removed | -10.01ms |  0.6% → 0.0% | 10.0ms → 0ms |    10 → 0 | `0x4a2b8` | `./binary` |
 | removed |  -8.01ms |  0.5% → 0.0% |  8.0ms → 0ms |     8 → 0 | `0x4a944` | `./binary` |
@@ -2521,7 +2521,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |            % |          Time |   Samples | Callee    | Location   |
 | ------: | --------: | -----------: | ------------: | --------: | --------- | ---------- |
-| removed |   -1.159s | 71.4% → 0.0% |   1.15s → 0ms | 1,158 → 0 | `0x537bc` | `./binary` |
+| removed |   -1.159s | 71.4% → 0.0% |   1.16s → 0ms | 1,158 → 0 | `0x537bc` | `./binary` |
 | removed | -251.25ms | 15.5% → 0.0% | 251.3ms → 0ms |   251 → 0 | `0x53784` | `./binary` |
 | removed | -125.13ms |  7.7% → 0.0% | 125.1ms → 0ms |   125 → 0 | `0x532e4` | `./binary` |
 | removed |  -51.05ms |  3.1% → 0.0% |  51.1ms → 0ms |    51 → 0 | `0x534a0` | `./binary` |

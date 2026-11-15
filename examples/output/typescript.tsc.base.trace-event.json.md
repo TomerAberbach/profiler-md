@@ -25,7 +25,7 @@ Thread spans with the most time, excluding child spans.
 
 |     % |    Time | Count |   Mean |     Max | Span                                       |
 | ----: | ------: | ----: | -----: | ------: | ------------------------------------------ |
-| 29.5% |   1.14s |    83 | 13.8ms | 407.7ms | `checkSourceFile`                          |
+| 29.5% |   1.15s |    83 | 13.8ms | 407.7ms | `checkSourceFile`                          |
 | 23.4% | 909.7ms |   558 |  1.6ms |  24.6ms | `checkExpression`                          |
 | 11.1% | 432.9ms |   276 |  1.6ms |  79.8ms | `createSourceFile`                         |
 | 11.1% | 431.5ms |   279 |  1.5ms |  31.4ms | `structuredTypeRelatedTo`                  |
@@ -52,7 +52,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Count |   Mean |     Max | Span                                       |
 | ----: | ------: | ----: | -----: | ------: | ------------------------------------------ |
-| 29.5% |   1.14s |    83 | 13.8ms | 407.7ms | `checkSourceFile`                          |
+| 29.5% |   1.15s |    83 | 13.8ms | 407.7ms | `checkSourceFile`                          |
 | 23.4% | 909.7ms |   558 |  1.6ms |  24.6ms | `checkExpression`                          |
 | 11.1% | 431.5ms |   279 |  1.5ms |  31.4ms | `structuredTypeRelatedTo`                  |
 |  8.3% | 321.2ms |   275 |  1.2ms |  59.5ms | `bindSourceFile`                           |
@@ -186,7 +186,7 @@ Thread spans with the most time, including child spans.
 |     % |    Time | Count |    Mean |     Max | Span                                       |
 | ----: | ------: | ----: | ------: | ------: | ------------------------------------------ |
 | 74.7% |   2.90s |    83 |  35.0ms | 601.2ms | `checkSourceFile`                          |
-| 27.0% |   1.04s |   116 |   9.0ms | 122.3ms | `checkDeferredNode`                        |
+| 27.0% |   1.05s |   116 |   9.0ms | 122.3ms | `checkDeferredNode`                        |
 | 26.9% |   1.04s |   558 |   5.2ms | 118.6ms | `checkExpression`                          |
 | 20.6% | 799.1ms |    81 |   9.9ms | 118.8ms | `checkVariableDeclaration`                 |
 | 15.2% | 590.8ms |     1 | 590.8ms | 590.8ms | `createProgram`                            |
@@ -213,7 +213,7 @@ Categories accounting for at least 1.0% of self time.
 |     % |    Time | Count |    Mean |     Max | Span                                       |
 | ----: | ------: | ----: | ------: | ------: | ------------------------------------------ |
 | 74.7% |   2.90s |    83 |  35.0ms | 601.2ms | `checkSourceFile`                          |
-| 27.0% |   1.04s |   116 |   9.0ms | 122.3ms | `checkDeferredNode`                        |
+| 27.0% |   1.05s |   116 |   9.0ms | 122.3ms | `checkDeferredNode`                        |
 | 26.9% |   1.04s |   558 |   5.2ms | 118.6ms | `checkExpression`                          |
 | 20.6% | 799.1ms |    81 |   9.9ms | 118.8ms | `checkVariableDeclaration`                 |
 | 15.2% | 590.8ms |     1 | 590.8ms | 590.8ms | `createProgram`                            |
@@ -366,13 +366,13 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |     Max | Thread |
 | -----: | ----: | ----: | ----: | ------: | ------ |
-| 100.0% | 1.04s |   116 | 9.0ms | 122.3ms | `Main` |
+| 100.0% | 1.05s |   116 | 9.0ms | 122.3ms | `Main` |
 
 ##### `checkExpression`
 
 |      % |  Time | Count |  Mean |     Max | Thread |
 | -----: | ----: | ----: | ----: | ------: | ------ |
-| 100.0% | 2.90s |   558 | 5.2ms | 118.6ms | `Main` |
+| 100.0% | 2.91s |   558 | 5.2ms | 118.6ms | `Main` |
 
 ##### `checkVariableDeclaration`
 
@@ -420,7 +420,7 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |   Mean |     Max | Thread |
 | -----: | ----: | ----: | -----: | ------: | ------ |
-| 100.0% | 1.42s |    28 | 50.9ms | 172.9ms | `Main` |
+| 100.0% | 1.43s |    28 | 50.9ms | 172.9ms | `Main` |
 
 ##### `processTypeReferenceDirective`
 
@@ -472,13 +472,13 @@ Parent spans with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |     Max | Parent            |
 | -----: | ----: | ----: | ----: | ------: | ----------------- |
-| 100.0% | 1.04s |   116 | 9.0ms | 122.3ms | `checkSourceFile` |
+| 100.0% | 1.05s |   116 | 9.0ms | 122.3ms | `checkSourceFile` |
 
 ##### `checkExpression`
 
 |     % |    Time | Count |  Mean |     Max | Parent                     |
 | ----: | ------: | ----: | ----: | ------: | -------------------------- |
-| 64.1% |   1.86s |   379 | 4.9ms | 101.2ms | `checkExpression`          |
+| 64.1% |   1.87s |   379 | 4.9ms | 101.2ms | `checkExpression`          |
 | 25.9% | 752.1ms |    78 | 9.6ms | 118.6ms | `checkVariableDeclaration` |
 |  7.3% | 211.8ms |    66 | 3.2ms |  24.6ms | `checkDeferredNode`        |
 |  2.7% |  79.5ms |    35 | 2.3ms |  13.8ms | `checkSourceFile`          |
@@ -527,7 +527,7 @@ Parent spans with the largest contribution to each span's total time.
 
 |     % |   Time | Count |   Mean |     Max | Parent                    |
 | ----: | -----: | ----: | -----: | ------: | ------------------------- |
-| 97.9% |  1.39s |    24 | 58.1ms | 172.9ms | `structuredTypeRelatedTo` |
+| 97.9% |  1.40s |    24 | 58.1ms | 172.9ms | `structuredTypeRelatedTo` |
 |  2.1% | 30.4ms |     4 |  7.6ms |  13.0ms | `checkExpression`         |
 
 ##### `processTypeReferenceDirective`
@@ -575,7 +575,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |    Time | Count |   Mean |     Max | Child                      |
 | ----: | ------: | ----: | -----: | ------: | -------------------------- |
-| 36.2% |   1.04s |   116 |  9.0ms | 122.3ms | `checkDeferredNode`        |
+| 36.2% |   1.05s |   116 |  9.0ms | 122.3ms | `checkDeferredNode`        |
 | 11.9% | 344.8ms |    17 | 20.3ms | 173.2ms | `structuredTypeRelatedTo`  |
 |  9.7% | 280.6ms |    26 | 10.8ms |  84.0ms | `checkVariableDeclaration` |
 |  2.7% |  79.5ms |    35 |  2.3ms |  13.8ms | `checkExpression`          |
@@ -592,7 +592,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |    Time | Count |  Mean |     Max | Child                     |
 | ----: | ------: | ----: | ----: | ------: | ------------------------- |
-| 64.1% |   1.86s |   379 | 4.9ms | 101.2ms | `checkExpression`         |
+| 64.1% |   1.87s |   379 | 4.9ms | 101.2ms | `checkExpression`         |
 |  3.6% | 103.3ms |    40 | 2.6ms |  16.1ms | `structuredTypeRelatedTo` |
 |  1.0% |  30.4ms |     4 | 7.6ms |  13.0ms | `getVariancesWorker`      |
 
@@ -626,7 +626,7 @@ Child spans with the largest contribution to each span's total time.
 |     % |  Time | Count |   Mean |     Max | Child                     |
 | ----: | ----: | ----: | -----: | ------: | ------------------------- |
 | 61.2% | 2.88s |   183 | 15.8ms | 163.2ms | `structuredTypeRelatedTo` |
-| 29.6% | 1.39s |    24 | 58.1ms | 172.9ms | `getVariancesWorker`      |
+| 29.6% | 1.40s |    24 | 58.1ms | 172.9ms | `getVariancesWorker`      |
 
 ##### `processRootFiles`
 
@@ -670,7 +670,7 @@ Instances of each span with the most time.
 |     % |    Time | Start | Thread | Attributes                                                 |
 | ----: | ------: | ----: | ------ | ---------------------------------------------------------- |
 | 20.7% | 601.2ms | 1.38s | `Main` | `path=/src/zod/src/types.ts`                               |
-|  9.7% | 282.9ms | 2.38s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  9.7% | 282.9ms | 2.39s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
 |  9.3% | 269.8ms | 1.11s | `Main` | `path=/src/zod/src/helpers/partialUtil.ts`                 |
 |  4.9% | 143.4ms | 3.10s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
 |  4.3% | 125.7ms | 3.26s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`             |
@@ -680,7 +680,7 @@ Instances of each span with the most time.
 |     % |    Time | Start | Thread | Attributes                                                  |
 | ----: | ------: | ----: | ------ | ----------------------------------------------------------- |
 | 11.7% | 122.3ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts`  |
-|  3.9% |  40.6ms | 3.31s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`              |
+|  3.9% |  40.6ms | 3.32s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`              |
 |  2.7% |  28.6ms | 2.77s | `Main` | `path=/src/zod/src/__tests__/firstpartyschematypes.test.ts` |
 |  2.6% |  27.7ms | 3.52s | `Main` | `path=/src/zod/src/__tests__/readonly.test.ts`              |
 |  2.2% |  23.1ms | 1.08s | `Main` | `path=/src/zod/src/helpers/parseUtil.ts`                    |
@@ -689,19 +689,19 @@ Instances of each span with the most time.
 
 |    % |    Time | Start | Thread | Attributes                                                 |
 | ---: | ------: | ----: | ------ | ---------------------------------------------------------- |
-| 4.1% | 118.6ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 3.5% | 101.2ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 2.9% |  83.8ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-| 2.4% |  70.0ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-| 0.9% |  25.8ms |    2s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+| 4.1% | 118.6ms | 2.41s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+| 3.5% | 101.2ms | 2.41s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+| 2.9% |  83.8ms | 2.27s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+| 2.4% |  70.0ms | 2.27s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+| 0.9% |  25.8ms | 2.00s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
 
 ##### `checkVariableDeclaration`
 
 |     % |    Time | Start | Thread | Attributes                                                 |
 | ----: | ------: | ----: | ------ | ---------------------------------------------------------- |
 | 14.9% | 118.8ms | 2.40s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
-| 10.5% |  84.0ms | 2.26s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
-|  3.3% |  26.1ms |    2s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+| 10.5% |  84.0ms | 2.27s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+|  3.3% |  26.1ms | 2.00s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
 |  2.7% |  21.6ms | 3.22s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
 |  2.6% |  21.0ms | 2.22s | `Main` | `path=/src/zod/src/__tests__/catch.test.ts`                |
 
@@ -725,8 +725,8 @@ Instances of each span with the most time.
 
 |    % |    Time | Start | Thread |
 | ---: | ------: | ----: | ------ |
-| 3.7% | 173.2ms | 1.11s | `Main` |
-| 3.6% | 169.9ms | 1.11s | `Main` |
+| 3.7% | 173.2ms | 1.12s | `Main` |
+| 3.6% | 169.9ms | 1.12s | `Main` |
 | 3.5% | 163.2ms | 1.12s | `Main` |
 | 3.4% | 161.8ms | 1.12s | `Main` |
 | 3.3% | 156.6ms | 1.12s | `Main` |
@@ -761,11 +761,11 @@ Instances of each span with the most time.
 
 |     % |    Time | Start | Thread |
 | ----: | ------: | ----: | ------ |
-| 12.1% | 172.9ms | 1.11s | `Main` |
+| 12.1% | 172.9ms | 1.12s | `Main` |
 | 11.3% | 161.6ms | 1.12s | `Main` |
-| 10.5% | 149.3ms | 1.12s | `Main` |
+| 10.5% | 149.3ms | 1.13s | `Main` |
 |  8.6% | 122.6ms | 1.15s | `Main` |
-|  8.1% | 114.9ms | 1.15s | `Main` |
+|  8.1% | 114.9ms | 1.16s | `Main` |
 
 ##### `processTypeReferenceDirective`
 

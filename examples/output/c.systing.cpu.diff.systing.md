@@ -1,10 +1,10 @@
 # CPU profile diff
 
-Took 12s → 12.01s (+5.00ms, ~0%) over 12,005 → 12,010 samples (1.0ms per sample).
+Took 12.01s (+5.00ms, ~0%) over 12,005 → 12,010 samples (1.0ms per sample).
 
 | Category | Change |    Delta |           % |            Time |         Samples |
 | -------- | -----: | -------: | ----------: | --------------: | --------------: |
-| Ours     |  +0.1% | +12.00ms |       99.8% | 11.97s → 11.98s | 11,975 → 11,987 |
+| Ours     |  +0.1% | +12.00ms |       99.8% | 11.98s → 11.99s | 11,975 → 11,987 |
 | Kernel   | -39.1% |  -9.00ms | 0.2% → 0.1% | 23.0ms → 14.0ms |         23 → 14 |
 | Native   | +28.6% |  +2.00ms |        0.1% |   7.0ms → 9.0ms |           7 → 9 |
 
@@ -15,13 +15,13 @@ Took 12s → 12.01s (+5.00ms, ~0%) over 12,005 → 12,010 samples (1.0ms per sam
 Call paths to the hottest and most changed functions.
 
 ```
-├── 11.99s (99.9%) unknown (libc.so.6)
-│   ├── … 11.97s → 11.98s (99.8%) POOL_thread at pool.c
-│   │   └── 11.97s → 11.98s (99.8%) ZSTDMT_compressionJob at zstdmt_compress.c
-│   │       └── 11.97s → 11.98s (99.7% → 99.8%) ZSTD_compressContinue_internal at zstd_compress.c
+├── 12.00s (99.9%) unknown (libc.so.6)
+│   ├── … 11.98s → 11.99s (99.8%) POOL_thread at pool.c
+│   │   └── 11.98s → 11.99s (99.8%) ZSTDMT_compressionJob at zstdmt_compress.c
+│   │       └── 11.97s → 11.99s (99.7% → 99.8%) ZSTD_compressContinue_internal at zstd_compress.c
 │   │           ├── 11.93s (99.4%) ZSTD_buildSeqStore
-│   │           │   ├── 11.74s → 11.75s (97.9% → 97.8%, self 13.5% → 13.3%) ZSTD_compressBlock_opt2 at zstd_opt.c
-│   │           │   │   ├── 10.09s → 10.12s (84.1% → 84.3%, self 83.9% → 84.0%) ZSTD_btGetAllMatches_noDict_3
+│   │           │   ├── 11.75s (97.9% → 97.8%, self 13.5% → 13.3%) ZSTD_compressBlock_opt2 at zstd_opt.c
+│   │           │   │   ├── 10.10s → 10.12s (84.1% → 84.3%, self 83.9% → 84.0%) ZSTD_btGetAllMatches_noDict_3
 │   │           │   │   │   └── 27.0ms → 31.0ms (0.2% → 0.3%) ZSTD_insertBt1
 │   │           │   │   └── 24.0ms → 25.0ms (0.2%) ZSTD_insertAndFindFirstIndexHash3
 │   │           │   ├── 114.0ms → 116.0ms (0.9% → 1.0%) ZSTD_litLengthPrice at zstd_opt.c
@@ -455,7 +455,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 | Change |    Delta |     % |          Time |       Samples | Caller                        | Location          |
 | -----: | -------: | ----: | ------------: | ------------: | ----------------------------- | ----------------- |
-|  -1.4% | -23.00ms | 99.6% | 1.62s → 1.60s | 1,626 → 1,603 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|  -1.4% | -23.00ms | 99.6% | 1.63s → 1.60s | 1,626 → 1,603 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
 | +16.7% |  +1.00ms |  0.4% | 6.0ms → 7.0ms |         6 → 7 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
 
 ##### `ZSTD_updateStats` (`zstd_opt.c`)
@@ -587,13 +587,13 @@ Functions with the largest increase in time spent within the function and its ca
 |     new | +15.00ms |   0.0% → 0.1% |      0ms → 15.0ms |          0 → 15 | `ZSTD_entropyCompressSeqStore`          | `zstd_compress.c`   |
 |     new | +11.00ms |   0.0% → 0.1% |      0ms → 11.0ms |          0 → 11 | `ZSTD_splitBlock`                       | `zstd_preSplit.c`   |
 |   +0.1% |  +9.00ms |         99.8% |   11.98s → 11.99s | 11,982 → 11,991 | `ZSTDMT_compressionJob`                 | `zstdmt_compress.c` |
-|   +0.1% |  +9.00ms |         99.8% |   11.97s → 11.98s | 11,976 → 11,985 | `ZSTD_compressContinue_internal`        | `zstd_compress.c`   |
+|   +0.1% |  +9.00ms |         99.8% |   11.98s → 11.99s | 11,976 → 11,985 | `ZSTD_compressContinue_internal`        | `zstd_compress.c`   |
 | +200.0% |  +8.00ms |  <0.1% → 0.1% |    4.0ms → 12.0ms |          4 → 12 | `HIST_count_parallel_wksp`              | `hist.c`            |
 |     new |  +8.00ms |   0.0% → 0.1% |       0ms → 8.0ms |           0 → 8 | `ZSTD_recordFingerprint_1`              | `zstd_preSplit.c`   |
-|     ~0% |  +6.00ms |        100.0% |               12s | 12,003 → 12,009 | `unknown (libc.so.6)`                   | `<unknown>`         |
+|     ~0% |  +6.00ms |        100.0% |   12.00s → 12.01s | 12,003 → 12,009 | `unknown (libc.so.6)`                   | `<unknown>`         |
 | +133.3% |  +4.00ms |  <0.1% → 0.1% |     3.0ms → 7.0ms |           3 → 7 | `ZSTD_XXH64_update`                     | `xxhash.h`          |
 |  +14.8% |  +4.00ms |   0.2% → 0.3% |   27.0ms → 31.0ms |         27 → 31 | `ZSTD_insertBt1`                        | `zstd_opt.c`        |
-|     ~0% |  +3.00ms |         99.9% |            11.99s | 11,996 → 11,999 | `POOL_thread`                           | `pool.c`            |
+|     ~0% |  +3.00ms |         99.9% |            12.00s | 11,996 → 11,999 | `POOL_thread`                           | `pool.c`            |
 |  +10.7% |  +3.00ms |   0.2% → 0.3% |   28.0ms → 31.0ms |         28 → 31 | `ZSTD_rawLiteralsCost`                  | `zstd_opt.c`        |
 |  +23.1% |  +3.00ms |          0.1% |   13.0ms → 16.0ms |         13 → 16 | `ZSTD_compressSeqStore_singleBlock`     | `zstd_compress.c`   |
 |  +50.0% |  +3.00ms |  <0.1% → 0.1% |     6.0ms → 9.0ms |           6 → 9 | `ZSTD_compressStream2`                  | `zstd_compress.c`   |
@@ -612,12 +612,12 @@ Functions with the largest increase in time spent within the function and its ca
 |     new | +15.00ms |   0.0% → 0.1% |      0ms → 15.0ms |          0 → 15 | `ZSTD_entropyCompressSeqStore`          | `zstd_compress.c`   |
 |     new | +11.00ms |   0.0% → 0.1% |      0ms → 11.0ms |          0 → 11 | `ZSTD_splitBlock`                       | `zstd_preSplit.c`   |
 |   +0.1% |  +9.00ms |         99.8% |   11.98s → 11.99s | 11,982 → 11,991 | `ZSTDMT_compressionJob`                 | `zstdmt_compress.c` |
-|   +0.1% |  +9.00ms |         99.8% |   11.97s → 11.98s | 11,976 → 11,985 | `ZSTD_compressContinue_internal`        | `zstd_compress.c`   |
+|   +0.1% |  +9.00ms |         99.8% |   11.98s → 11.99s | 11,976 → 11,985 | `ZSTD_compressContinue_internal`        | `zstd_compress.c`   |
 | +200.0% |  +8.00ms |  <0.1% → 0.1% |    4.0ms → 12.0ms |          4 → 12 | `HIST_count_parallel_wksp`              | `hist.c`            |
 |     new |  +8.00ms |   0.0% → 0.1% |       0ms → 8.0ms |           0 → 8 | `ZSTD_recordFingerprint_1`              | `zstd_preSplit.c`   |
 | +133.3% |  +4.00ms |  <0.1% → 0.1% |     3.0ms → 7.0ms |           3 → 7 | `ZSTD_XXH64_update`                     | `xxhash.h`          |
 |  +14.8% |  +4.00ms |   0.2% → 0.3% |   27.0ms → 31.0ms |         27 → 31 | `ZSTD_insertBt1`                        | `zstd_opt.c`        |
-|     ~0% |  +3.00ms |         99.9% |            11.99s | 11,996 → 11,999 | `POOL_thread`                           | `pool.c`            |
+|     ~0% |  +3.00ms |         99.9% |            12.00s | 11,996 → 11,999 | `POOL_thread`                           | `pool.c`            |
 |  +10.7% |  +3.00ms |   0.2% → 0.3% |   28.0ms → 31.0ms |         28 → 31 | `ZSTD_rawLiteralsCost`                  | `zstd_opt.c`        |
 |  +23.1% |  +3.00ms |          0.1% |   13.0ms → 16.0ms |         13 → 16 | `ZSTD_compressSeqStore_singleBlock`     | `zstd_compress.c`   |
 |  +50.0% |  +3.00ms |  <0.1% → 0.1% |     6.0ms → 9.0ms |           6 → 9 | `ZSTD_compressStream2`                  | `zstd_compress.c`   |
@@ -674,7 +674,7 @@ Functions with the largest decrease in time spent within the function and its ca
 |  -40.0% |  -2.00ms |        <0.1% |   5.0ms → 3.0ms |           5 → 3 | `HUF_writeCTable_wksp`                               | `huf_compress.c`            |
 |  -28.6% |  -2.00ms | 0.1% → <0.1% |   7.0ms → 5.0ms |           7 → 5 | `ZSTD_seqToCodes`                                    | `zstd_compress.c`           |
 | removed |  -2.00ms | <0.1% → 0.0% |     2.0ms → 0ms |           2 → 0 | `HIST_count_wksp`                                    | `hist.c`                    |
-|     ~0% |  -1.00ms |        98.0% |          11.76s | 11,767 → 11,766 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                |
+|     ~0% |  -1.00ms |        98.0% |          11.77s | 11,767 → 11,766 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                |
 |   -9.1% |  -1.00ms |         0.1% | 11.0ms → 10.0ms |         11 → 10 | `ZSTD_buildSequencesStatistics`                      | `zstd_compress.c`           |
 |  -12.5% |  -1.00ms |         0.1% |   8.0ms → 7.0ms |           8 → 7 | `ZSTD_encodeSequences`                               | `zstd_compress_sequences.c` |
 | removed |  -1.00ms | <0.1% → 0.0% |     1.0ms → 0ms |           1 → 0 | `ZSTD_NCountCost`                                    | `zstd_compress_sequences.c` |
@@ -713,7 +713,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |      % |            Time |         Samples | Caller                  | Location            |
 | -----: | ------: | -----: | --------------: | --------------: | ----------------------- | ------------------- |
-|  +0.1% | +9.00ms | 100.0% | 11.97s → 11.98s | 11,976 → 11,985 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+|  +0.1% | +9.00ms | 100.0% | 11.98s → 11.99s | 11,976 → 11,985 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
 
 ##### `HIST_count_parallel_wksp` (`hist.c`)
 
@@ -733,7 +733,7 @@ Callers with the largest change in contribution to each function's total time. I
 |  Change |   Delta |            % |           Time |         Samples | Caller                              | Location          |
 | ------: | ------: | -----------: | -------------: | --------------: | ----------------------------------- | ----------------- |
 |  -36.4% | -4.00ms |         0.1% | 11.0ms → 7.0ms |          11 → 7 | `fread (libc.so.6)`                 | `<unknown>`       |
-|     ~0% | +3.00ms |        99.9% |         11.99s | 11,996 → 11,999 | `unknown (libc.so.6)`               | `<unknown>`       |
+|     ~0% | +3.00ms |        99.9% |         12.00s | 11,996 → 11,999 | `unknown (libc.so.6)`               | `<unknown>`       |
 |  +50.0% | +3.00ms | <0.1% → 0.1% |  6.0ms → 9.0ms |           6 → 9 | `ZSTD_compressStream2`              | `zstd_compress.c` |
 |  +42.9% | +3.00ms |         0.1% | 7.0ms → 10.0ms |          7 → 10 | `__libc_start_main (libc.so.6)`     | `<unknown>`       |
 | removed | -2.00ms | <0.1% → 0.0% |    2.0ms → 0ms |           2 → 0 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c` |
@@ -755,7 +755,7 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |      % |   Time |         Samples | Caller                | Location    |
 | -----: | ------: | -----: | -----: | --------------: | --------------------- | ----------- |
-|    ~0% | +3.00ms | 100.0% | 11.99s | 11,996 → 11,999 | `unknown (libc.so.6)` | `<unknown>` |
+|    ~0% | +3.00ms | 100.0% | 12.00s | 11,996 → 11,999 | `unknown (libc.so.6)` | `<unknown>` |
 
 ##### `ZSTD_rawLiteralsCost` (`zstd_opt.c`)
 
@@ -1007,7 +1007,7 @@ Callers with the largest change in contribution to each function's total time. I
 | Change |   Delta |             % |            Time |         Samples | Caller                        | Location          |
 | -----: | ------: | ------------: | --------------: | --------------: | ----------------------------- | ----------------- |
 | -11.1% | -2.00ms |   0.2% → 0.1% | 18.0ms → 16.0ms |         18 → 16 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
-|    ~0% | +1.00ms | 99.8% → 99.9% | 11.74s → 11.75s | 11,749 → 11,750 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|    ~0% | +1.00ms | 99.8% → 99.9% |          11.75s | 11,749 → 11,750 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
 
 ##### `ZSTD_buildSequencesStatistics` (`zstd_compress.c`)
 
@@ -1067,7 +1067,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |   Delta |            % |            Time |         Samples | Callee                           | Location            |
 | -----: | ------: | -----------: | --------------: | --------------: | -------------------------------- | ------------------- |
-|  +0.1% | +9.00ms |        99.9% | 11.97s → 11.98s | 11,976 → 11,985 | `ZSTD_compressContinue_internal` | `zstd_compress.c`   |
+|  +0.1% | +9.00ms |        99.9% | 11.98s → 11.99s | 11,976 → 11,985 | `ZSTD_compressContinue_internal` | `zstd_compress.c`   |
 | -33.3% | -1.00ms |        <0.1% |   3.0ms → 2.0ms |           3 → 2 | `ZSTD_XXH64_update`              | `xxhash.h`          |
 |    new | +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `ZSTDMT_getBuffer`               | `zstdmt_compress.c` |
 
@@ -1085,8 +1085,8 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |   Delta |     % |           Time |         Samples | Callee                    | Location    |
 | -----: | ------: | ----: | -------------: | --------------: | ------------------------- | ----------- |
 | -36.4% | -4.00ms |  0.1% | 11.0ms → 7.0ms |          11 → 7 | `__read (libc.so.6)`      | `<unknown>` |
-|    ~0% | +3.00ms | 99.9% |         11.99s | 11,996 → 11,999 | `POOL_thread`             | `pool.c`    |
-|    ~0% | +3.00ms | 99.9% |         11.99s | 11,996 → 11,999 | `unknown (libc.so.6)`     | `<unknown>` |
+|    ~0% | +3.00ms | 99.9% |         12.00s | 11,996 → 11,999 | `POOL_thread`             | `pool.c`    |
+|    ~0% | +3.00ms | 99.9% |         12.00s | 11,996 → 11,999 | `unknown (libc.so.6)`     | `<unknown>` |
 | -33.3% | -2.00ms | <0.1% |  6.0ms → 4.0ms |           6 → 4 | `el0t_64_sync ([kernel])` | `<unknown>` |
 | +28.6% | +2.00ms |  0.1% |  7.0ms → 9.0ms |           7 → 9 | `main`                    | `zstdcli.c` |
 
@@ -1379,7 +1379,7 @@ Common call stack: `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unkno
 
 |  Change |    Delta |             % |            Time |       Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ------: | -------: | ------------: | --------------: | ------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-|   -1.4% | -23.00ms | 13.5% → 13.3% |   1.62s → 1.60s | 1,626 → 1,603 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|   -1.4% | -23.00ms | 13.5% → 13.3% |   1.63s → 1.60s | 1,626 → 1,603 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | removed |  -8.00ms |   0.1% → 0.0% |     8.0ms → 0ms |         8 → 0 | `ZSTD_encodeSequences` (`zstd_compress_sequences.c`) ← `ZSTD_entropyCompressSeqStore_internal` (`zstd_compress.c`) ← `ZSTD_compressSeqStore_singleBlock` ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |  -33.3% |  -6.00ms |          0.1% | 18.0ms → 12.0ms |       18 → 12 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |  -25.0% |  -3.00ms |          0.1% |  12.0ms → 9.0ms |        12 → 9 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |

@@ -4,7 +4,7 @@ Took 5.78s.
 
 | Category    |     % |    Time |
 | ----------- | ----: | ------: |
-| Ours        | 97.5% |   5.63s |
+| Ours        | 97.5% |   5.64s |
 | Native      |  2.4% | 141.0ms |
 | Third-party | <0.1% |   1.0ms |
 
@@ -41,7 +41,7 @@ Call paths to the hottest functions.
     │                               │               └── … 64.8ms (1.1%) __contains__ at ./black/mode.py:249
     │                               └── 2.54s (44.0%) check_stability_and_equivalence at 1042
     │                                   ├── 1.97s (34.1%) assert_stable at 1543
-    │                                   │   └── 1.96s (34.0%, self 16.6%) _format_str_once at 1215
+    │                                   │   └── 1.97s (34.0%, self 16.6%) _format_str_once at 1215
     │                                   │       ├── … 682.9ms (11.8%) parse_tokens at ./blib2to3/pgen2/driver.py:114
     │                                   │       ├── 202.0ms (3.5%, self 1.2%) visit at ./black/nodes.py:152
     │                                   │       │   ├── … 117.9ms (2.0%) visit_STRING at ./black/linegen.py:413
@@ -270,9 +270,9 @@ Functions with the most time spent within the function and its callees.
 |  53.5% |   3.09s | `format_str`                      | `./black/__init__.py:1168`                                  |
 |  44.0% |   2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1042`                                  |
 |  34.1% |   1.97s | `assert_stable`                   | `./black/__init__.py:1543`                                  |
-|  33.7% |   1.94s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`                            |
-|  33.7% |   1.94s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`                            |
-|  33.7% |   1.94s | `lib2to3_parse`                   | `./black/parsing.py:55`                                     |
+|  33.7% |   1.95s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`                            |
+|  33.7% |   1.95s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`                            |
+|  33.7% |   1.95s | `lib2to3_parse`                   | `./black/parsing.py:55`                                     |
 |   9.8% | 565.3ms | `assert_equivalent`               | `./black/__init__.py:1510`                                  |
 |   5.6% | 324.0ms | `get_features_used`               | `./black/__init__.py:1286`                                  |
 
@@ -294,9 +294,9 @@ Categories accounting for at least 1.0% of self time.
 |  53.5% |   3.09s | `format_str`                      | `./black/__init__.py:1168`       |
 |  44.0% |   2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1042`       |
 |  34.1% |   1.97s | `assert_stable`                   | `./black/__init__.py:1543`       |
-|  33.7% |   1.94s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114` |
-|  33.7% |   1.94s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198` |
-|  33.7% |   1.94s | `lib2to3_parse`                   | `./black/parsing.py:55`          |
+|  33.7% |   1.95s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114` |
+|  33.7% |   1.95s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198` |
+|  33.7% |   1.95s | `lib2to3_parse`                   | `./black/parsing.py:55`          |
 |   9.8% | 565.3ms | `assert_equivalent`               | `./black/__init__.py:1510`       |
 |   5.6% | 324.0ms | `get_features_used`               | `./black/__init__.py:1286`       |
 |   5.6% | 324.0ms | `detect_target_versions`          | `./black/__init__.py:1443`       |
@@ -380,7 +380,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |     % |  Time | Caller          | Location                   |
 | ----: | ----: | --------------- | -------------------------- |
 | 61.1% | 3.08s | `format_str`    | `./black/__init__.py:1168` |
-| 38.9% | 1.96s | `assert_stable` | `./black/__init__.py:1543` |
+| 38.9% | 1.97s | `assert_stable` | `./black/__init__.py:1543` |
 
 ##### `format_str` (`./black/__init__.py:1168`)
 
@@ -404,19 +404,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Caller         | Location                         |
 | -----: | ----: | -------------- | -------------------------------- |
-| 100.0% | 1.94s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+| 100.0% | 1.95s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
 
 ##### `parse_string` (`./blib2to3/pgen2/driver.py:198`)
 
 |      % |  Time | Caller          | Location                |
 | -----: | ----: | --------------- | ----------------------- |
-| 100.0% | 1.94s | `lib2to3_parse` | `./black/parsing.py:55` |
+| 100.0% | 1.95s | `lib2to3_parse` | `./black/parsing.py:55` |
 
 ##### `lib2to3_parse` (`./black/parsing.py:55`)
 
 |      % |  Time | Caller             | Location                   |
 | -----: | ----: | ------------------ | -------------------------- |
-| 100.0% | 1.94s | `_format_str_once` | `./black/__init__.py:1215` |
+| 100.0% | 1.95s | `_format_str_once` | `./black/__init__.py:1215` |
 
 ##### `assert_equivalent` (`./black/__init__.py:1510`)
 
@@ -548,7 +548,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Callee                   | Location                   |
 | ----: | ------: | ------------------------ | -------------------------- |
-| 38.5% |   1.94s | `lib2to3_parse`          | `./black/parsing.py:55`    |
+| 38.5% |   1.95s | `lib2to3_parse`          | `./black/parsing.py:55`    |
 |  6.4% | 324.0ms | `detect_target_versions` | `./black/__init__.py:1443` |
 |  4.0% | 202.0ms | `visit`                  | `./black/nodes.py:152`     |
 |  1.3% |  65.0ms | `transform_line`         | `./black/linegen.py:601`   |
@@ -570,7 +570,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Callee             | Location                   |
 | ----: | ----: | ------------------ | -------------------------- |
-| 99.7% | 1.96s | `_format_str_once` | `./black/__init__.py:1215` |
+| 99.7% | 1.97s | `_format_str_once` | `./black/__init__.py:1215` |
 
 ##### `parse_tokens` (`./blib2to3/pgen2/driver.py:114`)
 
@@ -582,13 +582,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Callee         | Location                         |
 | -----: | ----: | -------------- | -------------------------------- |
-| 100.0% | 1.94s | `parse_tokens` | `./blib2to3/pgen2/driver.py:114` |
+| 100.0% | 1.95s | `parse_tokens` | `./blib2to3/pgen2/driver.py:114` |
 
 ##### `lib2to3_parse` (`./black/parsing.py:55`)
 
 |      % |  Time | Callee         | Location                         |
 | -----: | ----: | -------------- | -------------------------------- |
-| 100.0% | 1.94s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+| 100.0% | 1.95s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
 
 ##### `assert_equivalent` (`./black/__init__.py:1510`)
 

@@ -43,7 +43,7 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 
 |  Change |   Delta |             % |              Time |     Count |            Mean |               Max | Span                                       |
 | ------: | ------: | ------------: | ----------------: | --------: | --------------: | ----------------: | ------------------------------------------ |
-|   -0.8% | -9.48ms | 29.5% → 29.2% |     1.14s → 1.13s |        83 | 13.8ms → 13.7ms | 407.7ms → 420.4ms | `checkSourceFile`                          |
+|   -0.8% | -9.48ms | 29.5% → 29.2% |     1.15s → 1.14s |        83 | 13.8ms → 13.7ms | 407.7ms → 420.4ms | `checkSourceFile`                          |
 |  -46.6% | -8.04ms |   0.4% → 0.2% |    17.2ms → 9.2ms |         1 |  17.2ms → 9.2ms |    17.2ms → 9.2ms | `createProgram`                            |
 |  -10.9% | -7.06ms |   1.7% → 1.5% |   64.8ms → 57.8ms |   28 → 24 |   2.3ms → 2.4ms |     7.4ms → 9.5ms | `getVariancesWorker`                       |
 |   -1.5% | -6.60ms | 11.1% → 10.9% | 431.5ms → 424.9ms | 279 → 278 |           1.5ms |   31.4ms → 33.5ms | `structuredTypeRelatedTo`                  |
@@ -59,7 +59,7 @@ Thread spans with the largest decrease in time, excluding child spans. Categorie
 
 |  Change |   Delta |             % |              Time |     Count |            Mean |               Max | Span                                       |
 | ------: | ------: | ------------: | ----------------: | --------: | --------------: | ----------------: | ------------------------------------------ |
-|   -0.8% | -9.48ms | 29.5% → 29.2% |     1.14s → 1.13s |        83 | 13.8ms → 13.7ms | 407.7ms → 420.4ms | `checkSourceFile`                          |
+|   -0.8% | -9.48ms | 29.5% → 29.2% |     1.15s → 1.14s |        83 | 13.8ms → 13.7ms | 407.7ms → 420.4ms | `checkSourceFile`                          |
 |  -46.6% | -8.04ms |   0.4% → 0.2% |    17.2ms → 9.2ms |         1 |  17.2ms → 9.2ms |    17.2ms → 9.2ms | `createProgram`                            |
 |  -10.9% | -7.06ms |   1.7% → 1.5% |   64.8ms → 57.8ms |   28 → 24 |   2.3ms → 2.4ms |     7.4ms → 9.5ms | `getVariancesWorker`                       |
 |   -1.5% | -6.60ms | 11.1% → 10.9% | 431.5ms → 424.9ms | 279 → 278 |           1.5ms |   31.4ms → 33.5ms | `structuredTypeRelatedTo`                  |
@@ -189,10 +189,10 @@ Thread spans with the largest increase in time, including child spans. Categorie
 
 | Change |    Delta |             % |              Time |     Count |              Mean |               Max | Span                            |
 | -----: | -------: | ------------: | ----------------: | --------: | ----------------: | ----------------: | ------------------------------- |
-|  +1.2% | +36.18ms | 74.7% → 75.3% |     2.90s → 2.93s |        83 |   35.0ms → 35.4ms | 601.2ms → 643.9ms | `checkSourceFile`               |
-|  +3.2% | +33.59ms | 26.9% → 27.6% |     1.04s → 1.07s | 558 → 565 |     5.2ms → 5.1ms | 118.6ms → 124.9ms | `checkExpression`               |
+|  +1.2% | +36.18ms | 74.7% → 75.3% |     2.90s → 2.94s |        83 |   35.0ms → 35.4ms | 601.2ms → 643.9ms | `checkSourceFile`               |
+|  +3.2% | +33.59ms | 26.9% → 27.6% |     1.04s → 1.08s | 558 → 565 |     5.2ms → 5.1ms | 118.6ms → 124.9ms | `checkExpression`               |
 |  +4.1% | +32.57ms | 20.6% → 21.3% | 799.1ms → 831.6ms |   81 → 88 |     9.9ms → 9.5ms | 118.8ms → 125.2ms | `checkVariableDeclaration`      |
-|  +1.9% | +20.02ms | 27.0% → 27.4% |     1.04s → 1.06s | 116 → 117 |     9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkDeferredNode`             |
+|  +1.9% | +20.02ms | 27.0% → 27.4% |     1.05s → 1.07s | 116 → 117 |     9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkDeferredNode`             |
 |  +3.8% | +14.59ms | 10.0% → 10.3% | 388.3ms → 402.9ms |         1 | 388.3ms → 402.9ms | 388.3ms → 402.9ms | `processRootFiles`              |
 |  +6.1% | +12.42ms |   5.3% → 5.6% | 204.8ms → 217.2ms |         5 |   41.0ms → 43.4ms | 137.7ms → 146.6ms | `processTypeReferenceDirective` |
 |  +7.4% |  +5.81ms |   2.0% → 2.2% |   79.0ms → 84.8ms |         1 |   79.0ms → 84.8ms |   79.0ms → 84.8ms | `processTypeReferences`         |
@@ -362,13 +362,13 @@ Threads with the largest change in contribution to each span's total time.
 
 | Change |    Delta |      % |          Time | Count |            Mean |               Max | Thread |
 | -----: | -------: | -----: | ------------: | ----: | --------------: | ----------------: | ------ |
-|  +1.2% | +36.18ms | 100.0% | 2.90s → 2.93s |    83 | 35.0ms → 35.4ms | 601.2ms → 643.9ms | `Main` |
+|  +1.2% | +36.18ms | 100.0% | 2.90s → 2.94s |    83 | 35.0ms → 35.4ms | 601.2ms → 643.9ms | `Main` |
 
 ##### `checkExpression`
 
 | Change |    Delta |      % |          Time |     Count |          Mean |               Max | Thread |
 | -----: | -------: | -----: | ------------: | --------: | ------------: | ----------------: | ------ |
-|  -1.9% | -54.53ms | 100.0% | 2.90s → 2.85s | 558 → 565 | 5.2ms → 5.1ms | 118.6ms → 124.9ms | `Main` |
+|  -1.9% | -54.53ms | 100.0% | 2.91s → 2.86s | 558 → 565 | 5.2ms → 5.1ms | 118.6ms → 124.9ms | `Main` |
 
 ##### `checkVariableDeclaration`
 
@@ -380,7 +380,7 @@ Threads with the largest change in contribution to each span's total time.
 
 | Change |    Delta |      % |          Time |     Count |          Mean |               Max | Thread |
 | -----: | -------: | -----: | ------------: | --------: | ------------: | ----------------: | ------ |
-|  +1.9% | +20.02ms | 100.0% | 1.04s → 1.06s | 116 → 117 | 9.0ms → 9.1ms | 122.3ms → 128.2ms | `Main` |
+|  +1.9% | +20.02ms | 100.0% | 1.05s → 1.07s | 116 → 117 | 9.0ms → 9.1ms | 122.3ms → 128.2ms | `Main` |
 
 ##### `processRootFiles`
 
@@ -410,7 +410,7 @@ Threads with the largest change in contribution to each span's total time.
 
 | Change |     Delta |      % |          Time |   Count |            Mean |               Max | Thread |
 | -----: | --------: | -----: | ------------: | ------: | --------------: | ----------------: | ------ |
-| -18.6% | -264.66ms | 100.0% | 1.42s → 1.16s | 28 → 24 | 50.9ms → 48.4ms | 172.9ms → 152.0ms | `Main` |
+| -18.6% | -264.66ms | 100.0% | 1.43s → 1.16s | 28 → 24 | 50.9ms → 48.4ms | 172.9ms → 152.0ms | `Main` |
 
 ##### `structuredTypeRelatedTo`
 
@@ -474,7 +474,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |    Delta |             % |              Time |     Count |          Mean |               Max | Parent                     |
 | -----: | -------: | ------------: | ----------------: | --------: | ------------: | ----------------: | -------------------------- |
-|  -4.7% | -88.12ms | 64.1% → 62.3% |     1.86s → 1.77s | 379 → 383 | 4.9ms → 4.6ms | 101.2ms → 106.9ms | `checkExpression`          |
+|  -4.7% | -88.12ms | 64.1% → 62.3% |     1.87s → 1.78s | 379 → 383 | 4.9ms → 4.6ms | 101.2ms → 106.9ms | `checkExpression`          |
 | +38.9% | +30.90ms |   2.7% → 3.9% |  79.5ms → 110.4ms |   35 → 43 | 2.3ms → 2.6ms |   13.8ms → 21.8ms | `checkSourceFile`          |
 |  +3.6% | +27.44ms | 25.9% → 27.3% | 752.1ms → 779.6ms |   78 → 86 | 9.6ms → 9.1ms | 118.6ms → 124.9ms | `checkVariableDeclaration` |
 | -11.7% | -24.75ms |   7.3% → 6.6% | 211.8ms → 187.0ms |   66 → 53 | 3.2ms → 3.5ms |   24.6ms → 24.7ms | `checkDeferredNode`        |
@@ -490,7 +490,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |    Delta |      % |          Time |     Count |          Mean |               Max | Parent            |
 | -----: | -------: | -----: | ------------: | --------: | ------------: | ----------------: | ----------------- |
-|  +1.9% | +20.02ms | 100.0% | 1.04s → 1.06s | 116 → 117 | 9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkSourceFile` |
+|  +1.9% | +20.02ms | 100.0% | 1.05s → 1.07s | 116 → 117 | 9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkSourceFile` |
 
 ##### `processRootFiles`
 
@@ -521,7 +521,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |     Delta |     % |            Time |   Count |            Mean |               Max | Parent                    |
 | -----: | --------: | ----: | --------------: | ------: | --------------: | ----------------: | ------------------------- |
-| -18.6% | -259.12ms | 97.9% |   1.39s → 1.13s | 24 → 21 | 58.1ms → 54.1ms | 172.9ms → 152.0ms | `structuredTypeRelatedTo` |
+| -18.6% | -259.12ms | 97.9% |   1.40s → 1.14s | 24 → 21 | 58.1ms → 54.1ms | 172.9ms → 152.0ms | `structuredTypeRelatedTo` |
 | -18.2% |   -5.54ms |  2.1% | 30.4ms → 24.8ms |   4 → 3 |   7.6ms → 8.3ms |   13.0ms → 11.4ms | `checkExpression`         |
 
 ##### `structuredTypeRelatedTo`
@@ -538,7 +538,7 @@ Parent spans with the largest change in contribution to each span's total time.
 
 | Change |    Delta |             % |              Time |   Count |            Mean |               Max | Parent                          |
 | -----: | -------: | ------------: | ----------------: | ------: | --------------: | ----------------: | ------------------------------- |
-|  +2.2% | +22.77ms | 61.9% → 62.3% |     1.04s → 1.06s | 44 → 46 | 23.7ms → 23.2ms | 187.3ms → 200.4ms | `findSourceFile`                |
+|  +2.2% | +22.77ms | 61.9% → 62.3% |     1.04s → 1.07s | 44 → 46 | 23.7ms → 23.2ms | 187.3ms → 200.4ms | `findSourceFile`                |
 | -18.3% | -19.43ms |   6.3% → 5.1% |  106.3ms → 86.9ms |       2 | 53.1ms → 43.4ms |   86.9ms → 64.2ms | `createProgram`                 |
 |  +6.0% | +12.20ms | 12.1% → 12.6% | 204.1ms → 216.3ms |       5 | 40.8ms → 43.3ms | 137.6ms → 146.3ms | `processTypeReferenceDirective` |
 |  +3.3% | +10.97ms | 19.6% → 20.0% | 330.8ms → 341.8ms |  9 → 10 | 36.8ms → 34.2ms | 190.8ms → 204.2ms | `processRootFiles`              |
@@ -578,7 +578,7 @@ Child spans with the largest change in contribution to each span's total time.
 | Change |    Delta |             % |              Time |     Count |            Mean |               Max | Child                      |
 | -----: | -------: | ------------: | ----------------: | --------: | --------------: | ----------------: | -------------------------- |
 | +38.9% | +30.90ms |   2.7% → 3.8% |  79.5ms → 110.4ms |   35 → 43 |   2.3ms → 2.6ms |   13.8ms → 21.8ms | `checkExpression`          |
-|  +1.9% | +20.02ms | 36.2% → 36.4% |     1.04s → 1.06s | 116 → 117 |   9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkDeferredNode`        |
+|  +1.9% | +20.02ms | 36.2% → 36.4% |     1.05s → 1.07s | 116 → 117 |   9.0ms → 9.1ms | 122.3ms → 128.2ms | `checkDeferredNode`        |
 |  -1.0% |  -3.52ms | 11.9% → 11.6% | 344.8ms → 341.3ms |        17 | 20.3ms → 20.1ms | 173.2ms → 152.4ms | `structuredTypeRelatedTo`  |
 |  -0.6% |  -1.73ms |   9.7% → 9.5% | 280.6ms → 278.9ms |   26 → 27 | 10.8ms → 10.3ms |   84.0ms → 83.9ms | `checkVariableDeclaration` |
 
@@ -586,7 +586,7 @@ Child spans with the largest change in contribution to each span's total time.
 
 | Change |    Delta |             % |              Time |     Count |          Mean |               Max | Child                     |
 | -----: | -------: | ------------: | ----------------: | --------: | ------------: | ----------------: | ------------------------- |
-|  -4.7% | -88.12ms | 64.1% → 62.3% |     1.86s → 1.77s | 379 → 383 | 4.9ms → 4.6ms | 101.2ms → 106.9ms | `checkExpression`         |
+|  -4.7% | -88.12ms | 64.1% → 62.3% |     1.87s → 1.78s | 379 → 383 | 4.9ms → 4.6ms | 101.2ms → 106.9ms | `checkExpression`         |
 | -18.2% |  -5.54ms |   1.0% → 0.9% |   30.4ms → 24.8ms |     4 → 3 | 7.6ms → 8.3ms |   13.0ms → 11.4ms | `getVariancesWorker`      |
 |  -2.2% |  -2.32ms |   3.6% → 3.5% | 103.3ms → 101.0ms |   40 → 44 | 2.6ms → 2.3ms |   16.1ms → 16.9ms | `structuredTypeRelatedTo` |
 
@@ -637,7 +637,7 @@ Child spans with the largest change in contribution to each span's total time.
 | Change |     Delta |             % |          Time |     Count |            Mean |               Max | Child                     |
 | -----: | --------: | ------------: | ------------: | --------: | --------------: | ----------------: | ------------------------- |
 | -14.3% | -411.28ms | 61.2% → 61.3% | 2.88s → 2.47s | 183 → 179 | 15.8ms → 13.8ms | 163.2ms → 142.5ms | `structuredTypeRelatedTo` |
-| -18.6% | -259.12ms | 29.6% → 28.2% | 1.39s → 1.13s |   24 → 21 | 58.1ms → 54.1ms | 172.9ms → 152.0ms | `getVariancesWorker`      |
+| -18.6% | -259.12ms | 29.6% → 28.2% | 1.40s → 1.14s |   24 → 21 | 58.1ms → 54.1ms | 172.9ms → 152.0ms | `getVariancesWorker`      |
 
 ##### `createProgram`
 
@@ -651,7 +651,7 @@ Child spans with the largest change in contribution to each span's total time.
 
 |  Change |    Delta |             % |              Time |     Count |              Mean |               Max | Child                           |
 | ------: | -------: | ------------: | ----------------: | --------: | ----------------: | ----------------: | ------------------------------- |
-|   +2.2% | +22.77ms | 61.9% → 62.3% |     1.04s → 1.06s |   44 → 46 |   23.7ms → 23.2ms | 187.3ms → 200.4ms | `findSourceFile`                |
+|   +2.2% | +22.77ms | 61.9% → 62.3% |     1.04s → 1.07s |   44 → 46 |   23.7ms → 23.2ms | 187.3ms → 200.4ms | `findSourceFile`                |
 |   +6.4% |  +8.84ms |   8.2% → 8.6% | 137.7ms → 146.6ms |         1 | 137.7ms → 146.6ms | 137.7ms → 146.6ms | `processTypeReferenceDirective` |
 |   -2.3% |  -8.83ms | 23.1% → 22.2% | 388.4ms → 379.6ms | 213 → 215 |             1.8ms |   79.8ms → 75.8ms | `createSourceFile`              |
 |  +19.7% |  +0.70ms |          0.2% |     3.5ms → 4.2ms |     2 → 4 |     1.8ms → 1.1ms |     3.0ms → 2.0ms | `resolveModuleNamesWorker`      |

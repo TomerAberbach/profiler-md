@@ -16,13 +16,13 @@ Call paths to the hottest functions.
 
 ```
 ├── 1.60s (99.8%) (anonymous)
-│   ├── … 1.59s (99.6%) POOL_thread at pool.c
-│   │   └── 1.59s (99.6%) ZSTDMT_compressionJob at zstdmt_compress.c
-│   │       ├── 1.33s (83.3%) ZSTD_compressContinue_public
-│   │       │   └── 1.33s (83.3%) ZSTD_compress_frameChunk at zstd_compress.c
-│   │       │       ├── 1.32s (82.8%) ZSTD_buildSeqStore
-│   │       │       │   ├── 1.29s (81.0%, self 15.8%, self 19.0% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
-│   │       │       │   │   └── 1.04s (65.2%, self 65.1%, self 78.7% globally) ZSTD_btGetAllMatches_noDict_3
+│   ├── … 1.60s (99.6%) POOL_thread at pool.c
+│   │   └── 1.60s (99.6%) ZSTDMT_compressionJob at zstdmt_compress.c
+│   │       ├── 1.34s (83.3%) ZSTD_compressContinue_public
+│   │       │   └── 1.34s (83.3%) ZSTD_compress_frameChunk at zstd_compress.c
+│   │       │       ├── 1.33s (82.8%) ZSTD_buildSeqStore
+│   │       │       │   ├── 1.30s (81.0%, self 15.8%, self 19.0% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
+│   │       │       │   │   └── 1.05s (65.2%, self 65.1%, self 78.7% globally) ZSTD_btGetAllMatches_noDict_3
 │   │       │       │   │       └── 2.0ms (0.1%) ZSTD_insertBt1.constprop.3
 │   │       │       │   ├── 16.0ms (1.0%) ZSTD_compressBlock_btultra2
 │   │       │       │   │   ├── 15.0ms (0.9%, self 0.6%) ZSTD_compressBlock_opt2 at zstd_opt.c
@@ -202,11 +202,11 @@ Functions with the most time spent within the function and its callees.
 | -----: | ------: | ------: | ---------------------------------------------------- | ------------------- |
 | 100.0% |   1.60s |   1,603 | `(anonymous)`                                        | `<unknown>`         |
 |  99.8% |   1.60s |   1,600 | `POOL_thread`                                        | `pool.c`            |
-|  99.8% |   1.59s |   1,599 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
-|  99.6% |   1.59s |   1,597 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
-|  99.0% |   1.58s |   1,587 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-|  97.8% |   1.56s |   1,568 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-|  83.3% |   1.33s |   1,336 | `ZSTD_compressContinue_public`                       | `<unknown>`         |
+|  99.8% |   1.60s |   1,599 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
+|  99.6% |   1.60s |   1,597 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
+|  99.0% |   1.59s |   1,587 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+|  97.8% |   1.57s |   1,568 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+|  83.3% |   1.34s |   1,336 | `ZSTD_compressContinue_public`                       | `<unknown>`         |
 |  78.9% |   1.26s |   1,264 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
 |  16.3% | 261.0ms |     261 | `ZSTD_compressEnd_public`                            | `<unknown>`         |
 |   1.0% |  16.0ms |      16 | `ZSTD_compressBlock_btultra2`                        | `<unknown>`         |
@@ -230,10 +230,10 @@ Categories accounting for at least 1.0% of self time.
 |     % |   Time | Samples | Function                                             | Location            |
 | ----: | -----: | ------: | ---------------------------------------------------- | ------------------- |
 | 99.8% |  1.60s |   1,600 | `POOL_thread`                                        | `pool.c`            |
-| 99.8% |  1.59s |   1,599 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
-| 99.6% |  1.59s |   1,597 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
-| 99.0% |  1.58s |   1,587 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-| 97.8% |  1.56s |   1,568 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+| 99.8% |  1.60s |   1,599 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
+| 99.6% |  1.60s |   1,597 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
+| 99.0% |  1.59s |   1,587 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+| 97.8% |  1.57s |   1,568 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
 | 78.9% |  1.26s |   1,264 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
 |  0.9% | 14.0ms |      14 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
 |  0.4% |  6.0ms |       6 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
@@ -273,20 +273,20 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller        | Location |
 | -----: | ----: | ------: | ------------- | -------- |
-| 100.0% | 1.59s |   1,599 | `POOL_thread` | `pool.c` |
+| 100.0% | 1.60s |   1,599 | `POOL_thread` | `pool.c` |
 
 ##### `ZSTD_compress_frameChunk` (`zstd_compress.c`)
 
 |     % |    Time | Samples | Caller                         | Location    |
 | ----: | ------: | ------: | ------------------------------ | ----------- |
-| 83.7% |   1.33s |   1,336 | `ZSTD_compressContinue_public` | `<unknown>` |
+| 83.7% |   1.34s |   1,336 | `ZSTD_compressContinue_public` | `<unknown>` |
 | 16.3% | 261.0ms |     261 | `ZSTD_compressEnd_public`      | `<unknown>` |
 
 ##### `ZSTD_buildSeqStore` (`zstd_compress.c`)
 
 |      % |  Time | Samples | Caller                     | Location          |
 | -----: | ----: | ------: | -------------------------- | ----------------- |
-| 100.0% | 1.58s |   1,587 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+| 100.0% | 1.59s |   1,587 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
 
 ##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
 
@@ -299,7 +299,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                  | Location            |
 | -----: | ----: | ------: | ----------------------- | ------------------- |
-| 100.0% | 1.33s |   1,336 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+| 100.0% | 1.34s |   1,336 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
@@ -440,14 +440,14 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                        | Location            |
 | ----: | ----: | ------: | ----------------------------- | ------------------- |
-| 99.9% | 1.59s |   1,599 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
+| 99.9% | 1.60s |   1,599 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
 |  0.1% | 1.0ms |       1 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
 |     % |    Time | Samples | Callee                                 | Location    |
 | ----: | ------: | ------: | -------------------------------------- | ----------- |
-| 83.6% |   1.33s |   1,336 | `ZSTD_compressContinue_public`         | `<unknown>` |
+| 83.6% |   1.34s |   1,336 | `ZSTD_compressContinue_public`         | `<unknown>` |
 | 16.3% | 261.0ms |     261 | `ZSTD_compressEnd_public`              | `<unknown>` |
 |  0.1% |   2.0ms |       2 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
 
@@ -455,7 +455,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                              | Location          |
 | ----: | ----: | ------: | ----------------------------------- | ----------------- |
-| 99.4% | 1.58s |   1,587 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
+| 99.4% | 1.59s |   1,587 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
 |  0.4% | 6.0ms |       6 | `ZSTD_deriveBlockSplitsHelper`      | `zstd_compress.c` |
 |  0.3% | 4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
 
@@ -479,7 +479,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee                     | Location          |
 | -----: | ----: | ------: | -------------------------- | ----------------- |
-| 100.0% | 1.33s |   1,336 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+| 100.0% | 1.34s |   1,336 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 

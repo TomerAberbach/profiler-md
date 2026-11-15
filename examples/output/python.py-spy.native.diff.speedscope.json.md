@@ -1,13 +1,13 @@
 # Sampling profile diff
 
-Took 24.50s → 34s (+9.500s, +38.8%) over 245 → 340 samples (100.0ms per sample).
+Took 24.50s → 34.00s (+9.500s, +38.8%) over 245 → 340 samples (100.0ms per sample).
 
 | Category         |  Change |     Delta |             % |            Time |   Samples |
 | ---------------- | ------: | --------: | ------------: | --------------: | --------: |
 | Third-party      |  +26.8% |   +6.100s | 93.1% → 85.0% | 22.80s → 28.90s | 228 → 289 |
 | Standard library | +228.6% |   +1.600s |   2.9% → 6.8% | 700.0ms → 2.30s |    7 → 23 |
 | Native           | +157.1% |   +1.100s |   2.9% → 5.3% | 700.0ms → 1.80s |    7 → 18 |
-| Ours             | +233.3% | +700.00ms |   1.2% → 2.9% |    300.0ms → 1s |    3 → 10 |
+| Ours             | +233.3% | +700.00ms |   1.2% → 2.9% | 300.0ms → 1.00s |    3 → 10 |
 
 `…` stands for omitted frames.
 
@@ -16,14 +16,14 @@ Took 24.50s → 34s (+9.500s, +38.8%) over 245 → 340 samples (100.0ms per samp
 Call paths to the hottest and most changed functions.
 
 ```
-├── 0ms → 34s (0.0% → 100.0%) 0x7fb1e8c1d24a at /usr/lib/x86_64-linux-gnu/libc.so.6
+├── 0ms → 34.00s (0.0% → 100.0%) 0x7fb1e8c1d24a at /usr/lib/x86_64-linux-gnu/libc.so.6
 │   ├── 0ms → 33.70s (0.0% → 99.1%) _run_module_as_main at <frozen runpy>
 │   │   ├── … 0ms → 31.90s (0.0% → 93.8%) CPyDef_black___main at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
 │   │   │   └── … 0ms → 31.80s (0.0% → 93.5%) CPyDef_black___format_file_contents at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
 │   │   │       ├── 0ms → 22.20s (0.0% → 65.3%) CPyDef_black___format_str
 │   │   │       │   └── 0ms → 22.20s (0.0% → 65.3%) CPyDef_black____format_str_once
 │   │   │       │       ├── … 0ms → 9.30s (0.0% → 27.4%, self 0.0% → 3.2%, self 5.3% → 4.7% globally) CPyDef_driver___Driver___parse_tokens at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
-│   │   │       │       │   ├── 0ms → 5s (0.0% → 14.7%) CPyDef_parse___Parser___addtoken
+│   │   │       │       │   ├── 0ms → 5.00s (0.0% → 14.7%) CPyDef_parse___Parser___addtoken
 │   │   │       │       │   │   ├── 0ms → 4.80s (0.0% → 14.1%, self 0.0% → 4.1%, self 7.3% → 5.3% globally) CPyDef_parse___Parser____addtoken
 │   │   │       │       │   │   │   ├── 0ms → 1.70s (0.0% → 5.0%, self 0.0% → 4.7%, self 2.9% → 5.0% globally) CPyDef_parse___Parser___push
 │   │   │       │       │   │   │   └── 0ms → 1.70s (0.0% → 5.0%) 3 more callees, led by (0.0% → 2.6%) CPyDef_parse___Parser___pop
@@ -35,7 +35,7 @@ Call paths to the hottest and most changed functions.
 │   │   │       │       ├── 0ms → 2.60s (0.0% → 7.6%, self 0.8% → 1.2% globally) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
 │   │   │       │       │   ├── 0ms → 500.0ms (0.0% → 1.5%, self 0.0% → 0.9%, self 0.4% → 1.5% globally) CPyDef_lines___Line___contains_implicit_multiline_string_with_comments
 │   │   │       │       │   │   └── 0ms → 100.0ms (0.0% → 0.3%) 0x7fb1e808f9e0
-│   │   │       │       │   └── 0ms → 2s (0.0% → 5.9%) 4 more callees, led by (0.0% → 2.9%) CPyDef_linegen___run_transformer at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+│   │   │       │       │   └── 0ms → 2.00s (0.0% → 5.9%) 4 more callees, led by (0.0% → 2.9%) CPyDef_linegen___run_transformer at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
 │   │   │       │       ├── 0ms → 600.0ms (0.0% → 1.8%) CPyDef_lines___LinesBlock___all_lines
 │   │   │       │       │   └── 0ms → 500.0ms (0.0% → 1.5%, self 1.2% → 2.9% globally) __init__ at <string>
 │   │   │       │       └── 0ms → 9.70s (0.0% → 28.5%) 6 more callees, led by (0.0% → 21.8%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
@@ -68,10 +68,10 @@ Functions with the largest increase in time spent within the function body, excl
 
 |  Change |     Delta |           % |              Time | Samples | Function                                                                 | Location                                                                                         |
 | ------: | --------: | ----------: | ----------------: | ------: | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| +142.9% |       +1s | 2.9% → 5.0% |   700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser___push`                                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +142.9% |   +1.000s | 2.9% → 5.0% |   700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser___push`                                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +266.7% | +800.00ms | 1.2% → 3.2% |   300.0ms → 1.10s |  3 → 11 | `parse`                                                                  | `/usr/lib/python3.11/ast.py`                                                                     |
 |  +41.2% | +700.00ms | 6.9% → 7.1% |     1.70s → 2.40s | 17 → 24 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +233.3% | +700.00ms | 1.2% → 2.9% |      300.0ms → 1s |  3 → 10 | `__init__`                                                               | `<string>`                                                                                       |
+| +233.3% | +700.00ms | 1.2% → 2.9% |   300.0ms → 1.00s |  3 → 10 | `__init__`                                                               | `<string>`                                                                                       |
 | +600.0% | +600.00ms | 0.4% → 2.1% | 100.0ms → 700.0ms |   1 → 7 | `CPyDef_pytree___Node___update_sibling_maps`                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +250.0% | +500.00ms | 0.8% → 2.1% | 200.0ms → 700.0ms |   2 → 7 | `CPyDef_lines___Line_____str__`                                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +400.0% | +400.00ms | 0.4% → 1.5% | 100.0ms → 500.0ms |   1 → 5 | `CPyDef_lines___Line___contains_implicit_multiline_string_with_comments` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
@@ -93,7 +93,7 @@ Functions with the largest increase in time spent within the function body, excl
 
 |  Change |     Delta |           % |              Time | Samples | Function                                                                 | Location                                                                                         |
 | ------: | --------: | ----------: | ----------------: | ------: | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-| +142.9% |       +1s | 2.9% → 5.0% |   700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser___push`                                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +142.9% |   +1.000s | 2.9% → 5.0% |   700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser___push`                                           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |  +41.2% | +700.00ms | 6.9% → 7.1% |     1.70s → 2.40s | 17 → 24 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +600.0% | +600.00ms | 0.4% → 2.1% | 100.0ms → 700.0ms |   1 → 7 | `CPyDef_pytree___Node___update_sibling_maps`                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +250.0% | +500.00ms | 0.8% → 2.1% | 200.0ms → 700.0ms |   2 → 7 | `CPyDef_lines___Line_____str__`                                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
@@ -149,9 +149,9 @@ Functions with the largest increase in time spent within the function body, excl
 
 ##### Ours
 
-|  Change |     Delta |           % |         Time | Samples | Function   | Location   |
-| ------: | --------: | ----------: | -----------: | ------: | ---------- | ---------- |
-| +233.3% | +700.00ms | 1.2% → 2.9% | 300.0ms → 1s |  3 → 10 | `__init__` | `<string>` |
+|  Change |     Delta |           % |            Time | Samples | Function   | Location   |
+| ------: | --------: | ----------: | --------------: | ------: | ---------- | ---------- |
+| +233.3% | +700.00ms | 1.2% → 2.9% | 300.0ms → 1.00s |  3 → 10 | `__init__` | `<string>` |
 
 #### Improvements
 
@@ -172,7 +172,7 @@ Functions with the largest decrease in time spent within the function body, excl
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `0x7ff2a708e6b0`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `CPyIter_Send`                                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `0x7ff2a708f9c0`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-|  -20.0% | -200.00ms | 4.1% → 2.4% |      1s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser___pop`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  -20.0% | -200.00ms | 4.1% → 2.4% |   1.00s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser___pop`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |  -33.3% | -100.00ms | 1.2% → 0.6% | 300.0ms → 200.0ms |   3 → 2 | `CPyDef_nodes___Visitor___visit_default`                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -100.00ms | 0.4% → 0.0% |     100.0ms → 0ms |   1 → 0 | `<module>`                                                        | `/venv/lib/python3.11/site-packages/pathspec/_backends/re2/pathspec.py`                          |
 | removed | -100.00ms | 0.4% → 0.0% |     100.0ms → 0ms |   1 → 0 | `0x7ff2a7b2e24a`                                                  | `/usr/lib/x86_64-linux-gnu/libc.so.6`                                                            |
@@ -197,7 +197,7 @@ Functions with the largest decrease in time spent within the function body, excl
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `0x7ff2a708e6b0`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `CPyIter_Send`                                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -200.00ms | 0.8% → 0.0% |     200.0ms → 0ms |   2 → 0 | `0x7ff2a708f9c0`                                                  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-|  -20.0% | -200.00ms | 4.1% → 2.4% |      1s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser___pop`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  -20.0% | -200.00ms | 4.1% → 2.4% |   1.00s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser___pop`                                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |  -33.3% | -100.00ms | 1.2% → 0.6% | 300.0ms → 200.0ms |   3 → 2 | `CPyDef_nodes___Visitor___visit_default`                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | removed | -100.00ms | 0.4% → 0.0% |     100.0ms → 0ms |   1 → 0 | `<module>`                                                        | `/venv/lib/python3.11/site-packages/pathspec/_backends/re2/pathspec.py`                          |
 | removed | -100.00ms | 0.4% → 0.0% |     100.0ms → 0ms |   1 → 0 | `<module>`                                                        | `/venv/lib/python3.11/site-packages/platformdirs/__init__.py`                                    |
@@ -323,9 +323,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `CPyDef_parse___Parser___push` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-|  Change | Delta |      % |            Time | Samples | Caller                              | Location                                                                                         |
-| ------: | ----: | -----: | --------------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +142.9% |   +1s | 100.0% | 700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser____addtoken` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  Change |   Delta |      % |            Time | Samples | Caller                              | Location                                                                                         |
+| ------: | ------: | -----: | --------------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +142.9% | +1.000s | 100.0% | 700.0ms → 1.70s |  7 → 17 | `CPyDef_parse___Parser____addtoken` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `parse` (`/usr/lib/python3.11/ast.py`)
 
@@ -688,9 +688,9 @@ Callers with the largest change in contribution to each function's self time. In
 
 ##### `CPyDef_parse___Parser___pop` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |     Delta |      % |         Time | Samples | Caller                              | Location                                                                                         |
-| -----: | --------: | -----: | -----------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
-| -20.0% | -200.00ms | 100.0% | 1s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser____addtoken` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |     Delta |      % |            Time | Samples | Caller                              | Location                                                                                         |
+| -----: | --------: | -----: | --------------: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| -20.0% | -200.00ms | 100.0% | 1.00s → 800.0ms |  10 → 8 | `CPyDef_parse___Parser____addtoken` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_nodes___Visitor___visit_default` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -788,65 +788,65 @@ Callers with the largest change in contribution to each function's self time. In
 
 Functions with the largest increase in time spent within the function and its callees. Categories account for at least 1.0% of self time on the base or the current side.
 
-| Change |   Delta |             % |            Time |   Samples | Function                                | Location                                                                                         |
-| -----: | ------: | ------------: | --------------: | --------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-|    new |    +34s | 0.0% → 100.0% |       0ms → 34s |   0 → 340 | `0x7fb1e8c1d24a`                        | `/usr/lib/x86_64-linux-gnu/libc.so.6`                                                            |
-| +39.8% | +9.600s | 98.4% → 99.1% | 24.10s → 33.70s | 241 → 337 | `_run_module_as_main`                   | `<frozen runpy>`                                                                                 |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyDef_black___main`                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyPy_black___main`                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `new_func`                              | `/venv/lib/python3.11/site-packages/click/decorators.py`                                         |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `invoke`                                | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `main`                                  | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `__call__`                              | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyDef_black___patched_main`           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyPy_black___patched_main`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `<module>`                              | `/venv/lib/python3.11/site-packages/black/__main__.py`                                           |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `_run_code`                             | `<frozen runpy>`                                                                                 |
-| +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_contents`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_in_place`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___reformat_one`           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyPy_black___reformat_one`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +62.8% | +8.600s | 55.9% → 65.6% | 13.70s → 22.30s | 137 → 223 | `CPyDef_black___format_str`             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.2% | +7.500s | 86.9% → 84.7% | 21.30s → 28.80s | 213 → 288 | `CPyDef_black____format_str_once`       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.3% |     +3s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_tokens` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.3% |     +3s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |    Delta |             % |            Time |   Samples | Function                                | Location                                                                                         |
+| -----: | -------: | ------------: | --------------: | --------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+|    new | +34.000s | 0.0% → 100.0% |    0ms → 34.00s |   0 → 340 | `0x7fb1e8c1d24a`                        | `/usr/lib/x86_64-linux-gnu/libc.so.6`                                                            |
+| +39.8% |  +9.600s | 98.4% → 99.1% | 24.10s → 33.70s | 241 → 337 | `_run_module_as_main`                   | `<frozen runpy>`                                                                                 |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___main`                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___main`                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `new_func`                              | `/venv/lib/python3.11/site-packages/click/decorators.py`                                         |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `invoke`                                | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `main`                                  | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `__call__`                              | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___patched_main`           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___patched_main`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `<module>`                              | `/venv/lib/python3.11/site-packages/black/__main__.py`                                           |
+| +37.3% |  +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `_run_code`                             | `<frozen runpy>`                                                                                 |
+| +36.9% |  +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_contents`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +36.9% |  +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_in_place`   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +36.9% |  +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___reformat_one`           | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +36.9% |  +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyPy_black___reformat_one`            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +62.8% |  +8.600s | 55.9% → 65.6% | 13.70s → 22.30s | 137 → 223 | `CPyDef_black___format_str`             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.2% |  +7.500s | 86.9% → 84.7% | 21.30s → 28.80s | 213 → 288 | `CPyDef_black____format_str_once`       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.3% |  +3.000s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_tokens` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.3% |  +3.000s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### Third-party
 
 | Change |   Delta |             % |            Time |   Samples | Function                                                                            | Location                                                                                         |
 | -----: | ------: | ------------: | --------------: | --------: | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyDef_black___main`                                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyPy_black___main`                                                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `new_func`                                                                          | `/venv/lib/python3.11/site-packages/click/decorators.py`                                         |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `invoke`                                                                            | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `main`                                                                              | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `__call__`                                                                          | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyDef_black___patched_main`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `CPyPy_black___patched_main`                                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +37.3% | +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `<module>`                                                                          | `/venv/lib/python3.11/site-packages/black/__main__.py`                                           |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___main`                                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___main`                                                                | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `new_func`                                                                          | `/venv/lib/python3.11/site-packages/click/decorators.py`                                         |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `invoke`                                                                            | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `main`                                                                              | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `__call__`                                                                          | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___patched_main`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___patched_main`                                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +37.3% | +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `<module>`                                                                          | `/venv/lib/python3.11/site-packages/black/__main__.py`                                           |
 | +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_contents`                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___format_file_in_place`                                               | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyDef_black___reformat_one`                                                       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +36.9% | +8.600s | 95.1% → 93.8% | 23.30s → 31.90s | 233 → 319 | `CPyPy_black___reformat_one`                                                        | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +62.8% | +8.600s | 55.9% → 65.6% | 13.70s → 22.30s | 137 → 223 | `CPyDef_black___format_str`                                                         | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +35.2% | +7.500s | 86.9% → 84.7% | 21.30s → 28.80s | 213 → 288 | `CPyDef_black____format_str_once`                                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.3% |     +3s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_tokens`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.3% |     +3s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_string`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +35.3% |     +3s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_parsing___lib2to3_parse`                                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +46.0% | +2.300s | 20.4% → 21.5% |      5s → 7.30s |   50 → 73 | `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-| +25.0% |     +2s | 32.7% → 29.4% |        8s → 10s |  80 → 100 | `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.3% | +3.000s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_tokens`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.3% | +3.000s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_driver___Driver___parse_string`                                             | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +35.3% | +3.000s | 34.7% → 33.8% |  8.50s → 11.50s |  85 → 115 | `CPyDef_parsing___lib2to3_parse`                                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +46.0% | +2.300s | 20.4% → 21.5% |   5.00s → 7.30s |   50 → 73 | `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +25.0% | +2.000s | 32.7% → 29.4% |  8.00s → 10.00s |  80 → 100 | `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__`     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### Standard library
 
 |  Change |     Delta |             % |            Time |   Samples | Function                    | Location                                 |
 | ------: | --------: | ------------: | --------------: | --------: | --------------------------- | ---------------------------------------- |
 |  +39.8% |   +9.600s | 98.4% → 99.1% | 24.10s → 33.70s | 241 → 337 | `_run_module_as_main`       | `<frozen runpy>`                         |
-|  +37.3% |   +8.700s | 95.1% → 94.1% |    23.30s → 32s | 233 → 320 | `_run_code`                 | `<frozen runpy>`                         |
-| +150.0% |   +1.200s |   3.3% → 5.9% |    800.0ms → 2s |    8 → 20 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
-| +150.0% |   +1.200s |   3.3% → 5.9% |    800.0ms → 2s |    8 → 20 | `_load_unlocked`            | `<frozen importlib._bootstrap>`          |
-| +150.0% |   +1.200s |   3.3% → 5.9% |    800.0ms → 2s |    8 → 20 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`          |
-| +150.0% |   +1.200s |   3.3% → 5.9% |    800.0ms → 2s |    8 → 20 | `_find_and_load`            | `<frozen importlib._bootstrap>`          |
-| +125.0% |       +1s |   3.3% → 5.3% | 800.0ms → 1.80s |    8 → 18 | `module_from_spec`          | `<frozen importlib._bootstrap>`          |
+|  +37.3% |   +8.700s | 95.1% → 94.1% | 23.30s → 32.00s | 233 → 320 | `_run_code`                 | `<frozen runpy>`                         |
+| +150.0% |   +1.200s |   3.3% → 5.9% | 800.0ms → 2.00s |    8 → 20 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
+| +150.0% |   +1.200s |   3.3% → 5.9% | 800.0ms → 2.00s |    8 → 20 | `_load_unlocked`            | `<frozen importlib._bootstrap>`          |
+| +150.0% |   +1.200s |   3.3% → 5.9% | 800.0ms → 2.00s |    8 → 20 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`          |
+| +150.0% |   +1.200s |   3.3% → 5.9% | 800.0ms → 2.00s |    8 → 20 | `_find_and_load`            | `<frozen importlib._bootstrap>`          |
+| +125.0% |   +1.000s |   3.3% → 5.3% | 800.0ms → 1.80s |    8 → 18 | `module_from_spec`          | `<frozen importlib._bootstrap>`          |
 | +112.5% | +900.00ms |   3.3% → 5.0% | 800.0ms → 1.70s |    8 → 17 | `create_module`             | `<frozen importlib._bootstrap_external>` |
 | +112.5% | +900.00ms |   3.3% → 5.0% | 800.0ms → 1.70s |    8 → 17 | `_get_module_details`       | `<frozen runpy>`                         |
 | +175.0% | +700.00ms |   1.6% → 3.2% | 400.0ms → 1.10s |    4 → 11 | `exec_module`               | `<frozen importlib._bootstrap_external>` |
@@ -865,7 +865,7 @@ Functions with the largest increase in time spent within the function and its ca
 
 |  Change |     Delta |             % |              Time | Samples | Function              | Location                                         |
 | ------: | --------: | ------------: | ----------------: | ------: | --------------------- | ------------------------------------------------ |
-|     new |      +34s | 0.0% → 100.0% |         0ms → 34s | 0 → 340 | `0x7fb1e8c1d24a`      | `/usr/lib/x86_64-linux-gnu/libc.so.6`            |
+|     new |  +34.000s | 0.0% → 100.0% |      0ms → 34.00s | 0 → 340 | `0x7fb1e8c1d24a`      | `/usr/lib/x86_64-linux-gnu/libc.so.6`            |
 |     new | +400.00ms |   0.0% → 1.2% |     0ms → 400.0ms |   0 → 4 | `0x7fb1e8f12a55`      | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
 |     new | +400.00ms |   0.0% → 1.2% |     0ms → 400.0ms |   0 → 4 | `0x7fb1e8f12216`      | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
 |     new | +400.00ms |   0.0% → 1.2% |     0ms → 400.0ms |   0 → 4 | `0x7fb1e8f12608`      | `/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2` |
@@ -888,9 +888,9 @@ Functions with the largest increase in time spent within the function and its ca
 
 ##### Ours
 
-|  Change |     Delta |           % |         Time | Samples | Function   | Location   |
-| ------: | --------: | ----------: | -----------: | ------: | ---------- | ---------- |
-| +233.3% | +700.00ms | 1.2% → 2.9% | 300.0ms → 1s |  3 → 10 | `__init__` | `<string>` |
+|  Change |     Delta |           % |            Time | Samples | Function   | Location   |
+| ------: | --------: | ----------: | --------------: | ------: | ---------- | ---------- |
+| +233.3% | +700.00ms | 1.2% → 2.9% | 300.0ms → 1.00s |  3 → 10 | `__init__` | `<string>` |
 
 #### Improvements
 
@@ -997,9 +997,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `CPyDef_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |   Delta |      % |         Time |   Samples | Caller               | Location                                                                                         |
-| -----: | ------: | -----: | -----------: | --------: | -------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `CPyPy_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |            Time |   Samples | Caller               | Location                                                                                         |
+| -----: | ------: | -----: | --------------: | --------: | -------------------- | ------------------------------------------------------------------------------------------------ |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyPy_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -1017,16 +1017,16 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `invoke` (`/venv/lib/python3.11/site-packages/click/core.py`)
 
-| Change |   Delta |      % |         Time |   Samples | Caller   | Location                                           |
-| -----: | ------: | -----: | -----------: | --------: | -------- | -------------------------------------------------- |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `main`   | `/venv/lib/python3.11/site-packages/click/core.py` |
+| Change |   Delta |      % |            Time |   Samples | Caller   | Location                                           |
+| -----: | ------: | -----: | --------------: | --------: | -------- | -------------------------------------------------- |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `main`   | `/venv/lib/python3.11/site-packages/click/core.py` |
 
 ##### `main` (`/venv/lib/python3.11/site-packages/click/core.py`)
 
-| Change |   Delta |      % |         Time |   Samples | Caller     | Location                                           |
-| -----: | ------: | -----: | -----------: | --------: | ---------- | -------------------------------------------------- |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| Change |   Delta |      % |            Time |   Samples | Caller     | Location                                           |
+| -----: | ------: | -----: | --------------: | --------: | ---------- | -------------------------------------------------- |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `__call__` | `/venv/lib/python3.11/site-packages/click/core.py` |
 
 ##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py`)
 
@@ -1037,9 +1037,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `CPyDef_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |   Delta |      % |         Time |   Samples | Caller                       | Location                                                                                         |
-| -----: | ------: | -----: | -----------: | --------: | ---------------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `CPyPy_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |            Time |   Samples | Caller                       | Location                                                                                         |
+| -----: | ------: | -----: | --------------: | --------: | ---------------------------- | ------------------------------------------------------------------------------------------------ |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `CPyPy_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyPy_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -1057,9 +1057,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `_run_code` (`<frozen runpy>`)
 
-| Change |   Delta |      % |         Time |   Samples | Caller                | Location         |
-| -----: | ------: | -----: | -----------: | --------: | --------------------- | ---------------- |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `_run_module_as_main` | `<frozen runpy>` |
+| Change |   Delta |      % |            Time |   Samples | Caller                | Location         |
+| -----: | ------: | -----: | --------------: | --------: | --------------------- | ---------------- |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `_run_module_as_main` | `<frozen runpy>` |
 
 ##### `CPyDef_black___format_file_contents` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -1100,34 +1100,34 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `CPyDef_driver___Driver___parse_tokens` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change | Delta |      % |           Time |  Samples | Caller                                  | Location                                                                                         |
-| -----: | ----: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +35.3% |   +3s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |           Time |  Samples | Caller                                  | Location                                                                                         |
+| -----: | ------: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +35.3% | +3.000s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_driver___Driver___parse_string` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change | Delta |      % |           Time |  Samples | Caller                           | Location                                                                                         |
-| -----: | ----: | -----: | -------------: | -------: | -------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +35.3% |   +3s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_parsing___lib2to3_parse` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |           Time |  Samples | Caller                           | Location                                                                                         |
+| -----: | ------: | -----: | -------------: | -------: | -------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +35.3% | +3.000s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_parsing___lib2to3_parse` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_parsing___lib2to3_parse` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change | Delta |      % |           Time |  Samples | Caller                            | Location                                                                                         |
-| -----: | ----: | -----: | -------------: | -------: | --------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +35.3% |   +3s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_black____format_str_once` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |           Time |  Samples | Caller                            | Location                                                                                         |
+| -----: | ------: | -----: | -------------: | -------: | --------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +35.3% | +3.000s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_black____format_str_once` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |   Delta |      % |       Time | Samples | Caller                                                          | Location                                                                                         |
-| -----: | ------: | -----: | ---------: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +46.0% | +2.300s | 100.0% | 5s → 7.30s | 50 → 73 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |          Time | Samples | Caller                                                          | Location                                                                                         |
+| -----: | ------: | -----: | ------------: | ------: | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +46.0% | +2.300s | 100.0% | 5.00s → 7.30s | 50 → 73 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
 |  Change |     Delta |             % |              Time |  Samples | Caller                                                                              | Location                                                                                         |
 | ------: | --------: | ------------: | ----------------: | -------: | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 |  +57.8% |   +2.600s | 56.3% → 71.0% |     4.50s → 7.10s |  45 → 71 | `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-|  +25.0% |       +2s |        100.0% |          8s → 10s | 80 → 100 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  +25.0% |   +2.000s |        100.0% |    8.00s → 10.00s | 80 → 100 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`                     | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |  +22.8% |   +1.800s | 98.8% → 97.0% |     7.90s → 9.70s |  79 → 97 | `CPyDef_linegen___visit_suite_LineGenerator_gen_____mypyc_generator_helper__`       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |   +7.4% | +200.00ms | 33.8% → 29.0% |     2.70s → 2.90s |  27 → 29 | `CPyDef_linegen___visit_power_LineGenerator_gen_____mypyc_generator_helper__`       | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +100.0% | +100.00ms |   1.3% → 2.0% | 100.0ms → 200.0ms |    1 → 2 | `CPyDef_linegen___visit_NUMBER_LineGenerator_gen_____mypyc_generator_helper__`      | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
@@ -1143,15 +1143,15 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
 
-|  Change |   Delta |      % |         Time | Samples | Caller                    | Location                        |
-| ------: | ------: | -----: | -----------: | ------: | ------------------------- | ------------------------------- |
-| +150.0% | +1.200s | 100.0% | 800.0ms → 2s |  8 → 20 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+|  Change |   Delta |      % |            Time | Samples | Caller                    | Location                        |
+| ------: | ------: | -----: | --------------: | ------: | ------------------------- | ------------------------------- |
+| +150.0% | +1.200s | 100.0% | 800.0ms → 2.00s |  8 → 20 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
 
 ##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
 
-|  Change |   Delta |      % |         Time | Samples | Caller           | Location                        |
-| ------: | ------: | -----: | -----------: | ------: | ---------------- | ------------------------------- |
-| +150.0% | +1.200s | 100.0% | 800.0ms → 2s |  8 → 20 | `_find_and_load` | `<frozen importlib._bootstrap>` |
+|  Change |   Delta |      % |            Time | Samples | Caller           | Location                        |
+| ------: | ------: | -----: | --------------: | ------: | ---------------- | ------------------------------- |
+| +150.0% | +1.200s | 100.0% | 800.0ms → 2.00s |  8 → 20 | `_find_and_load` | `<frozen importlib._bootstrap>` |
 
 ##### `_find_and_load` (`<frozen importlib._bootstrap>`)
 
@@ -1165,9 +1165,9 @@ Callers with the largest change in contribution to each function's total time. I
 
 ##### `module_from_spec` (`<frozen importlib._bootstrap>`)
 
-|  Change | Delta |      % |            Time | Samples | Caller           | Location                        |
-| ------: | ----: | -----: | --------------: | ------: | ---------------- | ------------------------------- |
-| +125.0% |   +1s | 100.0% | 800.0ms → 1.80s |  8 → 18 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+|  Change |   Delta |      % |            Time | Samples | Caller           | Location                        |
+| ------: | ------: | -----: | --------------: | ------: | ---------------- | ------------------------------- |
+| +125.0% | +1.000s | 100.0% | 800.0ms → 1.80s |  8 → 18 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
 
 ##### `create_module` (`<frozen importlib._bootstrap_external>`)
 
@@ -1705,7 +1705,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |             % |            Time |   Samples | Callee                | Location         |
 | ------: | --------: | ------------: | --------------: | --------: | --------------------- | ---------------- |
-|  +37.3% |   +8.700s | 96.7% → 95.0% |    23.30s → 32s | 233 → 320 | `_run_code`           | `<frozen runpy>` |
+|  +37.3% |   +8.700s | 96.7% → 95.0% | 23.30s → 32.00s | 233 → 320 | `_run_code`           | `<frozen runpy>` |
 | +112.5% | +900.00ms |   3.3% → 5.0% | 800.0ms → 1.70s |    8 → 17 | `_get_module_details` | `<frozen runpy>` |
 
 ##### `CPyDef_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
@@ -1717,9 +1717,9 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `CPyPy_black___main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |   Delta |      % |         Time |   Samples | Callee                | Location                                                                                         |
-| -----: | ------: | -----: | -----------: | --------: | --------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `CPyDef_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |            Time |   Samples | Callee                | Location                                                                                         |
+| -----: | ------: | -----: | --------------: | --------: | --------------------- | ------------------------------------------------------------------------------------------------ |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py`)
 
@@ -1731,21 +1731,21 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |              % |            Time |   Samples | Callee               | Location                                                                                         |
 | -----: | --------: | -------------: | --------------: | --------: | -------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% |   +8.700s |         100.0% |    23.30s → 32s | 233 → 320 | `invoke`             | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
+| +37.3% |   +8.700s |         100.0% | 23.30s → 32.00s | 233 → 320 | `invoke`             | `/venv/lib/python3.11/site-packages/click/core.py`                                               |
 | +36.9% |   +8.600s | 100.0% → 99.7% | 23.30s → 31.90s | 233 → 319 | `new_func`           | `/venv/lib/python3.11/site-packages/click/decorators.py`                                         |
 |    new | +100.00ms |    0.0% → 0.3% |   0ms → 100.0ms |     0 → 1 | `CPyPy_black___main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `main` (`/venv/lib/python3.11/site-packages/click/core.py`)
 
-| Change |   Delta |      % |         Time |   Samples | Callee   | Location                                           |
-| -----: | ------: | -----: | -----------: | --------: | -------- | -------------------------------------------------- |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| Change |   Delta |      % |            Time |   Samples | Callee   | Location                                           |
+| -----: | ------: | -----: | --------------: | --------: | -------- | -------------------------------------------------- |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `invoke` | `/venv/lib/python3.11/site-packages/click/core.py` |
 
 ##### `__call__` (`/venv/lib/python3.11/site-packages/click/core.py`)
 
-| Change |   Delta |      % |         Time |   Samples | Callee | Location                                           |
-| -----: | ------: | -----: | -----------: | --------: | ------ | -------------------------------------------------- |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `main` | `/venv/lib/python3.11/site-packages/click/core.py` |
+| Change |   Delta |      % |            Time |   Samples | Callee | Location                                           |
+| -----: | ------: | -----: | --------------: | --------: | ------ | -------------------------------------------------- |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `main` | `/venv/lib/python3.11/site-packages/click/core.py` |
 
 ##### `CPyDef_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -1756,9 +1756,9 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `CPyPy_black___patched_main` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change |   Delta |      % |         Time |   Samples | Callee                        | Location                                                                                         |
-| -----: | ------: | -----: | -----------: | --------: | ----------------------------- | ------------------------------------------------------------------------------------------------ |
-| +37.3% | +8.700s | 100.0% | 23.30s → 32s | 233 → 320 | `CPyDef_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |            Time |   Samples | Callee                        | Location                                                                                         |
+| -----: | ------: | -----: | --------------: | --------: | ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| +37.3% | +8.700s | 100.0% | 23.30s → 32.00s | 233 → 320 | `CPyDef_black___patched_main` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `<module>` (`/venv/lib/python3.11/site-packages/black/__main__.py`)
 
@@ -1809,8 +1809,8 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |             % |              Time |  Samples | Callee                                                             | Location                                                                                         |
 | ------: | --------: | ------------: | ----------------: | -------: | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
-|  +35.3% |       +3s |         39.9% |    8.50s → 11.50s | 85 → 115 | `CPyDef_parsing___lib2to3_parse`                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
-|  +23.5% |   +1.900s | 38.0% → 34.7% |       8.10s → 10s | 81 → 100 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  +35.3% |   +3.000s |         39.9% |    8.50s → 11.50s | 85 → 115 | `CPyDef_parsing___lib2to3_parse`                                   | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+|  +23.5% |   +1.900s | 38.0% → 34.7% |    8.10s → 10.00s | 81 → 100 | `CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__`    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |  +94.7% |   +1.800s |  8.9% → 12.8% |     1.90s → 3.70s |  19 → 37 | `CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +250.0% | +500.00ms |   0.9% → 2.4% | 200.0ms → 700.0ms |    2 → 7 | `CPyDef_lines___LinesBlock___all_lines`                            | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |     new | +400.00ms |   0.0% → 1.4% |     0ms → 400.0ms |    0 → 4 | `CPyDef_lines___Line_____str__`                                    | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
@@ -1827,15 +1827,15 @@ Callees with the largest change in contribution to each function's total time. I
 
 ##### `CPyDef_driver___Driver___parse_string` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change | Delta |      % |           Time |  Samples | Callee                                  | Location                                                                                         |
-| -----: | ----: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +35.3% |   +3s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_tokens` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |           Time |  Samples | Callee                                  | Location                                                                                         |
+| -----: | ------: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +35.3% | +3.000s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_tokens` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_parsing___lib2to3_parse` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
-| Change | Delta |      % |           Time |  Samples | Callee                                  | Location                                                                                         |
-| -----: | ----: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +35.3% |   +3s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| Change |   Delta |      % |           Time |  Samples | Callee                                  | Location                                                                                         |
+| -----: | ------: | -----: | -------------: | -------: | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| +35.3% | +3.000s | 100.0% | 8.50s → 11.50s | 85 → 115 | `CPyDef_driver___Driver___parse_string` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 
 ##### `CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`)
 
@@ -1849,7 +1849,7 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |              % |              Time | Samples | Callee                                                                  | Location                                                                                         |
 | -----: | --------: | -------------: | ----------------: | ------: | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| +23.7% |   +1.900s | 100.0% → 99.0% |        8s → 9.90s | 80 → 99 | `CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
+| +23.7% |   +1.900s | 100.0% → 99.0% |     8.00s → 9.90s | 80 → 99 | `CPyDef_nodes___visit_default_Visitor_gen_____mypyc_generator_helper__` | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +80.0% | +400.00ms |    6.3% → 9.0% | 500.0ms → 900.0ms |   5 → 9 | `CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__`  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 | +20.0% | +300.00ms |  18.8% → 18.0% |     1.50s → 1.80s | 15 → 18 | `CPyDef_lines___Line___append`                                          | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
 |    new | +300.00ms |    0.0% → 3.0% |     0ms → 300.0ms |   0 → 3 | `CPyDef_linegen___line_LineGenerator_gen_____mypyc_generator_helper__`  | `/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so` |
@@ -1869,22 +1869,22 @@ Callees with the largest change in contribution to each function's total time. I
 
 |  Change |     Delta |              % |            Time | Samples | Callee             | Location                                 |
 | ------: | --------: | -------------: | --------------: | ------: | ------------------ | ---------------------------------------- |
-| +125.0% |       +1s | 100.0% → 90.0% | 800.0ms → 1.80s |  8 → 18 | `module_from_spec` | `<frozen importlib._bootstrap>`          |
+| +125.0% |   +1.000s | 100.0% → 90.0% | 800.0ms → 1.80s |  8 → 18 | `module_from_spec` | `<frozen importlib._bootstrap>`          |
 | +175.0% | +700.00ms |  50.0% → 55.0% | 400.0ms → 1.10s |  4 → 11 | `exec_module`      | `<frozen importlib._bootstrap_external>` |
 |     new | +300.00ms |   0.0% → 15.0% |   0ms → 300.0ms |   0 → 3 | `exec_module`      | `<frozen importlib._bootstrap>`          |
 
 ##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
 
-|  Change |     Delta |           % |          Time | Samples | Callee           | Location                        |
-| ------: | --------: | ----------: | ------------: | ------: | ---------------- | ------------------------------- |
-| +150.0% |   +1.200s |      100.0% |  800.0ms → 2s |  8 → 20 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
-|     new | +100.00ms | 0.0% → 5.0% | 0ms → 100.0ms |   0 → 1 | `_find_spec`     | `<frozen importlib._bootstrap>` |
+|  Change |     Delta |           % |            Time | Samples | Callee           | Location                        |
+| ------: | --------: | ----------: | --------------: | ------: | ---------------- | ------------------------------- |
+| +150.0% |   +1.200s |      100.0% | 800.0ms → 2.00s |  8 → 20 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
+|     new | +100.00ms | 0.0% → 5.0% |   0ms → 100.0ms |   0 → 1 | `_find_spec`     | `<frozen importlib._bootstrap>` |
 
 ##### `_find_and_load` (`<frozen importlib._bootstrap>`)
 
-|  Change |   Delta |      % |         Time | Samples | Callee                    | Location                        |
-| ------: | ------: | -----: | -----------: | ------: | ------------------------- | ------------------------------- |
-| +150.0% | +1.200s | 100.0% | 800.0ms → 2s |  8 → 20 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+|  Change |   Delta |      % |            Time | Samples | Callee                    | Location                        |
+| ------: | ------: | -----: | --------------: | ------: | ------------------------- | ------------------------------- |
+| +150.0% | +1.200s | 100.0% | 800.0ms → 2.00s |  8 → 20 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
 
 ##### `module_from_spec` (`<frozen importlib._bootstrap>`)
 
@@ -2360,7 +2360,7 @@ Common call stack: `CPyDef_black___format_file_contents` (`/venv/lib/python3.11/
 |  Change |     Delta |           % |          Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ------: | --------: | ----------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | removed |   -1.300s | 5.3% → 0.0% |   1.30s → 0ms |  13 → 0 | `CPyDef_parse___Parser____addtoken` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_parse___Parser___addtoken` ← `CPyDef_driver___Driver___parse_tokens` ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___format_str`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| removed |       -1s | 4.1% → 0.0% |      1s → 0ms |  10 → 0 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_driver___TokenProxy_____next__` ← `CPyDef_driver___Driver___parse_tokens` ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___format_str`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| removed |   -1.000s | 4.1% → 0.0% |   1.00s → 0ms |  10 → 0 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_driver___TokenProxy_____next__` ← `CPyDef_driver___Driver___parse_tokens` ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___format_str`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | removed | -900.00ms | 3.7% → 0.0% | 900.0ms → 0ms |   9 → 0 | `CPyDef_driver___Driver___parse_tokens` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___format_str`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | removed | -700.00ms | 2.9% → 0.0% | 700.0ms → 0ms |   7 → 0 | `CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_driver___TokenProxy_____next__` ← `CPyDef_driver___Driver___parse_tokens` ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___assert_stable` ← `CPyDef_black___check_stability_and_equivalence`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | removed | -600.00ms | 2.4% → 0.0% | 600.0ms → 0ms |   6 → 0 | `CPyDef_parse___Parser___pop` (`/venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`) ← `CPyDef_parse___Parser____addtoken` ← `CPyDef_parse___Parser___addtoken` ← `CPyDef_driver___Driver___parse_tokens` ← `CPyDef_driver___Driver___parse_string` ← `CPyDef_parsing___lib2to3_parse` ← `CPyDef_black____format_str_once` ← `CPyDef_black___format_str`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |

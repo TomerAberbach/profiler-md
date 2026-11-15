@@ -1,11 +1,11 @@
 # Wall time profile
 
-Took 3.75s over 3,759 samples (1.0ms per sample).
+Took 3.76s over 3,759 samples (1.0ms per sample).
 
 | Category          |     % |   Time | Samples |
 | ----------------- | ----: | -----: | ------: |
-| Ours              | 69.1% |  2.59s |   2,599 |
-| Garbage collector | 30.3% |  1.13s |   1,139 |
+| Ours              | 69.1% |  2.60s |   2,599 |
+| Garbage collector | 30.3% |  1.14s |   1,139 |
 | Native            |  0.6% | 21.0ms |      21 |
 
 `…` stands for omitted frames.
@@ -15,9 +15,9 @@ Took 3.75s over 3,759 samples (1.0ms per sample).
 Call paths to the hottest functions.
 
 ```
-├── 2.59s (69.1%) Main.main at Profile.hs:146:1
-│   ├── 2.38s (63.5%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
-│   │   ├── 1.60s (42.8%, self 35.8%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
+├── 2.60s (69.1%) Main.main at Profile.hs:146:1
+│   ├── 2.39s (63.5%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
+│   │   ├── 1.61s (42.8%, self 35.8%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
 │   │   │   ├── 125.0ms (3.3%) Data.Aeson.Internal.Text.unsafeDecodeASCII at src/Data/Aeson/Internal/Text.hs:29:1
 │   │   │   ├── 70.0ms (1.9%) Data.Aeson.Internal.Unescape.unescapeText at src/Data/Aeson/Internal/Unescape.hs:34:1
 │   │   │   └── 68.0ms (1.8%) Data.Integer.Conversion.byteStringToInteger at src/Data/Integer/Conversion.hs:104:1
@@ -52,7 +52,7 @@ Call paths to the hottest functions.
 │   │   └── 3.0ms (0.1%) Main.toJSON at 84:3
 │   └── 21.0ms (0.6%) Main.summarize at 118:1
 │       └── 4.0ms (0.1%) Main.top at 115:1
-├── 1.13s (30.3%) GC.GC
+├── 1.14s (30.3%) GC.GC
 ├── 12.0ms (0.3%) SYSTEM.SYSTEM
 └── 9.0ms (0.2%) PROFILING.OVERHEAD_of
 ```
@@ -65,8 +65,8 @@ Functions with the most wall time spent within the function body, excluding call
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 35.9% |   1.34s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 30.3% |   1.13s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
+| 35.9% |   1.35s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 30.3% |   1.14s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
 | 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
 |  4.7% | 178.0ms |     178 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 |  3.5% | 130.0ms |     130 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
@@ -94,7 +94,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 35.9% |   1.34s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
+| 35.9% |   1.35s |   1,348 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
 |  4.7% | 178.0ms |     178 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 |  3.5% | 130.0ms |     130 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
@@ -119,7 +119,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |  Time | Samples | Function | Location    |
 | ----: | ----: | ------: | -------- | ----------- |
-| 30.3% | 1.13s |   1,139 | `GC.GC`  | `<unknown>` |
+| 30.3% | 1.14s |   1,139 | `GC.GC`  | `<unknown>` |
 
 #### Callers
 
@@ -129,7 +129,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |      % |  Time | Samples | Caller                             | Location                          |
 | -----: | ----: | ------: | ---------------------------------- | --------------------------------- |
-| 100.0% | 1.34s |   1,348 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 100.0% | 1.35s |   1,348 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 
 ##### `Data.Aeson.KeyMap.fromList` (`src/Data/Aeson/KeyMap.hs:247:1`)
 
@@ -259,10 +259,10 @@ Functions with the most wall time spent within the function and its callees.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 69.1% |   2.59s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
+| 69.1% |   2.60s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
 | 63.9% |   2.40s |   2,401 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
 | 42.9% |   1.61s |   1,611 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
-| 30.3% |   1.13s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
+| 30.3% |   1.14s |   1,139 | `GC.GC`                                           | `<unknown>`                                       |
 | 21.0% | 790.0ms |     790 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
 | 12.5% | 468.0ms |     468 | `Data.Aeson.KeyMap.fromList`                      | `src/Data/Aeson/KeyMap.hs:247:1`                  |
 |  4.0% | 150.0ms |     150 | `Main.keywords`                                   | `Profile.hs:136:1`                                |
@@ -288,7 +288,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                          | Location                                          |
 | ----: | ------: | ------: | ------------------------------------------------- | ------------------------------------------------- |
-| 69.1% |   2.59s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
+| 69.1% |   2.60s |   2,599 | `Main.main`                                       | `Profile.hs:146:1`                                |
 | 63.9% |   2.40s |   2,401 | `Data.Aeson.Decoding.eitherDecode`                | `src/Data/Aeson/Decoding.hs:79:1`                 |
 | 42.9% |   1.61s |   1,611 | `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` | `src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1` |
 | 21.0% | 790.0ms |     790 | `Data.Aeson.Decoding.Conversion.toResultValue`    | `src/Data/Aeson/Decoding/Conversion.hs:51:1`      |
@@ -313,7 +313,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |  Time | Samples | Function | Location    |
 | ----: | ----: | ------: | -------- | ----------- |
-| 30.3% | 1.13s |   1,139 | `GC.GC`  | `<unknown>` |
+| 30.3% | 1.14s |   1,139 | `GC.GC`  | `<unknown>` |
 
 #### Callers
 
@@ -323,7 +323,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Samples | Caller           | Location           |
 | ----: | -----: | ------: | ---------------- | ------------------ |
-| 99.5% |  2.38s |   2,388 | `Main.main`      | `Profile.hs:146:1` |
+| 99.5% |  2.39s |   2,388 | `Main.main`      | `Profile.hs:146:1` |
 |  0.5% | 13.0ms |      13 | `Main.roundTrip` | `Profile.hs:139:1` |
 
 ##### `Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens` (`src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1`)
@@ -445,7 +445,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Samples | Callee                             | Location                          |
 | ----: | ------: | ------: | ---------------------------------- | --------------------------------- |
-| 91.9% |   2.38s |   2,388 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
+| 91.9% |   2.39s |   2,388 | `Data.Aeson.Decoding.eitherDecode` | `src/Data/Aeson/Decoding.hs:79:1` |
 |  5.8% | 150.0ms |     150 | `Main.keywords`                    | `Profile.hs:136:1`                |
 |  1.4% |  36.0ms |      36 | `Main.roundTrip`                   | `Profile.hs:139:1`                |
 |  0.8% |  21.0ms |      21 | `Main.summarize`                   | `Profile.hs:118:1`                |

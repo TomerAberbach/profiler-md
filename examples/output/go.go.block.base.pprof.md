@@ -1,10 +1,10 @@
 # Contention profile
 
-Blocked 1.50s over 13 contentions (115.9ms per contention).
+Blocked 1.51s over 13 contentions (115.9ms per contention).
 
 | Category         |      % |  Time | Contentions |
 | ---------------- | -----: | ----: | ----------: |
-| Standard library | 100.0% | 1.50s |          13 |
+| Standard library | 100.0% | 1.51s |          13 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/`.
 
@@ -13,8 +13,8 @@ Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/
 Call paths to the hottest functions.
 
 ```
-└── 1.50s (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
-    └── 1.50s (100.0%) main.main at ./profile.go:82
+└── 1.51s (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+    └── 1.51s (100.0%) main.main at ./profile.go:82
         ├── 1.32s (87.8%) main.workload at 16
         │   └── 1.32s (87.8%) sync.(*WaitGroup).Wait at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160
         └── 178.4ms (11.8%) runtime/pprof.StopCPUProfile at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950
@@ -78,8 +78,8 @@ Functions with the most time blocked within the function and its callees.
 
 |      % |    Time | Contentions | Function                                        | Location                                                                                          |
 | -----: | ------: | ----------: | ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 100.0% |   1.50s |           3 | `main.main`                                     | `./profile.go:82`                                                                                 |
-| 100.0% |   1.50s |           3 | `runtime.main`                                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
+| 100.0% |   1.51s |           3 | `main.main`                                     | `./profile.go:82`                                                                                 |
+| 100.0% |   1.51s |           3 | `runtime.main`                                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 |  87.8% |   1.32s |           1 | `sync.(*WaitGroup).Wait`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`        |
 |  87.8% |   1.32s |           1 | `main.workload`                                 | `./profile.go:16`                                                                                 |
 |  12.2% | 184.1ms |          12 | `runtime.chanrecv1`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508`          |
@@ -107,7 +107,7 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Contentions | Function                                        | Location                                                                                          |
 | -----: | ------: | ----------: | ----------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| 100.0% |   1.50s |           3 | `runtime.main`                                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
+| 100.0% |   1.51s |           3 | `runtime.main`                                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149`          |
 |  87.8% |   1.32s |           1 | `sync.(*WaitGroup).Wait`                        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`        |
 |  12.2% | 184.1ms |          12 | `runtime.chanrecv1`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:508`          |
 |  11.8% | 178.4ms |           1 | `runtime/pprof.StopCPUProfile`                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950`   |
@@ -133,7 +133,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller         | Location                                                                                 |
 | -----: | ----: | ----------: | -------------- | ---------------------------------------------------------------------------------------- |
-| 100.0% | 1.50s |           3 | `runtime.main` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149` |
+| 100.0% | 1.51s |           3 | `runtime.main` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149` |
 
 ##### `sync.(*WaitGroup).Wait` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`)
 
@@ -275,7 +275,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Callee      | Location          |
 | -----: | ----: | ----------: | ----------- | ----------------- |
-| 100.0% | 1.50s |           3 | `main.main` | `./profile.go:82` |
+| 100.0% | 1.51s |           3 | `main.main` | `./profile.go:82` |
 
 ##### `main.workload` (`./profile.go:16`)
 

@@ -50,11 +50,11 @@
 ````md
 # CPU profile
 
-Took 2.51s over 2,563 samples (982.2µs per sample).
+Took 2.52s over 2,563 samples (982.2µs per sample).
 
 | Category           |     % |    Time | Samples |
 | ------------------ | ----: | ------: | ------: |
-| Third-party        | 86.1% |   2.16s |   2,285 |
+| Third-party        | 86.1% |   2.17s |   2,285 |
 | Garbage collector  |  7.5% | 187.7ms |     153 |
 | Standard library   |  4.8% | 120.0ms |      89 |
 | Native             |  1.5% |  36.6ms |      32 |
@@ -71,7 +71,7 @@ Call paths to the hottest functions.
 
 ```
 ├── 2.29s (91.2%) (anonymous) at ./cpuprofile-run.mjs
-│   └── 2.28s (90.8%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   └── 2.29s (90.8%) typeCheckProject at ./tsc-workload.mjs:3:33
 │       ├── … 1.77s (70.4%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37
 │       │   ├── … 1.61s (64.1%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33
 │       │   │   └── 1.61s (64.1%) 3 more callees, led by (32.5%) checkDeferredNodes at 87179:30

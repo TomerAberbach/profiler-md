@@ -1,6 +1,6 @@
 # Trace
 
-Recorded 8,315 events over 9.61s.
+Recorded 8,315 events over 9.62s.
 
 | Category    |     % |    Time | Count |
 | ----------- | ----: | ------: | ----: |
@@ -13,7 +13,7 @@ Threads with the most time in spans. Threads run concurrently, so percentages ca
 
 |      % |  Time | Count | Thread    |
 | -----: | ----: | ----: | --------- |
-| 100.0% | 9.61s | 8,120 | `clang++` |
+| 100.0% | 9.62s | 8,120 | `clang++` |
 
 ## Longest thread spans
 
@@ -26,8 +26,8 @@ Thread spans with the most time, excluding child spans.
 |     % |    Time | Count |    Mean |     Max | Span                                                                                          |
 | ----: | ------: | ----: | ------: | ------: | --------------------------------------------------------------------------------------------- |
 | 15.7% |   1.51s |   830 |   1.8ms | 103.8ms | `RunPass`                                                                                     |
-| 11.1% |   1.06s |   726 |   1.5ms |  12.2ms | `OptFunction`                                                                                 |
-| 10.6% |   1.01s | 1,696 |   0.6ms |  13.3ms | `InstantiateFunction`                                                                         |
+| 11.1% |   1.07s |   726 |   1.5ms |  12.2ms | `OptFunction`                                                                                 |
+| 10.6% |   1.02s | 1,696 |   0.6ms |  13.3ms | `InstantiateFunction`                                                                         |
 | 10.3% | 994.0ms |   799 |   1.2ms |   4.9ms | `PassManager<Function>`                                                                       |
 |  6.6% | 637.5ms |     2 | 318.7ms | 444.6ms | `Frontend`                                                                                    |
 |  6.3% | 602.9ms |     1 | 602.9ms | 602.9ms | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
@@ -55,8 +55,8 @@ Categories accounting for at least 1.0% of self time.
 |     % |    Time | Count |    Mean |     Max | Span                                                                                          |
 | ----: | ------: | ----: | ------: | ------: | --------------------------------------------------------------------------------------------- |
 | 15.7% |   1.51s |   830 |   1.8ms | 103.8ms | `RunPass`                                                                                     |
-| 11.1% |   1.06s |   726 |   1.5ms |  12.2ms | `OptFunction`                                                                                 |
-| 10.6% |   1.01s | 1,696 |   0.6ms |  13.3ms | `InstantiateFunction`                                                                         |
+| 11.1% |   1.07s |   726 |   1.5ms |  12.2ms | `OptFunction`                                                                                 |
+| 10.6% |   1.02s | 1,696 |   0.6ms |  13.3ms | `InstantiateFunction`                                                                         |
 | 10.3% | 994.0ms |   799 |   1.2ms |   4.9ms | `PassManager<Function>`                                                                       |
 |  6.6% | 637.5ms |     2 | 318.7ms | 444.6ms | `Frontend`                                                                                    |
 |  6.3% | 602.9ms |     1 | 602.9ms | 602.9ms | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
@@ -97,7 +97,7 @@ Parent spans with the largest contribution to each span's self time.
 
 |      % |  Time | Count |  Mean |    Max | Parent      |
 | -----: | ----: | ----: | ----: | -----: | ----------- |
-| 100.0% | 1.06s |   726 | 1.5ms | 12.2ms | `OptModule` |
+| 100.0% | 1.07s |   726 | 1.5ms | 12.2ms | `OptModule` |
 
 ##### `InstantiateFunction`
 
@@ -247,20 +247,20 @@ Thread spans with the most time, including child spans.
 
 |      % |    Time | Count |    Mean |     Max | Span                                                                                          |
 | -----: | ------: | ----: | ------: | ------: | --------------------------------------------------------------------------------------------- |
-| 100.0% |   9.61s |     1 |   9.61s |   9.61s | `ExecuteCompiler`                                                                             |
+| 100.0% |   9.62s |     1 |   9.62s |   9.62s | `ExecuteCompiler`                                                                             |
 |  69.7% |   6.70s |     1 |   6.70s |   6.70s | `Backend`                                                                                     |
 |  38.5% |   3.70s |     1 |   3.70s |   3.70s | `Optimizer`                                                                                   |
-|  31.2% |   2.99s |     1 |   2.99s |   2.99s | `CodeGenPasses`                                                                               |
-|  31.1% |   2.99s |     1 |   2.99s |   2.99s | `OptModule`                                                                                   |
-|  30.1% |   2.89s |     2 |   1.44s |   2.69s | `Frontend`                                                                                    |
+|  31.2% |   3.00s |     1 |   3.00s |   3.00s | `CodeGenPasses`                                                                               |
+|  31.1% |   3.00s |     1 |   3.00s |   3.00s | `OptModule`                                                                                   |
+|  30.1% |   2.89s |     2 |   1.45s |   2.69s | `Frontend`                                                                                    |
 |  26.8% |   2.58s |   726 |   3.6ms | 243.1ms | `OptFunction`                                                                                 |
 |  26.4% |   2.53s |     1 |   2.53s |   2.53s | `ModuleInlinerWrapperPass`                                                                    |
-|  26.0% |   2.49s |     1 |   2.49s |   2.49s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
-|  19.6% |   1.88s |   759 |   2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                                                       |
+|  26.0% |   2.50s |     1 |   2.50s |   2.50s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
+|  19.6% |   1.89s |   759 |   2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                                                       |
 |  19.6% |   1.88s |   758 |   2.5ms | 137.9ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
 |  19.3% |   1.85s |   799 |   2.3ms | 113.2ms | `PassManager<Function>`                                                                       |
 |  15.7% |   1.51s |   830 |   1.8ms | 103.8ms | `RunPass`                                                                                     |
-|  14.7% |   1.40s |   594 |   2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  14.7% |   1.41s |   594 |   2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor`                                                                  |
 |  13.5% |   1.30s |     1 |   1.30s |   1.30s | `PerformPendingInstantiations`                                                                |
 |  12.8% |   1.23s | 1,696 |   2.7ms |  34.0ms | `InstantiateFunction`                                                                         |
 |   8.1% | 781.7ms |     6 | 130.3ms | 515.2ms | `ModuleToFunctionPassAdaptor`                                                                 |
@@ -276,20 +276,20 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Count |    Mean |     Max | Span                                                                                          |
 | -----: | ------: | ----: | ------: | ------: | --------------------------------------------------------------------------------------------- |
-| 100.0% |   9.61s |     1 |   9.61s |   9.61s | `ExecuteCompiler`                                                                             |
+| 100.0% |   9.62s |     1 |   9.62s |   9.62s | `ExecuteCompiler`                                                                             |
 |  69.7% |   6.70s |     1 |   6.70s |   6.70s | `Backend`                                                                                     |
 |  38.5% |   3.70s |     1 |   3.70s |   3.70s | `Optimizer`                                                                                   |
-|  31.2% |   2.99s |     1 |   2.99s |   2.99s | `CodeGenPasses`                                                                               |
-|  31.1% |   2.99s |     1 |   2.99s |   2.99s | `OptModule`                                                                                   |
-|  30.1% |   2.89s |     2 |   1.44s |   2.69s | `Frontend`                                                                                    |
+|  31.2% |   3.00s |     1 |   3.00s |   3.00s | `CodeGenPasses`                                                                               |
+|  31.1% |   3.00s |     1 |   3.00s |   3.00s | `OptModule`                                                                                   |
+|  30.1% |   2.89s |     2 |   1.45s |   2.69s | `Frontend`                                                                                    |
 |  26.8% |   2.58s |   726 |   3.6ms | 243.1ms | `OptFunction`                                                                                 |
 |  26.4% |   2.53s |     1 |   2.53s |   2.53s | `ModuleInlinerWrapperPass`                                                                    |
-|  26.0% |   2.49s |     1 |   2.49s |   2.49s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
-|  19.6% |   1.88s |   759 |   2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                                                       |
+|  26.0% |   2.50s |     1 |   2.50s |   2.50s | `ModuleToPostOrderCGSCCPassAdaptor`                                                           |
+|  19.6% |   1.89s |   759 |   2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                                                       |
 |  19.6% |   1.88s |   758 |   2.5ms | 137.9ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
 |  19.3% |   1.85s |   799 |   2.3ms | 113.2ms | `PassManager<Function>`                                                                       |
 |  15.7% |   1.51s |   830 |   1.8ms | 103.8ms | `RunPass`                                                                                     |
-|  14.7% |   1.40s |   594 |   2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor`                                                                  |
+|  14.7% |   1.41s |   594 |   2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor`                                                                  |
 |  13.5% |   1.30s |     1 |   1.30s |   1.30s | `PerformPendingInstantiations`                                                                |
 |  12.8% |   1.23s | 1,696 |   2.7ms |  34.0ms | `InstantiateFunction`                                                                         |
 |   8.1% | 781.7ms |     6 | 130.3ms | 515.2ms | `ModuleToFunctionPassAdaptor`                                                                 |
@@ -313,7 +313,7 @@ Attribute values with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Attribute | Value                          |
 | -----: | ----: | ----: | ----: | ----: | --------- | ------------------------------ |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `detail`  | `/src/fmt/test/format-test.cc` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `detail`  | `/src/fmt/test/format-test.cc` |
 
 ##### `OptFunction`
 
@@ -335,7 +335,7 @@ Attribute values with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Attribute | Value      |
 | -----: | ----: | ----: | ----: | ----: | --------- | ---------- |
-| 100.0% | 2.49s |     1 | 2.49s | 2.49s | `detail`  | `[module]` |
+| 100.0% | 2.50s |     1 | 2.50s | 2.50s | `detail`  | `[module]` |
 
 ##### `DevirtSCCRepeatedPass`
 
@@ -471,7 +471,7 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Thread    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 9.61s |     1 | 9.61s | 9.61s | `clang++` |
+| 100.0% | 9.62s |     1 | 9.62s | 9.62s | `clang++` |
 
 ##### `Backend`
 
@@ -489,19 +489,19 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Thread    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `clang++` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `clang++` |
 
 ##### `OptModule`
 
 |      % |  Time | Count |  Mean |   Max | Thread    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `clang++` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `clang++` |
 
 ##### `Frontend`
 
 |      % |  Time | Count |  Mean |   Max | Thread    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 2.89s |     2 | 1.44s | 2.69s | `clang++` |
+| 100.0% | 2.89s |     2 | 1.45s | 2.69s | `clang++` |
 
 ##### `OptFunction`
 
@@ -519,13 +519,13 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Thread    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 2.49s |     1 | 2.49s | 2.49s | `clang++` |
+| 100.0% | 2.50s |     1 | 2.50s | 2.50s | `clang++` |
 
 ##### `DevirtSCCRepeatedPass`
 
 |      % |  Time | Count |  Mean |     Max | Thread    |
 | -----: | ----: | ----: | ----: | ------: | --------- |
-| 100.0% | 1.88s |   759 | 2.5ms | 138.0ms | `clang++` |
+| 100.0% | 1.89s |   759 | 2.5ms | 138.0ms | `clang++` |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
@@ -549,7 +549,7 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |     Max | Thread    |
 | -----: | ----: | ----: | ----: | ------: | --------- |
-| 100.0% | 1.40s |   594 | 2.4ms | 114.3ms | `clang++` |
+| 100.0% | 1.41s |   594 | 2.4ms | 114.3ms | `clang++` |
 
 ##### `PerformPendingInstantiations`
 
@@ -561,7 +561,7 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |    Max | Thread    |
 | -----: | ----: | ----: | ----: | -----: | --------- |
-| 100.0% | 4.55s | 1,696 | 2.7ms | 34.0ms | `clang++` |
+| 100.0% | 4.56s | 1,696 | 2.7ms | 34.0ms | `clang++` |
 
 ##### `ModuleToFunctionPassAdaptor`
 
@@ -625,19 +625,19 @@ Parent spans with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Parent    |
 | -----: | ----: | ----: | ----: | ----: | --------- |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `Backend` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `Backend` |
 
 ##### `OptModule`
 
 |      % |  Time | Count |  Mean |   Max | Parent          |
 | -----: | ----: | ----: | ----: | ----: | --------------- |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `CodeGenPasses` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `CodeGenPasses` |
 
 ##### `Frontend`
 
 |      % |  Time | Count |  Mean |   Max | Parent            |
 | -----: | ----: | ----: | ----: | ----: | ----------------- |
-| 100.0% | 2.89s |     2 | 1.44s | 2.69s | `ExecuteCompiler` |
+| 100.0% | 2.89s |     2 | 1.45s | 2.69s | `ExecuteCompiler` |
 
 ##### `OptFunction`
 
@@ -655,13 +655,13 @@ Parent spans with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Parent                     |
 | -----: | ----: | ----: | ----: | ----: | -------------------------- |
-| 100.0% | 2.49s |     1 | 2.49s | 2.49s | `ModuleInlinerWrapperPass` |
+| 100.0% | 2.50s |     1 | 2.50s | 2.50s | `ModuleInlinerWrapperPass` |
 
 ##### `DevirtSCCRepeatedPass`
 
 |      % |  Time | Count |  Mean |     Max | Parent                              |
 | -----: | ----: | ----: | ----: | ------: | ----------------------------------- |
-| 100.0% | 1.88s |   759 | 2.5ms | 138.0ms | `ModuleToPostOrderCGSCCPassAdaptor` |
+| 100.0% | 1.89s |   759 | 2.5ms | 138.0ms | `ModuleToPostOrderCGSCCPassAdaptor` |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
@@ -673,7 +673,7 @@ Parent spans with the largest contribution to each span's total time.
 
 |     % |    Time | Count |  Mean |     Max | Parent                        |
 | ----: | ------: | ----: | ----: | ------: | ----------------------------- |
-| 75.6% |   1.39s |   593 | 2.4ms | 113.2ms | `CGSCCToFunctionPassAdaptor`  |
+| 75.6% |   1.40s |   593 | 2.4ms | 113.2ms | `CGSCCToFunctionPassAdaptor`  |
 | 24.4% | 451.5ms |   204 | 2.2ms |  34.9ms | `ModuleToFunctionPassAdaptor` |
 |  0.1% |   1.5ms |     2 | 0.7ms |   0.8ms | `FunctionToLoopPassAdaptor`   |
 
@@ -687,7 +687,7 @@ Parent spans with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |     Max | Parent                                                                                        |
 | -----: | ----: | ----: | ----: | ------: | --------------------------------------------------------------------------------------------- |
-| 100.0% | 1.40s |   594 | 2.4ms | 114.3ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
+| 100.0% | 1.41s |   594 | 2.4ms | 114.3ms | `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>` |
 
 ##### `PerformPendingInstantiations`
 
@@ -699,7 +699,7 @@ Parent spans with the largest contribution to each span's total time.
 
 |     % |   Time | Count |  Mean |    Max | Parent                         |
 | ----: | -----: | ----: | ----: | -----: | ------------------------------ |
-| 72.6% |  3.30s | 1,233 | 2.7ms | 33.8ms | `InstantiateFunction`          |
+| 72.6% |  3.31s | 1,233 | 2.7ms | 33.8ms | `InstantiateFunction`          |
 | 26.2% |  1.19s |   408 | 2.9ms | 34.0ms | `PerformPendingInstantiations` |
 |  0.7% | 31.9ms |    43 | 0.7ms |  5.6ms | `InstantiateClass`             |
 |  0.4% | 19.8ms |     7 | 2.8ms |  7.8ms | `ParseClass`                   |
@@ -764,14 +764,14 @@ Child spans with the largest contribution to each span's total time.
 |     % |  Time | Count |  Mean |   Max | Child      |
 | ----: | ----: | ----: | ----: | ----: | ---------- |
 | 69.7% | 6.70s |     1 | 6.70s | 6.70s | `Backend`  |
-| 30.1% | 2.89s |     2 | 1.44s | 2.69s | `Frontend` |
+| 30.1% | 2.89s |     2 | 1.45s | 2.69s | `Frontend` |
 
 ##### `Backend`
 
 |     % |  Time | Count |  Mean |   Max | Child           |
 | ----: | ----: | ----: | ----: | ----: | --------------- |
 | 55.2% | 3.70s |     1 | 3.70s | 3.70s | `Optimizer`     |
-| 44.7% | 2.99s |     1 | 2.99s | 2.99s | `CodeGenPasses` |
+| 44.7% | 3.00s |     1 | 3.00s | 3.00s | `CodeGenPasses` |
 
 ##### `Optimizer`
 
@@ -787,7 +787,7 @@ Child spans with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Child       |
 | -----: | ----: | ----: | ----: | ----: | ----------- |
-| 100.0% | 2.99s |     1 | 2.99s | 2.99s | `OptModule` |
+| 100.0% | 3.00s |     1 | 3.00s | 3.00s | `OptModule` |
 
 ##### `OptModule`
 
@@ -815,7 +815,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |   Time | Count |   Mean |    Max | Child                                                                               |
 | ----: | -----: | ----: | -----: | -----: | ----------------------------------------------------------------------------------- |
-| 98.6% |  2.49s |     1 |  2.49s |  2.49s | `ModuleToPostOrderCGSCCPassAdaptor`                                                 |
+| 98.6% |  2.50s |     1 |  2.50s |  2.50s | `ModuleToPostOrderCGSCCPassAdaptor`                                                 |
 |  0.8% | 20.8ms |     1 | 20.8ms | 20.8ms | `RequireAnalysisPass<llvm::GlobalsAA, llvm::Module, llvm::AnalysisManager<Module>>` |
 |  0.4% | 10.6ms |     2 |  5.3ms |  7.2ms | `ModuleToFunctionPassAdaptor`                                                       |
 
@@ -823,7 +823,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |  Time | Count |  Mean |     Max | Child                                                     |
 | ----: | ----: | ----: | ----: | ------: | --------------------------------------------------------- |
-| 75.6% | 1.88s |   759 | 2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                   |
+| 75.6% | 1.89s |   759 | 2.5ms | 138.0ms | `DevirtSCCRepeatedPass`                                   |
 |  0.3% | 6.6ms |     1 | 6.6ms |   6.6ms | `InnerAnalysisManagerProxy<CGSCCAnalysisManager, Module>` |
 
 ##### `DevirtSCCRepeatedPass`
@@ -836,7 +836,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |    Time | Count |  Mean |     Max | Child                        |
 | ----: | ------: | ----: | ----: | ------: | ---------------------------- |
-| 74.9% |   1.40s |   594 | 2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor` |
+| 74.9% |   1.41s |   594 | 2.4ms | 114.3ms | `CGSCCToFunctionPassAdaptor` |
 | 12.7% | 238.3ms |   122 | 2.0ms |  21.0ms | `InlinerPass`                |
 |  0.3% |   6.3ms |     5 | 1.3ms |   2.4ms | `PostOrderFunctionAttrsPass` |
 
@@ -860,7 +860,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |  Time | Count |  Mean |     Max | Child                   |
 | ----: | ----: | ----: | ----: | ------: | ----------------------- |
-| 99.3% | 1.39s |   593 | 2.4ms | 113.2ms | `PassManager<Function>` |
+| 99.3% | 1.40s |   593 | 2.4ms | 113.2ms | `PassManager<Function>` |
 
 ##### `PerformPendingInstantiations`
 
@@ -872,7 +872,7 @@ Child spans with the largest contribution to each span's total time.
 
 |     % |    Time | Count |  Mean |    Max | Child                 |
 | ----: | ------: | ----: | ----: | -----: | --------------------- |
-| 72.6% |   3.30s | 1,233 | 2.7ms | 33.8ms | `InstantiateFunction` |
+| 72.6% |   3.31s | 1,233 | 2.7ms | 33.8ms | `InstantiateFunction` |
 |  5.1% | 231.2ms |   148 | 1.6ms | 12.3ms | `InstantiateClass`    |
 
 ##### `ModuleToFunctionPassAdaptor`
@@ -931,13 +931,13 @@ Instances of each span with the most time.
 
 |      % |  Time | Start | Thread    |
 | -----: | ----: | ----: | --------- |
-| 100.0% | 9.61s |   0ms | `clang++` |
+| 100.0% | 9.62s |   0ms | `clang++` |
 
 ##### `Backend`
 
 |      % |  Time | Start | Thread    |
 | -----: | ----: | ----: | --------- |
-| 100.0% | 6.70s | 2.90s | `clang++` |
+| 100.0% | 6.70s | 2.91s | `clang++` |
 
 ##### `Optimizer`
 
@@ -949,13 +949,13 @@ Instances of each span with the most time.
 
 |      % |  Time | Start | Thread    |
 | -----: | ----: | ----: | --------- |
-| 100.0% | 2.99s | 6.61s | `clang++` |
+| 100.0% | 3.00s | 6.62s | `clang++` |
 
 ##### `OptModule`
 
 |      % |  Time | Start | Thread    | Attributes                            |
 | -----: | ----: | ----: | --------- | ------------------------------------- |
-| 100.0% | 2.99s | 6.61s | `clang++` | `detail=/src/fmt/test/format-test.cc` |
+| 100.0% | 3.00s | 6.62s | `clang++` | `detail=/src/fmt/test/format-test.cc` |
 
 ##### `Frontend`
 
@@ -968,42 +968,42 @@ Instances of each span with the most time.
 
 |    % |    Time | Start | Thread    | Attributes                                                  |
 | ---: | ------: | ----: | --------- | ----------------------------------------------------------- |
-| 9.4% | 243.1ms | 9.23s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
-| 4.5% | 117.2ms | 7.89s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
-| 4.3% | 109.9ms | 8.02s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
-| 2.8% |  72.0ms | 7.81s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+| 9.4% | 243.1ms | 9.24s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| 4.5% | 117.2ms | 7.90s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| 4.3% | 109.9ms | 8.03s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| 2.8% |  72.0ms | 7.82s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
 | 2.3% |  60.4ms | 7.69s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
 
 ##### `ModuleInlinerWrapperPass`
 
 |      % |  Time | Start | Thread    | Attributes        |
 | -----: | ----: | ----: | --------- | ----------------- |
-| 100.0% | 2.53s | 3.38s | `clang++` | `detail=[module]` |
+| 100.0% | 2.53s | 3.39s | `clang++` | `detail=[module]` |
 
 ##### `ModuleToPostOrderCGSCCPassAdaptor`
 
 |      % |  Time | Start | Thread    | Attributes        |
 | -----: | ----: | ----: | --------- | ----------------- |
-| 100.0% | 2.49s | 3.41s | `clang++` | `detail=[module]` |
+| 100.0% | 2.50s | 3.41s | `clang++` | `detail=[module]` |
 
 ##### `DevirtSCCRepeatedPass`
 
 |    % |    Time | Start | Thread    | Attributes                                                    |
 | ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
-| 7.3% | 138.0ms | 5.75s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 4.2% |  79.9ms | 4.50s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 3.9% |  73.9ms | 4.59s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 3.0% |  57.4ms | 4.40s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 7.3% | 138.0ms | 5.76s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 4.2% |  79.9ms | 4.51s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 3.9% |  73.9ms | 4.60s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 3.0% |  57.4ms | 4.41s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
 | 2.3% |  44.2ms | 4.30s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
 
 |    % |    Time | Start | Thread    | Attributes                                                    |
 | ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
-| 7.3% | 137.9ms | 5.75s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 4.2% |  79.6ms | 4.50s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 3.9% |  73.6ms | 4.59s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 3.0% |  57.1ms | 4.40s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 7.3% | 137.9ms | 5.76s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 4.2% |  79.6ms | 4.51s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 3.9% |  73.6ms | 4.60s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 3.0% |  57.1ms | 4.41s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
 | 2.3% |  44.0ms | 4.30s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PassManager<Function>`
@@ -1012,16 +1012,16 @@ Instances of each span with the most time.
 | ---: | ------: | ----: | --------- | ----------------------------------------------------------- |
 | 6.1% | 113.2ms | 5.78s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
 | 3.5% |  64.0ms | 4.52s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
-| 3.3% |  60.9ms | 4.60s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
-| 2.5% |  46.9ms | 4.41s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
-| 1.9% |  35.2ms | 4.30s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
+| 3.3% |  60.9ms | 4.61s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| 2.5% |  46.9ms | 4.42s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+| 1.9% |  35.2ms | 4.31s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
 
 ##### `RunPass`
 
 |    % |    Time | Start | Thread    | Attributes                             |
 | ---: | ------: | ----: | --------- | -------------------------------------- |
 | 6.9% | 103.8ms | 9.24s | `clang++` | `detail=AArch64 Instruction Selection` |
-| 2.6% |  40.1ms | 7.89s | `clang++` | `detail=AArch64 Instruction Selection` |
+| 2.6% |  40.1ms | 7.90s | `clang++` | `detail=AArch64 Instruction Selection` |
 | 2.6% |  39.4ms | 8.03s | `clang++` | `detail=AArch64 Instruction Selection` |
 | 1.7% |  26.3ms | 7.82s | `clang++` | `detail=AArch64 Instruction Selection` |
 | 1.4% |  21.8ms | 7.69s | `clang++` | `detail=AArch64 Instruction Selection` |
@@ -1032,9 +1032,9 @@ Instances of each span with the most time.
 | ---: | ------: | ----: | --------- | ------------------------------------------------------------- |
 | 8.1% | 114.3ms | 5.78s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
 | 4.6% |  64.7ms | 4.52s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 4.3% |  61.1ms | 4.60s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 3.3% |  47.1ms | 4.41s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
-| 2.5% |  35.4ms | 4.30s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+| 4.3% |  61.1ms | 4.61s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 3.3% |  47.1ms | 4.42s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 2.5% |  35.4ms | 4.31s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ##### `PerformPendingInstantiations`
 
@@ -1049,26 +1049,26 @@ Instances of each span with the most time.
 | 0.7% | 34.0ms | 2.38s | `clang++` | `detail=fmt::nested_formatter<double>::write_padded<fmt::context, (lambda at /src/fmt/test/format-test.cc:1894:30)>`                     |
 | 0.7% | 33.8ms | 2.38s | `clang++` | `detail=fmt::formatter<point>::format(point, format_context &)::(anonymous class)::operator()<fmt::basic_appender<char>>`                |
 | 0.7% | 31.3ms | 2.38s | `clang++` | `detail=fmt::format_to<fmt::basic_appender<char> &, fmt::nested_view<double, char>, fmt::nested_view<double, char>, 0>`                  |
-| 0.6% | 27.7ms | 2.38s | `clang++` | `detail=fmt::detail::value<fmt::context>::value<fmt::nested_view<double, char>, 0>`                                                      |
-| 0.6% | 27.4ms | 2.38s | `clang++` | `detail=fmt::detail::value<fmt::context>::format_custom<fmt::nested_view<double, char>, fmt::formatter<fmt::nested_view<double, char>>>` |
+| 0.6% | 27.7ms | 2.39s | `clang++` | `detail=fmt::detail::value<fmt::context>::value<fmt::nested_view<double, char>, 0>`                                                      |
+| 0.6% | 27.4ms | 2.39s | `clang++` | `detail=fmt::detail::value<fmt::context>::format_custom<fmt::nested_view<double, char>, fmt::formatter<fmt::nested_view<double, char>>>` |
 
 ##### `ModuleToFunctionPassAdaptor`
 
 |     % |    Time | Start | Thread    | Attributes        |
 | ----: | ------: | ----: | --------- | ----------------- |
 | 65.9% | 515.2ms | 6.07s | `clang++` | `detail=[module]` |
-| 17.2% | 134.5ms | 2.91s | `clang++` | `detail=[module]` |
+| 17.2% | 134.5ms | 2.92s | `clang++` | `detail=[module]` |
 | 15.3% | 119.6ms | 3.20s | `clang++` | `detail=[module]` |
 |  0.9% |   7.2ms | 5.91s | `clang++` | `detail=[module]` |
-|  0.4% |   3.4ms | 3.40s | `clang++` | `detail=[module]` |
+|  0.4% |   3.4ms | 3.41s | `clang++` | `detail=[module]` |
 
 ##### `ParseDeclarationOrFunctionDefinition`
 
 |    % |   Time |   Start | Thread    | Attributes                                                                                       |
 | ---: | -----: | ------: | --------- | ------------------------------------------------------------------------------------------------ |
 | 7.1% | 48.1ms |  71.4ms | `clang++` | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath:83:1`                 |
-| 4.3% | 29.5ms |   1.05s | `clang++` | `detail=/src/fmt/test/format-test.cc:1108:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
-| 4.2% | 28.2ms |   1.01s | `clang++` | `detail=/src/fmt/test/format-test.cc:950:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
+| 4.3% | 29.5ms |   1.06s | `clang++` | `detail=/src/fmt/test/format-test.cc:1108:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
+| 4.2% | 28.2ms |   1.02s | `clang++` | `detail=/src/fmt/test/format-test.cc:950:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
 | 3.6% | 24.2ms |  42.1ms | `clang++` | `detail=/usr/include/math.h:34:1 <Spelling=/usr/include/aarch64-linux-gnu/sys/cdefs.h:140:24>`   |
 | 3.1% | 21.2ms | 991.1ms | `clang++` | `detail=/src/fmt/test/format-test.cc:891:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
 
@@ -1076,8 +1076,8 @@ Instances of each span with the most time.
 
 |    % |   Time |   Start | Thread    | Attributes        |
 | ---: | -----: | ------: | --------- | ----------------- |
-| 6.3% | 29.5ms |   1.05s | `clang++` | `detail=TestBody` |
-| 6.0% | 28.2ms |   1.01s | `clang++` | `detail=TestBody` |
+| 6.3% | 29.5ms |   1.06s | `clang++` | `detail=TestBody` |
+| 6.0% | 28.2ms |   1.02s | `clang++` | `detail=TestBody` |
 | 4.5% | 21.2ms | 991.1ms | `clang++` | `detail=TestBody` |
 | 4.3% | 20.2ms | 788.2ms | `clang++` | `detail=TestBody` |
 | 2.3% | 10.9ms | 827.9ms | `clang++` | `detail=TestBody` |
@@ -1090,17 +1090,17 @@ Instances of each span with the most time.
 | 1.1% |  8.7ms |   1.49s | `clang++` | `detail=testing::internal::MatcherBase<std::basic_string<char>>::ValuePolicy<const testing::MatcherInterface<std::basic_string<char>> *>` |
 | 1.1% |  8.7ms | 789.7ms | `clang++` | `detail=testing::internal::MockSpec<int *(unsigned long)>`                                                                                |
 | 1.1% |  8.6ms |   1.49s | `clang++` | `detail=testing::internal::SharedPayload<std::unique_ptr<const testing::MatcherInterface<std::basic_string<char>>>>`                      |
-| 1.0% |  8.5ms |   1.68s | `clang++` | `detail=std::unique_ptr<testing::internal::ActionResultHolder<int *>>`                                                                    |
+| 1.0% |  8.5ms |   1.69s | `clang++` | `detail=std::unique_ptr<testing::internal::ActionResultHolder<int *>>`                                                                    |
 
 ##### `InstCombinePass`
 
 |    % |  Time | Start | Thread    | Attributes                             |
 | ---: | ----: | ----: | --------- | -------------------------------------- |
-| 2.8% | 9.0ms | 5.79s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.4% | 7.7ms | 5.81s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.8% | 9.0ms | 5.80s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.4% | 7.7ms | 5.82s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
 | 2.3% | 7.3ms | 5.88s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
 | 2.3% | 7.3ms | 5.84s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
-| 2.2% | 7.0ms | 6.56s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
+| 2.2% | 7.0ms | 6.57s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc` |
 
 ##### `ParseClass`
 
@@ -1116,10 +1116,10 @@ Instances of each span with the most time.
 
 |    % |   Time | Start | Thread    | Attributes                                                    |
 | ---: | -----: | ----: | --------- | ------------------------------------------------------------- |
-| 8.8% | 21.0ms | 5.75s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
-| 5.7% | 13.5ms | 4.50s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
-| 4.8% | 11.4ms | 4.59s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
-| 3.9% |  9.2ms | 4.40s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+| 8.8% | 21.0ms | 5.76s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| 5.7% | 13.5ms | 4.51s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| 4.8% | 11.4ms | 4.60s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+| 3.9% |  9.2ms | 4.41s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
 | 3.3% |  7.9ms | 4.30s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
 
 ### Count

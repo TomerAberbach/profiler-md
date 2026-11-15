@@ -389,7 +389,7 @@ Functions with the most time spent within the function and its callees.
 | 27.8% |   1.50s |     150 | `runtime.sysUsed`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mem.go:89`            |
 | 23.5% |   1.27s |     127 | `main.workload.func1`                         | `./profile.go:25`                                                                                 |
 | 18.7% |   1.01s |     101 | `runtime.newstack`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026`        |
-| 18.5% |      1s |     100 | `runtime.schedule`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`         |
+| 18.5% |   1.00s |     100 | `runtime.schedule`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`         |
 | 18.0% | 970.0ms |      97 | `runtime.goschedImpl`                         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307`         |
 | 18.0% | 970.0ms |      97 | `runtime.gopreempt_m`                         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361`         |
 | 17.8% | 960.0ms |      96 | `runtime.morestack`                           | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457`      |
@@ -417,7 +417,7 @@ Categories accounting for at least 1.0% of self time.
 | 27.8% |   1.50s |     150 | `runtime.sysUsedOS`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mem_darwin.go:29`     |
 | 27.8% |   1.50s |     150 | `runtime.sysUsed`                              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mem.go:89`            |
 | 18.7% |   1.01s |     101 | `runtime.newstack`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026`        |
-| 18.5% |      1s |     100 | `runtime.schedule`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`         |
+| 18.5% |   1.00s |     100 | `runtime.schedule`                             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`         |
 | 18.0% | 970.0ms |      97 | `runtime.goschedImpl`                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307`         |
 | 18.0% | 970.0ms |      97 | `runtime.gopreempt_m`                          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361`         |
 | 17.8% | 960.0ms |      96 | `runtime.morestack`                            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457`      |

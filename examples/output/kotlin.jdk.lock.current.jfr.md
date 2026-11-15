@@ -1,11 +1,11 @@
 # Lock contention profile
 
-Blocked 3.16s over 1,075 contentions (2.9ms per contention).
+Blocked 3.17s over 1,075 contentions (2.9ms per contention).
 
 | Category         |     % |  Time | Contentions |
 | ---------------- | ----: | ----: | ----------: |
 | Standard library | 61.3% | 1.94s |          59 |
-| Ours             | 38.7% | 1.22s |       1,016 |
+| Ours             | 38.7% | 1.23s |       1,016 |
 
 `…` stands for omitted frames.
 
@@ -14,11 +14,11 @@ Blocked 3.16s over 1,075 contentions (2.9ms per contention).
 Call paths to the hottest functions.
 
 ```
-├── … 2.36s (74.7%) runWorker(ThreadPoolExecutor$Worker) at java.util.concurrent.ThreadPoolExecutor
+├── … 2.37s (74.7%) runWorker(ThreadPoolExecutor$Worker) at java.util.concurrent.ThreadPoolExecutor
 │   ├── … 1.22s (38.6%) generateFile(JvmBackendContext, IrFile, List, boolean) at org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
-│   │   ├── 1.15s (36.6%) generate() at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen
+│   │   ├── 1.16s (36.6%) generate() at org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen
 │   │   │   ├── 1.14s (36.1%) generateMethod(IrFunction, SourceMapper)
-│   │   │   │   ├── 1.07s (34.0%, self 29.3%) generateMethodNode(IrFunction)
+│   │   │   │   ├── 1.08s (34.0%, self 29.3%) generateMethodNode(IrFunction)
 │   │   │   │   │   └── … 148.0ms (4.7%, self 1.3%) doGenerate(ReifiedTypeParametersUsages) at org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen
 │   │   │   │   │       ├── … 57.3ms (1.8%) visitReturn(IrReturn, BlockInfo) at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen
 │   │   │   │   │       │   ├── … 35.7ms (1.1%) visitWhen(IrWhen, BlockInfo) at org.jetbrains.kotlin.backend.jvm.codegen.ExpressionCodegen
@@ -51,7 +51,7 @@ Call paths to the hottest functions.
 │   │       │   └── … 2.9ms (0.1%) getLineAndColumnNumbers(int) at org.jetbrains.kotlin.ir.AbstractIrFileEntry
 │   │       └── 6.6ms (0.2%) mapClassSignature(IrTypeMapper, IrClass, Type, boolean) at org.jetbrains.kotlin.backend.jvm.codegen.IrCodegenUtilsKt
 │   │           └── 2.3ms (0.1%) <init>(BothSignatureWriter$Mode) at org.jetbrains.kotlin.codegen.signature.BothSignatureWriter
-│   └── … 1.13s (35.9%, self 61.3% globally) park(boolean, long) at jdk.internal.misc.Unsafe
+│   └── … 1.14s (35.9%, self 61.3% globally) park(boolean, long) at jdk.internal.misc.Unsafe
 ├── … 496.2ms (15.7%) park(boolean, long) at jdk.internal.misc.Unsafe
 └── … 304.8ms (9.6%) park(boolean, long) at jdk.internal.misc.Unsafe
 ```
@@ -351,7 +351,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 
 |     % |    Time | Contentions | Caller                    | Location                                 |
 | ----: | ------: | ----------: | ------------------------- | ---------------------------------------- |
-| 58.7% |   1.13s |          21 | `park()`                  | `java.util.concurrent.locks.LockSupport` |
+| 58.7% |   1.14s |          21 | `park()`                  | `java.util.concurrent.locks.LockSupport` |
 | 25.6% | 496.6ms |           3 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
 | 15.7% | 305.8ms |          16 | `park(Object)`            | `java.util.concurrent.locks.LockSupport` |
 
@@ -541,23 +541,23 @@ Functions with the most time blocked within the function and its callees.
 | ----: | ------: | ----------: | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | 90.4% |   2.86s |       1,064 | `runWith(Object, Runnable)`                                                                                       | `java.lang.Thread`                                                                |
 | 90.4% |   2.86s |       1,064 | `run()`                                                                                                           | `java.lang.Thread`                                                                |
-| 74.7% |   2.36s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)`                                                                            | `java.util.concurrent.ThreadPoolExecutor`                                         |
-| 74.7% |   2.36s |       1,061 | `run()`                                                                                                           | `java.util.concurrent.ThreadPoolExecutor$Worker`                                  |
+| 74.7% |   2.37s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)`                                                                            | `java.util.concurrent.ThreadPoolExecutor`                                         |
+| 74.7% |   2.37s |       1,061 | `run()`                                                                                                           | `java.util.concurrent.ThreadPoolExecutor$Worker`                                  |
 | 61.3% |   1.94s |          40 | `park(boolean, long)`                                                                                             | `jdk.internal.misc.Unsafe`                                                        |
 | 45.6% |   1.44s |          23 | `unmanagedBlock(ForkJoinPool$ManagedBlocker)`                                                                     | `java.util.concurrent.ForkJoinPool`                                               |
 | 45.6% |   1.44s |          23 | `managedBlock(ForkJoinPool$ManagedBlocker)`                                                                       | `java.util.concurrent.ForkJoinPool`                                               |
-| 38.7% |   1.22s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-| 38.7% |   1.22s |       1,026 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
-| 38.7% |   1.22s |       1,026 | `run()`                                                                                                           | `java.util.concurrent.CompletableFuture$AsyncRun`                                 |
+| 38.7% |   1.23s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+| 38.7% |   1.23s |       1,026 | `run()`                                                                                                           | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
+| 38.7% |   1.23s |       1,026 | `run()`                                                                                                           | `java.util.concurrent.CompletableFuture$AsyncRun`                                 |
 | 38.6% |   1.22s |         999 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                          | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-| 36.6% |   1.15s |         758 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 36.6% |   1.16s |         758 | `generate()`                                                                                                      | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 | 36.1% |   1.14s |         691 | `generateMethod(IrFunction, SourceMapper)`                                                                        | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 | 36.0% |   1.14s |          32 | `take()`                                                                                                          | `java.util.concurrent.LinkedBlockingQueue`                                        |
 | 36.0% |   1.14s |          32 | `getTask()`                                                                                                       | `java.util.concurrent.ThreadPoolExecutor`                                         |
-| 36.0% |   1.13s |          30 | `await()`                                                                                                         | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`           |
-| 35.9% |   1.13s |          21 | `park()`                                                                                                          | `java.util.concurrent.locks.LockSupport`                                          |
-| 35.9% |   1.13s |          21 | `block()`                                                                                                         | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`             |
-| 34.0% |   1.07s |         529 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 36.0% |   1.14s |          30 | `await()`                                                                                                         | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`           |
+| 35.9% |   1.14s |          21 | `park()`                                                                                                          | `java.util.concurrent.locks.LockSupport`                                          |
+| 35.9% |   1.14s |          21 | `block()`                                                                                                         | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`             |
+| 34.0% |   1.08s |         529 | `generateMethodNode(IrFunction)`                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 | 15.7% | 496.6ms |           3 | `parkNanos(Object, long)`                                                                                         | `java.util.concurrent.locks.LockSupport`                                          |
 
 #### Categories
@@ -570,17 +570,17 @@ Categories accounting for at least 1.0% of self time.
 | ----: | ------: | ----------: | --------------------------------------------- | ----------------------------------------------------------------------- |
 | 90.4% |   2.86s |       1,064 | `runWith(Object, Runnable)`                   | `java.lang.Thread`                                                      |
 | 90.4% |   2.86s |       1,064 | `run()`                                       | `java.lang.Thread`                                                      |
-| 74.7% |   2.36s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)`        | `java.util.concurrent.ThreadPoolExecutor`                               |
-| 74.7% |   2.36s |       1,061 | `run()`                                       | `java.util.concurrent.ThreadPoolExecutor$Worker`                        |
+| 74.7% |   2.37s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)`        | `java.util.concurrent.ThreadPoolExecutor`                               |
+| 74.7% |   2.37s |       1,061 | `run()`                                       | `java.util.concurrent.ThreadPoolExecutor$Worker`                        |
 | 61.3% |   1.94s |          40 | `park(boolean, long)`                         | `jdk.internal.misc.Unsafe`                                              |
 | 45.6% |   1.44s |          23 | `unmanagedBlock(ForkJoinPool$ManagedBlocker)` | `java.util.concurrent.ForkJoinPool`                                     |
 | 45.6% |   1.44s |          23 | `managedBlock(ForkJoinPool$ManagedBlocker)`   | `java.util.concurrent.ForkJoinPool`                                     |
-| 38.7% |   1.22s |       1,026 | `run()`                                       | `java.util.concurrent.CompletableFuture$AsyncRun`                       |
+| 38.7% |   1.23s |       1,026 | `run()`                                       | `java.util.concurrent.CompletableFuture$AsyncRun`                       |
 | 36.0% |   1.14s |          32 | `take()`                                      | `java.util.concurrent.LinkedBlockingQueue`                              |
 | 36.0% |   1.14s |          32 | `getTask()`                                   | `java.util.concurrent.ThreadPoolExecutor`                               |
-| 36.0% |   1.13s |          30 | `await()`                                     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
-| 35.9% |   1.13s |          21 | `park()`                                      | `java.util.concurrent.locks.LockSupport`                                |
-| 35.9% |   1.13s |          21 | `block()`                                     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`   |
+| 36.0% |   1.14s |          30 | `await()`                                     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| 35.9% |   1.14s |          21 | `park()`                                      | `java.util.concurrent.locks.LockSupport`                                |
+| 35.9% |   1.14s |          21 | `block()`                                     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`   |
 | 15.7% | 496.6ms |           3 | `parkNanos(Object, long)`                     | `java.util.concurrent.locks.LockSupport`                                |
 | 15.7% | 496.2ms |           2 | `await(long, TimeUnit)`                       | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
 | 15.7% | 496.2ms |           2 | `await(long)`                                 | `java.lang.ref.ReferenceQueue`                                          |
@@ -593,12 +593,12 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Contentions | Function                                                                                                                                      | Location                                                                          |
 | ----: | ------: | ----------: | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 38.7% |   1.22s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)`                             | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-| 38.7% |   1.22s |       1,026 | `run()`                                                                                                                                       | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
+| 38.7% |   1.23s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)`                             | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
+| 38.7% |   1.23s |       1,026 | `run()`                                                                                                                                       | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
 | 38.6% |   1.22s |         999 | `generateFile(JvmBackendContext, IrFile, List, boolean)`                                                                                      | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`                            |
-| 36.6% |   1.15s |         758 | `generate()`                                                                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 36.6% |   1.16s |         758 | `generate()`                                                                                                                                  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 | 36.1% |   1.14s |         691 | `generateMethod(IrFunction, SourceMapper)`                                                                                                    | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
-| 34.0% |   1.07s |         529 | `generateMethodNode(IrFunction)`                                                                                                              | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
+| 34.0% |   1.08s |         529 | `generateMethodNode(IrFunction)`                                                                                                              | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                           |
 |  9.6% | 305.3ms |           7 | `phaseBody(PipelineContext, PipelineArtifact)`                                                                                                | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                                 |
 |  9.6% | 305.3ms |           7 | `phaseBody(LoggingContext, Object)`                                                                                                           | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                                 |
 |  9.6% | 305.3ms |           7 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`                           |
@@ -634,19 +634,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller  | Location                                         |
 | -----: | ----: | ----------: | ------- | ------------------------------------------------ |
-| 100.0% | 2.36s |       1,061 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
+| 100.0% | 2.37s |       1,061 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker` |
 
 ##### `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`)
 
 |      % |  Time | Contentions | Caller                      | Location           |
 | -----: | ----: | ----------: | --------------------------- | ------------------ |
-| 100.0% | 2.36s |       1,061 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+| 100.0% | 2.37s |       1,061 | `runWith(Object, Runnable)` | `java.lang.Thread` |
 
 ##### `park(boolean, long)` (`jdk.internal.misc.Unsafe`)
 
 |     % |    Time | Contentions | Caller                    | Location                                 |
 | ----: | ------: | ----------: | ------------------------- | ---------------------------------------- |
-| 58.7% |   1.13s |          21 | `park()`                  | `java.util.concurrent.locks.LockSupport` |
+| 58.7% |   1.14s |          21 | `park()`                  | `java.util.concurrent.locks.LockSupport` |
 | 25.6% | 496.6ms |           3 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
 | 15.7% | 305.8ms |          16 | `park(Object)`            | `java.util.concurrent.locks.LockSupport` |
 
@@ -660,26 +660,26 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Contentions | Caller                | Location                                                                |
 | ----: | ------: | ----------: | --------------------- | ----------------------------------------------------------------------- |
-| 78.9% |   1.13s |          21 | `await()`             | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| 78.9% |   1.14s |          21 | `await()`             | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
 | 21.1% | 304.8ms |           2 | `waitingGet(boolean)` | `java.util.concurrent.CompletableFuture`                                |
 
 ##### `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
 |      % |  Time | Contentions | Caller  | Location                                                                          |
 | -----: | ----: | ----------: | ------- | --------------------------------------------------------------------------------- |
-| 100.0% | 1.22s |       1,026 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
+| 100.0% | 1.23s |       1,026 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
 
 ##### `run()` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8`)
 
 |      % |  Time | Contentions | Caller  | Location                                          |
 | -----: | ----: | ----------: | ------- | ------------------------------------------------- |
-| 100.0% | 1.22s |       1,026 | `run()` | `java.util.concurrent.CompletableFuture$AsyncRun` |
+| 100.0% | 1.23s |       1,026 | `run()` | `java.util.concurrent.CompletableFuture$AsyncRun` |
 
 ##### `run()` (`java.util.concurrent.CompletableFuture$AsyncRun`)
 
 |      % |  Time | Contentions | Caller                                 | Location                                  |
 | -----: | ----: | ----------: | -------------------------------------- | ----------------------------------------- |
-| 100.0% | 1.22s |       1,026 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
+| 100.0% | 1.23s |       1,026 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
 
 ##### `generateFile(JvmBackendContext, IrFile, List, boolean)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
@@ -691,7 +691,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller                                                   | Location                                               |
 | -----: | ----: | ----------: | -------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.15s |         758 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 100.0% | 1.16s |         758 | `generateFile(JvmBackendContext, IrFile, List, boolean)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 
 ##### `generateMethod(IrFunction, SourceMapper)` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
@@ -715,25 +715,25 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Caller   | Location                                   |
 | -----: | ----: | ----------: | -------- | ------------------------------------------ |
-| 100.0% | 1.13s |          30 | `take()` | `java.util.concurrent.LinkedBlockingQueue` |
+| 100.0% | 1.14s |          30 | `take()` | `java.util.concurrent.LinkedBlockingQueue` |
 
 ##### `park()` (`java.util.concurrent.locks.LockSupport`)
 
 |      % |  Time | Contentions | Caller    | Location                                                              |
 | -----: | ----: | ----------: | --------- | --------------------------------------------------------------------- |
-| 100.0% | 1.13s |          21 | `block()` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode` |
+| 100.0% | 1.14s |          21 | `block()` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode` |
 
 ##### `block()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`)
 
 |      % |  Time | Contentions | Caller                                        | Location                            |
 | -----: | ----: | ----------: | --------------------------------------------- | ----------------------------------- |
-| 100.0% | 1.13s |          21 | `unmanagedBlock(ForkJoinPool$ManagedBlocker)` | `java.util.concurrent.ForkJoinPool` |
+| 100.0% | 1.14s |          21 | `unmanagedBlock(ForkJoinPool$ManagedBlocker)` | `java.util.concurrent.ForkJoinPool` |
 
 ##### `generateMethodNode(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
 |      % |   Time | Contentions | Caller                                      | Location                                                             |
 | -----: | -----: | ----------: | ------------------------------------------- | -------------------------------------------------------------------- |
-| 100.0% |  1.07s |         529 | `generateMethod(IrFunction, SourceMapper)`  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`              |
+| 100.0% |  1.08s |         529 | `generateMethod(IrFunction, SourceMapper)`  | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`              |
 |   4.1% | 44.7ms |           2 | `compileInlineFunction(JvmMethodSignature)` | `org.jetbrains.kotlin.backend.jvm.codegen.IrSourceCompilerForInline` |
 
 ##### `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`)
@@ -865,7 +865,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Contentions | Callee  | Location                                                       |
 | ----: | ------: | ----------: | ------- | -------------------------------------------------------------- |
-| 82.7% |   2.36s |       1,061 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker`               |
+| 82.7% |   2.37s |       1,061 | `run()` | `java.util.concurrent.ThreadPoolExecutor$Worker`               |
 | 17.3% | 496.2ms |           2 | `run()` | `jdk.internal.ref.CleanerImpl`                                 |
 | <0.1% |   5.4µs |           1 | `run()` | `jdk.jfr.internal.PlatformRecorder$$Lambda.0x0000007001042ce0` |
 
@@ -879,7 +879,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Contentions | Callee                                                  | Location                                          |
 | ----: | -----: | ----------: | ------------------------------------------------------- | ------------------------------------------------- |
-| 51.8% |  1.22s |       1,026 | `run()`                                                 | `java.util.concurrent.CompletableFuture$AsyncRun` |
+| 51.8% |  1.23s |       1,026 | `run()`                                                 | `java.util.concurrent.CompletableFuture$AsyncRun` |
 | 48.2% |  1.14s |          32 | `getTask()`                                             | `java.util.concurrent.ThreadPoolExecutor`         |
 | <0.1% | 16.8µs |           3 | `processWorkerExit(ThreadPoolExecutor$Worker, boolean)` | `java.util.concurrent.ThreadPoolExecutor`         |
 
@@ -887,13 +887,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Callee                                 | Location                                  |
 | -----: | ----: | ----------: | -------------------------------------- | ----------------------------------------- |
-| 100.0% | 2.36s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
+| 100.0% | 2.37s |       1,061 | `runWorker(ThreadPoolExecutor$Worker)` | `java.util.concurrent.ThreadPoolExecutor` |
 
 ##### `unmanagedBlock(ForkJoinPool$ManagedBlocker)` (`java.util.concurrent.ForkJoinPool`)
 
 |     % |    Time | Contentions | Callee    | Location                                                              |
 | ----: | ------: | ----------: | --------- | --------------------------------------------------------------------- |
-| 78.9% |   1.13s |          21 | `block()` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode` |
+| 78.9% |   1.14s |          21 | `block()` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode` |
 | 21.1% | 304.8ms |           2 | `block()` | `java.util.concurrent.CompletableFuture$Signaller`                    |
 
 ##### `managedBlock(ForkJoinPool$ManagedBlocker)` (`java.util.concurrent.ForkJoinPool`)
@@ -914,19 +914,19 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Callee                                                                                                            | Location                                               |
 | -----: | ----: | ----------: | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.22s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
+| 100.0% | 1.23s |       1,026 | `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory` |
 
 ##### `run()` (`java.util.concurrent.CompletableFuture$AsyncRun`)
 
 |      % |  Time | Contentions | Callee  | Location                                                                          |
 | -----: | ----: | ----------: | ------- | --------------------------------------------------------------------------------- |
-| 100.0% | 1.22s |       1,026 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
+| 100.0% | 1.23s |       1,026 | `run()` | `org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8` |
 
 ##### `generateFile(JvmBackendContext, IrFile, List, boolean)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`)
 
 |     % |   Time | Contentions | Callee                                                                                                   | Location                                                          |
 | ----: | -----: | ----------: | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 94.7% |  1.15s |         758 | `generate()`                                                                                             | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`           |
+| 94.7% |  1.16s |         758 | `generate()`                                                                                             | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`           |
 |  4.5% | 55.3ms |         220 | `getOrCreate$default(ClassCodegen$Companion, IrClass, JvmBackendContext, List, IrFunction, int, Object)` | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen$Companion` |
 
 ##### `generate()` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
@@ -942,7 +942,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |   Time | Contentions | Callee                                                                   | Location                                                                   |
 | ----: | -----: | ----------: | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| 94.2% |  1.07s |         529 | `generateMethodNode(IrFunction)`                                         | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                    |
+| 94.2% |  1.08s |         529 | `generateMethodNode(IrFunction)`                                         | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                    |
 |  2.1% | 24.0ms |          89 | `accept(MethodVisitor)`                                                  | `org.jetbrains.org.objectweb.asm.tree.MethodNode`                          |
 |  1.7% | 19.5ms |          39 | `getMetadataSerializer()`                                                | `org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`                    |
 |  1.3% | 15.1ms |          21 | `newMethod(JvmDeclarationOrigin, int, String, String, String, String[])` | `org.jetbrains.kotlin.codegen.DelegatingClassBuilder`                      |
@@ -952,7 +952,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Contentions | Callee                | Location                                                                |
 | -----: | ----: | ----------: | --------------------- | ----------------------------------------------------------------------- |
-| 100.0% | 1.13s |          30 | `await()`             | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| 100.0% | 1.14s |          30 | `await()`             | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
 |  <0.1% | 0.1ms |           2 | `lockInterruptibly()` | `java.util.concurrent.locks.ReentrantLock`                              |
 
 ##### `getTask()` (`java.util.concurrent.ThreadPoolExecutor`)
@@ -965,20 +965,20 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Contentions | Callee                                            | Location                                                |
 | ----: | ----: | ----------: | ------------------------------------------------- | ------------------------------------------------------- |
-| 99.9% | 1.13s |          21 | `managedBlock(ForkJoinPool$ManagedBlocker)`       | `java.util.concurrent.ForkJoinPool`                     |
+| 99.9% | 1.14s |          21 | `managedBlock(ForkJoinPool$ManagedBlocker)`       | `java.util.concurrent.ForkJoinPool`                     |
 |  0.1% | 0.8ms |           9 | `reacquire(AbstractQueuedSynchronizer$Node, int)` | `java.util.concurrent.locks.AbstractQueuedSynchronizer` |
 
 ##### `park()` (`java.util.concurrent.locks.LockSupport`)
 
 |      % |  Time | Contentions | Callee                | Location                   |
 | -----: | ----: | ----------: | --------------------- | -------------------------- |
-| 100.0% | 1.13s |          21 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+| 100.0% | 1.14s |          21 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 ##### `block()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`)
 
 |      % |  Time | Contentions | Callee   | Location                                 |
 | -----: | ----: | ----------: | -------- | ---------------------------------------- |
-| 100.0% | 1.13s |          21 | `park()` | `java.util.concurrent.locks.LockSupport` |
+| 100.0% | 1.14s |          21 | `park()` | `java.util.concurrent.locks.LockSupport` |
 
 ##### `generateMethodNode(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`)
 
@@ -1119,7 +1119,7 @@ Call stacks with the most time blocked in their leaf frame.
 
 |     % |    Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ----: | ------: | ----------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 35.9% |   1.13s |          21 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `block()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`) ← `unmanagedBlock(ForkJoinPool$ManagedBlocker)` (`java.util.concurrent.ForkJoinPool`) ← `managedBlock(ForkJoinPool$ManagedBlocker)` ← `await()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `take()` (`java.util.concurrent.LinkedBlockingQueue`) ← `getTask()` (`java.util.concurrent.ThreadPoolExecutor`) ← `runWorker(ThreadPoolExecutor$Worker)` ← `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 35.9% |   1.14s |          21 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park()` (`java.util.concurrent.locks.LockSupport`) ← `block()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode`) ← `unmanagedBlock(ForkJoinPool$ManagedBlocker)` (`java.util.concurrent.ForkJoinPool`) ← `managedBlock(ForkJoinPool$ManagedBlocker)` ← `await()` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `take()` (`java.util.concurrent.LinkedBlockingQueue`) ← `getTask()` (`java.util.concurrent.ThreadPoolExecutor`) ← `runWorker(ThreadPoolExecutor$Worker)` ← `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | 27.9% | 884.9ms |          90 | `generateMethodNode(IrFunction)` (`org.jetbrains.kotlin.backend.jvm.codegen.ClassCodegen`) ← `generateMethod(IrFunction, SourceMapper)` ← `generate()` ← `generateFile(JvmBackendContext, IrFile, List, boolean)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`) ← `invokeCodegen$lambda$0(PerformanceManager, JvmIrCodegenFactory, JvmBackendContext, IrFile, List, boolean, List)` ← `run()` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory$$Lambda.0x00000070018ac8e8`) ← `run()` (`java.util.concurrent.CompletableFuture$AsyncRun`) ← `runWorker(ThreadPoolExecutor$Worker)` (`java.util.concurrent.ThreadPoolExecutor`) ← `run()` (`java.util.concurrent.ThreadPoolExecutor$Worker`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 15.7% | 496.2ms |           2 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |  9.6% | 304.8ms |           2 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `park(Object)` (`java.util.concurrent.locks.LockSupport`) ← `block()` (`java.util.concurrent.CompletableFuture$Signaller`) ← `unmanagedBlock(ForkJoinPool$ManagedBlocker)` (`java.util.concurrent.ForkJoinPool`) ← `managedBlock(ForkJoinPool$ManagedBlocker)` ← `waitingGet(boolean)` (`java.util.concurrent.CompletableFuture`) ← `get()` ← `invokeCodegen(JvmIrCodegenFactory$CodegenInput)` (`org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory`) ← `runCodegen$org_jetbrains_kotlin_cli_jvm(JvmIrCodegenFactory$CodegenInput, GenerationState, JvmIrCodegenFactory, BaseDiagnosticsCollector, CompilerConfiguration, boolean)` (`org.jetbrains.kotlin.cli.jvm.compiler.KotlinToJVMBytecodeCompiler`) ← `executePhase(JvmFir2IrPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase`) ← `executePhase(PipelineArtifact)` ← `phaseBody(PipelineContext, PipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.PipelinePhase`) ← `phaseBody(LoggingContext, Object)` ← `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`) ← `invoke(PhaseConfig, PhaserState, LoggingContext, Object)` (`org.jetbrains.kotlin.backend.common.phaser.CompositePhase`) ← `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)` (`org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`) ← `runPhasedPipeline(ArgumentsPipelineArtifact)` (`org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`) ← `executeAndReturnPipeLineArtifact(CommonCompilerArguments, Services, MessageCollector, Disposable)` ← `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` ← `execute(CommonCompilerArguments, Services, MessageCollector)` ← `doExecutePhased(K2JVMCompilerArguments, Services, MessageCollector)` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`) ← `doExecutePhased(CommonCompilerArguments, Services, MessageCollector)` ← `execImpl(MessageCollector, Services, CommonCompilerArguments)` (`org.jetbrains.kotlin.cli.common.CLICompiler`) ← `exec(MessageCollector, Services, CommonCompilerArguments)` ← `exec(PrintStream, Services, MessageRenderer, String[])` ← `exec(PrintStream, MessageRenderer, String[])` ← `doMainNoExit(CLICompiler, String[], MessageRenderer)` (`org.jetbrains.kotlin.cli.common.CLICompiler$Companion`) ← `doMainNoExit$default(CLICompiler$Companion, CLICompiler, String[], MessageRenderer, int, Object)` ← `doMain(CLICompiler, String[])` ← `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`) ← `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001800`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700100e000`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])` |

@@ -4,8 +4,8 @@ Recorded 42,414 events over 5.60s.
 
 | Category                 |     % |    Time |  Count |
 | ------------------------ | ----: | ------: | -----: |
-| Script                   | 85.0% |   4.76s | 12,940 |
-| Garbage collection       | 34.2% |   1.91s |  1,989 |
+| Script                   | 85.0% |   4.77s | 12,940 |
+| Garbage collection       | 34.2% |   1.92s |  1,989 |
 | Garbage collection pause | 13.2% | 741.0ms | 10,996 |
 | I/O                      |  1.3% |  74.5ms | 14,864 |
 | Compilation              |  0.2% |  13.3ms |  1,540 |
@@ -17,8 +17,8 @@ Threads with the most time in spans. Threads run concurrently, so percentages ca
 
 |     % |  Time |  Count | Thread                 |
 | ----: | ----: | -----: | ---------------------- |
-| 99.9% | 5.59s | 40,324 | `JavaScriptMainThread` |
-| 34.2% | 1.91s |  1,958 | `PlatformWorkerThread` |
+| 99.9% | 5.60s | 40,324 | `JavaScriptMainThread` |
+| 34.2% | 1.92s |  1,958 | `PlatformWorkerThread` |
 
 ## Longest thread spans
 
@@ -372,7 +372,7 @@ Thread spans with the most time, including child spans.
 
 |     % |    Time |  Count |   Mean |    Max | Span                                           |
 | ----: | ------: | -----: | -----: | -----: | ---------------------------------------------- |
-| 99.8% |   5.59s |      1 |  5.59s |  5.59s | `RunMicrotasks`                                |
+| 99.8% |   5.60s |      1 |  5.60s |  5.60s | `RunMicrotasks`                                |
 | 14.9% | 833.8ms |  1,413 |  0.6ms |  3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
 | 12.9% | 721.4ms |    348 |  2.1ms |  8.5ms | `MinorGC`                                      |
 | 12.5% | 702.0ms |    348 |  2.0ms |  8.5ms | `V8.GCScavenger`                               |
@@ -401,7 +401,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |   Time | Count |   Mean |   Max | Span                                       |
 | ----: | -----: | ----: | -----: | ----: | ------------------------------------------ |
-| 99.8% |  5.59s |     1 |  5.59s | 5.59s | `RunMicrotasks`                            |
+| 99.8% |  5.60s |     1 |  5.60s | 5.60s | `RunMicrotasks`                            |
 |  1.7% | 96.3ms | 2,735 | 35.2µs | 5.5ms | `V8.StackGuard`                            |
 |  1.5% | 86.4ms | 2,757 | 31.4µs | 5.5ms | `V8.HandleInterrupts`                      |
 |  0.9% | 50.4ms | 6,944 |  7.3µs | 0.3ms | `V8.BytecodeBudgetInterrupt`               |
@@ -505,7 +505,7 @@ Threads with the largest contribution to each span's total time.
 
 |      % |  Time | Count |  Mean |   Max | Thread                 |
 | -----: | ----: | ----: | ----: | ----: | ---------------------- |
-| 100.0% | 5.59s |     1 | 5.59s | 5.59s | `JavaScriptMainThread` |
+| 100.0% | 5.60s |     1 | 5.60s | 5.60s | `JavaScriptMainThread` |
 
 ##### `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL`
 
@@ -1264,7 +1264,7 @@ Instances of each span with the most time.
 
 |      % |  Time | CPU time | Start | Thread                 |
 | -----: | ----: | -------: | ----: | ---------------------- |
-| 100.0% | 5.59s |    5.47s | 6.6ms | `JavaScriptMainThread` |
+| 100.0% | 5.60s |    5.47s | 6.6ms | `JavaScriptMainThread` |
 
 ##### `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL`
 
@@ -1273,48 +1273,48 @@ Instances of each span with the most time.
 | 0.4% | 3.6ms |    3.6ms | 637.9ms | `PlatformWorkerThread` |
 | 0.4% | 3.6ms |    3.6ms | 637.9ms | `PlatformWorkerThread` |
 | 0.4% | 3.4ms |    3.2ms | 398.3ms | `PlatformWorkerThread` |
-| 0.4% | 3.4ms |    3.2ms |   2.61s | `PlatformWorkerThread` |
-| 0.4% | 3.4ms |    3.3ms |   2.61s | `PlatformWorkerThread` |
+| 0.4% | 3.4ms |    3.2ms |   2.62s | `PlatformWorkerThread` |
+| 0.4% | 3.4ms |    3.3ms |   2.62s | `PlatformWorkerThread` |
 
 ##### `MinorGC`
 
 |    % |  Time | CPU time | Start | Thread                 | Attributes                                     |
 | ---: | ----: | -------: | ----: | ---------------------- | ---------------------------------------------- |
 | 1.2% | 8.5ms |    8.5ms | 2.65s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=8.51 MiB` |
-| 1.1% | 7.6ms |    7.6ms | 4.14s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=6.88 MiB` |
+| 1.1% | 7.6ms |    7.6ms | 4.15s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=6.88 MiB` |
 | 1.0% | 7.6ms |    7.4ms | 2.34s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=4.23 MiB` |
 | 1.0% | 7.4ms |    7.3ms | 2.75s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=7.97 MiB` |
-| 1.0% | 7.2ms |    7.2ms | 2.72s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=8.29 MiB` |
+| 1.0% | 7.2ms |    7.2ms | 2.73s | `JavaScriptMainThread` | `cause=allocation failure, reclaimed=8.29 MiB` |
 
 ##### `V8.GCScavenger`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 1.2% | 8.5ms |    8.4ms | 2.65s | `JavaScriptMainThread` |
-| 1.1% | 7.6ms |    7.5ms | 4.14s | `JavaScriptMainThread` |
+| 1.1% | 7.6ms |    7.5ms | 4.15s | `JavaScriptMainThread` |
 | 1.1% | 7.5ms |    7.4ms | 2.34s | `JavaScriptMainThread` |
 | 1.0% | 7.3ms |    7.2ms | 2.75s | `JavaScriptMainThread` |
-| 1.0% | 7.2ms |    7.1ms | 2.72s | `JavaScriptMainThread` |
+| 1.0% | 7.2ms |    7.1ms | 2.73s | `JavaScriptMainThread` |
 
 ##### `V8.GC_SCAVENGER`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 1.2% | 8.5ms |    8.4ms | 2.65s | `JavaScriptMainThread` |
-| 1.1% | 7.5ms |    7.5ms | 4.14s | `JavaScriptMainThread` |
+| 1.1% | 7.5ms |    7.5ms | 4.15s | `JavaScriptMainThread` |
 | 1.1% | 7.4ms |    7.3ms | 2.34s | `JavaScriptMainThread` |
 | 1.0% | 7.3ms |    7.2ms | 2.75s | `JavaScriptMainThread` |
-| 1.0% | 7.1ms |    7.1ms | 2.72s | `JavaScriptMainThread` |
+| 1.0% | 7.1ms |    7.1ms | 2.73s | `JavaScriptMainThread` |
 
 ##### `V8.GC_SCAVENGER_SCAVENGE`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 1.2% | 8.4ms |    8.4ms | 2.65s | `JavaScriptMainThread` |
-| 1.1% | 7.4ms |    7.4ms | 4.14s | `JavaScriptMainThread` |
+| 1.1% | 7.4ms |    7.4ms | 4.15s | `JavaScriptMainThread` |
 | 1.1% | 7.3ms |    7.3ms | 2.34s | `JavaScriptMainThread` |
 | 1.1% | 7.2ms |    7.1ms | 2.75s | `JavaScriptMainThread` |
-| 1.0% | 7.1ms |    7.1ms | 2.72s | `JavaScriptMainThread` |
+| 1.0% | 7.1ms |    7.1ms | 2.73s | `JavaScriptMainThread` |
 
 ##### `V8.GC_BACKGROUND_UNPARK`
 
@@ -1323,24 +1323,24 @@ Instances of each span with the most time.
 | 2.4% | 13.4ms |   21.0µs | 924.7ms | `PlatformWorkerThread` |
 | 1.7% |  9.3ms |    8.0µs | 924.6ms | `PlatformWorkerThread` |
 | 1.7% |  9.2ms |   19.0µs | 924.3ms | `PlatformWorkerThread` |
-| 1.5% |  8.0ms |   24.0µs |   2.65s | `PlatformWorkerThread` |
-| 1.4% |  8.0ms |   14.0µs |   2.65s | `PlatformWorkerThread` |
+| 1.5% |  8.0ms |   24.0µs |   2.66s | `PlatformWorkerThread` |
+| 1.4% |  8.0ms |   14.0µs |   2.66s | `PlatformWorkerThread` |
 
 ##### `V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE`
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 1.8% | 7.4ms |    7.3ms |   2.65s | `JavaScriptMainThread` |
+| 1.8% | 7.4ms |    7.3ms |   2.66s | `JavaScriptMainThread` |
 | 1.6% | 6.5ms |    6.5ms |   2.34s | `JavaScriptMainThread` |
 | 1.5% | 6.3ms |    6.3ms | 858.3ms | `JavaScriptMainThread` |
 | 1.5% | 6.1ms |    6.1ms |   2.75s | `JavaScriptMainThread` |
-| 1.5% | 6.1ms |    6.1ms |   2.72s | `JavaScriptMainThread` |
+| 1.5% | 6.1ms |    6.1ms |   2.73s | `JavaScriptMainThread` |
 
 ##### `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 1.9% | 7.3ms |    7.3ms |   2.65s | `JavaScriptMainThread` |
+| 1.9% | 7.3ms |    7.3ms |   2.66s | `JavaScriptMainThread` |
 | 1.7% | 6.5ms |    6.5ms |   2.34s | `JavaScriptMainThread` |
 | 1.7% | 6.3ms |    6.3ms | 858.3ms | `JavaScriptMainThread` |
 | 1.6% | 6.1ms |    6.0ms |   2.75s | `JavaScriptMainThread` |
@@ -1350,20 +1350,20 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
-| 3.0% | 7.6ms |   22.0µs | 4.14s | `PlatformWorkerThread` |
-| 3.0% | 7.6ms |   20.0µs | 4.14s | `PlatformWorkerThread` |
+| 3.0% | 7.6ms |   22.0µs | 4.15s | `PlatformWorkerThread` |
+| 3.0% | 7.6ms |   20.0µs | 4.15s | `PlatformWorkerThread` |
 | 3.0% | 7.5ms |   25.0µs | 2.34s | `PlatformWorkerThread` |
 | 2.9% | 7.3ms |   16.0µs | 2.75s | `PlatformWorkerThread` |
-| 2.8% | 7.2ms |   16.0µs | 2.72s | `PlatformWorkerThread` |
+| 2.8% | 7.2ms |   16.0µs | 2.73s | `PlatformWorkerThread` |
 
 ##### `V8.GC_MC_BACKGROUND_MARKING`
 
 |     % |   Time | CPU time | Start | Thread                 |
 | ----: | -----: | -------: | ----: | ---------------------- |
-| 12.6% | 29.9ms |   28.3ms | 1.63s | `PlatformWorkerThread` |
-| 12.5% | 29.9ms |   28.6ms | 1.63s | `PlatformWorkerThread` |
-| 12.5% | 29.9ms |   27.9ms | 1.63s | `PlatformWorkerThread` |
-| 12.5% | 29.9ms |   27.2ms | 1.63s | `PlatformWorkerThread` |
+| 12.6% | 29.9ms |   28.3ms | 1.64s | `PlatformWorkerThread` |
+| 12.5% | 29.9ms |   28.6ms | 1.64s | `PlatformWorkerThread` |
+| 12.5% | 29.9ms |   27.9ms | 1.64s | `PlatformWorkerThread` |
+| 12.5% | 29.9ms |   27.2ms | 1.64s | `PlatformWorkerThread` |
 |  5.9% | 14.0ms |   12.7ms | 1.67s | `PlatformWorkerThread` |
 
 ##### `V8.StackGuard`
@@ -1371,20 +1371,20 @@ Instances of each span with the most time.
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 5.8% | 5.5ms |    5.5ms | 334.1ms | `JavaScriptMainThread` |
-| 5.6% | 5.4ms |    5.3ms |   1.68s | `JavaScriptMainThread` |
+| 5.6% | 5.4ms |    5.3ms |   1.69s | `JavaScriptMainThread` |
 | 1.0% | 1.0ms |    0.1ms | 944.7ms | `JavaScriptMainThread` |
 | 0.8% | 0.7ms |    0.7ms |   1.62s | `JavaScriptMainThread` |
-| 0.4% | 0.4ms |    0.4ms |   2.72s | `JavaScriptMainThread` |
+| 0.4% | 0.4ms |    0.4ms |   2.73s | `JavaScriptMainThread` |
 
 ##### `V8.HandleInterrupts`
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 6.4% | 5.5ms |    5.5ms | 334.1ms | `JavaScriptMainThread` |
-| 6.3% | 5.4ms |    5.3ms |   1.68s | `JavaScriptMainThread` |
+| 6.3% | 5.4ms |    5.3ms |   1.69s | `JavaScriptMainThread` |
 | 1.1% | 0.9ms |    0.1ms | 944.7ms | `JavaScriptMainThread` |
 | 0.8% | 0.7ms |    0.7ms |   1.62s | `JavaScriptMainThread` |
-| 0.5% | 0.4ms |    0.4ms |   2.72s | `JavaScriptMainThread` |
+| 0.5% | 0.4ms |    0.4ms |   2.73s | `JavaScriptMainThread` |
 
 ##### `V8.BytecodeBudgetInterrupt`
 
@@ -1410,7 +1410,7 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 0.3% | 0.1ms |    0.1ms |   2.28s | `JavaScriptMainThread` |
+| 0.3% | 0.1ms |    0.1ms |   2.29s | `JavaScriptMainThread` |
 | 0.2% | 0.1ms |    0.1ms | 103.9ms | `JavaScriptMainThread` |
 | 0.2% | 0.1ms |    0.1ms | 189.7ms | `JavaScriptMainThread` |
 | 0.2% | 0.1ms |    0.1ms | 452.7ms | `JavaScriptMainThread` |
@@ -1421,10 +1421,10 @@ Instances of each span with the most time.
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 1.0% | 0.2ms |    0.2ms |   2.75s | `JavaScriptMainThread` |
-| 1.0% | 0.2ms |    0.2ms |   2.72s | `JavaScriptMainThread` |
-| 0.9% | 0.2ms |    0.2ms |   2.69s | `JavaScriptMainThread` |
+| 1.0% | 0.2ms |    0.2ms |   2.73s | `JavaScriptMainThread` |
+| 0.9% | 0.2ms |    0.2ms |   2.70s | `JavaScriptMainThread` |
 | 0.8% | 0.2ms |    0.2ms | 894.3ms | `JavaScriptMainThread` |
-| 0.8% | 0.2ms |    0.2ms |   2.90s | `JavaScriptMainThread` |
+| 0.8% | 0.2ms |    0.2ms |   2.91s | `JavaScriptMainThread` |
 
 ##### `fs.sync.open`
 
@@ -1432,7 +1432,7 @@ Instances of each span with the most time.
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 0.6% | 0.1ms |    0.1ms | 403.3ms | `JavaScriptMainThread` |
 | 0.5% | 0.1ms |    0.1ms | 244.8ms | `JavaScriptMainThread` |
-| 0.5% | 0.1ms |    0.1ms |   2.28s | `JavaScriptMainThread` |
+| 0.5% | 0.1ms |    0.1ms |   2.29s | `JavaScriptMainThread` |
 | 0.5% | 0.1ms |    0.1ms | 377.3ms | `JavaScriptMainThread` |
 | 0.4% | 0.1ms |    0.1ms | 301.4ms | `JavaScriptMainThread` |
 
@@ -1442,46 +1442,46 @@ Instances of each span with the most time.
 | ---: | ----: | -------: | ------: | ---------------------- |
 | 0.5% | 0.1ms |    0.1ms |   3.28s | `JavaScriptMainThread` |
 | 0.4% | 0.1ms |    0.1ms |   1.20s | `JavaScriptMainThread` |
-| 0.4% | 0.1ms |    0.1ms |   2.91s | `JavaScriptMainThread` |
+| 0.4% | 0.1ms |    0.1ms |   2.92s | `JavaScriptMainThread` |
 | 0.4% | 0.1ms |    0.1ms | 956.6ms | `JavaScriptMainThread` |
-| 0.3% | 0.1ms |    0.1ms |   2.16s | `JavaScriptMainThread` |
+| 0.3% | 0.1ms |    0.1ms |   2.17s | `JavaScriptMainThread` |
 
 ##### `V8.GCHandleGCRequest`
 
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 50.5% | 5.5ms |    5.5ms | 334.1ms | `JavaScriptMainThread` |
-| 49.5% | 5.4ms |    5.3ms |   1.68s | `JavaScriptMainThread` |
+| 49.5% | 5.4ms |    5.3ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `MajorGC`
 
 |     % |  Time | CPU time |   Start | Thread                 | Attributes                                                               |
 | ----: | ----: | -------: | ------: | ---------------------- | ------------------------------------------------------------------------ |
 | 50.5% | 5.5ms |    5.4ms | 334.1ms | `JavaScriptMainThread` | `cause=finalize incremental marking via stack guard, reclaimed=2.87 MiB` |
-| 49.5% | 5.4ms |    5.2ms |   1.68s | `JavaScriptMainThread` | `cause=finalize incremental marking via stack guard, reclaimed=12.3 MiB` |
+| 49.5% | 5.4ms |    5.2ms |   1.69s | `JavaScriptMainThread` | `cause=finalize incremental marking via stack guard, reclaimed=12.3 MiB` |
 
 ##### `V8.GCFinalizeMC`
 
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 50.4% | 5.5ms |    5.4ms | 334.1ms | `JavaScriptMainThread` |
-| 49.6% | 5.4ms |    5.2ms |   1.68s | `JavaScriptMainThread` |
+| 49.6% | 5.4ms |    5.2ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `V8.GC_MARK_COMPACTOR`
 
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 50.3% | 5.4ms |    5.3ms | 334.2ms | `JavaScriptMainThread` |
-| 49.7% | 5.3ms |    5.2ms |   1.68s | `JavaScriptMainThread` |
+| 49.7% | 5.3ms |    5.2ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `Evacuator::EvacuatePage`
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
-| 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
+| 2.1% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` |
+| 2.1% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` |
 | 1.8% | 0.2ms |    0.2ms | 337.8ms | `JavaScriptMainThread` |
-| 1.8% | 0.1ms |    0.1ms |   1.68s | `PlatformWorkerThread` |
+| 1.8% | 0.1ms |    0.1ms |   1.69s | `PlatformWorkerThread` |
 | 1.7% | 0.1ms |    0.1ms | 338.5ms | `JavaScriptMainThread` |
 
 ##### `V8.GC_MC_EVACUATE`
@@ -1489,7 +1489,7 @@ Instances of each span with the most time.
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 48.7% | 4.0ms |    4.0ms | 335.3ms | `JavaScriptMainThread` |
-| 44.3% | 3.6ms |    3.5ms |   1.68s | `JavaScriptMainThread` |
+| 44.3% | 3.6ms |    3.5ms |   1.69s | `JavaScriptMainThread` |
 |  4.3% | 0.4ms |    0.4ms |   1.69s | `JavaScriptMainThread` |
 |  2.7% | 0.2ms |    0.2ms | 339.3ms | `JavaScriptMainThread` |
 
@@ -1497,10 +1497,10 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time |   Start | Thread                 | Attributes                           |
 | ---: | ----: | -------: | ------: | ---------------------- | ------------------------------------ |
-| 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
-| 2.1% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
+| 2.1% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
+| 2.1% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
 | 1.8% | 0.1ms |    0.1ms | 337.8ms | `JavaScriptMainThread` | `evacuation_mode=objects-new-to-old` |
-| 1.8% | 0.1ms |    0.1ms |   1.68s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
+| 1.8% | 0.1ms |    0.1ms |   1.69s | `PlatformWorkerThread` | `evacuation_mode=objects-new-to-old` |
 | 1.7% | 0.1ms |    0.1ms | 338.5ms | `JavaScriptMainThread` | `evacuation_mode=objects-new-to-old` |
 
 ##### `V8.GC_SCAVENGER_SCAVENGE_FINALIZE`
@@ -1508,19 +1508,19 @@ Instances of each span with the most time.
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 17.8% | 1.4ms |    0.1ms | 928.4ms | `JavaScriptMainThread` |
-|  1.5% | 0.1ms |    0.1ms |   1.73s | `JavaScriptMainThread` |
+|  1.5% | 0.1ms |    0.1ms |   1.74s | `JavaScriptMainThread` |
 |  1.3% | 0.1ms |    0.1ms |   3.51s | `JavaScriptMainThread` |
-|  0.8% | 0.1ms |    0.1ms |   4.75s | `JavaScriptMainThread` |
+|  0.8% | 0.1ms |    0.1ms |   4.76s | `JavaScriptMainThread` |
 |  0.7% | 0.1ms |    0.1ms | 401.8ms | `JavaScriptMainThread` |
 
 ##### `LiveObjectVisitor::VisitMarkedObjectsNoFail`
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 2.2% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
-| 2.2% | 0.2ms |    0.2ms |   1.68s | `PlatformWorkerThread` |
+| 2.2% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` |
+| 2.2% | 0.2ms |    0.2ms |   1.69s | `PlatformWorkerThread` |
 | 1.9% | 0.1ms |    0.1ms | 337.8ms | `JavaScriptMainThread` |
-| 1.9% | 0.1ms |    0.1ms |   1.68s | `PlatformWorkerThread` |
+| 1.9% | 0.1ms |    0.1ms |   1.69s | `PlatformWorkerThread` |
 | 1.7% | 0.1ms |    0.1ms | 338.5ms | `JavaScriptMainThread` |
 
 ##### `V8.BytecodeBudgetInterruptWithStackCheck`
@@ -1531,15 +1531,15 @@ Instances of each span with the most time.
 | 3.7% | 0.3ms |    0.3ms | 714.0ms | `JavaScriptMainThread` |
 | 2.3% | 0.2ms |    0.2ms | 956.2ms | `JavaScriptMainThread` |
 | 2.1% | 0.2ms |    0.2ms | 694.0ms | `JavaScriptMainThread` |
-| 2.0% | 0.2ms |    0.2ms |   1.65s | `JavaScriptMainThread` |
+| 2.0% | 0.2ms |    0.2ms |   1.66s | `JavaScriptMainThread` |
 
 ##### `V8.GCIncrementalMarking`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 2.5% | 0.2ms |    0.2ms | 1.67s | `JavaScriptMainThread` |
-| 2.1% | 0.2ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
-| 1.9% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
+| 2.1% | 0.2ms |    0.1ms | 1.68s | `JavaScriptMainThread` |
+| 1.9% | 0.1ms |    0.1ms | 1.68s | `JavaScriptMainThread` |
 | 1.3% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 | 1.2% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 
@@ -1547,10 +1547,10 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 2.9% | 0.2ms |    0.2ms |   4.37s | `JavaScriptMainThread` |
+| 2.9% | 0.2ms |    0.2ms |   4.38s | `JavaScriptMainThread` |
 | 1.8% | 0.1ms |    0.1ms | 791.9ms | `JavaScriptMainThread` |
 | 1.8% | 0.1ms |    0.1ms |   2.66s | `JavaScriptMainThread` |
-| 1.6% | 0.1ms |    0.1ms |   4.39s | `JavaScriptMainThread` |
+| 1.6% | 0.1ms |    0.1ms |   4.40s | `JavaScriptMainThread` |
 | 1.5% | 0.1ms |    0.1ms | 641.6ms | `JavaScriptMainThread` |
 
 ##### `V8.GC_MC_EVACUATE_COPY`
@@ -1558,22 +1558,22 @@ Instances of each span with the most time.
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 54.7% | 3.2ms |    3.2ms | 335.5ms | `JavaScriptMainThread` |
-| 45.3% | 2.7ms |    2.6ms |   1.68s | `JavaScriptMainThread` |
+| 45.3% | 2.7ms |    2.6ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `MarkCompactCollector::EvacuatePagesInParallel`
 
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 54.8% | 3.2ms |    3.2ms | 335.5ms | `JavaScriptMainThread` |
-| 45.2% | 2.7ms |    2.6ms |   1.68s | `JavaScriptMainThread` |
+| 45.2% | 2.7ms |    2.6ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `V8.GC_MC_INCREMENTAL`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
 | 3.1% | 0.2ms |    0.2ms | 1.67s | `JavaScriptMainThread` |
-| 2.6% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
-| 2.3% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
+| 2.6% | 0.1ms |    0.1ms | 1.68s | `JavaScriptMainThread` |
+| 2.3% | 0.1ms |    0.1ms | 1.68s | `JavaScriptMainThread` |
 | 1.5% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 | 1.5% | 0.1ms |    0.1ms | 1.67s | `JavaScriptMainThread` |
 
@@ -1582,31 +1582,31 @@ Instances of each span with the most time.
 |     % |  Time | CPU time |   Start | Thread                 |
 | ----: | ----: | -------: | ------: | ---------------------- |
 | 55.3% | 3.2ms |    3.2ms | 335.5ms | `JavaScriptMainThread` |
-| 44.7% | 2.6ms |    2.6ms |   1.68s | `JavaScriptMainThread` |
+| 44.7% | 2.6ms |    2.6ms |   1.69s | `JavaScriptMainThread` |
 
 ##### `V8.GC_TIME_TO_SAFEPOINT`
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
-| 9.2% | 0.5ms |   15.0µs | 3.30s | `JavaScriptMainThread` |
-| 7.0% | 0.4ms |   13.0µs | 3.24s | `JavaScriptMainThread` |
-| 5.6% | 0.3ms |    8.0µs | 3.44s | `JavaScriptMainThread` |
-| 5.1% | 0.3ms |    6.0µs | 3.96s | `JavaScriptMainThread` |
+| 9.2% | 0.5ms |   15.0µs | 3.31s | `JavaScriptMainThread` |
+| 7.0% | 0.4ms |   13.0µs | 3.25s | `JavaScriptMainThread` |
+| 5.6% | 0.3ms |    8.0µs | 3.45s | `JavaScriptMainThread` |
+| 5.1% | 0.3ms |    6.0µs | 3.97s | `JavaScriptMainThread` |
 | 4.5% | 0.2ms |    8.0µs | 4.82s | `JavaScriptMainThread` |
 
 ##### `V8.GC_MC_BACKGROUND_EVACUATE_COPY`
 
 |      % |  Time | CPU time | Start | Thread                 |
 | -----: | ----: | -------: | ----: | ---------------------- |
-| 100.0% | 2.6ms |    2.6ms | 1.68s | `PlatformWorkerThread` |
+| 100.0% | 2.6ms |    2.6ms | 1.69s | `PlatformWorkerThread` |
 
 ##### `V8.GC_HEAP_EPILOGUE_SAFEPOINT`
 
 |    % |   Time | CPU time |   Start | Thread                 |
 | ---: | -----: | -------: | ------: | ---------------------- |
 | 1.0% | 18.0µs |   17.0µs | 929.9ms | `JavaScriptMainThread` |
-| 0.9% | 16.0µs |   16.0µs |   2.53s | `JavaScriptMainThread` |
-| 0.7% | 12.0µs |   12.0µs |   1.13s | `JavaScriptMainThread` |
+| 0.9% | 16.0µs |   16.0µs |   2.54s | `JavaScriptMainThread` |
+| 0.7% | 12.0µs |   12.0µs |   1.14s | `JavaScriptMainThread` |
 | 0.5% | 10.0µs |   10.0µs | 517.1ms | `JavaScriptMainThread` |
 | 0.5% | 10.0µs |    9.0µs |   2.12s | `JavaScriptMainThread` |
 
@@ -1624,17 +1624,17 @@ Instances of each span with the most time.
 
 |     % |  Time | CPU time | Start | Thread                 |
 | ----: | ----: | -------: | ----: | ---------------------- |
-| 11.2% | 0.2ms |    0.2ms | 2.90s | `JavaScriptMainThread` |
+| 11.2% | 0.2ms |    0.2ms | 2.91s | `JavaScriptMainThread` |
 |  9.4% | 0.1ms |    0.1ms | 2.70s | `JavaScriptMainThread` |
 |  7.1% | 0.1ms |    0.1ms | 4.09s | `JavaScriptMainThread` |
 |  6.4% | 0.1ms |    0.1ms | 2.62s | `JavaScriptMainThread` |
-|  5.6% | 0.1ms |    0.1ms | 4.41s | `JavaScriptMainThread` |
+|  5.6% | 0.1ms |    0.1ms | 4.42s | `JavaScriptMainThread` |
 
 ##### `V8.GC_BACKGROUND_YOUNG_ARRAY_BUFFER_SWEEP`
 
 |     % |   Time | CPU time |   Start | Thread                 |
 | ----: | -----: | -------: | ------: | ---------------------- |
-| 36.0% |  0.3ms |    0.3ms |   4.15s | `PlatformWorkerThread` |
+| 36.0% |  0.3ms |    0.3ms |   4.16s | `PlatformWorkerThread` |
 | 10.9% |  0.1ms |    0.1ms |   2.30s | `PlatformWorkerThread` |
 |  9.9% |  0.1ms |    0.1ms | 451.4ms | `PlatformWorkerThread` |
 |  7.0% |  0.1ms |    0.1ms | 377.0ms | `PlatformWorkerThread` |
@@ -1644,7 +1644,7 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time | Start | Thread                 |
 | ---: | ----: | -------: | ----: | ---------------------- |
-| 0.4% | 2.0µs |    2.0µs | 1.62s | `JavaScriptMainThread` |
+| 0.4% | 2.0µs |    2.0µs | 1.63s | `JavaScriptMainThread` |
 | 0.4% | 2.0µs |    1.0µs | 1.66s | `JavaScriptMainThread` |
 | 0.4% | 2.0µs |    2.0µs | 1.66s | `JavaScriptMainThread` |
 | 0.4% | 2.0µs |      0ms | 1.66s | `JavaScriptMainThread` |
@@ -1664,9 +1664,9 @@ Instances of each span with the most time.
 
 |    % |  Time | CPU time |   Start | Thread                 |
 | ---: | ----: | -------: | ------: | ---------------------- |
-| 1.0% | 3.0µs |    3.0µs |   2.72s | `JavaScriptMainThread` |
+| 1.0% | 3.0µs |    3.0µs |   2.73s | `JavaScriptMainThread` |
 | 0.6% | 2.0µs |    1.0µs | 224.6ms | `JavaScriptMainThread` |
-| 0.6% | 2.0µs |    3.0µs |   2.58s | `JavaScriptMainThread` |
+| 0.6% | 2.0µs |    3.0µs |   2.59s | `JavaScriptMainThread` |
 | 0.6% | 2.0µs |    1.0µs |   3.57s | `JavaScriptMainThread` |
 | 0.6% | 2.0µs |    2.0µs |   3.73s | `JavaScriptMainThread` |
 
@@ -1674,15 +1674,15 @@ Instances of each span with the most time.
 
 |      % |  Time | CPU time | Start | Thread                 |
 | -----: | ----: | -------: | ----: | ---------------------- |
-| 100.0% | 0.3ms |    0.3ms | 1.68s | `PlatformWorkerThread` |
+| 100.0% | 0.3ms |    0.3ms | 1.69s | `PlatformWorkerThread` |
 
 ##### `V8.GC_MINOR_MS_BACKGROUND_SWEEPING`
 
 |     % |   Time | CPU time |   Start | Thread                 |
 | ----: | -----: | -------: | ------: | ---------------------- |
 | 18.7% | 29.0µs |    6.0µs | 377.0ms | `PlatformWorkerThread` |
-|  6.5% | 10.0µs |   11.0µs |   4.25s | `PlatformWorkerThread` |
-|  5.8% |  9.0µs |    8.0µs |   2.35s | `PlatformWorkerThread` |
+|  6.5% | 10.0µs |   11.0µs |   4.26s | `PlatformWorkerThread` |
+|  5.8% |  9.0µs |    8.0µs |   2.36s | `PlatformWorkerThread` |
 |  3.9% |  6.0µs |    6.0µs |   2.30s | `PlatformWorkerThread` |
 |  3.2% |  5.0µs |    3.0µs |   4.17s | `PlatformWorkerThread` |
 
@@ -1690,8 +1690,8 @@ Instances of each span with the most time.
 
 |     % |   Time | CPU time | Start | Thread                 |
 | ----: | -----: | -------: | ----: | ---------------------- |
-| 68.7% |  0.1ms |    0.1ms | 1.68s | `JavaScriptMainThread` |
-| 31.3% | 41.0µs |   42.0µs | 1.68s | `JavaScriptMainThread` |
+| 68.7% |  0.1ms |    0.1ms | 1.69s | `JavaScriptMainThread` |
+| 31.3% | 41.0µs |   42.0µs | 1.69s | `JavaScriptMainThread` |
 
 ##### `ConcurrentMarking::RunMajor Preempted`
 
@@ -1700,7 +1700,7 @@ Instances of each span with the most time.
 | 45.2% | 14.0µs |   14.0µs | 1.63s | `PlatformWorkerThread` |
 | 12.9% |  4.0µs |    5.0µs | 1.63s | `PlatformWorkerThread` |
 |  9.7% |  3.0µs |    3.0µs | 1.63s | `PlatformWorkerThread` |
-|  9.7% |  3.0µs |    3.0µs | 1.66s | `PlatformWorkerThread` |
+|  9.7% |  3.0µs |    3.0µs | 1.67s | `PlatformWorkerThread` |
 |  9.7% |  3.0µs |    3.0µs | 1.63s | `PlatformWorkerThread` |
 
 ### Self CPU time
@@ -1709,7 +1709,7 @@ Thread spans with the most time on a CPU, excluding child spans.
 
 |     % | CPU time |  Count |   Mean |    Max | Span                                           |
 | ----: | -------: | -----: | -----: | -----: | ---------------------------------------------- |
-| 81.5% |    4.56s |      1 |  4.56s |  4.56s | `RunMicrotasks`                                |
+| 81.5% |    4.57s |      1 |  4.57s |  4.57s | `RunMicrotasks`                                |
 | 13.3% |  744.8ms |  1,413 |  0.5ms |  3.6ms | `V8.GC_SCAVENGER_BACKGROUND_SCAVENGE_PARALLEL` |
 |  6.2% |  346.9ms |    388 |  0.9ms |  7.3ms | `V8.GC_SCAVENGER_SCAVENGE_PARALLEL`            |
 |  4.1% |  227.2ms |    348 |  0.7ms |  1.7ms | `V8.GC_SCAVENGER_SCAVENGE`                     |
@@ -1738,7 +1738,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % | CPU time | Count |   Mean |    Max | Span                                       |
 | ----: | -------: | ----: | -----: | -----: | ------------------------------------------ |
-| 81.5% |    4.56s |     1 |  4.56s |  4.56s | `RunMicrotasks`                            |
+| 81.5% |    4.57s |     1 |  4.57s |  4.57s | `RunMicrotasks`                            |
 |  1.3% |   72.5ms | 2,757 | 26.3µs |  0.4ms | `V8.HandleInterrupts`                      |
 |  0.9% |   49.8ms | 6,944 |  7.2µs |  0.3ms | `V8.BytecodeBudgetInterrupt`               |
 |  0.2% |   10.2ms | 2,735 |  3.7µs | 40.0µs | `V8.StackGuard`                            |
@@ -1986,8 +1986,8 @@ Async spans with the most time elapsed from start to end.
 
 |      Time | Count |    Mean |   Max | Span               |
 | --------: | ----: | ------: | ----: | ------------------ |
-| 5m 30.12s |    80 |   5.59s | 5.59s | `PROMISE`          |
-|     5.59s |    51 | 109.7ms | 5.59s | `PROMISE_CALLBACK` |
+| 5m 30.13s |    80 |   5.60s | 5.60s | `PROMISE`          |
+|     5.60s |    51 | 109.7ms | 5.59s | `PROMISE_CALLBACK` |
 |     5.59s |     1 |   5.59s | 5.59s | `PIPEWRAP`         |
 
 #### Parents
@@ -1998,7 +1998,7 @@ Parent spans with the largest contribution to each span's elapsed time.
 
 |      % |  Time | Count |    Mean |   Max | Parent    |
 | -----: | ----: | ----: | ------: | ----: | --------- |
-| 100.0% | 5.59s |    51 | 109.7ms | 5.59s | `PROMISE` |
+| 100.0% | 5.60s |    51 | 109.7ms | 5.59s | `PROMISE` |
 
 #### Children
 
@@ -2008,7 +2008,7 @@ Child spans with the largest contribution to each span's elapsed time.
 
 |    % |  Time | Count |    Mean |   Max | Child              |
 | ---: | ----: | ----: | ------: | ----: | ------------------ |
-| 1.7% | 5.59s |    51 | 109.7ms | 5.59s | `PROMISE_CALLBACK` |
+| 1.7% | 5.60s |    51 | 109.7ms | 5.59s | `PROMISE_CALLBACK` |
 
 #### Longest instances
 
@@ -2018,11 +2018,11 @@ Instances of each span with the most time.
 
 |    % |  Time | Start |
 | ---: | ----: | ----: |
-| 1.7% | 5.59s | 5.8ms |
-| 1.7% | 5.59s | 6.6ms |
-| 1.7% | 5.59s | 6.6ms |
-| 1.7% | 5.59s | 6.6ms |
-| 1.7% | 5.59s | 7.2ms |
+| 1.7% | 5.60s | 5.8ms |
+| 1.7% | 5.60s | 6.6ms |
+| 1.7% | 5.60s | 6.6ms |
+| 1.7% | 5.60s | 6.6ms |
+| 1.7% | 5.60s | 7.2ms |
 
 ##### `PROMISE_CALLBACK`
 
@@ -2108,4 +2108,4 @@ Gauges with the most readings. Means are weighted by how long each level lasted.
 | Gauge                         | Readings |                Min |    Mean |              Max |    First |    Last | Trend                  |
 | ----------------------------- | -------: | -----------------: | ------: | ---------------: | -------: | ------: | ---------------------- |
 | `Heap used before collection` |      350 | 17.6 MiB at 94.7ms | 393 MiB | 750 MiB at 5.59s | 17.8 MiB | 750 MiB | `▁▂▂▃▃▃▃▃▄▅▅▅▅▆▆▇▇▇██` |
-| `Heap used after collection`  |      350 |   17 MiB at 94.3ms | 381 MiB | 735 MiB at 5.59s |   17 MiB | 735 MiB | `▁▂▂▂▃▃▃▃▄▅▅▅▅▆▆▇▇▇██` |
+| `Heap used after collection`  |      350 |   17 MiB at 94.3ms | 381 MiB | 735 MiB at 5.60s |   17 MiB | 735 MiB | `▁▂▂▂▃▃▃▃▄▅▅▅▅▆▆▇▇▇██` |

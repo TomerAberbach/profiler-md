@@ -4,7 +4,7 @@ Took 11.17s.
 
 | Category         |     % |   Time |
 | ---------------- | ----: | -----: |
-| Native           | 99.1% | 11.06s |
+| Native           | 99.1% | 11.07s |
 | Standard library |  0.5% | 53.8ms |
 | Unknown          |  0.4% | 47.4ms |
 | Ours             | <0.1% |  1.3ms |
@@ -16,15 +16,15 @@ Took 11.17s.
 Call paths to the hottest functions.
 
 ```
-└── 11.14s (99.8%) main(String[]) at Profile
+└── 11.15s (99.8%) main(String[]) at Profile
     ├── 10.15s (90.9%) Invoke(BindingEnv) at Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965
     │   ├── 5.92s (53.0%) Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>) at Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10
     │   │   └── 5.92s (53.0%) getUnionCaseInfo(Type, String) at Microsoft.FSharp.Quotations.PatternsModule
-    │   │       └── 5.91s (53.0%) GetUnionCases(Type, FSharpOption`1<BindingFlags>) at Microsoft.FSharp.Reflection.FSharpType
+    │   │       └── 5.92s (53.0%) GetUnionCases(Type, FSharpOption`1<BindingFlags>) at Microsoft.FSharp.Reflection.FSharpType
     │   │           ├── 4.55s (40.7%) getTypeOfReprType(Type, BindingFlags) at Microsoft.FSharp.Reflection.Impl
-    │   │           │   ├── 3.72s (33.3%) isExceptionRepr(Type, BindingFlags)
-    │   │           │   │   └── 3.72s (33.3%) GetCustomAttributes(RuntimeType, RuntimeType, bool) at System.Reflection.CustomAttribute
-    │   │           │   │       └── … 3.72s (33.3%) FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&) at System.Reflection.CustomAttribute
+    │   │           │   ├── 3.73s (33.3%) isExceptionRepr(Type, BindingFlags)
+    │   │           │   │   └── 3.73s (33.3%) GetCustomAttributes(RuntimeType, RuntimeType, bool) at System.Reflection.CustomAttribute
+    │   │           │   │       └── … 3.73s (33.3%) FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&) at System.Reflection.CustomAttribute
     │   │           │   │           ├── … 3.57s (32.0%) ?!?
     │   │           │   │           │   └── 3.56s (31.9%, self 99.1% globally) UNMANAGED_CODE_TIME
     │   │           │   │           └── 154.4ms (1.4%) 3 more callees, led by (0.7%) ResolveMethodHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[]) at System.ModuleHandle
@@ -35,7 +35,7 @@ Call paths to the hottest functions.
     │   │           │   └── 711.0ms (6.4%) 4 more callees, led by (5.3%) ResolveType(int32, Type[], Type[]) at System.Reflection.RuntimeModule
     │   │           └── … 652.8ms (5.8%) FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&) at System.Reflection.CustomAttribute
     │   │               └── 652.8ms (5.8%) 4 more callees, led by (4.9%) ResolveType(int32, Type[], Type[]) at System.Reflection.RuntimeModule
-    │   ├── … 3.79s (34.0%) MakeGenericType(Type[]) at System.RuntimeType
+    │   ├── … 3.80s (34.0%) MakeGenericType(Type[]) at System.RuntimeType
     │   │   ├── 3.52s (31.5%) UNMANAGED_CODE_TIME
     │   │   └── 259.6ms (2.3%) ?!? …
     │   └── 430.1ms (3.8%) Invoke(FSharpFunc`2<int32, Type>) at Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3
@@ -66,7 +66,7 @@ Functions with the most time spent within the function body, excluding callees.
 
 |     % |   Time | Function                                                                                  | Location                                                    |
 | ----: | -----: | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| 99.1% | 11.06s | `UNMANAGED_CODE_TIME`                                                                     | `<unknown>`                                                 |
+| 99.1% | 11.07s | `UNMANAGED_CODE_TIME`                                                                     | `<unknown>`                                                 |
 |  0.4% | 47.4ms | `?!?`                                                                                     | `<unknown>`                                                 |
 |  0.1% | 16.0ms | `MakeGenericType(Type[])`                                                                 | `System.RuntimeType`                                        |
 |  0.1% |  8.2ms | `GetInstantiationInternal()`                                                              | `System.RuntimeTypeHandle`                                  |
@@ -95,7 +95,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |   Time | Function              | Location    |
 | ----: | -----: | --------------------- | ----------- |
-| 99.1% | 11.06s | `UNMANAGED_CODE_TIME` | `<unknown>` |
+| 99.1% | 11.07s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callers
 
@@ -106,7 +106,7 @@ Callers with the largest contribution to each function's self time. Inlining can
 |     % |    Time | Caller                                                                                                                                                                             | Location                            |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | 59.2% |   6.55s | `?!?`                                                                                                                                                                              | `<unknown>`                         |
-| 36.8% |   4.07s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                |
+| 36.8% |   4.08s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                |
 |  1.2% | 130.1ms | `GetInstantiationInternal()`                                                                                                                                                       | `System.RuntimeTypeHandle`          |
 |  1.0% | 106.7ms | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute` |
 |  0.1% |  16.4ms | `Instantiate(Type[])`                                                                                                                                                              | `System.RuntimeTypeHandle`          |
@@ -236,23 +236,23 @@ Functions with the most time spent within the function and its callees.
 
 |     % |    Time | Function                                                                                                                                                                           | Location                                                         |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| 99.8% |  11.14s | `main(String[])`                                                                                                                                                                   | `Profile`                                                        |
-| 99.1% |  11.06s | `UNMANAGED_CODE_TIME`                                                                                                                                                              | `<unknown>`                                                      |
-| 94.7% |  10.57s | `Invoke(BindingEnv)`                                                                                                                                                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`         |
+| 99.8% |  11.15s | `main(String[])`                                                                                                                                                                   | `Profile`                                                        |
+| 99.1% |  11.07s | `UNMANAGED_CODE_TIME`                                                                                                                                                              | `<unknown>`                                                      |
+| 94.7% |  10.58s | `Invoke(BindingEnv)`                                                                                                                                                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`         |
 | 59.1% |   6.60s | `?!?`                                                                                                                                                                              | `<unknown>`                                                      |
 | 55.1% |   6.16s | `getUnionCaseInfo(Type, String)`                                                                                                                                                   | `Microsoft.FSharp.Quotations.PatternsModule`                     |
 | 55.1% |   6.16s | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)``                                                                                                                         | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10` |
-| 55.0% |   6.14s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                                                              | `Microsoft.FSharp.Reflection.FSharpType`                         |
-| 55.0% |   6.14s | `GetCustomAttributes(RuntimeType, RuntimeType, bool)`                                                                                                                              | `System.Reflection.CustomAttribute`                              |
+| 55.0% |   6.15s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                                                              | `Microsoft.FSharp.Reflection.FSharpType`                         |
+| 55.0% |   6.15s | `GetCustomAttributes(RuntimeType, RuntimeType, bool)`                                                                                                                              | `System.Reflection.CustomAttribute`                              |
 | 55.0% |   6.14s | ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)``                                                                    | `System.Reflection.CustomAttribute`                              |
 | 55.0% |   6.14s | `GetCustomAttributes(RuntimeModule, int32, int32, RuntimeType)`                                                                                                                    | `System.Reflection.CustomAttribute`                              |
 | 55.0% |   6.14s | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute`                              |
-| 51.9% |   5.79s | `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])`                                                                                                               | `System.ModuleHandle`                                            |
+| 51.9% |   5.80s | `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])`                                                                                                               | `System.ModuleHandle`                                            |
 | 50.2% |   5.61s | `ResolveType(int32, Type[], Type[])`                                                                                                                                               | `System.Reflection.RuntimeModule`                                |
-| 43.1% |   4.81s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                                             |
-| 42.5% |   4.74s | `getTypeOfReprType(Type, BindingFlags)`                                                                                                                                            | `Microsoft.FSharp.Reflection.Impl`                               |
+| 43.1% |   4.82s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                                             |
+| 42.5% |   4.75s | `getTypeOfReprType(Type, BindingFlags)`                                                                                                                                            | `Microsoft.FSharp.Reflection.Impl`                               |
 | 34.9% |   3.90s | `isExceptionRepr(Type, BindingFlags)`                                                                                                                                              | `Microsoft.FSharp.Reflection.Impl`                               |
-| 33.5% |   3.74s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)``                                                                                               | `Microsoft.FSharp.Primitives.Basics.List`                        |
+| 33.5% |   3.75s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)``                                                                                               | `Microsoft.FSharp.Primitives.Basics.List`                        |
 |  7.6% | 847.5ms | `get@472-1(BindingFlags, Type)`                                                                                                                                                    | `Microsoft.FSharp.Reflection.Impl`                               |
 |  6.8% | 755.6ms | `isUnionType(Type, BindingFlags)`                                                                                                                                                  | `Microsoft.FSharp.Reflection.Impl`                               |
 |  6.5% | 724.5ms | `checkUnionType(Type, BindingFlags)`                                                                                                                                               | `Microsoft.FSharp.Reflection.Impl`                               |
@@ -265,7 +265,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |   Time | Function              | Location    |
 | ----: | -----: | --------------------- | ----------- |
-| 99.1% | 11.06s | `UNMANAGED_CODE_TIME` | `<unknown>` |
+| 99.1% | 11.07s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callers
 
@@ -276,7 +276,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Caller                                                                                                                                                                             | Location                            |
 | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | 59.2% |   6.55s | `?!?`                                                                                                                                                                              | `<unknown>`                         |
-| 36.8% |   4.07s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                |
+| 36.8% |   4.08s | `MakeGenericType(Type[])`                                                                                                                                                          | `System.RuntimeType`                |
 |  1.2% | 130.1ms | `GetInstantiationInternal()`                                                                                                                                                       | `System.RuntimeTypeHandle`          |
 |  1.0% | 106.7ms | ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` | `System.Reflection.CustomAttribute` |
 |  0.1% |  16.4ms | `Instantiate(Type[])`                                                                                                                                                              | `System.RuntimeTypeHandle`          |
@@ -286,7 +286,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Caller                                                                               | Location                                                   |
 | ----: | ------: | ------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
 | 96.0% |  10.15s | `main(String[])`                                                                     | `Profile`                                                  |
-| 35.4% |   3.74s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List`                  |
+| 35.4% |   3.75s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List`                  |
 |  2.2% | 237.2ms | `Invoke(BindingEnv)`                                                                 | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1983-2` |
 |  1.5% | 155.9ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)``                                   | `Microsoft.FSharp.Primitives.Basics.List`                  |
 |  0.3% |  33.6ms | `Invoke(BindingEnv)`                                                                 | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5` |
@@ -295,7 +295,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Caller                                                                                          | Location                              |
 | ----: | ------: | ----------------------------------------------------------------------------------------------- | ------------------------------------- |
-| 87.8% |   5.79s | `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])`                            | `System.ModuleHandle`                 |
+| 87.8% |   5.80s | `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])`                            | `System.ModuleHandle`                 |
 |  8.6% | 565.5ms | `MakeGenericType(Type[])`                                                                       | `System.RuntimeType`                  |
 |  3.6% | 238.0ms | ``ResolveMethodHandleInternal(RuntimeModule, int32, ReadOnlySpan`1<int>, ReadOnlySpan`1<int>)`` | `System.ModuleHandle`                 |
 | <0.1% |   1.3ms | `InvokeWithNoArgs(Object, BindingFlags)`                                                        | `System.Reflection.MethodBaseInvoker` |
@@ -304,7 +304,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Caller                                                     | Location                                                          |
 | ----: | ------: | ---------------------------------------------------------- | ----------------------------------------------------------------- |
-| 96.7% |   5.95s | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`  |
+| 96.7% |   5.96s | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`  |
 |  3.3% | 203.6ms | ``Invoke(FSharpList`1<Type>)``                             | `Microsoft.FSharp.Quotations.PatternsModule+u_UnionCaseInfo@2017` |
 
 ##### ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`)
@@ -317,7 +317,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Caller                           | Location                                     |
 | -----: | ----: | -------------------------------- | -------------------------------------------- |
-| 100.0% | 6.14s | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule` |
+| 100.0% | 6.15s | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule` |
 |  <0.1% | 1.3ms | `Invoke(Unit)`                   | `Argu.PreCompute+caseInfo@574`               |
 
 ##### `GetCustomAttributes(RuntimeType, RuntimeType, bool)` (`System.Reflection.CustomAttribute`)
@@ -365,7 +365,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Caller                                             | Location                                                    |
 | ----: | ------: | -------------------------------------------------- | ----------------------------------------------------------- |
-| 79.8% |   3.84s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`    |
+| 79.8% |   3.85s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`    |
 |  9.2% | 445.1ms | ``Invoke(FSharpFunc`2<int32, Type>)``              | `Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3` |
 |  8.0% | 387.4ms | `main(String[])`                                   | `Profile`                                                   |
 |  2.6% | 123.3ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` | `Microsoft.FSharp.Primitives.Basics.List`                   |
@@ -375,7 +375,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Caller                                                | Location                                 |
 | -----: | ----: | ----------------------------------------------------- | ---------------------------------------- |
-| 100.0% | 4.74s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType` |
+| 100.0% | 4.75s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType` |
 |  <0.1% | 1.4ms | ``IsUnion(Type, FSharpOption`1<BindingFlags>)``       | `Microsoft.FSharp.Reflection.FSharpType` |
 
 ##### `isExceptionRepr(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`)
@@ -388,7 +388,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Caller                                             | Location                                                 |
 | ----: | ------: | -------------------------------------------------- | -------------------------------------------------------- |
-| 96.8% |   3.62s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+| 96.8% |   3.63s | `Invoke(BindingEnv)`                               | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
 |  3.2% | 120.6ms | ``map(FSharpFunc`2<!!0, !!1>, FSharpList`1<!!0>)`` | `Microsoft.FSharp.Primitives.Basics.List`                |
 
 ##### `get@472-1(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`)
@@ -430,8 +430,8 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |     % |    Time | Callee                                                                               | Location                                                         |
 | ----: | ------: | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | 58.2% |   6.16s | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)``                           | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10` |
-| 36.4% |   3.84s | `MakeGenericType(Type[])`                                                            | `System.RuntimeType`                                             |
-| 34.3% |   3.62s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List`                        |
+| 36.4% |   3.85s | `MakeGenericType(Type[])`                                                            | `System.RuntimeType`                                             |
+| 34.3% |   3.63s | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List`                        |
 |  4.1% | 435.5ms | ``Invoke(FSharpFunc`2<int32, Type>)``                                                | `Microsoft.FSharp.Quotations.PatternsModule+u_dtype@1905-3`      |
 |  1.3% | 134.2ms | ``Invoke(FSharpFunc`2<int32, Type>)``                                                | `Microsoft.FSharp.Quotations.PatternsModule+b@1962-1`            |
 
@@ -447,7 +447,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Callee                                                | Location                                    |
 | ----: | ----: | ----------------------------------------------------- | ------------------------------------------- |
-| 99.8% | 6.14s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType`    |
+| 99.8% | 6.15s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` | `Microsoft.FSharp.Reflection.FSharpType`    |
 |  0.1% | 6.8ms | `get_Name()`                                          | `Microsoft.FSharp.Reflection.UnionCaseInfo` |
 |  0.1% | 5.5ms | ``TryFind(FSharpFunc`2<!!0, bool>, !!0[])``           | `Microsoft.FSharp.Collections.ArrayModule`  |
 
@@ -455,14 +455,14 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Callee                           | Location                                                          |
 | ----: | ------: | -------------------------------- | ----------------------------------------------------------------- |
-| 96.7% |   5.95s | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule`                      |
+| 96.7% |   5.96s | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule`                      |
 |  3.3% | 203.6ms | ``Invoke(FSharpList`1<Type>)``   | `Microsoft.FSharp.Quotations.PatternsModule+u_UnionCaseInfo@2017` |
 
 ##### ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`)
 
 |     % |    Time | Callee                                       | Location                           |
 | ----: | ------: | -------------------------------------------- | ---------------------------------- |
-| 77.2% |   4.74s | `getTypeOfReprType(Type, BindingFlags)`      | `Microsoft.FSharp.Reflection.Impl` |
+| 77.2% |   4.75s | `getTypeOfReprType(Type, BindingFlags)`      | `Microsoft.FSharp.Reflection.Impl` |
 | 11.8% | 724.5ms | `checkUnionType(Type, BindingFlags)`         | `Microsoft.FSharp.Reflection.Impl` |
 | 10.9% | 673.1ms | `get@481-2(BindingFlags, Type)`              | `Microsoft.FSharp.Reflection.Impl` |
 |  0.1% |   4.0ms | `getUnionTypeTagNameMap(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
@@ -500,7 +500,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Callee | Location    |
 | -----: | ----: | ------ | ----------- |
-| 100.0% | 5.79s | `?!?`  | `<unknown>` |
+| 100.0% | 5.80s | `?!?`  | `<unknown>` |
 
 ##### `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`)
 
@@ -512,7 +512,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |    Time | Callee                          | Location                   |
 | ----: | ------: | ------------------------------- | -------------------------- |
-| 84.7% |   4.07s | `UNMANAGED_CODE_TIME`           | `<unknown>`                |
+| 84.7% |   4.08s | `UNMANAGED_CODE_TIME`           | `<unknown>`                |
 | 11.7% | 565.5ms | `?!?`                           | `<unknown>`                |
 |  2.9% | 138.2ms | `GetGenericArgumentsInternal()` | `System.RuntimeType`       |
 |  0.3% |  16.4ms | `Instantiate(Type[])`           | `System.RuntimeTypeHandle` |
@@ -537,7 +537,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Callee               | Location                                                 |
 | -----: | ----: | -------------------- | -------------------------------------------------------- |
-| 100.0% | 3.74s | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+| 100.0% | 3.75s | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
 
 ##### `get@472-1(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`)
 
@@ -569,7 +569,7 @@ Common call stack: `main(String[])` (`Profile`)
 |     % |    Time | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 31.9% |   3.56s | `UNMANAGED_CODE_TIME` ← `?!?` ← `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`) ← `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`) ← ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` (`System.Reflection.CustomAttribute`) ← ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)`` ← `GetCustomAttributes(RuntimeModule, int32, int32, RuntimeType)` ← `GetCustomAttributes(RuntimeType, RuntimeType, bool)` ← `isExceptionRepr(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`) ← `getTypeOfReprType(Type, BindingFlags)` ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← `getUnionCaseInfo(Type, String)` (`Microsoft.FSharp.Quotations.PatternsModule`) ← ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 30.7% |   3.42s | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` (`Microsoft.FSharp.Primitives.Basics.List`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 30.7% |   3.43s | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` (`Microsoft.FSharp.Primitives.Basics.List`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |  6.2% | 688.0ms | `UNMANAGED_CODE_TIME` ← `?!?` ← `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`) ← `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`) ← ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` (`System.Reflection.CustomAttribute`) ← ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)`` ← `GetCustomAttributes(RuntimeModule, int32, int32, RuntimeType)` ← `GetCustomAttributes(RuntimeType, RuntimeType, bool)` ← `get@472-1(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`) ← `getTypeOfReprType(Type, BindingFlags)` ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← `getUnionCaseInfo(Type, String)` (`Microsoft.FSharp.Quotations.PatternsModule`) ← ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 |  5.2% | 585.0ms | `UNMANAGED_CODE_TIME` ← `?!?` ← `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`) ← `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`) ← ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` (`System.Reflection.CustomAttribute`) ← ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)`` ← `GetCustomAttributes(RuntimeModule, int32, int32, RuntimeType)` ← `GetCustomAttributes(RuntimeType, RuntimeType, bool)` ← `isUnionType(Type, BindingFlags)` (`Microsoft.FSharp.Reflection.Impl`) ← `checkUnionType(Type, BindingFlags)` ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← `getUnionCaseInfo(Type, String)` (`Microsoft.FSharp.Quotations.PatternsModule`) ← ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |  4.9% | 550.2ms | `UNMANAGED_CODE_TIME` ← `?!?` ← `ResolveTypeHandle(int32, RuntimeTypeHandle[], RuntimeTypeHandle[])` (`System.ModuleHandle`) ← `ResolveType(int32, Type[], Type[])` (`System.Reflection.RuntimeModule`) ← ``FilterCustomAttributeRecord(MetadataToken, MetadataImport&, RuntimeModule, MetadataToken, RuntimeType, bool, ListBuilder`1<Object>&, RuntimeType&, IRuntimeMethodInfo&, bool&)`` (`System.Reflection.CustomAttribute`) ← ``AddCustomAttributes(ListBuilder`1<Object>&, RuntimeModule, int32, RuntimeType, bool, ListBuilder`1<Object>)`` ← `GetCustomAttributes(RuntimeModule, int32, int32, RuntimeType)` ← `GetCustomAttributes(RuntimeType, RuntimeType, bool)` ← `get@481-2(BindingFlags, Type)` (`Microsoft.FSharp.Reflection.Impl`) ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← `getUnionCaseInfo(Type, String)` (`Microsoft.FSharp.Quotations.PatternsModule`) ← ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` (`Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |

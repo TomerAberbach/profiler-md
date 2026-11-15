@@ -1,6 +1,6 @@
 # CPU profile
 
-Took 3.85s over 3,855 samples (1.0ms per sample).
+Took 3.86s over 3,855 samples (1.0ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
@@ -17,10 +17,10 @@ Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 Call paths to the hottest functions.
 
 ```
-└── … 3.85s (100.0%, self 17.4%) (anonymous)
+└── … 3.86s (100.0%, self 17.4%) (anonymous)
     ├── 3.05s (79.1%) main at /out/profile.f90:6
     │   └── 3.05s (79.1%) MAIN__ at 5
-    │       ├── … 2.99s (77.8%, self 0.7%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10889
+    │       ├── … 3.00s (77.8%, self 0.7%) __json_value_module_MOD_parse_object at ./json_value_module.F90:10889
     │       │   ├── … 982.0ms (25.5%, self 0.7%) __json_value_module_MOD_parse_value at ./json_value_module.F90:10124
     │       │   │   ├── 702.0ms (18.2%, self 1.6%) __json_value_module_MOD_parse_string at 11080
     │       │   │   │   ├── 548.0ms (14.2%) __json_value_module_MOD_pop_char.part.0 at 11346
@@ -67,7 +67,7 @@ Functions with the most time spent within the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                      | Location                          |
 | ----: | ------: | ------: | --------------------------------------------- | --------------------------------- |
-| 50.2% |   1.93s |   1,937 | `__json_value_module_MOD_pop_char.part.0`     | `./json_value_module.F90:11346`   |
+| 50.2% |   1.94s |   1,937 | `__json_value_module_MOD_pop_char.part.0`     | `./json_value_module.F90:11346`   |
 | 17.4% | 671.0ms |     671 | `(anonymous)`                                 | `<unknown>`                       |
 |  7.7% | 298.0ms |     298 | `_gfortran_string_scan`                       | `<unknown>`                       |
 |  4.1% | 158.0ms |     158 | `__json_value_module_MOD_parse_string`        | `./json_value_module.F90:11080`   |
@@ -96,7 +96,7 @@ Categories accounting for at least 1.0% of self time.
 
 |     % |    Time | Samples | Function                                                | Location                          |
 | ----: | ------: | ------: | ------------------------------------------------------- | --------------------------------- |
-| 50.2% |   1.93s |   1,937 | `__json_value_module_MOD_pop_char.part.0`               | `./json_value_module.F90:11346`   |
+| 50.2% |   1.94s |   1,937 | `__json_value_module_MOD_pop_char.part.0`               | `./json_value_module.F90:11346`   |
 |  4.1% | 158.0ms |     158 | `__json_value_module_MOD_parse_string`                  | `./json_value_module.F90:11080`   |
 |  0.7% |  28.0ms |      28 | `__json_value_module_MOD_parse_value`                   | `./json_value_module.F90:10124`   |
 |  0.7% |  27.0ms |      27 | `__json_value_module_MOD_parse_object`                  | `./json_value_module.F90:10889`   |
@@ -156,7 +156,7 @@ Lines with the largest contribution to each function's self time.
 
 |     % |   Time | Samples | Location                        |
 | ----: | -----: | ------: | ------------------------------- |
-| 74.6% |  1.44s |   1,445 | `./json_value_module.F90:11475` |
+| 74.6% |  1.45s |   1,445 | `./json_value_module.F90:11475` |
 |  4.1% | 79.0ms |      79 | `./json_value_module.F90:11497` |
 |  3.4% | 65.0ms |      65 | `./json_value_module.F90:11480` |
 |  3.3% | 64.0ms |      64 | `./json_value_module.F90:11423` |
@@ -613,17 +613,17 @@ Functions with the most time spent within the function and its callees.
 
 |      % |    Time | Samples | Function                                        | Location                          |
 | -----: | ------: | ------: | ----------------------------------------------- | --------------------------------- |
-| 100.0% |   3.85s |   3,855 | `MAIN__`                                        | `/out/profile.f90:5`              |
-| 100.0% |   3.85s |   3,855 | `main`                                          | `/out/profile.f90:6`              |
-| 100.0% |   3.85s |   3,855 | `(anonymous)`                                   | `<unknown>`                       |
-| 100.0% |   3.85s |   3,855 | `__libc_start_main`                             | `<unknown>`                       |
-| 100.0% |   3.85s |   3,855 | `_start`                                        | `<unknown>`                       |
+| 100.0% |   3.86s |   3,855 | `MAIN__`                                        | `/out/profile.f90:5`              |
+| 100.0% |   3.86s |   3,855 | `main`                                          | `/out/profile.f90:6`              |
+| 100.0% |   3.86s |   3,855 | `(anonymous)`                                   | `<unknown>`                       |
+| 100.0% |   3.86s |   3,855 | `__libc_start_main`                             | `<unknown>`                       |
+| 100.0% |   3.86s |   3,855 | `_start`                                        | `<unknown>`                       |
 |  97.1% |   3.74s |   3,742 | `__json_value_module_MOD_json_parse_file`       | `./json_value_module.F90:9721`    |
 |  97.1% |   3.74s |   3,742 | `__json_file_module_MOD_json_file_load`         | `./json_file_module.F90:854`      |
-|  94.9% |   3.65s |   3,657 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90:10889`   |
+|  94.9% |   3.66s |   3,657 | `__json_value_module_MOD_parse_object`          | `./json_value_module.F90:10889`   |
 |  94.8% |   3.65s |   3,654 | `__json_value_module_MOD_parse_array`           | `./json_value_module.F90:11003`   |
 |  52.2% |   2.01s |   2,013 | `__json_value_module_MOD_pop_char.part.0`       | `./json_value_module.F90:11346`   |
-|  43.8% |   1.68s |   1,687 | `__json_value_module_MOD_parse_string`          | `./json_value_module.F90:11080`   |
+|  43.8% |   1.69s |   1,687 | `__json_value_module_MOD_parse_string`          | `./json_value_module.F90:11080`   |
 |  29.1% |   1.12s |   1,121 | `__json_value_module_MOD_parse_value`           | `./json_value_module.F90:10124`   |
 |  12.2% | 470.0ms |     470 | `__json_value_module_MOD_parse_number`          | `./json_value_module.F90:11220`   |
 |  10.0% | 385.0ms |     385 | `__json_value_module_MOD_string_to_int`         | `./json_value_module.F90:8081`    |
@@ -642,14 +642,14 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function                                          | Location                             |
 | -----: | ------: | ------: | ------------------------------------------------- | ------------------------------------ |
-| 100.0% |   3.85s |   3,855 | `MAIN__`                                          | `/out/profile.f90:5`                 |
-| 100.0% |   3.85s |   3,855 | `main`                                            | `/out/profile.f90:6`                 |
+| 100.0% |   3.86s |   3,855 | `MAIN__`                                          | `/out/profile.f90:5`                 |
+| 100.0% |   3.86s |   3,855 | `main`                                            | `/out/profile.f90:6`                 |
 |  97.1% |   3.74s |   3,742 | `__json_value_module_MOD_json_parse_file`         | `./json_value_module.F90:9721`       |
 |  97.1% |   3.74s |   3,742 | `__json_file_module_MOD_json_file_load`           | `./json_file_module.F90:854`         |
-|  94.9% |   3.65s |   3,657 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10889`      |
+|  94.9% |   3.66s |   3,657 | `__json_value_module_MOD_parse_object`            | `./json_value_module.F90:10889`      |
 |  94.8% |   3.65s |   3,654 | `__json_value_module_MOD_parse_array`             | `./json_value_module.F90:11003`      |
 |  52.2% |   2.01s |   2,013 | `__json_value_module_MOD_pop_char.part.0`         | `./json_value_module.F90:11346`      |
-|  43.8% |   1.68s |   1,687 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11080`      |
+|  43.8% |   1.69s |   1,687 | `__json_value_module_MOD_parse_string`            | `./json_value_module.F90:11080`      |
 |  29.1% |   1.12s |   1,121 | `__json_value_module_MOD_parse_value`             | `./json_value_module.F90:10124`      |
 |  12.2% | 470.0ms |     470 | `__json_value_module_MOD_parse_number`            | `./json_value_module.F90:11220`      |
 |  10.0% | 385.0ms |     385 | `__json_value_module_MOD_string_to_int`           | `./json_value_module.F90:8081`       |
@@ -667,8 +667,8 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |    Time | Samples | Function                    | Location    |
 | -----: | ------: | ------: | --------------------------- | ----------- |
-| 100.0% |   3.85s |   3,855 | `__libc_start_main`         | `<unknown>` |
-| 100.0% |   3.85s |   3,855 | `_start`                    | `<unknown>` |
+| 100.0% |   3.86s |   3,855 | `__libc_start_main`         | `<unknown>` |
+| 100.0% |   3.86s |   3,855 | `_start`                    | `<unknown>` |
 |   9.9% | 381.0ms |     381 | `__libc_malloc`             | `<unknown>` |
 |   7.7% | 298.0ms |     298 | `_gfortran_string_scan`     | `<unknown>` |
 |   5.6% | 214.0ms |     214 | `cfree`                     | `<unknown>` |
@@ -692,7 +692,7 @@ Categories accounting for at least 1.0% of self time.
 
 |      % |  Time | Samples | Function      | Location    |
 | -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 3.85s |   3,855 | `(anonymous)` | `<unknown>` |
+| 100.0% | 3.86s |   3,855 | `(anonymous)` | `<unknown>` |
 
 #### Callers
 
@@ -702,19 +702,19 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller | Location             |
 | -----: | ----: | ------: | ------ | -------------------- |
-| 100.0% | 3.85s |   3,855 | `main` | `/out/profile.f90:6` |
+| 100.0% | 3.86s |   3,855 | `main` | `/out/profile.f90:6` |
 
 ##### `main` (`/out/profile.f90:6`)
 
 |      % |  Time | Samples | Caller        | Location    |
 | -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 3.85s |   3,855 | `(anonymous)` | `<unknown>` |
+| 100.0% | 3.86s |   3,855 | `(anonymous)` | `<unknown>` |
 
 ##### `(anonymous)` (`<unknown>`)
 
 |      % |    Time | Samples | Caller                                          | Location                          |
 | -----: | ------: | ------: | ----------------------------------------------- | --------------------------------- |
-| 100.0% |   3.85s |   3,855 | `__libc_start_main`                             | `<unknown>`                       |
+| 100.0% |   3.86s |   3,855 | `__libc_start_main`                             | `<unknown>`                       |
 |  11.9% | 459.0ms |     459 | `(anonymous)`                                   | `<unknown>`                       |
 |   8.2% | 315.0ms |     315 | `__json_string_utilities_MOD_string_to_integer` | `./json_string_utilities.F90:116` |
 |   6.0% | 230.0ms |     230 | `__libc_malloc`                                 | `<unknown>`                       |
@@ -724,7 +724,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller   | Location    |
 | -----: | ----: | ------: | -------- | ----------- |
-| 100.0% | 3.85s |   3,855 | `_start` | `<unknown>` |
+| 100.0% | 3.86s |   3,855 | `_start` | `<unknown>` |
 
 ##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9721`)
 
@@ -742,7 +742,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                                    | Location                        |
 | -----: | ----: | ------: | ----------------------------------------- | ------------------------------- |
-| 100.0% | 3.65s |   3,657 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9721`  |
+| 100.0% | 3.66s |   3,657 | `__json_value_module_MOD_json_parse_file` | `./json_value_module.F90:9721`  |
 |  99.9% | 3.65s |   3,652 | `__json_value_module_MOD_parse_array`     | `./json_value_module.F90:11003` |
 |  99.5% | 3.64s |   3,640 | `__json_value_module_MOD_parse_object`    | `./json_value_module.F90:10889` |
 
@@ -999,13 +999,13 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee   | Location             |
 | -----: | ----: | ------: | -------- | -------------------- |
-| 100.0% | 3.85s |   3,855 | `MAIN__` | `/out/profile.f90:5` |
+| 100.0% | 3.86s |   3,855 | `MAIN__` | `/out/profile.f90:5` |
 
 ##### `(anonymous)` (`<unknown>`)
 
 |      % |    Time | Samples | Callee          | Location             |
 | -----: | ------: | ------: | --------------- | -------------------- |
-| 100.0% |   3.85s |   3,855 | `main`          | `/out/profile.f90:6` |
+| 100.0% |   3.86s |   3,855 | `main`          | `/out/profile.f90:6` |
 |  11.9% | 459.0ms |     459 | `(anonymous)`   | `<unknown>`          |
 |   2.7% | 104.0ms |     104 | `__libc_malloc` | `<unknown>`          |
 |   1.0% |  40.0ms |      40 | `cfree`         | `<unknown>`          |
@@ -1015,19 +1015,19 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Callee        | Location    |
 | -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 3.85s |   3,855 | `(anonymous)` | `<unknown>` |
+| 100.0% | 3.86s |   3,855 | `(anonymous)` | `<unknown>` |
 
 ##### `_start` (`<unknown>`)
 
 |      % |  Time | Samples | Callee              | Location    |
 | -----: | ----: | ------: | ------------------- | ----------- |
-| 100.0% | 3.85s |   3,855 | `__libc_start_main` | `<unknown>` |
+| 100.0% | 3.86s |   3,855 | `__libc_start_main` | `<unknown>` |
 
 ##### `__json_value_module_MOD_json_parse_file` (`./json_value_module.F90:9721`)
 
 |     % |   Time | Samples | Callee                                 | Location                        |
 | ----: | -----: | ------: | -------------------------------------- | ------------------------------- |
-| 97.7% |  3.65s |   3,657 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10889` |
+| 97.7% |  3.66s |   3,657 | `__json_value_module_MOD_parse_object` | `./json_value_module.F90:10889` |
 |  1.8% | 68.0ms |      68 | `_gfortran_st_open`                    | `<unknown>`                     |
 |  0.3% | 13.0ms |      13 | `__json_value_module_MOD_parse_value`  | `./json_value_module.F90:10124` |
 |  0.1% |  3.0ms |       3 | `(anonymous)`                          | `<unknown>`                     |

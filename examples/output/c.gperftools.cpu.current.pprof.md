@@ -20,9 +20,9 @@ Call paths to the hottest functions.
         └── 2.04s (99.8%) ZSTDMT_compressionJob at zstdmt_compress.c
             ├── 1.75s (85.6%) ZSTD_compressContinue_public
             │   └── 1.75s (85.6%) ZSTD_compress_frameChunk at zstd_compress.c
-            │       ├── 1.73s (85.1%) ZSTD_buildSeqStore
+            │       ├── 1.74s (85.1%) ZSTD_buildSeqStore
             │       │   ├── 1.69s (82.9%, self 13.5%, self 16.5% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
-            │       │   │   └── 1.41s (69.4%, self 69.2%, self 81.2% globally) ZSTD_btGetAllMatches_noDict_3
+            │       │   │   └── 1.42s (69.4%, self 69.2%, self 81.2% globally) ZSTD_btGetAllMatches_noDict_3
             │       │   │       └── 4.0ms (0.2%) ZSTD_insertBt1.constprop.3
             │       │   ├── 23.0ms (1.1%) ZSTD_compressBlock_btultra2
             │       │   │   └── 22.0ms (1.1%, self 0.7%) ZSTD_compressBlock_opt2 at zstd_opt.c
@@ -178,10 +178,10 @@ Functions with the most time spent within the function and its callees.
 |  99.9% |   2.04s |   2,042 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
 |  99.9% |   2.04s |   2,042 | `POOL_thread`                                        | `pool.c`            |
 |  99.8% |   2.04s |   2,040 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
-|  99.2% |   2.02s |   2,028 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-|  98.0% |      2s |   2,003 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+|  99.2% |   2.03s |   2,028 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+|  98.0% |   2.00s |   2,003 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
 |  85.6% |   1.75s |   1,750 | `ZSTD_compressContinue_public`                       | `<unknown>`         |
-|  81.5% |   1.66s |   1,665 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
+|  81.5% |   1.67s |   1,665 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
 |  14.2% | 290.0ms |     290 | `ZSTD_compressEnd_public`                            | `<unknown>`         |
 |   1.1% |  23.0ms |      23 | `ZSTD_compressBlock_btultra2`                        | `<unknown>`         |
 |   0.9% |  18.0ms |      18 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
@@ -206,9 +206,9 @@ Categories accounting for at least 1.0% of self time.
 | 99.9% |  2.04s |   2,042 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
 | 99.9% |  2.04s |   2,042 | `POOL_thread`                                        | `pool.c`            |
 | 99.8% |  2.04s |   2,040 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`   |
-| 99.2% |  2.02s |   2,028 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
-| 98.0% |     2s |   2,003 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
-| 81.5% |  1.66s |   1,665 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
+| 99.2% |  2.03s |   2,028 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+| 98.0% |  2.00s |   2,003 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+| 81.5% |  1.67s |   1,665 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
 |  0.9% | 18.0ms |      18 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`        |
 |  0.2% |  5.0ms |       5 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`        |
 |  0.2% |  5.0ms |       5 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
@@ -259,7 +259,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                     | Location          |
 | -----: | ----: | ------: | -------------------------- | ----------------- |
-| 100.0% | 2.02s |   2,028 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
+| 100.0% | 2.03s |   2,028 | `ZSTD_compress_frameChunk` | `zstd_compress.c` |
 
 ##### `ZSTD_compressBlock_opt2` (`zstd_opt.c`)
 
@@ -278,7 +278,7 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 |      % |  Time | Samples | Caller                    | Location     |
 | -----: | ----: | ------: | ------------------------- | ------------ |
-| 100.0% | 1.66s |   1,665 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
+| 100.0% | 1.67s |   1,665 | `ZSTD_compressBlock_opt2` | `zstd_opt.c` |
 
 ##### `ZSTD_compressEnd_public` (`<unknown>`)
 
@@ -403,7 +403,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                              | Location          |
 | ----: | ----: | ------: | ----------------------------------- | ----------------- |
-| 99.4% | 2.02s |   2,028 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
+| 99.4% | 2.03s |   2,028 | `ZSTD_buildSeqStore`                | `zstd_compress.c` |
 |  0.2% | 5.0ms |       5 | `ZSTD_deriveBlockSplitsHelper`      | `zstd_compress.c` |
 |  0.2% | 4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c` |
 |  0.1% | 3.0ms |       3 | `ZSTD_splitBlock`                   | `<unknown>`       |
@@ -422,7 +422,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 |     % |  Time | Samples | Callee                          | Location     |
 | ----: | ----: | ------: | ------------------------------- | ------------ |
-| 83.1% | 1.66s |   1,665 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
+| 83.1% | 1.67s |   1,665 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
 
 ##### `ZSTD_compressContinue_public` (`<unknown>`)
 
@@ -503,7 +503,7 @@ Call stacks with the most time spent in their leaf frame.
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                              |
 | ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 69.2% |   1.41s |   1,415 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                          |
+| 69.2% |   1.42s |   1,415 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                          |
 | 13.5% | 275.0ms |     275 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                            |
 | 11.6% | 237.0ms |     237 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                               |
 |  2.4% |  49.0ms |      49 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressEnd_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                                 |

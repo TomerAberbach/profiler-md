@@ -4,7 +4,7 @@ Took 4.76s → 5.78s (+1.019s, +21.4%).
 
 | Category    | Change |    Delta |             % |              Time |
 | ----------- | -----: | -------: | ------------: | ----------------: |
-| Ours        | +23.8% |  +1.082s | 95.7% → 97.5% |     4.55s → 5.63s |
+| Ours        | +23.8% |  +1.083s | 95.7% → 97.5% |     4.56s → 5.64s |
 | Native      | -30.8% | -62.62ms |   4.3% → 2.4% | 203.6ms → 141.0ms |
 | Third-party | -50.7% |  -1.01ms |         <0.1% |     2.0ms → 1.0ms |
 
@@ -22,7 +22,7 @@ Call paths to the hottest and most changed functions.
     │   └── … 4.64s → 5.63s (97.5% → 97.4%) main at ./black/__init__.py:244 → 240
     │       └── … 4.64s → 5.63s (97.5% → 97.4%) format_file_contents at ./black/__init__.py:1054 → 1059
     │           ├── 2.75s → 3.09s (57.8% → 53.5%) format_str at 1189 → 1168
-    │           │   └── 2.74s → 3.08s (57.7% → 53.4%, self 28.8% → 26.8%, self 43.0% → 43.5% globally) _format_str_once at 1236 → 1215
+    │           │   └── 2.75s → 3.08s (57.7% → 53.4%, self 28.8% → 26.8%, self 43.0% → 43.5% globally) _format_str_once at 1236 → 1215
     │           │       ├── … 1.13s → 1.26s (23.8% → 21.8%, self 21.8% → 19.9%, self 33.0% → 31.7% globally) parse_tokens at ./blib2to3/pgen2/driver.py:114
     │           │       │   └── 96.0ms → 112.3ms (2.0% → 1.9%) addtoken at ./blib2to3/pgen2/parse.py:242 → 230
     │           │       │       └── 89.0ms → 112.3ms (1.9%) _addtoken at 290 → 278
@@ -35,9 +35,9 @@ Call paths to the hottest and most changed functions.
     │           │           └── … 47.9ms → 64.8ms (1.0% → 1.1%) is_simple_lookup at ./black/trans.py:97 → 93
     │           │               ├── 0ms → 64.8ms (0.0% → 1.1%) __contains__ at ./black/mode.py:249
     │           │               └── 47.9ms → 0ms (1.0% → 0.0%) original_is_simple_lookup_func at 158
-    │           └── 1.88s → 2.54s (39.7% → 44.0%) check_stability_and_equivalence at 1037 → 1042
+    │           └── 1.89s → 2.54s (39.7% → 44.0%) check_stability_and_equivalence at 1037 → 1042
     │               ├── 1.36s → 1.97s (28.6% → 34.1%) assert_stable at 1557 → 1543
-    │               │   └── 1.36s → 1.96s (28.6% → 34.0%, self 14.2% → 16.6%) _format_str_once at 1236 → 1215
+    │               │   └── 1.36s → 1.97s (28.6% → 34.0%, self 14.2% → 16.6%) _format_str_once at 1236 → 1215
     │               │       ├── 531.9ms → 682.9ms (11.2% → 11.8%) lib2to3_parse at ./black/parsing.py:55
     │               │       │   └── 531.9ms → 682.9ms (11.2% → 11.8%) parse_string at ./blib2to3/pgen2/driver.py:198
     │               │       │       └── 531.9ms → 682.9ms (11.2% → 11.8%) parse_tokens at 114
@@ -69,8 +69,8 @@ Functions with the largest increase in time spent within the function body, excl
 
 |    Change |     Delta |             % |              Time | Function               | Location                              |
 | --------: | --------: | ------------: | ----------------: | ---------------------- | ------------------------------------- |
-|    +22.9% | +467.95ms | 43.0% → 43.5% |     2.04s → 2.51s | `_format_str_once`     | `./black/__init__.py:1236 → 1215`     |
-|    +16.8% | +264.00ms | 33.0% → 31.7% |     1.56s → 1.83s | `parse_tokens`         | `./blib2to3/pgen2/driver.py:114`      |
+|    +22.9% | +467.95ms | 43.0% → 43.5% |     2.05s → 2.51s | `_format_str_once`     | `./black/__init__.py:1236 → 1215`     |
+|    +16.8% | +264.00ms | 33.0% → 31.7% |     1.57s → 1.83s | `parse_tokens`         | `./blib2to3/pgen2/driver.py:114`      |
 |       new | +116.86ms |   0.0% → 2.0% |     0ms → 116.9ms | `is_complex_subscript` | `./black/lines.py:430`                |
 |       new | +108.75ms |   0.0% → 1.9% |     0ms → 108.7ms | `__init__`             | `./blib2to3/pytree.py:389`            |
 | +10787.3% |  +66.95ms |  <0.1% → 1.2% |    0.6ms → 67.6ms | `visit`                | `./black/nodes.py:163 → 152`          |
@@ -94,8 +94,8 @@ Functions with the largest increase in time spent within the function body, excl
 
 |    Change |     Delta |             % |              Time | Function                            | Location                              |
 | --------: | --------: | ------------: | ----------------: | ----------------------------------- | ------------------------------------- |
-|    +22.9% | +467.95ms | 43.0% → 43.5% |     2.04s → 2.51s | `_format_str_once`                  | `./black/__init__.py:1236 → 1215`     |
-|    +16.8% | +264.00ms | 33.0% → 31.7% |     1.56s → 1.83s | `parse_tokens`                      | `./blib2to3/pgen2/driver.py:114`      |
+|    +22.9% | +467.95ms | 43.0% → 43.5% |     2.05s → 2.51s | `_format_str_once`                  | `./black/__init__.py:1236 → 1215`     |
+|    +16.8% | +264.00ms | 33.0% → 31.7% |     1.57s → 1.83s | `parse_tokens`                      | `./blib2to3/pgen2/driver.py:114`      |
 |       new | +116.86ms |   0.0% → 2.0% |     0ms → 116.9ms | `is_complex_subscript`              | `./black/lines.py:430`                |
 |       new | +108.75ms |   0.0% → 1.9% |     0ms → 108.7ms | `__init__`                          | `./blib2to3/pytree.py:389`            |
 | +10787.3% |  +66.95ms |  <0.1% → 1.2% |    0.6ms → 67.6ms | `visit`                             | `./black/nodes.py:163 → 152`          |
@@ -176,7 +176,7 @@ Callers with the largest change in contribution to each function's self time. In
 
 | Change |     Delta |      % |          Time | Caller         | Location                         |
 | -----: | --------: | -----: | ------------: | -------------- | -------------------------------- |
-| +16.8% | +264.00ms | 100.0% | 1.56s → 1.83s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+| +16.8% | +264.00ms | 100.0% | 1.57s → 1.83s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
 
 ##### `is_complex_subscript` (`./black/lines.py:430`)
 
@@ -378,13 +378,13 @@ Functions with the largest increase in time spent within the function and its ca
 |  +21.3% | +990.99ms |         97.5% |    4.64s → 5.63s | `__call__`                        | `/venv/lib/python3.11/site-packages/click/core.py:1629`     |
 |  +21.3% | +990.99ms |         97.5% |    4.64s → 5.63s | `patched_main`                    | `./black/__init__.py:1594 → 1580`                           |
 |  +21.3% | +990.83ms | 97.5% → 97.4% |    4.64s → 5.63s | `format_file_contents`            | `./black/__init__.py:1054 → 1059`                           |
-|  +23.0% | +943.16ms | 86.3% → 87.4% |    4.10s → 5.05s | `_format_str_once`                | `./black/__init__.py:1236 → 1215`                           |
-|  +34.5% | +651.74ms | 39.7% → 44.0% |    1.88s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042`                           |
+|  +23.0% | +943.16ms | 86.3% → 87.4% |    4.11s → 5.05s | `_format_str_once`                | `./black/__init__.py:1236 → 1215`                           |
+|  +34.5% | +651.74ms | 39.7% → 44.0% |    1.89s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042`                           |
 |  +44.6% | +607.87ms | 28.6% → 34.1% |    1.36s → 1.97s | `assert_stable`                   | `./black/__init__.py:1557 → 1543`                           |
 |  +12.3% | +339.09ms | 57.8% → 53.5% |    2.75s → 3.09s | `format_str`                      | `./black/__init__.py:1189 → 1168`                           |
-|  +16.8% | +280.27ms | 35.0% → 33.7% |    1.66s → 1.94s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`                            |
-|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.66s → 1.94s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`                            |
-|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.66s → 1.94s | `lib2to3_parse`                   | `./black/parsing.py:55`                                     |
+|  +16.8% | +280.27ms | 35.0% → 33.7% |    1.67s → 1.95s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`                            |
+|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.67s → 1.95s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`                            |
+|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.67s → 1.95s | `lib2to3_parse`                   | `./black/parsing.py:55`                                     |
 | +248.2% | +144.01ms |   1.2% → 3.5% | 58.0ms → 202.0ms | `visit_default`                   | `./black/linegen.py:134`                                    |
 | +248.2% | +144.01ms |   1.2% → 3.5% | 58.0ms → 202.0ms | `visit`                           | `./black/nodes.py:163 → 152`                                |
 
@@ -398,13 +398,13 @@ Functions with the largest increase in time spent within the function and its ca
 |  +21.4% | +991.00ms | 97.5% → 97.4% |    4.64s → 5.63s | `reformat_one`                    | `./black/__init__.py:860 → 865`   |
 |  +21.3% | +990.99ms |         97.5% |    4.64s → 5.63s | `patched_main`                    | `./black/__init__.py:1594 → 1580` |
 |  +21.3% | +990.83ms | 97.5% → 97.4% |    4.64s → 5.63s | `format_file_contents`            | `./black/__init__.py:1054 → 1059` |
-|  +23.0% | +943.16ms | 86.3% → 87.4% |    4.10s → 5.05s | `_format_str_once`                | `./black/__init__.py:1236 → 1215` |
-|  +34.5% | +651.74ms | 39.7% → 44.0% |    1.88s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042` |
+|  +23.0% | +943.16ms | 86.3% → 87.4% |    4.11s → 5.05s | `_format_str_once`                | `./black/__init__.py:1236 → 1215` |
+|  +34.5% | +651.74ms | 39.7% → 44.0% |    1.89s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042` |
 |  +44.6% | +607.87ms | 28.6% → 34.1% |    1.36s → 1.97s | `assert_stable`                   | `./black/__init__.py:1557 → 1543` |
 |  +12.3% | +339.09ms | 57.8% → 53.5% |    2.75s → 3.09s | `format_str`                      | `./black/__init__.py:1189 → 1168` |
-|  +16.8% | +280.27ms | 35.0% → 33.7% |    1.66s → 1.94s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`  |
-|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.66s → 1.94s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`  |
-|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.66s → 1.94s | `lib2to3_parse`                   | `./black/parsing.py:55`           |
+|  +16.8% | +280.27ms | 35.0% → 33.7% |    1.67s → 1.95s | `parse_tokens`                    | `./blib2to3/pgen2/driver.py:114`  |
+|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.67s → 1.95s | `parse_string`                    | `./blib2to3/pgen2/driver.py:198`  |
+|  +16.8% | +279.16ms | 35.0% → 33.7% |    1.67s → 1.95s | `lib2to3_parse`                   | `./black/parsing.py:55`           |
 | +248.2% | +144.01ms |   1.2% → 3.5% | 58.0ms → 202.0ms | `visit_default`                   | `./black/linegen.py:134`          |
 | +248.2% | +144.01ms |   1.2% → 3.5% | 58.0ms → 202.0ms | `visit`                           | `./black/nodes.py:163 → 152`      |
 | +248.2% | +144.01ms |   1.2% → 3.5% | 58.0ms → 202.0ms | `visit_default`                   | `./black/nodes.py:187 → 176`      |
@@ -518,14 +518,14 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |          Time | Caller          | Location                          |
 | -----: | --------: | ------------: | ------------: | --------------- | --------------------------------- |
-| +44.5% | +605.06ms | 33.1% → 38.9% | 1.36s → 1.96s | `assert_stable` | `./black/__init__.py:1557 → 1543` |
-| +12.3% | +338.09ms | 66.9% → 61.1% | 2.74s → 3.08s | `format_str`    | `./black/__init__.py:1189 → 1168` |
+| +44.5% | +605.06ms | 33.1% → 38.9% | 1.36s → 1.97s | `assert_stable` | `./black/__init__.py:1557 → 1543` |
+| +12.3% | +338.09ms | 66.9% → 61.1% | 2.75s → 3.08s | `format_str`    | `./black/__init__.py:1189 → 1168` |
 
 ##### `check_stability_and_equivalence` (`./black/__init__.py:1042`)
 
 | Change |     Delta |      % |          Time | Caller                 | Location                          |
 | -----: | --------: | -----: | ------------: | ---------------------- | --------------------------------- |
-| +34.5% | +651.74ms | 100.0% | 1.88s → 2.54s | `format_file_contents` | `./black/__init__.py:1054 → 1059` |
+| +34.5% | +651.74ms | 100.0% | 1.89s → 2.54s | `format_file_contents` | `./black/__init__.py:1054 → 1059` |
 
 ##### `assert_stable` (`./black/__init__.py:1543`)
 
@@ -543,19 +543,19 @@ Callers with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |      % |          Time | Caller         | Location                         |
 | -----: | --------: | -----: | ------------: | -------------- | -------------------------------- |
-| +16.8% | +280.27ms | 100.0% | 1.66s → 1.94s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+| +16.8% | +280.27ms | 100.0% | 1.67s → 1.95s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
 
 ##### `parse_string` (`./blib2to3/pgen2/driver.py:198`)
 
 | Change |     Delta |      % |          Time | Caller          | Location                |
 | -----: | --------: | -----: | ------------: | --------------- | ----------------------- |
-| +16.8% | +279.16ms | 100.0% | 1.66s → 1.94s | `lib2to3_parse` | `./black/parsing.py:55` |
+| +16.8% | +279.16ms | 100.0% | 1.67s → 1.95s | `lib2to3_parse` | `./black/parsing.py:55` |
 
 ##### `lib2to3_parse` (`./black/parsing.py:55`)
 
 | Change |     Delta |      % |          Time | Caller             | Location                          |
 | -----: | --------: | -----: | ------------: | ------------------ | --------------------------------- |
-| +16.8% | +279.16ms | 100.0% | 1.66s → 1.94s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
+| +16.8% | +279.16ms | 100.0% | 1.67s → 1.95s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
 
 ##### `visit_default` (`./black/linegen.py:134`)
 
@@ -723,14 +723,14 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |          Time | Callee                            | Location                          |
 | -----: | --------: | ------------: | ------------: | --------------------------------- | --------------------------------- |
-| +34.5% | +651.74ms | 40.7% → 45.1% | 1.88s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042` |
+| +34.5% | +651.74ms | 40.7% → 45.1% | 1.89s → 2.54s | `check_stability_and_equivalence` | `./black/__init__.py:1037 → 1042` |
 | +12.3% | +339.09ms | 59.3% → 54.9% | 2.75s → 3.09s | `format_str`                      | `./black/__init__.py:1189 → 1168` |
 
 ##### `_format_str_once` (`./black/__init__.py:1215`)
 
 |  Change |     Delta |             % |              Time | Callee                   | Location                          |
 | ------: | --------: | ------------: | ----------------: | ------------------------ | --------------------------------- |
-|  +16.8% | +279.16ms | 40.6% → 38.5% |     1.66s → 1.94s | `lib2to3_parse`          | `./black/parsing.py:55`           |
+|  +16.8% | +279.16ms | 40.6% → 38.5% |     1.67s → 1.95s | `lib2to3_parse`          | `./black/parsing.py:55`           |
 | +248.2% | +144.01ms |   1.4% → 4.0% |  58.0ms → 202.0ms | `visit`                  | `./black/nodes.py:163 → 152`      |
 |  +12.5% |  +36.02ms |   7.0% → 6.4% | 288.0ms → 324.0ms | `detect_target_versions` | `./black/__init__.py:1464 → 1443` |
 |  +32.7% |  +16.01ms |   1.2% → 1.3% |   49.0ms → 65.0ms | `transform_line`         | `./black/linegen.py:601`          |
@@ -746,13 +746,13 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |             % |          Time | Callee             | Location                          |
 | -----: | --------: | ------------: | ------------: | ------------------ | --------------------------------- |
-| +44.5% | +605.06ms | 99.8% → 99.7% | 1.36s → 1.96s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
+| +44.5% | +605.06ms | 99.8% → 99.7% | 1.36s → 1.97s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
 
 ##### `format_str` (`./black/__init__.py:1168`)
 
 | Change |     Delta |     % |          Time | Callee             | Location                          |
 | -----: | --------: | ----: | ------------: | ------------------ | --------------------------------- |
-| +12.3% | +338.09ms | 99.8% | 2.74s → 3.08s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
+| +12.3% | +338.09ms | 99.8% | 2.75s → 3.08s | `_format_str_once` | `./black/__init__.py:1236 → 1215` |
 
 ##### `parse_tokens` (`./blib2to3/pgen2/driver.py:114`)
 
@@ -764,13 +764,13 @@ Callees with the largest change in contribution to each function's total time. I
 
 | Change |     Delta |              % |          Time | Callee         | Location                         |
 | -----: | --------: | -------------: | ------------: | -------------- | -------------------------------- |
-| +16.8% | +280.27ms | 99.9% → 100.0% | 1.66s → 1.94s | `parse_tokens` | `./blib2to3/pgen2/driver.py:114` |
+| +16.8% | +280.27ms | 99.9% → 100.0% | 1.67s → 1.95s | `parse_tokens` | `./blib2to3/pgen2/driver.py:114` |
 
 ##### `lib2to3_parse` (`./black/parsing.py:55`)
 
 | Change |     Delta |      % |          Time | Callee         | Location                         |
 | -----: | --------: | -----: | ------------: | -------------- | -------------------------------- |
-| +16.8% | +279.16ms | 100.0% | 1.66s → 1.94s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
+| +16.8% | +279.16ms | 100.0% | 1.67s → 1.95s | `parse_string` | `./blib2to3/pgen2/driver.py:198` |
 
 ##### `visit_default` (`./black/linegen.py:134`)
 
@@ -858,7 +858,7 @@ Common call stack: `<module>` (`/venv/bin/black:1`)
 | +13.2% | +180.98ms | 28.8% → 26.8% |     1.37s → 1.55s | `_format_str_once` (`./black/__init__.py:1215`) ← `format_str` (1168) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | +28.4% | +151.03ms | 11.2% → 11.8% | 531.9ms → 682.9ms | `parse_tokens` (`./blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`./black/parsing.py:55`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `assert_stable` (1543) ← `check_stability_and_equivalence` (1042) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |    new | +116.86ms |   0.0% → 2.0% |     0ms → 116.9ms | `is_complex_subscript` (`./black/lines.py:430`) ← `append` (52) ← `visit_default` (`./black/linegen.py:134`) ← `visit_STRING` (413) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit_dictsetmaker` (234) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit` (`./black/nodes.py:152`) ← `visit_funcdef` (`./black/linegen.py:254`) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit` (`./black/nodes.py:152`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `assert_stable` (1543) ← `check_stability_and_equivalence` (1042) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`) |
-| +10.9% | +112.97ms | 21.8% → 19.9% |     1.03s → 1.15s | `parse_tokens` (`./blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`./black/parsing.py:55`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `format_str` (1168) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| +10.9% | +112.97ms | 21.8% → 19.9% |     1.04s → 1.15s | `parse_tokens` (`./blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`./black/parsing.py:55`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `format_str` (1168) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |    new | +108.75ms |   0.0% → 1.9% |     0ms → 108.7ms | `__init__` (`./blib2to3/pytree.py:389`) ← `convert` (475) ← `shift` (`./blib2to3/pgen2/parse.py:361`) ← `_addtoken` (278) ← `addtoken` (230) ← `parse_tokens` (`./blib2to3/pgen2/driver.py:114`) ← `parse_string` (198) ← `lib2to3_parse` (`./black/parsing.py:55`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `format_str` (1168) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 |    new |  +66.42ms |   0.0% → 1.1% |      0ms → 66.4ms | `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`./black/nodes.py:152`) ← `visit_funcdef` (`./black/linegen.py:254`) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit_suite` (288) ← `visit` (`./black/nodes.py:152`) ← `visit_stmt` (`./black/linegen.py:199`) ← `visit` (`./black/nodes.py:152`) ← `visit_default` (176) ← `visit_default` (`./black/linegen.py:134`) ← `visit` (`./black/nodes.py:152`) ← `_format_str_once` (`./black/__init__.py:1215`) ← `assert_stable` (1543) ← `check_stability_and_equivalence` (1042) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                           |
 |    new |  +64.84ms |   0.0% → 1.1% |      0ms → 64.8ms | `__contains__` (`./black/mode.py:249`) ← `is_simple_lookup` (`./black/trans.py:93`) ← `is_simple_operand` (110) ← `hug_power_op` (81) ← `_hugging_power_ops_line_to_string` (`./black/linegen.py:590`) ← `transform_line` (601) ← `run_transformer` (1771) ← `transform_line` (601) ← `_format_str_once` (`./black/__init__.py:1215`) ← `format_str` (1168) ← `format_file_contents` (1059) ← `format_file_in_place` (922) ← `reformat_one` (865) ← `main` (240) ← `new_func` (`/venv/lib/python3.11/site-packages/click/decorators.py:33`) ← `invoke` (`/venv/lib/python3.11/site-packages/click/core.py:857`) ← `invoke` (1401) ← `main` (1484) ← `__call__` (1629) ← `patched_main` (`./black/__init__.py:1580`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |

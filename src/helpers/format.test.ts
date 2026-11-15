@@ -18,8 +18,12 @@ test.each([
   [0.55, `0.6ms`],
   [1.4, `1.4ms`],
   [1500, `1.50s`],
-  [1239, `1.23s`],
+  [1239, `1.24s`],
   [9599.999999999982, `9.60s`],
+  [3698, `3.70s`],
+  [15_749.9, `15.75s`],
+  [1999.6, `2.00s`],
+  [61_999, `1m 2.00s`],
 ])(`formatMilliseconds formats %f as %s`, (milliseconds, expected) => {
   expect(formatMilliseconds(milliseconds)).toBe(expected)
 })
