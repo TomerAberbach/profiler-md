@@ -6,8 +6,8 @@ Collected 30,275 samples.
 | ---------------- | ----: | ------: |
 | Third-party      | 47.4% |  14,341 |
 | Standard library | 26.3% |   7,949 |
-| Unknown          | 22.4% |   6,789 |
-| Native           |  3.8% |   1,142 |
+| Unknown          | 25.5% |   7,727 |
+| Native           |  0.7% |     204 |
 | Ours             |  0.2% |      54 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
@@ -146,16 +146,10 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Unknown
 
-|     % | Samples | Function      | Location    |
-| ----: | ------: | ------------- | ----------- |
-| 22.4% |   6,789 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
 |     % | Samples | Function                                                                                                                                                                                | Location    |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 22.4% |   6,789 | `(anonymous)`                                                                                                                                                                           | `<unknown>` |
 |  3.1% |     934 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})`                                                                                                            | `<unknown>` |
-|  0.7% |     204 | `[unknown function]`                                                                                                                                                                    | `<unknown>` |
 | <0.1% |       3 | `#defaultminimum##0`                                                                                                                                                                    | `<unknown>` |
 | <0.1% |       1 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
 
@@ -836,15 +830,9 @@ Categories accounting for at least 1.0% of self samples.
 
 ##### Unknown
 
-|     % | Samples | Function      | Location    |
-| ----: | ------: | ------------- | ----------- |
-| 22.4% |   6,789 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
 |     % | Samples | Function                                                                                                                                                                                | Location    |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 77.6% |  23,486 | `[unknown function]`                                                                                                                                                                    | `<unknown>` |
+| 22.4% |   6,789 | `(anonymous)`                                                                                                                                                                           | `<unknown>` |
 | 17.9% |   5,430 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})`                                                                                                            | `<unknown>` |
 | 17.9% |   5,410 | `#defaultminimum##0`                                                                                                                                                                    | `<unknown>` |
 | <0.1% |       4 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |

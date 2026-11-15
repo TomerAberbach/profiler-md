@@ -5,9 +5,9 @@ Collected 33,547 → 30,400 samples (-3,147 samples, -9.4%).
 | Category         | Change |  Delta |             % |         Samples |
 | ---------------- | -----: | -----: | ------------: | --------------: |
 | Third-party      | -11.3% | -1,758 | 46.5% → 45.6% | 15,607 → 13,849 |
+| Unknown          |  -4.2% |   -368 | 26.3% → 27.8% |   8,815 → 8,447 |
 | Standard library | -11.1% |   -981 | 26.3% → 25.8% |   8,810 → 7,829 |
-| Unknown          |  -4.1% |   -315 | 23.1% → 24.5% |   7,750 → 7,435 |
-| Native           |  -7.0% |    -93 |   3.9% → 4.0% |   1,323 → 1,230 |
+| Native           | -15.5% |    -40 |   0.8% → 0.7% |       258 → 218 |
 | Ours             |   0.0% |      0 |          0.2% |              57 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
@@ -194,6 +194,13 @@ Functions with the largest decrease in samples collected within the function bod
 | removed |     -3 |  <0.1% → 0.0% |         3 → 0 | `populateinds!`                                                                                                                                                                                                                                                                       | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/JSON3.jl:64`    |
 |  -60.0% |     -3 |         <0.1% |         5 → 2 | `promoteeltype`                                                                                                                                                                                                                                                                       | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/utils.jl`       |
 
+##### Unknown
+
+| Change | Delta |             % |       Samples | Function                                                                     | Location    |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------------------------------- | ----------- |
+|  -4.1% |  -315 | 23.1% → 24.5% | 7,750 → 7,435 | `(anonymous)`                                                                | `<unknown>` |
+|  -5.0% |   -53 |   3.2% → 3.3% | 1,060 → 1,007 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
+
 ##### Standard library
 
 |  Change | Delta |            % |       Samples | Function                                                                                                                     | Location                                                                                              |
@@ -218,19 +225,6 @@ Functions with the largest decrease in samples collected within the function bod
 |   -1.0% |    -5 |  1.5% → 1.6% |     501 → 496 | `unsafe_load`                                                                                                                | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pointer.jl:151`        |
 | removed |    -5 | <0.1% → 0.0% |         5 → 0 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127`    |
 |  -38.5% |    -5 |        <0.1% |        13 → 8 | `<=`                                                                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:560`            |
-
-##### Unknown
-
-| Change | Delta |             % |       Samples | Function      | Location    |
-| -----: | ----: | ------------: | ------------: | ------------- | ----------- |
-|  -4.1% |  -315 | 23.1% → 24.5% | 7,750 → 7,435 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
-| Change | Delta |           % |       Samples | Function                                                                     | Location    |
-| -----: | ----: | ----------: | ------------: | ---------------------------------------------------------------------------- | ----------- |
-|  -5.0% |   -53 | 3.2% → 3.3% | 1,060 → 1,007 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
-| -15.5% |   -40 | 0.8% → 0.7% |     258 → 218 | `[unknown function]`                                                         | `<unknown>` |
 
 #### Lines
 
@@ -1370,6 +1364,12 @@ Functions with the largest increase in samples collected within the function and
 | +100.0% |    +2 |        <0.1% |     2 → 4 | `read!(::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.True})`                        | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/read.jl:174`     |
 | +200.0% |    +2 |        <0.1% |     1 → 3 | `_muladd`                                                                                                                                 | `../profiler-md-julia-depot/packages/Parsers/05lwR/src/floats.jl:27`  |
 
+##### Unknown
+
+|  Change | Delta |     % | Samples | Function                                                                                                                                                                                | Location    |
+| ------: | ----: | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| +200.0% |    +2 | <0.1% |   1 → 3 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
+
 ##### Standard library
 
 |  Change | Delta |            % |   Samples | Function           | Location                                                                                              |
@@ -1394,12 +1394,6 @@ Functions with the largest increase in samples collected within the function and
 |  +87.5% |    +7 |        <0.1% |    8 → 15 | `length_continued` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:568` |
 | +100.0% |    +7 |        <0.1% |    7 → 14 | `getindex`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:436`          |
 | +175.0% |    +7 |        <0.1% |    4 → 11 | `ifelse`           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:854`     |
-
-##### Native
-
-|  Change | Delta |     % | Samples | Function                                                                                                                                                                                | Location    |
-| ------: | ----: | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| +200.0% |    +2 | <0.1% |   1 → 3 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
 
 #### Improvements
 
@@ -1453,6 +1447,14 @@ Functions with the largest decrease in samples collected within the function and
 |  -2.5% |    -29 |   3.5% → 3.8% |   1,178 → 1,149 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/read.jl:218`  |
 |  -2.5% |    -29 |   3.5% → 3.8% |   1,178 → 1,149 | `read!`                                                                                                                                                                              | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/read.jl:87`   |
 
+##### Unknown
+
+| Change | Delta |             % |       Samples | Function                                                                     | Location    |
+| -----: | ----: | ------------: | ------------: | ---------------------------------------------------------------------------- | ----------- |
+|  -8.9% |  -540 | 18.1% → 18.2% | 6,062 → 5,522 | `#defaultminimum##0`                                                         | `<unknown>` |
+|  -8.9% |  -539 | 18.1% → 18.2% | 6,081 → 5,542 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
+|  -4.1% |  -315 | 23.1% → 24.5% | 7,750 → 7,435 | `(anonymous)`                                                                | `<unknown>` |
+
 ##### Standard library
 
 | Change |  Delta |             % |         Samples | Function                                                           | Location                                                                                                          |
@@ -1477,20 +1479,6 @@ Functions with the largest decrease in samples collected within the function and
 |  -8.8% |   -537 | 18.2% → 18.3% |   6,094 → 5,557 | `#sum#278`                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`                     |
 |  -8.8% |   -537 | 18.2% → 18.3% |   6,094 → 5,557 | `sum`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535`                     |
 |  -8.8% |   -537 | 18.2% → 18.3% |   6,094 → 5,557 | `sum`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`                     |
-
-##### Unknown
-
-| Change | Delta |             % |       Samples | Function      | Location    |
-| -----: | ----: | ------------: | ------------: | ------------- | ----------- |
-|  -4.1% |  -315 | 23.1% → 24.5% | 7,750 → 7,435 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
-| Change |  Delta |             % |         Samples | Function                                                                     | Location    |
-| -----: | -----: | ------------: | --------------: | ---------------------------------------------------------------------------- | ----------- |
-| -11.0% | -2,838 | 76.9% → 75.5% | 25,794 → 22,956 | `[unknown function]`                                                         | `<unknown>` |
-|  -8.9% |   -540 | 18.1% → 18.2% |   6,062 → 5,522 | `#defaultminimum##0`                                                         | `<unknown>` |
-|  -8.9% |   -539 | 18.1% → 18.2% |   6,081 → 5,542 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
 
 #### Callers
 
@@ -1731,6 +1719,12 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ------------- | --------------------------------------------------------------------- |
 | +200.0% |    +2 | 100.0% |   1 → 3 | `parsedigits` | `../profiler-md-julia-depot/packages/Parsers/05lwR/src/floats.jl:324` |
 
+##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
+
+|  Change | Delta |      % | Samples | Caller      | Location                                                                                     |
+| ------: | ----: | -----: | ------: | ----------- | -------------------------------------------------------------------------------------------- |
+| +200.0% |    +2 | 100.0% |   1 → 3 | `MappingRF` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+
 ##### `Pair` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base.jl:12`)
 
 |  Change | Delta |      % | Samples | Caller    | Location                                                          |
@@ -1762,12 +1756,6 @@ Callers with the largest change in contribution to each function's total samples
 | ------: | ----: | -----------: | ------: | ------------------------ | ------------------------------------------------------------------ |
 |     new |    +8 | 0.0% → 72.7% |   0 → 8 | `gettapelen`             | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/utils.jl:118` |
 | removed |    -1 | 25.0% → 0.0% |   1 → 0 | `defaultminimum(::Bool)` | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/write.jl:4`   |
-
-##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
-
-|  Change | Delta |      % | Samples | Caller      | Location                                                                                     |
-| ------: | ----: | -----: | ------: | ----------- | -------------------------------------------------------------------------------------------- |
-| +200.0% |    +2 | 100.0% |   1 → 3 | `MappingRF` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
 
 ##### `parse_workload` (`./profile.jl:18`)
 
@@ -1991,6 +1979,21 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | ------------: | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 |  -2.5% |   -29 | 100.0% | 1,178 → 1,149 | `var\"#read#6\"(::Bool, ::Nothing, ::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.read), ::String)` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/read.jl:30` |
 
+##### `#defaultminimum##0` (`<unknown>`)
+
+| Change | Delta |      % |       Samples | Caller               | Location    |
+| -----: | ----: | -----: | ------------: | -------------------- | ----------- |
+|  -8.9% |  -540 | 100.0% | 6,062 → 5,522 | `[unknown function]` | `<unknown>` |
+
+##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
+
+|  Change | Delta |              % |       Samples | Caller               | Location                                                                                     |
+| ------: | ----: | -------------: | ------------: | -------------------- | -------------------------------------------------------------------------------------------- |
+|   -8.9% |  -541 | 100.0% → 99.9% | 6,079 → 5,538 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
+|   -9.2% |  -358 |  64.0% → 63.7% | 3,889 → 3,531 | `[unknown function]` | `<unknown>`                                                                                  |
+|  -80.0% |   -12 |    0.2% → 0.1% |        15 → 3 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60` |
+| removed |    -2 |   <0.1% → 0.0% |         2 → 0 | `foldl_impl`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
+
 ##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56`)
 
 | Change | Delta |      % |       Samples | Caller       | Location                                                                                     |
@@ -2053,21 +2056,6 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | ------------: | ------------: | -------------------- | ----------------------------------------------------------------- |
 |  -8.8% |  -537 |        100.0% | 6,094 → 5,557 | `defaultminimum`     | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/write.jl:12` |
 | -10.5% |  -384 | 59.9% → 58.8% | 3,652 → 3,268 | `[unknown function]` | `<unknown>`                                                       |
-
-##### `#defaultminimum##0` (`<unknown>`)
-
-| Change | Delta |      % |       Samples | Caller               | Location    |
-| -----: | ----: | -----: | ------------: | -------------------- | ----------- |
-|  -8.9% |  -540 | 100.0% | 6,062 → 5,522 | `[unknown function]` | `<unknown>` |
-
-##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
-
-|  Change | Delta |              % |       Samples | Caller               | Location                                                                                     |
-| ------: | ----: | -------------: | ------------: | -------------------- | -------------------------------------------------------------------------------------------- |
-|   -8.9% |  -541 | 100.0% → 99.9% | 6,079 → 5,538 | `MappingRF`          | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:98` |
-|   -9.2% |  -358 |  64.0% → 63.7% | 3,889 → 3,531 | `[unknown function]` | `<unknown>`                                                                                  |
-|  -80.0% |   -12 |    0.2% → 0.1% |        15 → 3 | `_foldl_impl`        | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60` |
-| removed |    -2 |   <0.1% → 0.0% |         2 → 0 | `foldl_impl`         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:46` |
 
 #### Callees
 
@@ -2237,6 +2225,15 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | -----: | ------: | ------ | ----------------------------------------------------------------------------------------- |
 | +200.0% |    +2 | 100.0% |   1 → 3 | `*`    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:88` |
 
+##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
+
+|  Change | Delta |             % | Samples | Callee       | Location                                                                                                 |
+| ------: | ----: | ------------: | ------: | ------------ | -------------------------------------------------------------------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1632` |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`      |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1642` |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `getindex`   | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/JSON3.jl:158`                                       |
+
 ##### `length_continued` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:568`)
 
 | Change | Delta |      % | Samples | Callee | Location                                                                                  |
@@ -2249,15 +2246,6 @@ Callees with the largest change in contribution to each function's total samples
 | ------: | ----: | ----: | ------: | ------- | ------------------------------------------------------------------------------------------- |
 | +100.0% |    +6 | 85.7% |  6 → 12 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:649` |
 | +100.0% |    +1 | 14.3% |   1 → 2 | `Array` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648` |
-
-##### `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` (`<unknown>`)
-
-|  Change | Delta |             % | Samples | Callee       | Location                                                                                                 |
-| ------: | ----: | ------------: | ------: | ------------ | -------------------------------------------------------------------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |   1 → 0 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1632` |
-|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`      |
-|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `isassigned` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1642` |
-|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `getindex`   | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/JSON3.jl:158`                                       |
 
 ##### `parse_workload` (`./profile.jl:18`)
 
@@ -2510,6 +2498,26 @@ Callees with the largest change in contribution to each function's total samples
 |   -2.4% |   -28 | 99.9% → 100.0% | 1,177 → 1,149 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                         | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/read.jl:87`  |
 | removed |    -1 |    0.1% → 0.0% |         1 → 0 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/read.jl:218` |
 
+##### `#defaultminimum##0` (`<unknown>`)
+
+|  Change | Delta |             % |       Samples | Callee           | Location                                                                                                 |
+| ------: | ----: | ------------: | ------------: | ---------------- | -------------------------------------------------------------------------------------------------------- |
+|   -8.6% |  -468 | 89.5% → 89.8% | 5,426 → 4,958 | `defaultminimum` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/write.jl:12`                                        |
+|  -16.9% |   -83 |   8.1% → 7.4% |     492 → 409 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641` |
+|   -5.2% |   -18 |   5.8% → 6.0% |     349 → 331 | `getindex`       | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163`                                       |
+|  -66.7% |    -2 |         <0.1% |         3 → 1 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1640` |
+| +100.0% |    +1 |         <0.1% |         1 → 2 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1632` |
+
+##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
+
+|  Change | Delta |              % |       Samples | Callee                                                                                                                                    | Location                                                                                           |
+| ------: | ----: | -------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+|   -8.9% |  -542 | 100.0% → 99.9% | 6,079 → 5,537 | `[unknown function]`                                                                                                                      | `<unknown>`                                                                                        |
+|  -83.3% |    -5 |   0.1% → <0.1% |         6 → 1 | `indexed_iterate`                                                                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pair.jl:42`         |
+| +500.0% |    +5 |   <0.1% → 0.1% |         1 → 6 | `defaultminimum(::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/write.jl:11`                                  |
+|  -28.6% |    -2 |           0.1% |         7 → 5 | `+(::UInt64, ::Int64)`                                                                                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:1054`        |
+|  -66.7% |    -2 |          <0.1% |         3 → 1 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})`              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127` |
+
 ##### `_foldl_impl` (`/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:56`)
 
 |  Change | Delta |             % |       Samples | Callee               | Location                                                                                         |
@@ -2576,26 +2584,6 @@ Callees with the largest change in contribution to each function's total samples
 | Change | Delta |      % |       Samples | Callee     | Location                                                                                      |
 | -----: | ----: | -----: | ------------: | ---------- | --------------------------------------------------------------------------------------------- |
 |  -8.8% |  -537 | 100.0% | 6,094 → 5,557 | `#sum#279` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564` |
-
-##### `#defaultminimum##0` (`<unknown>`)
-
-|  Change | Delta |             % |       Samples | Callee           | Location                                                                                                 |
-| ------: | ----: | ------------: | ------------: | ---------------- | -------------------------------------------------------------------------------------------------------- |
-|   -8.6% |  -468 | 89.5% → 89.8% | 5,426 → 4,958 | `defaultminimum` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/write.jl:12`                                        |
-|  -16.9% |   -83 |   8.1% → 7.4% |     492 → 409 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1641` |
-|   -5.2% |   -18 |   5.8% → 6.0% |     349 → 331 | `getindex`       | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163`                                       |
-|  -66.7% |    -2 |         <0.1% |         3 → 1 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1640` |
-| +100.0% |    +1 |         <0.1% |         1 → 2 | `isassigned`     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl:1632` |
-
-##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
-
-|  Change | Delta |              % |       Samples | Callee                                                                                                                                    | Location                                                                                           |
-| ------: | ----: | -------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-|   -8.9% |  -542 | 100.0% → 99.9% | 6,079 → 5,537 | `[unknown function]`                                                                                                                      | `<unknown>`                                                                                        |
-|  -83.3% |    -5 |   0.1% → <0.1% |         6 → 1 | `indexed_iterate`                                                                                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/pair.jl:42`         |
-| +500.0% |    +5 |   <0.1% → 0.1% |         1 → 6 | `defaultminimum(::JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})` | `../profiler-md-julia-depot/packages/JSON3/ntJon/src/write.jl:11`                                  |
-|  -28.6% |    -2 |           0.1% |         7 → 5 | `+(::UInt64, ::Int64)`                                                                                                                    | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:1054`        |
-|  -66.7% |    -2 |          <0.1% |         3 → 1 | `isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})`              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/essentials.jl:1127` |
 
 ## Hottest call stacks
 

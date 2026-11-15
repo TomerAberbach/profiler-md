@@ -6,8 +6,8 @@ Collected 30,275 → 29,933 samples (-342 samples, -1.1%).
 | ---------------- | -----: | ----: | ------------: | --------------: |
 | Third-party      |  -0.8% |  -114 | 47.4% → 47.5% | 14,341 → 14,227 |
 | Standard library |  +0.1% |    +5 | 26.3% → 26.6% |   7,949 → 7,954 |
-| Unknown          |  -3.7% |  -254 | 22.4% → 21.8% |   6,789 → 6,535 |
-| Native           |  +3.9% |   +45 |   3.8% → 4.0% |   1,142 → 1,187 |
+| Unknown          |  -2.8% |  -218 | 25.5% → 25.1% |   7,727 → 7,509 |
+| Native           |  +4.4% |    +9 |          0.7% |       204 → 213 |
 | Ours             | -44.4% |   -24 |   0.2% → 0.1% |         54 → 30 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
@@ -142,12 +142,11 @@ Functions with the largest increase in samples collected within the function bod
 | +200.0% |    +4 |        <0.1% |         2 → 6 | `+(::UInt64, ::Int64)` | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:1054`              |
 |  +40.0% |    +4 |        <0.1% |       10 → 14 | `ncodeunits`           | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:161`    |
 
-##### Native
+##### Unknown
 
 | Change | Delta |           % |   Samples | Function                                                                     | Location    |
 | -----: | ----: | ----------: | --------: | ---------------------------------------------------------------------------- | ----------- |
 |  +3.9% |   +36 | 3.1% → 3.2% | 934 → 970 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
-|  +4.4% |    +9 |        0.7% | 204 → 213 | `[unknown function]`                                                         | `<unknown>` |
 
 #### Improvements
 
@@ -1385,7 +1384,7 @@ Functions with the largest increase in samples collected within the function and
 |   +5.4% |   +40 |   2.4% → 2.6% |     734 → 774 | `Array`                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:648`      |
 |   +2.6% |   +32 |   4.1% → 4.2% | 1,229 → 1,261 | `indexed_iterate`                                     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163`     |
 
-##### Native
+##### Unknown
 
 | Change | Delta |             % |       Samples | Function                                                                                                                                                                                | Location    |
 | -----: | ----: | ------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
@@ -1475,12 +1474,6 @@ Functions with the largest decrease in samples collected within the function and
 | Change | Delta |             % |       Samples | Function      | Location    |
 | -----: | ----: | ------------: | ------------: | ------------- | ----------- |
 |  -3.7% |  -254 | 22.4% → 21.8% | 6,789 → 6,535 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
-| Change | Delta |             % |         Samples | Function             | Location    |
-| -----: | ----: | ------------: | --------------: | -------------------- | ----------- |
-|  -0.4% |   -89 | 77.6% → 78.2% | 23,486 → 23,397 | `[unknown function]` | `<unknown>` |
 
 #### Callers
 

@@ -5,9 +5,9 @@ Collected 33,547 samples.
 | Category         |     % | Samples |
 | ---------------- | ----: | ------: |
 | Third-party      | 46.5% |  15,607 |
+| Unknown          | 26.3% |   8,815 |
 | Standard library | 26.3% |   8,810 |
-| Unknown          | 23.1% |   7,750 |
-| Native           |  3.9% |   1,323 |
+| Native           |  0.8% |     258 |
 | Ours             |  0.2% |      57 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
@@ -119,6 +119,14 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |      19 | `kwcall(::@NamedTuple{allow_inf::Bool}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                                                      | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/read.jl:87`    |
 |  0.1% |      19 | `getvalue`                                                                                                                                                                                                                       | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/utils.jl:213`  |
 
+##### Unknown
+
+|     % | Samples | Function                                                                     | Location    |
+| ----: | ------: | ---------------------------------------------------------------------------- | ----------- |
+| 23.1% |   7,750 | `(anonymous)`                                                                | `<unknown>` |
+|  3.2% |   1,060 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
+| <0.1% |       5 | `#defaultminimum##0`                                                         | `<unknown>` |
+
 ##### Standard library
 
 |    % | Samples | Function                                                                  | Location                                                                                              |
@@ -143,20 +151,6 @@ Categories accounting for at least 1.0% of self samples.
 | 0.2% |      71 | `getproperty`                                                             | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/Base_compiler.jl:57`   |
 | 0.2% |      66 | `#write#81`                                                               | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl`   |
 | 0.2% |      56 | `setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)`                     | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356`           |
-
-##### Unknown
-
-|     % | Samples | Function      | Location    |
-| ----: | ------: | ------------- | ----------- |
-| 23.1% |   7,750 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
-|     % | Samples | Function                                                                     | Location    |
-| ----: | ------: | ---------------------------------------------------------------------------- | ----------- |
-|  3.2% |   1,060 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` | `<unknown>` |
-|  0.8% |     258 | `[unknown function]`                                                         | `<unknown>` |
-| <0.1% |       5 | `#defaultminimum##0`                                                         | `<unknown>` |
 
 #### Lines
 
@@ -815,6 +809,15 @@ Categories accounting for at least 1.0% of self samples.
 |  3.5% |   1,177 | `var\"#read!#7\"(::Bool, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{Any}, ::Bool)`                                                                     | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/read.jl:87`   |
 |  3.5% |   1,177 | `var\"#read!#8\"(::Base.Pairs{Symbol, Bool, Nothing, @NamedTuple{allow_inf::Bool}}, ::typeof(JSON3.read!), ::Base.CodeUnits{UInt8, String}, ::Int64, ::Int64, ::UInt8, ::Vector{UInt64}, ::Int64, ::Type{JSON3.Object}, ::Bool)` | `../profiler-md-julia-depot/packages/JSON3/jSAdy/src/read.jl:218`  |
 
+##### Unknown
+
+|     % | Samples | Function                                                                                                                                                                                | Location    |
+| ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 23.1% |   7,750 | `(anonymous)`                                                                                                                                                                           | `<unknown>` |
+| 18.1% |   6,081 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})`                                                                                                            | `<unknown>` |
+| 18.1% |   6,062 | `#defaultminimum##0`                                                                                                                                                                    | `<unknown>` |
+| <0.1% |       1 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
+
 ##### Standard library
 
 |     % | Samples | Function                                                           | Location                                                                                                          |
@@ -839,21 +842,6 @@ Categories accounting for at least 1.0% of self samples.
 | 18.2% |   6,094 | `#sum#279`                                                         | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`                     |
 | 18.2% |   6,094 | `sum`                                                              | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564`                     |
 | 18.1% |   6,080 | `_foldl_impl`                                                      | `/nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60`                      |
-
-##### Unknown
-
-|     % | Samples | Function      | Location    |
-| ----: | ------: | ------------- | ----------- |
-| 23.1% |   7,750 | `(anonymous)` | `<unknown>` |
-
-##### Native
-
-|     % | Samples | Function                                                                                                                                                                                | Location    |
-| ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 76.9% |  25,794 | `[unknown function]`                                                                                                                                                                    | `<unknown>` |
-| 18.1% |   6,081 | `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})`                                                                                                            | `<unknown>` |
-| 18.1% |   6,062 | `#defaultminimum##0`                                                                                                                                                                    | `<unknown>` |
-| <0.1% |       1 | `(::JSON3.var\"#defaultminimum##0#defaultminimum##1\"{JSON3.Array{Int64, Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}})(::Int64)` | `<unknown>` |
 
 #### Callers
 

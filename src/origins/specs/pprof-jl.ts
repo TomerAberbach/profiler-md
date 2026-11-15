@@ -43,6 +43,7 @@ export const pprofJlOriginSpec = {
     juliaInstallCategory(entry) ??
     juliaDepotPackageCategory(entry) ??
     juliaRuntimeNativeCategory(entry) ??
+    juliaFilelessCodeCategory(entry) ??
     locationlessCategory(entry) ??
     `ours`,
   matchEntry: matchEntryFromRules({ location: JULIA_LOCATION_MATCH_RULES }),
@@ -94,6 +95,21 @@ const juliaRuntimeNativeCategory = (
   entry: DeepReadonly<ProfileEntry>,
 ): FunctionCategory | undefined =>
   pathCategory(entry, `native`, JULIA_NATIVE_SOURCE)
+
+/**
+ * Categorizes a named Julia method with no source file as `unknown`, because
+ * only its source file states whose code it is. PProf.jl names a frame it could
+ * not resolve at all `[unknown function]`, which stays `native`.
+ */
+const juliaFilelessCodeCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  !location && name !== undefined && name !== UNRESOLVED_FUNCTION_NAME
+    ? `unknown`
+    : undefined
+
+const UNRESOLVED_FUNCTION_NAME = `[unknown function]`
 
 const JULIA_NATIVE_SOURCE = /\.(?:[chS]|cpp|dylib|so|dll)[\d.]*$/u
 
