@@ -87,6 +87,28 @@ describe(`parse`, () => {
     ])
   })
 
+  test(`skips a sample whose event ends before its stack`, () => {
+    const md = convertBytesToMd(
+      ghcEventlogFormatSpec,
+      makeGhcEventlog({
+        costCentres: COST_CENTRES,
+        tickInterval: 1_000_000,
+        samples: [[2, 1], { ids: [1], depth: 2 }, { ids: [], depth: null }],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 1.0ms over 1 sample (1.0ms per sample).`,
+    ])
+    expectLogs([
+      `debug: origin candidates, in priority order: ghc`,
+      `info: fallback origin: ghc`,
+      `debug: no entry marked another origin`,
+      `warn: skipped 2 samples whose event ends before its stack`,
+    ])
+  })
+
   test(`rejects a log whose every sample references a cost centre the log never defined`, () => {
     expect(() =>
       convertBytesToMd(

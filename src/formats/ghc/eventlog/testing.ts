@@ -7,8 +7,12 @@ type EventlogCostCentre = {
   srcLoc: string
 }
 
-/** A cost-centre stack sample, as cost-centre IDs innermost first. */
-type EventlogSample = number[]
+/**
+ * A cost-centre stack sample, as cost-centre IDs innermost first, or with a
+ * stack depth that differs from the number of IDs the event holds. A `null`
+ * depth omits the depth byte.
+ */
+type EventlogSample = number[] | { ids: number[]; depth: number | null }
 
 /**
  * Builds an eventlog containing {@link costCentres} and {@link samples}, in the
@@ -56,17 +60,20 @@ export const makeGhcEventlog = ({
         ]),
       ),
     ),
-    ...samples.map((stack, index) =>
-      variableEvent(
+    ...samples.map((sample, index) => {
+      const { ids, depth } = Array.isArray(sample)
+        ? { ids: sample, depth: sample.length }
+        : sample
+      return variableEvent(
         TIME_PROFILE_SAMPLE,
         concatUint8Arrays([
           uint32(0),
           uint64(index + 1),
-          Uint8Array.of(stack.length),
-          ...stack.map(uint32),
+          depth === null ? new Uint8Array(0) : Uint8Array.of(depth),
+          ...ids.map(uint32),
         ]),
-      ),
-    ),
+      )
+    }),
     uint16(DATA_END),
   ])
 
