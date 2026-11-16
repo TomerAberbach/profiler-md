@@ -79,6 +79,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`a file system event is I/O`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `fs.sync.read`,
         declaredCategories: [`node`, `node.fs`, `node.fs.sync`],
       }),
@@ -88,6 +89,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an async resource's callback is script`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `PROMISE_CALLBACK`,
         declaredCategories: [`node`, `node.async_hooks`],
       }),
@@ -97,6 +99,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an async resource's lifetime has no category`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `PROMISE`,
         declaredCategories: [`node`, `node.async_hooks`],
       }),
@@ -106,6 +109,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an event named like a callback outside async_hooks has no category`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `MY_CALLBACK`,
         declaredCategories: [`node`, `node.environment`],
       }),
@@ -115,6 +119,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an event V8 writes takes V8's category`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `RunMicrotasks`,
         declaredCategories: [`v8.execute`],
       }),

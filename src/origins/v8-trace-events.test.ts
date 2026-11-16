@@ -15,7 +15,11 @@ describe(`v8TraceEventCategory`, () => {
     `V8.GC_HEAP_PROLOGUE`,
   ])(`the collector scope %s is a pause`, name => {
     expect(
-      v8TraceEventCategory({ name, declaredCategories: GC_CATEGORIES }),
+      v8TraceEventCategory({
+        type: `span`,
+        name,
+        declaredCategories: GC_CATEGORIES,
+      }),
     ).toBe(`garbage-collection-pause`)
   })
 
@@ -25,7 +29,11 @@ describe(`v8TraceEventCategory`, () => {
     `V8.GC_BACKGROUND_UNPARK`,
   ])(`the helper thread scope %s is collection beside the program`, name => {
     expect(
-      v8TraceEventCategory({ name, declaredCategories: GC_CATEGORIES }),
+      v8TraceEventCategory({
+        type: `span`,
+        name,
+        declaredCategories: GC_CATEGORIES,
+      }),
     ).toBe(`garbage-collection`)
   })
 
@@ -35,22 +43,31 @@ describe(`v8TraceEventCategory`, () => {
     `Sweeper::ConcurrentMajorSweeper Finished`,
   ])(`the collector job event %s is collection beside the program`, name => {
     expect(
-      v8TraceEventCategory({ name, declaredCategories: GC_CATEGORIES }),
+      v8TraceEventCategory({
+        type: `span`,
+        name,
+        declaredCategories: GC_CATEGORIES,
+      }),
     ).toBe(`garbage-collection`)
   })
 
   test.each([`V8.GCScavenger`, `V8.GCFinalizeMC`, `V8.GCIncrementalMarking`])(
     `the top-level collector event %s is a pause`,
     name => {
-      expect(v8TraceEventCategory({ name, declaredCategories: [`v8`] })).toBe(
-        `garbage-collection-pause`,
-      )
+      expect(
+        v8TraceEventCategory({
+          type: `span`,
+          name,
+          declaredCategories: [`v8`],
+        }),
+      ).toBe(`garbage-collection-pause`)
     },
   )
 
   test(`a deoptimization is compilation`, () => {
     expect(
       v8TraceEventCategory({
+        type: `span`,
         name: `V8.DeoptimizeCode`,
         declaredCategories: [`v8`],
       }),
@@ -60,6 +77,7 @@ describe(`v8TraceEventCategory`, () => {
   test(`an event of the v8.execute category is script`, () => {
     expect(
       v8TraceEventCategory({
+        type: `span`,
         name: `RunMicrotasks`,
         declaredCategories: [`v8.execute`],
       }),
@@ -69,17 +87,21 @@ describe(`v8TraceEventCategory`, () => {
   test(`an event V8 does not write has no category`, () => {
     expect(
       v8TraceEventCategory({
+        type: `span`,
         name: `V8.DeserializeIsolate`,
         declaredCategories: [`v8`],
       }),
     ).toBeUndefined()
     expect(
       v8TraceEventCategory({
+        type: `span`,
         name: `fs.sync.read`,
         declaredCategories: [`node`, `node.fs`],
       }),
     ).toBeUndefined()
-    expect(v8TraceEventCategory({ name: `V8.GC_SCAVENGER` })).toBeUndefined()
+    expect(
+      v8TraceEventCategory({ type: `span`, name: `V8.GC_SCAVENGER` }),
+    ).toBeUndefined()
   })
 })
 
@@ -175,6 +197,16 @@ describe(`normalizeV8TraceEvent`, () => {
         { gauge: `Heap used after collection`, time: undefined },
       ],
     })
+  })
+
+  test(`a statistics instant in the collector's category is no pause`, () => {
+    expect(
+      v8TraceEventCategory({
+        type: `instant`,
+        name: `V8.GC_Heap_Stats`,
+        declaredCategories: [`disabled-by-default-v8.gc`],
+      }),
+    ).toBe(`garbage-collection`)
   })
 
   test(`the heap statistics instant loses its JSON document argument`, () => {

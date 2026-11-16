@@ -42,7 +42,7 @@ describe(`categorizeTraceEvent`, () => {
     `ParseFunctionDefinition`,
     `ParseDeclarationOrFunctionDefinition`,
   ])(`%s is parsing`, name => {
-    expect(categorizeTraceEvent({ name })).toBe(`parsing`)
+    expect(categorizeTraceEvent({ type: `span`, name })).toBe(`parsing`)
   })
 
   test.each([
@@ -56,7 +56,7 @@ describe(`categorizeTraceEvent`, () => {
     // Only an event named `Source` is a file's parsing.
     `SourceManager`,
   ])(`%s is compilation`, name => {
-    expect(categorizeTraceEvent({ name })).toBe(`compilation`)
+    expect(categorizeTraceEvent({ type: `span`, name })).toBe(`compilation`)
   })
 })
 

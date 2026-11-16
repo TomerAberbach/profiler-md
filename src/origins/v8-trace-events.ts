@@ -14,12 +14,15 @@ import type { NormalizedTraceEvent } from './spec.ts'
  * other scope of a collection runs on the thread it stopped.
  */
 export const v8TraceEventCategory = ({
+  type,
   name,
   declaredCategories,
-}: DeepReadonly<Pick<TraceEvent, `name` | `declaredCategories`>>):
+}: DeepReadonly<Pick<TraceEvent, `type` | `name` | `declaredCategories`>>):
   TraceEventCategory | undefined => {
   if (declaredCategories?.includes(V8_GC_CATEGORY)) {
-    return name.startsWith(V8_GC_SCOPE_PREFIX) && !name.includes(`BACKGROUND`)
+    return type === `span` &&
+      name.startsWith(V8_GC_SCOPE_PREFIX) &&
+      !name.includes(`BACKGROUND`)
       ? `garbage-collection-pause`
       : `garbage-collection`
   }

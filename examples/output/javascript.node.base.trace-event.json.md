@@ -5,8 +5,8 @@ Recorded 42,533 events over 5.42s.
 | Category                 |     % |    Time |  Count |
 | ------------------------ | ----: | ------: | -----: |
 | Script                   | 84.4% |   4.58s | 12,865 |
-| Garbage collection       | 31.7% |   1.72s |  1,933 |
-| Garbage collection pause | 13.0% | 704.0ms | 11,275 |
+| Garbage collection       | 31.7% |   1.72s |  2,283 |
+| Garbage collection pause | 13.0% | 704.0ms | 10,925 |
 | I/O                      |  2.2% | 117.7ms | 14,795 |
 | Compilation              |  0.2% |  12.6ms |  1,580 |
 | Other                    |  0.1% |   3.6ms |     85 |
@@ -2302,28 +2302,17 @@ Async spans with the most occurrences recorded.
 
 Instants with the most occurrences recorded.
 
+#### Categories
+
+Categories accounting for at least 1.0% of instants.
+
+##### Garbage collection
+
 |     % | Count | Instant                            |
 | ----: | ----: | ---------------------------------- |
 | 98.9% |   350 | `V8.GC_Heap_Stats`                 |
 |  0.6% |     2 | `V8.GCMarkCompactorSummary`        |
 |  0.6% |     2 | `V8.GCMarkCompactorMarkingSummary` |
-
-#### Categories
-
-Categories accounting for at least 1.0% of instants.
-
-##### Garbage collection pause
-
-|     % | Count | Instant            |
-| ----: | ----: | ------------------ |
-| 98.9% |   350 | `V8.GC_Heap_Stats` |
-
-##### Garbage collection
-
-|    % | Count | Instant                            |
-| ---: | ----: | ---------------------------------- |
-| 0.6% |     2 | `V8.GCMarkCompactorSummary`        |
-| 0.6% |     2 | `V8.GCMarkCompactorMarkingSummary` |
 
 #### Threads
 

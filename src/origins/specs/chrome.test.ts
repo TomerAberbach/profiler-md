@@ -132,6 +132,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`an event V8 writes takes V8's category`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `V8.GC_SCAVENGER`,
         declaredCategories: [`devtools.timeline`, `disabled-by-default-v8.gc`],
       }),
@@ -141,6 +142,7 @@ describe(`categorizeTraceEvent`, () => {
   test(`a Node event has no category`, () => {
     expect(
       categorizeTraceEvent({
+        type: `span`,
         name: `fs.sync.read`,
         declaredCategories: [`node`, `node.fs`, `node.fs.sync`],
       }),
