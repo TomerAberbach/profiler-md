@@ -2,13 +2,10 @@
 
 Allocated 244 MiB over 78 objects (3.13 MiB per object).
 
-| Category |     % |     Size | Objects |
-| -------- | ----: | -------: | ------: |
-| Native   | 52.5% |  128 MiB |      25 |
-| Ours     | 47.5% |  116 MiB |      49 |
-| Unknown  | <0.1% | 1.35 KiB |       4 |
-
-`…` stands for omitted frames.
+| Category |     % |    Size | Objects |
+| -------- | ----: | ------: | ------: |
+| Native   | 52.5% | 128 MiB |      29 |
+| Ours     | 47.5% | 116 MiB |      49 |
 
 ## Call tree
 
@@ -17,7 +14,7 @@ Call paths to the hottest functions.
 ```
 ├── 131 MiB (53.6%) _start
 │   └── 131 MiB (53.6%) __libc_start_main
-│       └── 131 MiB (53.6%) (anonymous)
+│       └── 131 MiB (53.6%) 0x27743 at /usr/lib/aarch64-linux-gnu/libc.so.6
 │           └── 131 MiB (53.6%) main
 │               └── 131 MiB (53.6%) FIO_compressFilename
 │                   ├── 128 MiB (52.4%) FIO_compressFilename_srcFile at fileio.c
@@ -29,13 +26,14 @@ Call paths to the hottest functions.
 │                       │   └── 1.25 MiB (0.5%, self 0.5%) AIO_IOPool_init at fileio_asyncio.c
 │                       └── 1.26 MiB (0.5%) AIO_WritePool_create
 │                           └── 1.26 MiB (0.5%, self 0.5%, self 1.0% globally) AIO_IOPool_init at fileio_asyncio.c
-└── 113 MiB (46.4%) (anonymous)
-    └── … 113 MiB (46.4%) POOL_thread at pool.c
-        └── 113 MiB (46.4%) ZSTDMT_compressionJob at zstdmt_compress.c
-            ├── 81.2 MiB (33.3%) ZSTD_compressBegin_advanced_internal
-            │   └── 81.2 MiB (33.3%) ZSTD_compressBegin_internal at zstd_compress.c
-            │       └── 81.2 MiB (33.3%) ZSTD_resetCCtx_internal
-            └── 32.1 MiB (13.2%) ZSTDMT_getBuffer
+└── 113 MiB (46.4%) 0xebf5b at /usr/lib/aarch64-linux-gnu/libc.so.6
+    └── 113 MiB (46.4%) 0x8202f
+        └── 113 MiB (46.4%) POOL_thread at pool.c
+            └── 113 MiB (46.4%) ZSTDMT_compressionJob at zstdmt_compress.c
+                ├── 81.2 MiB (33.3%) ZSTD_compressBegin_advanced_internal
+                │   └── 81.2 MiB (33.3%) ZSTD_compressBegin_internal at zstd_compress.c
+                │       └── 81.2 MiB (33.3%) ZSTD_resetCCtx_internal
+                └── 32.1 MiB (13.2%) ZSTDMT_getBuffer
 ```
 
 ## Hottest functions
@@ -44,27 +42,28 @@ Call paths to the hottest functions.
 
 Functions with the most bytes allocated within the function body, excluding callees.
 
-|     % |     Size | Objects | Function                      | Location            |
-| ----: | -------: | ------: | ----------------------------- | ------------------- |
-| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` | `<unknown>`         |
-| 33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal`     | `zstd_compress.c`   |
-| 13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer`            | `zstdmt_compress.c` |
-|  1.0% | 2.51 MiB |      40 | `AIO_IOPool_init`             | `fileio_asyncio.c`  |
-|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create`         | `<unknown>`         |
-| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`         | `<unknown>`         |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`    | `<unknown>`         |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`             | `<unknown>`         |
-| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced`  | `<unknown>`         |
-| <0.1% | 1.81 KiB |       1 | `ZSTDMT_createJobsTable`      | `zstdmt_compress.c` |
-| <0.1% | 1.35 KiB |       4 | `(anonymous)`                 | `<unknown>`         |
-| <0.1% | 1.05 KiB |       9 | `POOL_create_advanced`        | `<unknown>`         |
-| <0.1% |    472 B |       1 | `_IO_fdopen`                  | `<unknown>`         |
-| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool`     | `zstdmt_compress.c` |
-| <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>`         |
-| <0.1% |    192 B |       4 | `UTIL_allocateFileNamesTable` | `<unknown>`         |
-| <0.1% |    136 B |       1 | `FIO_createPreferences`       | `<unknown>`         |
-| <0.1% |     96 B |       2 | `ZSTDMT_createCCtxPool`       | `zstdmt_compress.c` |
-| <0.1% |     40 B |       1 | `FIO_createContext`           | `<unknown>`         |
+|     % |     Size | Objects | Function                      | Location                                           |
+| ----: | -------: | ------: | ----------------------------- | -------------------------------------------------- |
+| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` | `<unknown>`                                        |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal`     | `zstd_compress.c`                                  |
+| 13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer`            | `zstdmt_compress.c`                                |
+|  1.0% | 2.51 MiB |      40 | `AIO_IOPool_init`             | `fileio_asyncio.c`                                 |
+|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create`         | `<unknown>`                                        |
+| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`         | `<unknown>`                                        |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`    | `<unknown>`                                        |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`             | `<unknown>`                                        |
+| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced`  | `<unknown>`                                        |
+| <0.1% | 1.81 KiB |       1 | `ZSTDMT_createJobsTable`      | `zstdmt_compress.c`                                |
+| <0.1% | 1.05 KiB |       9 | `POOL_create_advanced`        | `<unknown>`                                        |
+| <0.1% |    912 B |       3 | `0xf483`                      | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+| <0.1% |    472 B |       1 | `_IO_fdopen`                  | `<unknown>`                                        |
+| <0.1% |    472 B |       1 | `0x6dc07`                     | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
+| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool`     | `zstdmt_compress.c`                                |
+| <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>`                                        |
+| <0.1% |    192 B |       4 | `UTIL_allocateFileNamesTable` | `<unknown>`                                        |
+| <0.1% |    136 B |       1 | `FIO_createPreferences`       | `<unknown>`                                        |
+| <0.1% |     96 B |       2 | `ZSTDMT_createCCtxPool`       | `zstdmt_compress.c`                                |
+| <0.1% |     40 B |       1 | `FIO_createContext`           | `<unknown>`                                        |
 
 #### Categories
 
@@ -72,20 +71,22 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|     % |     Size | Objects | Function                      | Location    |
-| ----: | -------: | ------: | ----------------------------- | ----------- |
-| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` | `<unknown>` |
-|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create`         | `<unknown>` |
-| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`         | `<unknown>` |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`    | `<unknown>` |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`             | `<unknown>` |
-| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced`  | `<unknown>` |
-| <0.1% | 1.05 KiB |       9 | `POOL_create_advanced`        | `<unknown>` |
-| <0.1% |    472 B |       1 | `_IO_fdopen`                  | `<unknown>` |
-| <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>` |
-| <0.1% |    192 B |       4 | `UTIL_allocateFileNamesTable` | `<unknown>` |
-| <0.1% |    136 B |       1 | `FIO_createPreferences`       | `<unknown>` |
-| <0.1% |     40 B |       1 | `FIO_createContext`           | `<unknown>` |
+|     % |     Size | Objects | Function                      | Location                                           |
+| ----: | -------: | ------: | ----------------------------- | -------------------------------------------------- |
+| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` | `<unknown>`                                        |
+|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create`         | `<unknown>`                                        |
+| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`         | `<unknown>`                                        |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`    | `<unknown>`                                        |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`             | `<unknown>`                                        |
+| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced`  | `<unknown>`                                        |
+| <0.1% | 1.05 KiB |       9 | `POOL_create_advanced`        | `<unknown>`                                        |
+| <0.1% |    912 B |       3 | `0xf483`                      | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+| <0.1% |    472 B |       1 | `_IO_fdopen`                  | `<unknown>`                                        |
+| <0.1% |    472 B |       1 | `0x6dc07`                     | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
+| <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>`                                        |
+| <0.1% |    192 B |       4 | `UTIL_allocateFileNamesTable` | `<unknown>`                                        |
+| <0.1% |    136 B |       1 | `FIO_createPreferences`       | `<unknown>`                                        |
+| <0.1% |     40 B |       1 | `FIO_createContext`           | `<unknown>`                                        |
 
 ##### Ours
 
@@ -164,13 +165,6 @@ Callers with the largest contribution to each function's self size. Inlining can
 | -----: | -------: | ------: | ---------------------------- | ----------- |
 | 100.0% | 1.81 KiB |       1 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
 
-##### `(anonymous)` (`<unknown>`)
-
-|     % |  Size | Objects | Caller             | Location    |
-| ----: | ----: | ------: | ------------------ | ----------- |
-| 65.9% | 912 B |       3 | `_dl_allocate_tls` | `<unknown>` |
-| 34.1% | 472 B |       1 | `FIO_openSrcFile`  | `fileio.c`  |
-
 ##### `POOL_create_advanced` (`<unknown>`)
 
 |     % |  Size | Objects | Caller                       | Location    |
@@ -178,11 +172,23 @@ Callers with the largest contribution to each function's self size. Inlining can
 | 74.6% | 800 B |       6 | `POOL_create`                | `<unknown>` |
 | 25.4% | 272 B |       3 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
 
+##### `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
+
+|      % |  Size | Objects | Caller             | Location    |
+| -----: | ----: | ------: | ------------------ | ----------- |
+| 100.0% | 912 B |       3 | `_dl_allocate_tls` | `<unknown>` |
+
 ##### `_IO_fdopen` (`<unknown>`)
 
 |      % |  Size | Objects | Caller            | Location   |
 | -----: | ----: | ------: | ----------------- | ---------- |
 | 100.0% | 472 B |       1 | `FIO_openDstFile` | `fileio.c` |
+
+##### `0x6dc07` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Caller            | Location   |
+| -----: | ----: | ------: | ----------------- | ---------- |
+| 100.0% | 472 B |       1 | `FIO_openSrcFile` | `fileio.c` |
 
 ##### `ZSTDMT_createBufferPool` (`zstdmt_compress.c`)
 
@@ -224,28 +230,28 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 Functions with the most bytes allocated within the function and its callees.
 
-|      % |     Size | Objects | Function                               | Location            |
-| -----: | -------: | ------: | -------------------------------------- | ------------------- |
-| 100.0% |  244 MiB |      78 | `(anonymous)`                          | `<unknown>`         |
-|  53.6% |  131 MiB |      75 | `main`                                 | `<unknown>`         |
-|  53.6% |  131 MiB |      75 | `__libc_start_main`                    | `<unknown>`         |
-|  53.6% |  131 MiB |      75 | `_start`                               | `<unknown>`         |
-|  53.6% |  131 MiB |      69 | `FIO_compressFilename`                 | `<unknown>`         |
-|  52.4% |  128 MiB |      17 | `FIO_compressFilename_srcFile`         | `fileio.c`          |
-|  52.4% |  128 MiB |      14 | `ZSTD_CCtx_init_compressStream2`       | `zstd_compress.c`   |
-|  52.4% |  128 MiB |      14 | `ZSTD_compressStream2`                 | `<unknown>`         |
-|  52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal`          | `<unknown>`         |
-|  46.4% |  113 MiB |       3 | `POOL_thread`                          | `pool.c`            |
-|  46.4% |  113 MiB |       2 | `ZSTDMT_compressionJob`                | `zstdmt_compress.c` |
-|  33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal`              | `zstd_compress.c`   |
-|  33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_internal`          | `zstd_compress.c`   |
-|  33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>`         |
-|  13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer`                     | `zstdmt_compress.c` |
-|   1.1% | 2.76 MiB |      52 | `FIO_createCResources`                 | `fileio.c`          |
-|   1.0% | 2.51 MiB |      48 | `AIO_IOPool_init`                      | `fileio_asyncio.c`  |
-|   0.6% |  1.5 MiB |      26 | `AIO_ReadPool_create`                  | `<unknown>`         |
-|   0.5% | 1.26 MiB |      25 | `AIO_WritePool_create`                 | `<unknown>`         |
-|  <0.1% |   11 KiB |      13 | `ZSTDMT_createCCtx_advanced`           | `<unknown>`         |
+|     % |     Size | Objects | Function                               | Location                               |
+| ----: | -------: | ------: | -------------------------------------- | -------------------------------------- |
+| 53.6% |  131 MiB |      75 | `main`                                 | `<unknown>`                            |
+| 53.6% |  131 MiB |      75 | `0x27743`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 53.6% |  131 MiB |      75 | `__libc_start_main`                    | `<unknown>`                            |
+| 53.6% |  131 MiB |      75 | `_start`                               | `<unknown>`                            |
+| 53.6% |  131 MiB |      69 | `FIO_compressFilename`                 | `<unknown>`                            |
+| 52.4% |  128 MiB |      17 | `FIO_compressFilename_srcFile`         | `fileio.c`                             |
+| 52.4% |  128 MiB |      14 | `ZSTD_CCtx_init_compressStream2`       | `zstd_compress.c`                      |
+| 52.4% |  128 MiB |      14 | `ZSTD_compressStream2`                 | `<unknown>`                            |
+| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal`          | `<unknown>`                            |
+| 46.4% |  113 MiB |       3 | `POOL_thread`                          | `pool.c`                               |
+| 46.4% |  113 MiB |       3 | `0x8202f`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 46.4% |  113 MiB |       3 | `0xebf5b`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 46.4% |  113 MiB |       2 | `ZSTDMT_compressionJob`                | `zstdmt_compress.c`                    |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal`              | `zstd_compress.c`                      |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_internal`          | `zstd_compress.c`                      |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>`                            |
+| 13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer`                     | `zstdmt_compress.c`                    |
+|  1.1% | 2.76 MiB |      52 | `FIO_createCResources`                 | `fileio.c`                             |
+|  1.0% | 2.51 MiB |      48 | `AIO_IOPool_init`                      | `fileio_asyncio.c`                     |
+|  0.6% |  1.5 MiB |      26 | `AIO_ReadPool_create`                  | `<unknown>`                            |
 
 #### Categories
 
@@ -253,28 +259,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Native
 
-|     % |     Size | Objects | Function                               | Location    |
-| ----: | -------: | ------: | -------------------------------------- | ----------- |
-| 53.6% |  131 MiB |      75 | `main`                                 | `<unknown>` |
-| 53.6% |  131 MiB |      75 | `__libc_start_main`                    | `<unknown>` |
-| 53.6% |  131 MiB |      75 | `_start`                               | `<unknown>` |
-| 53.6% |  131 MiB |      69 | `FIO_compressFilename`                 | `<unknown>` |
-| 52.4% |  128 MiB |      14 | `ZSTD_compressStream2`                 | `<unknown>` |
-| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal`          | `<unknown>` |
-| 33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
-|  0.6% |  1.5 MiB |      26 | `AIO_ReadPool_create`                  | `<unknown>` |
-|  0.5% | 1.26 MiB |      25 | `AIO_WritePool_create`                 | `<unknown>` |
-| <0.1% |   11 KiB |      13 | `ZSTDMT_createCCtx_advanced`           | `<unknown>` |
-| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`                  | `<unknown>` |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`             | `<unknown>` |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`                      | `<unknown>` |
-| <0.1% |    4 KiB |       1 | `_IO_setvbuf`                          | `<unknown>` |
-| <0.1% |    4 KiB |       1 | `_IO_doallocbuf`                       | `<unknown>` |
-| <0.1% |    4 KiB |       1 | `_IO_fread`                            | `<unknown>` |
-| <0.1% | 1.94 KiB |      12 | `POOL_create_advanced`                 | `<unknown>` |
-| <0.1% | 1.38 KiB |       8 | `POOL_create`                          | `<unknown>` |
-| <0.1% |    912 B |       3 | `_dl_allocate_tls`                     | `<unknown>` |
-| <0.1% |    912 B |       3 | `pthread_create`                       | `<unknown>` |
+|     % |     Size | Objects | Function                               | Location                               |
+| ----: | -------: | ------: | -------------------------------------- | -------------------------------------- |
+| 53.6% |  131 MiB |      75 | `main`                                 | `<unknown>`                            |
+| 53.6% |  131 MiB |      75 | `0x27743`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 53.6% |  131 MiB |      75 | `__libc_start_main`                    | `<unknown>`                            |
+| 53.6% |  131 MiB |      75 | `_start`                               | `<unknown>`                            |
+| 53.6% |  131 MiB |      69 | `FIO_compressFilename`                 | `<unknown>`                            |
+| 52.4% |  128 MiB |      14 | `ZSTD_compressStream2`                 | `<unknown>`                            |
+| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal`          | `<unknown>`                            |
+| 46.4% |  113 MiB |       3 | `0x8202f`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 46.4% |  113 MiB |       3 | `0xebf5b`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>`                            |
+|  0.6% |  1.5 MiB |      26 | `AIO_ReadPool_create`                  | `<unknown>`                            |
+|  0.5% | 1.26 MiB |      25 | `AIO_WritePool_create`                 | `<unknown>`                            |
+| <0.1% |   11 KiB |      13 | `ZSTDMT_createCCtx_advanced`           | `<unknown>`                            |
+| <0.1% |    8 KiB |       2 | `_IO_file_doallocate`                  | `<unknown>`                            |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced`             | `<unknown>`                            |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx`                      | `<unknown>`                            |
+| <0.1% |    4 KiB |       1 | `_IO_setvbuf`                          | `<unknown>`                            |
+| <0.1% |    4 KiB |       1 | `_IO_doallocbuf`                       | `<unknown>`                            |
+| <0.1% |    4 KiB |       1 | `0x79c7b`                              | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |    4 KiB |       1 | `_IO_fread`                            | `<unknown>`                            |
 
 ##### Ours
 
@@ -300,21 +306,17 @@ Categories accounting for at least 1.0% of self size.
 
 Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`<unknown>`)
-
-|     % |    Size | Objects | Caller              | Location    |
-| ----: | ------: | ------: | ------------------- | ----------- |
-| 53.6% | 131 MiB |      75 | `__libc_start_main` | `<unknown>` |
-| 46.4% | 113 MiB |       3 | `(anonymous)`       | `<unknown>` |
-| <0.1% |   4 KiB |       1 | `_IO_fread`         | `<unknown>` |
-| <0.1% |   912 B |       3 | `_dl_allocate_tls`  | `<unknown>` |
-| <0.1% |   472 B |       1 | `FIO_openSrcFile`   | `fileio.c`  |
-
 ##### `main` (`<unknown>`)
 
-|      % |    Size | Objects | Caller        | Location    |
-| -----: | ------: | ------: | ------------- | ----------- |
-| 100.0% | 131 MiB |      75 | `(anonymous)` | `<unknown>` |
+|      % |    Size | Objects | Caller    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 131 MiB |      75 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Caller              | Location    |
+| -----: | ------: | ------: | ------------------- | ----------- |
+| 100.0% | 131 MiB |      75 | `__libc_start_main` | `<unknown>` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
@@ -354,9 +356,15 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `POOL_thread` (`pool.c`)
 
-|      % |    Size | Objects | Caller        | Location    |
-| -----: | ------: | ------: | ------------- | ----------- |
-| 100.0% | 113 MiB |       3 | `(anonymous)` | `<unknown>` |
+|      % |    Size | Objects | Caller    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 113 MiB |       3 | `0x8202f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Caller    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 113 MiB |       3 | `0xebf5b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
@@ -458,9 +466,15 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `_IO_doallocbuf` (`<unknown>`)
 
-|      % |  Size | Objects | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 4 KiB |       1 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4 KiB |       1 | `0x79c7b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x79c7b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Caller      | Location    |
+| -----: | ----: | ------: | ----------- | ----------- |
+| 100.0% | 4 KiB |       1 | `_IO_fread` | `<unknown>` |
 
 ##### `_IO_fread` (`<unknown>`)
 
@@ -474,36 +488,11 @@ Callers with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | ------------- | -------- |
 | 100.0% | 4 KiB |       1 | `POOL_thread` | `pool.c` |
 
-##### `POOL_create_advanced` (`<unknown>`)
-
-|     % |     Size | Objects | Caller                       | Location    |
-| ----: | -------: | ------: | ---------------------------- | ----------- |
-| 71.0% | 1.38 KiB |       8 | `POOL_create`                | `<unknown>` |
-| 29.0% |    576 B |       4 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
-
 ##### `ZSTDMT_createJobsTable` (`zstdmt_compress.c`)
 
 |      % |     Size | Objects | Caller                       | Location    |
 | -----: | -------: | ------: | ---------------------------- | ----------- |
 | 100.0% | 1.81 KiB |       1 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
-
-##### `POOL_create` (`<unknown>`)
-
-|      % |     Size | Objects | Caller            | Location           |
-| -----: | -------: | ------: | ----------------- | ------------------ |
-| 100.0% | 1.38 KiB |       8 | `AIO_IOPool_init` | `fileio_asyncio.c` |
-
-##### `_dl_allocate_tls` (`<unknown>`)
-
-|      % |  Size | Objects | Caller           | Location    |
-| -----: | ----: | ------: | ---------------- | ----------- |
-| 100.0% | 912 B |       3 | `pthread_create` | `<unknown>` |
-
-##### `pthread_create` (`<unknown>`)
-
-|      % |  Size | Objects | Caller                 | Location    |
-| -----: | ----: | ------: | ---------------------- | ----------- |
-| 100.0% | 912 B |       3 | `POOL_create_advanced` | `<unknown>` |
 
 ##### `FIO_openSrcFile` (`fileio.c`)
 
@@ -521,15 +510,6 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`<unknown>`)
-
-|     % |    Size | Objects | Callee           | Location    |
-| ----: | ------: | ------: | ---------------- | ----------- |
-| 53.6% | 131 MiB |      75 | `main`           | `<unknown>` |
-| 46.4% | 113 MiB |       3 | `POOL_thread`    | `pool.c`    |
-| 46.4% | 113 MiB |       3 | `(anonymous)`    | `<unknown>` |
-| <0.1% |   4 KiB |       1 | `_IO_doallocbuf` | `<unknown>` |
-
 ##### `main` (`<unknown>`)
 
 |      % |    Size | Objects | Callee                        | Location    |
@@ -539,11 +519,17 @@ Callees with the largest contribution to each function's total size. Inlining ca
 |  <0.1% |   136 B |       1 | `FIO_createPreferences`       | `<unknown>` |
 |  <0.1% |    40 B |       1 | `FIO_createContext`           | `<unknown>` |
 
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Callee | Location    |
+| -----: | ------: | ------: | ------ | ----------- |
+| 100.0% | 131 MiB |      75 | `main` | `<unknown>` |
+
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |    Size | Objects | Callee        | Location    |
-| -----: | ------: | ------: | ------------- | ----------- |
-| 100.0% | 131 MiB |      75 | `(anonymous)` | `<unknown>` |
+|      % |    Size | Objects | Callee    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 131 MiB |      75 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`<unknown>`)
 
@@ -585,6 +571,18 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | ------: | ------: | ----------------------------- | ------------------- |
 | 100.0% | 113 MiB |       2 | `ZSTDMT_compressionJob`       | `zstdmt_compress.c` |
 |  <0.1% |   4 KiB |       1 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
+
+##### `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Callee        | Location |
+| -----: | ------: | ------: | ------------- | -------- |
+| 100.0% | 113 MiB |       3 | `POOL_thread` | `pool.c` |
+
+##### `0xebf5b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |    Size | Objects | Callee    | Location                               |
+| -----: | ------: | ------: | --------- | -------------------------------------- |
+| 100.0% | 113 MiB |       3 | `0x8202f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
@@ -665,11 +663,17 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | --------------------- | ----------- |
 | 100.0% | 4 KiB |       1 | `_IO_file_doallocate` | `<unknown>` |
 
+##### `0x79c7b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Callee           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 4 KiB |       1 | `_IO_doallocbuf` | `<unknown>` |
+
 ##### `_IO_fread` (`<unknown>`)
 
-|      % |  Size | Objects | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 4 KiB |       1 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 4 KiB |       1 | `0x79c7b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`)
 
@@ -677,62 +681,38 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | ----------- | ----------- |
 | 100.0% | 4 KiB |       1 | `_IO_fread` | `<unknown>` |
 
-##### `POOL_create_advanced` (`<unknown>`)
-
-|     % |  Size | Objects | Callee           | Location    |
-| ----: | ----: | ------: | ---------------- | ----------- |
-| 46.0% | 912 B |       3 | `pthread_create` | `<unknown>` |
-
-##### `POOL_create` (`<unknown>`)
-
-|      % |     Size | Objects | Callee                 | Location    |
-| -----: | -------: | ------: | ---------------------- | ----------- |
-| 100.0% | 1.38 KiB |       8 | `POOL_create_advanced` | `<unknown>` |
-
-##### `_dl_allocate_tls` (`<unknown>`)
-
-|      % |  Size | Objects | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
-
-##### `pthread_create` (`<unknown>`)
-
-|      % |  Size | Objects | Callee             | Location    |
-| -----: | ----: | ------: | ------------------ | ----------- |
-| 100.0% | 912 B |       3 | `_dl_allocate_tls` | `<unknown>` |
-
 ##### `FIO_openSrcFile` (`fileio.c`)
 
-|      % |  Size | Objects | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 472 B |       1 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 472 B |       1 | `0x6dc07` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ## Hottest call stacks
 
 Call stacks with the most bytes allocated in their leaf frame.
 
-|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                     |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                 |
-| 33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                              |
-| 13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer` (`zstdmt_compress.c`) ← `ZSTDMT_compressionJob` ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                                                                                                                  |
-|  0.5% | 1.26 MiB |      20 | `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                       |
-|  0.5% | 1.25 MiB |      20 | `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                        |
-|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                 |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced` ← `ZSTDMT_createCCtxPool` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`     |
-| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                                                     |
-| <0.1% |    4 KiB |       1 | `_IO_file_doallocate` ← `_IO_setvbuf` ← `FIO_openDstFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                     |
-| <0.1% |    4 KiB |       1 | `_IO_file_doallocate` ← `_IO_doallocbuf` ← `(anonymous)` ← `_IO_fread` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `(anonymous)` ← `(anonymous)`                                                                                                                                         |
-| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                  |
-| <0.1% | 1.81 KiB |       1 | `ZSTDMT_createJobsTable` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                 |
-| <0.1% |    472 B |       1 | `_IO_fdopen` ← `FIO_openDstFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                              |
-| <0.1% |    472 B |       1 | `(anonymous)` ← `FIO_openSrcFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                                                                                             |
-| <0.1% |    400 B |       3 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                              |
-| <0.1% |    400 B |       3 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                                                                               |
-| <0.1% |    304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                      |
-| <0.1% |    304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start` |
-| <0.1% |    304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                       |
-| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`                                |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 52.4% |  128 MiB |       1 | `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                 |
+| 33.3% | 81.2 MiB |       1 | `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                                                                                  |
+| 13.2% | 32.1 MiB |       1 | `ZSTDMT_getBuffer` (`zstdmt_compress.c`) ← `ZSTDMT_compressionJob` ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                                                                                                                                                                                      |
+|  0.5% | 1.26 MiB |      20 | `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                       |
+|  0.5% | 1.25 MiB |      20 | `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                        |
+|  0.1% |  256 KiB |       2 | `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                 |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx_advanced` ← `ZSTDMT_createCCtxPool` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                     |
+| <0.1% | 5.16 KiB |       1 | `ZSTD_createCCtx` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                                                                     |
+| <0.1% |    4 KiB |       1 | `_IO_file_doallocate` ← `_IO_setvbuf` ← `FIO_openDstFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                     |
+| <0.1% |    4 KiB |       1 | `_IO_file_doallocate` ← `_IO_doallocbuf` ← `0x79c7b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `_IO_fread` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `0x8202f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `0xebf5b`                                                                                                                                                        |
+| <0.1% | 3.06 KiB |       1 | `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                  |
+| <0.1% | 1.81 KiB |       1 | `ZSTDMT_createJobsTable` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                 |
+| <0.1% |    472 B |       1 | `_IO_fdopen` ← `FIO_openDstFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                                                              |
+| <0.1% |    472 B |       1 | `0x6dc07` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `FIO_openSrcFile` (`fileio.c`) ← `FIO_compressFilename_srcFile` ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                                                        |
+| <0.1% |    400 B |       3 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                              |
+| <0.1% |    400 B |       3 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                                                                               |
+| <0.1% |    304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                      |
+| <0.1% |    304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start` |
+| <0.1% |    304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                       |
+| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool` (`zstdmt_compress.c`) ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`                                                                                |
 
 # Retained heap profile
 
@@ -740,7 +720,7 @@ Retained 912 B over 3 objects (304 B per object).
 
 | Category |      % |  Size | Objects |
 | -------- | -----: | ----: | ------: |
-| Unknown  | 100.0% | 912 B |       3 |
+| Native   | 100.0% | 912 B |       3 |
 
 ## Call tree
 
@@ -749,7 +729,32 @@ Call paths to the hottest functions.
 ```
 └── 912 B (100.0%) _start
     └── 912 B (100.0%) __libc_start_main
-        └── 912 B (100.0%) (anonymous)
+        └── 912 B (100.0%) 0x27743 at /usr/lib/aarch64-linux-gnu/libc.so.6
+            └── 912 B (100.0%) main
+                └── 912 B (100.0%) FIO_compressFilename
+                    ├── 608 B (66.7%) FIO_createCResources at fileio.c
+                    │   ├── 304 B (33.3%) AIO_WritePool_create
+                    │   │   └── 304 B (33.3%) AIO_IOPool_init at fileio_asyncio.c
+                    │   │       └── 304 B (33.3%) POOL_create
+                    │   │           └── 304 B (33.3%) POOL_create_advanced
+                    │   │               └── 304 B (33.3%) pthread_create
+                    │   │                   └── 304 B (33.3%) _dl_allocate_tls
+                    │   │                       └── 304 B (33.3%) 0xf483 at /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+                    │   └── 304 B (33.3%) AIO_ReadPool_create
+                    │       └── 304 B (33.3%) AIO_IOPool_init at fileio_asyncio.c
+                    │           └── 304 B (33.3%) POOL_create
+                    │               └── 304 B (33.3%) POOL_create_advanced
+                    │                   └── 304 B (33.3%) pthread_create
+                    │                       └── 304 B (33.3%) _dl_allocate_tls
+                    │                           └── 304 B (33.3%) 0xf483 at /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+                    └── 304 B (33.3%) FIO_compressFilename_srcFile at fileio.c
+                        └── 304 B (33.3%) ZSTD_compressStream2
+                            └── 304 B (33.3%) ZSTD_CCtx_init_compressStream2 at zstd_compress.c
+                                └── 304 B (33.3%) ZSTDMT_createCCtx_advanced
+                                    └── 304 B (33.3%) POOL_create_advanced
+                                        └── 304 B (33.3%) pthread_create
+                                            └── 304 B (33.3%) _dl_allocate_tls
+                                                └── 304 B (33.3%, self 100.0% globally) 0xf483 at /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
 ```
 
 ## Hottest functions
@@ -762,17 +767,17 @@ Functions with the most bytes retained within the function body, excluding calle
 
 Categories accounting for at least 1.0% of self size.
 
-##### Unknown
+##### Native
 
-|      % |  Size | Objects | Function      | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Function | Location                                           |
+| -----: | ----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 912 B |       3 | `0xf483` | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
 
 #### Callers
 
 Callers with the largest contribution to each function's self size. Inlining can make caller attribution imprecise.
 
-##### `(anonymous)` (`<unknown>`)
+##### `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
 
 |      % |  Size | Objects | Caller             | Location    |
 | -----: | ----: | ------: | ------------------ | ----------- |
@@ -782,46 +787,59 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 Functions with the most bytes retained within the function and its callees.
 
-|      % |  Size | Objects | Function                         | Location           |
-| -----: | ----: | ------: | -------------------------------- | ------------------ |
-| 100.0% | 912 B |       3 | `(anonymous)`                    | `<unknown>`        |
-| 100.0% | 912 B |       3 | `_dl_allocate_tls`               | `<unknown>`        |
-| 100.0% | 912 B |       3 | `pthread_create`                 | `<unknown>`        |
-| 100.0% | 912 B |       3 | `POOL_create_advanced`           | `<unknown>`        |
-| 100.0% | 912 B |       3 | `FIO_compressFilename`           | `<unknown>`        |
-| 100.0% | 912 B |       3 | `main`                           | `<unknown>`        |
-| 100.0% | 912 B |       3 | `__libc_start_main`              | `<unknown>`        |
-| 100.0% | 912 B |       3 | `_start`                         | `<unknown>`        |
-|  66.7% | 608 B |       2 | `POOL_create`                    | `<unknown>`        |
-|  66.7% | 608 B |       2 | `AIO_IOPool_init`                | `fileio_asyncio.c` |
-|  66.7% | 608 B |       2 | `FIO_createCResources`           | `fileio.c`         |
-|  33.3% | 304 B |       1 | `AIO_WritePool_create`           | `<unknown>`        |
-|  33.3% | 304 B |       1 | `ZSTDMT_createCCtx_advanced`     | `<unknown>`        |
-|  33.3% | 304 B |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c`  |
-|  33.3% | 304 B |       1 | `ZSTD_compressStream2`           | `<unknown>`        |
-|  33.3% | 304 B |       1 | `FIO_compressFilename_srcFile`   | `fileio.c`         |
-|  33.3% | 304 B |       1 | `AIO_ReadPool_create`            | `<unknown>`        |
+|      % |  Size | Objects | Function                         | Location                                           |
+| -----: | ----: | ------: | -------------------------------- | -------------------------------------------------- |
+| 100.0% | 912 B |       3 | `0xf483`                         | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+| 100.0% | 912 B |       3 | `_dl_allocate_tls`               | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `pthread_create`                 | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `POOL_create_advanced`           | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `FIO_compressFilename`           | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `main`                           | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `0x27743`                        | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
+| 100.0% | 912 B |       3 | `__libc_start_main`              | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `_start`                         | `<unknown>`                                        |
+|  66.7% | 608 B |       2 | `POOL_create`                    | `<unknown>`                                        |
+|  66.7% | 608 B |       2 | `AIO_IOPool_init`                | `fileio_asyncio.c`                                 |
+|  66.7% | 608 B |       2 | `FIO_createCResources`           | `fileio.c`                                         |
+|  33.3% | 304 B |       1 | `AIO_WritePool_create`           | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `ZSTDMT_createCCtx_advanced`     | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c`                                  |
+|  33.3% | 304 B |       1 | `ZSTD_compressStream2`           | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `FIO_compressFilename_srcFile`   | `fileio.c`                                         |
+|  33.3% | 304 B |       1 | `AIO_ReadPool_create`            | `<unknown>`                                        |
 
 #### Categories
 
 Categories accounting for at least 1.0% of self size.
 
-##### Unknown
+##### Native
 
-|      % |  Size | Objects | Function      | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Function                     | Location                                           |
+| -----: | ----: | ------: | ---------------------------- | -------------------------------------------------- |
+| 100.0% | 912 B |       3 | `0xf483`                     | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
+| 100.0% | 912 B |       3 | `_dl_allocate_tls`           | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `pthread_create`             | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `POOL_create_advanced`       | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `FIO_compressFilename`       | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `main`                       | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `0x27743`                    | `/usr/lib/aarch64-linux-gnu/libc.so.6`             |
+| 100.0% | 912 B |       3 | `__libc_start_main`          | `<unknown>`                                        |
+| 100.0% | 912 B |       3 | `_start`                     | `<unknown>`                                        |
+|  66.7% | 608 B |       2 | `POOL_create`                | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `AIO_WritePool_create`       | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `ZSTDMT_createCCtx_advanced` | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `ZSTD_compressStream2`       | `<unknown>`                                        |
+|  33.3% | 304 B |       1 | `AIO_ReadPool_create`        | `<unknown>`                                        |
 
 #### Callers
 
 Callers with the largest contribution to each function's total size. Inlining can make caller attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`<unknown>`)
+##### `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`)
 
-|      % |  Size | Objects | Caller              | Location    |
-| -----: | ----: | ------: | ------------------- | ----------- |
-| 100.0% | 912 B |       3 | `_dl_allocate_tls`  | `<unknown>` |
-| 100.0% | 912 B |       3 | `__libc_start_main` | `<unknown>` |
+|      % |  Size | Objects | Caller             | Location    |
+| -----: | ----: | ------: | ------------------ | ----------- |
+| 100.0% | 912 B |       3 | `_dl_allocate_tls` | `<unknown>` |
 
 ##### `_dl_allocate_tls` (`<unknown>`)
 
@@ -850,9 +868,15 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `main` (`<unknown>`)
 
-|      % |  Size | Objects | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 912 B |       3 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Caller              | Location    |
+| -----: | ----: | ------: | ------------------- | ----------- |
+| 100.0% | 912 B |       3 | `__libc_start_main` | `<unknown>` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
@@ -919,17 +943,11 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 Callees with the largest contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`<unknown>`)
-
-|      % |  Size | Objects | Callee | Location    |
-| -----: | ----: | ------: | ------ | ----------- |
-| 100.0% | 912 B |       3 | `main` | `<unknown>` |
-
 ##### `_dl_allocate_tls` (`<unknown>`)
 
-|      % |  Size | Objects | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Callee   | Location                                           |
+| -----: | ----: | ------: | -------- | -------------------------------------------------- |
+| 100.0% | 912 B |       3 | `0xf483` | `/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1` |
 
 ##### `pthread_create` (`<unknown>`)
 
@@ -956,11 +974,17 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | -----: | ----: | ------: | ---------------------- | ----------- |
 | 100.0% | 912 B |       3 | `FIO_compressFilename` | `<unknown>` |
 
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Size | Objects | Callee | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 912 B |       3 | `main` | `<unknown>` |
+
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |  Size | Objects | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 912 B |       3 | `(anonymous)` | `<unknown>` |
+|      % |  Size | Objects | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 912 B |       3 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`<unknown>`)
 
@@ -1027,10 +1051,10 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 Call stacks with the most bytes retained in their leaf frame.
 
-Common call stack: `FIO_compressFilename` ← `main` ← `(anonymous)` ← `__libc_start_main` ← `_start`
+Common call stack: `FIO_compressFilename` ← `main` ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`
 
-|     % |  Size | Objects | Call stack                                                                                                                                                                                                                                  |
-| ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 33.3% | 304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`)                                      |
-| 33.3% | 304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) |
-| 33.3% | 304 B |       1 | `(anonymous)` ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`)                                       |
+|     % |  Size | Objects | Call stack                                                                                                                                                                                                                                                                                  |
+| ----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 33.3% | 304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`)                                      |
+| 33.3% | 304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) |
+| 33.3% | 304 B |       1 | `0xf483` (`/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1`) ← `_dl_allocate_tls` ← `pthread_create` ← `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`)                                       |

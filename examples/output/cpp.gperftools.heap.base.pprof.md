@@ -15,7 +15,7 @@ Call paths to the hottest functions.
 ```
 └── 120 MiB (100.0%) _start
     └── 120 MiB (100.0%) __libc_start_main
-        └── 120 MiB (100.0%) (anonymous)
+        └── 120 MiB (100.0%) 0x27743 at /usr/lib/aarch64-linux-gnu/libc.so.6
             └── 120 MiB (100.0%) main at /out/profile.cpp:8
                 └── 120 MiB (100.0%) fmt::v11::format at ./format.h:4198
                     └── 120 MiB (100.0%) fmt::v11::vformat[abi:cxx11] at ./format-inl.h:1442
@@ -80,7 +80,7 @@ Functions with the most bytes allocated within the function and its callees.
 |      % |    Size |   Objects | Function                                   | Location                                        |
 | -----: | ------: | --------: | ------------------------------------------ | ----------------------------------------------- |
 | 100.0% | 120 MiB | 1,998,001 | `main`                                     | `/out/profile.cpp:8`                            |
-| 100.0% | 120 MiB | 1,998,001 | `(anonymous)`                              | `<unknown>`                                     |
+| 100.0% | 120 MiB | 1,998,001 | `0x27743`                                  | `/usr/lib/aarch64-linux-gnu/libc.so.6`          |
 | 100.0% | 120 MiB | 1,998,001 | `__libc_start_main`                        | `<unknown>`                                     |
 | 100.0% | 120 MiB | 1,998,001 | `_start`                                   | `<unknown>`                                     |
 | 100.0% | 120 MiB | 1,998,000 | `std::__cxx11::basic_string::_M_construct` | `/usr/include/c++/12/bits/basic_string.tcc:217` |
@@ -114,11 +114,11 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `main` (`/out/profile.cpp:8`)
 
-|      % |    Size |   Objects | Caller        | Location    |
-| -----: | ------: | --------: | ------------- | ----------- |
-| 100.0% | 120 MiB | 1,998,001 | `(anonymous)` | `<unknown>` |
+|      % |    Size |   Objects | Caller    | Location                               |
+| -----: | ------: | --------: | --------- | -------------------------------------- |
+| 100.0% | 120 MiB | 1,998,001 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |    Size |   Objects | Caller              | Location    |
 | -----: | ------: | --------: | ------------------- | ----------- |
@@ -195,7 +195,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 | 100.0% | 120 MiB | 1,998,000 | `fmt::v11::format`     | `./format.h:4198`                        |
 |  <0.1% |   8 KiB |         1 | `std::vector::reserve` | `/usr/include/c++/12/bits/vector.tcc:67` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
 |      % |    Size |   Objects | Callee | Location             |
 | -----: | ------: | --------: | ------ | -------------------- |
@@ -203,9 +203,9 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |    Size |   Objects | Callee        | Location    |
-| -----: | ------: | --------: | ------------- | ----------- |
-| 100.0% | 120 MiB | 1,998,001 | `(anonymous)` | `<unknown>` |
+|      % |    Size |   Objects | Callee    | Location                               |
+| -----: | ------: | --------: | --------- | -------------------------------------- |
+| 100.0% | 120 MiB | 1,998,001 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`<unknown>`)
 
@@ -259,7 +259,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 Call stacks with the most bytes allocated in their leaf frame.
 
-Common call stack: `main` (`/out/profile.cpp:8`) ← `(anonymous)` ← `__libc_start_main` ← `_start`
+Common call stack: `main` (`/out/profile.cpp:8`) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start`
 
 |      % |    Size |   Objects | Call stack                                                                                                                                                                                                                                                                                                                             |
 | -----: | ------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

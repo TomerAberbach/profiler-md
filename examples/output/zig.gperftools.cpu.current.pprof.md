@@ -2,11 +2,10 @@
 
 Took 5.89s over 5,888 samples (1.0ms per sample).
 
-| Category         |     % |   Time | Samples |
-| ---------------- | ----: | -----: | ------: |
-| Standard library | 98.1% |  5.78s |   5,776 |
-| Native           |  1.4% | 85.0ms |      85 |
-| Unknown          |  0.5% | 27.0ms |      27 |
+| Category         |     % |    Time | Samples |
+| ---------------- | ----: | ------: | ------: |
+| Standard library | 98.1% |   5.78s |   5,776 |
+| Native           |  1.9% | 112.0ms |     112 |
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
@@ -17,46 +16,46 @@ Paths starting with `./` or `../` are relative to `/out/`.
 Call paths to the hottest functions.
 
 ```
-└── … 5.89s (100.0%) (anonymous)
-    └── … 5.84s (99.3%) profile.main at ./profile.zig:11
-        ├── … 4.22s (71.7%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
-        │   ├── 3.66s (62.2%) zig.Ast.Render.renderMember at 141
-        │   │   ├── … 2.39s (40.7%, self 2.4%, self 3.6% globally) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
-        │   │   │   ├── … 485.0ms (8.2%, self 1.1% globally) zig.Ast.Render.renderIdentifier at /opt/zig/lib/std/zig/Ast/Render.zig:2812
-        │   │   │   │   ├── 206.0ms (3.5%, self 3.7% globally) zig.Ast.Render.tokenSliceForRender at 3168
-        │   │   │   │   │   └── 176.0ms (3.0%, self 4.9% globally) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:276
-        │   │   │   │   │       └── 148.0ms (2.5%) 3 more callees, led by (2.5%) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:396
-        │   │   │   │   └── 254.0ms (4.3%) 5 more callees, led by (3.9%) zig.Ast.Render.renderToken at 2720
-        │   │   │   ├── … 300.0ms (5.1%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2600
-        │   │   │   │   ├── 137.0ms (2.3%, self 0.8% globally) zig.Ast.Render.renderToken at 2720
-        │   │   │   │   │   ├── 77.0ms (1.3%, self 3.2% globally) zig.Ast.Render.renderSpace at 2738
-        │   │   │   │   │   │   └── 33.0ms (0.6%, self 2.8% globally) zig.Ast.Render.renderComments at 3011
-        │   │   │   │   │   └── 29.0ms (0.5%) zig.Ast.Render.tokenSliceForRender at 3168
-        │   │   │   │   └── 149.0ms (2.5%) 8 more callees, led by (1.7%) zig.Ast.Render.renderIdentifier at 2812
-        │   │   │   ├── … 64.0ms (1.1%, self 2.3% globally) mem.findScalarPos__anon_6382 at /opt/zig/lib/std/mem.zig:1241
-        │   │   │   └── 1.40s (23.7%) 50 more callees, led by (5.6%) zig.Ast.Render.renderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1998
-        │   │   ├── … 857.0ms (14.6%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1235
-        │   │   │   └── 857.0ms (14.6%) zig.Ast.Render.renderVarDeclWithoutFixups at 1253
-        │   │   │       ├── 762.0ms (12.9%, self 0.6%) zig.Ast.Render.renderExpression at 314
-        │   │   │       │   ├── 198.0ms (3.4%) zig.Ast.Render.renderContainerDecl at 2344
-        │   │   │       │   │   ├── 141.0ms (2.4%) zig.Ast.Render.isOneLineContainerDecl at 2316
-        │   │   │       │   │   │   └── 135.0ms (2.3%) zig.Ast.Render.hasComment at 2978
-        │   │   │       │   │   │       ├── 25.0ms (0.4%, self 3.1% globally) zig.tokenizer.Token.Tag.lexeme at /opt/zig/lib/std/zig/tokenizer.zig:186
-        │   │   │       │   │   │       └── 97.0ms (1.6%) 2 more callees, led by (1.2%) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:276
-        │   │   │       │   │   └── 57.0ms (1.0%) 7 more callees, led by (0.6%) zig.Ast.Render.renderExtraNewline at 3075
-        │   │   │       │   └── 528.0ms (9.0%) 35 more callees, led by (2.6%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2110
-        │   │   │       └── 92.0ms (1.6%) 7 more callees, led by (0.9%) zig.Ast.Render.renderIdentifier at 2812
-        │   │   └── 408.0ms (6.9%) 10 more callees, led by (5.2%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1577
-        │   └── 556.0ms (9.4%) 5 more callees, led by (9.1%) zig.Ast.Render.renderExpression at 314
-        ├── 1.54s (26.1%, self 0.7%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
-        │   ├── 757.0ms (12.9%) zig.Ast.parseTokens at 168
-        │   │   ├── 574.0ms (9.7%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192 …
-        │   │   └── … 183.0ms (3.1%, self 6.2% globally) memset at /opt/zig/lib/compiler_rt.zig:677
-        │   ├── 580.0ms (9.9%, self 8.5%, self 21.8% globally) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:396
-        │   │   └── … 82.0ms (1.4%, self 1.0%, self 3.9% globally) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex at /opt/zig/lib/std/static_string_map.zig:198
-        │   │       └── 21.0ms (0.4%, self 1.4% globally) static_string_map.defaultEql at 13
-        │   └── 160.0ms (2.7%) 2 more callees, led by (1.4%) multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).append at /opt/zig/lib/std/multi_array_list.zig:273
-        └── 83.0ms (1.4%) 2 more callees, led by (1.2%) Io.Dir.readFileAllocOptions__anon_2739 at /opt/zig/lib/std/Io/Dir.zig:1346
+└── … 5.89s (100.0%) profile.main at ./profile.zig:11
+    ├── … 4.24s (71.9%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
+    │   ├── 3.67s (62.4%) zig.Ast.Render.renderMember at 141
+    │   │   ├── … 2.40s (40.8%, self 2.4%, self 3.6% globally) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+    │   │   │   ├── … 486.0ms (8.3%, self 1.1% globally) zig.Ast.Render.renderIdentifier at /opt/zig/lib/std/zig/Ast/Render.zig:2812
+    │   │   │   │   ├── 206.0ms (3.5%, self 3.7% globally) zig.Ast.Render.tokenSliceForRender at 3168
+    │   │   │   │   │   └── 176.0ms (3.0%, self 4.9% globally) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:276
+    │   │   │   │   │       └── 148.0ms (2.5%) 3 more callees, led by (2.5%) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:396
+    │   │   │   │   └── 255.0ms (4.3%) 5 more callees, led by (3.9%) zig.Ast.Render.renderToken at 2720
+    │   │   │   ├── … 303.0ms (5.1%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2600
+    │   │   │   │   ├── 138.0ms (2.3%, self 0.8% globally) zig.Ast.Render.renderToken at 2720
+    │   │   │   │   │   ├── 77.0ms (1.3%, self 3.2% globally) zig.Ast.Render.renderSpace at 2738
+    │   │   │   │   │   │   └── 33.0ms (0.6%, self 2.8% globally) zig.Ast.Render.renderComments at 3011
+    │   │   │   │   │   └── 29.0ms (0.5%) zig.Ast.Render.tokenSliceForRender at 3168
+    │   │   │   │   └── 151.0ms (2.6%) 8 more callees, led by (1.7%) zig.Ast.Render.renderIdentifier at 2812
+    │   │   │   ├── … 64.0ms (1.1%, self 2.3% globally) mem.findScalarPos__anon_6382 at /opt/zig/lib/std/mem.zig:1241
+    │   │   │   └── 1.40s (23.8%) 50 more callees, led by (5.6%) zig.Ast.Render.renderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1998
+    │   │   ├── … 858.0ms (14.6%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1235
+    │   │   │   └── 858.0ms (14.6%) zig.Ast.Render.renderVarDeclWithoutFixups at 1253
+    │   │   │       ├── 762.0ms (12.9%, self 0.6%) zig.Ast.Render.renderExpression at 314
+    │   │   │       │   ├── 198.0ms (3.4%) zig.Ast.Render.renderContainerDecl at 2344
+    │   │   │       │   │   ├── 141.0ms (2.4%) zig.Ast.Render.isOneLineContainerDecl at 2316
+    │   │   │       │   │   │   └── 135.0ms (2.3%) zig.Ast.Render.hasComment at 2978
+    │   │   │       │   │   │       ├── 25.0ms (0.4%, self 3.1% globally) zig.tokenizer.Token.Tag.lexeme at /opt/zig/lib/std/zig/tokenizer.zig:186
+    │   │   │       │   │   │       └── 97.0ms (1.6%) 2 more callees, led by (1.2%) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:276
+    │   │   │       │   │   └── 57.0ms (1.0%) 7 more callees, led by (0.6%) zig.Ast.Render.renderExtraNewline at 3075
+    │   │   │       │   └── 528.0ms (9.0%) 35 more callees, led by (2.6%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2110
+    │   │   │       └── 93.0ms (1.6%) 7 more callees, led by (0.9%) zig.Ast.Render.renderIdentifier at 2812
+    │   │   └── 410.0ms (7.0%) 10 more callees, led by (5.2%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1577
+    │   └── 562.0ms (9.5%) 5 more callees, led by (9.2%) zig.Ast.Render.renderExpression at 314
+    ├── 1.55s (26.3%, self 0.7%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
+    │   ├── 768.0ms (13.0%) zig.Ast.parseTokens at 168
+    │   │   ├── 583.0ms (9.9%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192
+    │   │   │   └── 582.0ms (9.9%) zig.Parse.parseContainerMembers at 235
+    │   │   │       └── 578.0ms (9.8%) 9 more callees, led by (7.5%) zig.Parse.expectTopLevelDeclRecoverable at /opt/zig/lib/std/zig/Parse.zig:669
+    │   │   └── … 183.0ms (3.1%, self 6.2% globally) memset at /opt/zig/lib/compiler_rt.zig:677
+    │   ├── 580.0ms (9.9%, self 8.5%, self 21.8% globally) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:396
+    │   │   └── … 82.0ms (1.4%, self 1.0%, self 3.9% globally) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex at /opt/zig/lib/std/static_string_map.zig:198
+    │   └── 160.0ms (2.7%) 2 more callees, led by (1.4%) multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).append at /opt/zig/lib/std/multi_array_list.zig:273
+    └── 99.0ms (1.7%) 4 more callees, led by (1.2%) Io.Dir.readFileAllocOptions__anon_2739 at /opt/zig/lib/std/Io/Dir.zig:1346
 ```
 
 ## Hottest functions
@@ -96,19 +95,28 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|     % |   Time | Samples | Function             | Location    |
-| ----: | -----: | ------: | -------------------- | ----------- |
-|  0.5% | 27.0ms |      27 | `openat`             | `<unknown>` |
-|  0.3% | 19.0ms |      19 | `preadv`             | `<unknown>` |
-|  0.2% | 14.0ms |      14 | `brk`                | `<unknown>` |
-|  0.2% |  9.0ms |       9 | `close`              | `<unknown>` |
-|  0.1% |  7.0ms |       7 | `statx`              | `<unknown>` |
-|  0.1% |  3.0ms |       3 | `cfree`              | `<unknown>` |
-| <0.1% |  2.0ms |       2 | `__libc_malloc`      | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `__libc_realloc`     | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `mmap`               | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `malloc_usable_size` | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `__sbrk`             | `<unknown>` |
+|     % |   Time | Samples | Function             | Location                               |
+| ----: | -----: | ------: | -------------------- | -------------------------------------- |
+|  0.5% | 27.0ms |      27 | `openat`             | `<unknown>`                            |
+|  0.3% | 19.0ms |      19 | `preadv`             | `<unknown>`                            |
+|  0.2% | 14.0ms |      14 | `brk`                | `<unknown>`                            |
+|  0.2% | 14.0ms |      14 | `0x9d200`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  9.0ms |       9 | `close`              | `<unknown>`                            |
+|  0.1% |  7.0ms |       7 | `statx`              | `<unknown>`                            |
+|  0.1% |  3.0ms |       3 | `cfree`              | `<unknown>`                            |
+|  0.1% |  3.0ms |       3 | `0x8ffd0`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  2.0ms |       2 | `__libc_malloc`      | `<unknown>`                            |
+| <0.1% |  2.0ms |       2 | `0x91d0c`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `__libc_realloc`     | `<unknown>`                            |
+| <0.1% |  1.0ms |       1 | `0x8fb38`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `0x8faf4`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `mmap`               | `<unknown>`                            |
+| <0.1% |  1.0ms |       1 | `malloc_usable_size` | `<unknown>`                            |
+| <0.1% |  1.0ms |       1 | `0x910a0`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `0x90da8`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `0x8fac4`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |  1.0ms |       1 | `__sbrk`             | `<unknown>`                            |
+| <0.1% |  1.0ms |       1 | `0x91278`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Lines
 
@@ -474,6 +482,12 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | -----: | ------: | -------------------- | ----------- |
 | 100.0% | 14.0ms |      14 | `__default_morecore` | `<unknown>` |
 
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller           | Location    |
+| -----: | -----: | ------: | ---------------- | ----------- |
+| 100.0% | 14.0ms |      14 | `__libc_realloc` | `<unknown>` |
+
 ##### `close` (`<unknown>`)
 
 |      % |  Time | Samples | Caller                | Location                                 |
@@ -492,11 +506,23 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ----------------------- | ---------------------------------------- |
 | 100.0% | 3.0ms |       3 | `mem.Allocator.rawFree` | `/opt/zig/lib/std/mem/Allocator.zig:159` |
 
+##### `0x8ffd0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `__libc_malloc` (`<unknown>`)
 
 |      % |  Time | Samples | Caller                        | Location                        |
 | -----: | ----: | ------: | ----------------------------- | ------------------------------- |
 | 100.0% | 2.0ms |       2 | `heap.c_allocator_impl.alloc` | `/opt/zig/lib/std/heap.zig:208` |
+
+##### `0x91d0c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `__libc_realloc` | `<unknown>` |
 
 ##### `__libc_realloc` (`<unknown>`)
 
@@ -504,11 +530,23 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
 | 100.0% | 1.0ms |       1 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig:153` |
 
+##### `0x8fb38` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x8faf4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x91c5f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `mmap` (`<unknown>`)
 
-|      % |  Time | Samples | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 1.0ms |       1 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x905db` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `malloc_usable_size` (`<unknown>`)
 
@@ -516,11 +554,35 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
 | 100.0% | 1.0ms |       1 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig:153` |
 
+##### `0x910a0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller          | Location    |
+| -----: | ----: | ------: | --------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `__libc_malloc` | `<unknown>` |
+
+##### `0x90da8` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller          | Location    |
+| -----: | ----: | ------: | --------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `__libc_malloc` | `<unknown>` |
+
+##### `0x8fac4` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `__sbrk` (`<unknown>`)
 
 |      % |  Time | Samples | Caller               | Location    |
 | -----: | ----: | ------: | -------------------- | ----------- |
 | 100.0% | 1.0ms |       1 | `__default_morecore` | `<unknown>` |
+
+##### `0x91278` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 1.0ms |       1 | `0x91b93` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ### Total time
 
@@ -531,7 +593,7 @@ Functions with the most time spent within the function and its callees.
 | 100.0% | 5.89s |   5,888 | `start.callMain`                            | `/opt/zig/lib/std/start.zig:696`                  |
 | 100.0% | 5.89s |   5,888 | `start.callMainWithArgs`                    | `/opt/zig/lib/std/start.zig:629`                  |
 | 100.0% | 5.89s |   5,888 | `main`                                      | `/opt/zig/lib/std/start.zig:641`                  |
-| 100.0% | 5.89s |   5,888 | `(anonymous)`                               | `<unknown>`                                       |
+| 100.0% | 5.89s |   5,888 | `0x27743`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | 100.0% | 5.89s |   5,888 | `__libc_start_main`                         | `<unknown>`                                       |
 | 100.0% | 5.89s |   5,888 | `_start`                                    | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
 | 100.0% | 5.89s |   5,887 | `profile.main`                              | `./profile.zig:11`                                |
@@ -580,21 +642,28 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|      % |   Time | Samples | Function             | Location    |
-| -----: | -----: | ------: | -------------------- | ----------- |
-| 100.0% |  5.89s |   5,888 | `__libc_start_main`  | `<unknown>` |
-|   0.5% | 27.0ms |      27 | `openat`             | `<unknown>` |
-|   0.4% | 26.0ms |      26 | `__libc_realloc`     | `<unknown>` |
-|   0.3% | 19.0ms |      19 | `preadv`             | `<unknown>` |
-|   0.3% | 17.0ms |      17 | `cfree`              | `<unknown>` |
-|   0.3% | 15.0ms |      15 | `__default_morecore` | `<unknown>` |
-|   0.2% | 14.0ms |      14 | `brk`                | `<unknown>` |
-|   0.2% |  9.0ms |       9 | `close`              | `<unknown>` |
-|   0.1% |  7.0ms |       7 | `statx`              | `<unknown>` |
-|   0.1% |  6.0ms |       6 | `__libc_malloc`      | `<unknown>` |
-|  <0.1% |  1.0ms |       1 | `mmap`               | `<unknown>` |
-|  <0.1% |  1.0ms |       1 | `malloc_usable_size` | `<unknown>` |
-|  <0.1% |  1.0ms |       1 | `__sbrk`             | `<unknown>` |
+|      % |   Time | Samples | Function             | Location                               |
+| -----: | -----: | ------: | -------------------- | -------------------------------------- |
+| 100.0% |  5.89s |   5,888 | `0x27743`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |  5.89s |   5,888 | `__libc_start_main`  | `<unknown>`                            |
+|   0.5% | 27.0ms |      27 | `openat`             | `<unknown>`                            |
+|   0.4% | 26.0ms |      26 | `__libc_realloc`     | `<unknown>`                            |
+|   0.3% | 19.0ms |      19 | `preadv`             | `<unknown>`                            |
+|   0.3% | 17.0ms |      17 | `cfree`              | `<unknown>`                            |
+|   0.3% | 15.0ms |      15 | `__default_morecore` | `<unknown>`                            |
+|   0.2% | 14.0ms |      14 | `brk`                | `<unknown>`                            |
+|   0.2% | 14.0ms |      14 | `0x9d200`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% | 13.0ms |      13 | `0x8fa47`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% | 13.0ms |      13 | `0x9023f`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  9.0ms |       9 | `close`              | `<unknown>`                            |
+|   0.1% |  7.0ms |       7 | `statx`              | `<unknown>`                            |
+|   0.1% |  6.0ms |       6 | `__libc_malloc`      | `<unknown>`                            |
+|   0.1% |  5.0ms |       5 | `0x91bfb`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |  3.0ms |       3 | `0x9189b`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |  3.0ms |       3 | `0x8ffd0`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  <0.1% |  2.0ms |       2 | `0x91d0c`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  <0.1% |  2.0ms |       2 | `0x90817`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  <0.1% |  2.0ms |       2 | `0x91b93`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Callers
 
@@ -614,19 +683,15 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 ##### `main` (`/opt/zig/lib/std/start.zig:641`)
 
-|      % |  Time | Samples | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 5.89s |   5,888 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.89s |   5,888 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Caller              | Location    |
-| -----: | -----: | ------: | ------------------- | ----------- |
-| 100.0% |  5.89s |   5,888 | `__libc_start_main` | `<unknown>` |
-|   0.4% | 25.0ms |      25 | `__libc_realloc`    | `<unknown>` |
-|   0.4% | 23.0ms |      23 | `(anonymous)`       | `<unknown>` |
-|   0.2% | 14.0ms |      14 | `cfree`             | `<unknown>` |
-|   0.1% |  4.0ms |       4 | `__libc_malloc`     | `<unknown>` |
+|      % |  Time | Samples | Caller              | Location    |
+| -----: | ----: | ------: | ------------------- | ----------- |
+| 100.0% | 5.89s |   5,888 | `__libc_start_main` | `<unknown>` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
@@ -787,15 +852,34 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 ##### `__default_morecore` (`<unknown>`)
 
-|      % |   Time | Samples | Caller        | Location    |
-| -----: | -----: | ------: | ------------- | ----------- |
-| 100.0% | 15.0ms |      15 | `(anonymous)` | `<unknown>` |
+|     % |   Time | Samples | Caller    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 86.7% | 13.0ms |      13 | `0x8fa47` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 13.3% |  2.0ms |       2 | `0x90817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `brk` (`<unknown>`)
 
 |      % |   Time | Samples | Caller               | Location    |
 | -----: | -----: | ------: | -------------------- | ----------- |
 | 100.0% | 14.0ms |      14 | `__default_morecore` | `<unknown>` |
+
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller           | Location    |
+| -----: | -----: | ------: | ---------------- | ----------- |
+| 100.0% | 14.0ms |      14 | `__libc_realloc` | `<unknown>` |
+
+##### `0x8fa47` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 13.0ms |      13 | `0x9023f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9023f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller  | Location    |
+| -----: | -----: | ------: | ------- | ----------- |
+| 100.0% | 13.0ms |      13 | `cfree` | `<unknown>` |
 
 ##### `close` (`<unknown>`)
 
@@ -815,23 +899,42 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | ----------------------------- | ------------------------------- |
 | 100.0% | 6.0ms |       6 | `heap.c_allocator_impl.alloc` | `/opt/zig/lib/std/heap.zig:208` |
 
-##### `mmap` (`<unknown>`)
+##### `0x91bfb` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 1.0ms |       1 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Caller           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 5.0ms |       5 | `__libc_realloc` | `<unknown>` |
 
-##### `malloc_usable_size` (`<unknown>`)
+##### `0x9189b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                   | Location                                 |
-| -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
-| 100.0% | 1.0ms |       1 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig:153` |
+|     % |  Time | Samples | Caller          | Location                               |
+| ----: | ----: | ------: | --------------- | -------------------------------------- |
+| 66.7% | 2.0ms |       2 | `__libc_malloc` | `<unknown>`                            |
+| 33.3% | 1.0ms |       1 | `0x91b93`       | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `__sbrk` (`<unknown>`)
+##### `0x8ffd0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller               | Location    |
-| -----: | ----: | ------: | -------------------- | ----------- |
-| 100.0% | 1.0ms |       1 | `__default_morecore` | `<unknown>` |
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 3.0ms |       3 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91d0c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `__libc_realloc` | `<unknown>` |
+
+##### `0x90817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91b93` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller           | Location    |
+| -----: | ----: | ------: | ---------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `__libc_realloc` | `<unknown>` |
 
 #### Callees
 
@@ -856,20 +959,17 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | ------------------------ | -------------------------------- |
 | 100.0% | 5.89s |   5,888 | `start.callMainWithArgs` | `/opt/zig/lib/std/start.zig:629` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Callee               | Location                         |
-| -----: | -----: | ------: | -------------------- | -------------------------------- |
-| 100.0% |  5.89s |   5,888 | `main`               | `/opt/zig/lib/std/start.zig:641` |
-|   0.4% | 23.0ms |      23 | `(anonymous)`        | `<unknown>`                      |
-|   0.3% | 15.0ms |      15 | `__default_morecore` | `<unknown>`                      |
-|  <0.1% |  1.0ms |       1 | `mmap`               | `<unknown>`                      |
+|      % |  Time | Samples | Callee | Location                         |
+| -----: | ----: | ------: | ------ | -------------------------------- |
+| 100.0% | 5.89s |   5,888 | `main` | `/opt/zig/lib/std/start.zig:641` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |  Time | Samples | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 5.89s |   5,888 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.89s |   5,888 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
@@ -1033,15 +1133,20 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ##### `__libc_realloc` (`<unknown>`)
 
-|     % |   Time | Samples | Callee        | Location    |
-| ----: | -----: | ------: | ------------- | ----------- |
-| 96.2% | 25.0ms |      25 | `(anonymous)` | `<unknown>` |
+|     % |   Time | Samples | Callee    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 53.8% | 14.0ms |      14 | `0x9d200` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 19.2% |  5.0ms |       5 | `0x91bfb` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  7.7% |  2.0ms |       2 | `0x91d0c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  7.7% |  2.0ms |       2 | `0x91b93` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  3.8% |  1.0ms |       1 | `0x91c5f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `cfree` (`<unknown>`)
 
-|     % |   Time | Samples | Callee        | Location    |
-| ----: | -----: | ------: | ------------- | ----------- |
-| 82.4% | 14.0ms |      14 | `(anonymous)` | `<unknown>` |
+|     % |   Time | Samples | Callee    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 76.5% | 13.0ms |      13 | `0x9023f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.9% |  1.0ms |       1 | `0x8fbf4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `__default_morecore` (`<unknown>`)
 
@@ -1050,17 +1155,59 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 93.3% | 14.0ms |      14 | `brk`    | `<unknown>` |
 |  6.7% |  1.0ms |       1 | `__sbrk` | `<unknown>` |
 
+##### `0x8fa47` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Callee               | Location    |
+| -----: | -----: | ------: | -------------------- | ----------- |
+| 100.0% | 13.0ms |      13 | `__default_morecore` | `<unknown>` |
+
+##### `0x9023f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Callee    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 13.0ms |      13 | `0x8fa47` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `__libc_malloc` (`<unknown>`)
 
-|     % |  Time | Samples | Callee        | Location    |
-| ----: | ----: | ------: | ------------- | ----------- |
-| 66.7% | 4.0ms |       4 | `(anonymous)` | `<unknown>` |
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 33.3% | 2.0ms |       2 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 16.7% | 1.0ms |       1 | `0x910a0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 16.7% | 1.0ms |       1 | `0x90da8` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x91bfb` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 60.0% | 3.0ms |       3 | `0x8ffd0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 20.0% | 1.0ms |       1 | `0x8fb38` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 20.0% | 1.0ms |       1 | `0x8fac4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9189b` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 66.7% | 2.0ms |       2 | `0x90817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 33.3% | 1.0ms |       1 | `0x905db` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x90817` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Callee               | Location    |
+| -----: | ----: | ------: | -------------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `__default_morecore` | `<unknown>` |
+
+##### `0x91b93` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 50.0% | 1.0ms |       1 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 50.0% | 1.0ms |       1 | `0x91278` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ## Hottest call stacks
 
 Call stacks with the most time spent in their leaf frame.
 
-Common call stack: `profile.main` (`./profile.zig:11`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:696`) ← `start.callMainWithArgs` (629) ← `main` (641) ← `(anonymous)` ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
+Common call stack: `profile.main` (`./profile.zig:11`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:696`) ← `start.callMainWithArgs` (629) ← `main` (641) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
 |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ---: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

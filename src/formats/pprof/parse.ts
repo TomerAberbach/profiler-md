@@ -358,8 +358,10 @@ const metricsOf = (
  * are where the frame was when sampled: the executing position in the leaf,
  * and the call site in a caller.
  *
- * A location without lines is unsymbolized, and is one {@link PprofMapping}
- * frame.
+ * A location without lines, or whose line's function has neither a name nor a
+ * file, is unsymbolized, and is one {@link PprofMapping} frame. gperftools'
+ * `pprof` writes one nameless function for every address it could not
+ * symbolize, so reading it as a function would merge them.
  *
  * A line whose function is absent from the table is dropped rather than
  * passing a reference to a missing function into aggregation. PProf.jl before
@@ -389,7 +391,11 @@ const parseStackFrames = (
   let missingFunctionLines = 0
   let missingMappingLocations = 0
   for (const location of profile.location) {
-    if (location.line.length === 0) {
+    if (
+      location.line.every(
+        ({ functionId }) => functionById.get(functionId)?.isUnsymbolized,
+      )
+    ) {
       const { mappingId } = location
       let mapping = mappingById.get(mappingId)
       if (mapping === undefined) {
@@ -445,6 +451,10 @@ class PprofFunction {
 
   public constructor(frame: Pick<StackFrame, `name` | `definition`>) {
     this.#frame = frame
+  }
+
+  public get isUnsymbolized(): boolean {
+    return !this.#frame.name && !this.#frame.definition
   }
 
   public frameFor(

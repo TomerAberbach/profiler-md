@@ -172,6 +172,22 @@ describe(`categorizeEntry`, () => {
 
   // A system profiler samples plenty of app code with no debug info, so a
   // missing source location doesn't imply a runtime internal.
+  test(`keeps the address of an unsymbolized frame in a binary`, () => {
+    expect(
+      systingOriginSpec.normalizeStackFrame({
+        name: `unknown (libc.so.6) <0x7f95bfdb6e12>`,
+      }),
+    ).toStrictEqual({ name: `0x7f95bfdb6e12 (libc.so.6)` })
+    expect(
+      systingOriginSpec.normalizeStackFrame({
+        name: `unknown ([exited]) <0x7f95bfdb6e12>`,
+      }),
+    ).toStrictEqual({ name: `unknown ([exited])` })
+    expect(
+      systingOriginSpec.matchEntry(relativeEntry(`0x7f95bfdb6e12 (libc.so.6)`)),
+    ).toStrictEqual({ name: `unknown (libc.so.6)` })
+  })
+
   test.each([`unknown ([exited])`, `memcpy (libc.so.6)`, `0x7f95bfdb6e12`])(
     `the source-less %s frame is native, not stdlib`,
     name => {

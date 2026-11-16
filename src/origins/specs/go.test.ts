@@ -79,6 +79,12 @@ describe(`categorizeEntry`, () => {
     ).toBe(`unknown`)
   })
 
+  test(`drops the zero PC placeholder a threadcreate stack repeats`, () => {
+    expect(
+      goOriginSpec.normalizeStackFrame({ name: `0xffffffffffffffff` }),
+    ).toBeNull()
+  })
+
   test(`domain-prefixed modules are third-party`, () => {
     expect(
       categorizeEntry(

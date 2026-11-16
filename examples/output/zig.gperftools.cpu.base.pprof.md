@@ -5,8 +5,8 @@ Took 5.29s over 5,287 samples (1.0ms per sample).
 | Category         |     % |    Time | Samples |
 | ---------------- | ----: | ------: | ------: |
 | Standard library | 92.2% |   4.88s |   4,876 |
-| Unknown          |  6.4% | 336.0ms |     336 |
-| Native           |  1.4% |  75.0ms |      75 |
+| Native           |  7.5% | 396.0ms |     396 |
+| Ours             |  0.3% |  15.0ms |      15 |
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
@@ -17,46 +17,46 @@ Paths starting with `./` or `../` are relative to `/out/`.
 Call paths to the hottest functions.
 
 ```
-└── … 5.29s (100.0%, self 6.4%) (anonymous)
-    └── … 4.94s (93.3%) profile.main at ./profile.zig:12
-        ├── … 3.79s (71.7%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
-        │   ├── 3.27s (61.8%) zig.Ast.Render.renderMember at 141
-        │   │   ├── … 2.13s (40.4%, self 1.7%, self 2.5% globally) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
-        │   │   │   ├── … 420.0ms (7.9%, self 1.3% globally) zig.Ast.Render.renderIdentifier at /opt/zig/lib/std/zig/Ast/Render.zig:2926
-        │   │   │   │   ├── 192.0ms (3.6%) zig.Ast.Render.renderToken at 2844
-        │   │   │   │   │   └── 189.0ms (3.6%) 4 more callees, led by (2.2%) zig.Ast.Render.tokenSliceForRender at 3268
-        │   │   │   │   └── 189.0ms (3.6%, self 3.7% globally) zig.Ast.Render.tokenSliceForRender at 3268
-        │   │   │   │       └── 172.0ms (3.3%, self 4.7% globally) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
-        │   │   │   │           └── 160.0ms (3.0%) 3 more callees, led by (3.0%) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
-        │   │   │   ├── … 253.0ms (4.8%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
-        │   │   │   │   ├── 113.0ms (2.1%, self 1.1% globally) zig.Ast.Render.renderToken at 2844
-        │   │   │   │   │   ├── 56.0ms (1.1%, self 3.1% globally) zig.Ast.Render.renderSpace at 2862
-        │   │   │   │   │   │   └── 32.0ms (0.6%, self 3.0% globally) zig.Ast.Render.renderComments at 3112
-        │   │   │   │   │   └── 28.0ms (0.5%) zig.Ast.Render.tokenSliceForRender at 3268
-        │   │   │   │   └── 133.0ms (2.5%) 10 more callees, led by (1.8%) zig.Ast.Render.renderIdentifier at 2926
-        │   │   │   ├── … 28.0ms (0.5%) zig.Ast.nodeMainToken at /opt/zig/lib/std/zig/Ast.zig:100
-        │   │   │   │   └── 26.0ms (0.5%, self 2.1% globally) multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6974 at /opt/zig/lib/std/multi_array_list.zig:83
-        │   │   │   ├── … 17.0ms (0.3%, self 2.3% globally) multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6976 at /opt/zig/lib/std/multi_array_list.zig:83
-        │   │   │   └── 1.32s (25.0%) 47 more callees, led by (5.9%) zig.Ast.Render.finishRenderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1967
-        │   │   ├── … 768.0ms (14.5%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1122
-        │   │   │   └── 767.0ms (14.5%) zig.Ast.Render.renderVarDeclWithoutFixups at 1140
-        │   │   │       ├── 646.0ms (12.2%) zig.Ast.Render.renderExpression at 314
-        │   │   │       │   ├── 166.0ms (3.1%) zig.Ast.Render.renderContainerDecl at 2295
-        │   │   │       │   │   ├── 83.0ms (1.6%) zig.Ast.Render.hasComment at 3089
-        │   │   │       │   │   │   ├── 18.0ms (0.3%, self 2.9% globally) zig.tokenizer.Token.Tag.lexeme at /opt/zig/lib/std/zig/tokenizer.zig:186
-        │   │   │       │   │   │   └── 59.0ms (1.1%) 3 more callees, led by (0.9%) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
-        │   │   │       │   │   └── 80.0ms (1.5%) 12 more callees, led by (1.0%) zig.Ast.Render.renderExtraNewline at 3175
-        │   │   │       │   └── 467.0ms (8.8%) 28 more callees, led by (3.5%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2067
-        │   │   │       └── 118.0ms (2.2%) 7 more callees, led by (1.0%) zig.Ast.Render.renderIdentifier at 2926
-        │   │   └── 362.0ms (6.8%) 12 more callees, led by (4.9%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1473
-        │   └── 501.0ms (9.5%) zig.Ast.Render.renderExpression at 314
-        │       └── 482.0ms (9.1%) 31 more callees, led by (1.7%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
-        ├── 1.08s (20.4%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
-        │   ├── 528.0ms (10.0%, self 8.5%, self 23.8% globally) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
-        │   │   └── … 81.0ms (1.5%, self 1.1%, self 5.4% globally) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex at /opt/zig/lib/std/static_string_map.zig:198
-        │   │       └── 22.0ms (0.4%, self 1.3% globally) static_string_map.defaultEql at 13
-        │   └── 530.0ms (10.0%) 2 more callees, led by (8.6%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192
-        └── … 26.0ms (0.5%) __read
+└── … 5.28s (99.8%) profile.main at ./profile.zig:12
+    ├── … 4.04s (76.4%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
+    │   ├── 3.48s (65.9%) zig.Ast.Render.renderMember at 141
+    │   │   ├── … 2.26s (42.8%, self 1.7%, self 2.5% globally) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+    │   │   │   ├── … 446.0ms (8.4%, self 1.3% globally) zig.Ast.Render.renderIdentifier at /opt/zig/lib/std/zig/Ast/Render.zig:2926
+    │   │   │   │   ├── 189.0ms (3.6%, self 3.7% globally) zig.Ast.Render.tokenSliceForRender at 3268
+    │   │   │   │   │   └── 172.0ms (3.3%, self 4.7% globally) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
+    │   │   │   │   │       └── 160.0ms (3.0%) 3 more callees, led by (3.0%) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
+    │   │   │   │   └── 235.0ms (4.4%) 7 more callees, led by (4.1%) zig.Ast.Render.renderToken at 2844
+    │   │   │   ├── … 271.0ms (5.1%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
+    │   │   │   │   ├── 127.0ms (2.4%, self 1.1% globally) zig.Ast.Render.renderToken at 2844
+    │   │   │   │   │   ├── 58.0ms (1.1%, self 3.1% globally) zig.Ast.Render.renderSpace at 2862
+    │   │   │   │   │   │   └── 34.0ms (0.6%, self 3.0% globally) zig.Ast.Render.renderComments at 3112
+    │   │   │   │   │   └── 62.0ms (1.2%) 3 more callees, led by (0.6%) zig.Ast.Render.AutoIndentingStream.writeAll at 3496
+    │   │   │   │   └── 137.0ms (2.6%) 10 more callees, led by (1.9%) zig.Ast.Render.renderIdentifier at 2926
+    │   │   │   ├── … 17.0ms (0.3%, self 2.3% globally) multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6976 at /opt/zig/lib/std/multi_array_list.zig:83
+    │   │   │   └── 1.43s (27.1%) 48 more callees, led by (6.1%) zig.Ast.Render.finishRenderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1967
+    │   │   ├── … 811.0ms (15.3%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1122
+    │   │   │   └── 810.0ms (15.3%) zig.Ast.Render.renderVarDeclWithoutFixups at 1140
+    │   │   │       ├── 681.0ms (12.9%) zig.Ast.Render.renderExpression at 314
+    │   │   │       │   ├── 168.0ms (3.2%) zig.Ast.Render.renderContainerDecl at 2295
+    │   │   │       │   │   ├── 83.0ms (1.6%) zig.Ast.Render.hasComment at 3089
+    │   │   │       │   │   │   ├── 18.0ms (0.3%, self 2.9% globally) zig.tokenizer.Token.Tag.lexeme at /opt/zig/lib/std/zig/tokenizer.zig:186
+    │   │   │       │   │   │   └── 59.0ms (1.1%) 3 more callees, led by (0.9%) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
+    │   │   │       │   │   └── 82.0ms (1.6%) 12 more callees, led by (1.0%) zig.Ast.Render.renderExtraNewline at 3175
+    │   │   │       │   └── 500.0ms (9.5%) 31 more callees, led by (3.7%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2067
+    │   │   │       └── 126.0ms (2.4%) 7 more callees, led by (1.1%) zig.Ast.Render.renderToken at 2844
+    │   │   └── 407.0ms (7.7%) 12 more callees, led by (5.3%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1473
+    │   └── 534.0ms (10.1%) zig.Ast.Render.renderExpression at 314
+    │       └── 515.0ms (9.7%) 32 more callees, led by (1.8%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
+    ├── 1.16s (21.8%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
+    │   ├── 528.0ms (10.0%, self 8.5%, self 23.8% globally) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
+    │   │   └── … 81.0ms (1.5%, self 1.1%, self 5.4% globally) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex at /opt/zig/lib/std/static_string_map.zig:198
+    │   ├── 482.0ms (9.1%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192
+    │   │   └── 482.0ms (9.1%) 2 more callees, led by (9.1%) zig.Parse.parseContainerMembers at 235
+    │   └── 106.0ms (2.0%) multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append at /opt/zig/lib/std/multi_array_list.zig:252
+    │       └── 86.0ms (1.6%) multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity at 482
+    │           ├── 21.0ms (0.4%, self 2.3% globally) 0x9d200 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │           └── 49.0ms (0.9%) 5 more callees, led by (0.4%) multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureTotalCapacity at /opt/zig/lib/std/math.zig:458
+    └── 78.0ms (1.5%) 4 more callees, led by (1.0%) fs.Dir.readFileAllocOptions__anon_2384 at /opt/zig/lib/std/fs/Dir.zig:1997
 ```
 
 ## Hottest functions
@@ -68,7 +68,6 @@ Functions with the most time spent within the function body, excluding callees.
 |     % |    Time | Samples | Function                                                                                             | Location                                     |
 | ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | 23.8% |   1.26s |   1,258 | `zig.tokenizer.Tokenizer.next`                                                                       | `/opt/zig/lib/std/zig/tokenizer.zig:395`     |
-|  6.4% | 336.0ms |     336 | `(anonymous)`                                                                                        | `<unknown>`                                  |
 |  5.4% | 287.0ms |     287 | `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` | `/opt/zig/lib/std/static_string_map.zig:198` |
 |  4.7% | 250.0ms |     250 | `zig.Ast.tokenSlice`                                                                                 | `/opt/zig/lib/std/zig/Ast.zig:265`           |
 |  3.7% | 194.0ms |     194 | `zig.Ast.Render.tokenSliceForRender`                                                                 | `/opt/zig/lib/std/zig/Ast/Render.zig:3268`   |
@@ -76,17 +75,18 @@ Functions with the most time spent within the function body, excluding callees.
 |  3.0% | 160.0ms |     160 | `zig.Ast.Render.renderComments`                                                                      | `/opt/zig/lib/std/zig/Ast/Render.zig:3112`   |
 |  2.9% | 154.0ms |     154 | `zig.tokenizer.Token.Tag.lexeme`                                                                     | `/opt/zig/lib/std/zig/tokenizer.zig:186`     |
 |  2.5% | 131.0ms |     131 | `zig.Ast.Render.renderExpression`                                                                    | `/opt/zig/lib/std/zig/Ast/Render.zig:314`    |
+|  2.3% | 123.0ms |     123 | `0x9d200`                                                                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6`       |
 |  2.3% | 121.0ms |     121 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6976`                               | `/opt/zig/lib/std/multi_array_list.zig:83`   |
 |  2.1% | 113.0ms |     113 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6974`                               | `/opt/zig/lib/std/multi_array_list.zig:83`   |
 |  1.5% |  81.0ms |      81 | `zig.Ast.tokenTag`                                                                                   | `/opt/zig/lib/std/zig/Ast.zig:88`            |
 |  1.5% |  77.0ms |      77 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).Slice.items__anon_6665`             | `/opt/zig/lib/std/multi_array_list.zig:83`   |
 |  1.4% |  74.0ms |      74 | `zig.Ast.Render.renderExtraNewlineToken`                                                             | `/opt/zig/lib/std/zig/Ast/Render.zig:3180`   |
+|  1.4% |  74.0ms |      74 | `0x9e670`                                                                                            | `/usr/lib/aarch64-linux-gnu/libc.so.6`       |
 |  1.3% |  71.0ms |      71 | `mem.eqlBytes`                                                                                       | `/opt/zig/lib/std/mem.zig:729`               |
 |  1.3% |  70.0ms |      70 | `static_string_map.defaultEql`                                                                       | `/opt/zig/lib/std/static_string_map.zig:13`  |
 |  1.3% |  67.0ms |      67 | `zig.Ast.Render.renderIdentifier`                                                                    | `/opt/zig/lib/std/zig/Ast/Render.zig:2926`   |
 |  1.2% |  65.0ms |      65 | `zig.Ast.firstToken`                                                                                 | `/opt/zig/lib/std/zig/Ast.zig:596`           |
 |  1.2% |  62.0ms |      62 | `Io.Writer.writeAll`                                                                                 | `/opt/zig/lib/std/Io/Writer.zig:530`         |
-|  1.2% |  61.0ms |      61 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6965`                               | `/opt/zig/lib/std/multi_array_list.zig:83`   |
 
 #### Categories
 
@@ -117,23 +117,30 @@ Categories accounting for at least 1.0% of self time.
 |  1.2% |  61.0ms |      61 | `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6965`                               | `/opt/zig/lib/std/multi_array_list.zig:83`   |
 |  1.1% |  60.0ms |      60 | `zig.Ast.Render.renderToken`                                                                         | `/opt/zig/lib/std/zig/Ast/Render.zig:2844`   |
 
-##### Unknown
-
-|    % |    Time | Samples | Function      | Location    |
-| ---: | ------: | ------: | ------------- | ----------- |
-| 6.4% | 336.0ms |     336 | `(anonymous)` | `<unknown>` |
-
 ##### Native
 
-|     % |   Time | Samples | Function             | Location    |
-| ----: | -----: | ------: | -------------------- | ----------- |
-|  0.5% | 26.0ms |      26 | `__read`             | `<unknown>` |
-|  0.4% | 23.0ms |      23 | `openat`             | `<unknown>` |
-|  0.3% | 15.0ms |      15 | `brk`                | `<unknown>` |
-|  0.1% |  4.0ms |       4 | `close`              | `<unknown>` |
-|  0.1% |  4.0ms |       4 | `posix_memalign`     | `<unknown>` |
-| <0.1% |  2.0ms |       2 | `cfree`              | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `malloc_usable_size` | `<unknown>` |
+|     % |    Time | Samples | Function         | Location                               |
+| ----: | ------: | ------: | ---------------- | -------------------------------------- |
+|  2.3% | 123.0ms |     123 | `0x9d200`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  1.4% |  74.0ms |      74 | `0x9e670`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.5% |  26.0ms |      26 | `__read`         | `<unknown>`                            |
+|  0.4% |  23.0ms |      23 | `openat`         | `<unknown>`                            |
+|  0.3% |  16.0ms |      16 | `0x9e674`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.3% |  15.0ms |      15 | `brk`            | `<unknown>`                            |
+|  0.2% |  12.0ms |      12 | `0x9d11c`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  12.0ms |      12 | `0x9d138`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  12.0ms |      12 | `0x9d184`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.2% |  12.0ms |      12 | `0x9d100`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   7.0ms |       7 | `0x9d168`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   6.0ms |       6 | `0x9d150`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   6.0ms |       6 | `0x9d114`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   5.0ms |       5 | `0x9d210`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  0.1% |   4.0ms |       4 | `close`          | `<unknown>`                            |
+|  0.1% |   4.0ms |       4 | `posix_memalign` | `<unknown>`                            |
+|  0.1% |   4.0ms |       4 | `0x9e580`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e678`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x9e5c0`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% |   2.0ms |       2 | `0x90574`        | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Lines
 
@@ -325,16 +332,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 64.5% | 811.0ms |     811 | `zig.Ast.tokenSlice` | `/opt/zig/lib/std/zig/Ast.zig:265` |
 | 35.5% | 447.0ms |     447 | `zig.Ast.parse`      | `/opt/zig/lib/std/zig/Ast.zig:145` |
 
-##### `(anonymous)` (`<unknown>`)
-
-|     % |    Time | Samples | Caller                                                                                 | Location                                    |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
-| 44.3% | 149.0ms |     149 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
-| 24.1% |  81.0ms |      81 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                          | `/opt/zig/lib/std/zig/Ast/Render.zig:3496`  |
-|  8.6% |  29.0ms |      29 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
-|  4.8% |  16.0ms |      16 | `zig.Ast.parse`                                                                        | `/opt/zig/lib/std/zig/Ast.zig:145`          |
-|  3.0% |  10.0ms |      10 | `start.callMain`                                                                       | `/opt/zig/lib/std/start.zig:613`            |
-
 ##### `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` (`/opt/zig/lib/std/static_string_map.zig:198`)
 
 |      % |    Time | Samples | Caller                                                                                          | Location                                     |
@@ -396,6 +393,16 @@ Callers with the largest contribution to each function's self time. Inlining can
 |  7.6% | 10.0ms |      10 | `zig.Ast.Render.renderExpressionFixup` | `/opt/zig/lib/std/zig/Ast/Render.zig:924`  |
 |  6.9% |  9.0ms |       9 | `zig.Ast.Render.finishRenderBlock`     | `/opt/zig/lib/std/zig/Ast/Render.zig:1967` |
 
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 62.6% | 77.0ms |      77 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 17.1% | 21.0ms |      21 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  7.3% |  9.0ms |       9 | `start.callMain`                                                                       | `/opt/zig/lib/std/start.zig:613`            |
+|  4.9% |  6.0ms |       6 | `array_list.Aligned(u32,null).appendSlice`                                             | `/opt/zig/lib/std/array_list.zig:974`       |
+|  4.9% |  6.0ms |       6 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureUnusedCapacity`                   | `/opt/zig/lib/std/multi_array_list.zig:482` |
+
 ##### `multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6976` (`/opt/zig/lib/std/multi_array_list.zig:83`)
 
 |     % |    Time | Samples | Caller                                                           | Location                                    |
@@ -436,6 +443,16 @@ Callers with the largest contribution to each function's self time. Inlining can
 |  4.1% |  3.0ms |       3 | `zig.Ast.Render.renderExpression`   | `/opt/zig/lib/std/zig/Ast/Render.zig:314`  |
 |  2.7% |  2.0ms |       2 | `zig.Ast.Render.renderAsm`          | `/opt/zig/lib/std/zig/Ast/Render.zig:2594` |
 |  1.4% |  1.0ms |       1 | `zig.Ast.Render.renderDocComments`  | `/opt/zig/lib/std/zig/Ast/Render.zig:3208` |
+
+##### `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 71.6% | 53.0ms |      53 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 10.8% |  8.0ms |       8 | `zig.Ast.parse`                                                                        | `/opt/zig/lib/std/zig/Ast.zig:145`          |
+|  5.4% |  4.0ms |       4 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  4.1% |  3.0ms |       3 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureUnusedCapacity`                   | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  2.7% |  2.0ms |       2 | `array_list.AlignedManaged(u8,null).initCapacity`                                      | `/opt/zig/lib/std/array_list.zig:55`        |
 
 ##### `mem.eqlBytes` (`/opt/zig/lib/std/mem.zig:729`)
 
@@ -507,11 +524,70 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 91.3% | 21.0ms |      21 | `posix.openatZ`    | `/opt/zig/lib/std/posix.zig:1835` |
 |  8.7% |  2.0ms |       2 | `fs.Dir.openFileZ` | `/opt/zig/lib/std/fs/Dir.zig:855` |
 
+##### `0x9e674` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | ----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 50.0% | 8.0ms |       8 | `zig.Ast.parse`                                                                        | `/opt/zig/lib/std/zig/Ast.zig:145`          |
+| 37.5% | 6.0ms |       6 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 12.5% | 2.0ms |       2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+
 ##### `brk` (`<unknown>`)
 
 |      % |   Time | Samples | Caller               | Location    |
 | -----: | -----: | ------: | -------------------- | ----------- |
 | 100.0% | 15.0ms |      15 | `__default_morecore` | `<unknown>` |
+
+##### `0x9d11c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                                        | Location                                   |
+| -----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 12.0ms |      12 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d138` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                        | Location                                   |
+| ----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 91.7% | 11.0ms |      11 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+|  8.3% |  1.0ms |       1 | `zig.Parse.parseBlock`                        | `/opt/zig/lib/std/zig/Parse.zig:2079`      |
+
+##### `0x9d184` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                                        | Location                                   |
+| -----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 12.0ms |      12 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                             | Location                                   |
+| ----: | -----: | ------: | -------------------------------------------------- | ------------------------------------------ |
+| 83.3% | 10.0ms |      10 | `zig.Ast.Render.AutoIndentingStream.writeAll`      | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+| 16.7% |  2.0ms |       2 | `array_list.Aligned(u8,null).ensureUnusedCapacity` | `/opt/zig/lib/std/array_list.zig:1241`     |
+
+##### `0x9d168` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                                        | Location                                   |
+| -----: | ----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 7.0ms |       7 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d150` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                                        | Location                                   |
+| -----: | ----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 6.0ms |       6 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d114` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                        | Location                                   |
+| ----: | ----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 83.3% | 5.0ms |       5 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+| 16.7% | 1.0ms |       1 | `Io.Writer.print__anon_4254`                  | `/opt/zig/lib/std/Io/Writer.zig:593`       |
+
+##### `0x9d210` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                                             | Location                               |
+| -----: | ----: | ------: | -------------------------------------------------- | -------------------------------------- |
+| 100.0% | 5.0ms |       5 | `array_list.Aligned(u8,null).ensureUnusedCapacity` | `/opt/zig/lib/std/array_list.zig:1241` |
 
 ##### `close` (`<unknown>`)
 
@@ -525,17 +601,32 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
 | 100.0% | 4.0ms |       4 | `mem.Allocator.rawAlloc` | `/opt/zig/lib/std/mem/Allocator.zig:128` |
 
-##### `cfree` (`<unknown>`)
+##### `0x9e580` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                  | Location                                 |
-| -----: | ----: | ------: | ----------------------- | ---------------------------------------- |
-| 100.0% | 2.0ms |       2 | `mem.Allocator.rawFree` | `/opt/zig/lib/std/mem/Allocator.zig:146` |
+|     % |  Time | Samples | Caller                                             | Location                                   |
+| ----: | ----: | ------: | -------------------------------------------------- | ------------------------------------------ |
+| 25.0% | 1.0ms |       1 | `start.callMain`                                   | `/opt/zig/lib/std/start.zig:613`           |
+| 25.0% | 1.0ms |       1 | `zig.Ast.Render.renderExpression`                  | `/opt/zig/lib/std/zig/Ast/Render.zig:314`  |
+| 25.0% | 1.0ms |       1 | `zig.Ast.Render.AutoIndentingStream.applyIndent`   | `/opt/zig/lib/std/zig/Ast/Render.zig:3671` |
+| 25.0% | 1.0ms |       1 | `array_list.Aligned(u8,null).ensureUnusedCapacity` | `/opt/zig/lib/std/array_list.zig:1241`     |
 
-##### `malloc_usable_size` (`<unknown>`)
+##### `0x9e678` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                   | Location                                 |
-| -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
-| 100.0% | 1.0ms |       1 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig:140` |
+|      % |  Time | Samples | Caller                                                                                 | Location                                    |
+| -----: | ----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 2.0ms |       2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+
+##### `0x9e5c0` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller                                           | Location                                   |
+| -----: | ----: | ------: | ------------------------------------------------ | ------------------------------------------ |
+| 100.0% | 2.0ms |       2 | `zig.Ast.Render.AutoIndentingStream.applyIndent` | `/opt/zig/lib/std/zig/Ast/Render.zig:3671` |
+
+##### `0x90574` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 2.0ms |       2 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ### Total time
 
@@ -546,7 +637,7 @@ Functions with the most time spent within the function and its callees.
 | 100.0% | 5.29s |   5,287 | `start.callMain`                            | `/opt/zig/lib/std/start.zig:613`                  |
 | 100.0% | 5.29s |   5,287 | `start.callMainWithArgs`                    | `/opt/zig/lib/std/start.zig:580`                  |
 | 100.0% | 5.29s |   5,287 | `main`                                      | `/opt/zig/lib/std/start.zig:590`                  |
-| 100.0% | 5.29s |   5,287 | `(anonymous)`                               | `<unknown>`                                       |
+| 100.0% | 5.29s |   5,287 | `0x27743`                                   | `/usr/lib/aarch64-linux-gnu/libc.so.6`            |
 | 100.0% | 5.29s |   5,287 | `__libc_start_main`                         | `<unknown>`                                       |
 | 100.0% | 5.29s |   5,287 | `_start`                                    | `/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S` |
 |  99.8% | 5.28s |   5,276 | `profile.main`                              | `./profile.zig:12`                                |
@@ -593,26 +684,30 @@ Categories accounting for at least 1.0% of self time.
 |  26.1% | 1.38s |   1,380 | `zig.Ast.tokenSlice`                        | `/opt/zig/lib/std/zig/Ast.zig:265`                |
 |  21.8% | 1.16s |   1,155 | `zig.Ast.parse`                             | `/opt/zig/lib/std/zig/Ast.zig:145`                |
 
-##### Unknown
-
-|      % |  Time | Samples | Function      | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 5.29s |   5,287 | `(anonymous)` | `<unknown>` |
-
 ##### Native
 
-|      % |   Time | Samples | Function             | Location    |
-| -----: | -----: | ------: | -------------------- | ----------- |
-| 100.0% |  5.29s |   5,287 | `__libc_start_main`  | `<unknown>` |
-|   0.5% | 26.0ms |      26 | `__read`             | `<unknown>` |
-|   0.4% | 23.0ms |      23 | `openat`             | `<unknown>` |
-|   0.4% | 20.0ms |      20 | `cfree`              | `<unknown>` |
-|   0.3% | 15.0ms |      15 | `brk`                | `<unknown>` |
-|   0.3% | 15.0ms |      15 | `__default_morecore` | `<unknown>` |
-|   0.3% | 14.0ms |      14 | `posix_memalign`     | `<unknown>` |
-|   0.2% | 10.0ms |      10 | `__libc_malloc`      | `<unknown>` |
-|   0.1% |  4.0ms |       4 | `close`              | `<unknown>` |
-|  <0.1% |  1.0ms |       1 | `malloc_usable_size` | `<unknown>` |
+|      % |    Time | Samples | Function             | Location                               |
+| -----: | ------: | ------: | -------------------- | -------------------------------------- |
+| 100.0% |   5.29s |   5,287 | `0x27743`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 100.0% |   5.29s |   5,287 | `__libc_start_main`  | `<unknown>`                            |
+|   2.3% | 123.0ms |     123 | `0x9d200`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   1.4% |  74.0ms |      74 | `0x9e670`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.5% |  26.0ms |      26 | `__read`             | `<unknown>`                            |
+|   0.4% |  23.0ms |      23 | `openat`             | `<unknown>`                            |
+|   0.4% |  20.0ms |      20 | `cfree`              | `<unknown>`                            |
+|   0.3% |  16.0ms |      16 | `0x9e674`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.3% |  15.0ms |      15 | `brk`                | `<unknown>`                            |
+|   0.3% |  15.0ms |      15 | `__default_morecore` | `<unknown>`                            |
+|   0.3% |  14.0ms |      14 | `posix_memalign`     | `<unknown>`                            |
+|   0.2% |  13.0ms |      13 | `0x8fa47`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  13.0ms |      13 | `0x9023f`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9d11c`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9d138`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9d184`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  12.0ms |      12 | `0x9d100`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.2% |  10.0ms |      10 | `__libc_malloc`      | `<unknown>`                            |
+|   0.1% |   7.0ms |       7 | `0x9d168`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|   0.1% |   6.0ms |       6 | `0x9d150`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 #### Callers
 
@@ -632,19 +727,15 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 ##### `main` (`/opt/zig/lib/std/start.zig:590`)
 
-|      % |  Time | Samples | Caller        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 5.29s |   5,287 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Caller    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.29s |   5,287 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |    Time | Samples | Caller                                                                                 | Location                                    |
-| -----: | ------: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% |   5.29s |   5,287 | `__libc_start_main`                                                                    | `<unknown>`                                 |
-|   2.8% | 149.0ms |     149 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
-|   1.5% |  81.0ms |      81 | `zig.Ast.Render.AutoIndentingStream.writeAll`                                          | `/opt/zig/lib/std/zig/Ast/Render.zig:3496`  |
-|   0.5% |  29.0ms |      29 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
-|   0.3% |  18.0ms |      18 | `(anonymous)`                                                                          | `<unknown>`                                 |
+|      % |  Time | Samples | Caller              | Location    |
+| -----: | ----: | ------: | ------------------- | ----------- |
+| 100.0% | 5.29s |   5,287 | `__libc_start_main` | `<unknown>` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
@@ -777,6 +868,26 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | -------------- | ------------------ |
 | 100.0% | 1.16s |   1,155 | `profile.main` | `./profile.zig:12` |
 
+##### `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 62.6% | 77.0ms |      77 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 17.1% | 21.0ms |      21 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  7.3% |  9.0ms |       9 | `start.callMain`                                                                       | `/opt/zig/lib/std/start.zig:613`            |
+|  4.9% |  6.0ms |       6 | `array_list.Aligned(u32,null).appendSlice`                                             | `/opt/zig/lib/std/array_list.zig:974`       |
+|  4.9% |  6.0ms |       6 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureUnusedCapacity`                   | `/opt/zig/lib/std/multi_array_list.zig:482` |
+
+##### `0x9e670` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 71.6% | 53.0ms |      53 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 10.8% |  8.0ms |       8 | `zig.Ast.parse`                                                                        | `/opt/zig/lib/std/zig/Ast.zig:145`          |
+|  5.4% |  4.0ms |       4 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  4.1% |  3.0ms |       3 | `multi_array_list.MultiArrayList(zig.Ast.Node).ensureUnusedCapacity`                   | `/opt/zig/lib/std/multi_array_list.zig:482` |
+|  2.7% |  2.0ms |       2 | `array_list.AlignedManaged(u8,null).initCapacity`                                      | `/opt/zig/lib/std/array_list.zig:55`        |
+
 ##### `__read` (`<unknown>`)
 
 |      % |   Time | Samples | Caller       | Location                         |
@@ -797,6 +908,14 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 85.0% | 17.0ms |      17 | `heap.CAllocator.alignedFree` | `/opt/zig/lib/std/heap.zig:183`          |
 | 15.0% |  3.0ms |       3 | `mem.Allocator.rawFree`       | `/opt/zig/lib/std/mem/Allocator.zig:146` |
 
+##### `0x9e674` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |  Time | Samples | Caller                                                                                 | Location                                    |
+| ----: | ----: | ------: | -------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 50.0% | 8.0ms |       8 | `zig.Ast.parse`                                                                        | `/opt/zig/lib/std/zig/Ast.zig:145`          |
+| 37.5% | 6.0ms |       6 | `array_list.Aligned(u8,null).ensureUnusedCapacity`                                     | `/opt/zig/lib/std/array_list.zig:1241`      |
+| 12.5% | 2.0ms |       2 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` | `/opt/zig/lib/std/multi_array_list.zig:482` |
+
 ##### `brk` (`<unknown>`)
 
 |      % |   Time | Samples | Caller               | Location    |
@@ -805,9 +924,10 @@ Callers with the largest contribution to each function's total time. Inlining ca
 
 ##### `__default_morecore` (`<unknown>`)
 
-|      % |   Time | Samples | Caller        | Location    |
-| -----: | -----: | ------: | ------------- | ----------- |
-| 100.0% | 15.0ms |      15 | `(anonymous)` | `<unknown>` |
+|     % |   Time | Samples | Caller    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 86.7% | 13.0ms |      13 | `0x8fa47` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 13.3% |  2.0ms |       2 | `0x90817` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `posix_memalign` (`<unknown>`)
 
@@ -816,23 +936,61 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 71.4% | 10.0ms |      10 | `heap.CAllocator.alignedAlloc` | `/opt/zig/lib/std/heap.zig:157`          |
 | 28.6% |  4.0ms |       4 | `mem.Allocator.rawAlloc`       | `/opt/zig/lib/std/mem/Allocator.zig:128` |
 
+##### `0x8fa47` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 13.0ms |      13 | `0x9023f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
+##### `0x9023f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller  | Location    |
+| -----: | -----: | ------: | ------- | ----------- |
+| 100.0% | 13.0ms |      13 | `cfree` | `<unknown>` |
+
+##### `0x9d11c` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                                        | Location                                   |
+| -----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 12.0ms |      12 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d138` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                        | Location                                   |
+| ----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 91.7% | 11.0ms |      11 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+|  8.3% |  1.0ms |       1 | `zig.Parse.parseBlock`                        | `/opt/zig/lib/std/zig/Parse.zig:2079`      |
+
+##### `0x9d184` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Caller                                        | Location                                   |
+| -----: | -----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 12.0ms |      12 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+
+##### `0x9d100` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|     % |   Time | Samples | Caller                                             | Location                                   |
+| ----: | -----: | ------: | -------------------------------------------------- | ------------------------------------------ |
+| 83.3% | 10.0ms |      10 | `zig.Ast.Render.AutoIndentingStream.writeAll`      | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
+| 16.7% |  2.0ms |       2 | `array_list.Aligned(u8,null).ensureUnusedCapacity` | `/opt/zig/lib/std/array_list.zig:1241`     |
+
 ##### `__libc_malloc` (`<unknown>`)
 
 |      % |   Time | Samples | Caller           | Location    |
 | -----: | -----: | ------: | ---------------- | ----------- |
 | 100.0% | 10.0ms |      10 | `posix_memalign` | `<unknown>` |
 
-##### `close` (`<unknown>`)
+##### `0x9d168` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller        | Location                         |
-| -----: | ----: | ------: | ------------- | -------------------------------- |
-| 100.0% | 4.0ms |       4 | `posix.close` | `/opt/zig/lib/std/posix.zig:285` |
+|      % |  Time | Samples | Caller                                        | Location                                   |
+| -----: | ----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 7.0ms |       7 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
 
-##### `malloc_usable_size` (`<unknown>`)
+##### `0x9d150` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |  Time | Samples | Caller                   | Location                                 |
-| -----: | ----: | ------: | ------------------------ | ---------------------------------------- |
-| 100.0% | 1.0ms |       1 | `mem.Allocator.rawRemap` | `/opt/zig/lib/std/mem/Allocator.zig:140` |
+|      % |  Time | Samples | Caller                                        | Location                                   |
+| -----: | ----: | ------: | --------------------------------------------- | ------------------------------------------ |
+| 100.0% | 6.0ms |       6 | `zig.Ast.Render.AutoIndentingStream.writeAll` | `/opt/zig/lib/std/zig/Ast/Render.zig:3496` |
 
 #### Callees
 
@@ -840,11 +998,12 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ##### `start.callMain` (`/opt/zig/lib/std/start.zig:613`)
 
-|     % |   Time | Samples | Callee               | Location                           |
-| ----: | -----: | ------: | -------------------- | ---------------------------------- |
-| 99.8% |  5.28s |   5,276 | `profile.main`       | `./profile.zig:12`                 |
-|  0.2% | 10.0ms |      10 | `(anonymous)`        | `<unknown>`                        |
-| <0.1% |  1.0ms |       1 | `zig.Ast.firstToken` | `/opt/zig/lib/std/zig/Ast.zig:596` |
+|     % |  Time | Samples | Callee               | Location                               |
+| ----: | ----: | ------: | -------------------- | -------------------------------------- |
+| 99.8% | 5.28s |   5,276 | `profile.main`       | `./profile.zig:12`                     |
+|  0.2% | 9.0ms |       9 | `0x9d200`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% | 1.0ms |       1 | `0x9e580`            | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| <0.1% | 1.0ms |       1 | `zig.Ast.firstToken` | `/opt/zig/lib/std/zig/Ast.zig:596`     |
 
 ##### `start.callMainWithArgs` (`/opt/zig/lib/std/start.zig:580`)
 
@@ -858,19 +1017,17 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | ------------------------ | -------------------------------- |
 | 100.0% | 5.29s |   5,287 | `start.callMainWithArgs` | `/opt/zig/lib/std/start.zig:580` |
 
-##### `(anonymous)` (`<unknown>`)
+##### `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
 
-|      % |   Time | Samples | Callee               | Location                         |
-| -----: | -----: | ------: | -------------------- | -------------------------------- |
-| 100.0% |  5.29s |   5,287 | `main`               | `/opt/zig/lib/std/start.zig:590` |
-|   0.3% | 18.0ms |      18 | `(anonymous)`        | `<unknown>`                      |
-|   0.3% | 15.0ms |      15 | `__default_morecore` | `<unknown>`                      |
+|      % |  Time | Samples | Callee | Location                         |
+| -----: | ----: | ------: | ------ | -------------------------------- |
+| 100.0% | 5.29s |   5,287 | `main` | `/opt/zig/lib/std/start.zig:590` |
 
 ##### `__libc_start_main` (`<unknown>`)
 
-|      % |  Time | Samples | Callee        | Location    |
-| -----: | ----: | ------: | ------------- | ----------- |
-| 100.0% | 5.29s |   5,287 | `(anonymous)` | `<unknown>` |
+|      % |  Time | Samples | Callee    | Location                               |
+| -----: | ----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 5.29s |   5,287 | `0x27743` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
@@ -1024,13 +1181,18 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | 45.7% | 528.0ms |     528 | `zig.tokenizer.Tokenizer.next`                                           | `/opt/zig/lib/std/zig/tokenizer.zig:395`    |
 | 41.7% | 482.0ms |     482 | `zig.Parse.parseRoot`                                                    | `/opt/zig/lib/std/zig/Parse.zig:192`        |
 |  9.2% | 106.0ms |     106 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` | `/opt/zig/lib/std/multi_array_list.zig:252` |
-|  1.4% |  16.0ms |      16 | `(anonymous)`                                                            | `<unknown>`                                 |
+|  0.7% |   8.0ms |       8 | `0x9e670`                                                                | `/usr/lib/aarch64-linux-gnu/libc.so.6`      |
+|  0.7% |   8.0ms |       8 | `0x9e674`                                                                | `/usr/lib/aarch64-linux-gnu/libc.so.6`      |
 
 ##### `cfree` (`<unknown>`)
 
-|     % |   Time | Samples | Callee        | Location    |
-| ----: | -----: | ------: | ------------- | ----------- |
-| 90.0% | 18.0ms |      18 | `(anonymous)` | `<unknown>` |
+|     % |   Time | Samples | Callee    | Location                               |
+| ----: | -----: | ------: | --------- | -------------------------------------- |
+| 65.0% | 13.0ms |      13 | `0x9023f` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 10.0% |  2.0ms |       2 | `0x8ffd0` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.0% |  1.0ms |       1 | `0x8faf4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.0% |  1.0ms |       1 | `0x8fb38` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+|  5.0% |  1.0ms |       1 | `0x900bf` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ##### `__default_morecore` (`<unknown>`)
 
@@ -1044,33 +1206,48 @@ Callees with the largest contribution to each function's total time. Inlining ca
 | ----: | -----: | ------: | --------------- | ----------- |
 | 71.4% | 10.0ms |      10 | `__libc_malloc` | `<unknown>` |
 
+##### `0x8fa47` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Callee               | Location    |
+| -----: | -----: | ------: | -------------------- | ----------- |
+| 100.0% | 13.0ms |      13 | `__default_morecore` | `<unknown>` |
+
+##### `0x9023f` (`/usr/lib/aarch64-linux-gnu/libc.so.6`)
+
+|      % |   Time | Samples | Callee    | Location                               |
+| -----: | -----: | ------: | --------- | -------------------------------------- |
+| 100.0% | 13.0ms |      13 | `0x8fa47` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+
 ##### `__libc_malloc` (`<unknown>`)
 
-|      % |   Time | Samples | Callee        | Location    |
-| -----: | -----: | ------: | ------------- | ----------- |
-| 100.0% | 10.0ms |      10 | `(anonymous)` | `<unknown>` |
+|     % |  Time | Samples | Callee    | Location                               |
+| ----: | ----: | ------: | --------- | -------------------------------------- |
+| 40.0% | 4.0ms |       4 | `0x9189b` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 10.0% | 1.0ms |       1 | `0x911b4` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 10.0% | 1.0ms |       1 | `0x9123c` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 10.0% | 1.0ms |       1 | `0x91228` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
+| 10.0% | 1.0ms |       1 | `0x90dac` | `/usr/lib/aarch64-linux-gnu/libc.so.6` |
 
 ## Hottest call stacks
 
 Call stacks with the most time spent in their leaf frame.
 
-Common call stack: `profile.main` (`./profile.zig:12`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:613`) ← `start.callMainWithArgs` (580) ← `main` (590) ← `(anonymous)` ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
+Common call stack: `profile.main` (`./profile.zig:12`) ← `start.callMain` (`/opt/zig/lib/std/start.zig:613`) ← `start.callMainWithArgs` (580) ← `main` (590) ← `0x27743` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `__libc_start_main` ← `_start` (`/opt/zig/lib/libc/glibc/sysdeps/aarch64/start.S`)
 
 |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ---: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 8.5% | 447.0ms |     447 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | 1.1% |  59.0ms |      59 | `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` (`/opt/zig/lib/std/static_string_map.zig:198`) ← `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).get` (191) ← `zig.tokenizer.Token.getKeyword` (`/opt/zig/lib/std/zig/tokenizer.zig:61`) ← `zig.tokenizer.Tokenizer.next` (395) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | 0.6% |  33.0ms |      33 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig:3268`) ← `zig.Ast.Render.renderIdentifier` (2926) ← `zig.Ast.Render.renderContainerField` (1473) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderContainerDecl` (2295) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 0.5% |  29.0ms |      29 | `(anonymous)` ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` (`/opt/zig/lib/std/multi_array_list.zig:482`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 0.5% |  26.0ms |      26 | `__read` ← `posix.read` (`/opt/zig/lib/std/posix.zig:844`) ← `fs.File.read` (`/opt/zig/lib/std/fs/File.zig:847`) ← `Io.GenericReader(fs.File,error{AccessDenied,BrokenPipe,Canceled,ConnectionResetByPeer,ConnectionTimedOut,InputOutput,IsDir,LockViolation,NotOpenForReading,OperationAborted,ProcessNotFound,SocketNotConnected,SystemResources,Unexpected,WouldBlock},(function 'read')).typeErasedReadFn` (`/opt/zig/lib/std/Io.zig:291`) ← `Io.DeprecatedReader.read` (`/opt/zig/lib/std/Io/DeprecatedReader.zig:9`) ← `Io.DeprecatedReader.readAtLeast` (25) ← `Io.DeprecatedReader.readAll` (16) ← `Io.DeprecatedReader.readAllArrayListAligned__anon_2535` (55) ← `Io.GenericReader(fs.File,error{AccessDenied,BrokenPipe,Canceled,ConnectionResetByPeer,ConnectionTimedOut,InputOutput,IsDir,LockViolation,NotOpenForReading,OperationAborted,ProcessNotFound,SocketNotConnected,SystemResources,Unexpected,WouldBlock},(function 'read')).readAllArrayListAligned` (`/opt/zig/lib/std/Io.zig:126`) ← `fs.File.readToEndAllocOptions__anon_2451` (`/opt/zig/lib/std/fs/File.zig:814`) ← `fs.Dir.readFileAllocOptions__anon_2384` (`/opt/zig/lib/std/fs/Dir.zig:1997`) |
 | 0.4% |  23.0ms |      23 | `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | 0.4% |  22.0ms |      22 | `static_string_map.defaultEql` (`/opt/zig/lib/std/static_string_map.zig:13`) ← `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex` (198) ← `static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).get` (191) ← `zig.tokenizer.Token.getKeyword` (`/opt/zig/lib/std/zig/tokenizer.zig:61`) ← `zig.tokenizer.Tokenizer.next` (395) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 0.4% |  21.0ms |      21 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureTotalCapacity` (`/opt/zig/lib/std/math.zig:458`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` (`/opt/zig/lib/std/multi_array_list.zig:482`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 0.4% |  21.0ms |      21 | `0x9d200` (`/usr/lib/aarch64-linux-gnu/libc.so.6`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` (`/opt/zig/lib/std/multi_array_list.zig:482`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | 0.3% |  17.0ms |      17 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig:3268`) ← `zig.Ast.Render.renderToken` (2844) ← `zig.Ast.Render.renderDocComments` (3208) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | 0.3% |  17.0ms |      17 | `openat` ← `posix.openatZ` (`/opt/zig/lib/std/posix.zig:1835`) ← `fs.Dir.openFileZ` (`/opt/zig/lib/std/fs/Dir.zig:855`) ← `fs.Dir.openFile` (818) ← `fs.Dir.readFileAllocOptions__anon_2384` (1997)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 0.3% |  16.0ms |      16 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureTotalCapacity` (`/opt/zig/lib/std/multi_array_list.zig:458`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` (482) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | 0.3% |  16.0ms |      16 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).ensureUnusedCapacity` (`/opt/zig/lib/std/multi_array_list.zig:482`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| 0.3% |  16.0ms |      16 | `(anonymous)` ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | 0.3% |  15.0ms |      15 | `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).Slice.set` (`/opt/zig/lib/std/multi_array_list.zig:96`) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).set` (241) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).appendAssumeCapacity` (259) ← `multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2572).append` (252) ← `zig.Ast.parse` (`/opt/zig/lib/std/zig/Ast.zig:145`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 0.3% |  15.0ms |      15 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.hasComment` (`/opt/zig/lib/std/zig/Ast/Render.zig:3089`) ← `zig.Ast.Render.renderContainerDecl` (2295) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | 0.3% |  14.0ms |      14 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig:3268`) ← `zig.Ast.Render.renderExtraNewlineToken` (3180) ← `zig.Ast.Render.renderExtraNewline` (3175) ← `zig.Ast.Render.renderContainerDecl` (2295) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -1078,3 +1255,4 @@ Common call stack: `profile.main` (`./profile.zig:12`) ← `start.callMain` (`/o
 | 0.2% |  13.0ms |      13 | `zig.tokenizer.Token.Tag.lexeme` (`/opt/zig/lib/std/zig/tokenizer.zig:186`) ← `zig.Ast.Render.hasComment` (`/opt/zig/lib/std/zig/Ast/Render.zig:3089`) ← `zig.Ast.Render.renderContainerDecl` (2295) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | 0.2% |  13.0ms |      13 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.hasComment` (`/opt/zig/lib/std/zig/Ast/Render.zig:3089`) ← `zig.Ast.Render.renderStructInit` (1995) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderArrayInit` (2067) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.finishRenderBlock` (1967) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 0.2% |  12.0ms |      12 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig:3268`) ← `zig.Ast.Render.renderToken` (2844) ← `zig.Ast.Render.renderDocComments` (3208) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderContainerDecl` (2295) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 0.2% |  12.0ms |      12 | `zig.tokenizer.Tokenizer.next` (`/opt/zig/lib/std/zig/tokenizer.zig:395`) ← `zig.Ast.tokenSlice` (`/opt/zig/lib/std/zig/Ast.zig:265`) ← `zig.Ast.Render.tokenSliceForRender` (`/opt/zig/lib/std/zig/Ast/Render.zig:3268`) ← `zig.Ast.Render.renderIdentifier` (2926) ← `zig.Ast.Render.renderVarDeclWithoutFixups` (1140) ← `zig.Ast.Render.renderVarDecl` (1122) ← `zig.Ast.Render.finishRenderBlock` (1967) ← `zig.Ast.Render.renderExpression` (314) ← `zig.Ast.Render.renderMember` (141) ← `zig.Ast.Render.renderMembers` (122) ← `zig.Ast.Render.renderTree` (86) ← `zig.Ast.render` (`/opt/zig/lib/std/zig/Ast.zig:217`) ← `zig.Ast.renderAlloc` (206)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
