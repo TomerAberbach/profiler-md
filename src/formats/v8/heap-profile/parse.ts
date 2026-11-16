@@ -2,7 +2,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../../modalities/call-stack-profile/index.ts'
-import { BYTES_METRIC, SAMPLES } from '../../../modalities/metrics.ts'
+import { SAMPLED_HEAP_METRIC, SAMPLES } from '../../../modalities/metrics.ts'
 import { FormatParseError } from '../../error.ts'
 import type { RecordTally } from '../../spec.ts'
 import {
@@ -67,7 +67,7 @@ export const parseV8HeapProfile = (
     {
       type: `call-stack-profile`,
       frames,
-      metrics: [BYTES_METRIC],
+      metrics: [SAMPLED_HEAP_METRIC],
       countMetric: SAMPLES,
       observations: heapObservations(
         profile,

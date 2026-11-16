@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 741 MiB → 299 MiB (-442.016 MiB, -59.7%) over 6,116,491 → 2,313,788 objects (127 B → 135 B per object).
+Recorded 741 MiB → 299 MiB (-442.016 MiB, -59.7%) over 6,116,491 → 2,313,788 objects (127 B → 135 B per object).
 
 | Category         |  Change |        Delta |             % |                Size |               Objects |
 | ---------------- | ------: | -----------: | ------------: | ------------------: | --------------------: |
@@ -66,7 +66,7 @@ Call paths to the hottest and most changed functions.
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |   Change |        Delta |            % |                Size |          Objects | Function                          | Location                                            |
 | -------: | -----------: | -----------: | ------------------: | ---------------: | --------------------------------- | --------------------------------------------------- |
@@ -129,7 +129,7 @@ Functions with the largest increase in bytes allocated within the function body,
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function body, excluding callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 |  Change |       Delta |            % |                Size |           Objects | Function                        | Location                                                          |
 | ------: | ----------: | -----------: | ------------------: | ----------------: | ------------------------------- | ----------------------------------------------------------------- |
@@ -868,7 +868,7 @@ Callers with the largest change in contribution to each function's self size. In
 
 #### Regressions
 
-Functions with the largest increase in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest increase in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 ##### Third-party
 
@@ -918,7 +918,7 @@ Functions with the largest increase in bytes allocated within the function and i
 
 #### Improvements
 
-Functions with the largest decrease in bytes allocated within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
+Functions with the largest decrease in bytes recorded within the function and its callees. Categories account for at least 1.0% of self size on the base or the current side.
 
 | Change |        Delta |             % |              Size |               Objects | Function                                   | Location                                                            |
 | -----: | -----------: | ------------: | ----------------: | --------------------: | ------------------------------------------ | ------------------------------------------------------------------- |
@@ -1906,7 +1906,7 @@ Callees with the largest change in contribution to each function's total size. I
 
 ### Regressions
 
-Call stacks with the largest increase in bytes allocated in their leaf frame.
+Call stacks with the largest increase in bytes recorded in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs`) ← `(anonymous)` (`./datadog-pprof-heap.mjs:1:1`) ← `next` ← `run` (`node:internal/modules/esm/module_job`) ← `(anonymous)`
 
@@ -1935,7 +1935,7 @@ Common call stack: `typeCheckProject` (`./tsc-workload.mjs`) ← `(anonymous)` (
 
 ### Improvements
 
-Call stacks with the largest decrease in bytes allocated in their leaf frame.
+Call stacks with the largest decrease in bytes recorded in their leaf frame.
 
 Common call stack: `typeCheckProject` (`./tsc-workload.mjs`) ← `(anonymous)` (`./datadog-pprof-heap.mjs:1:1`) ← `next` ← `run` (`node:internal/modules/esm/module_job`) ← `(anonymous)`
 

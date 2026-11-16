@@ -1,6 +1,6 @@
 # Heap profile
 
-Allocated 299 MiB over 2,313,788 objects (135 B per object).
+Recorded 299 MiB over 2,313,788 objects (135 B per object).
 
 | Category         |     % |     Size |   Objects |
 | ---------------- | ----: | -------: | --------: |
@@ -63,7 +63,7 @@ Call paths to the hottest functions.
 
 ### Self size
 
-Functions with the most bytes allocated within the function body, excluding callees.
+Functions with the most bytes recorded within the function body, excluding callees.
 
 |     % |     Size | Objects | Function                        | Location                                               |
 | ----: | -------: | ------: | ------------------------------- | ------------------------------------------------------ |
@@ -511,7 +511,7 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 ### Total size
 
-Functions with the most bytes allocated within the function and its callees.
+Functions with the most bytes recorded within the function and its callees.
 
 |     % |    Size |   Objects | Function                                   | Location                                                |
 | ----: | ------: | --------: | ------------------------------------------ | ------------------------------------------------------- |
@@ -1130,7 +1130,7 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most bytes allocated in their leaf frame.
+Call stacks with the most bytes recorded in their leaf frame.
 
 Common call stack: `(anonymous)` (`./datadog-pprof-heap.mjs:1:1`) ← `next` ← `run` (`node:internal/modules/esm/module_job`) ← `(anonymous)`
 
