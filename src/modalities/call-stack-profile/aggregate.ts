@@ -120,11 +120,14 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
       this.#profile
 
     const functions = StackFrameTable.for(frames).resolve(context)
+    // The origin's answer overrides the format's, where the format's origins
+    // disagree on what one count measures.
+    const originCountMetric = originSpecOf(context.origin).countMetric(
+      context.format,
+    )
     const aggregator = new ObservationsAggregator(
       metrics,
-      // The origin's answer overrides the format's, where the format's
-      // origins disagree on what one count measures.
-      originSpecOf(context.origin).countMetric(context.format) ?? countMetric,
+      originCountMetric === undefined ? countMetric : originCountMetric,
       functions,
       options,
       context,

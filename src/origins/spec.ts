@@ -120,10 +120,11 @@ export type OriginSpec = {
    * example, eflambe writes one collapsed count per microsecond of traced
    * time, where every other collapsed profiler writes one per sample.
    *
-   * This is the same field as `CallStackProfile.countMetric`. A format whose
-   * origins agree sets it in the parser instead.
+   * This is the same field as `CallStackProfile.countMetric`, so `null` states
+   * that the counts measure nothing. A format whose origins agree sets it in the
+   * parser instead.
    */
-  countMetric?: (format: Format) => Metric | undefined
+  countMetric?: (format: Format) => Metric | null | undefined
 
   /**
    * Returns whether this origin's runtime makes {@link entry}'s outgoing call
