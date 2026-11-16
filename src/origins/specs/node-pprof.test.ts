@@ -22,6 +22,22 @@ describe(`detection`, () => {
 describe(`normalizeStackFrame`, () => {
   const { normalizeStackFrame } = nodePprofOriginSpec
 
+  test(`moves a packed anonymous frame's line into the location when it packs no column`, () => {
+    expect(
+      normalizeStackFrame({
+        name: `(anonymous:L#21101)`,
+        definition: { type: `file`, urlOrPath: `file:///app/src/index.js` },
+      }),
+    ).toStrictEqual({
+      name: `(anonymous)`,
+      definition: {
+        type: `file`,
+        urlOrPath: `file:///app/src/index.js`,
+        position: { line: 21_101, column: undefined },
+      },
+    })
+  })
+
   test(`moves a dd-trace packed anonymous frame's position into the location`, () => {
     expect(
       normalizeStackFrame({

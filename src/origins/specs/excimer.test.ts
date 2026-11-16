@@ -132,6 +132,16 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
+  test(`a located file-scope frame is named for its scope`, () => {
+    const definition = {
+      type: `file`,
+      urlOrPath: `/var/www/index.php`,
+    } as const
+    expect(
+      normalizeStackFrame({ name: `/var/www/index.php`, definition }),
+    ).toStrictEqual({ name: `(file scope)`, definition })
+  })
+
   test(`a method's declaring class becomes its location`, () => {
     expect(
       normalizeStackFrame({ name: String.raw`MediaWiki\Setup::run` }),

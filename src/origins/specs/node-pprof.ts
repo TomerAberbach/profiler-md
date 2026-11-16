@@ -46,11 +46,13 @@ export const nodePprofOriginSpec = {
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
   normalizeStackFrame: input => {
-    // `dd-trace` heap profiles pack an anonymous function's definition
-    // position into its name as `(anonymous:L#122135:C#9)`. Move it into the
+    // The serializer packs an anonymous function's `Line.line`, and its column
+    // when known, into its name as `(anonymous:L#122135:C#9)`. Move it into the
     // definition's position (the serializer sets no `start_line`) so the name
     // formats as plain `(anonymous)` while the position still distinguishes
-    // functions.
+    // functions. With `lineNumbers: true` that line is the executing line, and
+    // no record states which mode wrote it, so each executing line of such a
+    // function reads as a function of its own.
     const packed =
       input.name === undefined ? null : PACKED_ANONYMOUS.exec(input.name)
     if (!packed) {
@@ -67,7 +69,9 @@ export const nodePprofOriginSpec = {
               ...input.definition,
               position: {
                 line: input.definition.position?.line ?? Number(line),
-                column: input.definition.position?.column ?? Number(column),
+                column:
+                  input.definition.position?.column ??
+                  (column === undefined ? undefined : Number(column)),
               },
             },
           }
@@ -82,4 +86,4 @@ const garbageCollectionCategory = ({
   name === `Garbage Collection` ? `garbage-collector` : undefined
 
 /** `dd-trace` packed anonymous frame name, e.g. `(anonymous:L#122135:C#9)`. */
-const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+):C#(?<column>\d+)\)$/u
+const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+)(?::C#(?<column>\d+))?\)$/u

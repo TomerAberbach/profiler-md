@@ -183,8 +183,8 @@ export class StackFrameTable {
 
 /**
  * Drops the name of {@link normalized} when {@link frame}, the frame before
- * normalization, is named with its own file reference, because such a frame
- * has no function name. Unrelated profilers independently converged on this
+ * normalization, is named with its own file reference and normalization kept
+ * that name, because such a frame has no function name. Unrelated profilers independently converged on this
  * idiom (e.g. Excimer, rbspy), so it applies to every origin and format. Only a
  * file reference qualifies, because a function can share its logical
  * reference's name, like a method named after its class or module.
@@ -196,7 +196,8 @@ const dropLocationName = (
   normalized &&
   frame.name !== undefined &&
   frame.definition?.type === `file` &&
-  frame.name === frame.definition.urlOrPath
+  frame.name === frame.definition.urlOrPath &&
+  normalized.name === frame.name
     ? { ...normalized, name: undefined }
     : normalized
 

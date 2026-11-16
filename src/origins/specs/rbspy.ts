@@ -68,6 +68,10 @@ const RUBY_LOCATION_MATCH_RULES: EntryMatchRule[] = [
  * methods. Its `normalizeStackFrame` splits the name at the last ` - ` and reads
  * the `file:line` from the text after it, so a colon in the method name (e.g.
  * `<module:Foo>`) stays in the name.
+ *
+ * On Ruby 2.6 and later, rbspy records the last entry of a method's line table
+ * for each of the method's frames, whichever line the frame was executing.
+ * https://github.com/rbspy/rbspy/issues/409
  */
 export const rbspyOriginSpec = {
   id: `rbspy`,
