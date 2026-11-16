@@ -240,7 +240,7 @@ Categories accounting for at least 1.0% of self samples.
 
 |      % | Samples | Function              | Location                                       |
 | -----: | ------: | --------------------- | ---------------------------------------------- |
-| 100.0% |   4,164 | `(anonymous)`         | `./profile.php`                                |
+| 100.0% |   4,164 | `(file scope)`        | `./profile.php`                                |
 |  99.8% |   4,157 | `run`                 | `Symfony\Component\Console\Application`        |
 |  99.8% |   4,157 | `run`                 | `Composer\Console\Application`                 |
 |  95.8% |   3,990 | `doRun`               | `Composer\Console\Application`                 |
@@ -273,9 +273,9 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `run` (`Composer\Console\Application`)
 
-|      % | Samples | Caller        | Location        |
-| -----: | ------: | ------------- | --------------- |
-| 100.0% |   4,157 | `(anonymous)` | `./profile.php` |
+|      % | Samples | Caller         | Location        |
+| -----: | ------: | -------------- | --------------- |
+| 100.0% |   4,157 | `(file scope)` | `./profile.php` |
 
 ##### `doRun` (`Composer\Console\Application`)
 
@@ -385,15 +385,15 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 Callees with the largest contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum to more than 100% for recursive calls.
 
-##### `(anonymous)` (`./profile.php`)
+##### `(file scope)` (`./profile.php`)
 
-|     % | Samples | Callee        | Location                                  |
-| ----: | ------: | ------------- | ----------------------------------------- |
-| 99.8% |   4,157 | `run`         | `Composer\Console\Application`            |
-|  0.1% |       3 | `__construct` | `Composer\Console\Application`            |
-| <0.1% |       2 | `loadClass`   | `Composer\Autoload\ClassLoader`           |
-| <0.1% |       1 | `(anonymous)` | `./composer/src/bootstrap.php`            |
-| <0.1% |       1 | `__construct` | `Symfony\Component\Console\Output\Output` |
+|     % | Samples | Callee         | Location                                  |
+| ----: | ------: | -------------- | ----------------------------------------- |
+| 99.8% |   4,157 | `run`          | `Composer\Console\Application`            |
+|  0.1% |       3 | `__construct`  | `Composer\Console\Application`            |
+| <0.1% |       2 | `loadClass`    | `Composer\Autoload\ClassLoader`           |
+| <0.1% |       1 | `(file scope)` | `./composer/src/bootstrap.php`            |
+| <0.1% |       1 | `__construct`  | `Symfony\Component\Console\Output\Output` |
 
 ##### `run` (`Symfony\Component\Console\Application`)
 
@@ -540,7 +540,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 Call stacks with the most samples collected in their leaf frame.
 
-Common call stack: `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`./profile.php`)
+Common call stack: `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(file scope)` (`./profile.php`)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

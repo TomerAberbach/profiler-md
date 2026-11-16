@@ -2,9 +2,10 @@
 
 Blocked 194.8ms → 167.2ms (-27.62ms, -14.2%) over 4,931 → 4,625 contentions (39.5µs → 36.2µs per contention).
 
-| Category         | Change |    Delta |      % |              Time |   Contentions |
-| ---------------- | -----: | -------: | -----: | ----------------: | ------------: |
-| Standard library | -14.2% | -27.62ms | 100.0% | 194.8ms → 167.2ms | 4,931 → 4,625 |
+| Category         | Change |    Delta |             % |              Time |   Contentions |
+| ---------------- | -----: | -------: | ------------: | ----------------: | ------------: |
+| Standard library | -13.2% | -22.72ms | 88.6% → 89.7% | 172.7ms → 149.9ms | 4,377 → 4,079 |
+| Unknown          | -22.1% |  -4.90ms | 11.4% → 10.3% |   22.2ms → 17.3ms |     554 → 546 |
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-go-workload/`.
 
@@ -65,12 +66,22 @@ Call paths to the hottest and most changed functions.
 
 Functions with the largest decrease in time blocked within the function body, excluding callees. Categories account for at least 1.0% of self time on the base or the current side.
 
-##### Standard library
-
 | Change |    Delta |             % |              Time |   Contentions | Function                            | Location                                                                                         |
 | -----: | -------: | ------------: | ----------------: | ------------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
 | -13.2% | -22.72ms | 88.6% → 89.7% | 172.7ms → 149.9ms | 4,377 → 4,079 | `runtime.unlock`                    | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
 | -22.1% |  -4.90ms | 11.4% → 10.3% |   22.2ms → 17.3ms |     554 → 546 | `runtime._LostContendedRuntimeLock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741`        |
+
+##### Standard library
+
+| Change |    Delta |             % |              Time |   Contentions | Function         | Location                                                                                         |
+| -----: | -------: | ------------: | ----------------: | ------------: | ---------------- | ------------------------------------------------------------------------------------------------ |
+| -13.2% | -22.72ms | 88.6% → 89.7% | 172.7ms → 149.9ms | 4,377 → 4,079 | `runtime.unlock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
+
+##### Unknown
+
+| Change |   Delta |             % |            Time | Contentions | Function                            | Location                                                                                  |
+| -----: | ------: | ------------: | --------------: | ----------: | ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| -22.1% | -4.90ms | 11.4% → 10.3% | 22.2ms → 17.3ms |   554 → 546 | `runtime._LostContendedRuntimeLock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741` |
 
 #### Lines
 
@@ -185,28 +196,34 @@ Functions with the largest decrease in time blocked within the function and its 
 
 ##### Standard library
 
-| Change |    Delta |             % |              Time |   Contentions | Function                            | Location                                                                                         |
-| -----: | -------: | ------------: | ----------------: | ------------: | ----------------------------------- | ------------------------------------------------------------------------------------------------ |
-| -13.2% | -22.72ms | 88.6% → 89.7% | 172.7ms → 149.9ms | 4,377 → 4,079 | `runtime.unlock`                    | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
-| -16.3% | -13.62ms | 42.9% → 41.8% |   83.5ms → 69.9ms | 2,670 → 2,395 | `runtime.gopreempt_m`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361`        |
-| -15.7% | -13.49ms | 44.2% → 43.4% |   86.1ms → 72.6ms | 2,706 → 2,436 | `runtime.goschedImpl`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307`        |
-| -16.0% | -13.28ms | 42.5% → 41.6% |   82.8ms → 69.6ms | 2,648 → 2,377 | `runtime.newstack`                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026`       |
-| -16.0% | -13.27ms | 42.5% → 41.6% |   82.8ms → 69.6ms | 2,647 → 2,376 | `runtime.morestack`                 | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457`     |
-| -14.1% |  -9.45ms |         34.5% |   67.2ms → 57.7ms | 2,033 → 1,815 | `runtime.schedule`                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`        |
-| -14.8% |  -9.45ms | 32.6% → 32.4% |   63.6ms → 54.2ms | 1,925 → 1,694 | `runtime.findRunnable`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3389`        |
-| -10.8% |  -7.52ms | 35.8% → 37.2% |   69.8ms → 62.3ms | 1,109 → 1,098 | `runtime.systemstack`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:353`     |
-| -12.3% |  -5.73ms | 23.9% → 24.4% |   46.6ms → 40.9ms |   1,061 → 964 | `runtime.runSafePointFn`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2232`        |
-|  -9.4% |  -5.70ms | 31.1% → 32.9% |   60.6ms → 54.9ms |     729 → 726 | `runtime.forEachPInternal`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2140`        |
-|  -9.4% |  -5.70ms | 31.1% → 32.9% |   60.6ms → 54.9ms |     729 → 726 | `runtime.forEachP`                  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2111`        |
-| -22.1% |  -4.90ms | 11.4% → 10.3% |   22.2ms → 17.3ms |     554 → 546 | `runtime._LostContendedRuntimeLock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741`        |
-| -23.3% |  -1.91ms |   4.2% → 3.8% |     8.2ms → 6.3ms |     235 → 217 | `runtime.stopTheWorldWithSema`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1628`        |
-|  -5.9% |  -1.00ms |   8.7% → 9.5% |   16.9ms → 15.9ms |     465 → 458 | `runtime.mcall`                     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:302`     |
-| -34.9% |  -0.92ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 55 | `runtime.sysmon`                    | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6486`        |
-| -22.9% |  -0.91ms |   2.0% → 1.8% |     4.0ms → 3.1ms |     249 → 227 | `runtime.stopm`                     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2992`        |
-| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart1`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1904`        |
-| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart0`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1862`        |
-| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart`                    | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:258`     |
-| -37.5% |  -0.87ms |   1.2% → 0.9% |     2.3ms → 1.4ms |       55 → 44 | `runtime.incidlelocked`             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6355`        |
+| Change |    Delta |             % |              Time |   Contentions | Function                       | Location                                                                                         |
+| -----: | -------: | ------------: | ----------------: | ------------: | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| -13.2% | -22.72ms | 88.6% → 89.7% | 172.7ms → 149.9ms | 4,377 → 4,079 | `runtime.unlock`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
+| -16.3% | -13.62ms | 42.9% → 41.8% |   83.5ms → 69.9ms | 2,670 → 2,395 | `runtime.gopreempt_m`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4361`        |
+| -15.7% | -13.49ms | 44.2% → 43.4% |   86.1ms → 72.6ms | 2,706 → 2,436 | `runtime.goschedImpl`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307`        |
+| -16.0% | -13.28ms | 42.5% → 41.6% |   82.8ms → 69.6ms | 2,648 → 2,377 | `runtime.newstack`             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/stack.go:1026`       |
+| -16.0% | -13.27ms | 42.5% → 41.6% |   82.8ms → 69.6ms | 2,647 → 2,376 | `runtime.morestack`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:457`     |
+| -14.1% |  -9.45ms |         34.5% |   67.2ms → 57.7ms | 2,033 → 1,815 | `runtime.schedule`             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135`        |
+| -14.8% |  -9.45ms | 32.6% → 32.4% |   63.6ms → 54.2ms | 1,925 → 1,694 | `runtime.findRunnable`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3389`        |
+| -10.8% |  -7.52ms | 35.8% → 37.2% |   69.8ms → 62.3ms | 1,109 → 1,098 | `runtime.systemstack`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:353`     |
+| -12.3% |  -5.73ms | 23.9% → 24.4% |   46.6ms → 40.9ms |   1,061 → 964 | `runtime.runSafePointFn`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2232`        |
+|  -9.4% |  -5.70ms | 31.1% → 32.9% |   60.6ms → 54.9ms |     729 → 726 | `runtime.forEachPInternal`     | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2140`        |
+|  -9.4% |  -5.70ms | 31.1% → 32.9% |   60.6ms → 54.9ms |     729 → 726 | `runtime.forEachP`             | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2111`        |
+| -23.3% |  -1.91ms |   4.2% → 3.8% |     8.2ms → 6.3ms |     235 → 217 | `runtime.stopTheWorldWithSema` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1628`        |
+|  -5.9% |  -1.00ms |   8.7% → 9.5% |   16.9ms → 15.9ms |     465 → 458 | `runtime.mcall`                | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:302`     |
+| -34.9% |  -0.92ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 55 | `runtime.sysmon`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6486`        |
+| -22.9% |  -0.91ms |   2.0% → 1.8% |     4.0ms → 3.1ms |     249 → 227 | `runtime.stopm`                | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2992`        |
+| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart1`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1904`        |
+| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart0`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:1862`        |
+| -34.3% |  -0.90ms |   1.4% → 1.0% |     2.6ms → 1.7ms |       66 → 56 | `runtime.mstart`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:258`     |
+| -37.5% |  -0.87ms |   1.2% → 0.9% |     2.3ms → 1.4ms |       55 → 44 | `runtime.incidlelocked`        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6355`        |
+| -37.5% |  -0.87ms |   1.2% → 0.9% |     2.3ms → 1.4ms |       55 → 44 | `runtime.retake`               | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6630`        |
+
+##### Unknown
+
+| Change |   Delta |             % |            Time | Contentions | Function                            | Location                                                                                  |
+| -----: | ------: | ------------: | --------------: | ----------: | ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| -22.1% | -4.90ms | 11.4% → 10.3% | 22.2ms → 17.3ms |   554 → 546 | `runtime._LostContendedRuntimeLock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741` |
 
 #### Callers
 
@@ -507,6 +524,12 @@ Callers with the largest change in contribution to each function's total time. I
 | Change |   Delta |      % |          Time | Contentions | Caller           | Location                                                                                  |
 | -----: | ------: | -----: | ------------: | ----------: | ---------------- | ----------------------------------------------------------------------------------------- |
 | -37.5% | -0.87ms | 100.0% | 2.3ms → 1.4ms |     55 → 44 | `runtime.retake` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6630` |
+
+##### `runtime.retake` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6630`)
+
+| Change |   Delta |      % |          Time | Contentions | Caller           | Location                                                                                  |
+| -----: | ------: | -----: | ------------: | ----------: | ---------------- | ----------------------------------------------------------------------------------------- |
+| -37.5% | -0.87ms | 100.0% | 2.3ms → 1.4ms |     55 → 44 | `runtime.sysmon` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6486` |
 
 #### Callees
 
@@ -835,6 +858,12 @@ Callees with the largest change in contribution to each function's total time. I
 | Change |   Delta |      % |          Time | Contentions | Callee           | Location                                                                                         |
 | -----: | ------: | -----: | ------------: | ----------: | ---------------- | ------------------------------------------------------------------------------------------------ |
 | -37.5% | -0.87ms | 100.0% | 2.3ms → 1.4ms |     55 → 44 | `runtime.unlock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
+
+##### `runtime.retake` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6630`)
+
+| Change |   Delta |      % |          Time | Contentions | Callee                  | Location                                                                                  |
+| -----: | ------: | -----: | ------------: | ----------: | ----------------------- | ----------------------------------------------------------------------------------------- |
+| -37.5% | -0.87ms | 100.0% | 2.3ms → 1.4ms |     55 → 44 | `runtime.incidlelocked` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:6355` |
 
 ## Hottest call stacks
 

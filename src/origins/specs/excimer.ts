@@ -51,17 +51,21 @@ export const excimerOriginSpec = {
     }
 
     // A speedscope frame contains its file, so its name needs no splitting. A
-    // file-scope name equals the source, which normalization drops for every
-    // origin, and a declaring class stays in the name beside the file.
+    // declaring class stays in the name beside the file.
     if (definition) {
-      return input
+      return definition.type === `file` && definition.urlOrPath === name
+        ? { ...input, name: FILE_SCOPE_NAME }
+        : input
     }
 
     // A file-scope frame is named by its file. A PHP function name can contain
     // neither a slash nor a colon, and PHP separates a namespace with a
     // backslash, so a slash is the file the collapsed format left out.
     if (name.includes(`/`)) {
-      return { definition: { type: `file`, urlOrPath: name } }
+      return {
+        name: FILE_SCOPE_NAME,
+        definition: { type: `file`, urlOrPath: name },
+      }
     }
 
     // The declaring class, or the namespace of a function outside any class,
@@ -83,6 +87,9 @@ export const excimerOriginSpec = {
     }
   },
 } as const satisfies OriginSpec
+
+/** The name of a frame running a file's top-level code, which has no function. */
+const FILE_SCOPE_NAME = `(file scope)`
 
 /**
  * An anonymous function, which Excimer names by its file and the line its

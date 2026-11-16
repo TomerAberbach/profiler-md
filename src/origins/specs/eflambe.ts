@@ -34,9 +34,13 @@ export const eflambeOriginSpec = {
     }
 
     const name = input.name ?? ``
+    // Eflambe roots every stack in the traced process's id, which is no function.
+    if (BEAM_PROCESS_ID.test(name)) {
+      return null
+    }
+
     const colon = name.indexOf(`:`)
     if (colon <= 0) {
-      // A process id (`<0.94.0>`) or other colon-less frame carries no module.
       return input
     }
 

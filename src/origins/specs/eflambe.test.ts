@@ -79,10 +79,8 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
-  test(`leaves a colon-less process id frame unchanged`, () => {
-    expect(normalizeStackFrame({ name: `<0.94.0>` })).toStrictEqual({
-      name: `<0.94.0>`,
-    })
+  test(`drops the process id frame rooting every stack`, () => {
+    expect(normalizeStackFrame({ name: `<0.94.0>` })).toBeNull()
   })
 
   test(`leaves an already-located frame unchanged`, () => {
@@ -140,11 +138,6 @@ describe(`categorizeEntry`, () => {
     expect(
       categorizeEntry(moduleEntry(`Elixir.Jason:encode!/1`, `Jason`)),
     ).toBe(`ours`)
-  })
-
-  // A process id, which has no module.
-  test(`the location-less <0.94.0> frame is native`, () => {
-    expect(categorizeEntry(named(`<0.94.0>`))).toBe(`native`)
   })
 
   // Eflambe's leaf marker for a process scheduled out, not a function.
