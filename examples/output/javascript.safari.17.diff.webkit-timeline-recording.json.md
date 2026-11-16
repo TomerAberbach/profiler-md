@@ -4,9 +4,9 @@ Took 101.6ms → 102.2ms (+0.55ms, +0.5%) over 89 → 91 samples (1.1ms per samp
 
 | Category         | Change |   Delta |             % |            Time | Samples |
 | ---------------- | -----: | ------: | ------------: | --------------: | ------: |
-| Standard library |  -7.3% | -3.45ms | 46.9% → 43.2% | 47.6ms → 44.2ms | 35 → 33 |
+| Standard library |  -5.2% | -2.45ms | 46.9% → 44.2% | 47.6ms → 45.2ms | 35 → 34 |
 | Ours             | -11.4% | -4.00ms | 34.4% → 30.3% | 35.0ms → 31.0ms | 35 → 31 |
-| Native           | +42.1% | +8.00ms | 18.7% → 26.4% | 19.0ms → 27.0ms | 19 → 27 |
+| Native           | +36.8% | +7.00ms | 18.7% → 25.4% | 19.0ms → 26.0ms | 19 → 26 |
 
 Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/`.
 
@@ -103,6 +103,7 @@ Functions with the largest increase in time spent within the function body, excl
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `(anonymous)`                                   | `__InjectedScript_ReaderArticleFinder.js:12:26535` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `adjustArticleNodeUpwardIfNecessary`            | `__InjectedScript_ReaderArticleFinder.js:13:4514`  |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `add`                                           | `<unknown>`                                        |
+|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `[Symbol.match]`                                | `<unknown>`                                        |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `stripCommonPrefix`                             | `FormMetadata.js:3:6253`                           |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `autocompleteTokens`                            | `FormMetadata.js:3:5183`                           |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `_isAutoFillableTextField`                      | `FormMetadata.js:3:38801`                          |
@@ -147,7 +148,6 @@ Functions with the largest increase in time spent within the function body, excl
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `URL`                               | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `flatIntoArray`                     | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `querySelector`                     | `<unknown>` |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `[Symbol.match]`                    | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getComputedStyle`                  | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `stringSplitFast`                   | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `sendBeacon`                        | `<unknown>` |
@@ -303,6 +303,12 @@ Lines with the largest change in contribution to each function's self time.
 | -----: | ------: | ------------: | ----------: | ------: | -------------------------------------------- |
 |    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `__InjectedScript_ReaderArticleFinder.js:12` |
 
+##### `[Symbol.match]` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Location |
+| -----: | ------: | ------------: | ----------: | ------: | -------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | 1        |
+
 ##### `_isAutoFillableTextField` (`FormMetadata.js:3:38801`)
 
 | Change |   Delta |             % |        Time | Samples | Location            |
@@ -350,12 +356,6 @@ Lines with the largest change in contribution to each function's self time.
 | Change |   Delta |             % |        Time | Samples | Location                                                               |
 | -----: | ------: | ------------: | ----------: | ------: | ---------------------------------------------------------------------- |
 |    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-| Change |   Delta |             % |        Time | Samples | Location |
-| -----: | ------: | ------------: | ----------: | ------: | -------- |
-|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | 1        |
 
 ##### `levenshteinDistance` (`__InjectedScript_ReaderArticleFinder.js:12:6770`)
 
@@ -580,6 +580,12 @@ Callers with the largest change in contribution to each function's self time. In
 | -----: | ------: | ------------: | ----------: | ------: | ----------------- | ----------------------------------------------------------------------------------- |
 |    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `activateSection` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:26:25` |
 
+##### `[Symbol.match]` (`<unknown>`)
+
+| Change |   Delta |             % |        Time | Samples | Caller  | Location    |
+| -----: | ------: | ------------: | ----------: | ------: | ------- | ----------- |
+|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `match` | `<unknown>` |
+
 ##### `stripCommonPrefix` (`FormMetadata.js:3:6253`)
 
 | Change |   Delta |             % |        Time | Samples | Caller                                                | Location                  |
@@ -705,12 +711,6 @@ Callers with the largest change in contribution to each function's self time. In
 | Change |   Delta |             % |        Time | Samples | Caller                  | Location                                                                             |
 | -----: | ------: | ------------: | ----------: | ------: | ----------------------- | ------------------------------------------------------------------------------------ |
 |    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `addPortletLinkHandler` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:55:613` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-| Change |   Delta |             % |        Time | Samples | Caller  | Location    |
-| -----: | ------: | ------------: | ----------: | ------: | ------- | ----------- |
-|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `match` | `<unknown>` |
 
 ##### `getComputedStyle` (`<unknown>`)
 
@@ -1092,7 +1092,6 @@ Functions with the largest increase in time spent within the function and its ca
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `URL`                               | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `flatIntoArray`                     | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `querySelector`                     | `<unknown>` |
-|     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `[Symbol.match]`                    | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `getComputedStyle`                  | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `stringSplitFast`                   | `<unknown>` |
 |     new | +1.00ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `sendBeacon`                        | `<unknown>` |
@@ -1484,12 +1483,6 @@ Callers with the largest change in contribution to each function's total time. I
 | Change |   Delta |             % |        Time | Samples | Caller                  | Location                                                                             |
 | -----: | ------: | ------------: | ----------: | ------: | ----------------------- | ------------------------------------------------------------------------------------ |
 |    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `addPortletLinkHandler` | `./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:55:613` |
-
-##### `[Symbol.match]` (`<unknown>`)
-
-| Change |   Delta |             % |        Time | Samples | Caller  | Location    |
-| -----: | ------: | ------------: | ----------: | ------: | ------- | ----------- |
-|    new | +1.00ms | 0.0% → 100.0% | 0ms → 1.0ms |   0 → 1 | `match` | `<unknown>` |
 
 ##### `getComputedStyle` (`<unknown>`)
 
