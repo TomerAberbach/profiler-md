@@ -1,6 +1,10 @@
-import type { HighlighterCore, ThemedToken } from '@shikijs/core'
+import type {
+  HighlighterCore,
+  LanguageRegistration,
+  ThemedToken,
+} from '@shikijs/core'
 import type { Ansis } from 'ansis'
-import type { Heading, Table, TableRow } from 'mdast'
+import type { Heading, Parent, Root, RootContent, Table, TableRow } from 'mdast'
 import { parseRgb } from '../helpers/color.ts'
 import type { Rgb } from '../helpers/color.ts'
 import {
@@ -25,52 +29,25 @@ export const highlightMarkdown = async (
     return markdown
   }
 
-  const [highlighter, lineToIntensity] = await Promise.all([
-    getHighlighter(),
-    computeLineToIntensity(markdown),
+  const [shiki, root] = await Promise.all([
+    loadShiki(),
+    parseMarkdown(markdown),
   ])
-  const { tokens, fg } = highlighter.codeToTokens(markdown, {
+  const highlighter = getHighlighter(fenceLanguagesOf(root), shiki)
+  const lineToIntensity = computeLineToIntensity(root)
+  const { tokens, fg } = (await highlighter).codeToTokens(markdown, {
     lang: `markdown`,
     theme: `kindling`,
   })
   return renderTokens(tokens, fg!, lineToIntensity, ansis)
 }
 
-const getHighlighter = (): Promise<HighlighterCore> =>
-  (highlighterPromise ??= createHighlighterCore())
-
-let highlighterPromise: Promise<HighlighterCore> | null = null
-
-const createHighlighterCore = async (): Promise<HighlighterCore> => {
-  // Trigger all module loading in parallel (no awaits here).
-  const markdown = import(`@shikijs/langs/markdown`)
-  const c = import(`@shikijs/langs/c`) // eslint-disable-line id-length
-  const go = import(`@shikijs/langs/go`)
-  const java = import(`@shikijs/langs/java`)
-  const js = import(`@shikijs/langs/js`)
-  const rust = import(`@shikijs/langs/rust`)
-  const sh = import(`@shikijs/langs/sh`)
-  const toml = import(`@shikijs/langs/toml`)
-  const shikiCore = import(`@shikijs/core`)
-  const onigurumaEngine = import(`@shikijs/engine-oniguruma`)
-  const onigurumaEngineWasm = import(`@shikijs/engine-oniguruma/wasm-inlined`)
-
-  return (await shikiCore).createHighlighterCore({
-    langs: [markdown, c, go, java, js, rust, sh, toml],
-    themes: [kindlingTheme],
-    engine: (await onigurumaEngine).createOnigurumaEngine(onigurumaEngineWasm),
-  })
-}
-
 /**
- * Recovers heat intensities by re-parsing the Markdown (which profiler-md
- * itself serialized) with the inverse of the serializer, so escaped content
- * (`\|`, variable-length code fences, etc.) decodes back to the original name
- * and location strings and heading ↔ table keys agree by construction.
+ * Parses Markdown that profiler-md itself serialized with the inverse of the
+ * serializer, so escaped content (`\|`, variable-length code fences, etc.)
+ * decodes back to the original strings.
  */
-const computeLineToIntensity = async (
-  markdown: string,
-): Promise<Map<number, number>> => {
+const parseMarkdown = async (markdown: string): Promise<Root> => {
   // Load the parser lazily so runs that don't highlight (file output, piped
   // stdout, NO_COLOR) never pay for loading it
   const [{ fromMarkdown }, { gfmTableFromMarkdown }, { gfmTable }] =
@@ -79,11 +56,198 @@ const computeLineToIntensity = async (
       import(`mdast-util-gfm-table`),
       import(`micromark-extension-gfm-table`),
     ])
-  const root = fromMarkdown(markdown, {
+  return fromMarkdown(markdown, {
     extensions: [gfmTable()],
     mdastExtensions: [gfmTableFromMarkdown()],
   })
+}
 
+/**
+ * A highlighter for the Markdown parsed into {@link root}, with the `kindling`
+ * theme and the grammar of each code fence language in it that
+ * {@link FENCE_LANGUAGES} lists. A fence in another language is highlighted as
+ * plain code.
+ */
+export const getMarkdownHighlighter = async (
+  root: Root,
+): Promise<HighlighterCore> =>
+  getHighlighter(fenceLanguagesOf(root), await loadShiki())
+
+const getHighlighter = (
+  fenceLanguages: readonly string[],
+  shiki: Shiki,
+): Promise<HighlighterCore> => {
+  const key = fenceLanguages.join(` `)
+  let highlighter = languagesToHighlighter.get(key)
+  if (highlighter === undefined) {
+    highlighter = createHighlighterCore(fenceLanguages, shiki)
+    languagesToHighlighter.set(key, highlighter)
+  }
+  return highlighter
+}
+
+/**
+ * Highlighters keyed by their sorted fence languages. A highlighter is never
+ * extended with a language after it is created, because the Markdown grammar's
+ * fence rules are fixed when it loads.
+ */
+const languagesToHighlighter = new Map<string, Promise<HighlighterCore>>()
+
+/** The sorted languages of {@link root}'s code fences that have a grammar. */
+const fenceLanguagesOf = (root: Root): string[] => {
+  const languages = new Set<string>()
+  const visit = (node: RootContent | Root): void => {
+    if (node.type === `code`) {
+      if (node.lang && FENCE_LANGUAGES.has(node.lang)) {
+        languages.add(node.lang)
+      }
+    } else if (FENCE_CONTAINER_TYPES.has(node.type)) {
+      for (const child of (node as Parent).children) {
+        visit(child)
+      }
+    }
+  }
+  visit(root)
+  return [...languages].sort()
+}
+
+/** The node types that can contain a code fence. */
+const FENCE_CONTAINER_TYPES: ReadonlySet<string> = new Set([
+  `root`,
+  `blockquote`,
+  `list`,
+  `listItem`,
+])
+
+/**
+ * Loads the modules every highlighter requires, so the load can start before
+ * the fence languages are known.
+ */
+const loadShiki = (): ReturnType<typeof importShiki> =>
+  (shikiPromise ??= importShiki())
+
+let shikiPromise: ReturnType<typeof importShiki> | null = null
+
+const importShiki = async () => {
+  const [shikiCore, onigurumaEngine, onigurumaEngineWasm, markdown] =
+    await Promise.all([
+      import(`@shikijs/core`),
+      import(`@shikijs/engine-oniguruma`),
+      import(`@shikijs/engine-oniguruma/wasm-inlined`),
+      import(`@shikijs/langs/markdown`),
+    ])
+  return { shikiCore, onigurumaEngine, onigurumaEngineWasm, markdown }
+}
+
+type Shiki = Awaited<ReturnType<typeof importShiki>>
+
+const createHighlighterCore = async (
+  fenceLanguages: readonly string[],
+  { shikiCore, onigurumaEngine, onigurumaEngineWasm, markdown }: Shiki,
+): Promise<HighlighterCore> => {
+  const grammars = await Promise.all(
+    fenceLanguages.map(language => FENCE_LANGUAGES.get(language)!()),
+  )
+  const fenceRules = fenceLanguages.map((language, i) =>
+    // A grammar module lists its own grammar after the grammars it embeds.
+    fenceRule(language, grammars[i]!.default.at(-1)!.scopeName),
+  )
+  return shikiCore.createHighlighterCore({
+    langs: [
+      withFenceRules(markdown.default[0]!, fenceRules),
+      // A grammar that embeds Markdown (e.g. Erlang's, for doc comments)
+      // includes its own copy, which would replace the one with the fence
+      // rules.
+      ...grammars.flatMap(({ default: grammar }) =>
+        grammar.filter(({ scopeName }) => scopeName !== MARKDOWN_SCOPE_NAME),
+      ),
+    ],
+    themes: [kindlingTheme],
+    engine: onigurumaEngine.createOnigurumaEngine(onigurumaEngineWasm),
+    // Shiki warns past 10 instances to catch a highlighter created per call,
+    // but there is one per set of fence languages.
+    warnings: false,
+  })
+}
+
+const MARKDOWN_SCOPE_NAME = `text.html.markdown`
+
+/**
+ * The grammar of each code fence language the docs use, keyed as a fence
+ * writes the language.
+ */
+const FENCE_LANGUAGES: ReadonlyMap<
+  string,
+  () => Promise<{ default: LanguageRegistration[] }>
+> = new Map([
+  [`c`, () => import(`@shikijs/langs/c`)],
+  [`elixir`, () => import(`@shikijs/langs/elixir`)],
+  [`erlang`, () => import(`@shikijs/langs/erlang`)],
+  [`fortran`, () => import(`@shikijs/langs/fortran-free-form`)],
+  [`go`, () => import(`@shikijs/langs/go`)],
+  [`java`, () => import(`@shikijs/langs/java`)],
+  [`js`, () => import(`@shikijs/langs/js`)],
+  [`julia`, () => import(`@shikijs/langs/julia`)],
+  [`php`, () => import(`@shikijs/langs/php`)],
+  [`rust`, () => import(`@shikijs/langs/rust`)],
+  [`sh`, () => import(`@shikijs/langs/sh`)],
+  [`swift`, () => import(`@shikijs/langs/swift`)],
+  [`toml`, () => import(`@shikijs/langs/toml`)],
+  [`zig`, () => import(`@shikijs/langs/zig`)],
+])
+
+/**
+ * A copy of the Markdown grammar {@link markdown} that tries
+ * {@link fenceRules} before its own fence rules, which cover only some
+ * languages.
+ *
+ * Shiki can also inject a rule into a grammar, but it discards the Markdown
+ * grammar's injections when it reloads that grammar for a lazily embedded
+ * language.
+ */
+const withFenceRules = (
+  markdown: LanguageRegistration,
+  fenceRules: readonly GrammarRule[],
+): LanguageRegistration => {
+  const repository = { ...markdown.repository }
+  repository.fenced_code_block = {
+    patterns: [...fenceRules, ...repository.fenced_code_block!.patterns!],
+  }
+  return { ...markdown, repository }
+}
+
+type GrammarRule = LanguageRegistration[`repository`][string]
+
+/**
+ * A fence rule for {@link language} embedding {@link scopeName}, written like
+ * the Markdown grammar's own fence rules.
+ */
+const fenceRule = (language: string, scopeName: string): GrammarRule => ({
+  begin: `(^|\\G)(\\s*)(\`{3,}|~{3,})\\s*(?i:(${language})((\\s+|[,:?{])[^\`]*)?$)`,
+  beginCaptures: {
+    3: { name: `punctuation.definition.markdown` },
+    4: { name: `fenced_code.block.language.markdown` },
+    5: { name: `fenced_code.block.language.attributes.markdown` },
+  },
+  end: String.raw`(^|\G)(\2|\s{0,3})(\3)\s*$`,
+  endCaptures: { 3: { name: `punctuation.definition.markdown` } },
+  name: `markup.fenced_code.block.markdown`,
+  patterns: [
+    {
+      begin: String.raw`(^|\G)(\s*)(.*)`,
+      contentName: `meta.embedded.block.${language}`,
+      patterns: [{ include: scopeName }],
+      while: `(^|\\G)(?!\\s*([\`~]{3,})\\s*$)`,
+    },
+  ],
+})
+
+/**
+ * Recovers heat intensities from the parsed Markdown, whose escaped content
+ * decodes back to the original name and location strings, so heading ↔ table
+ * keys agree by construction.
+ */
+const computeLineToIntensity = (root: Root): Map<number, number> => {
   const lineToIntensity = new Map<number, number>()
   const sections: HeadingSection[] = []
   const unranked: UnrankedDiffRows = { rows: [], increaseSign: null }

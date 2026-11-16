@@ -1,29 +1,23 @@
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import type { ThemedToken } from '@shikijs/core'
 import ansis from 'ansis'
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import type { Code, Nodes } from 'mdast'
+import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
+import { parseMd } from '../helpers/testing.ts'
 import {
   getBriefHelpText,
   getHelpText,
   getSections,
   usageExamples,
 } from './help.ts'
+import { getMarkdownHighlighter } from './highlight-markdown.ts'
 import { languages } from './languages.ts'
 
 const docsPath = (...segments: string[]): string =>
   join(import.meta.dirname, `../../docs`, ...segments)
-
-describe(`every help topic has a doc file`, () => {
-  test.each(formats)(`docs/formats/%s.md exists`, format => {
-    expect(existsSync(docsPath(`formats`, `${format}.md`))).toBe(true)
-  })
-
-  test.each([...languages.keys()])(`docs/languages/%s.md exists`, language => {
-    expect(existsSync(docsPath(`languages`, `${language}.md`))).toBe(true)
-  })
-})
 
 const stdoutColumns = Object.getOwnPropertyDescriptor(process.stdout, `columns`)
 
@@ -159,3 +153,84 @@ test(`getBriefHelpText has the examples and points at the full help`, () => {
   expect(brief).toContain(`Run \`profiler-md --help\` for every flag`)
   expect(brief.split(`\n`).filter(line => line.length > 80)).toStrictEqual([])
 })
+
+const helpTopicDocs = [
+  ...formats.map(format => `formats/${format}.md`),
+  ...[...languages.keys()].map(language => `languages/${language}.md`),
+]
+
+test.each(helpTopicDocs)(`docs/%s exists`, doc => {
+  expect(existsSync(docsPath(doc))).toBe(true)
+})
+
+test.each(helpTopicDocs)(`docs/%s highlights every code fence`, async doc => {
+  const fences = await highlightFences(readFileSync(docsPath(doc), `utf8`))
+
+  expect(
+    fences.flatMap(({ lang, line, isHighlighted }) =>
+      isHighlighted ? [] : `${lang} on line ${line}`,
+    ),
+  ).toStrictEqual([])
+})
+
+test(`a fence rule added to the Markdown grammar applies beside a grammar that embeds Markdown`, async () => {
+  const fences = await highlightFences(
+    `\`\`\`erlang\nok.\n\`\`\`\n\n\`\`\`zig\nconst a = 1;\n\`\`\`\n`,
+  )
+
+  expect(
+    fences.map(({ lang, isHighlighted }) => [lang, isHighlighted]),
+  ).toStrictEqual([
+    [`erlang`, true],
+    [`zig`, true],
+  ])
+})
+
+/**
+ * Each code fence in {@link markdown} that names a language, and whether the
+ * Markdown grammar tokenized its content with that language's grammar.
+ */
+const highlightFences = async (
+  markdown: string,
+): Promise<{ lang: string; line: number; isHighlighted: boolean }[]> => {
+  const root = parseMd(markdown)
+  const highlighter = await getMarkdownHighlighter(root)
+  const { tokens } = highlighter.codeToTokens(markdown, {
+    lang: `markdown`,
+    theme: `kindling`,
+    includeExplanation: `scopeName`,
+    // Shiki tokenizes each line twice for an explanation, and a line that
+    // exceeds the time limit in only one pass fails to tokenize, which a
+    // loaded CI runner can cause.
+    tokenizeTimeLimit: 0,
+  })
+  return codeNodesOf(root).flatMap(code =>
+    code.lang
+      ? {
+          lang: code.lang,
+          line: code.position!.start.line,
+          isHighlighted: isEmbedded(tokens, code),
+        }
+      : [],
+  )
+}
+
+const codeNodesOf = (node: Nodes): Code[] =>
+  node.type === `code`
+    ? [node]
+    : `children` in node
+      ? node.children.flatMap(codeNodesOf)
+      : []
+
+const isEmbedded = (tokens: ThemedToken[][], code: Code): boolean =>
+  tokens
+    .slice(code.position!.start.line, code.position!.end.line - 1)
+    .some(line =>
+      line.some(token =>
+        token.explanation!.some(({ scopes }) =>
+          scopes.some(({ scopeName }) =>
+            scopeName.startsWith(`meta.embedded.block.`),
+          ),
+        ),
+      ),
+    )
