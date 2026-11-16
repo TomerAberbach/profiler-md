@@ -113,11 +113,10 @@ export type DiffMetric = {
   currentIndex: number
 }
 
-/** Returns the metrics both sides measure, warning about any only one measures. */
+/** Returns the metrics both sides of a diff measure. */
 export const matchDiffedMetrics = (
   baseMetrics: Metric[],
   currentMetrics: Metric[],
-  logger: Logger,
 ): DiffMetric[] => {
   const matchedMetrics: DiffMetric[] = []
   for (let baseIndex = 0; baseIndex < baseMetrics.length; baseIndex++) {
@@ -138,29 +137,35 @@ export const matchDiffedMetrics = (
       }
     }
   }
-
-  if (matchedMetrics.length > 0) {
-    warnUnmatchedMetrics(
-      `base`,
-      baseMetrics.filter(
-        (_, index) =>
-          !matchedMetrics.some(({ baseIndex }) => baseIndex === index),
-      ),
-      logger,
-    )
-    warnUnmatchedMetrics(
-      `current`,
-      currentMetrics.filter(
-        (_, index) =>
-          !matchedMetrics.some(({ currentIndex }) => currentIndex === index),
-      ),
-      logger,
-    )
-  }
   return matchedMetrics
 }
 
-const warnUnmatchedMetrics = (
+/** Warns about each metric only one side of a diff measures. */
+export const warnUnmatchedMetrics = (
+  baseMetrics: Metric[],
+  currentMetrics: Metric[],
+  matchedMetrics: DiffMetric[],
+  logger: Logger,
+): void => {
+  warnSideUnmatchedMetrics(
+    `base`,
+    baseMetrics.filter(
+      (_, index) =>
+        !matchedMetrics.some(({ baseIndex }) => baseIndex === index),
+    ),
+    logger,
+  )
+  warnSideUnmatchedMetrics(
+    `current`,
+    currentMetrics.filter(
+      (_, index) =>
+        !matchedMetrics.some(({ currentIndex }) => currentIndex === index),
+    ),
+    logger,
+  )
+}
+
+const warnSideUnmatchedMetrics = (
   side: string,
   metrics: Metric[],
   logger: Logger,

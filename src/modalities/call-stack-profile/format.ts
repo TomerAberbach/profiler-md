@@ -78,6 +78,7 @@ import {
   diffMeasuresOf,
   firstMeasureWithValue,
   measuresOf,
+  namingMetricsOf,
   NEGLIGIBLE_SHARE,
   selfValueOf,
   totalValueOf,
@@ -161,7 +162,7 @@ export const formatCallStackProfile = (
     ),
   ]
   return [
-    heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
+    heading(headingLevel, formatTitle(namingMetricsOf(profile))),
     ...formatOverallSummary(profile, measures),
     ...formatBaseURLNote(options),
     ...formatTruncatedNote(profile, measures),

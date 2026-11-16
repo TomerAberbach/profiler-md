@@ -1,12 +1,21 @@
+import { formatProfileName } from '../format.ts'
 import { functionEntities } from '../function/index.ts'
 import type { ModalitySpec } from '../spec.ts'
-import { CallStackProfileAggregator } from './aggregate.ts'
+import {
+  CallStackProfileAggregator,
+  callStackProfileMeasuresOf,
+} from './aggregate.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileFunction,
 } from './aggregate.ts'
-import { diffAggregatedCallStackProfiles } from './diff.ts'
+import {
+  diffAggregatedCallStackProfiles,
+  matchCallStackProfiles,
+} from './diff.ts'
+import type { CallStackProfileMatch } from './diff.ts'
 import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
+import { namingMetricsOf } from './measure.ts'
 import type { CallStackProfile } from './type.ts'
 
 export const callStackProfileModalitySpec = {
@@ -20,14 +29,24 @@ export const callStackProfileModalitySpec = {
       }),
     }),
   format: formatCallStackProfile,
-  formatDiff: (base, current, options) =>
+  name: ({ input, context }) =>
+    formatProfileName(
+      namingMetricsOf(callStackProfileMeasuresOf(input, context)),
+    ),
+  matchDiffed: (base, current) =>
+    matchCallStackProfiles(
+      callStackProfileMeasuresOf(base.input, base.context),
+      callStackProfileMeasuresOf(current.input, current.context),
+    ),
+  formatDiff: (base, current, match, options) =>
     formatCallStackProfileDiff(
-      diffAggregatedCallStackProfiles(base, current, options),
+      diffAggregatedCallStackProfiles(base, current, match, options),
       options,
     ),
   ...functionEntities<AggregatedCallStackProfileFunction>(),
 } as const satisfies ModalitySpec<
   CallStackProfile,
   AggregatedCallStackProfile,
-  AggregatedCallStackProfileFunction
+  AggregatedCallStackProfileFunction,
+  CallStackProfileMatch
 >

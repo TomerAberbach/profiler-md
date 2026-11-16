@@ -19,7 +19,11 @@ import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
-import { aggregatePreparedInputs, prepareParseResult } from './aggregate.ts'
+import {
+  aggregatePreparedInputs,
+  pairPreparedSides,
+  prepareParseResult,
+} from './aggregate.ts'
 import type { PreparedInputs } from './aggregate.ts'
 import {
   withBufferedDecompressed,
@@ -35,6 +39,7 @@ import {
 import type { DetectedInput } from './detect.ts'
 import type { FormatRejectionError } from './error.ts'
 import { formatAggregatedDiff, formatAggregatedInputs } from './format.ts'
+import type { AggregatedInputPair } from './format.ts'
 import {
   dataToBytes,
   parseAsFormat,
@@ -108,7 +113,7 @@ export const diffProfiles = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    ...aggregateDiffSides(base, current, normalizedOptions),
+    aggregateDiffSides(base, current, normalizedOptions),
     normalizedOptions,
   )
 }
@@ -129,7 +134,7 @@ export const diffProfilesAsync = async (
 ): Promise<string> => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    ...(await aggregateDiffSidesAsync(base, current, normalizedOptions)),
+    await aggregateDiffSidesAsync(base, current, normalizedOptions),
     normalizedOptions,
   )
 }
@@ -146,14 +151,14 @@ const aggregateInputAsync = async (
   aggregateSide(await prepareInputAsync(input, options), options)
 
 /**
- * Aggregates a diff's two sides after preparing both, so each side merges its
- * functions by the other side's.
+ * Aggregates the inputs a diff pairs after preparing both sides, so each input
+ * merges its functions by its pair's.
  */
 export const aggregateDiffSides = (
   base: ProfileInput<ProfileData>,
   current: ProfileInput<ProfileData>,
   options: AggregationProfileToMdOptions,
-): [AggregatedInput[], AggregatedInput[]] =>
+): AggregatedInputPair[] =>
   aggregatePreparedSides(
     prepareInput(base, options),
     prepareInput(current, options),
@@ -164,7 +169,7 @@ const aggregateDiffSidesAsync = async (
   base: ProfileInput<AsyncProfileData>,
   current: ProfileInput<AsyncProfileData>,
   options: AggregationProfileToMdOptions,
-): Promise<[AggregatedInput[], AggregatedInput[]]> => {
+): Promise<AggregatedInputPair[]> => {
   const [baseSide, currentSide] = await Promise.all([
     prepareInputAsync(base, options),
     prepareInputAsync(current, options),
@@ -176,13 +181,50 @@ const aggregatePreparedSides = (
   baseSide: PreparedSide,
   currentSide: PreparedSide,
   options: AggregationProfileToMdOptions,
-): [AggregatedInput[], AggregatedInput[]] => [
-  aggregateSide(baseSide, options, currentSide),
-  aggregateSide(currentSide, options, baseSide),
-]
+): AggregatedInputPair[] => {
+  const paired = pairPreparedSides(
+    baseSide.prepared,
+    currentSide.prepared,
+    options,
+  )
+  if (paired.type === `unpaired`) {
+    // A side's parse failure explains why nothing pairs, so its rejection takes
+    // precedence. Aggregating every input reads the records its tally checks.
+    aggregateSide(baseSide, options)
+    aggregateSide(currentSide, options)
+    throw paired.error
+  }
+
+  const { pairs } = paired
+  const pairedBase = selectInputs(
+    baseSide,
+    pairs.map(({ baseIndex }) => baseIndex),
+  )
+  const pairedCurrent = selectInputs(
+    currentSide,
+    pairs.map(({ currentIndex }) => currentIndex),
+  )
+  const baseInputs = aggregateSide(pairedBase, options, pairedCurrent)
+  const currentInputs = aggregateSide(pairedCurrent, options, pairedBase)
+  return pairs.map(({ match }, index) => ({
+    base: baseInputs[index]!,
+    current: currentInputs[index]!,
+    match,
+  }))
+}
 
 /** A raw input's prepared inputs, with the input's name for its errors. */
 type PreparedSide = { name: string | undefined; prepared: PreparedInputs }
+
+/** Keeps the inputs at {@link indexes}, in their order. */
+const selectInputs = (side: PreparedSide, indexes: number[]): PreparedSide => ({
+  ...side,
+  prepared: {
+    ...side.prepared,
+    parsed: indexes.map(index => side.prepared.parsed[index]!),
+    aggregators: indexes.map(index => side.prepared.aggregators[index]!),
+  },
+})
 
 const prepareInput = (
   input: ProfileInput<ProfileData>,

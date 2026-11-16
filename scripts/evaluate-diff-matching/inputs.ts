@@ -41,26 +41,19 @@ type ScoredInputPair =
 export const scoredInputPairs = (
   pair: ExampleDiffPair,
   options: FormattingProfileToMdOptions,
-): ScoredInputPair[] => {
-  const [base, current] = aggregateDiffSides(
+): ScoredInputPair[] =>
+  aggregateDiffSides(
     readInput(pair.base),
     readInput(pair.current),
     options,
-  )
-  return base.flatMap((base, index): ScoredInputPair[] => {
-    const currentInput = current[index]
-    if (!currentInput) {
-      return []
+  ).flatMap(({ base, current }): ScoredInputPair[] => {
+    if (isFunctionInput(base) && isFunctionInput(current)) {
+      return [{ type: `function`, base, current }]
     }
-    if (isFunctionInput(base) && isFunctionInput(currentInput)) {
-      return [{ type: `function`, base, current: currentInput }]
-    }
-    return base.type === `heap-snapshot` &&
-      currentInput.type === `heap-snapshot`
-      ? [{ type: `heap-snapshot`, base, current: currentInput }]
+    return base.type === `heap-snapshot` && current.type === `heap-snapshot`
+      ? [{ type: `heap-snapshot`, base, current }]
       : []
   })
-}
 
 /**
  * The input's entities with a location: its functions, and a heap snapshot's

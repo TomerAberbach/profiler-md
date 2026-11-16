@@ -324,6 +324,9 @@ of any modality.
 - At least two **instances** are on the paths to a **jointly retained node**
 - A **ranking** shows **entities** under an **entity section**, split into
   **partitions**, with **breakdowns** under each **entity**
+- A **diff** pairs each parsed **input** of one **side** with at most one of the
+  other's that its **modality** can compare it with, first where each is the
+  other's only one, then by position. It omits an unpaired **input**
 - A **diff** pairs each **base** **entity** with at most one **current**
   **entity**, first by **own key**, then by **match key**, and by position among
   several that share one. An unpaired **entity** is new or removed

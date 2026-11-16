@@ -170,14 +170,15 @@ class FunctionsAggregator {
   readonly #totalValues: Float64Array
 
   public constructor(
-    { metrics, callCountMetric, functions }: CallGraph,
+    graph: CallGraph,
     frameFunctions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ) {
+    const { metrics, callCountMetric } = callGraphMeasuresOf(graph, context)
     this.#metrics = metrics
-    this.#callCountMetric = resolveCountMetric(callCountMetric, context)
-    this.#functions = functions
+    this.#callCountMetric = callCountMetric
+    this.#functions = graph.functions
     this.#frameFunctions = frameFunctions
     this.#options = options
     this.#context = context
@@ -437,6 +438,21 @@ class FunctionsAggregator {
     return categoryToMetrics
   }
 }
+
+/** What a call graph measures. */
+export type CallGraphMeasures = Pick<CallGraph, `metrics` | `callCountMetric`>
+
+/**
+ * What a call graph measures, with its call count metric resolved for its
+ * origin.
+ */
+export const callGraphMeasuresOf = (
+  { metrics, callCountMetric }: CallGraph,
+  context: ProfileToMdContext,
+): CallGraphMeasures => ({
+  metrics,
+  callCountMetric: resolveCountMetric(callCountMetric, context),
+})
 
 /**
  * Key for the single shared anonymous function that dropped frames merge

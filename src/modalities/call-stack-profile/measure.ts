@@ -6,7 +6,10 @@ import {
 } from '../function/index.ts'
 import type { DiffMeasure, Measure, MeasureColumns } from '../function/index.ts'
 import type { Metric } from '../metric.ts'
-import type { AggregatedCallStackProfile } from './aggregate.ts'
+import type {
+  AggregatedCallStackProfile,
+  CallStackProfileMeasures,
+} from './aggregate.ts'
 import type { AggregatedCallStackProfileDiff } from './diff.ts'
 
 /** The share of the profile below which a value goes unstated. */
@@ -40,6 +43,16 @@ export const measuresOf = (profile: AggregatedCallStackProfile): Measure[] => {
   return [countMeasure(countMetric, profile)]
 }
 
+/**
+ * The metrics that name a profile: its metrics, or its count metric when it
+ * has none, matching its {@link measuresOf}.
+ */
+export const namingMetricsOf = ({
+  metrics,
+  countMetric,
+}: CallStackProfileMeasures): Metric[] =>
+  metrics.length > 0 || !countMetric ? metrics : [countMetric]
+
 /** The diffing counterpart to {@link measuresOf}. */
 export const diffMeasuresOf = ({
   base,
@@ -54,7 +67,7 @@ export const diffMeasuresOf = ({
   }
 
   if (!countMetric) {
-    // `diffAggregatedCallStackProfiles` rejects this pairing already.
+    // `matchCallStackProfiles` rejects this pairing already.
     throw new Error(`diffed profiles with no metrics and no shared counts`)
   }
   return [
