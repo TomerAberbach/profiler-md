@@ -43,9 +43,19 @@ export const chromeOriginSpec = {
     `ours`,
   categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
   matchHeapSnapshotEdgeName: javaScriptMatchHeapSnapshotEdgeName,
+  normalizeSourceReference: reference =>
+    reference.type === `relative` && V8_EXTENSION_SCRIPT.test(reference.path)
+      ? { type: `logical`, name: reference.path }
+      : reference,
   categorizeTraceEvent: v8TraceEventCategory,
   normalizeTraceEvent: normalizeV8TraceEvent,
 } as const satisfies OriginSpec
+
+/**
+ * The name of a V8 extension's script, which Chrome compiles into itself
+ * (`v8/LoadTimes`, defining `chrome.loadTimes`), so it names no file.
+ */
+const V8_EXTENSION_SCRIPT = /^v8\/[A-Za-z]+$/u
 
 /** The protocol a browser extension's injected scripts load from. */
 const EXTENSION_PROTOCOL = `chrome-extension:`

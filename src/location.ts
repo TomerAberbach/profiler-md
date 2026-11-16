@@ -13,6 +13,10 @@ export type SourceLocation = SourceReference & {
 /** A reference to where a function is defined. */
 export type SourceReference = FileReference | LogicalReference
 
+export type SourceReferenceNormalizer = (
+  reference: SourceReference,
+) => SourceReference
+
 export type FileReference =
   { type: `absolute`; url: URL } | { type: `relative`; path: string }
 
@@ -291,6 +295,16 @@ export const sourceReferenceToSourceLocation = (
   sourceReference: SourceReference,
   { line, column }: Partial<SourcePosition> = {},
 ): SourceLocation => ({ ...sourceReference, line, column })
+
+/**
+ * Rewrites {@link location}'s source reference with {@link normalize}, keeping
+ * its position.
+ */
+export const normalizeSourceLocation = (
+  location: SourceLocation,
+  normalize: SourceReferenceNormalizer,
+): SourceLocation =>
+  sourceReferenceToSourceLocation(normalize(location), location)
 
 /**
  * Whether a base URL can be inferred from {@link location}: an absolute
