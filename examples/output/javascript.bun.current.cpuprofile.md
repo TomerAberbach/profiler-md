@@ -2,11 +2,12 @@
 
 Took 5.66s over 4,196 samples (1.3ms per sample).
 
-| Category         |     % |    Time | Samples |
-| ---------------- | ----: | ------: | ------: |
-| Third-party      | 90.9% |   5.14s |   3,813 |
-| Native           |  7.1% | 401.0ms |     308 |
-| Standard library |  2.0% | 114.8ms |      75 |
+| Category           |     % |    Time | Samples |
+| ------------------ | ----: | ------: | ------: |
+| Third-party        | 90.9% |   5.14s |   3,813 |
+| Native             |  6.2% | 349.6ms |     270 |
+| Standard library   |  2.0% | 114.8ms |      75 |
+| Regular expression |  0.9% |  51.4ms |      38 |
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
@@ -119,22 +120,16 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|     % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|  4.7% | 264.9ms |     205 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  0.7% |  37.1ms |      27 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|  0.5% |  30.4ms |      23 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.K1HXIc\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-|  0.5% |  27.0ms |      21 | `statSync`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.2% |  11.8ms |       9 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.1% |   7.2ms |       6 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.1% |   6.3ms |       5 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.1% |   4.1ms |       3 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|  0.1% |   3.8ms |       3 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-| <0.1% |   2.7ms |       1 | `/^\.\.?($\|[\\/])/`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-| <0.1% |   2.3ms |       2 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-| <0.1% |   1.2ms |       1 | `/^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)/`                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
-| <0.1% |   1.1ms |       1 | `generatorResume`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-| <0.1% |   1.1ms |       1 | `/^\/\/\/?\s*@(ts-expect-error\|ts-ignore)/`                                                                                                                                                                                                                                                                                                                                     | `<unknown>` |
+|     % |    Time | Samples | Function             | Location    |
+| ----: | ------: | ------: | -------------------- | ----------- |
+|  4.7% | 264.9ms |     205 | `anonymous`          | `<unknown>` |
+|  0.7% |  37.1ms |      27 | `readFileSync`       | `<unknown>` |
+|  0.5% |  27.0ms |      21 | `statSync`           | `<unknown>` |
+|  0.1% |   7.2ms |       6 | `SymbolLinks`        | `<unknown>` |
+|  0.1% |   6.3ms |       5 | `stringSplitFast`    | `<unknown>` |
+|  0.1% |   3.8ms |       3 | `realpathNativeSync` | `<unknown>` |
+| <0.1% |   2.3ms |       2 | `parseModule`        | `<unknown>` |
+| <0.1% |   1.1ms |       1 | `generatorResume`    | `<unknown>` |
 
 ##### Standard library
 
@@ -566,13 +561,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 18.4% |  6.5ms |       5 | `getIndexInfosOfType` | `./node_modules/typescript/lib/typescript.js:62110:31` |
 |  3.5% |  1.2ms |       1 | `getPropertiesOfType` | `./node_modules/typescript/lib/typescript.js:61411:31` |
 
-##### `/^\/tmp\/(?!(node_modules|bower_components|jspm_packages)(\/|$))nix\-shell\.K1HXIc\/(?!(node_modules|bower_components|jspm_packages)(\/|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules|bower_components|jspm_packages)(\/|$))[^/.][^/]*)*?\/(?!(node_modules|bower_components|jspm_packages)(\/|$))([^./]([^./]|(\.(?!min\.js$))?)*)?$/i` (`<unknown>`)
-
-|     % |   Time | Samples | Caller        | Location                                               |
-| ----: | -----: | ------: | ------------- | ------------------------------------------------------ |
-| 65.4% | 19.9ms |      15 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:22201:60` |
-| 34.6% | 10.5ms |       8 | `test`        | `<unknown>`                                            |
-
 ##### `set` (`<unknown>`)
 
 |     % |   Time | Samples | Caller                                | Location                                               |
@@ -598,13 +586,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 12.1% | 1.5ms |       1 | `addInheritedMembers`      | `./node_modules/typescript/lib/typescript.js:60282:31`  |
 | 10.8% | 1.3ms |       1 | `isFunctionObjectType`     | `./node_modules/typescript/lib/typescript.js:72214:32`  |
 | 10.0% | 1.2ms |       1 | `bindClassLikeDeclaration` | `./node_modules/typescript/lib/typescript.js:48535:36`  |
-
-##### `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g` (`<unknown>`)
-
-|     % |   Time | Samples | Caller                | Location                                              |
-| ----: | -----: | ------: | --------------------- | ----------------------------------------------------- |
-| 90.3% | 10.6ms |       8 | `toFileNameLowerCase` | `./node_modules/typescript/lib/typescript.js:3509:29` |
-|  9.7% |  1.1ms |       1 | `replace`             | `<unknown>`                                           |
 
 ##### `forEach` (`<unknown>`)
 
@@ -660,12 +641,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | 29.4% | 1.5ms |       1 | `parseTagComments`   | `./node_modules/typescript/lib/typescript.js:38564:32` |
 | 24.8% | 1.2ms |       1 | `getPathWithoutRoot` | `./node_modules/typescript/lib/typescript.js:9179:28`  |
 
-##### `/(?:\/\/)|(?:^|\/)\.\.?(?:$|\/)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller          | Location                                              |
-| -----: | ----: | ------: | --------------- | ----------------------------------------------------- |
-| 100.0% | 4.1ms |       3 | `normalizePath` | `./node_modules/typescript/lib/typescript.js:9164:23` |
-
 ##### `filter` (`<unknown>`)
 
 |      % |  Time | Samples | Caller                                 | Location                                               |
@@ -685,12 +660,6 @@ Callers with the largest contribution to each function's self time. Inlining can
 | ----: | ----: | ------: | -------------------------------------- | ------------------------------------------------------ |
 | 67.2% | 2.3ms |       2 | `createInferenceContext`               | `./node_modules/typescript/lib/typescript.js:70767:34` |
 | 32.8% | 1.1ms |       1 | `discriminateTypeByDiscriminableItems` | `./node_modules/typescript/lib/typescript.js:69828:48` |
-
-##### `/^\.\.?($|[\\/])/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller           | Location                                              |
-| -----: | ----: | ------: | ---------------- | ----------------------------------------------------- |
-| 100.0% | 2.7ms |       1 | `pathIsRelative` | `./node_modules/typescript/lib/typescript.js:8963:24` |
 
 ##### `has` (`<unknown>`)
 
@@ -760,23 +729,11 @@ Callers with the largest contribution to each function's self time. Inlining can
 | -----: | ----: | ------: | ------------- | ------------------------------------------------------ |
 | 100.0% | 1.3ms |       1 | `doJSDocScan` | `./node_modules/typescript/lib/typescript.js:38308:27` |
 
-##### `/^(?:\/|\*)*\s*@(ts-expect-error|ts-ignore)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                    | Location                                               |
-| -----: | ----: | ------: | ------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.2ms |       1 | `getDirectiveFromComment` | `./node_modules/typescript/lib/typescript.js:14301:35` |
-
 ##### `generatorResume` (`<unknown>`)
 
 |      % |  Time | Samples | Caller   | Location    |
 | -----: | ----: | ------: | -------- | ----------- |
 | 100.0% | 1.1ms |       1 | `return` | `<unknown>` |
-
-##### `/^\/\/\/?\s*@(ts-expect-error|ts-ignore)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller                    | Location                                               |
-| -----: | ----: | ------: | ------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.1ms |       1 | `getDirectiveFromComment` | `./node_modules/typescript/lib/typescript.js:14301:35` |
 
 ### Total time
 
@@ -836,28 +793,24 @@ Categories accounting for at least 1.0% of self time.
 
 ##### Native
 
-|     % |    Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| 99.8% |   5.65s |   4,186 | `evaluate`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-| 99.8% |   5.65s |   4,186 | `moduleEvaluation`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-| 99.8% |   5.65s |   4,186 | `loadAndEvaluateModule`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-| 99.8% |   5.65s |   4,186 | `processTicksAndRejections`                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  5.3% | 300.1ms |     231 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|  5.2% | 294.0ms |     226 | `require`                                                                                                                                                                                                                                                                                                                                                                        | `<unknown>` |
-|  5.2% | 294.0ms |     226 | `bound require`                                                                                                                                                                                                                                                                                                                                                                  | `<unknown>` |
-|  1.3% |  71.5ms |      56 | `generatorResume`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.7% |  37.1ms |      27 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|  0.5% |  30.4ms |      23 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.K1HXIc\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-|  0.5% |  27.0ms |      21 | `statSync`                                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.2% |  11.8ms |       9 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g`                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-|  0.1% |   8.3ms |       7 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.1% |   7.2ms |       6 | `SymbolLinks`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|  0.1% |   6.3ms |       5 | `stringSplitFast`                                                                                                                                                                                                                                                                                                                                                                | `<unknown>` |
-|  0.1% |   4.1ms |       3 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                            | `<unknown>` |
-|  0.1% |   3.8ms |       3 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-| <0.1% |   2.7ms |       1 | `/^\.\.?($\|[\\/])/`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-| <0.1% |   2.7ms |       2 | `bound realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                       | `<unknown>` |
-| <0.1% |   1.2ms |       1 | `/^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)/`                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
+|     % |    Time | Samples | Function                    | Location    |
+| ----: | ------: | ------: | --------------------------- | ----------- |
+| 99.8% |   5.65s |   4,186 | `evaluate`                  | `<unknown>` |
+| 99.8% |   5.65s |   4,186 | `moduleEvaluation`          | `<unknown>` |
+| 99.8% |   5.65s |   4,186 | `loadAndEvaluateModule`     | `<unknown>` |
+| 99.8% |   5.65s |   4,186 | `processTicksAndRejections` | `<unknown>` |
+|  5.3% | 300.1ms |     231 | `anonymous`                 | `<unknown>` |
+|  5.2% | 294.0ms |     226 | `require`                   | `<unknown>` |
+|  5.2% | 294.0ms |     226 | `bound require`             | `<unknown>` |
+|  1.3% |  71.5ms |      56 | `generatorResume`           | `<unknown>` |
+|  0.7% |  37.1ms |      27 | `readFileSync`              | `<unknown>` |
+|  0.5% |  27.0ms |      21 | `statSync`                  | `<unknown>` |
+|  0.1% |   8.3ms |       7 | `parseModule`               | `<unknown>` |
+|  0.1% |   7.2ms |       6 | `SymbolLinks`               | `<unknown>` |
+|  0.1% |   6.3ms |       5 | `stringSplitFast`           | `<unknown>` |
+|  0.1% |   3.8ms |       3 | `realpathNativeSync`        | `<unknown>` |
+| <0.1% |   2.7ms |       2 | `bound realpathNativeSync`  | `<unknown>` |
+| <0.1% |   1.1ms |       1 | `return`                    | `<unknown>` |
 
 ##### Standard library
 
@@ -1104,13 +1057,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 100.0% | 37.1ms |      27 | `readFileWorker` | `./node_modules/typescript/lib/typescript.js:8751:28` |
 |  81.6% | 30.2ms |      23 | `readFileSync`   | `<unknown>`                                           |
 
-##### `/^\/tmp\/(?!(node_modules|bower_components|jspm_packages)(\/|$))nix\-shell\.K1HXIc\/(?!(node_modules|bower_components|jspm_packages)(\/|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules|bower_components|jspm_packages)(\/|$))[^/.][^/]*)*?\/(?!(node_modules|bower_components|jspm_packages)(\/|$))([^./]([^./]|(\.(?!min\.js$))?)*)?$/i` (`<unknown>`)
-
-|     % |   Time | Samples | Caller        | Location                                               |
-| ----: | -----: | ------: | ------------- | ------------------------------------------------------ |
-| 65.4% | 19.9ms |      15 | `(anonymous)` | `./node_modules/typescript/lib/typescript.js:22201:60` |
-| 34.6% | 10.5ms |       8 | `test`        | `<unknown>`                                            |
-
 ##### `set` (`<unknown>`)
 
 |     % |   Time | Samples | Caller                                | Location                                               |
@@ -1143,13 +1089,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | ----: | -----: | ------: | ---------------- | ------------------------------------------------------ |
 | 88.4% | 10.5ms |       8 | `(anonymous)`    | `./node_modules/typescript/lib/typescript.js:22201:60` |
 | 11.6% |  1.4ms |       1 | `visitDirectory` | `./node_modules/typescript/lib/typescript.js:22185:26` |
-
-##### `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+/g` (`<unknown>`)
-
-|     % |   Time | Samples | Caller                | Location                                              |
-| ----: | -----: | ------: | --------------------- | ----------------------------------------------------- |
-| 90.3% | 10.6ms |       8 | `toFileNameLowerCase` | `./node_modules/typescript/lib/typescript.js:3509:29` |
-|  9.7% |  1.1ms |       1 | `replace`             | `<unknown>`                                           |
 
 ##### `toString` (`<unknown>`)
 
@@ -1226,12 +1165,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | 75.8% | 3.6ms |       3 | `getClassLikeDeclarationOfSymbol` | `./node_modules/typescript/lib/typescript.js:21221:41` |
 | 24.2% | 1.2ms |       1 | `getDeclaredTypeOfTypeAlias`      | `./node_modules/typescript/lib/typescript.js:60102:38` |
 
-##### `/(?:\/\/)|(?:^|\/)\.\.?(?:$|\/)/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller          | Location                                              |
-| -----: | ----: | ------: | --------------- | ----------------------------------------------------- |
-| 100.0% | 4.1ms |       3 | `normalizePath` | `./node_modules/typescript/lib/typescript.js:9164:23` |
-
 ##### `sort` (`<unknown>`)
 
 |      % |  Time | Samples | Caller              | Location                                              |
@@ -1244,12 +1177,6 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | ----: | ----: | ------: | -------------------------- | ----------------------------------------------------- |
 | 70.1% | 2.7ms |       2 | `bound realpathNativeSync` | `<unknown>`                                           |
 | 29.9% | 1.1ms |       1 | `realpath`                 | `./node_modules/typescript/lib/typescript.js:8881:22` |
-
-##### `/^\.\.?($|[\\/])/` (`<unknown>`)
-
-|      % |  Time | Samples | Caller           | Location                                              |
-| -----: | ----: | ------: | ---------------- | ----------------------------------------------------- |
-| 100.0% | 2.7ms |       1 | `pathIsRelative` | `./node_modules/typescript/lib/typescript.js:8963:24` |
 
 ##### `bound realpathNativeSync` (`<unknown>`)
 
@@ -1294,11 +1221,11 @@ Callers with the largest contribution to each function's total time. Inlining ca
 | -----: | ----: | ------: | ----------- | ----------- |
 | 100.0% | 2.4ms |       2 | `anonymous` | `<unknown>` |
 
-##### `/^(?:\/|\*)*\s*@(ts-expect-error|ts-ignore)/` (`<unknown>`)
+##### `return` (`<unknown>`)
 
-|      % |  Time | Samples | Caller                    | Location                                               |
-| -----: | ----: | ------: | ------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.2ms |       1 | `getDirectiveFromComment` | `./node_modules/typescript/lib/typescript.js:14301:35` |
+|      % |  Time | Samples | Caller                     | Location                                              |
+| -----: | ----: | ------: | -------------------------- | ----------------------------------------------------- |
+| 100.0% | 1.1ms |       1 | `firstOrUndefinedIterator` | `./node_modules/typescript/lib/typescript.js:3059:34` |
 
 #### Callees
 
@@ -1604,6 +1531,12 @@ Callees with the largest contribution to each function's total time. Inlining ca
 |      % |  Time | Samples | Callee      | Location    |
 | -----: | ----: | ------: | ----------- | ----------- |
 | 100.0% | 2.4ms |       2 | `anonymous` | `<unknown>` |
+
+##### `return` (`<unknown>`)
+
+|      % |  Time | Samples | Callee            | Location    |
+| -----: | ----: | ------: | ----------------- | ----------- |
+| 100.0% | 1.1ms |       1 | `generatorResume` | `<unknown>` |
 
 ## Hottest call stacks
 

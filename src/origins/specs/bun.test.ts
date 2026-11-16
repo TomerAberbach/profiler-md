@@ -61,6 +61,10 @@ describe(`detection`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = bunOriginSpec
 
+  test(`a regular expression's literal is regexp`, () => {
+    expect(categorizeEntry(relativeEntry(String.raw`/a\/b+/gu`))).toBe(`regexp`)
+  })
+
   test.each([`node:fs`, `bun:sqlite`, `bun:ffi`])(
     `the %s builtin is stdlib`,
     url => {
