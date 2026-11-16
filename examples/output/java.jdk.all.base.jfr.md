@@ -2160,12 +2160,12 @@ Common call stack: `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLeve
 
 # Retained heap profile
 
-Retained 2.5 MiB over 9 objects (285 KiB per object).
+Retained 2.5 MiB over 9 sampled objects (285 KiB per sampled object).
 
-| Category         |      % |    Size | Objects |
-| ---------------- | -----: | ------: | ------: |
-| Standard library | 100.0% | 2.5 MiB |       8 |
-| Ours             |  <0.1% |    40 B |       1 |
+| Category         |      % |    Size | Sampled objects |
+| ---------------- | -----: | ------: | --------------: |
+| Standard library | 100.0% | 2.5 MiB |               8 |
+| Ours             |  <0.1% |    40 B |               1 |
 
 `…` stands for omitted frames.
 
@@ -2222,15 +2222,15 @@ Call paths to the hottest functions.
 
 Functions with the most bytes retained within the function body, excluding callees.
 
-|     % |     Size | Objects | Function                                     | Location                                    |
-| ----: | -------: | ------: | -------------------------------------------- | ------------------------------------------- |
-| 90.0% | 2.25 MiB |       2 | `copyOf(Object[], int)`                      | `java.util.Arrays`                          |
-| 10.0% |  256 KiB |       1 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap`    |
-| <0.1% |    264 B |       1 | `<clinit>()`                                 | `scala.package$`                            |
-| <0.1% |     48 B |       2 | `valueOf(double)`                            | `java.lang.Double`                          |
-| <0.1% |     40 B |       1 | `lambda$generateData$4(int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans` |
-| <0.1% |     32 B |       1 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                         |
-| <0.1% |     32 B |       1 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                     |
+|     % |     Size | Sampled objects | Function                                     | Location                                    |
+| ----: | -------: | --------------: | -------------------------------------------- | ------------------------------------------- |
+| 90.0% | 2.25 MiB |               2 | `copyOf(Object[], int)`                      | `java.util.Arrays`                          |
+| 10.0% |  256 KiB |               1 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap`    |
+| <0.1% |    264 B |               1 | `<clinit>()`                                 | `scala.package$`                            |
+| <0.1% |     48 B |               2 | `valueOf(double)`                            | `java.lang.Double`                          |
+| <0.1% |     40 B |               1 | `lambda$generateData$4(int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans` |
+| <0.1% |     32 B |               1 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                         |
+| <0.1% |     32 B |               1 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                     |
 
 #### Categories
 
@@ -2238,14 +2238,14 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
-|     % |     Size | Objects | Function                                     | Location                                 |
-| ----: | -------: | ------: | -------------------------------------------- | ---------------------------------------- |
-| 90.0% | 2.25 MiB |       2 | `copyOf(Object[], int)`                      | `java.util.Arrays`                       |
-| 10.0% |  256 KiB |       1 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap` |
-| <0.1% |    264 B |       1 | `<clinit>()`                                 | `scala.package$`                         |
-| <0.1% |     48 B |       2 | `valueOf(double)`                            | `java.lang.Double`                       |
-| <0.1% |     32 B |       1 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                      |
-| <0.1% |     32 B |       1 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                  |
+|     % |     Size | Sampled objects | Function                                     | Location                                 |
+| ----: | -------: | --------------: | -------------------------------------------- | ---------------------------------------- |
+| 90.0% | 2.25 MiB |               2 | `copyOf(Object[], int)`                      | `java.util.Arrays`                       |
+| 10.0% |  256 KiB |               1 | `initTable()`                                | `java.util.concurrent.ConcurrentHashMap` |
+| <0.1% |    264 B |               1 | `<clinit>()`                                 | `scala.package$`                         |
+| <0.1% |     48 B |               2 | `valueOf(double)`                            | `java.lang.Double`                       |
+| <0.1% |     32 B |               1 | `newNode(int, Object, Object, HashMap$Node)` | `java.util.HashMap`                      |
+| <0.1% |     32 B |               1 | `compress(char[], int, int)`                 | `java.lang.StringUTF16`                  |
 
 #### Lines
 
@@ -2253,45 +2253,45 @@ Lines with the largest contribution to each function's self size.
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-|      % |     Size | Objects | Location                |
-| -----: | -------: | ------: | ----------------------- |
-| 100.0% | 2.25 MiB |       2 | `java.util.Arrays:3482` |
+|      % |     Size | Sampled objects | Location                |
+| -----: | -------: | --------------: | ----------------------- |
+| 100.0% | 2.25 MiB |               2 | `java.util.Arrays:3482` |
 
 ##### `initTable()` (`java.util.concurrent.ConcurrentHashMap`)
 
-|      % |    Size | Objects | Location                                      |
-| -----: | ------: | ------: | --------------------------------------------- |
-| 100.0% | 256 KiB |       1 | `java.util.concurrent.ConcurrentHashMap:2301` |
+|      % |    Size | Sampled objects | Location                                      |
+| -----: | ------: | --------------: | --------------------------------------------- |
+| 100.0% | 256 KiB |               1 | `java.util.concurrent.ConcurrentHashMap:2301` |
 
 ##### `<clinit>()` (`scala.package$`)
 
-|      % |  Size | Objects | Location            |
-| -----: | ----: | ------: | ------------------- |
-| 100.0% | 264 B |       1 | `scala.package$:89` |
+|      % |  Size | Sampled objects | Location            |
+| -----: | ----: | --------------: | ------------------- |
+| 100.0% | 264 B |               1 | `scala.package$:89` |
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|      % | Size | Objects | Location               |
-| -----: | ---: | ------: | ---------------------- |
-| 100.0% | 48 B |       2 | `java.lang.Double:773` |
+|      % | Size | Sampled objects | Location               |
+| -----: | ---: | --------------: | ---------------------- |
+| 100.0% | 48 B |               2 | `java.lang.Double:773` |
 
 ##### `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % | Size | Objects | Location                                       |
-| -----: | ---: | ------: | ---------------------------------------------- |
-| 100.0% | 40 B |       1 | `org.renaissance.jdk.concurrent.JavaKMeans:87` |
+|      % | Size | Sampled objects | Location                                       |
+| -----: | ---: | --------------: | ---------------------------------------------- |
+| 100.0% | 40 B |               1 | `org.renaissance.jdk.concurrent.JavaKMeans:87` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
-|      % | Size | Objects | Location                 |
-| -----: | ---: | ------: | ------------------------ |
-| 100.0% | 32 B |       1 | `java.util.HashMap:1909` |
+|      % | Size | Sampled objects | Location                 |
+| -----: | ---: | --------------: | ------------------------ |
+| 100.0% | 32 B |               1 | `java.util.HashMap:1909` |
 
 ##### `compress(char[], int, int)` (`java.lang.StringUTF16`)
 
-|      % | Size | Objects | Location                    |
-| -----: | ---: | ------: | --------------------------- |
-| 100.0% | 32 B |       1 | `java.lang.StringUTF16:211` |
+|      % | Size | Sampled objects | Location                    |
+| -----: | ---: | --------------: | --------------------------- |
+| 100.0% | 32 B |               1 | `java.lang.StringUTF16:211` |
 
 #### Callers
 
@@ -2299,72 +2299,72 @@ Callers with the largest contribution to each function's self size. Inlining can
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-|      % |     Size | Objects | Caller      | Location              |
-| -----: | -------: | ------: | ----------- | --------------------- |
-| 100.0% | 2.25 MiB |       2 | `grow(int)` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Caller      | Location              |
+| -----: | -------: | --------------: | ----------- | --------------------- |
+| 100.0% | 2.25 MiB |               2 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `initTable()` (`java.util.concurrent.ConcurrentHashMap`)
 
-|      % |    Size | Objects | Caller                            | Location                                 |
-| -----: | ------: | ------: | --------------------------------- | ---------------------------------------- |
-| 100.0% | 256 KiB |       1 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
+|      % |    Size | Sampled objects | Caller                            | Location                                 |
+| -----: | ------: | --------------: | --------------------------------- | ---------------------------------------- |
+| 100.0% | 256 KiB |               1 | `putVal(Object, Object, boolean)` | `java.util.concurrent.ConcurrentHashMap` |
 
 ##### `<clinit>()` (`scala.package$`)
 
-|      % |  Size | Objects | Caller       | Location        |
-| -----: | ----: | ------: | ------------ | --------------- |
-| 100.0% | 264 B |       1 | `<clinit>()` | `scala.Predef$` |
+|      % |  Size | Sampled objects | Caller       | Location        |
+| -----: | ----: | --------------: | ------------ | --------------- |
+| 100.0% | 264 B |               1 | `<clinit>()` | `scala.Predef$` |
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|      % | Size | Objects | Caller                                           | Location                                    |
-| -----: | ---: | ------: | ------------------------------------------------ | ------------------------------------------- |
-| 100.0% | 48 B |       2 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % | Size | Sampled objects | Caller                                           | Location                                    |
+| -----: | ---: | --------------: | ------------------------------------------------ | ------------------------------------------- |
+| 100.0% | 48 B |               2 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % | Size | Objects | Caller       | Location                                                               |
-| -----: | ---: | ------: | ------------ | ---------------------------------------------------------------------- |
-| 100.0% | 40 B |       1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181d48` |
+|      % | Size | Sampled objects | Caller       | Location                                                               |
+| -----: | ---: | --------------: | ------------ | ---------------------------------------------------------------------- |
+| 100.0% | 40 B |               1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181d48` |
 
 ##### `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`)
 
-|      % | Size | Objects | Caller                                          | Location            |
-| -----: | ---: | ------: | ----------------------------------------------- | ------------------- |
-| 100.0% | 32 B |       1 | `putVal(int, Object, Object, boolean, boolean)` | `java.util.HashMap` |
+|      % | Size | Sampled objects | Caller                                          | Location            |
+| -----: | ---: | --------------: | ----------------------------------------------- | ------------------- |
+| 100.0% | 32 B |               1 | `putVal(int, Object, Object, boolean, boolean)` | `java.util.HashMap` |
 
 ##### `compress(char[], int, int)` (`java.lang.StringUTF16`)
 
-|      % | Size | Objects | Caller                           | Location           |
-| -----: | ---: | ------: | -------------------------------- | ------------------ |
-| 100.0% | 32 B |       1 | `<init>(char[], int, int, Void)` | `java.lang.String` |
+|      % | Size | Sampled objects | Caller                           | Location           |
+| -----: | ---: | --------------: | -------------------------------- | ------------------ |
+| 100.0% | 32 B |               1 | `<init>(char[], int, int, Void)` | `java.lang.String` |
 
 ### Total size
 
 Functions with the most bytes retained within the function and its callees.
 
-|     % |     Size | Objects | Function                                                    | Location                                             |
-| ----: | -------: | ------: | ----------------------------------------------------------- | ---------------------------------------------------- |
-| 90.0% | 2.25 MiB |       2 | `copyOf(Object[], int)`                                     | `java.util.Arrays`                                   |
-| 90.0% | 2.25 MiB |       2 | `grow(int)`                                                 | `java.util.ArrayList`                                |
-| 82.4% | 2.06 MiB |       7 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite`           |
-| 82.4% | 2.06 MiB |       7 | `invokeStatic(Object, Object)`                              | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object, Object)`                            | `java.lang.invoke.LambdaForm$MH.0x0000007001082400`  |
-| 82.4% | 2.06 MiB |       7 | `invokeExact_MT(Object, Object, Object, Object)`            | `java.lang.invoke.Invokers$Holder`                   |
-| 82.4% | 2.06 MiB |       7 | `invokeImpl(Object, Object[])`                              | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object[])`                                  | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object[])`                                  | `java.lang.reflect.Method`                           |
-| 82.4% | 2.06 MiB |       7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`                      |
-| 82.4% | 2.06 MiB |       7 | `launchHarnessClass(String, String[])`                      | `org.renaissance.core.Launcher`                      |
-| 82.4% | 2.06 MiB |       7 | `main(String[])`                                            | `org.renaissance.core.Launcher`                      |
-| 82.4% | 2.06 MiB |       6 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite$`          |
-| 82.4% | 2.06 MiB |       4 | `accept(int)`                                               | `java.util.stream.IntPipeline$1$1`                   |
-| 82.4% | 2.06 MiB |       4 | `forEachRemaining(IntConsumer)`                             | `java.util.stream.Streams$RangeIntSpliterator`       |
-| 82.4% | 2.06 MiB |       4 | `forEachRemaining(Consumer)`                                | `java.util.Spliterator$OfInt`                        |
-| 82.4% | 2.06 MiB |       4 | `copyInto(Sink, Spliterator)`                               | `java.util.stream.AbstractPipeline`                  |
-| 82.4% | 2.06 MiB |       4 | `wrapAndCopyInto(Sink, Spliterator)`                        | `java.util.stream.AbstractPipeline`                  |
-| 82.4% | 2.06 MiB |       4 | `evaluateSequential(PipelineHelper, Spliterator)`           | `java.util.stream.ReduceOps$ReduceOp`                |
-| 82.4% | 2.06 MiB |       4 | `evaluate(TerminalOp)`                                      | `java.util.stream.AbstractPipeline`                  |
+|     % |     Size | Sampled objects | Function                                                    | Location                                             |
+| ----: | -------: | --------------: | ----------------------------------------------------------- | ---------------------------------------------------- |
+| 90.0% | 2.25 MiB |               2 | `copyOf(Object[], int)`                                     | `java.util.Arrays`                                   |
+| 90.0% | 2.25 MiB |               2 | `grow(int)`                                                 | `java.util.ArrayList`                                |
+| 82.4% | 2.06 MiB |               7 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite`           |
+| 82.4% | 2.06 MiB |               7 | `invokeStatic(Object, Object)`                              | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object, Object)`                            | `java.lang.invoke.LambdaForm$MH.0x0000007001082400`  |
+| 82.4% | 2.06 MiB |               7 | `invokeExact_MT(Object, Object, Object, Object)`            | `java.lang.invoke.Invokers$Holder`                   |
+| 82.4% | 2.06 MiB |               7 | `invokeImpl(Object, Object[])`                              | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object[])`                                  | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object[])`                                  | `java.lang.reflect.Method`                           |
+| 82.4% | 2.06 MiB |               7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`                      |
+| 82.4% | 2.06 MiB |               7 | `launchHarnessClass(String, String[])`                      | `org.renaissance.core.Launcher`                      |
+| 82.4% | 2.06 MiB |               7 | `main(String[])`                                            | `org.renaissance.core.Launcher`                      |
+| 82.4% | 2.06 MiB |               6 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite$`          |
+| 82.4% | 2.06 MiB |               4 | `accept(int)`                                               | `java.util.stream.IntPipeline$1$1`                   |
+| 82.4% | 2.06 MiB |               4 | `forEachRemaining(IntConsumer)`                             | `java.util.stream.Streams$RangeIntSpliterator`       |
+| 82.4% | 2.06 MiB |               4 | `forEachRemaining(Consumer)`                                | `java.util.Spliterator$OfInt`                        |
+| 82.4% | 2.06 MiB |               4 | `copyInto(Sink, Spliterator)`                               | `java.util.stream.AbstractPipeline`                  |
+| 82.4% | 2.06 MiB |               4 | `wrapAndCopyInto(Sink, Spliterator)`                        | `java.util.stream.AbstractPipeline`                  |
+| 82.4% | 2.06 MiB |               4 | `evaluateSequential(PipelineHelper, Spliterator)`           | `java.util.stream.ReduceOps$ReduceOp`                |
+| 82.4% | 2.06 MiB |               4 | `evaluate(TerminalOp)`                                      | `java.util.stream.AbstractPipeline`                  |
 
 #### Categories
 
@@ -2372,28 +2372,28 @@ Categories accounting for at least 1.0% of self size.
 
 ##### Standard library
 
-|     % |     Size | Objects | Function                                          | Location                                             |
-| ----: | -------: | ------: | ------------------------------------------------- | ---------------------------------------------------- |
-| 90.0% | 2.25 MiB |       2 | `copyOf(Object[], int)`                           | `java.util.Arrays`                                   |
-| 90.0% | 2.25 MiB |       2 | `grow(int)`                                       | `java.util.ArrayList`                                |
-| 82.4% | 2.06 MiB |       7 | `invokeStatic(Object, Object)`                    | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object, Object)`                  | `java.lang.invoke.LambdaForm$MH.0x0000007001082400`  |
-| 82.4% | 2.06 MiB |       7 | `invokeExact_MT(Object, Object, Object, Object)`  | `java.lang.invoke.Invokers$Holder`                   |
-| 82.4% | 2.06 MiB |       7 | `invokeImpl(Object, Object[])`                    | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object[])`                        | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
-| 82.4% | 2.06 MiB |       7 | `invoke(Object, Object[])`                        | `java.lang.reflect.Method`                           |
-| 82.4% | 2.06 MiB |       4 | `accept(int)`                                     | `java.util.stream.IntPipeline$1$1`                   |
-| 82.4% | 2.06 MiB |       4 | `forEachRemaining(IntConsumer)`                   | `java.util.stream.Streams$RangeIntSpliterator`       |
-| 82.4% | 2.06 MiB |       4 | `forEachRemaining(Consumer)`                      | `java.util.Spliterator$OfInt`                        |
-| 82.4% | 2.06 MiB |       4 | `copyInto(Sink, Spliterator)`                     | `java.util.stream.AbstractPipeline`                  |
-| 82.4% | 2.06 MiB |       4 | `wrapAndCopyInto(Sink, Spliterator)`              | `java.util.stream.AbstractPipeline`                  |
-| 82.4% | 2.06 MiB |       4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp`                |
-| 82.4% | 2.06 MiB |       4 | `evaluate(TerminalOp)`                            | `java.util.stream.AbstractPipeline`                  |
-| 82.4% | 2.06 MiB |       4 | `collect(Collector)`                              | `java.util.stream.ReferencePipeline`                 |
-| 82.4% | 2.06 MiB |       4 | `apply(Object)`                                   | `scala.runtime.function.JProcedure1`                 |
-| 82.4% | 2.06 MiB |       4 | `foreach(Function1)`                              | `scala.collection.immutable.List`                    |
-| 82.4% | 2.06 MiB |       1 | `grow()`                                          | `java.util.ArrayList`                                |
-| 82.4% | 2.06 MiB |       1 | `add(Object, Object[], int)`                      | `java.util.ArrayList`                                |
+|     % |     Size | Sampled objects | Function                                          | Location                                             |
+| ----: | -------: | --------------: | ------------------------------------------------- | ---------------------------------------------------- |
+| 90.0% | 2.25 MiB |               2 | `copyOf(Object[], int)`                           | `java.util.Arrays`                                   |
+| 90.0% | 2.25 MiB |               2 | `grow(int)`                                       | `java.util.ArrayList`                                |
+| 82.4% | 2.06 MiB |               7 | `invokeStatic(Object, Object)`                    | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object, Object)`                  | `java.lang.invoke.LambdaForm$MH.0x0000007001082400`  |
+| 82.4% | 2.06 MiB |               7 | `invokeExact_MT(Object, Object, Object, Object)`  | `java.lang.invoke.Invokers$Holder`                   |
+| 82.4% | 2.06 MiB |               7 | `invokeImpl(Object, Object[])`                    | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object[])`                        | `jdk.internal.reflect.DirectMethodHandleAccessor`    |
+| 82.4% | 2.06 MiB |               7 | `invoke(Object, Object[])`                        | `java.lang.reflect.Method`                           |
+| 82.4% | 2.06 MiB |               4 | `accept(int)`                                     | `java.util.stream.IntPipeline$1$1`                   |
+| 82.4% | 2.06 MiB |               4 | `forEachRemaining(IntConsumer)`                   | `java.util.stream.Streams$RangeIntSpliterator`       |
+| 82.4% | 2.06 MiB |               4 | `forEachRemaining(Consumer)`                      | `java.util.Spliterator$OfInt`                        |
+| 82.4% | 2.06 MiB |               4 | `copyInto(Sink, Spliterator)`                     | `java.util.stream.AbstractPipeline`                  |
+| 82.4% | 2.06 MiB |               4 | `wrapAndCopyInto(Sink, Spliterator)`              | `java.util.stream.AbstractPipeline`                  |
+| 82.4% | 2.06 MiB |               4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp`                |
+| 82.4% | 2.06 MiB |               4 | `evaluate(TerminalOp)`                            | `java.util.stream.AbstractPipeline`                  |
+| 82.4% | 2.06 MiB |               4 | `collect(Collector)`                              | `java.util.stream.ReferencePipeline`                 |
+| 82.4% | 2.06 MiB |               4 | `apply(Object)`                                   | `scala.runtime.function.JProcedure1`                 |
+| 82.4% | 2.06 MiB |               4 | `foreach(Function1)`                              | `scala.collection.immutable.List`                    |
+| 82.4% | 2.06 MiB |               1 | `grow()`                                          | `java.util.ArrayList`                                |
+| 82.4% | 2.06 MiB |               1 | `add(Object, Object[], int)`                      | `java.util.ArrayList`                                |
 
 #### Callers
 
@@ -2401,150 +2401,150 @@ Callers with the largest contribution to each function's total size. Inlining ca
 
 ##### `copyOf(Object[], int)` (`java.util.Arrays`)
 
-|      % |     Size | Objects | Caller      | Location              |
-| -----: | -------: | ------: | ----------- | --------------------- |
-| 100.0% | 2.25 MiB |       2 | `grow(int)` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Caller      | Location              |
+| -----: | -------: | --------------: | ----------- | --------------------- |
+| 100.0% | 2.25 MiB |               2 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `grow(int)` (`java.util.ArrayList`)
 
-|     % |     Size | Objects | Caller               | Location              |
-| ----: | -------: | ------: | -------------------- | --------------------- |
-| 91.6% | 2.06 MiB |       1 | `grow()`             | `java.util.ArrayList` |
-|  8.4% |  195 KiB |       1 | `addAll(Collection)` | `java.util.ArrayList` |
+|     % |     Size | Sampled objects | Caller               | Location              |
+| ----: | -------: | --------------: | -------------------- | --------------------- |
+| 91.6% | 2.06 MiB |               1 | `grow()`             | `java.util.ArrayList` |
+|  8.4% |  195 KiB |               1 | `addAll(Collection)` | `java.util.ArrayList` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
-|      % |     Size | Objects | Caller                         | Location                                             |
-| -----: | -------: | ------: | ------------------------------ | ---------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
+|      % |     Size | Sampled objects | Caller                         | Location                                             |
+| -----: | -------: | --------------: | ------------------------------ | ---------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
 
 ##### `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`)
 
-|      % |     Size | Objects | Caller                           | Location                                            |
-| -----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001082400` |
+|      % |     Size | Sampled objects | Caller                           | Location                                            |
+| -----: | -------: | --------------: | -------------------------------- | --------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001082400` |
 
 ##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`)
 
-|      % |     Size | Objects | Caller                                           | Location                           |
-| -----: | -------: | ------: | ------------------------------------------------ | ---------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+|      % |     Size | Sampled objects | Caller                                           | Location                           |
+| -----: | -------: | --------------: | ------------------------------------------------ | ---------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
 
-|      % |     Size | Objects | Caller                         | Location                                          |
-| -----: | -------: | ------: | ------------------------------ | ------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|      % |     Size | Sampled objects | Caller                         | Location                                          |
+| -----: | -------: | --------------: | ------------------------------ | ------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
-|      % |     Size | Objects | Caller                     | Location                                          |
-| -----: | -------: | ------: | -------------------------- | ------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|      % |     Size | Sampled objects | Caller                     | Location                                          |
+| -----: | -------: | --------------: | -------------------------- | ------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
-|      % |     Size | Objects | Caller                     | Location                   |
-| -----: | -------: | ------: | -------------------------- | -------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+|      % |     Size | Sampled objects | Caller                     | Location                   |
+| -----: | -------: | --------------: | -------------------------- | -------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
 
 ##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
 
-|      % |     Size | Objects | Caller                                                      | Location                        |
-| -----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
+|      % |     Size | Sampled objects | Caller                                                      | Location                        |
+| -----: | -------: | --------------: | ----------------------------------------------------------- | ------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Objects | Caller                                 | Location                        |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+|      % |     Size | Sampled objects | Caller                                 | Location                        |
+| -----: | -------: | --------------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Objects | Caller           | Location                        |
-| -----: | -------: | ------: | ---------------- | ------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `main(String[])` | `org.renaissance.core.Launcher` |
+|      % |     Size | Sampled objects | Caller           | Location                        |
+| -----: | -------: | --------------: | ---------------- | ------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `main(String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |     Size | Objects | Caller           | Location                                   |
-| -----: | -------: | ------: | ---------------- | ------------------------------------------ |
-| 100.0% | 2.06 MiB |       6 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite` |
+|      % |     Size | Sampled objects | Caller           | Location                                   |
+| -----: | -------: | --------------: | ---------------- | ------------------------------------------ |
+| 100.0% | 2.06 MiB |               6 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite` |
 
 ##### `accept(int)` (`java.util.stream.IntPipeline$1$1`)
 
-|      % |     Size | Objects | Caller                          | Location                                       |
-| -----: | -------: | ------: | ------------------------------- | ---------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `forEachRemaining(IntConsumer)` | `java.util.stream.Streams$RangeIntSpliterator` |
+|      % |     Size | Sampled objects | Caller                          | Location                                       |
+| -----: | -------: | --------------: | ------------------------------- | ---------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `forEachRemaining(IntConsumer)` | `java.util.stream.Streams$RangeIntSpliterator` |
 
 ##### `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`)
 
-|      % |     Size | Objects | Caller                       | Location                      |
-| -----: | -------: | ------: | ---------------------------- | ----------------------------- |
-| 100.0% | 2.06 MiB |       4 | `forEachRemaining(Consumer)` | `java.util.Spliterator$OfInt` |
+|      % |     Size | Sampled objects | Caller                       | Location                      |
+| -----: | -------: | --------------: | ---------------------------- | ----------------------------- |
+| 100.0% | 2.06 MiB |               4 | `forEachRemaining(Consumer)` | `java.util.Spliterator$OfInt` |
 
 ##### `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`)
 
-|      % |     Size | Objects | Caller                        | Location                            |
-| -----: | -------: | ------: | ----------------------------- | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `copyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Caller                        | Location                            |
+| -----: | -------: | --------------: | ----------------------------- | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `copyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
 
 ##### `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Caller                               | Location                            |
-| -----: | -------: | ------: | ------------------------------------ | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `wrapAndCopyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Caller                               | Location                            |
+| -----: | -------: | --------------: | ------------------------------------ | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `wrapAndCopyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
 
 ##### `wrapAndCopyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Caller                                            | Location                              |
-| -----: | -------: | ------: | ------------------------------------------------- | ------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp` |
-|  <0.1% |     48 B |       2 | `evaluate(Spliterator, boolean, IntFunction)`     | `java.util.stream.AbstractPipeline`   |
+|      % |     Size | Sampled objects | Caller                                            | Location                              |
+| -----: | -------: | --------------: | ------------------------------------------------- | ------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp` |
+|  <0.1% |     48 B |               2 | `evaluate(Spliterator, boolean, IntFunction)`     | `java.util.stream.AbstractPipeline`   |
 
 ##### `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`)
 
-|      % |     Size | Objects | Caller                 | Location                            |
-| -----: | -------: | ------: | ---------------------- | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `evaluate(TerminalOp)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Caller                 | Location                            |
+| -----: | -------: | --------------: | ---------------------- | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `evaluate(TerminalOp)` | `java.util.stream.AbstractPipeline` |
 
 ##### `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Caller               | Location                             |
-| -----: | -------: | ------: | -------------------- | ------------------------------------ |
-| 100.0% | 2.06 MiB |       4 | `collect(Collector)` | `java.util.stream.ReferencePipeline` |
+|      % |     Size | Sampled objects | Caller               | Location                             |
+| -----: | -------: | --------------: | -------------------- | ------------------------------------ |
+| 100.0% | 2.06 MiB |               4 | `collect(Collector)` | `java.util.stream.ReferencePipeline` |
 
 ##### `collect(Collector)` (`java.util.stream.ReferencePipeline`)
 
-|      % |     Size | Objects | Caller                        | Location                                    |
-| -----: | -------: | ------: | ----------------------------- | ------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `generateData(int, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % |     Size | Sampled objects | Caller                        | Location                                    |
+| -----: | -------: | --------------: | ----------------------------- | ------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `generateData(int, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `apply(Object)` (`scala.runtime.function.JProcedure1`)
 
-|      % |     Size | Objects | Caller               | Location                             |
-| -----: | -------: | ------: | -------------------- | ------------------------------------ |
-| 100.0% | 2.06 MiB |       4 | `apply(Object)`      | `scala.runtime.function.JProcedure1` |
-| 100.0% | 2.06 MiB |       4 | `foreach(Function1)` | `scala.collection.immutable.List`    |
+|      % |     Size | Sampled objects | Caller               | Location                             |
+| -----: | -------: | --------------: | -------------------- | ------------------------------------ |
+| 100.0% | 2.06 MiB |               4 | `apply(Object)`      | `scala.runtime.function.JProcedure1` |
+| 100.0% | 2.06 MiB |               4 | `foreach(Function1)` | `scala.collection.immutable.List`    |
 
 ##### `foreach(Function1)` (`scala.collection.immutable.List`)
 
-|      % |     Size | Objects | Caller                                                                        | Location                                    |
-| -----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+|      % |     Size | Sampled objects | Caller                                                                        | Location                                    |
+| -----: | -------: | --------------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `grow()` (`java.util.ArrayList`)
 
-|      % |     Size | Objects | Caller                       | Location              |
-| -----: | -------: | ------: | ---------------------------- | --------------------- |
-| 100.0% | 2.06 MiB |       1 | `add(Object, Object[], int)` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Caller                       | Location              |
+| -----: | -------: | --------------: | ---------------------------- | --------------------- |
+| 100.0% | 2.06 MiB |               1 | `add(Object, Object[], int)` | `java.util.ArrayList` |
 
 ##### `add(Object, Object[], int)` (`java.util.ArrayList`)
 
-|      % |     Size | Objects | Caller        | Location              |
-| -----: | -------: | ------: | ------------- | --------------------- |
-| 100.0% | 2.06 MiB |       1 | `add(Object)` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Caller        | Location              |
+| -----: | -------: | --------------: | ------------- | --------------------- |
+| 100.0% | 2.06 MiB |               1 | `add(Object)` | `java.util.ArrayList` |
 
 #### Callees
 
@@ -2552,168 +2552,168 @@ Callees with the largest contribution to each function's total size. Inlining ca
 
 ##### `grow(int)` (`java.util.ArrayList`)
 
-|      % |     Size | Objects | Callee                  | Location           |
-| -----: | -------: | ------: | ----------------------- | ------------------ |
-| 100.0% | 2.25 MiB |       2 | `copyOf(Object[], int)` | `java.util.Arrays` |
+|      % |     Size | Sampled objects | Callee                  | Location           |
+| -----: | -------: | --------------: | ----------------------- | ------------------ |
+| 100.0% | 2.25 MiB |               2 | `copyOf(Object[], int)` | `java.util.Arrays` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
-|      % |     Size | Objects | Callee              | Location                                    |
-| -----: | -------: | ------: | ------------------- | ------------------------------------------- |
-| 100.0% | 2.06 MiB |       6 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
-|  <0.1% |     32 B |       1 | `loadClass(String)` | `java.lang.ClassLoader`                     |
+|      % |     Size | Sampled objects | Callee              | Location                                    |
+| -----: | -------: | --------------: | ------------------- | ------------------------------------------- |
+| 100.0% | 2.06 MiB |               6 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
+|  <0.1% |     32 B |               1 | `loadClass(String)` | `java.lang.ClassLoader`                     |
 
 ##### `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`)
 
-|      % |     Size | Objects | Callee           | Location                                   |
-| -----: | -------: | ------: | ---------------- | ------------------------------------------ |
-| 100.0% | 2.06 MiB |       7 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite` |
+|      % |     Size | Sampled objects | Callee           | Location                                   |
+| -----: | -------: | --------------: | ---------------- | ------------------------------------------ |
+| 100.0% | 2.06 MiB |               7 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite` |
 
 ##### `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`)
 
-|      % |     Size | Objects | Callee                         | Location                                             |
-| -----: | -------: | ------: | ------------------------------ | ---------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
+|      % |     Size | Sampled objects | Callee                         | Location                                             |
+| -----: | -------: | --------------: | ------------------------------ | ---------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeStatic(Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001001c00` |
 
 ##### `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
 
-|      % |     Size | Objects | Callee                           | Location                                            |
-| -----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001082400` |
+|      % |     Size | Sampled objects | Callee                           | Location                                            |
+| -----: | -------: | --------------: | -------------------------------- | --------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001082400` |
 
 ##### `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
-|      % |     Size | Objects | Callee                                           | Location                           |
-| -----: | -------: | ------: | ------------------------------------------------ | ---------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+|      % |     Size | Sampled objects | Callee                                           | Location                           |
+| -----: | -------: | --------------: | ------------------------------------------------ | ---------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeExact_MT(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `invoke(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`)
 
-|      % |     Size | Objects | Callee                         | Location                                          |
-| -----: | -------: | ------: | ------------------------------ | ------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|      % |     Size | Sampled objects | Callee                         | Location                                          |
+| -----: | -------: | --------------: | ------------------------------ | ------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invokeImpl(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `invoke(Object, Object[])` (`java.lang.reflect.Method`)
 
-|      % |     Size | Objects | Callee                     | Location                                          |
-| -----: | -------: | ------: | -------------------------- | ------------------------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
+|      % |     Size | Sampled objects | Callee                     | Location                                          |
+| -----: | -------: | --------------: | -------------------------- | ------------------------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object[])` | `jdk.internal.reflect.DirectMethodHandleAccessor` |
 
 ##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Objects | Callee                     | Location                   |
-| -----: | -------: | ------: | -------------------------- | -------------------------- |
-| 100.0% | 2.06 MiB |       7 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+|      % |     Size | Sampled objects | Callee                     | Location                   |
+| -----: | -------: | --------------: | -------------------------- | -------------------------- |
+| 100.0% | 2.06 MiB |               7 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
 
 ##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Objects | Callee                                                      | Location                        |
-| -----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
+|      % |     Size | Sampled objects | Callee                                                      | Location                        |
+| -----: | -------: | --------------: | ----------------------------------------------------------- | ------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Objects | Callee                                 | Location                        |
-| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
-| 100.0% | 2.06 MiB |       7 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+|      % |     Size | Sampled objects | Callee                                 | Location                        |
+| -----: | -------: | --------------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 2.06 MiB |               7 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |     Size | Objects | Callee                                                                        | Location                                    |
-| -----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
-|  <0.1% |    264 B |       1 | `<clinit>()`                                                                  | `scala.Predef$`                             |
-|  <0.1% |     32 B |       1 | `apply(Function0)`                                                            | `scala.util.Try$`                           |
+|      % |     Size | Sampled objects | Callee                                                                        | Location                                    |
+| -----: | -------: | --------------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+|  <0.1% |    264 B |               1 | `<clinit>()`                                                                  | `scala.Predef$`                             |
+|  <0.1% |     32 B |               1 | `apply(Function0)`                                                            | `scala.util.Try$`                           |
 
 ##### `accept(int)` (`java.util.stream.IntPipeline$1$1`)
 
-|      % |     Size | Objects | Callee           | Location                                                               |
-| -----: | -------: | ------: | ---------------- | ---------------------------------------------------------------------- |
-| 100.0% | 2.06 MiB |       1 | `accept(Object)` | `java.util.stream.ReduceOps$3ReducingSink`                             |
-|  <0.1% |     88 B |       3 | `apply(int)`     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8` |
-|  <0.1% |     48 B |       2 | `apply(int)`     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181b10` |
+|      % |     Size | Sampled objects | Callee           | Location                                                               |
+| -----: | -------: | --------------: | ---------------- | ---------------------------------------------------------------------- |
+| 100.0% | 2.06 MiB |               1 | `accept(Object)` | `java.util.stream.ReduceOps$3ReducingSink`                             |
+|  <0.1% |     88 B |               3 | `apply(int)`     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8` |
+|  <0.1% |     48 B |               2 | `apply(int)`     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181b10` |
 
 ##### `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`)
 
-|      % |     Size | Objects | Callee        | Location                           |
-| -----: | -------: | ------: | ------------- | ---------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `accept(int)` | `java.util.stream.IntPipeline$1$1` |
+|      % |     Size | Sampled objects | Callee        | Location                           |
+| -----: | -------: | --------------: | ------------- | ---------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `accept(int)` | `java.util.stream.IntPipeline$1$1` |
 
 ##### `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`)
 
-|      % |     Size | Objects | Callee                          | Location                                       |
-| -----: | -------: | ------: | ------------------------------- | ---------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `forEachRemaining(IntConsumer)` | `java.util.stream.Streams$RangeIntSpliterator` |
+|      % |     Size | Sampled objects | Callee                          | Location                                       |
+| -----: | -------: | --------------: | ------------------------------- | ---------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `forEachRemaining(IntConsumer)` | `java.util.stream.Streams$RangeIntSpliterator` |
 
 ##### `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Callee                       | Location                      |
-| -----: | -------: | ------: | ---------------------------- | ----------------------------- |
-| 100.0% | 2.06 MiB |       4 | `forEachRemaining(Consumer)` | `java.util.Spliterator$OfInt` |
+|      % |     Size | Sampled objects | Callee                       | Location                      |
+| -----: | -------: | --------------: | ---------------------------- | ----------------------------- |
+| 100.0% | 2.06 MiB |               4 | `forEachRemaining(Consumer)` | `java.util.Spliterator$OfInt` |
 
 ##### `wrapAndCopyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Callee                        | Location                            |
-| -----: | -------: | ------: | ----------------------------- | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `copyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Callee                        | Location                            |
+| -----: | -------: | --------------: | ----------------------------- | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `copyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
 
 ##### `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`)
 
-|      % |     Size | Objects | Callee                               | Location                            |
-| -----: | -------: | ------: | ------------------------------------ | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `wrapAndCopyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Callee                               | Location                            |
+| -----: | -------: | --------------: | ------------------------------------ | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `wrapAndCopyInto(Sink, Spliterator)` | `java.util.stream.AbstractPipeline` |
 
 ##### `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`)
 
-|      % |     Size | Objects | Callee                                            | Location                              |
-| -----: | -------: | ------: | ------------------------------------------------- | ------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp` |
+|      % |     Size | Sampled objects | Callee                                            | Location                              |
+| -----: | -------: | --------------: | ------------------------------------------------- | ------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `evaluateSequential(PipelineHelper, Spliterator)` | `java.util.stream.ReduceOps$ReduceOp` |
 
 ##### `collect(Collector)` (`java.util.stream.ReferencePipeline`)
 
-|      % |     Size | Objects | Callee                 | Location                            |
-| -----: | -------: | ------: | ---------------------- | ----------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `evaluate(TerminalOp)` | `java.util.stream.AbstractPipeline` |
+|      % |     Size | Sampled objects | Callee                 | Location                            |
+| -----: | -------: | --------------: | ---------------------- | ----------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `evaluate(TerminalOp)` | `java.util.stream.AbstractPipeline` |
 
 ##### `apply(Object)` (`scala.runtime.function.JProcedure1`)
 
-|      % |     Size | Objects | Callee              | Location                                                               |
-| -----: | -------: | ------: | ------------------- | ---------------------------------------------------------------------- |
-| 100.0% | 2.06 MiB |       4 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798` |
-| 100.0% | 2.06 MiB |       4 | `apply(Object)`     | `scala.runtime.function.JProcedure1`                                   |
+|      % |     Size | Sampled objects | Callee              | Location                                                               |
+| -----: | -------: | --------------: | ------------------- | ---------------------------------------------------------------------- |
+| 100.0% | 2.06 MiB |               4 | `applyVoid(Object)` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798` |
+| 100.0% | 2.06 MiB |               4 | `apply(Object)`     | `scala.runtime.function.JProcedure1`                                   |
 
 ##### `foreach(Function1)` (`scala.collection.immutable.List`)
 
-|      % |     Size | Objects | Callee          | Location                             |
-| -----: | -------: | ------: | --------------- | ------------------------------------ |
-| 100.0% | 2.06 MiB |       4 | `apply(Object)` | `scala.runtime.function.JProcedure1` |
+|      % |     Size | Sampled objects | Callee          | Location                             |
+| -----: | -------: | --------------: | --------------- | ------------------------------------ |
+| 100.0% | 2.06 MiB |               4 | `apply(Object)` | `scala.runtime.function.JProcedure1` |
 
 ##### `grow()` (`java.util.ArrayList`)
 
-|      % |     Size | Objects | Callee      | Location              |
-| -----: | -------: | ------: | ----------- | --------------------- |
-| 100.0% | 2.06 MiB |       1 | `grow(int)` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Callee      | Location              |
+| -----: | -------: | --------------: | ----------- | --------------------- |
+| 100.0% | 2.06 MiB |               1 | `grow(int)` | `java.util.ArrayList` |
 
 ##### `add(Object, Object[], int)` (`java.util.ArrayList`)
 
-|      % |     Size | Objects | Callee   | Location              |
-| -----: | -------: | ------: | -------- | --------------------- |
-| 100.0% | 2.06 MiB |       1 | `grow()` | `java.util.ArrayList` |
+|      % |     Size | Sampled objects | Callee   | Location              |
+| -----: | -------: | --------------: | -------- | --------------------- |
+| 100.0% | 2.06 MiB |               1 | `grow()` | `java.util.ArrayList` |
 
 ## Hottest call stacks
 
 Call stacks with the most bytes retained in their leaf frame.
 
-|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 82.4% | 2.06 MiB |       1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000070010e3e58`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 10.0% |  256 KiB |       1 | `initTable()` (`java.util.concurrent.ConcurrentHashMap`) ← `putVal(Object, Object, boolean)` ← `put(Object, Object)` ← `storeString(String)` (`jdk.jfr.internal.StringPool`) ← `addString(String)` ← `putString(String)` (`jdk.jfr.internal.event.EventWriter`) ← `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`) ← `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`) ← `start(PlatformRecording)` ← `start()` (`jdk.jfr.internal.PlatformRecording`) ← `start()` (`jdk.jfr.Recording`) ← `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`) ← `execute(String, String, char)` (`jdk.jfr.internal.dcmd.AbstractDCmd`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  7.6% |  195 KiB |       1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `addAll(Collection)` ← `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`) ← `merge(Object, Object, BiFunction)` (`java.util.HashMap`) ← `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88`) ← `forEach(BiConsumer)` (`java.util.HashMap`) ← `merge(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`) ← `combineResults(Object, Object)` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| <0.1% |    264 B |       1 | `<clinit>()` (`scala.package$`) ← `<clinit>()` (`scala.Predef$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| <0.1% |     48 B |       2 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181b10`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-| <0.1% |     40 B |       1 | `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181d48`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$ArrayNode`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$FixedNodeBuilder`) ← `builder(long, IntFunction)` (`java.util.stream.Nodes`) ← `makeNodeBuilder(long, IntFunction)` (`java.util.stream.ReferencePipeline`) ← `evaluate(Spliterator, boolean, IntFunction)` (`java.util.stream.AbstractPipeline`) ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                       |
-| <0.1% |     32 B |       1 | `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`) ← `putVal(int, Object, Object, boolean, boolean)` ← `put(Object, Object)` ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| <0.1% |     32 B |       1 | `compress(char[], int, int)` (`java.lang.StringUTF16`) ← `<init>(char[], int, int, Void)` (`java.lang.String`) ← `<init>(char[], int, int)` ← `loadConvert(char[], int, int, StringBuilder)` (`java.util.Properties`) ← `load0(Properties$LineReader)` ← `load(InputStream)` ← `loadProperties(URL)` (`org.renaissance.core.ResourceUtils`) ← `loadPropertiesAsMap(URL)` ← `create(Path, String, Optional, Map, boolean)` (`org.renaissance.core.BenchmarkSuite`) ← `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`) ← `apply()` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700115e000`) ← `apply(Function0)` (`scala.util.Try$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|     % |     Size | Sampled objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----: | -------: | --------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 82.4% | 2.06 MiB |               1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `grow()` ← `add(Object, Object[], int)` ← `add(Object)` ← `accept(Object, Object)` (`java.util.stream.Collectors$$Lambda.0x00000070010e3e58`) ← `accept(Object)` (`java.util.stream.ReduceOps$3ReducingSink`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 10.0% |  256 KiB |               1 | `initTable()` (`java.util.concurrent.ConcurrentHashMap`) ← `putVal(Object, Object, boolean)` ← `put(Object, Object)` ← `storeString(String)` (`jdk.jfr.internal.StringPool`) ← `addString(String)` ← `putString(String)` (`jdk.jfr.internal.event.EventWriter`) ← `commit(long, long, long, String, String, boolean, long, long, long, long, long)` (`jdk.jfr.events.ActiveRecordingEvent`) ← `writeMetaEvents()` (`jdk.jfr.internal.PlatformRecorder`) ← `start(PlatformRecording)` ← `start()` (`jdk.jfr.internal.PlatformRecording`) ← `start()` (`jdk.jfr.Recording`) ← `execute(ArgumentParser)` (`jdk.jfr.internal.dcmd.DCmdStart`) ← `execute(String, String, char)` (`jdk.jfr.internal.dcmd.AbstractDCmd`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  7.6% |  195 KiB |               1 | `copyOf(Object[], int)` (`java.util.Arrays`) ← `grow(int)` (`java.util.ArrayList`) ← `addAll(Collection)` ← `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4fd0`) ← `merge(Object, Object, BiFunction)` (`java.util.HashMap`) ← `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011e4d88`) ← `forEach(BiConsumer)` (`java.util.HashMap`) ← `merge(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`) ← `combineResults(Object, Object)` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `exec()` (`java.util.concurrent.RecursiveTask`) ← `doExec()` (`java.util.concurrent.ForkJoinTask`) ← `topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue)` (`java.util.concurrent.ForkJoinPool$WorkQueue`) ← `scan(ForkJoinPool$WorkQueue, int, int)` (`java.util.concurrent.ForkJoinPool`) ← `runWorker(ForkJoinPool$WorkQueue)` ← `run()` (`java.util.concurrent.ForkJoinWorkerThread`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| <0.1% |    264 B |               1 | `<clinit>()` (`scala.package$`) ← `<clinit>()` (`scala.Predef$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| <0.1% |     48 B |               2 | `valueOf(double)` (`java.lang.Double`) ← `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181b10`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluate(Spliterator, boolean, IntFunction)` ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+| <0.1% |     40 B |               1 | `lambda$generateData$4(int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001181d48`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$ArrayNode`) ← `<init>(long, IntFunction)` (`java.util.stream.Nodes$FixedNodeBuilder`) ← `builder(long, IntFunction)` (`java.util.stream.Nodes`) ← `makeNodeBuilder(long, IntFunction)` (`java.util.stream.ReferencePipeline`) ← `evaluate(Spliterator, boolean, IntFunction)` (`java.util.stream.AbstractPipeline`) ← `evaluateToArrayNode(IntFunction)` ← `toArray(IntFunction)` (`java.util.stream.ReferencePipeline`) ← `lambda$generateData$5(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(int)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011818d8`) ← `accept(int)` (`java.util.stream.IntPipeline$1$1`) ← `forEachRemaining(IntConsumer)` (`java.util.stream.Streams$RangeIntSpliterator`) ← `forEachRemaining(Consumer)` (`java.util.Spliterator$OfInt`) ← `copyInto(Sink, Spliterator)` (`java.util.stream.AbstractPipeline`) ← `wrapAndCopyInto(Sink, Spliterator)` ← `evaluateSequential(PipelineHelper, Spliterator)` (`java.util.stream.ReduceOps$ReduceOp`) ← `evaluate(TerminalOp)` (`java.util.stream.AbstractPipeline`) ← `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001178798`) ← `apply(Object)` (`scala.runtime.function.JProcedure1`) ← `apply(Object)` ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                       |
+| <0.1% |     32 B |               1 | `newNode(int, Object, Object, HashMap$Node)` (`java.util.HashMap`) ← `putVal(int, Object, Object, boolean, boolean)` ← `put(Object, Object)` ← `read(InputStream, String)` (`java.util.jar.Manifest`) ← `<init>(JarVerifier, InputStream, String)` ← `<init>(InputStream, String)` ← `getManifestFromReference()` (`java.util.jar.JarFile`) ← `getManifest()` ← `getManifest()` (`jdk.internal.loader.URLClassPath$JarLoader$2`) ← `defineClass(String, Resource)` (`java.net.URLClassLoader`) ← `run()` (`java.net.URLClassLoader$1`) ← `run()` ← `executePrivileged(PrivilegedExceptionAction, AccessControlContext, Class)` (`java.security.AccessController`) ← `doPrivileged(PrivilegedExceptionAction, AccessControlContext)` ← `findClass(String)` (`java.net.URLClassLoader`) ← `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| <0.1% |     32 B |               1 | `compress(char[], int, int)` (`java.lang.StringUTF16`) ← `<init>(char[], int, int, Void)` (`java.lang.String`) ← `<init>(char[], int, int)` ← `loadConvert(char[], int, int, StringBuilder)` (`java.util.Properties`) ← `load0(Properties$LineReader)` ← `load(InputStream)` ← `loadProperties(URL)` (`org.renaissance.core.ResourceUtils`) ← `loadPropertiesAsMap(URL)` ← `create(Path, String, Optional, Map, boolean)` (`org.renaissance.core.BenchmarkSuite`) ← `$anonfun$1(Config, Path)` (`org.renaissance.harness.RenaissanceSuite$`) ← `apply()` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700115e000`) ← `apply(Function0)` (`scala.util.Try$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← `invokeStatic(Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001001c00`) ← `invoke(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001082400`) ← `invokeExact_MT(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `invokeImpl(Object, Object[])` (`jdk.internal.reflect.DirectMethodHandleAccessor`) ← `invoke(Object, Object[])` ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
 # Lock contention profile
 
