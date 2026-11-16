@@ -38,6 +38,7 @@ import {
 import type {
   DiffMeasure,
   FunctionDirection,
+  FunctionMeasureRow,
   FunctionRanking,
   Measure,
 } from '../function/index.ts'
@@ -57,7 +58,6 @@ import type {
   AggregatedCallGraphFunctionDiff,
 } from './diff.ts'
 import { arcColumns } from './table.ts'
-import type { ArcRow } from './table.ts'
 
 export const formatCallGraph = (
   graph: AggregatedCallGraph,
@@ -92,7 +92,11 @@ export const formatCallGraph = (
           measure,
           options: sectionOptions,
           headingLevel: sectionHeadingLevel,
-          formatBreakdowns: formatHottestArcSections,
+          formatBreakdowns: breakdown =>
+            formatHottestArcSections({
+              ...breakdown,
+              callCountMetric: graph.callCountMetric,
+            }),
         })
       },
     ),
@@ -163,6 +167,7 @@ const formatHottestArcSections = ({
   measure,
   direction,
   funcs,
+  callCountMetric,
   context,
   options,
   headingLevel,
@@ -170,6 +175,7 @@ const formatHottestArcSections = ({
   measure: Measure
   direction: CallGraphDirection
   funcs: AggregatedCallGraphFunction[]
+  callCountMetric: Metric | null
   context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -191,6 +197,7 @@ const formatHottestArcSections = ({
           measure,
           func,
           arcs,
+          callCountMetric,
           context,
           options,
           headingLevel: headingLevel + 1,
@@ -207,6 +214,7 @@ const formatHottestArcs = ({
   measure,
   func,
   arcs,
+  callCountMetric,
   context,
   options,
   headingLevel,
@@ -214,6 +222,7 @@ const formatHottestArcs = ({
   measure: Measure
   func: AggregatedCallGraphFunction
   arcs: Arcs
+  callCountMetric: Metric | null
   context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -233,7 +242,10 @@ const formatHottestArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatTable(arcColumns(measure, arcs.entity, options), hottestArcs),
+    formatTable(
+      arcColumns(measure, arcs.entity, callCountMetric, options),
+      hottestArcs,
+    ),
   ]
 }
 
@@ -431,7 +443,10 @@ const formatDiffFunctionArcs = ({
 
   return [
     formatFunctionHeading(headingLevel, func, options),
-    formatDiffTable(arcColumns(measure, arcs.entity, options), changedArcs),
+    formatDiffTable(
+      arcColumns(measure, arcs.entity, diff.callCountMetric, options),
+      changedArcs,
+    ),
   ]
 }
 
@@ -445,7 +460,13 @@ type Arcs = {
   ) => IteratorObject<readonly [id: number, row: CallGraphArcRow]>
 }
 
-type CallGraphArcRow = ArcRow & { func: AggregatedCallGraphFunction }
+/**
+ * An arc's row, whose `func` is the arc's other endpoint and whose `count` is
+ * the arc's call count.
+ */
+type CallGraphArcRow = FunctionMeasureRow & {
+  func: AggregatedCallGraphFunction
+}
 
 const CALLER_ARCS: Arcs = {
   entity: `Caller`,
@@ -456,9 +477,8 @@ const CALLER_ARCS: Arcs = {
         id,
         {
           func: caller,
-          callCount,
           value: measure.valueOf(totalValues, 0),
-          count: 0,
+          count: callCount,
           total: totalValueOf(measure, func),
         },
       ]),
@@ -473,9 +493,8 @@ const CALLEE_ARCS: Arcs = {
         id,
         {
           func: callee,
-          callCount,
           value: measure.valueOf(totalValues, 0),
-          count: 0,
+          count: callCount,
           total: totalValueOf(measure, func),
         },
       ]),

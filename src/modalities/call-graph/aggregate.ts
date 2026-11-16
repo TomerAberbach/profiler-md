@@ -5,7 +5,7 @@ import type {
   FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
-import { originSpecOf } from '../../origins/index.ts'
+import { originSpecOf, resolveCountMetric } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
@@ -25,6 +25,9 @@ export type AggregatedCallGraph = {
   /** @see {@link AggregatedCallStackProfile.context} */
   context: ProfileToMdContext
   metrics: Metric[]
+
+  /** @see {@link CallGraph.callCountMetric} */
+  callCountMetric: Metric | null
 
   /**
    * For each metric in {@link AggregatedCallGraph.metrics}, the whole
@@ -139,6 +142,7 @@ export class CallGraphAggregator implements InputAggregator<AggregatedCallGraph>
 
 class FunctionsAggregator {
   readonly #metrics: Metric[]
+  readonly #callCountMetric: Metric | null
   readonly #functions: CallGraphFunction[]
 
   /**
@@ -166,12 +170,13 @@ class FunctionsAggregator {
   readonly #totalValues: Float64Array
 
   public constructor(
-    { metrics, functions }: CallGraph,
+    { metrics, callCountMetric, functions }: CallGraph,
     frameFunctions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ) {
     this.#metrics = metrics
+    this.#callCountMetric = resolveCountMetric(callCountMetric, context)
     this.#functions = functions
     this.#frameFunctions = frameFunctions
     this.#options = options
@@ -262,6 +267,7 @@ class FunctionsAggregator {
       type: `call-graph`,
       context: this.#context,
       metrics: this.#metrics,
+      callCountMetric: this.#callCountMetric,
       totalValues: this.#totalValues,
       categoryToMetrics: this.#categorize(functions),
       functions,

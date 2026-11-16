@@ -175,6 +175,16 @@ const warnUnmatchedMetrics = (
 }
 
 /**
+ * The metric both sides of a diff share, or `null` when either side lacks one
+ * or the two differ.
+ */
+export const matchDiffedMetric = (
+  base: Metric | null,
+  current: Metric | null,
+): Metric | null =>
+  base && current && metricsEqual(base, current) ? base : null
+
+/**
  * Returns whether two metrics measure the same thing in the same unit, and rank
  * a change in it the same way.
  *

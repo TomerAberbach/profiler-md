@@ -11,7 +11,7 @@ import {
   matchDiffedMaps,
 } from '../diff.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
-import { matchDiffedMetrics, metricsEqual } from '../metric.ts'
+import { matchDiffedMetric, matchDiffedMetrics } from '../metric.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileCategoryMetrics,
@@ -123,12 +123,8 @@ const matchDiffedCountMetrics = (
   current: AggregatedCallStackProfile,
   ranksByCount: boolean,
 ): Metric | null => {
-  const { countMetric } = base
-  if (
-    countMetric &&
-    current.countMetric &&
-    metricsEqual(countMetric, current.countMetric)
-  ) {
+  const countMetric = matchDiffedMetric(base.countMetric, current.countMetric)
+  if (countMetric) {
     return countMetric
   }
 

@@ -5,7 +5,7 @@ import type {
   FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
-import { originSpecOf } from '../../origins/index.ts'
+import { resolveCountMetric } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator, OtherSideInput } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
@@ -120,14 +120,9 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
       this.#profile
 
     const functions = StackFrameTable.for(frames).resolve(context)
-    // The origin's answer overrides the format's, where the format's origins
-    // disagree on what one count measures.
-    const originCountMetric = originSpecOf(context.origin).countMetric(
-      context.format,
-    )
     const aggregator = new ObservationsAggregator(
       metrics,
-      originCountMetric === undefined ? countMetric : originCountMetric,
+      resolveCountMetric(countMetric, context),
       functions,
       options,
       context,
