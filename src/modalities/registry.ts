@@ -39,14 +39,15 @@ export type EntryCategory =
 type AnyModalitySpec = ModalitySpec<
   ParsedInput,
   AggregatedInput,
-  AggregatedProfileEntry
+  AggregatedProfileEntry,
+  unknown
 >
 
 const modalityToSpec: ReadonlyMap<Modality, AnyModalitySpec> = new Map(
   modalitySpecs.map(modalitySpec => [
     modalitySpec.id,
-    // Each modality's functions accept only its own inputs, which the lookup
-    // by `type` guarantees.
+    // Each modality's functions accept only its own inputs and matches, which
+    // the lookup by `type` guarantees.
     modalitySpec as unknown as AnyModalitySpec,
   ]),
 )

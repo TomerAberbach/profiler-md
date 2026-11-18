@@ -8,13 +8,21 @@ import {
   parseMd,
 } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
-import type { ProfileToMdContext } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import { DEFAULT_TOP_N, resolveProfileToMdOptions } from '../../options.ts'
 import type { Metric } from '../metric.ts'
 import { SAMPLES } from '../metrics.ts'
 import type { StackFrame } from '../stack-frame.ts'
 import { CallStackProfileAggregator } from './aggregate.ts'
 import type { AggregatedCallStackProfile } from './aggregate.ts'
+import {
+  diffAggregatedCallStackProfiles,
+  matchCallStackProfiles,
+} from './diff.ts'
+import type { AggregatedCallStackProfileDiff } from './diff.ts'
 import { NEGLIGIBLE_SHARE } from './measure.ts'
 import { lineBudgetOf } from './tree/index.ts'
 
@@ -109,6 +117,19 @@ const makeDefinition = ({
   return logicalName
     ? { type: `logical`, name: logicalName, position }
     : undefined
+}
+
+/** Diffs two profiles by the match a diff pairing them would find. */
+export const diffCallStackProfiles = (
+  base: AggregatedCallStackProfile,
+  current: AggregatedCallStackProfile,
+  options: FormattingProfileToMdOptions,
+): AggregatedCallStackProfileDiff => {
+  const match = matchCallStackProfiles(base, current)
+  if (match.type === `unmatched`) {
+    throw new Error(`diffed unmatched profiles: ${match.reason}`)
+  }
+  return diffAggregatedCallStackProfiles(base, current, match.match, options)
 }
 
 /**

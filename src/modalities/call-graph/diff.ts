@@ -1,4 +1,3 @@
-import { ProfilerMdError } from '../../error.ts'
 import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
@@ -10,11 +9,17 @@ import {
   matchDiffedMaps,
 } from '../diff.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
-import { matchDiffedMetric, matchDiffedMetrics } from '../metric.ts'
+import {
+  matchDiffedMetric,
+  matchDiffedMetrics,
+  warnUnmatchedMetrics,
+} from '../metric.ts'
+import type { DiffInputMatch } from '../spec.ts'
 import type {
   AggregatedCallGraph,
   AggregatedCallGraphCategoryMetrics,
   AggregatedCallGraphFunction,
+  CallGraphMeasures,
 } from './aggregate.ts'
 
 export type AggregatedCallGraphDiff = {
@@ -58,23 +63,46 @@ export type AggregatedCallGraphFunctionDiff = Pick<
 > &
   Diff<AggregatedCallGraphFunction>
 
+/** What a diff of two call graphs compares them by. */
+export type CallGraphMatch = Pick<
+  AggregatedCallGraphDiff,
+  `metrics` | `callCountMetric`
+>
+
 /**
- * Throws if the call graphs have no metrics in common, because a call graph has
- * no count to fall back on.
+ * Matches the metrics two call graphs share. Call graphs sharing no metric are
+ * unmatched, because a call graph has no count to fall back on.
  */
+export const matchCallGraphs = (
+  base: CallGraphMeasures,
+  current: CallGraphMeasures,
+): DiffInputMatch<CallGraphMatch> => {
+  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
+  if (metrics.length === 0) {
+    return {
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common`,
+    }
+  }
+  return {
+    type: `matched`,
+    match: {
+      metrics,
+      callCountMetric: matchDiffedMetric(
+        base.callCountMetric,
+        current.callCountMetric,
+      ),
+    },
+  }
+}
+
 export const diffAggregatedCallGraphs = (
   base: AggregatedCallGraph,
   current: AggregatedCallGraph,
+  { metrics, callCountMetric }: CallGraphMatch,
   options: FormattingProfileToMdOptions,
 ): AggregatedCallGraphDiff => {
-  const metrics = matchDiffedMetrics(
-    base.metrics,
-    current.metrics,
-    options.logger,
-  )
-  if (metrics.length === 0) {
-    throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
-  }
+  warnUnmatchedMetrics(base.metrics, current.metrics, metrics, options.logger)
 
   const functions = matchDiffedInputEntries(
     base,
@@ -90,10 +118,7 @@ export const diffAggregatedCallGraphs = (
     base,
     current,
     metrics,
-    callCountMetric: matchDiffedMetric(
-      base.callCountMetric,
-      current.callCountMetric,
-    ),
+    callCountMetric,
     categoryToMetrics: matchDiffedMaps(
       base.categoryToMetrics,
       current.categoryToMetrics,

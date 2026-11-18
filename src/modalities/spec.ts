@@ -10,12 +10,14 @@ import type { CategorySet } from './category-sets.ts'
 
 /**
  * A modality's registered logic: aggregation of its parsed inputs, and
- * formatting of its aggregated inputs, whose entries are {@link Entry}.
+ * formatting of its aggregated inputs, whose entries are {@link Entry}. A diff
+ * compares two inputs by the {@link Match} it found between them.
  */
 export type ModalitySpec<
   Parsed extends { type: string },
   Aggregated extends { type: Parsed[`type`]; context: ProfileToMdContext },
   Entry extends ProfileEntry,
+  Match = undefined,
 > = {
   /**
    * The modality's ID: the `type` of its parsed and aggregated inputs. Must be
@@ -40,10 +42,26 @@ export type ModalitySpec<
     options: FormattingProfileToMdOptions,
   ) => RootContent[]
 
-  /** Diffs {@link base} against {@link current}, returning the differences. */
+  /** Names the input in a message, such as `lock contention profile`. */
+  name: (input: DiffedInput<Parsed>) => string
+
+  /**
+   * Matches what two inputs measure, or states why a diff can't compare them.
+   * Called on candidate pairs, so it logs nothing.
+   */
+  matchDiffed: (
+    base: DiffedInput<Parsed>,
+    current: DiffedInput<Parsed>,
+  ) => DiffInputMatch<Match>
+
+  /**
+   * Diffs {@link base} against {@link current} by the {@link match}
+   * {@link matchDiffed} found between them, returning the differences.
+   */
   formatDiff: (
     base: Aggregated,
     current: Aggregated,
+    match: Match,
     options: FormattingProfileToMdOptions,
   ) => RootContent[]
 
@@ -59,6 +77,19 @@ export type ModalitySpec<
   /** Each category the input assigned to one of its entities. */
   categories: (input: Aggregated) => Iterable<string>
 }
+
+/**
+ * A parsed input on one side of a diff, under the context its raw input's
+ * origin detection resolved.
+ */
+export type DiffedInput<Parsed> = {
+  input: Parsed
+  context: ProfileToMdContext
+}
+
+/** What a diff of two inputs compares, or why it can't compare them. */
+export type DiffInputMatch<Match> =
+  { type: `matched`; match: Match } | { type: `unmatched`; reason: string }
 
 /**
  * Reports what a parsed input's records yield to the conversion pipeline, so it

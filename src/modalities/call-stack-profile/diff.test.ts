@@ -19,10 +19,11 @@ import {
   MILLISECONDS_METRIC,
   SAMPLES,
 } from '../metrics.ts'
-import { diffAggregatedCallStackProfiles } from './diff.ts'
+import { matchCallStackProfiles } from './diff.ts'
 import { formatCallStackProfileDiff } from './format.ts'
 import {
   callTreeLines,
+  diffCallStackProfiles,
   makeAggregatedCallStackProfile,
   makeFunction,
 } from './testing.ts'
@@ -50,7 +51,7 @@ const pairingTables = (
 ) => {
   const md = mdastToMarkdown(
     formatCallStackProfileDiff(
-      diffAggregatedCallStackProfiles(
+      diffCallStackProfiles(
         makeAggregatedCallStackProfile([MICROSECONDS_METRIC], base, context),
         makeAggregatedCallStackProfile([MICROSECONDS_METRIC], current, context),
         defaultOptions,
@@ -79,11 +80,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(
-      profile,
-      profile,
-      defaultOptions,
-    )
+    const diff = diffCallStackProfiles(profile, profile, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.functions).toHaveLength(1)
@@ -109,7 +106,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     )
     const current = makeAggregatedCallStackProfile([MICROSECONDS_METRIC], [])
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     const funcA = diff.functions.find(fn => fn.name === `funcA`)!
     expect(funcA.base?.selfCount).toBe(5)
@@ -133,7 +130,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(diff.functions.map(fn => [!!fn.base, !!fn.current])).toStrictEqual(
@@ -158,7 +155,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     const funcB = diff.functions.find(fn => fn.name === `funcB`)!
     expect(funcB.base).toBeUndefined()
@@ -189,7 +186,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.metrics[0]!.metric.type).toBe(`time`)
@@ -198,7 +195,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     ])
   })
 
-  test(`throws on no matching metrics`, () => {
+  test(`leaves profiles with no matching metrics unmatched`, () => {
     const base = makeAggregatedCallStackProfile(
       [BYTES_METRIC],
       [
@@ -222,12 +219,13 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    expect(() =>
-      diffAggregatedCallStackProfiles(base, current, defaultOptions),
-    ).toThrow(`no metrics in common`)
+    expect(matchCallStackProfiles(base, current)).toStrictEqual({
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common`,
+    })
   })
 
-  test(`throws on metric-less profiles counting different things`, () => {
+  test(`leaves metric-less profiles counting different things unmatched`, () => {
     const func = {
       name: `funcA`,
       url: `file:///project/src/a.ts`,
@@ -242,9 +240,10 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       countMetricOf(`entry`, { improvement: `decrease` }),
     )
 
-    expect(() =>
-      diffAggregatedCallStackProfiles(base, current, defaultOptions),
-    ).toThrow(`count different things, got: samples and entries`)
+    expect(matchCallStackProfiles(base, current)).toStrictEqual({
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common that count different things, got: samples and entries`,
+    })
   })
 
   test(`drops the count metric of metric-ful profiles counting different things`, () => {
@@ -268,8 +267,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     )
 
     expect(
-      diffAggregatedCallStackProfiles(base, current, defaultOptions)
-        .countMetric,
+      diffCallStackProfiles(base, current, defaultOptions).countMetric,
     ).toBeNull()
   })
 
@@ -299,7 +297,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.base?.selfCount).toBe(5)
@@ -349,7 +347,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       context,
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const name of [`parse`, `rt`]) {
@@ -388,7 +386,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       context,
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(
@@ -904,7 +902,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       { format: `jfr`, origin: `jdk` },
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const func of diff.functions) {
@@ -1175,7 +1173,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.name).toBe(`(garbage collector)`)
@@ -1207,7 +1205,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.categoryToMetrics.size).toBeGreaterThan(0)
     const ours = diff.categoryToMetrics.get(`ours`)
@@ -1216,7 +1214,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     expect(ours!.current?.count).toBe(10)
   })
 
-  test(`throws on metrics with matching types but different units`, () => {
+  test(`leaves profiles whose metrics differ only in unit unmatched`, () => {
     const base = makeAggregatedCallStackProfile(
       [MICROSECONDS_METRIC],
       [
@@ -1240,9 +1238,10 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
 
-    expect(() =>
-      diffAggregatedCallStackProfiles(base, current, defaultOptions),
-    ).toThrow(`no metrics in common`)
+    expect(matchCallStackProfiles(base, current)).toStrictEqual({
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common`,
+    })
   })
 })
 
@@ -1276,7 +1275,7 @@ describe(`formatCallStackProfileDiff lines`, () => {
     linesTables(
       mdastToMarkdown(
         formatCallStackProfileDiff(
-          diffAggregatedCallStackProfiles(
+          diffCallStackProfiles(
             makeAggregatedCallStackProfile(
               [MICROSECONDS_METRIC],
               [base].flat(),
@@ -1518,7 +1517,7 @@ describe(`formatCallStackProfileDiff callers and callees`, () => {
   const formatDiff = (options = defaultOptions) =>
     mdastToMarkdown(
       formatCallStackProfileDiff(
-        diffAggregatedCallStackProfiles(
+        diffCallStackProfiles(
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
@@ -1696,7 +1695,7 @@ describe(`formatCallStackProfileDiff callers of a total`, () => {
   const formatDiff = (options = defaultOptions) =>
     mdastToMarkdown(
       formatCallStackProfileDiff(
-        diffAggregatedCallStackProfiles(
+        diffCallStackProfiles(
           makeAggregatedCallStackProfile(
             [MICROSECONDS_METRIC],
             [
@@ -1783,7 +1782,7 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
   ) =>
     mdastToMarkdown(
       formatCallStackProfileDiff(
-        diffAggregatedCallStackProfiles(
+        diffCallStackProfiles(
           makeAggregatedCallStackProfile([MICROSECONDS_METRIC], base),
           makeAggregatedCallStackProfile([MICROSECONDS_METRIC], current),
           options,
@@ -1928,7 +1927,7 @@ describe(`formatCallStackProfileDiff call tree`, () => {
   ) =>
     mdastToMarkdown(
       formatCallStackProfileDiff(
-        diffAggregatedCallStackProfiles(
+        diffCallStackProfiles(
           makeAggregatedCallStackProfile([MICROSECONDS_METRIC], base),
           makeAggregatedCallStackProfile([MICROSECONDS_METRIC], current),
           options,

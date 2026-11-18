@@ -1,5 +1,4 @@
 import type { RootContent } from 'mdast'
-import { ProfilerMdError } from '../error.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
 import {
   commonAncestorDirectoryURL,
@@ -8,7 +7,7 @@ import {
 } from '../location.ts'
 import { matchDiffedInputEntries } from '../modalities/diff.ts'
 import { modalitySpecOf } from '../modalities/registry.ts'
-import type { AggregatedInput, Modality } from '../modalities/registry.ts'
+import type { AggregatedInput } from '../modalities/registry.ts'
 import type { EntityLocation } from '../modalities/spec.ts'
 import type {
   FormattingProfileToMdOptions,
@@ -32,51 +31,41 @@ export const formatAggregatedInputs = (
 }
 
 /**
- * Diffs the aggregated {@link base} and {@link current} inputs element by
- * element, returning the differences as Markdown.
- *
- * Throws when the sides differ in length or in modality at an index.
+ * A base input and the current input a diff pairs it with, with what their
+ * diff compares them by.
  */
+export type AggregatedInputPair = {
+  base: AggregatedInput
+  current: AggregatedInput
+  match: unknown
+}
+
+/** Diffs each of {@link pairs}, returning the differences as Markdown. */
 export const formatAggregatedDiff = (
-  base: AggregatedInput[],
-  current: AggregatedInput[],
+  pairs: AggregatedInputPair[],
   options: NormalizedProfileToMdOptions,
 ): string => {
-  if (base.length !== current.length) {
-    throw new ProfilerMdError(
-      `cannot diff inputs containing different numbers of profiles, got: ${base.length} in the base and ${current.length} in the current`,
-    )
-  }
-
   const formattingOptions = makeDiffFormattingProfileToMdOptions(
     options,
-    base,
-    current,
+    pairs.map(({ base }) => base),
+    pairs.map(({ current }) => current),
   )
-  const contents = base.flatMap((baseInput, index) => {
-    const currentInput = current[index]!
-    if (baseInput.type !== currentInput.type) {
-      throw new ProfilerMdError(
-        `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
-      )
-    }
-    return modalitySpecOf(baseInput).formatDiff(baseInput, currentInput, {
-      ...formattingOptions,
-      isSameMatchedSource: (baseLocation, currentLocation) =>
-        isSameSourceForOrigins(
-          baseLocation,
-          baseInput.context.origin,
-          currentLocation,
-          currentInput.context.origin,
-        ),
-    })
-  })
+  const contents = pairs.flatMap(
+    ({ base: baseInput, current: currentInput, match }) =>
+      modalitySpecOf(baseInput).formatDiff(baseInput, currentInput, match, {
+        ...formattingOptions,
+        isSameMatchedSource: (baseLocation, currentLocation) =>
+          isSameSourceForOrigins(
+            baseLocation,
+            baseInput.context.origin,
+            currentLocation,
+            currentInput.context.origin,
+          ),
+      }),
+  )
   formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
 }
-
-const modalityName = (modality: Modality): string =>
-  modality.replaceAll(`-`, ` `)
 
 const toMarkdown = (contents: RootContent[]): string =>
   mdastToMarkdown(

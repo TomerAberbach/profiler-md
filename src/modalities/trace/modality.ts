@@ -12,7 +12,9 @@ export const traceModalitySpec = {
   aggregator: (trace, reader) =>
     new TraceAggregator({ ...trace, events: reader.records(trace.events) }),
   format: formatTrace,
-  formatDiff: (base, current, options) =>
+  name: () => `trace`,
+  matchDiffed: () => ({ type: `matched`, match: undefined }),
+  formatDiff: (base, current, _match, options) =>
     formatTraceDiff(diffAggregatedTraces(base, current, options), options),
   // An event has a name and no location.
   locations: () => [],

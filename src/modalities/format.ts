@@ -29,9 +29,13 @@ import type { Table } from './table.ts'
 
 /** The document title for an input with the given metrics. */
 export const formatTitle = (metrics: Metric[]): string =>
-  capitalizeFirst(
-    `${formatConjunction(metrics.map(metric => metric.phrases.titleNoun))} profile`,
-  )
+  capitalizeFirst(formatProfileName(metrics))
+
+/** Names an input with the given metrics, such as `lock contention profile`. */
+export const formatProfileName = (metrics: Metric[]): string =>
+  metrics.length > 0
+    ? `${formatConjunction(metrics.map(metric => metric.phrases.titleNoun))} profile`
+    : `profile`
 
 /**
  * A paragraph stating the base URL, so a reader can resolve a path shown

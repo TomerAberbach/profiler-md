@@ -116,13 +116,16 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     context: ProfileToMdContext,
     otherSide?: OtherSideInput,
   ): AggregatedCallStackProfile {
-    const { metrics, countMetric, frames, observations, lineMetrics } =
-      this.#profile
+    const { frames, observations, lineMetrics } = this.#profile
+    const { metrics, countMetric } = callStackProfileMeasuresOf(
+      this.#profile,
+      context,
+    )
 
     const functions = StackFrameTable.for(frames).resolve(context)
     const aggregator = new ObservationsAggregator(
       metrics,
-      resolveCountMetric(countMetric, context),
+      countMetric,
       functions,
       options,
       context,
@@ -137,6 +140,21 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     return aggregator.aggregate()
   }
 }
+
+/** What a profile measures. */
+export type CallStackProfileMeasures = Pick<
+  CallStackProfile,
+  `metrics` | `countMetric`
+>
+
+/** What a profile measures, with its count metric resolved for its origin. */
+export const callStackProfileMeasuresOf = (
+  { metrics, countMetric }: CallStackProfile,
+  context: ProfileToMdContext,
+): CallStackProfileMeasures => ({
+  metrics,
+  countMetric: resolveCountMetric(countMetric, context),
+})
 
 /**
  * The identity keys of the other side's functions with no line, or none when

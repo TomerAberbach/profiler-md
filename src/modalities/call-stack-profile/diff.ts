@@ -1,4 +1,3 @@
-import { ProfilerMdError } from '../../error.ts'
 import type {
   FormattingProfileToMdOptions,
   FunctionCategory,
@@ -11,11 +10,17 @@ import {
   matchDiffedMaps,
 } from '../diff.ts'
 import type { DiffMetric, Metric } from '../metric.ts'
-import { matchDiffedMetric, matchDiffedMetrics } from '../metric.ts'
+import {
+  matchDiffedMetric,
+  matchDiffedMetrics,
+  warnUnmatchedMetrics,
+} from '../metric.ts'
+import type { DiffInputMatch } from '../spec.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileCategoryMetrics,
   AggregatedCallStackProfileFunction,
+  CallStackProfileMeasures,
 } from './aggregate.ts'
 
 export type AggregatedCallStackProfileDiff = {
@@ -65,26 +70,49 @@ export type AggregatedCallStackProfileFunctionDiff = Pick<
 > &
   Diff<AggregatedCallStackProfileFunction>
 
+/** What a diff of two call stack profiles compares them by. */
+export type CallStackProfileMatch = Pick<
+  AggregatedCallStackProfileDiff,
+  `metrics` | `countMetric`
+>
+
 /**
- * Throws when the profiles share no metric, unless neither has metrics and the
- * two count the same thing.
+ * Matches the metrics two profiles share, and what one count of both measures.
+ * Profiles sharing no metric are unmatched, unless neither has metrics and the
+ * two count the same thing, because the diff would then have nothing to rank.
  */
-export const diffAggregatedCallStackProfiles = (
-  base: AggregatedCallStackProfile,
-  current: AggregatedCallStackProfile,
-  options: FormattingProfileToMdOptions,
-): AggregatedCallStackProfileDiff => {
-  const metrics = matchDiffedMetrics(
-    base.metrics,
-    current.metrics,
-    options.logger,
-  )
+export const matchCallStackProfiles = (
+  base: CallStackProfileMeasures,
+  current: CallStackProfileMeasures,
+): DiffInputMatch<CallStackProfileMatch> => {
+  const metrics = matchDiffedMetrics(base.metrics, current.metrics)
   if (
     metrics.length === 0 &&
     (base.metrics.length > 0 || current.metrics.length > 0)
   ) {
-    throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
+    return {
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common`,
+    }
   }
+
+  const countMetric = matchDiffedMetric(base.countMetric, current.countMetric)
+  if (!countMetric && metrics.length === 0) {
+    return {
+      type: `unmatched`,
+      reason: `cannot diff profiles with no metrics in common that count different things, got: ${describeCounts(base, current)} and ${describeCounts(current, base)}`,
+    }
+  }
+  return { type: `matched`, match: { metrics, countMetric } }
+}
+
+export const diffAggregatedCallStackProfiles = (
+  base: AggregatedCallStackProfile,
+  current: AggregatedCallStackProfile,
+  { metrics, countMetric }: CallStackProfileMatch,
+  options: FormattingProfileToMdOptions,
+): AggregatedCallStackProfileDiff => {
+  warnUnmatchedMetrics(base.metrics, current.metrics, metrics, options.logger)
 
   const matches = matchDiffedInputEntries(
     base,
@@ -102,7 +130,7 @@ export const diffAggregatedCallStackProfiles = (
     base,
     current,
     metrics,
-    countMetric: matchDiffedCountMetrics(base, current, metrics.length === 0),
+    countMetric,
     categoryToMetrics: matchDiffedMaps(
       base.categoryToMetrics,
       current.categoryToMetrics,
@@ -112,38 +140,14 @@ export const diffAggregatedCallStackProfiles = (
   }
 }
 
-/**
- * Returns `null` when the profiles count different things.
- *
- * Throws when the two count different things and share no metric, because the
- * diff would then have nothing to rank.
- */
-const matchDiffedCountMetrics = (
-  base: AggregatedCallStackProfile,
-  current: AggregatedCallStackProfile,
-  ranksByCount: boolean,
-): Metric | null => {
-  const countMetric = matchDiffedMetric(base.countMetric, current.countMetric)
-  if (countMetric) {
-    return countMetric
-  }
-
-  if (ranksByCount) {
-    throw new ProfilerMdError(
-      `cannot diff profiles with no metrics in common that count different things, got: ${describeCounts(base, current)} and ${describeCounts(current, base)}`,
-    )
-  }
-  return null
-}
-
 // A count metric's column noun names the counted thing ("samples", "objects").
 // A time or size count metric measures a quantity instead, so its title noun
 // ("wall time") names that quantity where its column noun ("time") would name
 // only the unit. Two profiles counting different things can share a column
 // noun ("sleeps"), which their title nouns ("interruptible sleep") separate.
 const describeCounts = (
-  { countMetric }: AggregatedCallStackProfile,
-  { countMetric: otherCountMetric }: AggregatedCallStackProfile,
+  { countMetric }: CallStackProfileMeasures,
+  { countMetric: otherCountMetric }: CallStackProfileMeasures,
 ): string => {
   if (!countMetric) {
     return `nothing`

@@ -18,7 +18,9 @@ export const heapSnapshotModalitySpec = {
       nodes: reader.records(snapshot.nodes),
     }),
   format: formatHeapSnapshot,
-  formatDiff: (base, current, options) =>
+  name: () => `heap snapshot`,
+  matchDiffed: () => ({ type: `matched`, match: undefined }),
+  formatDiff: (base, current, _match, options) =>
     formatHeapSnapshotDiff(
       diffAggregatedHeapSnapshots(base, current, options),
       options,

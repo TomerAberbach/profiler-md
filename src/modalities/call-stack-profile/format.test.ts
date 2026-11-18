@@ -23,10 +23,10 @@ import {
   parseMetric,
   RETAINED_HEAP_METRIC,
 } from '../metrics.ts'
-import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
 import {
   callStackTables,
+  diffCallStackProfiles,
   makeAggregatedCallStackProfile,
   makeFunction,
   selfTimeTables,
@@ -965,7 +965,7 @@ const formatDiffOfMetric = (metric: Metric): string => {
 
   return mdastToMarkdown(
     formatCallStackProfileDiff(
-      diffAggregatedCallStackProfiles(
+      diffCallStackProfiles(
         profileOf(100, 60),
         profileOf(200, 20),
         defaultOptions,
@@ -1000,7 +1000,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(profileTitles(md)).toStrictEqual([`CPU profile diff`])
@@ -1030,7 +1030,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     const lines = summaryLines(md)
@@ -1060,7 +1060,7 @@ describe(`formatCallStackProfileDiff`, () => {
       countMetricOf(`object`, { improvement: `decrease` }),
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(summaryLines(md)).toStrictEqual([
@@ -1092,7 +1092,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toStrictEqual([
@@ -1133,7 +1133,7 @@ describe(`formatCallStackProfileDiff`, () => {
         { format: `v8-cpu-profile`, origin: `node` },
       )
 
-    const diff = diffAggregatedCallStackProfiles(
+    const diff = diffCallStackProfiles(
       profile(100, 900),
       profile(300, 100),
       defaultOptions,
@@ -1202,7 +1202,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
@@ -1384,7 +1384,7 @@ describe(`formatCallStackProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
@@ -1427,11 +1427,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(
-      profile,
-      profile,
-      defaultOptions,
-    )
+    const diff = diffCallStackProfiles(profile, profile, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     // The unchanged total reads as a measurement, so it omits the change suffix
@@ -1498,7 +1494,7 @@ describe(`formatCallStackProfileDiff`, () => {
             },
           ],
         )
-      const diff = diffAggregatedCallStackProfiles(
+      const diff = diffCallStackProfiles(
         profileAt(basePosition, 5),
         profileAt(currentPosition, 10),
         defaultOptions,
@@ -1553,11 +1549,7 @@ describe(`formatCallStackProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedCallStackProfiles(
-      profile,
-      profile,
-      defaultOptions,
-    )
+    const diff = diffCallStackProfiles(profile, profile, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## Hottest functions$/mu)
@@ -1591,7 +1583,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
@@ -1611,7 +1603,7 @@ describe(`formatCallStackProfileDiff`, () => {
         [MICROSECONDS_METRIC, MEGABYTES_METRIC],
         [{ name: `funcA`, selfCount: 5, selfValues: [cpu, 100] }],
       )
-    const diff = diffAggregatedCallStackProfiles(
+    const diff = diffCallStackProfiles(
       makeSide(100),
       makeSide(200),
       defaultOptions,
@@ -1657,7 +1649,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const diff = diffCallStackProfiles(base, current, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
@@ -1691,11 +1683,7 @@ describe(`formatCallStackProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedCallStackProfiles(
-      profile,
-      profile,
-      defaultOptions,
-    )
+    const diff = diffCallStackProfiles(profile, profile, defaultOptions)
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## CPU$/mu)
@@ -1743,7 +1731,7 @@ describe(`formatCallStackProfileDiff`, () => {
     ) =>
       mdastToMarkdown(
         formatCallStackProfileDiff(
-          diffAggregatedCallStackProfiles(
+          diffCallStackProfiles(
             makeMixedProfile(base),
             makeMixedProfile(current),
             defaultOptions,
@@ -1880,11 +1868,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
       const md = mdastToMarkdown(
         formatCallStackProfileDiff(
-          diffAggregatedCallStackProfiles(
-            churning(6, 1),
-            churning(1, 6),
-            defaultOptions,
-          ),
+          diffCallStackProfiles(churning(6, 1), churning(1, 6), defaultOptions),
           defaultOptions,
         ),
       )

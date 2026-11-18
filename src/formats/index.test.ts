@@ -18,6 +18,7 @@ import {
   expectLogs,
   profileTitles,
   rankingTables,
+  takeUnassertedLogs,
 } from '../testing.ts'
 import { FormatDetectError, unclassifiedParseFailures } from './error.ts'
 import {
@@ -26,6 +27,7 @@ import {
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
+import { makeJfr } from './jfr/testing.ts'
 import type { JsonFormatSpec } from './spec.ts'
 import { convertJsonToMd, inputPath, readInput } from './testing.ts'
 import {
@@ -1826,4 +1828,84 @@ describe(`diffProfiles`, () => {
       diffProfiles(snapshotContent, profileContent, { baseURL: null }),
     ).toThrow(/cannot diff a heap snapshot against a call stack profile/u)
   })
+
+  test(`pairs profiles by what they measure and warns about the rest`, () => {
+    const md = diffProfiles(
+      jfrRecording([`cpu`, `lock`]),
+      jfrRecording([`cpu`, `alloc`]),
+      { baseURL: null },
+    )
+
+    expect(profileTitles(md)).toStrictEqual([`Sampling profile diff`])
+    expect(takeUnassertedLogs()).toStrictEqual([
+      `warn: diff omits profiles only the base side records, got: lock contention profile`,
+      `warn: diff omits profiles only the current side records, got: allocated heap profile`,
+    ])
+  })
+
+  test(`throws when the sides record no profiles in common`, () => {
+    expect(() =>
+      diffProfiles(
+        jfrRecording([`cpu`, `lock`]),
+        jfrRecording([`alloc`, `live`]),
+        { baseURL: null },
+      ),
+    ).toThrow(
+      `cannot diff inputs with no profiles in common, got: sampling profile and lock contention profile in the base and allocated heap profile and retained heap profile in the current`,
+    )
+  })
+
+  test(`reports a side's parse failure before the pairing failure`, () => {
+    expect(() =>
+      diffProfiles(
+        { name: `base.jfr`, data: jfrRecording([`cpu`]) },
+        { name: `current.jfr`, data: jfrRecording([`cpu`]).subarray(0, -5) },
+        { baseURL: null },
+      ),
+    ).toThrow(
+      `current.jfr: jfr: no usable records because the parser skipped 1 chunk cut off by the end of the input`,
+    )
+  })
+
+  test(`logs why each unpaired profile matches none of the other side's`, () => {
+    diffProfiles(
+      jfrRecording([`cpu`, `lock`]),
+      jfrRecording([`cpu`, `alloc`]),
+      {
+        baseURL: null,
+      },
+    )
+
+    expectLogs([
+      `info: detected format: jfr`,
+      `debug: origin candidates, in priority order: async-profiler, jdk`,
+      `info: detected origin: async-profiler`,
+      `debug: async-profiler is named by the format's metadata`,
+      `info: detected format: jfr`,
+      `debug: origin candidates, in priority order: async-profiler, jdk`,
+      `info: detected origin: async-profiler`,
+      `debug: async-profiler is named by the format's metadata`,
+      `debug: the base sampling profile and the current allocated heap profile do not pair: cannot diff profiles with no metrics in common`,
+      `debug: the base lock contention profile and the current sampling profile do not pair: cannot diff profiles with no metrics in common`,
+      `debug: the base lock contention profile and the current allocated heap profile do not pair: cannot diff profiles with no metrics in common`,
+      `warn: diff omits profiles only the base side records, got: lock contention profile`,
+      `warn: diff omits profiles only the current side records, got: allocated heap profile`,
+    ])
+  })
+
+  test(`throws why the sides' only profiles can't be diffed`, () => {
+    expect(() =>
+      diffProfiles(jfrRecording([`lock`]), jfrRecording([`alloc`]), {
+        baseURL: null,
+      }),
+    ).toThrow(`cannot diff profiles with no metrics in common`)
+  })
 })
+
+/** A JFR recording with one event of each of {@link types}, all in one method. */
+const jfrRecording = (types: (`cpu` | `lock` | `alloc` | `live`)[]) =>
+  makeJfr({
+    methods: [{ name: `work`, className: `com.example.W` }],
+    stackTraces: [{ frames: [{ method: 0, line: 4 }] }],
+    events: types.map(type => ({ type, stack: 0, value: 5_000_000 })),
+  })
