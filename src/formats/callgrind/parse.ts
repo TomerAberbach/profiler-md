@@ -760,6 +760,7 @@ const SYSTEM_TIME_PHRASES: ReadonlyMap<string, MetricPhrases> = new Map([
     {
       titleNoun: `system call`,
       columnNoun: `time`,
+      proseNoun: `time`,
       pastTenseVerb: `spent`,
       pastParticipleVerbPhrase: `time spent in system calls`,
     },
@@ -769,6 +770,7 @@ const SYSTEM_TIME_PHRASES: ReadonlyMap<string, MetricPhrases> = new Map([
     {
       titleNoun: `system call CPU`,
       columnNoun: `time`,
+      proseNoun: `time`,
       pastTenseVerb: `spent`,
       pastParticipleVerbPhrase: `CPU time spent in system calls`,
     },

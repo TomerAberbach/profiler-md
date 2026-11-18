@@ -16,6 +16,7 @@ describe(`metricColumnNouns`, () => {
       {
         titleNoun: `allocated objects`,
         columnNoun: `objects`,
+        proseNoun: `objects`,
         pastTenseVerb: `allocated`,
         pastParticipleVerbPhrase: `objects allocated`,
       },

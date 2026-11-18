@@ -157,6 +157,7 @@ const ENTRIES: Metric = {
   phrases: {
     titleNoun: `entries`,
     columnNoun: `entries`,
+    proseNoun: `entries`,
     pastTenseVerb: `recorded`,
     pastParticipleVerbPhrase: `entries recorded`,
   },
