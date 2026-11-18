@@ -14,6 +14,7 @@ export const SAMPLES: CountMetric = {
   phrases: {
     titleNoun: `sampling`,
     columnNoun: `samples`,
+    proseNoun: `samples`,
     pastTenseVerb: `collected`,
     pastParticipleVerbPhrase: `samples collected`,
   },
@@ -22,18 +23,21 @@ export const SAMPLES: CountMetric = {
 const CPU_TIME_PHRASES: MetricPhrases = {
   titleNoun: `CPU`,
   columnNoun: `time`,
+  proseNoun: `time`,
   pastTenseVerb: `took`,
   pastParticipleVerbPhrase: `time spent`,
 }
 const SAMPLING_TIME_PHRASES: MetricPhrases = {
   titleNoun: `sampling`,
   columnNoun: `time`,
+  proseNoun: `time`,
   pastTenseVerb: `took`,
   pastParticipleVerbPhrase: `time spent`,
 }
 const HEAP_PHRASES: MetricPhrases = {
   titleNoun: `heap`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `allocated`,
   pastParticipleVerbPhrase: `bytes allocated`,
 }
@@ -69,6 +73,7 @@ export const SECONDS_METRIC: Metric = {
 export const WALL_TIME_METRIC: Metric = metricWithPhrases(MICROSECONDS_METRIC, {
   titleNoun: `wall time`,
   columnNoun: `time`,
+  proseNoun: `time`,
   pastTenseVerb: `took`,
   pastParticipleVerbPhrase: `wall time spent`,
 })
@@ -79,6 +84,7 @@ export const LOCK_CONTENTION_TIME_METRIC: Metric = metricWithPhrases(
   {
     titleNoun: `lock contention`,
     columnNoun: `time`,
+    proseNoun: `time`,
     pastTenseVerb: `blocked`,
     pastParticipleVerbPhrase: `time blocked`,
   },
@@ -88,6 +94,7 @@ export const LOCK_CONTENTION_TIME_METRIC: Metric = metricWithPhrases(
 const CONTENTION_TIME_METRIC: Metric = metricWithPhrases(NANOSECONDS_METRIC, {
   titleNoun: `contention`,
   columnNoun: `time`,
+  proseNoun: `time`,
   pastTenseVerb: `blocked`,
   pastParticipleVerbPhrase: `time blocked`,
 })
@@ -121,6 +128,7 @@ const GIGABYTES_METRIC: Metric = {
 export const ALLOCATED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `allocated heap`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `allocated`,
   pastParticipleVerbPhrase: `bytes allocated`,
 })
@@ -132,6 +140,7 @@ export const ALLOCATED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
 export const SAMPLED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `heap`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `recorded`,
   pastParticipleVerbPhrase: `bytes recorded`,
 })
@@ -140,6 +149,7 @@ export const SAMPLED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
 export const RETAINED_HEAP_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `retained heap`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `retained`,
   pastParticipleVerbPhrase: `bytes retained`,
 })
@@ -150,6 +160,7 @@ export const ALLOCATED_NATIVE_MEMORY_METRIC: Metric = metricWithPhrases(
   {
     titleNoun: `allocated native memory`,
     columnNoun: `size`,
+    proseNoun: `size`,
     pastTenseVerb: `allocated`,
     pastParticipleVerbPhrase: `native bytes allocated`,
   },
@@ -159,6 +170,7 @@ export const ALLOCATED_NATIVE_MEMORY_METRIC: Metric = metricWithPhrases(
 export const PEAK_MEMORY_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `peak memory`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `held`,
   pastParticipleVerbPhrase: `bytes held at peak memory`,
 })
@@ -167,6 +179,7 @@ export const PEAK_MEMORY_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
 export const LEAKED_MEMORY_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
   titleNoun: `leaked memory`,
   columnNoun: `size`,
+  proseNoun: `size`,
   pastTenseVerb: `leaked`,
   pastParticipleVerbPhrase: `bytes never freed`,
 })
@@ -182,6 +195,7 @@ export const CPU_CYCLES_METRIC: CountMetric = {
   phrases: {
     titleNoun: `CPU cycles`,
     columnNoun: `CPU cycles`,
+    proseNoun: `CPU cycles`,
     pastTenseVerb: `recorded`,
     pastParticipleVerbPhrase: `CPU cycles recorded`,
   },
@@ -195,6 +209,7 @@ export const UNINTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
   phrases: {
     titleNoun: `uninterruptible sleep`,
     columnNoun: `sleeps`,
+    proseNoun: `sleeps`,
     pastTenseVerb: `slept`,
     pastParticipleVerbPhrase: `uninterruptible sleeps entered`,
   },
@@ -208,6 +223,7 @@ export const INTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
   phrases: {
     titleNoun: `interruptible sleep`,
     columnNoun: `sleeps`,
+    proseNoun: `sleeps`,
     pastTenseVerb: `slept`,
     pastParticipleVerbPhrase: `interruptible sleeps entered`,
   },
@@ -244,6 +260,7 @@ export const parseMetric = ({
     phrases: {
       titleNoun: name,
       columnNoun: name,
+      proseNoun: name,
       pastTenseVerb: `recorded`,
       pastParticipleVerbPhrase: `${name} recorded`,
     },
@@ -265,6 +282,7 @@ const OCCURRENCES_METRIC: CountMetric = {
   phrases: {
     titleNoun: `count`,
     columnNoun: `occurrences`,
+    proseNoun: `occurrences`,
     pastTenseVerb: `recorded`,
     pastParticipleVerbPhrase: `occurrences recorded`,
   },

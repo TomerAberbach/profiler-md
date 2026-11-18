@@ -105,6 +105,7 @@ describe(`parseMetric`, () => {
       phrases: {
         titleNoun: `my_metric`,
         columnNoun: `my_metric`,
+        proseNoun: `my_metric`,
         pastTenseVerb: `recorded`,
         pastParticipleVerbPhrase: `my_metric recorded`,
       },

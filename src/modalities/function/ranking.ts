@@ -212,7 +212,7 @@ const formatDirectionFunctions = <
           })),
         ),
       headingLevel: headingLevel + 1,
-      selfValueNoun: `self ${metric.phrases.columnNoun}`,
+      selfValueNoun: `self ${metric.phrases.proseNoun}`,
       minCategoryShare: options.minCategoryShare,
     }),
     ...(direction.type === `self`
@@ -274,7 +274,7 @@ const formatHottestLines = <
     [
       heading(headingLevel, `Lines`),
       paragraph(
-        `Lines with the largest contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+        `Lines with the largest contribution to each function's self ${measure.metric.phrases.proseNoun}.`,
       ),
     ],
     funcs.flatMap(func => {
@@ -439,7 +439,7 @@ const formatDiffDirectionFunctions = <
       options,
       { categories, categoryOf: func => func.category },
     ),
-    selfValueNoun: `self ${metric.phrases.columnNoun}`,
+    selfValueNoun: `self ${metric.phrases.proseNoun}`,
     rowOf: ({ base, current }) => ({
       base: sideRowOf(measure.base, base),
       current: sideRowOf(measure.current, current),
@@ -508,7 +508,7 @@ const formatDiffLines = <
     [
       heading(headingLevel, `Lines`),
       paragraph(
-        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.columnNoun}.`,
+        `Lines with the largest change in contribution to each function's self ${measure.metric.phrases.proseNoun}.`,
       ),
     ],
     funcs.flatMap(func => {

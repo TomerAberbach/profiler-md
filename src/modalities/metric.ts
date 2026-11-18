@@ -56,6 +56,13 @@ export type MetricPhrases = {
   /** A noun to use in columns like "time", "size", etc. */
   columnNoun: string
 
+  /**
+   * A noun to use in prose like "time", "samples", etc. It is shorter than
+   * {@link columnNoun} where the title already states the qualifier it drops
+   * (e.g. "samples" for "wall clock samples").
+   */
+  proseNoun: string
+
   /** A verb to use in prose like "took", "allocated", etc. */
   pastTenseVerb: string
 
@@ -94,6 +101,7 @@ export const countMetricOf = (
     phrases: {
       titleNoun: noun,
       columnNoun: plural,
+      proseNoun: plural,
       pastTenseVerb: `recorded`,
       pastParticipleVerbPhrase: `${plural} recorded`,
     },
@@ -216,8 +224,10 @@ export const metricsEqual = (left: Metric, right: Metric): boolean => {
   }
 }
 
+// Skips `proseNoun`, which drops a qualifier the title noun already states.
 const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
   left.titleNoun === right.titleNoun &&
   left.columnNoun === right.columnNoun &&
+  left.proseNoun === right.proseNoun &&
   left.pastTenseVerb === right.pastTenseVerb &&
   left.pastParticipleVerbPhrase === right.pastParticipleVerbPhrase

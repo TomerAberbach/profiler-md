@@ -478,7 +478,7 @@ const formatNeighborSections = ({
       [
         heading(headingLevel, `${entity}s`),
         paragraph(
-          `${entity}s with ${ranking} contribution to each function's ${share} ${metric.phrases.columnNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise${
+          `${entity}s with ${ranking} contribution to each function's ${share} ${metric.phrases.proseNoun}. Inlining can make ${entity.toLowerCase()} attribution imprecise${
             // One observation counts toward each frame pair its call stack
             // repeats the function in.
             share === `total`
