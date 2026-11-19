@@ -46,9 +46,8 @@ export type CallStackProfile = {
   observations: Iterable<Observation>
 
   /**
-   * Per-line metrics added after the observations, so a format can break a
-   * function's self time down by line from data summed while iterating
-   * {@link CallStackProfile.observations}.
+   * Per-line metrics added after the observations, for a format that records
+   * a function's lines apart from its call stacks.
    */
   lineMetrics?: Iterable<ObservationLineMetrics>
 }

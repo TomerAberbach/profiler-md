@@ -19,17 +19,25 @@ export type V8CpuProfile = {
   /** The profile nodes forming the call tree. */
   nodes: V8CpuProfileNode[]
 
-  /** Node IDs in temporal order. */
-  samples: number[]
+  /** Microseconds, on the clock `endTime` reads. */
+  startTime: number
+
+  endTime: number
+
+  /**
+   * Node IDs in temporal order. Besides a sample per tick, V8 records one at
+   * each deoptimization and one when the profile starts.
+   */
+  samples?: number[]
 
   /** Microseconds between consecutive samples. */
-  timeDeltas: number[]
+  timeDeltas?: number[]
 }
 
 export type V8CpuProfileNode = {
   id: number
 
-  /** Number of samples whose leaf frame is this node. */
+  /** Number of sampler ticks whose leaf frame is this node. */
   hitCount?: number
 
   callFrame: V8CallFrame
@@ -37,7 +45,7 @@ export type V8CpuProfileNode = {
   /** Child node IDs. */
   children?: number[]
 
-  /** Per-line hit counts within this function. */
+  /** The node's ticks that V8 attributed to a line, per line. */
   positionTicks?: {
     /** The 1-based line number of the code corresponding to this position. */
     line: number
@@ -45,13 +53,36 @@ export type V8CpuProfileNode = {
   }[]
 }
 
+/**
+ * Derives every time from tick counts, as Chrome DevTools does. One tick is
+ * worth the profile's duration divided by its total ticks. A node's self time
+ * is its `hitCount` ticks, and a line's time is its `positionTicks` ticks. V8
+ * increments both counts on the same sampler tick, so a node's lines sum to
+ * its self time, less the ticks V8 attributed to no line.
+ *
+ * `timeDeltas` cannot provide these times, because V8 also records a sample at
+ * each deoptimization, which increments neither count. That sample is taken
+ * partway through a sampler interval, so its delta moves part of the interval
+ * from the node the next tick hits to the node that deoptimized. A function
+ * that deoptimizes often then reports many times the time it ran for. The
+ * input does not record which of a node's samples are ticks, so no share of a
+ * node's deltas is the time of its ticks.
+ *
+ * @see https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/models/cpu_profile/CPUProfileDataModel.ts
+ * @see https://github.com/ChromeDevTools/devtools-frontend/blob/main/front_end/ui/legacy/components/perf_ui/LineLevelProfile.ts
+ * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#527
+ */
 export const parseV8CpuProfile = (
   profile: V8CpuProfile,
   recordTally: RecordTally,
 ): CallStackProfile[] => {
-  // The observations read these lazily, after auto-detection has moved on.
-  if (!Array.isArray(profile.samples) || !Array.isArray(profile.timeDeltas)) {
-    throw new FormatParseError(`samples and timeDeltas must be arrays`)
+  // Every time is a share of the duration, and formatting crashes on a time
+  // that isn't a number.
+  if (
+    typeof profile.startTime !== `number` ||
+    typeof profile.endTime !== `number`
+  ) {
+    throw new FormatParseError(`startTime and endTime must be numbers`)
   }
 
   const idToIndex = reindexNodes(profile)
@@ -65,9 +96,15 @@ export const parseV8CpuProfile = (
     callFrameToStackFrame(node.callFrame),
   )
 
-  // Self time per node, accumulated while iterating samples and read afterwards
-  // to distribute each node's `positionTicks` across its lines.
-  const indexToSelfTime = new Float64Array(profile.nodes.length)
+  const indexToHitCount = makeIndexToHitCount(profile, idToIndex, recordTally)
+  let totalHitCount = 0
+  for (const hitCount of indexToHitCount) {
+    totalHitCount += hitCount
+  }
+  // Bun's `--cpu-prof` takes no sample while the event loop waits, so a Bun
+  // profile's ticks span less than its duration and each tick's time includes a
+  // share of the waits: https://github.com/oven-sh/bun/issues/44077
+  const tickTime = (profile.endTime - profile.startTime) / totalHitCount
 
   return [
     {
@@ -76,13 +113,16 @@ export const parseV8CpuProfile = (
       metrics: [MICROSECONDS_METRIC],
       countMetric: SAMPLES,
       observations: cpuObservations(
-        profile,
-        idToIndex,
+        indexToHitCount,
         indexToParentIndex,
-        indexToSelfTime,
+        tickTime,
+      ),
+      lineMetrics: cpuLineMetrics(
+        profile,
+        indexToHitCount,
+        tickTime,
         recordTally,
       ),
-      lineMetrics: cpuLineMetrics(profile, indexToSelfTime, recordTally),
     },
   ]
 }
@@ -126,57 +166,70 @@ const makeIndexToParentIndex = (
   return indexToParentIndex
 }
 
-function* cpuObservations(
+/**
+ * Each node's ticks. Where the nodes state no `hitCount`, which the protocol
+ * leaves optional, a node's ticks are its samples, as Chrome DevTools counts
+ * them.
+ */
+const makeIndexToHitCount = (
   profile: V8CpuProfile,
   idToIndex: number[],
-  indexToParentIndex: Int32Array,
-  indexToSelfTime: Float64Array,
   recordTally: RecordTally,
-): Iterable<Observation> {
-  const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
-  const sampleCount = Math.min(
-    profile.samples.length,
-    profile.timeDeltas.length,
-  )
+): Float64Array => {
+  const indexToHitCount = new Float64Array(profile.nodes.length)
+  if (profile.nodes[0]?.hitCount !== undefined) {
+    for (const { id, hitCount = 0 } of profile.nodes) {
+      indexToHitCount[id] = hitCount
+    }
+    return indexToHitCount
+  }
+
   let skippedSamples = 0
-  for (let index = 0; index < sampleCount; index++) {
-    const nodeIndex = idToIndex[profile.samples[index]!]
-    if (nodeIndex === undefined) {
+  for (const id of profile.samples!) {
+    const index = idToIndex[id]
+    if (index === undefined) {
       skippedSamples++
       continue
     }
-
-    const timeDelta = profile.timeDeltas[index]!
-    indexToSelfTime[nodeIndex]! += timeDelta
-
-    // The node index is a stable stack ID (a node always denotes the same
-    // stack), so the aggregator memoizes repeat stacks by it.
-    yield {
-      id: nodeIndex,
-      values: [timeDelta],
-      frameIndices: resolveFrameIndices(nodeIndex),
-    }
+    indexToHitCount[index]!++
   }
   recordTally.skipped(`sample`, `referencing a missing node`, skippedSamples)
-  recordTally.skipped(
-    `sample`,
-    `without a time delta`,
-    profile.samples.length - sampleCount,
-  )
+  return indexToHitCount
+}
+
+function* cpuObservations(
+  indexToHitCount: Float64Array,
+  indexToParentIndex: Int32Array,
+  tickTime: number,
+): Iterable<Observation> {
+  const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
+  for (let index = 0; index < indexToHitCount.length; index++) {
+    const hitCount = indexToHitCount[index]!
+    if (!hitCount) {
+      continue
+    }
+    yield {
+      values: [tickTime],
+      frameIndices: resolveFrameIndices(index),
+      count: hitCount,
+    }
+  }
 }
 
 function* cpuLineMetrics(
   profile: V8CpuProfile,
-  indexToSelfTime: Float64Array,
+  indexToHitCount: Float64Array,
+  tickTime: number,
   recordTally: RecordTally,
 ): Iterable<ObservationLineMetrics> {
   let skippedTicks = 0
-  for (const { id, hitCount, positionTicks } of profile.nodes) {
+  for (const { id, positionTicks } of profile.nodes) {
     if (!positionTicks) {
       continue
     }
-    // A node's ticks divide its hits, so a node with none has no share to give.
-    if (!hitCount) {
+    // A line's ticks are among its node's, so a node with none has no function
+    // time for its lines to be a share of.
+    if (!indexToHitCount[id]) {
       skippedTicks += positionTicks.length
       continue
     }
@@ -184,13 +237,12 @@ function* cpuLineMetrics(
     // Bun's `--cpu-prof` omits the tick of a sample taken in optimized code, so
     // a Bun node's lines sum to less than its self time:
     // https://github.com/oven-sh/bun/issues/44158
-    const selfTime = indexToSelfTime[id]!
     yield {
       frame: id,
       lines: positionTicks.map(({ line, ticks }) => ({
         line,
         count: ticks,
-        values: [Math.round((selfTime * ticks) / hitCount)],
+        values: [ticks * tickTime],
       })),
     }
   }

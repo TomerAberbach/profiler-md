@@ -1011,6 +1011,8 @@ test.concurrent(
       shared: {},
       profiles: [],
       nodes: [{ id: 1, callFrame: null }],
+      startTime: 0,
+      endTime: 1,
       samples: [],
       timeDeltas: [1],
     })

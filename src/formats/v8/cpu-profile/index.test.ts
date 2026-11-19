@@ -18,10 +18,11 @@ import type { V8CpuProfile } from './parse.ts'
 import { makeV8CallFrame, makeV8CpuProfileRoot } from './testing.ts'
 
 describe(`matches`, () => {
-  test(`accepts valid profile`, () => {
-    expect(v8CpuProfileFormatSpec.matches({ nodes: [], timeDeltas: [] })).toBe(
-      true,
-    )
+  test.each([
+    { scenario: `a start time`, times: { startTime: 0 } },
+    { scenario: `time deltas`, times: { timeDeltas: [] } },
+  ])(`accepts nodes with $scenario`, ({ times }) => {
+    expect(v8CpuProfileFormatSpec.matches({ nodes: [], ...times })).toBe(true)
   })
 
   test(`rejects null`, () => {
@@ -36,7 +37,7 @@ describe(`matches`, () => {
     expect(v8CpuProfileFormatSpec.matches({ timeDeltas: [] })).toBe(false)
   })
 
-  test(`rejects missing timeDeltas`, () => {
+  test(`rejects nodes with neither a start time nor time deltas`, () => {
     expect(v8CpuProfileFormatSpec.matches({ nodes: [] })).toBe(false)
   })
 })
@@ -94,6 +95,8 @@ describe(`convert`, () => {
           },
         },
       ],
+      startTime: 0,
+      endTime: 300,
       samples: [4, 4, 5],
       timeDeltas: [100, 100, 100],
     }
@@ -191,6 +194,8 @@ describe(`convert`, () => {
           positionTicks: [{ line: 8, ticks: 2 }],
         },
       ],
+      startTime: 0,
+      endTime: 300,
       samples: [4, 4, 5],
       timeDeltas: [100, 100, 100],
     }
@@ -268,6 +273,8 @@ describe(`convert`, () => {
           positionTicks: [{ line: 5, ticks: 1 }],
         },
       ],
+      startTime: 0,
+      endTime: 300,
       samples: [4, 4, 5],
       timeDeltas: [100, 100, 100],
     }
@@ -317,6 +324,8 @@ describe(`convert`, () => {
           },
         },
       ],
+      startTime: 0,
+      endTime: 100,
       samples: [3],
       timeDeltas: [100],
     }
@@ -382,6 +391,8 @@ describe(`convert`, () => {
           },
         },
       ],
+      startTime: 0,
+      endTime: 100,
       samples: [4],
       timeDeltas: [100],
     }
@@ -424,6 +435,8 @@ describe(`convert`, () => {
           },
         },
       ],
+      startTime: 0,
+      endTime: 100,
       samples: [2],
       timeDeltas: [100],
     }
@@ -441,13 +454,99 @@ describe(`convert`, () => {
     ).toStrictEqual([[`./src/a.ts`]])
   })
 
+  // V8 records a sample at each deoptimization too, which is no tick. `foo`
+  // has three such samples here, and one tick.
+  test(`times a node by its hits, whatever its samples' time deltas sum to`, () => {
+    const profile = {
+      nodes: [
+        makeV8CpuProfileRoot([2, 3]),
+        {
+          id: 2,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
+        },
+        {
+          id: 3,
+          hitCount: 3,
+          callFrame: makeV8CallFrame(`bar`, `file:///project/b.js`),
+        },
+      ],
+      startTime: 0,
+      endTime: 4000,
+      samples: [2, 2, 3, 2, 3, 2, 3],
+      timeDeltas: [1000, 600, 400, 600, 400, 600, 400],
+    }
+
+    const md = convertJsonToMd(
+      v8CpuProfileFormatSpec,
+      profile,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toStrictEqual([
+      `Took 4.0ms over 4 samples (1.0ms per sample).`,
+    ])
+    expect(selfTimeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `75.0%`,
+          Time: `3.0ms`,
+          Samples: `3`,
+          Function: `bar`,
+          Location: `./b.js:1:1`,
+        },
+        {
+          '%': `25.0%`,
+          Time: `1.0ms`,
+          Samples: `1`,
+          Function: `foo`,
+          Location: `./a.js:1:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`times a line by its ticks, so a node's lines sum to its self time`, () => {
+    const profile = {
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 4,
+          callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
+          positionTicks: [
+            { line: 3, ticks: 3 },
+            { line: 5, ticks: 1 },
+          ],
+        },
+      ],
+      startTime: 0,
+      endTime: 4000,
+      samples: [2, 2, 2, 2, 2, 2],
+      timeDeltas: [1000, 1000, 500, 500, 500, 500],
+    }
+
+    const md = convertJsonToMd(
+      v8CpuProfileFormatSpec,
+      profile,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(linesTables(md, `foo`)).toStrictEqual([
+      [
+        { '%': `75.0%`, Time: `3.0ms`, Samples: `3`, Location: `./a.js:3` },
+        { '%': `25.0%`, Time: `1.0ms`, Samples: `1`, Location: `./a.js:5` },
+      ],
+    ])
+  })
+
   test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
       nodes: [
         makeV8CpuProfileRoot([2]),
         {
           id: 2,
-          hitCount: 1,
+          hitCount: 4,
           callFrame: {
             functionName: `ownFunc`,
             scriptId: 1,
@@ -459,7 +558,7 @@ describe(`convert`, () => {
         },
         {
           id: 3,
-          hitCount: 1,
+          hitCount: 2,
           callFrame: {
             functionName: `thirdParty`,
             scriptId: 1,
@@ -481,8 +580,10 @@ describe(`convert`, () => {
           },
         },
       ],
-      samples: [2, 3, 4],
-      timeDeltas: [1000, 500, 250],
+      startTime: 0,
+      endTime: 1750,
+      samples: [2, 2, 2, 2, 3, 3, 4],
+      timeDeltas: [250, 250, 250, 250, 250, 250, 250],
     }
 
     const md = convertJsonToMd(
@@ -495,8 +596,8 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toStrictEqual([
       [
-        { Category: `Ours`, '%': `71.4%`, Time: `1.3ms`, Samples: `2` },
-        { Category: `Third-party`, '%': `28.6%`, Time: `0.5ms`, Samples: `1` },
+        { Category: `Ours`, '%': `71.4%`, Time: `1.3ms`, Samples: `5` },
+        { Category: `Third-party`, '%': `28.6%`, Time: `0.5ms`, Samples: `2` },
       ],
     ])
   })
@@ -567,6 +668,8 @@ describe(`options`, () => {
         },
       },
     ],
+    startTime: 0,
+    endTime: 400,
     samples: [2, 4, 4, 6],
     timeDeltas: [100, 100, 100, 100],
   }
@@ -600,53 +703,14 @@ describe(`malformed profiles`, () => {
     callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
   }
 
-  test(`rejects samples that aren't an array`, () => {
+  test(`rejects a profile that states no start and end time`, () => {
     expect(() =>
       convertJsonToMd(
         v8CpuProfileFormatSpec,
-        { nodes: [node], samples: `abc`, timeDeltas: [] },
+        { nodes: [node], samples: [1], timeDeltas: [5] },
         normalizeProfileToMdOptions(),
       ),
-    ).toThrow(`samples and timeDeltas must be arrays`)
-  })
-
-  test(`skips samples without a time delta, with a warning`, () => {
-    // The parser renumbers the nodes it reads in place.
-    const md = convertJsonToMd(
-      v8CpuProfileFormatSpec,
-      { nodes: [{ ...node }], samples: [1, 1, 1], timeDeltas: [5] },
-      normalizeProfileToMdOptions(),
-    )
-
-    expect(md).toBe(
-      convertJsonToMd(
-        v8CpuProfileFormatSpec,
-        { nodes: [{ ...node }], samples: [1], timeDeltas: [5] },
-        normalizeProfileToMdOptions(),
-      ),
-    )
-    const originLogs = [
-      `debug: origin candidates, in priority order: deno, bun, node, chrome`,
-      `info: fallback origin: chrome`,
-      `debug: no entry marked another origin`,
-    ]
-    expectLogs([
-      ...originLogs,
-      `warn: skipped 2 samples without a time delta`,
-      ...originLogs,
-    ])
-  })
-
-  test(`rejects a profile whose every sample lacks a time delta`, () => {
-    expect(() =>
-      convertJsonToMd(
-        v8CpuProfileFormatSpec,
-        { nodes: [node], samples: [1, 1], timeDeltas: [] },
-        normalizeProfileToMdOptions(),
-      ),
-    ).toThrow(
-      `no usable records because the parser skipped 2 samples without a time delta`,
-    )
+    ).toThrow(`startTime and endTime must be numbers`)
   })
 
   test.each([
@@ -659,21 +723,36 @@ describe(`malformed profiles`, () => {
         v8CpuProfileFormatSpec,
         {
           nodes: [
-            makeV8CpuProfileRoot([2]),
+            makeV8CpuProfileRoot([2, 3]),
             {
               id: 2,
               callFrame: node.callFrame,
               ...hits,
               positionTicks: [{ line: 3, ticks: 1 }],
             },
+            {
+              id: 3,
+              hitCount: 1,
+              callFrame: makeV8CallFrame(`bar`, `file:///project/b.js`),
+            },
           ],
-          samples: [2],
-          timeDeltas: [5],
+          startTime: 0,
+          endTime: 5,
         },
         normalizeProfileToMdOptions({ baseURL: `/project` }),
       )
 
-      expect(linesTables(md, `foo`)).toStrictEqual([])
+      expect(selfTimeTables(md)).toStrictEqual([
+        [
+          {
+            '%': `100.0%`,
+            Time: `5.0µs`,
+            Samples: `1`,
+            Function: `bar`,
+            Location: `./b.js:1:1`,
+          },
+        ],
+      ])
       expectLogs([
         `debug: origin candidates, in priority order: deno, bun, node, chrome`,
         `info: fallback origin: chrome`,
@@ -686,6 +765,8 @@ describe(`malformed profiles`, () => {
   test(`skips a child reference to a missing node, with a warning`, () => {
     const makeProfile = (rootChildren: number[]): V8CpuProfile => ({
       nodes: [makeV8CpuProfileRoot(rootChildren), { ...node, id: 2 }],
+      startTime: 0,
+      endTime: 5,
       samples: [2],
       timeDeltas: [5],
     })
@@ -716,21 +797,47 @@ describe(`malformed profiles`, () => {
   })
 })
 
-describe(`samples referencing a missing node`, () => {
+describe(`a profile whose nodes state no hit count`, () => {
   const makeProfile = (samples: number[]): V8CpuProfile => ({
     nodes: [
-      makeV8CpuProfileRoot([2]),
-      {
-        id: 2,
-        hitCount: 1,
-        callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`),
-      },
+      { id: 1, callFrame: makeV8CallFrame(`(root)`, ``), children: [2, 3] },
+      { id: 2, callFrame: makeV8CallFrame(`foo`, `file:///project/a.js`) },
+      { id: 3, callFrame: makeV8CallFrame(`bar`, `file:///project/b.js`) },
     ],
+    startTime: 0,
+    endTime: 4000,
     samples,
     timeDeltas: samples.map(() => 5),
   })
 
-  test(`are skipped with a warning`, () => {
+  test(`counts each node's samples as its hits`, () => {
+    const md = convertJsonToMd(
+      v8CpuProfileFormatSpec,
+      makeProfile([2, 3, 2, 2]),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(selfTimeTables(md)).toStrictEqual([
+      [
+        {
+          '%': `75.0%`,
+          Time: `3.0ms`,
+          Samples: `3`,
+          Function: `foo`,
+          Location: `./a.js:1:1`,
+        },
+        {
+          '%': `25.0%`,
+          Time: `1.0ms`,
+          Samples: `1`,
+          Function: `bar`,
+          Location: `./b.js:1:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`skips samples referencing a missing node, with a warning`, () => {
     const md = convertJsonToMd(
       v8CpuProfileFormatSpec,
       makeProfile([2, 9, 9]),
@@ -738,7 +845,7 @@ describe(`samples referencing a missing node`, () => {
     )
 
     expect(summaryLines(md)).toStrictEqual([
-      `Took 5.0µs over 1 sample (5.0µs per sample).`,
+      `Took 4.0ms over 1 sample (4.0ms per sample).`,
     ])
     expectLogs([
       `debug: origin candidates, in priority order: deno, bun, node, chrome`,
@@ -748,7 +855,7 @@ describe(`samples referencing a missing node`, () => {
     ])
   })
 
-  test(`reject a profile whose samples all reference one`, () => {
+  test(`rejects a profile whose samples all reference a missing node`, () => {
     expect(() =>
       profileToMd({
         data: JSON.stringify(makeProfile([9, 9])),
