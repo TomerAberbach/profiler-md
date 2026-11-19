@@ -10,8 +10,10 @@ import {
   ALLOCATED_HEAP_METRIC,
   ALLOCATED_NATIVE_MEMORY_METRIC,
   LOCK_CONTENTION_TIME_METRIC,
+  qualifiedSamples,
   RETAINED_HEAP_METRIC,
   SAMPLES,
+  THREAD_PARK_TIME_METRIC,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
@@ -195,29 +197,40 @@ const SAMPLED_OBJECTS = countMetricOf(`sampled object`, {
   improvement: `decrease`,
 })
 
-/** One acquisition of a contended monitor, or one park. */
+/** One acquisition of a contended monitor or native lock. */
 const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
+
+/** One park of a thread. */
+const PARKS = countMetricOf(`park`, { improvement: `decrease` })
+
+/** One sample of a thread in native code. */
+const NATIVE_METHOD_SAMPLES = qualifiedSamples(`native method`)
+
+/** One sample of a thread whether or not it was running. */
+const WALL_CLOCK_SAMPLES = qualifiedSamples(`wall clock`)
 
 /**
  * The metric and count metric for each sample kind, in the order profiles are
- * emitted. CPU/wall samples record no value in JFR, so that profile has no
- * metric and is ranked by its sample count.
+ * emitted. The sampling kinds (`cpu`, `native-method`, `wall`) record no value
+ * in JFR, so their profiles have no metric and rank by their sample count.
  *
  * Allocation events sample: `jdk.ObjectAllocationSample` stands in for the
  * allocations since the previous one, a TLAB event stands for a whole TLAB
  * refill or for one allocation made outside a TLAB, and async-profiler's
  * `--alloc <bytes>` and `--nativemem <bytes>` set a sampling interval for the
  * heap and `profiler.Malloc` events. Live-object events record only objects
- * sampled at allocation, up to a limit. Lock events each record one occurrence
- * of what their kind names, so their rate is per contention rather than per
- * sample.
+ * sampled at allocation, up to a limit. Lock and park events each record one
+ * occurrence of what their kind names, so their rate is per occurrence rather
+ * than per sample.
  */
 const KINDS: {
   kind: JfrSampleKind
-  metric: Metric | undefined
+  metric?: Metric
   countMetric: CountMetric
 }[] = [
-  { kind: `cpu`, metric: undefined, countMetric: SAMPLES },
+  { kind: `cpu`, countMetric: SAMPLES },
+  { kind: `native-method`, countMetric: NATIVE_METHOD_SAMPLES },
+  { kind: `wall`, countMetric: WALL_CLOCK_SAMPLES },
   { kind: `alloc`, metric: ALLOCATED_HEAP_METRIC, countMetric: SAMPLES },
   { kind: `live`, metric: RETAINED_HEAP_METRIC, countMetric: SAMPLED_OBJECTS },
   {
@@ -230,6 +243,7 @@ const KINDS: {
     metric: LOCK_CONTENTION_TIME_METRIC,
     countMetric: CONTENTIONS,
   },
+  { kind: `park`, metric: THREAD_PARK_TIME_METRIC, countMetric: PARKS },
 ]
 
 function* kindObservations(
@@ -288,8 +302,8 @@ type JfrSampleEvent = {
   stackTraceId: number
 
   /**
-   * The sample's value: `1` for CPU/wall samples, allocated bytes for heap and
-   * native memory allocation samples, and blocked nanoseconds for lock samples.
+   * The sample's value: `1` for the sampling kinds, allocated bytes for heap and
+   * native memory allocation samples, and nanoseconds for lock and park events.
    */
   value: number
 
@@ -304,12 +318,16 @@ type JfrSampleEvent = {
 /**
  * The kind of profiling an event represents.
  *
- * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
- *   async-profiler's `profiler.WallClockSample`). Carries no value, so it ranks
- *   by sample count, each event contributing {@link JfrSampleEvent.count}
- *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
- *   most uncoalesced samples, so ranking by it would understate where
- *   wall-clock time goes.
+ * - `cpu`: CPU sampling (`jdk.ExecutionSample`). Carries no value, so it ranks
+ *   by sample count.
+ * - `native-method`: samples of threads in native code
+ *   (`jdk.NativeMethodSample`), which the JVM takes on a period of their own, so
+ *   their counts add to no CPU sample's.
+ * - `wall`: async-profiler's `profiler.WallClockSample`, which samples threads
+ *   whether or not they run. Each event contributes its coalesced
+ *   {@link JfrSampleEvent.count} samples. It ranks by count, because its
+ *   `timeSpan` is zero for most uncoalesced samples, so ranking by it would
+ *   understate where wall-clock time goes.
  * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
  *   TLAB variants), measured in the allocated bytes the event stands for.
  * - `nativemem`: off-heap native memory allocation (async-profiler's
@@ -320,11 +338,21 @@ type JfrSampleEvent = {
  * - `live`: live-object sampling (`jdk.OldObjectSample` and async-profiler's
  *   `profiler.LiveObject`), objects sampled at allocation that were still
  *   live when captured, measured in the objects' size in bytes.
- * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
- *   async-profiler's `profiler.NativeLock`), measured in the nanoseconds
- *   the thread blocked.
+ * - `lock`: lock contention (`jdk.JavaMonitorEnter`, async-profiler's
+ *   `profiler.NativeLock`), measured in the nanoseconds the thread blocked.
+ * - `park`: thread parks (`jdk.ThreadPark`), measured in the nanoseconds the
+ *   thread stayed parked. An idle worker waiting for work parks as much as a
+ *   thread waiting for a lock, so parks are no contention.
  */
-type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
+type JfrSampleKind =
+  | `cpu`
+  | `native-method`
+  | `wall`
+  | `alloc`
+  | `live`
+  | `nativemem`
+  | `lock`
+  | `park`
 
 /**
  * A unique call stack referenced by sample events. Only the leaf frame's line
@@ -449,8 +477,8 @@ type AllocFamily = `sampled` | `tlab`
 /** The supported sample event types, by the event names JFR records. */
 const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
   [`jdk.ExecutionSample`, { kind: `cpu` }],
-  [`jdk.NativeMethodSample`, { kind: `cpu` }],
-  [`profiler.WallClockSample`, { kind: `cpu`, countField: `samples` }],
+  [`jdk.NativeMethodSample`, { kind: `native-method` }],
+  [`profiler.WallClockSample`, { kind: `wall`, countField: `samples` }],
   [
     `jdk.ObjectAllocationSample`,
     { kind: `alloc`, valueField: `weight`, allocFamily: `sampled` },
@@ -480,7 +508,7 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
   ],
   [
     `jdk.ThreadPark`,
-    { kind: `lock`, valueField: `duration`, valueInTicks: true },
+    { kind: `park`, valueField: `duration`, valueInTicks: true },
   ],
   [
     `profiler.NativeLock`,

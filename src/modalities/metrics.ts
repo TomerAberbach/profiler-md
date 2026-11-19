@@ -20,6 +20,18 @@ export const SAMPLES: CountMetric = {
   },
 }
 
+/**
+ * Samples of one kind among several a profiler takes (e.g. `wall clock`),
+ * which headings and columns name with the qualifier and prose calls samples.
+ */
+export const qualifiedSamples = (qualifier: string): CountMetric =>
+  metricWithPhrases(SAMPLES, {
+    ...SAMPLES.phrases,
+    titleNoun: `${qualifier} sample`,
+    columnNoun: `${qualifier} samples`,
+    proseNoun: SAMPLES.phrases.proseNoun,
+  })
+
 const CPU_TIME_PHRASES: MetricPhrases = {
   titleNoun: `CPU`,
   columnNoun: `time`,
@@ -77,6 +89,18 @@ export const WALL_TIME_METRIC: Metric = metricWithPhrases(MICROSECONDS_METRIC, {
   pastTenseVerb: `took`,
   pastParticipleVerbPhrase: `wall time spent`,
 })
+
+/** Time a thread stayed parked. */
+export const THREAD_PARK_TIME_METRIC: Metric = metricWithPhrases(
+  NANOSECONDS_METRIC,
+  {
+    titleNoun: `thread park`,
+    columnNoun: `time`,
+    proseNoun: `time`,
+    pastTenseVerb: `parked`,
+    pastParticipleVerbPhrase: `time parked`,
+  },
+)
 
 /** Time spent blocked acquiring a lock. */
 export const LOCK_CONTENTION_TIME_METRIC: Metric = metricWithPhrases(
