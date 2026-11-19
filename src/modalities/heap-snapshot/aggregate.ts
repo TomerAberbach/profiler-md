@@ -665,7 +665,10 @@ export type RetainerHop = {
   dominatorOrdinal: number
   edge: RetainerPathEdge
 
-  /** Whether the dominator is an internal node. */
+  /**
+   * Whether the dominator is an internal node a path may end before. It is
+   * false for a program's node retained through several retainers.
+   */
   internal: boolean
 }
 
@@ -705,7 +708,17 @@ const computeRetainerHop = (
       break
     }
   }
-  return { dominatorOrdinal, edge, internal: isInternalNode(dominatorOrdinal) }
+  // A program's node retained through several retainers keeps its step to an
+  // internal dominator, because without it the path reads as the node's
+  // outermost retainer holding it directly.
+  const isProgramNodeThroughSeveralRetainers =
+    edge === SEVERAL_RETAINERS_EDGE && !isInternalNode(nodeOrdinal)
+  return {
+    dominatorOrdinal,
+    edge,
+    internal:
+      !isProgramNodeThroughSeveralRetainers && isInternalNode(dominatorOrdinal),
+  }
 }
 
 /** Wraps {@link retainerOf} to normalize each retainer's location. */

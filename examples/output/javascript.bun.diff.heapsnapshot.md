@@ -39,13 +39,13 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Object`
 
-|  Change |  Delta |           % |                Size |   Nodes | Path                                                                                                                         |
-| ------: | -----: | ----------: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
-|  -44.8% | -543 B | 1.2% → 0.4% |    1.18 KiB → 668 B |   8 → 5 | `Object ← (GC root)`                                                                                                         |
-|  +22.7% | +543 B | 2.4% → 1.6% | 2.33 KiB → 2.86 KiB | 23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                      |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[49]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
-| removed |  -98 B | 0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[55]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+|  Change |  Delta |            % |                Size |   Nodes | Path                                                                                                                         |
+| ------: | -----: | -----------: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
+|  -95.1% | -543 B | 0.6% → <0.1% |        571 B → 28 B |   4 → 1 | `Object ←(several paths)– (GC root)`                                                                                         |
+|  +22.7% | +543 B |  2.4% → 1.6% | 2.33 KiB → 2.86 KiB | 23 → 26 | `Object ←(several paths)– GlobalObject`                                                                                      |
+| removed |  -98 B |  0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[99]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+| removed |  -98 B |  0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[49]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
+| removed |  -98 B |  0.1% → 0.0% |          98 B → 0 B |   1 → 0 | `Object ←.user– Object ←[55]– Array (100) ←.statuses– Object ←[0]– Array (1) ←.documents– Object ←.__retained– GlobalObject` |
 
 ### Retained size
 
@@ -91,7 +91,7 @@ Retainer paths with the largest change in contribution to each constructor's ret
 |     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB | 0 → 1 | `Object ←[1]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
 |     new | +422.866 KiB |  0.0% → 38.9% |       0 B → 423 KiB | 0 → 1 | `Object ←[0]– Array (2) ←.documents– Object ←.__retained– GlobalObject` |
 |  +92.0% | +421.519 KiB | 69.0% → 80.9% |   458 KiB → 880 KiB |     1 | `Object ←.__retained– GlobalObject`                                     |
-|  -87.2% |  -12.698 KiB |   2.2% → 0.2% | 14.6 KiB → 1.87 KiB | 8 → 5 | `Object ← (GC root)`                                                    |
+|  -91.1% |  -12.698 KiB |   2.1% → 0.1% | 13.9 KiB → 1.24 KiB | 4 → 1 | `Object ←(several paths)– (GC root)`                                    |
 
 ##### `InternalModuleRegistry`
 

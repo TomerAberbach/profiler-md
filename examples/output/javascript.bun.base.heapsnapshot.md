@@ -93,9 +93,9 @@ Retainer paths with the largest contribution to each constructor's self size.
 | ---: | -------: | ----: | ------------------------------------------------------------------------ |
 | 2.4% | 2.33 KiB |    23 | `Object ←(several paths)– GlobalObject`                                  |
 | 1.7% | 1.64 KiB |    17 | `Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
-| 1.2% | 1.18 KiB |     8 | `Object ← (GC root)`                                                     |
+| 0.6% |    640 B |     4 | `Object ← (GC root)`                                                     |
+| 0.6% |    571 B |     4 | `Object ←(several paths)– (GC root)`                                     |
 | 0.2% |    225 B |     1 | `Object ←.versions– url  ←.process– GlobalObject`                        |
-| 0.2% |    182 B |     1 | `Object ← GlobalObject`                                                  |
 
 ##### `ModuleRecord`
 
@@ -132,10 +132,10 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |  Size | Nodes | Path                                           |
-| ----: | ----: | ----: | ---------------------------------------------- |
-| 95.9% | 632 B |     1 | `FileInternalReadableStreamSource ← (GC root)` |
-|  4.1% |  27 B |     1 | `FileInternalReadableStreamSource ← Structure` |
+|     % |  Size | Nodes | Path                                                                       |
+| ----: | ----: | ----: | -------------------------------------------------------------------------- |
+| 95.9% | 632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– (GC root)`             |
+|  4.1% |  27 B |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– (GC root)` |
 
 ##### `Blob`
 
@@ -201,9 +201,10 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `ReadableStream`
 
-|      % | Size | Nodes | Path                         |
-| -----: | ---: | ----: | ---------------------------- |
-| 100.0% | 89 B |     2 | `ReadableStream ← (GC root)` |
+|     % | Size | Nodes | Path                                         |
+| ----: | ---: | ----: | -------------------------------------------- |
+| 62.9% | 56 B |     1 | `ReadableStream ← (GC root)`                 |
+| 37.1% | 33 B |     1 | `ReadableStream ←(several paths)– (GC root)` |
 
 ##### `String`
 
@@ -394,9 +395,10 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `ReadableStream`
 
-|      % |     Size | Nodes | Path                         |
-| -----: | -------: | ----: | ---------------------------- |
-| 100.0% | 4.22 KiB |     2 | `ReadableStream ← (GC root)` |
+|     % |     Size | Nodes | Path                                         |
+| ----: | -------: | ----: | -------------------------------------------- |
+| 69.5% | 2.93 KiB |     1 | `ReadableStream ←(several paths)– (GC root)` |
+| 30.5% | 1.29 KiB |     1 | `ReadableStream ← (GC root)`                 |
 
 ##### `Iterator`
 
@@ -441,10 +443,10 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |     Size | Nodes | Path                                           |
-| ----: | -------: | ----: | ---------------------------------------------- |
-| 67.4% | 1.27 KiB |     1 | `FileInternalReadableStreamSource ← Structure` |
-| 32.6% |    632 B |     1 | `FileInternalReadableStreamSource ← (GC root)` |
+|     % |     Size | Nodes | Path                                                                       |
+| ----: | -------: | ----: | -------------------------------------------------------------------------- |
+| 67.4% | 1.27 KiB |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– (GC root)` |
+| 32.6% |    632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– (GC root)`             |
 
 ##### `Stats`
 
@@ -470,7 +472,7 @@ Functions with the most instance bytes, including nodes only the instances keep 
 
 |    % | Retained | Instances | Paths | Name                 | Example path                                                                                           |
 | ---: | -------: | --------: | ----: | -------------------- | ------------------------------------------------------------------------------------------------------ |
-| 5.5% | 83.9 KiB |       376 |   347 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
+| 5.5% | 83.9 KiB |       376 |   348 | `Function`           | `Function ←.createNativeReadableStream– GlobalObject`                                                  |
 | 0.6% | 8.59 KiB |         3 |     3 | `matchesGlob`        | `matchesGlob ←(several paths)– Object ← InternalModuleRegistry ←.internalModuleRegistry– GlobalObject` |
 | 0.5% | 7.18 KiB |        10 |    10 | `SafeIterator`       | `SafeIterator ←(several paths)– GlobalObject`                                                          |
 | 0.4% | 6.21 KiB |         1 |     1 | `duplexPair`         | `duplexPair ←(several paths)– GlobalObject`                                                            |
@@ -480,7 +482,7 @@ Functions with the most instance bytes, including nodes only the instances keep 
 | 0.3% | 4.49 KiB |         1 |     1 | `requestInstantiate` | `requestInstantiate ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject`                         |
 | 0.3% | 3.91 KiB |         1 |     1 | `requestSatisfyUtil` | `requestSatisfyUtil ←.requestSatisfyUtil– ModuleLoader ←.Loader– GlobalObject`                         |
 | 0.2% |  3.8 KiB |         2 |     1 | `compose`            | `compose ←(several paths)– GlobalObject`                                                               |
-| 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `Object ← (GC root)`                                                                                   |
+| 0.2% | 3.72 KiB |         1 |     1 | `Object`             | `Object ←(several paths)– (GC root)`                                                                   |
 | 0.2% | 3.12 KiB |         1 |     1 | `PassThrough`        | `PassThrough ←(several paths)– GlobalObject`                                                           |
 | 0.2% |  3.1 KiB |        25 |    24 | `anonymous`          | `anonymous ←.charCodeAt– String ← GlobalObject`                                                        |
 | 0.2% | 3.04 KiB |         2 |     2 | `pipeline`           | `pipeline ←.pipeline– Object ←(several paths)– GlobalObject`                                           |
@@ -488,7 +490,7 @@ Functions with the most instance bytes, including nodes only the instances keep 
 | 0.2% | 2.49 KiB |         1 |     1 | `Stream`             | `Stream ←(several paths)– GlobalObject`                                                                |
 | 0.2% | 2.39 KiB |         6 |     4 | `forEach`            | `forEach ←(several paths)– GlobalObject`                                                               |
 | 0.2% | 2.36 KiB |        63 |    44 | `set`                | `set ← GetterSetter ←.self– GlobalObject`                                                              |
-| 0.2% | 2.33 KiB |        20 |    20 | `call`               | `call ← (GC root)`                                                                                     |
+| 0.2% | 2.33 KiB |        20 |    20 | `call`               | `call ←(several paths)– (GC root)`                                                                     |
 | 0.1% | 2.29 KiB |         1 |     1 | `newRegistryEntry`   | `newRegistryEntry ← GlobalObject`                                                                      |
 
 ### Retained nodes
@@ -597,13 +599,13 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `Object`
 
-|    % |  Self | Name                 | Path                                                     |
-| ---: | ----: | -------------------- | -------------------------------------------------------- |
-| 3.4% | 128 B | `FunctionExecutable` | `FunctionExecutable ← groupBy ←.groupBy– Object`         |
-| 2.9% | 112 B | `Structure`          | `Structure ← Object`                                     |
-| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Object`                         |
-| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Structure ← Object`             |
-| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Structure ← Structure ← Object` |
+|    % |  Self | Name                 | Path                                                                                 |
+| ---: | ----: | -------------------- | ------------------------------------------------------------------------------------ |
+| 3.4% | 128 B | `FunctionExecutable` | `FunctionExecutable ← groupBy ←.groupBy– Object ←(several paths)– (GC root)`         |
+| 2.9% | 112 B | `Structure`          | `Structure ← Object ←(several paths)– (GC root)`                                     |
+| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Object ←(several paths)– (GC root)`                         |
+| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Structure ← Object ←(several paths)– (GC root)`             |
+| 2.9% | 112 B | `Structure`          | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– (GC root)` |
 
 #### `PassThrough`
 
@@ -660,10 +662,10 @@ Retained nodes with the largest contribution to each function's retained size.
 |     % |  Self | Name                 | Path                                                                                                 |
 | ----: | ----: | -------------------- | ---------------------------------------------------------------------------------------------------- |
 | 33.8% | 828 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject` |
-| 24.7% | 604 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← forEach`                                                   |
+| 24.7% | 604 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← forEach ←(several paths)– (GC root)`                       |
 |  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
 |  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← FunctionRareData ← forEach ←(several paths)– GlobalObject`                     |
-|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← forEach`                                                                       |
+|  5.2% | 128 B | `FunctionExecutable` | `FunctionExecutable ← forEach ←(several paths)– (GC root)`                                           |
 
 #### `set`
 
@@ -677,10 +679,10 @@ Retained nodes with the largest contribution to each function's retained size.
 
 #### `call`
 
-|     % |  Self | Name                 | Path                                            |
-| ----: | ----: | -------------------- | ----------------------------------------------- |
-| 16.9% | 404 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← call` |
-|  5.4% | 128 B | `FunctionExecutable` | `FunctionExecutable ← call`                     |
+|     % |  Self | Name                 | Path                                                                        |
+| ----: | ----: | -------------------- | --------------------------------------------------------------------------- |
+| 16.9% | 404 B | `FunctionCodeBlock`  | `FunctionCodeBlock ← FunctionExecutable ← call ←(several paths)– (GC root)` |
+|  5.4% | 128 B | `FunctionExecutable` | `FunctionExecutable ← call ←(several paths)– (GC root)`                     |
 
 #### `newRegistryEntry`
 

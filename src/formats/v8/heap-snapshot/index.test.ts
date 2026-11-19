@@ -1298,7 +1298,60 @@ test(`diffProfiles formats each instance group's retainer path`, () => {
     rowAt(`a ← (GC root)`),
     rowAt(`b ←.x– a`),
     rowAt(`c ←.y– b ←.x– a`),
-    rowAt(`xx ← (GC root)`),
+    rowAt(`xx ←(several paths)– (GC root)`),
+  ])
+})
+
+test(`convertJsonToMd keeps a step through several retainers to an internal dominator`, () => {
+  // `(GC roots)` retains `Shared` through both `p1` and `p2`, so `Shared`'s
+  // dominator is `(GC roots)`, which references it only indirectly.
+  const object = (name: number, id: number, edgeCount: number) =>
+    makeV8Node({ type: NODE_TYPE_OBJECT, name, id, selfSize: 8, edgeCount })
+  const md = convertJsonToMd(
+    v8HeapSnapshotFormatSpec,
+    makeV8Snapshot({
+      nodeCount: 5,
+      edgeCount: 5,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }),
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 1,
+          id: 3,
+          selfSize: 0,
+          edgeCount: 2,
+        }),
+        ...object(2, 5, 1),
+        ...object(3, 7, 1),
+        ...object(4, 9, 0),
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+        ...property(2, 2),
+        ...property(3, 3),
+        ...property(5, 4),
+        ...property(6, 4),
+      ],
+      strings: [``, `(GC roots)`, `p1`, `p2`, `Shared`, `x`, `y`],
+    }),
+    normalizeProfileToMdOptions(),
+  )
+
+  expect(selfSizeRetainerPathTables(md, `Shared`)).toStrictEqual([
+    [
+      {
+        '%': `100.0%`,
+        Size: `8 B`,
+        Nodes: `1`,
+        Path: `Shared ←(several paths)– (GC roots)`,
+      },
+    ],
   ])
 })
 
