@@ -341,12 +341,12 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`produces expected title and summary line`, () => {
     const base = makeAggregatedHeapSnapshot({
       heldSize: 1024,
-      nodeCount: 10,
+      nodeCategoryToStats: new Map([[`object`, { size: 1024, nodeCount: 10 }]]),
       edgeCount: 20,
     })
     const current = makeAggregatedHeapSnapshot({
       heldSize: 1536,
-      nodeCount: 12,
+      nodeCategoryToStats: new Map([[`object`, { size: 1536, nodeCount: 12 }]]),
       edgeCount: 25,
     })
 
@@ -362,7 +362,7 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`omits the change suffix when the held size is unchanged`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
       heldSize: 1024,
-      nodeCount: 10,
+      nodeCategoryToStats: new Map([[`object`, { size: 1024, nodeCount: 10 }]]),
       edgeCount: 20,
     })
 

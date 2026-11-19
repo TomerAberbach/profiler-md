@@ -50,7 +50,10 @@ export type AggregatedHeapSnapshot = {
 
   /** The summed self sizes of every node in the snapshot. */
   heldSize: number
+
+  /** The ordinals' upper bound, which counts the nodes the parser added. */
   nodeCount: number
+
   edgeCount: number
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
 
@@ -273,6 +276,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   public constructor(snapshot: HeapSnapshot) {
     const {
       nodeCount,
+      addedNodeOrdinals = [],
       edgeCount,
       nodeAdjacencyGraph,
       selfSizeOf,
@@ -306,7 +310,9 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     let nodeOrdinal = 0
     for (const node of nodes) {
       const categoryKey = this.#categoryKeys.keyOf(node)
-      this.#addCategoryNode(nodeOrdinal, node, categoryKey)
+      if (!addedNodeOrdinals.includes(nodeOrdinal)) {
+        this.#addCategoryNode(nodeOrdinal, node, categoryKey)
+      }
       switch (node.type) {
         case `constructor`:
           this.#addConstructorNode(nodeOrdinal, node, categoryKey)

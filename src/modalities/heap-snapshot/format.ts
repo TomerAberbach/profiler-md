@@ -136,12 +136,18 @@ export const formatHeapSnapshot = (
   ]
 }
 
-const formatOverallSummary = ({
-  heldSize,
-  nodeCount,
-  edgeCount,
+/** The nodes the snapshot records, which excludes the nodes the parser added. */
+const recordedNodeCount = ({
   nodeCategoryToStats,
-}: AggregatedHeapSnapshot): RootContent[] => {
+}: AggregatedHeapSnapshot): number =>
+  nodeCategoryToStats
+    .values()
+    .reduce((sum, { nodeCount }) => sum + nodeCount, 0)
+
+const formatOverallSummary = (
+  snapshot: AggregatedHeapSnapshot,
+): RootContent[] => {
+  const { heldSize, edgeCount, nodeCategoryToStats } = snapshot
   const largestNodeCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
@@ -152,7 +158,7 @@ const formatOverallSummary = ({
   return [
     paragraph(
       `Held ${formatBytes(heldSize)} over ${formatCount(
-        nodeCount,
+        recordedNodeCount(snapshot),
         `node`,
       )} and ${formatCount(edgeCount, `edge`)}.`,
     ),
@@ -232,8 +238,8 @@ const formatDiffSummaryLine = ({
     current.heldSize,
     formatBytesDelta,
   )} over ${formatCountArrow(
-    base.nodeCount,
-    current.nodeCount,
+    recordedNodeCount(base),
+    recordedNodeCount(current),
     `node`,
   )} and ${formatCountArrow(base.edgeCount, current.edgeCount, `edge`)}.`
 
