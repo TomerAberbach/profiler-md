@@ -34,6 +34,7 @@ import type {
   HeapSnapshot,
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
+  NodeLabel,
   RetainerEdge,
   RetainerNode,
   UnresolvedHeapSnapshotNodeCategory,
@@ -770,7 +771,7 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerName = (
-  { name, nameLocation }: { name?: string; nameLocation?: FileReference },
+  { name, nameLocation }: NodeLabel,
   options: FormattingProfileToMdOptions,
 ): string =>
   nameLocation ? formatSourceLocation(nameLocation, options) : (name ?? ``)

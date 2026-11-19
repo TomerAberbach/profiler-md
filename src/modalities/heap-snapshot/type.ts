@@ -166,6 +166,9 @@ export type RetainerEdge =
     }
   | { type: `unlabeled` }
 
+/** What a node's displayed name is formatted from. */
+export type NodeLabel = Partial<Pick<RetainerNode, `name` | `nameLocation`>>
+
 export type RetainerNode = {
   /** The retainer's node ordinal. */
   id: number

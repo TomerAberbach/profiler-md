@@ -84,7 +84,7 @@ import {
   stringColumns,
 } from './table.ts'
 import type { FunctionRow, NodeRow } from './table.ts'
-import type { HeapSnapshotNodeCategory } from './type.ts'
+import type { HeapSnapshotNodeCategory, NodeLabel } from './type.ts'
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
@@ -357,10 +357,7 @@ class ShownRetainerPaths {
   }
 
   /** Formats the retainer path with the ID {@link path} from {@link node}. */
-  public ofPath(
-    node: { name?: string; nameLocation?: FileReference },
-    path: number,
-  ): string {
+  public ofPath(node: NodeLabel, path: number): string {
     return this.ofSteps(node, this.#paths.stepsOf(path))
   }
 
@@ -391,10 +388,7 @@ class ShownRetainerPaths {
    * for a node the GC root holds directly. Each step shows its edge, when it
    * has a label, inside the arrow to its retainer (e.g. `Entry ←.value– Item`).
    */
-  public ofSteps(
-    node: { name?: string; nameLocation?: FileReference },
-    steps: readonly RetainerPathStep[],
-  ): string {
+  public ofSteps(node: NodeLabel, steps: readonly RetainerPathStep[]): string {
     if (this.#recordings.length === 0) {
       throw new Error(`retainer path formatted outside a recording`)
     }
