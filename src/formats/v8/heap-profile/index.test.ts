@@ -695,7 +695,7 @@ describe(`malformed profiles`, () => {
     ]
     expectLogs([
       ...originLogs,
-      `warn: skipped 1 sample referencing a missing node`,
+      `warn: skipped 1 sample referencing a missing node, whose 100\u{A0}B stay out of the totals`,
       ...originLogs,
     ])
   })
