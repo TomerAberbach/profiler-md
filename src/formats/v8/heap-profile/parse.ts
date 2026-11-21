@@ -1,3 +1,4 @@
+import { formatBytes } from '../../../helpers/format.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -153,6 +154,7 @@ function* heapObservations(
 ): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   let missingNodeSamples = 0
+  let missingNodeBytes = 0
   let sizelessSamples = 0
   for (const { size, nodeId } of profile.samples) {
     // V8's sampling heap profiler, which Node's `--heap-prof` writes, returns a
@@ -161,6 +163,7 @@ function* heapObservations(
     const nodeIndex = idToIndex[nodeId]
     if (nodeIndex === undefined) {
       missingNodeSamples++
+      missingNodeBytes += typeof size === `number` ? size : 0
       continue
     }
     if (typeof size !== `number`) {
@@ -178,7 +181,7 @@ function* heapObservations(
   }
   recordTally.skipped(
     `sample`,
-    `referencing a missing node`,
+    `referencing a missing node, whose ${formatBytes(missingNodeBytes)} stay out of the totals`,
     missingNodeSamples,
   )
   recordTally.skipped(`sample`, `without a size`, sizelessSamples)
