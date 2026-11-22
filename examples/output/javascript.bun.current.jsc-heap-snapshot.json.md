@@ -139,93 +139,93 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `FunctionCodeBlock`
 
-|     % |     Size | Nodes | Path                                                                                                                                                               |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 55.3% |  146 KiB |    52 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                                                                   |
-| 18.7% | 49.2 KiB |    11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                                                                  |
-|  2.8% |  7.4 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
-|  2.4% | 6.35 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                 |
-|  2.4% | 6.26 KiB |     7 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                          |
+|     % |     Size | Nodes | Path                                                                                                                                                                  |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 55.3% |  146 KiB |    52 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                                                                   |
+| 18.7% | 49.2 KiB |    11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– (GC root)`                                                                                                  |
+|  2.8% |  7.4 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)` |
+|  2.4% | 6.35 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                 |
+|  2.4% | 6.26 KiB |     7 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                          |
 
 ##### `Structure`
 
-|    % |     Size | Nodes | Path                                                                     |
-| ---: | -------: | ----: | ------------------------------------------------------------------------ |
-| 9.3% | 19.1 KiB |   175 | `Structure ←(several paths)– GlobalObject ← <root>`                      |
-| 5.6% | 11.5 KiB |   105 | `Structure ← GlobalObject ← <root>`                                      |
-| 4.0% |  8.2 KiB |    75 | `Structure ←(several paths)– <root>`                                     |
-| 2.9% | 6.02 KiB |    55 | `Structure ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
-| 2.4% | 4.92 KiB |    45 | `Structure ← <root>`                                                     |
+|    % |     Size | Nodes | Path                                                                        |
+| ---: | -------: | ----: | --------------------------------------------------------------------------- |
+| 9.3% | 19.1 KiB |   175 | `Structure ←(several paths)– GlobalObject ← (GC root)`                      |
+| 5.6% | 11.5 KiB |   105 | `Structure ← GlobalObject ← (GC root)`                                      |
+| 4.0% |  8.2 KiB |    75 | `Structure ←(several paths)– (GC root)`                                     |
+| 2.9% | 6.02 KiB |    55 | `Structure ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)` |
+| 2.4% | 4.92 KiB |    45 | `Structure ← (GC root)`                                                     |
 
 ##### `Object`
 
-|    % |     Size | Nodes | Path                                                                   |
-| ---: | -------: | ----: | ---------------------------------------------------------------------- |
-| 1.3% | 2.33 KiB |    23 | `Object ←(several paths)– GlobalObject ← <root>`                       |
-| 0.9% | 1.64 KiB |    17 | `Object ← InternalModuleRegistry ← GlobalObject ← <root>`              |
-| 0.3% |    640 B |     4 | `Object ← (GC root)`                                                   |
-| 0.3% |    571 B |     4 | `Object ←(several paths)– <root>`                                      |
-| 0.1% |    242 B |     4 | `Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>` |
+|    % |     Size | Nodes | Path                                                                      |
+| ---: | -------: | ----: | ------------------------------------------------------------------------- |
+| 1.3% | 2.33 KiB |    23 | `Object ←(several paths)– GlobalObject ← (GC root)`                       |
+| 0.9% | 1.64 KiB |    17 | `Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`              |
+| 0.3% |    640 B |     4 | `Object ← (GC root)`                                                      |
+| 0.3% |    571 B |     4 | `Object ←(several paths)– (GC root)`                                      |
+| 0.1% |    242 B |     4 | `Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `FunctionExecutable`
 
-|     % |     Size | Nodes | Path                                                                                      |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------- |
-| 43.0% | 50.3 KiB |   402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                              |
-| 15.3% | 17.9 KiB |   143 | `FunctionExecutable ←(several paths)– <root>`                                             |
-|  3.3% | 3.88 KiB |    31 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                   |
-|  1.5% | 1.75 KiB |    14 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`    |
-|  1.4% | 1.63 KiB |    13 | `FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                         |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------- |
+| 43.0% | 50.3 KiB |   402 | `FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                              |
+| 15.3% | 17.9 KiB |   143 | `FunctionExecutable ←(several paths)– (GC root)`                                             |
+|  3.3% | 3.88 KiB |    31 | `FunctionExecutable ← Function ← GlobalObject ← (GC root)`                                   |
+|  1.5% | 1.75 KiB |    14 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– (GC root)`    |
+|  1.4% | 1.63 KiB |    13 | `FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-|     % |     Size | Nodes | Path                                                                                                                                     |
-| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 36.8% |   34 KiB |    28 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                 |
-| 21.5% | 19.9 KiB |    33 | `UnlinkedFunctionCodeBlock ←(several paths)– GlobalObject ← <root>`                                                                      |
-| 18.5% | 17.1 KiB |    38 | `UnlinkedFunctionCodeBlock ←(several paths)– <root>`                                                                                     |
-| 14.3% | 13.2 KiB |    12 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– <root>`                                                |
-|  1.7% | 1.62 KiB |     3 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                        |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 36.8% |   34 KiB |    28 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                 |
+| 21.5% | 19.9 KiB |    33 | `UnlinkedFunctionCodeBlock ←(several paths)– GlobalObject ← (GC root)`                                                                      |
+| 18.5% | 17.1 KiB |    38 | `UnlinkedFunctionCodeBlock ←(several paths)– (GC root)`                                                                                     |
+| 14.3% | 13.2 KiB |    12 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– (GC root)`                                                |
+|  1.7% | 1.62 KiB |     3 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `UnlinkedFunctionExecutable`
 
-|     % |     Size | Nodes | Path                                                                                      |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------- |
-| 41.8% | 36.4 KiB |   388 | `UnlinkedFunctionExecutable ←(several paths)– GlobalObject ← <root>`                      |
-| 16.3% | 14.2 KiB |   151 | `UnlinkedFunctionExecutable ←(several paths)– <root>`                                     |
-|  9.8% | 8.53 KiB |    91 | `UnlinkedFunctionExecutable ← <root>`                                                     |
-|  2.3% | 1.97 KiB |    21 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
-|  1.9% | 1.69 KiB |    18 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ← GlobalObject ← <root>`      |
+|     % |     Size | Nodes | Path                                                                                         |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------- |
+| 41.8% | 36.4 KiB |   388 | `UnlinkedFunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                      |
+| 16.3% | 14.2 KiB |   151 | `UnlinkedFunctionExecutable ←(several paths)– (GC root)`                                     |
+|  9.8% | 8.53 KiB |    91 | `UnlinkedFunctionExecutable ← (GC root)`                                                     |
+|  2.3% | 1.97 KiB |    21 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)` |
+|  1.9% | 1.69 KiB |    18 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ← GlobalObject ← (GC root)`      |
 
 ##### `Function`
 
-|     % |     Size | Nodes | Path                                                                                 |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------ |
-| 12.5% | 7.84 KiB |   240 | `Function ←(several paths)– GlobalObject ← <root>`                                   |
-|  3.1% | 1.94 KiB |    56 | `Function ← GlobalObject ← <root>`                                                   |
-|  2.9% | 1.82 KiB |    51 | `Function ←(several paths)– <root>`                                                  |
-|  0.6% |    406 B |    12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
-|  0.6% |    374 B |    11 | `Function ← GetterSetter ←(several paths)– <root>`                                   |
+|     % |     Size | Nodes | Path                                                                                    |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------- |
+| 12.5% | 7.84 KiB |   240 | `Function ←(several paths)– GlobalObject ← (GC root)`                                   |
+|  3.1% | 1.94 KiB |    56 | `Function ← GlobalObject ← (GC root)`                                                   |
+|  2.9% | 1.82 KiB |    51 | `Function ←(several paths)– (GC root)`                                                  |
+|  0.6% |    406 B |    12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
+|  0.6% |    374 B |    11 | `Function ← GetterSetter ←(several paths)– (GC root)`                                   |
 
 ##### `NativeExecutable`
 
-|     % |     Size | Nodes | Path                                                                                                                    |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------- |
-| 18.8% | 9.61 KiB |   123 | `NativeExecutable ← Function ←(several paths)– GlobalObject ← <root>`                                                   |
-|  4.6% | 2.34 KiB |    30 | `NativeExecutable ← Function ←(several paths)– <root>`                                                                  |
-|  2.6% | 1.33 KiB |    17 | `NativeExecutable ← Function ← GlobalObject ← <root>`                                                                   |
-|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                 |
-|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ←.win32– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                       |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| 18.8% | 9.61 KiB |   123 | `NativeExecutable ← Function ←(several paths)– GlobalObject ← (GC root)`                                                   |
+|  4.6% | 2.34 KiB |    30 | `NativeExecutable ← Function ←(several paths)– (GC root)`                                                                  |
+|  2.6% | 1.33 KiB |    17 | `NativeExecutable ← Function ← GlobalObject ← (GC root)`                                                                   |
+|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                 |
+|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ←.win32– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `Array`
 
-|    % | Size | Nodes | Path                                                                                        |
-| ---: | ---: | ----: | ------------------------------------------------------------------------------------------- |
-| 0.2% | 80 B |     5 | `Array ← (GC root)`                                                                         |
-| 0.2% | 66 B |     1 | `Array ←(several paths)– <root>`                                                            |
-| 0.1% | 48 B |     3 | `Array ←.customPromisifyArgs– Function ←(several paths)– GlobalObject ← <root>`             |
-| 0.1% | 32 B |     2 | `Array ←.kConstruct– Object ←._events– WriteStream ←(several paths)– GlobalObject ← <root>` |
-| 0.1% | 32 B |     2 | `Array ← Process ← GlobalObject ← <root>`                                                   |
+|    % | Size | Nodes | Path                                                                                           |
+| ---: | ---: | ----: | ---------------------------------------------------------------------------------------------- |
+| 0.2% | 80 B |     5 | `Array ← (GC root)`                                                                            |
+| 0.2% | 66 B |     1 | `Array ←(several paths)– (GC root)`                                                            |
+| 0.1% | 48 B |     3 | `Array ←.customPromisifyArgs– Function ←(several paths)– GlobalObject ← (GC root)`             |
+| 0.1% | 32 B |     2 | `Array ←.kConstruct– Object ←._events– WriteStream ←(several paths)– GlobalObject ← (GC root)` |
+| 0.1% | 32 B |     2 | `Array ← Process ← GlobalObject ← (GC root)`                                                   |
 
 ##### `ModuleRecord`
 
@@ -235,69 +235,69 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `PropertyTable`
 
-|     % |     Size | Nodes | Path                                                                                                        |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------- |
-| 12.8% | 2.34 KiB |    50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← <root>`                                         |
-|  6.2% | 1.13 KiB |    24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|  4.6% |    864 B |    18 | `PropertyTable ← Structure ←(several paths)– <root>`                                                        |
-|  3.3% |    624 B |    13 | `PropertyTable ← Structure ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`       |
-|  3.1% |    576 B |    12 | `PropertyTable ← Structure ← Object ←(several paths)– GlobalObject ← <root>`                                |
+|     % |     Size | Nodes | Path                                                                                                           |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------- |
+| 12.8% | 2.34 KiB |    50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← (GC root)`                                         |
+|  6.2% | 1.13 KiB |    24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|  4.6% |    864 B |    18 | `PropertyTable ← Structure ←(several paths)– (GC root)`                                                        |
+|  3.3% |    624 B |    13 | `PropertyTable ← Structure ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`       |
+|  3.1% |    576 B |    12 | `PropertyTable ← Structure ← Object ←(several paths)– GlobalObject ← (GC root)`                                |
 
 ##### `Cell Butterfly`
 
-|     % |   Size | Nodes | Path                                                                            |
-| ----: | -----: | ----: | ------------------------------------------------------------------------------- |
-| 93.5% | 16 KiB |     1 | `Cell Butterfly ← Map ←.byId– Object ←.__retained– GlobalObject ← <root>`       |
-|  3.6% |  640 B |     2 | `Cell Butterfly ← (GC root)`                                                    |
-|  1.8% |  320 B |     1 | `Cell Butterfly ← Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← <root>` |
-|  0.7% |  128 B |     4 | `Cell Butterfly ←(several paths)– <root>`                                       |
-|  0.2% |   32 B |     1 | `Cell Butterfly ←(several paths)– GlobalObject ← <root>`                        |
+|     % |   Size | Nodes | Path                                                                               |
+| ----: | -----: | ----: | ---------------------------------------------------------------------------------- |
+| 93.5% | 16 KiB |     1 | `Cell Butterfly ← Map ←.byId– Object ←.__retained– GlobalObject ← (GC root)`       |
+|  3.6% |  640 B |     2 | `Cell Butterfly ← (GC root)`                                                       |
+|  1.8% |  320 B |     1 | `Cell Butterfly ← Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
+|  0.7% |  128 B |     4 | `Cell Butterfly ←(several paths)– (GC root)`                                       |
+|  0.2% |   32 B |     1 | `Cell Butterfly ←(several paths)– GlobalObject ← (GC root)`                        |
 
 ##### `FunctionRareData`
 
-|     % |     Size | Nodes | Path                                                                                                                                                        |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 11.0% |  1.8 KiB |    23 | `FunctionRareData ← Function ←(several paths)– GlobalObject ← <root>`                                                                                       |
-|  7.6% | 1.25 KiB |    16 | `FunctionRareData ← AsyncFunction ←(several paths)– GlobalObject ← <root>`                                                                                  |
-|  1.4% |    240 B |     3 | `FunctionRareData ← Function ←(several paths)– <root>`                                                                                                      |
-|  0.5% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>`                                       |
-|  0.5% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                                           |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 11.0% |  1.8 KiB |    23 | `FunctionRareData ← Function ←(several paths)– GlobalObject ← (GC root)`                                                                                       |
+|  7.6% | 1.25 KiB |    16 | `FunctionRareData ← AsyncFunction ←(several paths)– GlobalObject ← (GC root)`                                                                                  |
+|  1.4% |    240 B |     3 | `FunctionRareData ← Function ←(several paths)– (GC root)`                                                                                                      |
+|  0.5% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)`                                       |
+|  0.5% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `JSLexicalEnvironment`
 
-|     % |     Size | Nodes | Path                                                                                  |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------- |
-| 34.3% | 4.34 KiB |    23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                        |
-|  5.9% |    768 B |     5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>` |
-|  4.3% |    560 B |     8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← <root>`             |
-|  4.0% |    512 B |     2 | `JSLexicalEnvironment ←(several paths)– <root>`                                       |
-|  3.7% |    480 B |    10 | `JSLexicalEnvironment ← AsyncFunction ←(several paths)– GlobalObject ← <root>`        |
+|     % |     Size | Nodes | Path                                                                                     |
+| ----: | -------: | ----: | ---------------------------------------------------------------------------------------- |
+| 34.3% | 4.34 KiB |    23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)`                        |
+|  5.9% |    768 B |     5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)` |
+|  4.3% |    560 B |     8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← (GC root)`             |
+|  4.0% |    512 B |     2 | `JSLexicalEnvironment ←(several paths)– (GC root)`                                       |
+|  3.7% |    480 B |    10 | `JSLexicalEnvironment ← AsyncFunction ←(several paths)– GlobalObject ← (GC root)`        |
 
 ##### `SymbolTable`
 
-|     % |     Size | Nodes | Path                                                                             |
-| ----: | -------: | ----: | -------------------------------------------------------------------------------- |
-| 44.9% | 5.19 KiB |    83 | `SymbolTable ←(several paths)– GlobalObject ← <root>`                            |
-| 16.8% | 1.94 KiB |    31 | `SymbolTable ←(several paths)– <root>`                                           |
-|  7.6% |    896 B |    14 | `SymbolTable ←(several paths)– Function ←(several paths)– GlobalObject ← <root>` |
-|  7.0% |    832 B |    13 | `SymbolTable ← SymbolTable ←(several paths)– GlobalObject ← <root>`              |
-|  3.8% |    448 B |     7 | `SymbolTable ← SymbolTable ←(several paths)– <root>`                             |
+|     % |     Size | Nodes | Path                                                                                |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------- |
+| 44.9% | 5.19 KiB |    83 | `SymbolTable ←(several paths)– GlobalObject ← (GC root)`                            |
+| 16.8% | 1.94 KiB |    31 | `SymbolTable ←(several paths)– (GC root)`                                           |
+|  7.6% |    896 B |    14 | `SymbolTable ←(several paths)– Function ←(several paths)– GlobalObject ← (GC root)` |
+|  7.0% |    832 B |    13 | `SymbolTable ← SymbolTable ←(several paths)– GlobalObject ← (GC root)`              |
+|  3.8% |    448 B |     7 | `SymbolTable ← SymbolTable ←(several paths)– (GC root)`                             |
 
 ##### `GlobalObject`
 
-|      % |     Size | Nodes | Path                    |
-| -----: | -------: | ----: | ----------------------- |
-| 100.0% | 10.3 KiB |     1 | `GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 10.3 KiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `StructureRareData`
 
-|     % |     Size | Nodes | Path                                                                                                                                                                                                                                                                                                                                    |
-| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 20.0% | 1.97 KiB |    21 | `StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                                                                                                                                                                                                                 |
-|  2.9% |    288 B |     3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                                                                                                                                                                                 |
-|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← GlobalObject ← <root>`                                                                                                                                                                                                                                                                                 |
-|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>` |
-|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                 |
+|     % |     Size | Nodes | Path                                                                                                                                                                                                                                                                                                                                       |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 20.0% | 1.97 KiB |    21 | `StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                                                                                                                                                                                                                 |
+|  2.9% |    288 B |     3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                                                                                                                                                                                 |
+|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← GlobalObject ← (GC root)`                                                                                                                                                                                                                                                                                 |
+|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)` |
+|  1.9% |    192 B |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                 |
 
 ##### `ModuleProgramCodeBlock`
 
@@ -307,23 +307,23 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `GetterSetter`
 
-|    % |  Size | Nodes | Path                                                                       |
-| ---: | ----: | ----: | -------------------------------------------------------------------------- |
-| 7.5% | 352 B |    11 | `GetterSetter ←(several paths)– <root>`                                    |
-| 3.4% | 160 B |     5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← <root>` |
-| 2.7% | 128 B |     4 | `GetterSetter ← GlobalObject ← <root>`                                     |
-| 2.7% | 128 B |     4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← <root>`    |
-| 2.7% | 128 B |     4 | `GetterSetter ←.errored– Object ←(several paths)– GlobalObject ← <root>`   |
+|    % |  Size | Nodes | Path                                                                          |
+| ---: | ----: | ----: | ----------------------------------------------------------------------------- |
+| 7.5% | 352 B |    11 | `GetterSetter ←(several paths)– (GC root)`                                    |
+| 3.4% | 160 B |     5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← (GC root)` |
+| 2.7% | 128 B |     4 | `GetterSetter ← GlobalObject ← (GC root)`                                     |
+| 2.7% | 128 B |     4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← (GC root)`    |
+| 2.7% | 128 B |     4 | `GetterSetter ←.errored– Object ←(several paths)– GlobalObject ← (GC root)`   |
 
 ##### `AsyncFunction`
 
-|     % |  Size | Nodes | Path                                                                       |
-| ----: | ----: | ----: | -------------------------------------------------------------------------- |
-| 32.9% | 771 B |    23 | `AsyncFunction ←(several paths)– GlobalObject ← <root>`                    |
-|  2.9% |  67 B |     2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← <root>`    |
-|  2.9% |  67 B |     2 | `AsyncFunction ←.chmod– Object ←(several paths)– GlobalObject ← <root>`    |
-|  2.9% |  67 B |     2 | `AsyncFunction ←.stat– Object ←(several paths)– GlobalObject ← <root>`     |
-|  2.9% |  67 B |     2 | `AsyncFunction ←.truncate– Object ←(several paths)– GlobalObject ← <root>` |
+|     % |  Size | Nodes | Path                                                                          |
+| ----: | ----: | ----: | ----------------------------------------------------------------------------- |
+| 32.9% | 771 B |    23 | `AsyncFunction ←(several paths)– GlobalObject ← (GC root)`                    |
+|  2.9% |  67 B |     2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← (GC root)`    |
+|  2.9% |  67 B |     2 | `AsyncFunction ←.chmod– Object ←(several paths)– GlobalObject ← (GC root)`    |
+|  2.9% |  67 B |     2 | `AsyncFunction ←.stat– Object ←(several paths)– GlobalObject ← (GC root)`     |
+|  2.9% |  67 B |     2 | `AsyncFunction ←.truncate– Object ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `JSModuleEnvironment`
 
@@ -333,67 +333,67 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `UnlinkedModuleProgramCodeBlock`
 
-|      % |     Size | Nodes | Path                                      |
-| -----: | -------: | ----: | ----------------------------------------- |
-| 100.0% | 1.77 KiB |     2 | `UnlinkedModuleProgramCodeBlock ← <root>` |
+|      % |     Size | Nodes | Path                                         |
+| -----: | -------: | ----: | -------------------------------------------- |
+| 100.0% | 1.77 KiB |     2 | `UnlinkedModuleProgramCodeBlock ← (GC root)` |
 
 ##### `CustomGetterSetter`
 
-|    % | Size | Nodes | Path                                                                        |
-| ---: | ---: | ----: | --------------------------------------------------------------------------- |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.arguments– Function ←(several paths)– <root>`         |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.caller– Function ←(several paths)– <root>`            |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.constructor– Iterator ← GlobalObject ← <root>`        |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Symbol.toStringTag– Iterator ← GlobalObject ← <root>` |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Buffer– GlobalObject ← <root>`                        |
+|    % | Size | Nodes | Path                                                                           |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------ |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.arguments– Function ←(several paths)– (GC root)`         |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.caller– Function ←(several paths)– (GC root)`            |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.constructor– Iterator ← GlobalObject ← (GC root)`        |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Symbol.toStringTag– Iterator ← GlobalObject ← (GC root)` |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Buffer– GlobalObject ← (GC root)`                        |
 
 ##### `InternalModuleRegistry`
 
-|      % |     Size | Nodes | Path                                             |
-| -----: | -------: | ----: | ------------------------------------------------ |
-| 100.0% | 1.19 KiB |     1 | `InternalModuleRegistry ← GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                                |
+| -----: | -------: | ----: | --------------------------------------------------- |
+| 100.0% | 1.19 KiB |     1 | `InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `NodeJSFS`
 
-|     % |     Size | Nodes | Path                                               |
-| ----: | -------: | ----: | -------------------------------------------------- |
-| 90.9% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject ← <root>` |
-|  9.1% |    106 B |     1 | `NodeJSFS ← Structure ← GlobalObject ← <root>`     |
+|     % |     Size | Nodes | Path                                                  |
+| ----: | -------: | ----: | ----------------------------------------------------- |
+| 90.9% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject ← (GC root)` |
+|  9.1% |    106 B |     1 | `NodeJSFS ← Structure ← GlobalObject ← (GC root)`     |
 
 ##### `SparseArrayValueMap`
 
-|    % | Size | Nodes | Path                                                                                                                                                                                                             |
-| ---: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5.9% | 64 B |     2 | `SparseArrayValueMap ← Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>`                                                                                                                     |
-| 5.9% | 64 B |     2 | `SparseArrayValueMap ← Function ←(several paths)– GlobalObject ← <root>`                                                                                                                                         |
-| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                                                                               |
-| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                                                                                                   |
-| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|    % | Size | Nodes | Path                                                                                                                                                                                                                |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.9% | 64 B |     2 | `SparseArrayValueMap ← Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)`                                                                                                                     |
+| 5.9% | 64 B |     2 | `SparseArrayValueMap ← Function ←(several paths)– GlobalObject ← (GC root)`                                                                                                                                         |
+| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                                                                               |
+| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                                                                                                   |
+| 2.9% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `FileSink`
 
-|     % |  Size | Nodes | Path                                                                                   |
-| ----: | ----: | ----: | -------------------------------------------------------------------------------------- |
-| 90.7% | 752 B |     2 | `FileSink ←.kWriteStreamFastPath– WriteStream ←(several paths)– GlobalObject ← <root>` |
-|  6.0% |  50 B |     1 | `FileSink ← GlobalObject ← <root>`                                                     |
-|  3.3% |  27 B |     1 | `FileSink ← Structure ← GlobalObject ← <root>`                                         |
+|     % |  Size | Nodes | Path                                                                                      |
+| ----: | ----: | ----: | ----------------------------------------------------------------------------------------- |
+| 90.7% | 752 B |     2 | `FileSink ←.kWriteStreamFastPath– WriteStream ←(several paths)– GlobalObject ← (GC root)` |
+|  6.0% |  50 B |     1 | `FileSink ← GlobalObject ← (GC root)`                                                     |
+|  3.3% |  27 B |     1 | `FileSink ← Structure ← GlobalObject ← (GC root)`                                         |
 
 ##### `DOMAttributeGetterSetter`
 
-|    % | Size | Nodes | Path                                                                                          |
-| ---: | ---: | ----: | --------------------------------------------------------------------------------------------- |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Dirent– NodeJSFS ← Structure ← GlobalObject ← <root>`             |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Stats– NodeJSFS ← Structure ← GlobalObject ← <root>`              |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastChar– StringDecoder ←(several paths)– GlobalObject ← <root>`  |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastNeed– StringDecoder ←(several paths)– GlobalObject ← <root>`  |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastTotal– StringDecoder ←(several paths)– GlobalObject ← <root>` |
+|    % | Size | Nodes | Path                                                                                             |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------ |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Dirent– NodeJSFS ← Structure ← GlobalObject ← (GC root)`             |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Stats– NodeJSFS ← Structure ← GlobalObject ← (GC root)`              |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastChar– StringDecoder ←(several paths)– GlobalObject ← (GC root)`  |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastNeed– StringDecoder ←(several paths)– GlobalObject ← (GC root)`  |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastTotal– StringDecoder ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |  Size | Nodes | Path                                                                    |
-| ----: | ----: | ----: | ----------------------------------------------------------------------- |
-| 95.9% | 632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– <root>`             |
-|  4.1% |  27 B |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– <root>` |
+|     % |  Size | Nodes | Path                                                                       |
+| ----: | ----: | ----: | -------------------------------------------------------------------------- |
+| 95.9% | 632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– (GC root)`             |
+|  4.1% |  27 B |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– (GC root)` |
 
 ##### `InternalPromise`
 
@@ -403,26 +403,26 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Blob`
 
-|     % |  Size | Nodes | Path                                           |
-| ----: | ----: | ----: | ---------------------------------------------- |
-| 90.4% | 328 B |     1 | `Blob ← GlobalObject ← <root>`                 |
-|  9.6% |  35 B |     1 | `Blob ←(several paths)– GlobalObject ← <root>` |
+|     % |  Size | Nodes | Path                                              |
+| ----: | ----: | ----: | ------------------------------------------------- |
+| 90.4% | 328 B |     1 | `Blob ← GlobalObject ← (GC root)`                 |
+|  9.6% |  35 B |     1 | `Blob ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `Map`
 
-|     % |  Size | Nodes | Path                                                                                                                                                   |
-| ----: | ----: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 38.9% | 128 B |     4 | `Map ← (GC root)`                                                                                                                                      |
-| 12.5% |  41 B |     1 | `Map ←(several paths)– GlobalObject ← <root>`                                                                                                          |
-|  9.7% |  32 B |     1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← <root>`                                                                                         |
-|  9.7% |  32 B |     1 | `Map ← GlobalObject ← <root>`                                                                                                                          |
-|  9.7% |  32 B |     1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |  Size | Nodes | Path                                                                                                                                                      |
+| ----: | ----: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.9% | 128 B |     4 | `Map ← (GC root)`                                                                                                                                         |
+| 12.5% |  41 B |     1 | `Map ←(several paths)– GlobalObject ← (GC root)`                                                                                                          |
+|  9.7% |  32 B |     1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← (GC root)`                                                                                         |
+|  9.7% |  32 B |     1 | `Map ← GlobalObject ← (GC root)`                                                                                                                          |
+|  9.7% |  32 B |     1 | `Map ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `WriteStream`
 
-|      % |  Size | Nodes | Path                                                  |
-| -----: | ----: | ----: | ----------------------------------------------------- |
-| 100.0% | 242 B |     2 | `WriteStream ←(several paths)– GlobalObject ← <root>` |
+|      % |  Size | Nodes | Path                                                     |
+| -----: | ----: | ----: | -------------------------------------------------------- |
+| 100.0% | 242 B |     2 | `WriteStream ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `ModuleProgramExecutable`
 
@@ -432,51 +432,51 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Process`
 
-|      % |  Size | Nodes | Path                              |
-| -----: | ----: | ----: | --------------------------------- |
-| 100.0% | 213 B |     1 | `Process ← GlobalObject ← <root>` |
+|      % |  Size | Nodes | Path                                 |
+| -----: | ----: | ----: | ------------------------------------ |
+| 100.0% | 213 B |     1 | `Process ← GlobalObject ← (GC root)` |
 
 ##### `Generator`
 
-|     % |  Size | Nodes | Path                                |
-| ----: | ----: | ----: | ----------------------------------- |
-| 91.4% | 192 B |     3 | `Generator ← (GC root)`             |
-|  8.6% |  18 B |     1 | `Generator ← GlobalObject ← <root>` |
+|     % |  Size | Nodes | Path                                   |
+| ----: | ----: | ----: | -------------------------------------- |
+| 91.4% | 192 B |     3 | `Generator ← (GC root)`                |
+|  8.6% |  18 B |     1 | `Generator ← GlobalObject ← (GC root)` |
 
 ##### `StructureChain`
 
-|     % | Size | Nodes | Path                                                                                        |
-| ----: | ---: | ----: | ------------------------------------------------------------------------------------------- |
-| 23.1% | 48 B |     3 | `StructureChain ← Structure ← Structure ←(several paths)– GlobalObject ← <root>`            |
-| 15.4% | 32 B |     2 | `StructureChain ← Structure ← Structure ← Function ←(several paths)– GlobalObject ← <root>` |
-| 15.4% | 32 B |     2 | `StructureChain ← Structure ←(several paths)– GlobalObject ← <root>`                        |
-|  7.7% | 16 B |     1 | `StructureChain ←(several paths)– <root>`                                                   |
-|  7.7% | 16 B |     1 | `StructureChain ← Structure ← Object ← InternalModuleRegistry ← GlobalObject ← <root>`      |
+|     % | Size | Nodes | Path                                                                                           |
+| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------- |
+| 23.1% | 48 B |     3 | `StructureChain ← Structure ← Structure ←(several paths)– GlobalObject ← (GC root)`            |
+| 15.4% | 32 B |     2 | `StructureChain ← Structure ← Structure ← Function ←(several paths)– GlobalObject ← (GC root)` |
+| 15.4% | 32 B |     2 | `StructureChain ← Structure ←(several paths)– GlobalObject ← (GC root)`                        |
+|  7.7% | 16 B |     1 | `StructureChain ←(several paths)– (GC root)`                                                   |
+|  7.7% | 16 B |     1 | `StructureChain ← Structure ← Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`      |
 
 ##### `ReadableStream`
 
-|     % | Size | Nodes | Path                                      |
-| ----: | ---: | ----: | ----------------------------------------- |
-| 42.9% | 67 B |     1 | `ReadableStream ← GlobalObject ← <root>`  |
-| 35.9% | 56 B |     1 | `ReadableStream ← <root>`                 |
-| 21.2% | 33 B |     1 | `ReadableStream ←(several paths)– <root>` |
+|     % | Size | Nodes | Path                                         |
+| ----: | ---: | ----: | -------------------------------------------- |
+| 42.9% | 67 B |     1 | `ReadableStream ← GlobalObject ← (GC root)`  |
+| 35.9% | 56 B |     1 | `ReadableStream ← (GC root)`                 |
+| 21.2% | 33 B |     1 | `ReadableStream ←(several paths)– (GC root)` |
 
 ##### `JSPropertyNameEnumerator`
 
-|     % | Size | Nodes | Path                                                                                                                                                 |
-| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← <root>`                                                                                                                  |
-| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                   |
-| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ← FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← <root>` |
+|     % | Size | Nodes | Path                                                                                                                                                    |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← (GC root)`                                                                                                                  |
+| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                   |
+| 33.3% | 48 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ← FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `JSAsyncGeneratorFunction`
 
-|     % | Size | Nodes | Path                                                                                                                    |
-| ----: | ---: | ----: | ----------------------------------------------------------------------------------------------------------------------- |
-| 26.2% | 34 B |     1 | `JSAsyncGeneratorFunction ←.Symbol.asyncIterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>` |
-| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←(several paths)– GlobalObject ← <root>`                                                      |
-| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←.fromReadable– JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                 |
-| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←.createAsyncIterator– JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`          |
+|     % | Size | Nodes | Path                                                                                                                       |
+| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| 26.2% | 34 B |     1 | `JSAsyncGeneratorFunction ←.Symbol.asyncIterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)` |
+| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←(several paths)– GlobalObject ← (GC root)`                                                      |
+| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←.fromReadable– JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)`                 |
+| 24.6% | 32 B |     1 | `JSAsyncGeneratorFunction ←.createAsyncIterator– JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)`          |
 
 ##### `JSSourceCode`
 
@@ -486,72 +486,72 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Callee`
 
-|     % | Size | Nodes | Path                             |
-| ----: | ---: | ----: | -------------------------------- |
-| 75.0% | 96 B |     3 | `Callee ← GlobalObject ← <root>` |
-| 25.0% | 32 B |     1 | `Callee ← (GC root)`             |
+|     % | Size | Nodes | Path                                |
+| ----: | ---: | ----: | ----------------------------------- |
+| 75.0% | 96 B |     3 | `Callee ← GlobalObject ← (GC root)` |
+| 25.0% | 32 B |     1 | `Callee ← (GC root)`                |
 
 ##### `Set`
 
-|     % | Size | Nodes | Path                                                                                                                       |
-| ----: | ---: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
-| 40.7% | 44 B |     1 | `Set ←(several paths)– GlobalObject ← <root>`                                                                              |
-| 29.6% | 32 B |     1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>` |
-| 29.6% | 32 B |     1 | `Set ←.allowedNodeEnvironmentFlags– Process ← GlobalObject ← <root>`                                                       |
+|     % | Size | Nodes | Path                                                                                                                          |
+| ----: | ---: | ----: | ----------------------------------------------------------------------------------------------------------------------------- |
+| 40.7% | 44 B |     1 | `Set ←(several paths)– GlobalObject ← (GC root)`                                                                              |
+| 29.6% | 32 B |     1 | `Set ←.dummy– JSLexicalEnvironment ←(several paths)– Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)` |
+| 29.6% | 32 B |     1 | `Set ←.allowedNodeEnvironmentFlags– Process ← GlobalObject ← (GC root)`                                                       |
 
 ##### `GeneratorFunction`
 
-|     % | Size | Nodes | Path                                                                                    |
-| ----: | ---: | ----: | --------------------------------------------------------------------------------------- |
-| 50.0% | 51 B |     1 | `GeneratorFunction ←.constructor– GeneratorFunction ← GlobalObject ← <root>`            |
-| 31.4% | 32 B |     1 | `GeneratorFunction ←.globSync– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
-| 18.6% | 19 B |     1 | `GeneratorFunction ← GlobalObject ← <root>`                                             |
+|     % | Size | Nodes | Path                                                                                       |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------ |
+| 50.0% | 51 B |     1 | `GeneratorFunction ←.constructor– GeneratorFunction ← GlobalObject ← (GC root)`            |
+| 31.4% | 32 B |     1 | `GeneratorFunction ←.globSync– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
+| 18.6% | 19 B |     1 | `GeneratorFunction ← GlobalObject ← (GC root)`                                             |
 
 ##### `ReadStream`
 
-|      % | Size | Nodes | Path                                                 |
-| -----: | ---: | ----: | ---------------------------------------------------- |
-| 100.0% | 91 B |     1 | `ReadStream ←(several paths)– GlobalObject ← <root>` |
+|      % | Size | Nodes | Path                                                    |
+| -----: | ---: | ----: | ------------------------------------------------------- |
+| 100.0% | 91 B |     1 | `ReadStream ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `Stats`
 
-|     % | Size | Nodes | Path                                            |
-| ----: | ---: | ----: | ----------------------------------------------- |
-| 63.7% | 51 B |     1 | `Stats ← GlobalObject ← <root>`                 |
-| 36.3% | 29 B |     1 | `Stats ←(several paths)– GlobalObject ← <root>` |
+|     % | Size | Nodes | Path                                               |
+| ----: | ---: | ----: | -------------------------------------------------- |
+| 63.7% | 51 B |     1 | `Stats ← GlobalObject ← (GC root)`                 |
+| 36.3% | 29 B |     1 | `Stats ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `Dirent`
 
-|     % | Size | Nodes | Path                                             |
-| ----: | ---: | ----: | ------------------------------------------------ |
-| 67.1% | 51 B |     1 | `Dirent ← GlobalObject ← <root>`                 |
-| 32.9% | 25 B |     1 | `Dirent ←(several paths)– GlobalObject ← <root>` |
+|     % | Size | Nodes | Path                                                |
+| ----: | ---: | ----: | --------------------------------------------------- |
+| 67.1% | 51 B |     1 | `Dirent ← GlobalObject ← (GC root)`                 |
+| 32.9% | 25 B |     1 | `Dirent ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `StringDecoder`
 
-|     % | Size | Nodes | Path                                                    |
-| ----: | ---: | ----: | ------------------------------------------------------- |
-| 67.1% | 51 B |     1 | `StringDecoder ← GlobalObject ← <root>`                 |
-| 32.9% | 25 B |     1 | `StringDecoder ←(several paths)– GlobalObject ← <root>` |
+|     % | Size | Nodes | Path                                                       |
+| ----: | ---: | ----: | ---------------------------------------------------------- |
+| 67.1% | 51 B |     1 | `StringDecoder ← GlobalObject ← (GC root)`                 |
+| 32.9% | 25 B |     1 | `StringDecoder ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `String`
 
-|      % | Size | Nodes | Path                             |
-| -----: | ---: | ----: | -------------------------------- |
-| 100.0% | 70 B |     1 | `String ← GlobalObject ← <root>` |
+|      % | Size | Nodes | Path                                |
+| -----: | ---: | ----: | ----------------------------------- |
+| 100.0% | 70 B |     1 | `String ← GlobalObject ← (GC root)` |
 
 ##### `AsyncGeneratorFunction`
 
-|     % | Size | Nodes | Path                                                                                   |
-| ----: | ---: | ----: | -------------------------------------------------------------------------------------- |
-| 72.9% | 51 B |     1 | `AsyncGeneratorFunction ←.constructor– AsyncGeneratorFunction ← GlobalObject ← <root>` |
-| 27.1% | 19 B |     1 | `AsyncGeneratorFunction ← GlobalObject ← <root>`                                       |
+|     % | Size | Nodes | Path                                                                                      |
+| ----: | ---: | ----: | ----------------------------------------------------------------------------------------- |
+| 72.9% | 51 B |     1 | `AsyncGeneratorFunction ←.constructor– AsyncGeneratorFunction ← GlobalObject ← (GC root)` |
+| 27.1% | 19 B |     1 | `AsyncGeneratorFunction ← GlobalObject ← (GC root)`                                       |
 
 ##### `JSGlobalLexicalEnvironment`
 
-|      % | Size | Nodes | Path                                                 |
-| -----: | ---: | ----: | ---------------------------------------------------- |
-| 100.0% | 64 B |     1 | `JSGlobalLexicalEnvironment ← GlobalObject ← <root>` |
+|      % | Size | Nodes | Path                                                    |
+| -----: | ---: | ----: | ------------------------------------------------------- |
+| 100.0% | 64 B |     1 | `JSGlobalLexicalEnvironment ← GlobalObject ← (GC root)` |
 
 ##### `PromiseReaction`
 
@@ -561,9 +561,9 @@ Retainer paths with the largest contribution to each constructor's self size.
 
 ##### `Array Iterator`
 
-|      % | Size | Nodes | Path                                     |
-| -----: | ---: | ----: | ---------------------------------------- |
-| 100.0% | 18 B |     1 | `Array Iterator ← GlobalObject ← <root>` |
+|      % | Size | Nodes | Path                                        |
+| -----: | ---: | ----: | ------------------------------------------- |
+| 100.0% | 18 B |     1 | `Array Iterator ← GlobalObject ← (GC root)` |
 
 ### Retained size
 
@@ -685,395 +685,395 @@ Retainer paths with the largest contribution to each constructor's retained size
 
 ##### `GlobalObject`
 
-|      % |     Size | Nodes | Path                    |
-| -----: | -------: | ----: | ----------------------- |
-| 100.0% | 1.64 MiB |     1 | `GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                       |
+| -----: | -------: | ----: | -------------------------- |
+| 100.0% | 1.64 MiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `Object`
 
-|     % |     Size | Nodes | Path                                                                         |
-| ----: | -------: | ----: | ---------------------------------------------------------------------------- |
-| 81.3% |  880 KiB |     1 | `Object ←.__retained– GlobalObject ← <root>`                                 |
-| 39.1% |  423 KiB |     1 | `Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| 39.1% |  423 KiB |     1 | `Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|  5.7% | 61.6 KiB |    23 | `Object ←(several paths)– GlobalObject ← <root>`                             |
-|  4.5% | 48.2 KiB |    17 | `Object ← InternalModuleRegistry ← GlobalObject ← <root>`                    |
+|     % |     Size | Nodes | Path                                                                            |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------- |
+| 81.3% |  880 KiB |     1 | `Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| 39.1% |  423 KiB |     1 | `Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| 39.1% |  423 KiB |     1 | `Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|  5.7% | 61.6 KiB |    23 | `Object ←(several paths)– GlobalObject ← (GC root)`                             |
+|  4.5% | 48.2 KiB |    17 | `Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                    |
 
 ##### `Array`
 
-|     % |     Size | Nodes | Path                                                                                                                                           |
-| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| 99.1% |  863 KiB |     1 | `Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                                                |
-| 48.5% |  422 KiB |     1 | `Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                 |
-| 48.5% |  422 KiB |     1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                 |
-|  0.6% | 5.28 KiB |     1 | `Array ←(several paths)– <root>`                                                                                                               |
-|  0.1% | 1.08 KiB |     1 | `Array ←.media– Object ←.entities– Object ←[98]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                              |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 99.1% |  863 KiB |     1 | `Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                                                |
+| 48.5% |  422 KiB |     1 | `Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                 |
+| 48.5% |  422 KiB |     1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                 |
+|  0.6% | 5.28 KiB |     1 | `Array ←(several paths)– (GC root)`                                                                                                               |
+|  0.1% | 1.08 KiB |     1 | `Array ←.media– Object ←.entities– Object ←[98]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
 
 ##### `Function`
 
-|    % |     Size | Nodes | Path                                                                                 |
-| ---: | -------: | ----: | ------------------------------------------------------------------------------------ |
-| 7.8% | 51.6 KiB |   240 | `Function ←(several paths)– GlobalObject ← <root>`                                   |
-| 2.5% | 16.5 KiB |    56 | `Function ← GlobalObject ← <root>`                                                   |
-| 2.3% | 15.6 KiB |    51 | `Function ←(several paths)– <root>`                                                  |
-| 1.5% | 9.95 KiB |    20 | `JSLexicalEnvironment ←(several Function paths)– GlobalObject ← <root>`              |
-| 1.4% | 9.63 KiB |    12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|    % |     Size | Nodes | Path                                                                                    |
+| ---: | -------: | ----: | --------------------------------------------------------------------------------------- |
+| 7.8% | 51.6 KiB |   240 | `Function ←(several paths)– GlobalObject ← (GC root)`                                   |
+| 2.5% | 16.5 KiB |    56 | `Function ← GlobalObject ← (GC root)`                                                   |
+| 2.3% | 15.6 KiB |    51 | `Function ←(several paths)– (GC root)`                                                  |
+| 1.5% | 9.95 KiB |    20 | `JSLexicalEnvironment ←(several Function paths)– GlobalObject ← (GC root)`              |
+| 1.4% | 9.63 KiB |    12 | `Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `FunctionExecutable`
 
-|     % |     Size | Nodes | Path                                                                                                      |
-| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------------- |
-| 46.4% |  259 KiB |   402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                              |
-| 16.6% | 92.5 KiB |   143 | `FunctionExecutable ←(several paths)– <root>`                                                             |
-|  2.6% | 14.8 KiB |     8 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`     |
-|  1.8% | 9.88 KiB |    31 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                                   |
-|  1.5% | 8.18 KiB |     1 | `FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                         |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------ |
+| 46.4% |  259 KiB |   402 | `FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                              |
+| 16.6% | 92.5 KiB |   143 | `FunctionExecutable ←(several paths)– (GC root)`                                                             |
+|  2.6% | 14.8 KiB |     8 | `FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`     |
+|  1.8% | 9.88 KiB |    31 | `FunctionExecutable ← Function ← GlobalObject ← (GC root)`                                                   |
+|  1.5% | 8.18 KiB |     1 | `FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `FunctionCodeBlock`
 
-|     % |     Size | Nodes | Path                                                                                                                                                               |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 59.7% |  161 KiB |    52 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                                                                   |
-| 20.7% | 55.8 KiB |    11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                                                                  |
-|  5.1% | 13.8 KiB |     7 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                          |
-|  2.7% |  7.4 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
-|  2.4% | 6.35 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                 |
+|     % |     Size | Nodes | Path                                                                                                                                                                  |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 59.7% |  161 KiB |    52 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                                                                   |
+| 20.7% | 55.8 KiB |    11 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– (GC root)`                                                                                                  |
+|  5.1% | 13.8 KiB |     7 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                          |
+|  2.7% |  7.4 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ← FunctionCodeBlock ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)` |
+|  2.4% | 6.35 KiB |     1 | `FunctionCodeBlock ← FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                 |
 
 ##### `Structure`
 
-|     % |     Size | Nodes | Path                                                                                             |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------ |
-| 20.4% |   49 KiB |   175 | `Structure ←(several paths)– GlobalObject ← <root>`                                              |
-| 10.8% | 25.8 KiB |    12 | `Structure ← Object ←(several paths)– GlobalObject ← <root>`                                     |
-| 10.0% |   24 KiB |     7 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>`                         |
-|  9.7% | 23.2 KiB |     7 | `Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>`             |
-|  9.4% | 22.4 KiB |     6 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                |
+| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------- |
+| 20.4% |   49 KiB |   175 | `Structure ←(several paths)– GlobalObject ← (GC root)`                                              |
+| 10.8% | 25.8 KiB |    12 | `Structure ← Object ←(several paths)– GlobalObject ← (GC root)`                                     |
+| 10.0% |   24 KiB |     7 | `Structure ← Structure ← Object ←(several paths)– GlobalObject ← (GC root)`                         |
+|  9.7% | 23.2 KiB |     7 | `Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← (GC root)`             |
+|  9.4% | 22.4 KiB |     6 | `Structure ← Structure ← Structure ← Structure ← Object ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-|     % |     Size | Nodes | Path                                                                                                                                     |
-| ----: | -------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 36.8% |   34 KiB |    28 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                 |
-| 21.5% | 19.9 KiB |    33 | `UnlinkedFunctionCodeBlock ←(several paths)– GlobalObject ← <root>`                                                                      |
-| 18.5% | 17.1 KiB |    38 | `UnlinkedFunctionCodeBlock ←(several paths)– <root>`                                                                                     |
-| 14.3% | 13.2 KiB |    12 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– <root>`                                                |
-|  1.7% | 1.62 KiB |     3 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                        |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 36.8% |   34 KiB |    28 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                 |
+| 21.5% | 19.9 KiB |    33 | `UnlinkedFunctionCodeBlock ←(several paths)– GlobalObject ← (GC root)`                                                                      |
+| 18.5% | 17.1 KiB |    38 | `UnlinkedFunctionCodeBlock ←(several paths)– (GC root)`                                                                                     |
+| 14.3% | 13.2 KiB |    12 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ←(several paths)– (GC root)`                                                |
+|  1.7% | 1.62 KiB |     3 | `UnlinkedFunctionCodeBlock ←(several paths)– FunctionExecutable ← FunctionExecutable ← Function ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `UnlinkedFunctionExecutable`
 
-|     % |     Size | Nodes | Path                                                                                      |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------- |
-| 41.7% | 36.4 KiB |   388 | `UnlinkedFunctionExecutable ←(several paths)– GlobalObject ← <root>`                      |
-| 16.2% | 14.2 KiB |   151 | `UnlinkedFunctionExecutable ←(several paths)– <root>`                                     |
-|  9.8% | 8.53 KiB |    91 | `UnlinkedFunctionExecutable ← <root>`                                                     |
-|  2.3% | 1.97 KiB |    21 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– GlobalObject ← <root>` |
-|  1.9% | 1.69 KiB |    18 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ← GlobalObject ← <root>`      |
+|     % |     Size | Nodes | Path                                                                                         |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------- |
+| 41.7% | 36.4 KiB |   388 | `UnlinkedFunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                      |
+| 16.2% | 14.2 KiB |   151 | `UnlinkedFunctionExecutable ←(several paths)– (GC root)`                                     |
+|  9.8% | 8.53 KiB |    91 | `UnlinkedFunctionExecutable ← (GC root)`                                                     |
+|  2.3% | 1.97 KiB |    21 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– GlobalObject ← (GC root)` |
+|  1.9% | 1.69 KiB |    18 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ← GlobalObject ← (GC root)`      |
 
 ##### `NativeExecutable`
 
-|     % |     Size | Nodes | Path                                                                                                                    |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------- |
-| 18.9% | 9.61 KiB |   123 | `NativeExecutable ← Function ←(several paths)– GlobalObject ← <root>`                                                   |
-|  4.6% | 2.34 KiB |    30 | `NativeExecutable ← Function ←(several paths)– <root>`                                                                  |
-|  2.6% | 1.33 KiB |    17 | `NativeExecutable ← Function ← GlobalObject ← <root>`                                                                   |
-|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                 |
-|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ←.win32– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                       |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------- |
+| 18.9% | 9.61 KiB |   123 | `NativeExecutable ← Function ←(several paths)– GlobalObject ← (GC root)`                                                   |
+|  4.6% | 2.34 KiB |    30 | `NativeExecutable ← Function ←(several paths)– (GC root)`                                                                  |
+|  2.6% | 1.33 KiB |    17 | `NativeExecutable ← Function ← GlobalObject ← (GC root)`                                                                   |
+|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                 |
+|  1.7% |    880 B |    11 | `NativeExecutable ← Function ←(several paths)– Object ←.win32– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `InternalModuleRegistry`
 
-|      % |     Size | Nodes | Path                                             |
-| -----: | -------: | ----: | ------------------------------------------------ |
-| 100.0% | 49.5 KiB |     1 | `InternalModuleRegistry ← GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                                |
+| -----: | -------: | ----: | --------------------------------------------------- |
+| 100.0% | 49.5 KiB |     1 | `InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `JSLexicalEnvironment`
 
-|     % |     Size | Nodes | Path                                                                                                                                          |
-| ----: | -------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 45.6% | 12.3 KiB |    23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                                                |
-|  9.1% | 2.44 KiB |     8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← <root>`                                                                     |
-|  5.7% | 1.53 KiB |     5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← <root>`                                                         |
-|  5.3% | 1.43 KiB |     2 | `JSLexicalEnvironment ←(several paths)– <root>`                                                                                               |
-|  2.3% |    630 B |     1 | `JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                             |
+| ----: | -------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 45.6% | 12.3 KiB |    23 | `JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)`                                                                                |
+|  9.1% | 2.44 KiB |     8 | `JSLexicalEnvironment ← Function ←(several paths)– GlobalObject ← (GC root)`                                                                     |
+|  5.7% | 1.53 KiB |     5 | `JSLexicalEnvironment ← JSLexicalEnvironment ←(several paths)– GlobalObject ← (GC root)`                                                         |
+|  5.3% | 1.43 KiB |     2 | `JSLexicalEnvironment ←(several paths)– (GC root)`                                                                                               |
+|  2.3% |    630 B |     1 | `JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `ModuleLoader`
 
-|      % |     Size | Nodes | Path                                           |
-| -----: | -------: | ----: | ---------------------------------------------- |
-| 100.0% | 22.4 KiB |     1 | `ModuleLoader ←.Loader– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                              |
+| -----: | -------: | ----: | ------------------------------------------------- |
+| 100.0% | 22.4 KiB |     1 | `ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
 
 ##### `StructureRareData`
 
-|     % |     Size | Nodes | Path                                                                                                                                                                    |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 47.0% | 10.1 KiB |    21 | `StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                                                 |
-| 22.6% | 4.88 KiB |     3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                 |
-| 20.1% | 4.33 KiB |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                 |
-| 18.0% | 3.88 KiB |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>` |
-| 17.4% | 3.75 KiB |     1 | `StructureRareData ← Structure ← ReadStream ←(several paths)– GlobalObject ← <root>`                                                                                    |
+|     % |     Size | Nodes | Path                                                                                                                                                                       |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 47.0% | 10.1 KiB |    21 | `StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                                                 |
+| 22.6% | 4.88 KiB |     3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                 |
+| 20.1% | 4.33 KiB |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                 |
+| 18.0% | 3.88 KiB |     2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)` |
+| 17.4% | 3.75 KiB |     1 | `StructureRareData ← Structure ← ReadStream ←(several paths)– GlobalObject ← (GC root)`                                                                                    |
 
 ##### `Process`
 
-|      % |     Size | Nodes | Path                              |
-| -----: | -------: | ----: | --------------------------------- |
-| 100.0% | 18.9 KiB |     1 | `Process ← GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                 |
+| -----: | -------: | ----: | ------------------------------------ |
+| 100.0% | 18.9 KiB |     1 | `Process ← GlobalObject ← (GC root)` |
 
 ##### `WriteStream`
 
-|     % |     Size | Nodes | Path                                                         |
-| ----: | -------: | ----: | ------------------------------------------------------------ |
-| 48.9% | 9.16 KiB |     2 | `WriteStream ←(several paths)– GlobalObject ← <root>`        |
-|  0.3% |     60 B |     3 | `string ←(several WriteStream paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                            |
+| ----: | -------: | ----: | --------------------------------------------------------------- |
+| 48.9% | 9.16 KiB |     2 | `WriteStream ←(several paths)– GlobalObject ← (GC root)`        |
+|  0.3% |     60 B |     3 | `string ←(several WriteStream paths)– GlobalObject ← (GC root)` |
 
 ##### `PropertyTable`
 
-|     % |     Size | Nodes | Path                                                                                                        |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------- |
-| 12.9% | 2.34 KiB |    50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← <root>`                                         |
-|  6.2% | 1.13 KiB |    24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|  4.7% |    864 B |    18 | `PropertyTable ← Structure ←(several paths)– <root>`                                                        |
-|  3.4% |    624 B |    13 | `PropertyTable ← Structure ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← <root>`       |
-|  3.1% |    576 B |    12 | `PropertyTable ← Structure ← Object ←(several paths)– GlobalObject ← <root>`                                |
+|     % |     Size | Nodes | Path                                                                                                           |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------- |
+| 12.9% | 2.34 KiB |    50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← (GC root)`                                         |
+|  6.2% | 1.13 KiB |    24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|  4.7% |    864 B |    18 | `PropertyTable ← Structure ←(several paths)– (GC root)`                                                        |
+|  3.4% |    624 B |    13 | `PropertyTable ← Structure ←(several paths)– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`       |
+|  3.1% |    576 B |    12 | `PropertyTable ← Structure ← Object ←(several paths)– GlobalObject ← (GC root)`                                |
 
 ##### `FunctionRareData`
 
-|     % |     Size | Nodes | Path                                                                                                                                                        |
-| ----: | -------: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 16.3% | 2.86 KiB |    23 | `FunctionRareData ← Function ←(several paths)– GlobalObject ← <root>`                                                                                       |
-|  7.2% | 1.25 KiB |    16 | `FunctionRareData ← AsyncFunction ←(several paths)– GlobalObject ← <root>`                                                                                  |
-|  1.3% |    240 B |     3 | `FunctionRareData ← Function ←(several paths)– <root>`                                                                                                      |
-|  0.4% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>`                                       |
-|  0.4% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                                                                                                                           |
+| ----: | -------: | ----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 16.3% | 2.86 KiB |    23 | `FunctionRareData ← Function ←(several paths)– GlobalObject ← (GC root)`                                                                                       |
+|  7.2% | 1.25 KiB |    16 | `FunctionRareData ← AsyncFunction ←(several paths)– GlobalObject ← (GC root)`                                                                                  |
+|  1.3% |    240 B |     3 | `FunctionRareData ← Function ←(several paths)– (GC root)`                                                                                                      |
+|  0.4% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)`                                       |
+|  0.4% |     80 B |     1 | `FunctionRareData ← Function ←.Symbol.iterator– Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `Map`
 
-|     % |     Size | Nodes | Path                                                           |
-| ----: | -------: | ----: | -------------------------------------------------------------- |
-| 95.5% | 16.1 KiB |     1 | `Map ←.byId– Object ←.__retained– GlobalObject ← <root>`       |
-|  2.0% |    352 B |     1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← <root>` |
-|  1.9% |    329 B |     1 | `Map ←(several paths)– GlobalObject ← <root>`                  |
-|  0.7% |    128 B |     4 | `Map ← (GC root)`                                              |
-|  0.2% |     32 B |     1 | `Map ← GlobalObject ← <root>`                                  |
+|     % |     Size | Nodes | Path                                                              |
+| ----: | -------: | ----: | ----------------------------------------------------------------- |
+| 95.5% | 16.1 KiB |     1 | `Map ←.byId– Object ←.__retained– GlobalObject ← (GC root)`       |
+|  2.0% |    352 B |     1 | `Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
+|  1.9% |    329 B |     1 | `Map ←(several paths)– GlobalObject ← (GC root)`                  |
+|  0.7% |    128 B |     4 | `Map ← (GC root)`                                                 |
+|  0.2% |     32 B |     1 | `Map ← GlobalObject ← (GC root)`                                  |
 
 ##### `Cell Butterfly`
 
-|     % |   Size | Nodes | Path                                                                            |
-| ----: | -----: | ----: | ------------------------------------------------------------------------------- |
-| 97.1% | 16 KiB |     1 | `Cell Butterfly ← Map ←.byId– Object ←.__retained– GlobalObject ← <root>`       |
-|  3.8% |  640 B |     2 | `Cell Butterfly ← (GC root)`                                                    |
-|  1.9% |  320 B |     1 | `Cell Butterfly ← Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← <root>` |
-|  0.8% |  128 B |     4 | `Cell Butterfly ←(several paths)– <root>`                                       |
-|  0.2% |   32 B |     1 | `Cell Butterfly ←(several paths)– GlobalObject ← <root>`                        |
+|     % |   Size | Nodes | Path                                                                               |
+| ----: | -----: | ----: | ---------------------------------------------------------------------------------- |
+| 97.1% | 16 KiB |     1 | `Cell Butterfly ← Map ←.byId– Object ←.__retained– GlobalObject ← (GC root)`       |
+|  3.8% |  640 B |     2 | `Cell Butterfly ← (GC root)`                                                       |
+|  1.9% |  320 B |     1 | `Cell Butterfly ← Map ←.registry– ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
+|  0.8% |  128 B |     4 | `Cell Butterfly ←(several paths)– (GC root)`                                       |
+|  0.2% |   32 B |     1 | `Cell Butterfly ←(several paths)– GlobalObject ← (GC root)`                        |
 
 ##### `GetterSetter`
 
-|     % |     Size | Nodes | Path                                                                       |
-| ----: | -------: | ----: | -------------------------------------------------------------------------- |
-| 10.6% | 1.73 KiB |    11 | `GetterSetter ←(several paths)– <root>`                                    |
-|  3.4% |    576 B |     5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← <root>` |
-|  2.8% |    460 B |    12 | `Function ←(several GetterSetter paths)– GlobalObject ← <root>`            |
-|  2.5% |    416 B |     4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← <root>`    |
-|  2.4% |    408 B |     4 | `GetterSetter ← GlobalObject ← <root>`                                     |
+|     % |     Size | Nodes | Path                                                                          |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------- |
+| 10.6% | 1.73 KiB |    11 | `GetterSetter ←(several paths)– (GC root)`                                    |
+|  3.4% |    576 B |     5 | `GetterSetter ←.destroyed– Object ←(several paths)– GlobalObject ← (GC root)` |
+|  2.8% |    460 B |    12 | `Function ←(several GetterSetter paths)– GlobalObject ← (GC root)`            |
+|  2.5% |    416 B |     4 | `GetterSetter ←.closed– Object ←(several paths)– GlobalObject ← (GC root)`    |
+|  2.4% |    408 B |     4 | `GetterSetter ← GlobalObject ← (GC root)`                                     |
 
 ##### `ReadStream`
 
-|      % |     Size | Nodes | Path                                                 |
-| -----: | -------: | ----: | ---------------------------------------------------- |
-| 100.0% | 15.6 KiB |     1 | `ReadStream ←(several paths)– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                                    |
+| -----: | -------: | ----: | ------------------------------------------------------- |
+| 100.0% | 15.6 KiB |     1 | `ReadStream ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `SymbolTable`
 
-|     % |     Size | Nodes | Path                                                                             |
-| ----: | -------: | ----: | -------------------------------------------------------------------------------- |
-| 53.0% |    6 KiB |    83 | `SymbolTable ←(several paths)– GlobalObject ← <root>`                            |
-| 21.0% | 2.38 KiB |    31 | `SymbolTable ←(several paths)– <root>`                                           |
-|  8.8% |    1 KiB |    14 | `SymbolTable ←(several paths)– Function ←(several paths)– GlobalObject ← <root>` |
-|  7.2% |    832 B |    13 | `SymbolTable ← SymbolTable ←(several paths)– GlobalObject ← <root>`              |
-|  3.9% |    448 B |     7 | `SymbolTable ← SymbolTable ←(several paths)– <root>`                             |
+|     % |     Size | Nodes | Path                                                                                |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------- |
+| 53.0% |    6 KiB |    83 | `SymbolTable ←(several paths)– GlobalObject ← (GC root)`                            |
+| 21.0% | 2.38 KiB |    31 | `SymbolTable ←(several paths)– (GC root)`                                           |
+|  8.8% |    1 KiB |    14 | `SymbolTable ←(several paths)– Function ←(several paths)– GlobalObject ← (GC root)` |
+|  7.2% |    832 B |    13 | `SymbolTable ← SymbolTable ←(several paths)– GlobalObject ← (GC root)`              |
+|  3.9% |    448 B |     7 | `SymbolTable ← SymbolTable ←(several paths)– (GC root)`                             |
 
 ##### `ReadableStream`
 
-|     % |     Size | Nodes | Path                                      |
-| ----: | -------: | ----: | ----------------------------------------- |
-| 31.2% | 2.93 KiB |     1 | `ReadableStream ←(several paths)– <root>` |
-| 13.7% | 1.29 KiB |     1 | `ReadableStream ← <root>`                 |
-|  6.5% |    625 B |     1 | `ReadableStream ← GlobalObject ← <root>`  |
+|     % |     Size | Nodes | Path                                         |
+| ----: | -------: | ----: | -------------------------------------------- |
+| 31.2% | 2.93 KiB |     1 | `ReadableStream ←(several paths)– (GC root)` |
+| 13.7% | 1.29 KiB |     1 | `ReadableStream ← (GC root)`                 |
+|  6.5% |    625 B |     1 | `ReadableStream ← GlobalObject ← (GC root)`  |
 
 ##### `AsyncFunction`
 
-|     % |     Size | Nodes | Path                                                                                  |
-| ----: | -------: | ----: | ------------------------------------------------------------------------------------- |
-| 30.7% | 2.47 KiB |    23 | `AsyncFunction ←(several paths)– GlobalObject ← <root>`                               |
-|  6.8% |    559 B |     1 | `AsyncFunction ← GlobalObject ← <root>`                                               |
-|  3.8% |    311 B |     1 | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject ← <root>` |
-|  2.9% |    240 B |     1 | `AsyncFunction ←.constructor– AsyncFunction ← GlobalObject ← <root>`                  |
-|  2.4% |    195 B |     2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← <root>`               |
+|     % |     Size | Nodes | Path                                                                                     |
+| ----: | -------: | ----: | ---------------------------------------------------------------------------------------- |
+| 30.7% | 2.47 KiB |    23 | `AsyncFunction ←(several paths)– GlobalObject ← (GC root)`                               |
+|  6.8% |    559 B |     1 | `AsyncFunction ← GlobalObject ← (GC root)`                                               |
+|  3.8% |    311 B |     1 | `AsyncFunction ←.Symbol.asyncDispose– Object ←(several paths)– GlobalObject ← (GC root)` |
+|  2.9% |    240 B |     1 | `AsyncFunction ←.constructor– AsyncFunction ← GlobalObject ← (GC root)`                  |
+|  2.4% |    195 B |     2 | `AsyncFunction ←.chown– Object ←(several paths)– GlobalObject ← (GC root)`               |
 
 ##### `console`
 
-|      % |     Size | Nodes | Path                                       |
-| -----: | -------: | ----: | ------------------------------------------ |
-| 100.0% | 4.89 KiB |     1 | `console ←.console– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                          |
+| -----: | -------: | ----: | --------------------------------------------- |
+| 100.0% | 4.89 KiB |     1 | `console ←.console– GlobalObject ← (GC root)` |
 
 ##### `Prototype`
 
-|      % |     Size | Nodes | Path                                |
-| -----: | -------: | ----: | ----------------------------------- |
-| 100.0% | 4.88 KiB |     1 | `Prototype ← GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                   |
+| -----: | -------: | ----: | -------------------------------------- |
+| 100.0% | 4.88 KiB |     1 | `Prototype ← GlobalObject ← (GC root)` |
 
 ##### `Math`
 
-|      % |     Size | Nodes | Path                                 |
-| -----: | -------: | ----: | ------------------------------------ |
-| 100.0% | 4.86 KiB |     1 | `Math ←.Math– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                    |
+| -----: | -------: | ----: | --------------------------------------- |
+| 100.0% | 4.86 KiB |     1 | `Math ←.Math– GlobalObject ← (GC root)` |
 
 ##### `String`
 
-|      % |     Size | Nodes | Path                             |
-| -----: | -------: | ----: | -------------------------------- |
-| 100.0% | 4.45 KiB |     1 | `String ← GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                |
+| -----: | -------: | ----: | ----------------------------------- |
+| 100.0% | 4.45 KiB |     1 | `String ← GlobalObject ← (GC root)` |
 
 ##### `UnlinkedModuleProgramCodeBlock`
 
-|      % |     Size | Nodes | Path                                      |
-| -----: | -------: | ----: | ----------------------------------------- |
-| 100.0% | 3.05 KiB |     2 | `UnlinkedModuleProgramCodeBlock ← <root>` |
+|      % |     Size | Nodes | Path                                         |
+| -----: | -------: | ----: | -------------------------------------------- |
+| 100.0% | 3.05 KiB |     2 | `UnlinkedModuleProgramCodeBlock ← (GC root)` |
 
 ##### `Iterator`
 
-|     % |     Size | Nodes | Path                                           |
-| ----: | -------: | ----: | ---------------------------------------------- |
-| 79.2% | 2.36 KiB |     1 | `Iterator ← GlobalObject ← <root>`             |
-| 20.8% |    635 B |     1 | `Iterator ← Structure ← GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                              |
+| ----: | -------: | ----: | ------------------------------------------------- |
+| 79.2% | 2.36 KiB |     1 | `Iterator ← GlobalObject ← (GC root)`             |
+| 20.8% |    635 B |     1 | `Iterator ← Structure ← GlobalObject ← (GC root)` |
 
 ##### `NodeJSFS`
 
-|     % |     Size | Nodes | Path                                               |
-| ----: | -------: | ----: | -------------------------------------------------- |
-| 64.8% | 1.92 KiB |     1 | `NodeJSFS ← Structure ← GlobalObject ← <root>`     |
-| 35.2% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject ← <root>` |
+|     % |     Size | Nodes | Path                                                  |
+| ----: | -------: | ----: | ----------------------------------------------------- |
+| 64.8% | 1.92 KiB |     1 | `NodeJSFS ← Structure ← GlobalObject ← (GC root)`     |
+| 35.2% | 1.04 KiB |     1 | `NodeJSFS ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `FileSink`
 
-|     % |     Size | Nodes | Path                                                                                   |
-| ----: | -------: | ----: | -------------------------------------------------------------------------------------- |
-| 51.0% | 1.23 KiB |     1 | `FileSink ← Structure ← GlobalObject ← <root>`                                         |
-| 30.4% |    752 B |     2 | `FileSink ←.kWriteStreamFastPath– WriteStream ←(several paths)– GlobalObject ← <root>` |
-| 18.5% |    458 B |     1 | `FileSink ← GlobalObject ← <root>`                                                     |
+|     % |     Size | Nodes | Path                                                                                      |
+| ----: | -------: | ----: | ----------------------------------------------------------------------------------------- |
+| 51.0% | 1.23 KiB |     1 | `FileSink ← Structure ← GlobalObject ← (GC root)`                                         |
+| 30.4% |    752 B |     2 | `FileSink ←.kWriteStreamFastPath– WriteStream ←(several paths)– GlobalObject ← (GC root)` |
+| 18.5% |    458 B |     1 | `FileSink ← GlobalObject ← (GC root)`                                                     |
 
 ##### `Blob`
 
-|     % |     Size | Nodes | Path                                           |
-| ----: | -------: | ----: | ---------------------------------------------- |
-| 86.6% | 2.06 KiB |     1 | `Blob ←(several paths)– GlobalObject ← <root>` |
-| 13.4% |    328 B |     1 | `Blob ← GlobalObject ← <root>`                 |
+|     % |     Size | Nodes | Path                                              |
+| ----: | -------: | ----: | ------------------------------------------------- |
+| 86.6% | 2.06 KiB |     1 | `Blob ←(several paths)– GlobalObject ← (GC root)` |
+| 13.4% |    328 B |     1 | `Blob ← GlobalObject ← (GC root)`                 |
 
 ##### `ArrayBuffer`
 
-|      % |     Size | Nodes | Path                                                  |
-| -----: | -------: | ----: | ----------------------------------------------------- |
-| 100.0% | 2.35 KiB |     2 | `ArrayBuffer ←(several paths)– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                                     |
+| -----: | -------: | ----: | -------------------------------------------------------- |
+| 100.0% | 2.35 KiB |     2 | `ArrayBuffer ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `EventEmitter`
 
-|      % |     Size | Nodes | Path                                                   |
-| -----: | -------: | ----: | ------------------------------------------------------ |
-| 100.0% | 2.17 KiB |     1 | `EventEmitter ←(several paths)– GlobalObject ← <root>` |
+|      % |     Size | Nodes | Path                                                      |
+| -----: | -------: | ----: | --------------------------------------------------------- |
+| 100.0% | 2.17 KiB |     1 | `EventEmitter ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `FileInternalReadableStreamSource`
 
-|     % |     Size | Nodes | Path                                                                    |
-| ----: | -------: | ----: | ----------------------------------------------------------------------- |
-| 67.3% | 1.27 KiB |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– <root>` |
-| 32.7% |    632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– <root>`             |
+|     % |     Size | Nodes | Path                                                                       |
+| ----: | -------: | ----: | -------------------------------------------------------------------------- |
+| 67.3% | 1.27 KiB |     1 | `FileInternalReadableStreamSource ← Structure ←(several paths)– (GC root)` |
+| 32.7% |    632 B |     1 | `FileInternalReadableStreamSource ←(several paths)– (GC root)`             |
 
 ##### `Stats`
 
-|     % |     Size | Nodes | Path                                            |
-| ----: | -------: | ----: | ----------------------------------------------- |
-| 84.5% | 1.23 KiB |     1 | `Stats ←(several paths)– GlobalObject ← <root>` |
-| 15.5% |    232 B |     1 | `Stats ← GlobalObject ← <root>`                 |
+|     % |     Size | Nodes | Path                                               |
+| ----: | -------: | ----: | -------------------------------------------------- |
+| 84.5% | 1.23 KiB |     1 | `Stats ←(several paths)– GlobalObject ← (GC root)` |
+| 15.5% |    232 B |     1 | `Stats ← GlobalObject ← (GC root)`                 |
 
 ##### `CustomGetterSetter`
 
-|    % | Size | Nodes | Path                                                                        |
-| ---: | ---: | ----: | --------------------------------------------------------------------------- |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.arguments– Function ←(several paths)– <root>`         |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.caller– Function ←(several paths)– <root>`            |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.constructor– Iterator ← GlobalObject ← <root>`        |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Symbol.toStringTag– Iterator ← GlobalObject ← <root>` |
-| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Buffer– GlobalObject ← <root>`                        |
+|    % | Size | Nodes | Path                                                                           |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------ |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.arguments– Function ←(several paths)– (GC root)`         |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.caller– Function ←(several paths)– (GC root)`            |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.constructor– Iterator ← GlobalObject ← (GC root)`        |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Symbol.toStringTag– Iterator ← GlobalObject ← (GC root)` |
+| 2.2% | 32 B |     1 | `CustomGetterSetter ←.Buffer– GlobalObject ← (GC root)`                        |
 
 ##### `SparseArrayValueMap`
 
-|    % | Size | Nodes | Path                                                                                                                                                                                                             |
-| ---: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 6.1% | 64 B |     2 | `SparseArrayValueMap ← Object ←.prototype– Function ←(several paths)– GlobalObject ← <root>`                                                                                                                     |
-| 6.1% | 64 B |     2 | `SparseArrayValueMap ← Function ←(several paths)– GlobalObject ← <root>`                                                                                                                                         |
-| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                                                                               |
-| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← <root>`                                                                                                   |
-| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|    % | Size | Nodes | Path                                                                                                                                                                                                                |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 6.1% | 64 B |     2 | `SparseArrayValueMap ← Object ←.prototype– Function ←(several paths)– GlobalObject ← (GC root)`                                                                                                                     |
+| 6.1% | 64 B |     2 | `SparseArrayValueMap ← Function ←(several paths)– GlobalObject ← (GC root)`                                                                                                                                         |
+| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                                                                               |
+| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Function ←.SafeStringIterator– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`                                                                                                   |
+| 3.0% | 32 B |     1 | `SparseArrayValueMap ← Object ←.prototype– Function ←.SafeIterator– JSLexicalEnvironment ← Function ←.entries– Object ←.homeObject– Function ←.SafeMap– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `DOMAttributeGetterSetter`
 
-|    % | Size | Nodes | Path                                                                                          |
-| ---: | ---: | ----: | --------------------------------------------------------------------------------------------- |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Dirent– NodeJSFS ← Structure ← GlobalObject ← <root>`             |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Stats– NodeJSFS ← Structure ← GlobalObject ← <root>`              |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastChar– StringDecoder ←(several paths)– GlobalObject ← <root>`  |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastNeed– StringDecoder ←(several paths)– GlobalObject ← <root>`  |
-| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastTotal– StringDecoder ←(several paths)– GlobalObject ← <root>` |
+|    % | Size | Nodes | Path                                                                                             |
+| ---: | ---: | ----: | ------------------------------------------------------------------------------------------------ |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Dirent– NodeJSFS ← Structure ← GlobalObject ← (GC root)`             |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.Stats– NodeJSFS ← Structure ← GlobalObject ← (GC root)`              |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastChar– StringDecoder ←(several paths)– GlobalObject ← (GC root)`  |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastNeed– StringDecoder ←(several paths)– GlobalObject ← (GC root)`  |
+| 6.3% | 48 B |     1 | `DOMAttributeGetterSetter ←.lastTotal– StringDecoder ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `GeneratorFunction`
 
-|     % |  Size | Nodes | Path                                                                                    |
-| ----: | ----: | ----: | --------------------------------------------------------------------------------------- |
-| 93.4% | 456 B |     1 | `GeneratorFunction ← GlobalObject ← <root>`                                             |
-| 50.0% | 244 B |     1 | `GeneratorFunction ←.constructor– GeneratorFunction ← GlobalObject ← <root>`            |
-|  6.6% |  32 B |     1 | `GeneratorFunction ←.globSync– Object ← InternalModuleRegistry ← GlobalObject ← <root>` |
+|     % |  Size | Nodes | Path                                                                                       |
+| ----: | ----: | ----: | ------------------------------------------------------------------------------------------ |
+| 93.4% | 456 B |     1 | `GeneratorFunction ← GlobalObject ← (GC root)`                                             |
+| 50.0% | 244 B |     1 | `GeneratorFunction ←.constructor– GeneratorFunction ← GlobalObject ← (GC root)`            |
+|  6.6% |  32 B |     1 | `GeneratorFunction ←.globSync– Object ← InternalModuleRegistry ← GlobalObject ← (GC root)` |
 
 ##### `AsyncGeneratorFunction`
 
-|      % |  Size | Nodes | Path                                                                                   |
-| -----: | ----: | ----: | -------------------------------------------------------------------------------------- |
-| 100.0% | 466 B |     1 | `AsyncGeneratorFunction ← GlobalObject ← <root>`                                       |
-|  53.4% | 249 B |     1 | `AsyncGeneratorFunction ←.constructor– AsyncGeneratorFunction ← GlobalObject ← <root>` |
+|      % |  Size | Nodes | Path                                                                                      |
+| -----: | ----: | ----: | ----------------------------------------------------------------------------------------- |
+| 100.0% | 466 B |     1 | `AsyncGeneratorFunction ← GlobalObject ← (GC root)`                                       |
+|  53.4% | 249 B |     1 | `AsyncGeneratorFunction ←.constructor– AsyncGeneratorFunction ← GlobalObject ← (GC root)` |
 
 ##### `Array Iterator`
 
-|      % |  Size | Nodes | Path                                     |
-| -----: | ----: | ----: | ---------------------------------------- |
-| 100.0% | 464 B |     1 | `Array Iterator ← GlobalObject ← <root>` |
+|      % |  Size | Nodes | Path                                        |
+| -----: | ----: | ----: | ------------------------------------------- |
+| 100.0% | 464 B |     1 | `Array Iterator ← GlobalObject ← (GC root)` |
 
 ##### `JSGlobalLexicalEnvironment`
 
-|      % |  Size | Nodes | Path                                                 |
-| -----: | ----: | ----: | ---------------------------------------------------- |
-| 100.0% | 240 B |     1 | `JSGlobalLexicalEnvironment ← GlobalObject ← <root>` |
+|      % |  Size | Nodes | Path                                                    |
+| -----: | ----: | ----: | ------------------------------------------------------- |
+| 100.0% | 240 B |     1 | `JSGlobalLexicalEnvironment ← GlobalObject ← (GC root)` |
 
 ##### `JSPropertyNameEnumerator`
 
-|     % | Size | Nodes | Path                                                                                                                                                 |
-| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 38.7% | 82 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                   |
-| 38.7% | 82 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ← FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← <root>` |
-| 22.6% | 48 B |     1 | `JSPropertyNameEnumerator ← <root>`                                                                                                                  |
+|     % | Size | Nodes | Path                                                                                                                                                    |
+| ----: | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 38.7% | 82 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                   |
+| 38.7% | 82 B |     1 | `JSPropertyNameEnumerator ← StructureRareData ← Structure ← FunctionExecutable ←(several paths)– ReadStream ←(several paths)– GlobalObject ← (GC root)` |
+| 22.6% | 48 B |     1 | `JSPropertyNameEnumerator ← (GC root)`                                                                                                                  |
 
 ##### `StructureChain`
 
-|     % | Size | Nodes | Path                                                                                        |
-| ----: | ---: | ----: | ------------------------------------------------------------------------------------------- |
-| 23.1% | 48 B |     3 | `StructureChain ← Structure ← Structure ←(several paths)– GlobalObject ← <root>`            |
-| 15.4% | 32 B |     2 | `StructureChain ← Structure ← Structure ← Function ←(several paths)– GlobalObject ← <root>` |
-| 15.4% | 32 B |     2 | `StructureChain ← Structure ←(several paths)– GlobalObject ← <root>`                        |
-|  7.7% | 16 B |     1 | `StructureChain ←(several paths)– <root>`                                                   |
-|  7.7% | 16 B |     1 | `StructureChain ← Structure ← Object ← InternalModuleRegistry ← GlobalObject ← <root>`      |
+|     % | Size | Nodes | Path                                                                                           |
+| ----: | ---: | ----: | ---------------------------------------------------------------------------------------------- |
+| 23.1% | 48 B |     3 | `StructureChain ← Structure ← Structure ←(several paths)– GlobalObject ← (GC root)`            |
+| 15.4% | 32 B |     2 | `StructureChain ← Structure ← Structure ← Function ←(several paths)– GlobalObject ← (GC root)` |
+| 15.4% | 32 B |     2 | `StructureChain ← Structure ←(several paths)– GlobalObject ← (GC root)`                        |
+|  7.7% | 16 B |     1 | `StructureChain ←(several paths)– (GC root)`                                                   |
+|  7.7% | 16 B |     1 | `StructureChain ← Structure ← Object ← InternalModuleRegistry ← GlobalObject ← (GC root)`      |
 
 ##### `Callee`
 
-|      % | Size | Nodes | Path                             |
-| -----: | ---: | ----: | -------------------------------- |
-| 100.0% | 96 B |     3 | `Callee ← GlobalObject ← <root>` |
-|  33.3% | 32 B |     1 | `Callee ← (GC root)`             |
+|      % | Size | Nodes | Path                                |
+| -----: | ---: | ----: | ----------------------------------- |
+| 100.0% | 96 B |     3 | `Callee ← GlobalObject ← (GC root)` |
+|  33.3% | 32 B |     1 | `Callee ← (GC root)`                |
 
 ##### `JSSourceCode`
 
@@ -1121,25 +1121,25 @@ Categories accounting for at least 1.0% of self size.
 
 #### String
 
-|     % |  Size | Path                                                                                                                                                                              |
-| ----: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 374 B | `string ←.expanded_url– Object ←[0]– Array ←.urls– Object ←.entities– Object ←[42]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| <0.1% | 374 B | `string ←.expanded_url– Object ←[0]– Array ←.urls– Object ←.entities– Object ←[42]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| <0.1% | 336 B | `string ←.description– Object ←.user– Object ←[25]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 336 B | `string ←.description– Object ←.user– Object ←[25]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`      |
-| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`      |
-| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`      |
-| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`      |
-| <0.1% | 332 B | `string ←.description– Object ←.user– Object ←[41]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 332 B | `string ←.description– Object ←.user– Object ←[41]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 326 B | `string ←.description– Object ←.user– Object ←[8]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                  |
-| <0.1% | 326 B | `string ←.description– Object ←.user– Object ←[8]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                  |
-| <0.1% | 314 B | `string ←.description– Object ←.user– Object ←[99]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 314 B | `string ←.description– Object ←.user– Object ←[99]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 306 B | `string ←.description– Object ←.user– Object ←[57]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 306 B | `string ←.description– Object ←.user– Object ←[57]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                 |
-| <0.1% | 304 B | `string ←.text– Object ←[0]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                        |
-| <0.1% | 304 B | `string ←.description– Object ←.user– Object ←[6]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                  |
-| <0.1% | 304 B | `string ←.text– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                        |
-| <0.1% | 304 B | `string ←.description– Object ←.user– Object ←[6]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                  |
+|     % |  Size | Path                                                                                                                                                                                 |
+| ----: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <0.1% | 374 B | `string ←.expanded_url– Object ←[0]– Array ←.urls– Object ←.entities– Object ←[42]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| <0.1% | 374 B | `string ←.expanded_url– Object ←[0]– Array ←.urls– Object ←.entities– Object ←[42]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| <0.1% | 336 B | `string ←.description– Object ←.user– Object ←[25]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 336 B | `string ←.description– Object ←.user– Object ←[25]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`      |
+| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`      |
+| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[12]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`      |
+| <0.1% | 334 B | `string ←.description– Object ←.user– Object ←.retweeted_status– Object ←[17]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`      |
+| <0.1% | 332 B | `string ←.description– Object ←.user– Object ←[41]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 332 B | `string ←.description– Object ←.user– Object ←[41]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 326 B | `string ←.description– Object ←.user– Object ←[8]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                  |
+| <0.1% | 326 B | `string ←.description– Object ←.user– Object ←[8]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                  |
+| <0.1% | 314 B | `string ←.description– Object ←.user– Object ←[99]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 314 B | `string ←.description– Object ←.user– Object ←[99]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 306 B | `string ←.description– Object ←.user– Object ←[57]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 306 B | `string ←.description– Object ←.user– Object ←[57]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                 |
+| <0.1% | 304 B | `string ←.text– Object ←[0]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                        |
+| <0.1% | 304 B | `string ←.description– Object ←.user– Object ←[6]– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                  |
+| <0.1% | 304 B | `string ←.text– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                        |
+| <0.1% | 304 B | `string ←.description– Object ←.user– Object ←[6]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                  |

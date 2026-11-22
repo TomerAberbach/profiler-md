@@ -454,7 +454,7 @@ describe(`malformed snapshots`, () => {
       [{ '%': `100.0%`, Size: `16 B`, Instances: `1`, Constructor: `Foo` }],
     ])
     expect(selfSizeRetainerPathTables(md, `Foo`)).toStrictEqual([
-      [{ '%': `100.0%`, Size: `16 B`, Nodes: `1`, Path: `Foo ← <root>` }],
+      [{ '%': `100.0%`, Size: `16 B`, Nodes: `1`, Path: `Foo ← (GC root)` }],
     ])
     expectLogs([
       `debug: origin candidates, in priority order: bun, safari`,

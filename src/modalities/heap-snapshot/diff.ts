@@ -639,9 +639,12 @@ export class RetainerPaths {
           path === RetainerPaths.ROOT && !this.#isWithinDominator
         if (!(isRestEmpty && internal)) {
           // A dominator retains many nodes, so it's read and its label
-          // formatted once.
+          // formatted once. Formats name the GC root differently or not at
+          // all, so every path names it alike.
           ordinalToRetainer[dominatorOrdinal] ??=
-            snapshot.retainerOf(dominatorOrdinal)
+            dominatorOrdinal === GC_ROOT_RETAINER.id
+              ? GC_ROOT_RETAINER
+              : snapshot.retainerOf(dominatorOrdinal)
           const retainer = ordinalToRetainer[dominatorOrdinal]
           ordinalToRetainerLabel[dominatorOrdinal] ??= formatRetainerLabel(
             retainer,

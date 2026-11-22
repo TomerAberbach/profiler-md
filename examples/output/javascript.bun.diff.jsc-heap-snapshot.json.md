@@ -48,23 +48,23 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `Object`
 
-|   Change |  Delta |            % |                Size |   Nodes | Path                                                                                                                                                  |
-| -------: | -----: | -----------: | ------------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +1939.3% | +543 B | <0.1% → 0.3% |        28 B → 571 B |   1 → 4 | `Object ←(several paths)– <root>`                                                                                                                     |
-|   -18.5% | -543 B |  3.0% → 1.3% | 2.86 KiB → 2.33 KiB | 26 → 23 | `Object ←(several paths)– GlobalObject ← <root>`                                                                                                      |
-|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                            |
-|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←[1]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                            |
-|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←.retweeted_status– Object ←[1]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
+|   Change |  Delta |            % |                Size |   Nodes | Path                                                                                                                                                     |
+| -------: | -----: | -----------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +1939.3% | +543 B | <0.1% → 0.3% |        28 B → 571 B |   1 → 4 | `Object ←(several paths)– (GC root)`                                                                                                                     |
+|   -18.5% | -543 B |  3.0% → 1.3% | 2.86 KiB → 2.33 KiB | 26 → 23 | `Object ←(several paths)– GlobalObject ← (GC root)`                                                                                                      |
+|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                            |
+|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←[1]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                            |
+|      new |  +98 B |  0.0% → 0.1% |          0 B → 98 B |   0 → 1 | `Object ←.user– Object ←.retweeted_status– Object ←[1]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
 
 ##### `Array`
 
-|  Change | Delta |            % |       Size | Nodes | Path                                                                                                                                                                              |
-| ------: | ----: | -----------: | ---------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| removed | -66 B |  0.4% → 0.0% | 66 B → 0 B | 1 → 0 | `Array ← GlobalObject ← <root>`                                                                                                                                                   |
-|     new | +66 B |  0.0% → 0.2% | 0 B → 66 B | 0 → 1 | `Array ←(several paths)– <root>`                                                                                                                                                  |
-|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                                                                    |
-|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.hashtags– Object ←.entities– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                  |
+|  Change | Delta |            % |       Size | Nodes | Path                                                                                                                                                                                 |
+| ------: | ----: | -----------: | ---------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| removed | -66 B |  0.4% → 0.0% | 66 B → 0 B | 1 → 0 | `Array ← GlobalObject ← (GC root)`                                                                                                                                                   |
+|     new | +66 B |  0.0% → 0.2% | 0 B → 66 B | 0 → 1 | `Array ←(several paths)– (GC root)`                                                                                                                                                  |
+|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                                                                    |
+|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.urls– Object ←.description– Object ←.entities– Object ←.user– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|     new | +16 B | 0.0% → <0.1% | 0 B → 16 B | 0 → 1 | `Array ←.hashtags– Object ←.entities– Object ←[0]– Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                  |
 
 ### Retained size
 
@@ -131,82 +131,82 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `Object`
 
-|   Change |        Delta |             % |                Size |   Nodes | Path                                                                         |
-| -------: | -----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------------------- |
-|      new | +422.866 KiB |  0.0% → 39.1% |       0 B → 423 KiB |   0 → 1 | `Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|   +92.0% | +421.519 KiB | 69.9% → 81.3% |   458 KiB → 880 KiB |       1 | `Object ←.__retained– GlobalObject ← <root>`                                 |
-|    -4.2% |    -18.7 KiB | 67.4% → 39.1% |   442 KiB → 423 KiB |       1 | `Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| +1024.3% |  +12.673 KiB |   0.2% → 1.3% | 1.24 KiB → 13.9 KiB |   1 → 4 | `Object ←(several paths)– <root>`                                            |
-|   -17.1% |  -12.673 KiB |  11.3% → 5.7% | 74.3 KiB → 61.6 KiB | 26 → 23 | `Object ←(several paths)– GlobalObject ← <root>`                             |
+|   Change |        Delta |             % |                Size |   Nodes | Path                                                                            |
+| -------: | -----------: | ------------: | ------------------: | ------: | ------------------------------------------------------------------------------- |
+|      new | +422.866 KiB |  0.0% → 39.1% |       0 B → 423 KiB |   0 → 1 | `Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|   +92.0% | +421.519 KiB | 69.9% → 81.3% |   458 KiB → 880 KiB |       1 | `Object ←.__retained– GlobalObject ← (GC root)`                                 |
+|    -4.2% |    -18.7 KiB | 67.4% → 39.1% |   442 KiB → 423 KiB |       1 | `Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| +1024.3% |  +12.673 KiB |   0.2% → 1.3% | 1.24 KiB → 13.9 KiB |   1 → 4 | `Object ←(several paths)– (GC root)`                                            |
+|   -17.1% |  -12.673 KiB |  11.3% → 5.7% | 74.3 KiB → 61.6 KiB | 26 → 23 | `Object ←(several paths)– GlobalObject ← (GC root)`                             |
 
 ##### `Array`
 
-|  Change |        Delta |             % |              Size | Nodes | Path                                                                                           |
-| ------: | -----------: | ------------: | ----------------: | ----: | ---------------------------------------------------------------------------------------------- |
-|     new | +422.389 KiB |  0.0% → 48.5% |     0 B → 422 KiB | 0 → 1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|  +95.4% | +421.369 KiB | 98.4% → 99.1% | 442 KiB → 863 KiB |     1 | `Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                |
-|   -4.0% |  -17.399 KiB | 98.0% → 48.5% | 440 KiB → 422 KiB |     1 | `Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| removed |   -5.275 KiB |   1.2% → 0.0% |    5.28 KiB → 0 B | 1 → 0 | `Array ← GlobalObject ← <root>`                                                                |
-|     new |   +5.275 KiB |   0.0% → 0.6% |    0 B → 5.28 KiB | 0 → 1 | `Array ←(several paths)– <root>`                                                               |
+|  Change |        Delta |             % |              Size | Nodes | Path                                                                                              |
+| ------: | -----------: | ------------: | ----------------: | ----: | ------------------------------------------------------------------------------------------------- |
+|     new | +422.389 KiB |  0.0% → 48.5% |     0 B → 422 KiB | 0 → 1 | `Array ←.statuses– Object ←[1]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|  +95.4% | +421.369 KiB | 98.4% → 99.1% | 442 KiB → 863 KiB |     1 | `Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                |
+|   -4.0% |  -17.399 KiB | 98.0% → 48.5% | 440 KiB → 422 KiB |     1 | `Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| removed |   -5.275 KiB |   1.2% → 0.0% |    5.28 KiB → 0 B | 1 → 0 | `Array ← GlobalObject ← (GC root)`                                                                |
+|     new |   +5.275 KiB |   0.0% → 0.6% |    0 B → 5.28 KiB | 0 → 1 | `Array ←(several paths)– (GC root)`                                                               |
 
 ##### `GlobalObject`
 
-| Change |        Delta |      % |               Size | Nodes | Path                    |
-| -----: | -----------: | -----: | -----------------: | ----: | ----------------------- |
-| +25.5% | +340.317 KiB | 100.0% | 1.3 MiB → 1.64 MiB |     1 | `GlobalObject ← <root>` |
+| Change |        Delta |      % |               Size | Nodes | Path                       |
+| -----: | -----------: | -----: | -----------------: | ----: | -------------------------- |
+| +25.5% | +340.317 KiB | 100.0% | 1.3 MiB → 1.64 MiB |     1 | `GlobalObject ← (GC root)` |
 
 ##### `Function`
 
-|  Change |       Delta |            % |                Size |     Nodes | Path                                                                          |
-| ------: | ----------: | -----------: | ------------------: | --------: | ----------------------------------------------------------------------------- |
-|  -76.9% | -54.767 KiB | 10.7% → 2.5% | 71.2 KiB → 16.5 KiB |  264 → 56 | `Function ← GlobalObject ← <root>`                                            |
-| +110.1% |  +8.166 KiB |  1.1% → 2.3% | 7.42 KiB → 15.6 KiB |   19 → 51 | `Function ←(several paths)– <root>`                                           |
-| removed |  -4.488 KiB |  0.7% → 0.0% |      4.49 KiB → 0 B |     1 → 0 | `Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← <root>`         |
-|     new |  +4.488 KiB |  0.0% → 0.7% |      0 B → 4.49 KiB |     0 → 1 | `Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← <root>` |
-|   -7.3% |  -4.083 KiB |  8.4% → 7.8% | 55.7 KiB → 51.6 KiB | 261 → 240 | `Function ←(several paths)– GlobalObject ← <root>`                            |
+|  Change |       Delta |            % |                Size |     Nodes | Path                                                                             |
+| ------: | ----------: | -----------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
+|  -76.9% | -54.767 KiB | 10.7% → 2.5% | 71.2 KiB → 16.5 KiB |  264 → 56 | `Function ← GlobalObject ← (GC root)`                                            |
+| +110.1% |  +8.166 KiB |  1.1% → 2.3% | 7.42 KiB → 15.6 KiB |   19 → 51 | `Function ←(several paths)– (GC root)`                                           |
+| removed |  -4.488 KiB |  0.7% → 0.0% |      4.49 KiB → 0 B |     1 → 0 | `Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← (GC root)`         |
+|     new |  +4.488 KiB |  0.0% → 0.7% |      0 B → 4.49 KiB |     0 → 1 | `Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
+|   -7.3% |  -4.083 KiB |  8.4% → 7.8% | 55.7 KiB → 51.6 KiB | 261 → 240 | `Function ←(several paths)– GlobalObject ← (GC root)`                            |
 
 ##### `FunctionExecutable`
 
-|  Change |       Delta |             % |                Size |     Nodes | Path                                                                                               |
-| ------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------- |
-|  -79.0% | -37.273 KiB |   8.5% → 1.8% | 47.2 KiB → 9.88 KiB |  204 → 31 | `FunctionExecutable ← Function ← GlobalObject ← <root>`                                            |
-|  +57.0% | +33.587 KiB | 10.6% → 16.6% | 58.9 KiB → 92.5 KiB |  89 → 143 | `FunctionExecutable ←(several paths)– <root>`                                                      |
-|  -11.5% | -33.587 KiB | 52.6% → 46.4% |   293 KiB → 259 KiB | 456 → 402 | `FunctionExecutable ←(several paths)– GlobalObject ← <root>`                                       |
-| removed |  -4.457 KiB |   0.8% → 0.0% |      4.46 KiB → 0 B |     1 → 0 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← <root>`         |
-|     new |  +4.457 KiB |   0.0% → 0.8% |      0 B → 4.46 KiB |     0 → 1 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← <root>` |
+|  Change |       Delta |             % |                Size |     Nodes | Path                                                                                                  |
+| ------: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------------- |
+|  -79.0% | -37.273 KiB |   8.5% → 1.8% | 47.2 KiB → 9.88 KiB |  204 → 31 | `FunctionExecutable ← Function ← GlobalObject ← (GC root)`                                            |
+|  +57.0% | +33.587 KiB | 10.6% → 16.6% | 58.9 KiB → 92.5 KiB |  89 → 143 | `FunctionExecutable ←(several paths)– (GC root)`                                                      |
+|  -11.5% | -33.587 KiB | 52.6% → 46.4% |   293 KiB → 259 KiB | 456 → 402 | `FunctionExecutable ←(several paths)– GlobalObject ← (GC root)`                                       |
+| removed |  -4.457 KiB |   0.8% → 0.0% |      4.46 KiB → 0 B |     1 → 0 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ← GlobalObject ← (GC root)`         |
+|     new |  +4.457 KiB |   0.0% → 0.8% |      0 B → 4.46 KiB |     0 → 1 | `FunctionExecutable ← Function ←.requestInstantiate– ModuleLoader ←.Loader– GlobalObject ← (GC root)` |
 
 ##### `Structure`
 
-|  Change |       Delta |           % |                Size |   Nodes | Path                                                                                                                                   |
-| ------: | ----------: | ----------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- |
-|     new | +17.203 KiB | 0.0% → 7.2% |      0 B → 17.2 KiB |  0 → 32 | `Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                            |
-| removed | -14.296 KiB | 6.0% → 0.0% |      14.3 KiB → 0 B |  26 → 0 | `Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`             |
-|     new | +12.578 KiB | 0.0% → 5.2% |      0 B → 12.6 KiB |  0 → 24 | `Structure ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                |
-| removed | -10.609 KiB | 4.5% → 0.0% |      10.6 KiB → 0 B |  18 → 0 | `Structure ← Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-| +238.0% | +10.093 KiB | 1.8% → 6.0% | 4.24 KiB → 14.3 KiB | 23 → 75 | `Structure ←(several paths)– <root>`                                                                                                   |
+|  Change |       Delta |           % |                Size |   Nodes | Path                                                                                                                                      |
+| ------: | ----------: | ----------: | ------------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------- |
+|     new | +17.203 KiB | 0.0% → 7.2% |      0 B → 17.2 KiB |  0 → 32 | `Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                            |
+| removed | -14.296 KiB | 6.0% → 0.0% |      14.3 KiB → 0 B |  26 → 0 | `Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`             |
+|     new | +12.578 KiB | 0.0% → 5.2% |      0 B → 12.6 KiB |  0 → 24 | `Structure ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                |
+| removed | -10.609 KiB | 4.5% → 0.0% |      10.6 KiB → 0 B |  18 → 0 | `Structure ← Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+| +238.0% | +10.093 KiB | 1.8% → 6.0% | 4.24 KiB → 14.3 KiB | 23 → 75 | `Structure ←(several paths)– (GC root)`                                                                                                   |
 
 ##### `StructureRareData`
 
-| Change |      Delta |             % |                Size | Nodes | Path                                                                                                                                                                                                    |
-| -----: | ---------: | ------------: | ------------------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| -81.8% | -1.546 KiB |   9.1% → 1.6% |    1.89 KiB → 352 B | 7 → 1 | `StructureRareData ← Structure ← Function ← GlobalObject ← <root>`                                                                                                                                      |
-| +41.2% | +1.421 KiB | 16.7% → 22.6% | 3.45 KiB → 4.88 KiB | 4 → 3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                                                 |
-| +48.1% | +1.406 KiB | 14.1% → 20.1% | 2.92 KiB → 4.33 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                                                 |
-| +45.0% | +1.203 KiB | 12.9% → 18.0% | 2.67 KiB → 3.88 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>`                                 |
-| +41.3% |     +1 KiB | 11.7% → 15.9% | 2.42 KiB → 3.42 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← <root>` |
+| Change |      Delta |             % |                Size | Nodes | Path                                                                                                                                                                                                       |
+| -----: | ---------: | ------------: | ------------------: | ----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -81.8% | -1.546 KiB |   9.1% → 1.6% |    1.89 KiB → 352 B | 7 → 1 | `StructureRareData ← Structure ← Function ← GlobalObject ← (GC root)`                                                                                                                                      |
+| +41.2% | +1.421 KiB | 16.7% → 22.6% | 3.45 KiB → 4.88 KiB | 4 → 3 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                                                 |
+| +48.1% | +1.406 KiB | 14.1% → 20.1% | 2.92 KiB → 4.33 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                 |
+| +45.0% | +1.203 KiB | 12.9% → 18.0% | 2.67 KiB → 3.88 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)`                                 |
+| +41.3% |     +1 KiB | 11.7% → 15.9% | 2.42 KiB → 3.42 KiB | 1 → 2 | `StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– GlobalObject ← (GC root)` |
 
 ##### `PropertyTable`
 
-|  Change |      Delta |             % |                Size |   Nodes | Path                                                                                                                                       |
-| ------: | ---------: | ------------: | ------------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------ |
-|  -76.9% | -1.406 KiB |  10.1% → 2.3% |    1.83 KiB → 432 B |  39 → 9 | `PropertyTable ← Structure ← Function ← GlobalObject ← <root>`                                                                             |
-|     new | +1.125 KiB |   0.0% → 6.2% |      0 B → 1.13 KiB |  0 → 24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← <root>`                                |
-| removed |     -864 B |   4.7% → 0.0% |         864 B → 0 B |  18 → 0 | `PropertyTable ← Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← <root>` |
-|  -23.1% |     -720 B | 16.8% → 12.9% | 3.05 KiB → 2.34 KiB | 65 → 50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← <root>`                                                                        |
-| +260.0% |     +624 B |   1.3% → 4.7% |       240 B → 864 B |  5 → 18 | `PropertyTable ← Structure ←(several paths)– <root>`                                                                                       |
+|  Change |      Delta |             % |                Size |   Nodes | Path                                                                                                                                          |
+| ------: | ---------: | ------------: | ------------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -76.9% | -1.406 KiB |  10.1% → 2.3% |    1.83 KiB → 432 B |  39 → 9 | `PropertyTable ← Structure ← Function ← GlobalObject ← (GC root)`                                                                             |
+|     new | +1.125 KiB |   0.0% → 6.2% |      0 B → 1.13 KiB |  0 → 24 | `PropertyTable ← Structure ←(several paths)– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)`                                |
+| removed |     -864 B |   4.7% → 0.0% |         864 B → 0 B |  18 → 0 | `PropertyTable ← Structure ←(several paths)– Array ←.statuses– Object ←[0]– Array ←.documents– Object ←.__retained– GlobalObject ← (GC root)` |
+|  -23.1% |     -720 B | 16.8% → 12.9% | 3.05 KiB → 2.34 KiB | 65 → 50 | `PropertyTable ← Structure ←(several paths)– GlobalObject ← (GC root)`                                                                        |
+| +260.0% |     +624 B |   1.3% → 4.7% |       240 B → 864 B |  5 → 18 | `PropertyTable ← Structure ←(several paths)– (GC root)`                                                                                       |
 
 ##### `Process`
 
-| Change | Delta |      % |     Size | Nodes | Path                              |
-| -----: | ----: | -----: | -------: | ----: | --------------------------------- |
-|    ~0% |  +3 B | 100.0% | 18.9 KiB |     1 | `Process ← GlobalObject ← <root>` |
+| Change | Delta |      % |     Size | Nodes | Path                                 |
+| -----: | ----: | -----: | -------: | ----: | ------------------------------------ |
+|    ~0% |  +3 B | 100.0% | 18.9 KiB |     1 | `Process ← GlobalObject ← (GC root)` |
