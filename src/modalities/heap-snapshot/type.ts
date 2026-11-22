@@ -12,7 +12,17 @@ export type HeapSnapshot = {
 
   nodeCount: number
 
-  /** The edges pointing at a node of the snapshot, retaining it or not. */
+  /**
+   * The ordinals of nodes the parser added and the format records nothing for,
+   * such as a GC root above the roots a format lists. They count toward no
+   * category.
+   */
+  addedNodeOrdinals?: readonly number[]
+
+  /**
+   * The edges pointing at a node of the snapshot, retaining it or not,
+   * excluding those of the nodes the parser added.
+   */
   edgeCount: number
 
   nodeAdjacencyGraph: NodeAdjacencyGraph

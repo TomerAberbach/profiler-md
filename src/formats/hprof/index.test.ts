@@ -170,7 +170,6 @@ describe(`convert`, () => {
         { Category: `Array`, '%': `71.4%`, Size: `80 B`, Nodes: `2` },
         { Category: `Object`, '%': `21.4%`, Size: `24 B`, Nodes: `2` },
         { Category: `String`, '%': `7.1%`, Size: `8 B`, Nodes: `1` },
-        { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
         { Category: `Object shape`, '%': `0.0%`, Size: `0 B`, Nodes: `4` },
       ],
     ])

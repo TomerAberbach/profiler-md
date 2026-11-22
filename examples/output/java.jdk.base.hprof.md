@@ -1,6 +1,6 @@
 # Heap snapshot
 
-Held 13.4 MiB over 700,699 nodes and 853,723 edges.
+Held 13.4 MiB over 700,698 nodes and 852,020 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
@@ -11,7 +11,6 @@ Held 13.4 MiB over 700,699 nodes and 853,723 edges.
 | Object shape       |  0.3% | 43.7 KiB |   2,678 |
 | Big number         | <0.1% | 2.52 KiB |      92 |
 | Regular expression | <0.1% |    333 B |       3 |
-| Synthetic          |  0.0% |      0 B |       1 |
 
 `B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 

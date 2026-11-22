@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Held 13.4 MiB → 13 MiB (-359.266 KiB, -2.6%) over 700,699 → 704,147 nodes and 853,723 → 789,476 edges.
+Held 13.4 MiB → 13 MiB (-359.266 KiB, -2.6%) over 700,698 → 704,146 nodes and 852,020 → 787,752 edges.
 
 | Category           | Change |        Delta |             % |                Size |             Nodes |
 | ------------------ | -----: | -----------: | ------------: | ------------------: | ----------------: |
@@ -11,7 +11,6 @@ Held 13.4 MiB → 13 MiB (-359.266 KiB, -2.6%) over 700,699 → 704,147 nodes
 | Object shape       |  +3.6% |   +1.594 KiB |          0.3% | 43.7 KiB → 45.3 KiB |     2,678 → 2,819 |
 | Big number         |   0.0% |          0 B |         <0.1% |            2.52 KiB |                92 |
 | Regular expression |   0.0% |          0 B |         <0.1% |               333 B |                 3 |
-| Synthetic          |      — |          0 B |          0.0% |                 0 B |                 1 |
 
 `B ←(several paths)– A` means `A` retains `B` only through other nodes, and `(several C paths)` means every path passes through an instance of `C`, though no single instance retains `B`.
 
