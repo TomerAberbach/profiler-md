@@ -83,60 +83,60 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `FunctionCodeBlock`
 
-| Change |       Delta |             % |                Size |   Nodes | Path                                                                                                                      |
-| -----: | ----------: | ------------: | ------------------: | ------: | ------------------------------------------------------------------------------------------------------------------------- |
-| +45.7% | +24.755 KiB | 10.2% → 14.5% | 54.2 KiB → 78.9 KiB | 27 → 29 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                         |
-| -13.6% | -18.419 KiB | 25.3% → 21.4% |   135 KiB → 117 KiB | 42 → 39 | `FunctionCodeBlock ←(several paths)– <root>`                                                                              |
-| -13.0% | -14.376 KiB | 20.7% → 17.6% |  110 KiB → 95.9 KiB | 33 → 30 | `FunctionCodeBlock ← <root>`                                                                                              |
-|    new |  +8.187 KiB |   0.0% → 1.5% |      0 B → 8.19 KiB |   0 → 2 | `FunctionCodeBlock ← FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– <root>` |
-|    new |    +7.5 KiB |   0.0% → 1.4% |       0 B → 7.5 KiB |   0 → 3 | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← Function ←(several paths)– <root>`                           |
+| Change |       Delta |             % |                Size |   Nodes | Path                                                                                                                         |
+| -----: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
+| +45.7% | +24.755 KiB | 10.2% → 14.5% | 54.2 KiB → 78.9 KiB | 27 → 29 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– (GC root)`                                                         |
+| -13.6% | -18.419 KiB | 25.3% → 21.4% |   135 KiB → 117 KiB | 42 → 39 | `FunctionCodeBlock ←(several paths)– (GC root)`                                                                              |
+| -13.0% | -14.376 KiB | 20.7% → 17.6% |  110 KiB → 95.9 KiB | 33 → 30 | `FunctionCodeBlock ← (GC root)`                                                                                              |
+|    new |  +8.187 KiB |   0.0% → 1.5% |      0 B → 8.19 KiB |   0 → 2 | `FunctionCodeBlock ← FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– (GC root)` |
+|    new |    +7.5 KiB |   0.0% → 1.4% |       0 B → 7.5 KiB |   0 → 3 | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← Function ←(several paths)– (GC root)`                           |
 
 ##### `FunctionRareData`
 
-|  Change |      Delta |             % |               Size |   Nodes | Path                                                                                                                                |
-| ------: | ---------: | ------------: | -----------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------- |
-|  +17.6% | +1.015 KiB | 31.9% → 32.2% | 5.78 KiB → 6.8 KiB | 74 → 87 | `FunctionRareData ← Function ←(several paths)– <root>`                                                                              |
-|  +33.3% |      +80 B |   1.3% → 1.5% |      240 B → 320 B |   3 → 4 | `FunctionRareData ← Function ←.init– Object ←(several paths)– <root>`                                                               |
-| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.splitModuleKey– JSLexicalEnvironment ←(several paths)– <root>`                                       |
-| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.declarator– Object ←.ext.testKitchen– Object ←(several paths)– <root>`                               |
-| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.jar.js– Object ←.files– Object ←.script– Object ←.mediawiki.cookie– Object ←(several paths)– <root>` |
+|  Change |      Delta |             % |               Size |   Nodes | Path                                                                                                                                   |
+| ------: | ---------: | ------------: | -----------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- |
+|  +17.6% | +1.015 KiB | 31.9% → 32.2% | 5.78 KiB → 6.8 KiB | 74 → 87 | `FunctionRareData ← Function ←(several paths)– (GC root)`                                                                              |
+|  +33.3% |      +80 B |   1.3% → 1.5% |      240 B → 320 B |   3 → 4 | `FunctionRareData ← Function ←.init– Object ←(several paths)– (GC root)`                                                               |
+| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.splitModuleKey– JSLexicalEnvironment ←(several paths)– (GC root)`                                       |
+| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.declarator– Object ←.ext.testKitchen– Object ←(several paths)– (GC root)`                               |
+| removed |      -80 B |   0.4% → 0.0% |         80 B → 0 B |   1 → 0 | `FunctionRareData ← Function ←.jar.js– Object ←.files– Object ←.script– Object ←.mediawiki.cookie– Object ←(several paths)– (GC root)` |
 
 ##### `Structure`
 
-| Change |    Delta |           % |                Size |     Nodes | Path                                                     |
-| -----: | -------: | ----------: | ------------------: | --------: | -------------------------------------------------------- |
-|  +1.8% | +1,008 B | 4.2% → 4.3% |     56 KiB → 57 KiB | 512 → 521 | `Structure ←(several paths)– <root>`                     |
-| +15.4% |   +672 B | 0.3% → 0.4% | 4.27 KiB → 4.92 KiB |   39 → 45 | `Structure ← Function ← Window ←(several paths)– <root>` |
-|  -3.3% |   -560 B |        1.2% | 16.4 KiB → 15.9 KiB | 150 → 145 | `Structure ← <root>`                                     |
-|  -1.7% |   -560 B |        2.4% | 32.2 KiB → 31.6 KiB | 294 → 289 | `Structure ← Window ←(several paths)– <root>`            |
-| -35.7% |   -560 B |        0.1% |  1.53 KiB → 1,008 B |    14 → 9 | `Structure ← Function ← Window ← <root>`                 |
+| Change |    Delta |           % |                Size |     Nodes | Path                                                        |
+| -----: | -------: | ----------: | ------------------: | --------: | ----------------------------------------------------------- |
+|  +1.8% | +1,008 B | 4.2% → 4.3% |     56 KiB → 57 KiB | 512 → 521 | `Structure ←(several paths)– (GC root)`                     |
+| +15.4% |   +672 B | 0.3% → 0.4% | 4.27 KiB → 4.92 KiB |   39 → 45 | `Structure ← Function ← Window ←(several paths)– (GC root)` |
+|  -3.3% |   -560 B |        1.2% | 16.4 KiB → 15.9 KiB | 150 → 145 | `Structure ← (GC root)`                                     |
+|  -1.7% |   -560 B |        2.4% | 32.2 KiB → 31.6 KiB | 294 → 289 | `Structure ← Window ←(several paths)– (GC root)`            |
+| -35.7% |   -560 B |        0.1% |  1.53 KiB → 1,008 B |    14 → 9 | `Structure ← Function ← Window ← (GC root)`                 |
 
 ##### `Function`
 
-| Change |      Delta |           % |                Size |     Nodes | Path                                                        |
-| -----: | ---------: | ----------: | ------------------: | --------: | ----------------------------------------------------------- |
-| +49.3% | +2.704 KiB | 1.3% → 1.9% | 5.48 KiB → 8.19 KiB | 163 → 253 | `Function ← Window ← <root>`                                |
-|  +7.2% | +1.652 KiB | 5.3% → 5.7% |   23 KiB → 24.7 KiB | 711 → 762 | `Function ← Window ←(several paths)– <root>`                |
-|  +1.3% |     +323 B |        5.7% | 24.6 KiB → 24.9 KiB | 734 → 743 | `Function ←(several paths)– <root>`                         |
-| -23.0% |     -272 B | 0.3% → 0.2% |    1.16 KiB → 912 B |   35 → 27 | `Function ← GetterSetter ← Window ←(several paths)– <root>` |
-| +28.8% |     +272 B | 0.2% → 0.3% |    944 B → 1.19 KiB |   28 → 36 | `Function ← GetterSetter ←(several paths)– <root>`          |
+| Change |      Delta |           % |                Size |     Nodes | Path                                                           |
+| -----: | ---------: | ----------: | ------------------: | --------: | -------------------------------------------------------------- |
+| +49.3% | +2.704 KiB | 1.3% → 1.9% | 5.48 KiB → 8.19 KiB | 163 → 253 | `Function ← Window ← (GC root)`                                |
+|  +7.2% | +1.652 KiB | 5.3% → 5.7% |   23 KiB → 24.7 KiB | 711 → 762 | `Function ← Window ←(several paths)– (GC root)`                |
+|  +1.3% |     +323 B |        5.7% | 24.6 KiB → 24.9 KiB | 734 → 743 | `Function ←(several paths)– (GC root)`                         |
+| -23.0% |     -272 B | 0.3% → 0.2% |    1.16 KiB → 912 B |   35 → 27 | `Function ← GetterSetter ← Window ←(several paths)– (GC root)` |
+| +28.8% |     +272 B | 0.2% → 0.3% |    944 B → 1.19 KiB |   28 → 36 | `Function ← GetterSetter ←(several paths)– (GC root)`          |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-| Change |      Delta |           % |                Size |         Nodes | Path                                                                              |
-| -----: | ---------: | ----------: | ------------------: | ------------: | --------------------------------------------------------------------------------- |
-|  -0.2% | -1.175 KiB |       67.2% |   647 KiB → 646 KiB | 1,196 → 1,194 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>` |
-|  +0.2% |      +92 B | 4.3% → 4.4% | 41.8 KiB → 41.9 KiB |            82 | `UnlinkedFunctionCodeBlock ←(several paths)– <root>`                              |
+| Change |      Delta |           % |                Size |         Nodes | Path                                                                                 |
+| -----: | ---------: | ----------: | ------------------: | ------------: | ------------------------------------------------------------------------------------ |
+|  -0.2% | -1.175 KiB |       67.2% |   647 KiB → 646 KiB | 1,196 → 1,194 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– (GC root)` |
+|  +0.2% |      +92 B | 4.3% → 4.4% | 41.8 KiB → 41.9 KiB |            82 | `UnlinkedFunctionCodeBlock ←(several paths)– (GC root)`                              |
 
 ##### `StructureChain`
 
-|  Change | Delta |           % |          Size |   Nodes | Path                                                                                                                                                        |
-| ------: | ----: | ----------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +12.5% | +16 B | 2.8% → 3.2% | 128 B → 144 B |   8 → 9 | `StructureChain ← Structure ← <root>`                                                                                                                       |
-| +100.0% | +16 B | 0.4% → 0.7% |   16 B → 32 B |   1 → 2 | `StructureChain ← Structure ← Structure ← Structure ← Structure ← Structure ← Object ←.:– Object ←(several paths)– <root>`                                  |
-|   -6.7% | -16 B | 5.3% → 5.0% | 240 B → 224 B | 15 → 14 | `StructureChain ← Structure ←(several paths)– <root>`                                                                                                       |
-|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← EventFactory ←.eventFactory– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>`             |
-|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← ExposureLogTracker ←.exposureLogTracker– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>` |
+|  Change | Delta |           % |          Size |   Nodes | Path                                                                                                                                                           |
+| ------: | ----: | ----------: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +12.5% | +16 B | 2.8% → 3.2% | 128 B → 144 B |   8 → 9 | `StructureChain ← Structure ← (GC root)`                                                                                                                       |
+| +100.0% | +16 B | 0.4% → 0.7% |   16 B → 32 B |   1 → 2 | `StructureChain ← Structure ← Structure ← Structure ← Structure ← Structure ← Object ←.:– Object ←(several paths)– (GC root)`                                  |
+|   -6.7% | -16 B | 5.3% → 5.0% | 240 B → 224 B | 15 → 14 | `StructureChain ← Structure ←(several paths)– (GC root)`                                                                                                       |
+|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← EventFactory ←.eventFactory– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)`             |
+|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← ExposureLogTracker ←.exposureLogTracker– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)` |
 
 ### Retained size
 
@@ -253,189 +253,189 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `FunctionExecutable`
 
-|   Change |       Delta |            % |                Size |     Nodes | Path                                                                                                  |
-| -------: | ----------: | -----------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------------- |
-|   +32.8% | +24.915 KiB |  3.6% → 4.7% |  76.1 KiB → 101 KiB | 149 → 150 | `FunctionExecutable ←(several paths)– <root>`                                                         |
-|   +96.5% |     +12 KiB |  0.6% → 1.1% | 12.4 KiB → 24.4 KiB |  95 → 191 | `FunctionExecutable ← Function ← Window ← <root>`                                                     |
-|   +82.7% |    +8.5 KiB |  0.5% → 0.9% | 10.3 KiB → 18.8 KiB |   65 → 73 | `FunctionExecutable ← FunctionRareData ← Function ←(several paths)– <root>`                           |
-| +3800.0% |  +8.312 KiB | <0.1% → 0.4% |    224 B → 8.53 KiB |     1 → 2 | `FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– <root>` |
-| +2350.0% |   +5.14 KiB | <0.1% → 0.2% |    224 B → 5.36 KiB |     1 → 2 | `FunctionExecutable ← Function ←.anyFailed– JSLexicalEnvironment ←(several paths)– <root>`            |
+|   Change |       Delta |            % |                Size |     Nodes | Path                                                                                                     |
+| -------: | ----------: | -----------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------------- |
+|   +32.8% | +24.915 KiB |  3.6% → 4.7% |  76.1 KiB → 101 KiB | 149 → 150 | `FunctionExecutable ←(several paths)– (GC root)`                                                         |
+|   +96.5% |     +12 KiB |  0.6% → 1.1% | 12.4 KiB → 24.4 KiB |  95 → 191 | `FunctionExecutable ← Function ← Window ← (GC root)`                                                     |
+|   +82.7% |    +8.5 KiB |  0.5% → 0.9% | 10.3 KiB → 18.8 KiB |   65 → 73 | `FunctionExecutable ← FunctionRareData ← Function ←(several paths)– (GC root)`                           |
+| +3800.0% |  +8.312 KiB | <0.1% → 0.4% |    224 B → 8.53 KiB |     1 → 2 | `FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– (GC root)` |
+| +2350.0% |   +5.14 KiB | <0.1% → 0.2% |    224 B → 5.36 KiB |     1 → 2 | `FunctionExecutable ← Function ←.anyFailed– JSLexicalEnvironment ←(several paths)– (GC root)`            |
 
 ##### `JSLexicalEnvironment`
 
-|  Change |       Delta |             % |               Size |     Nodes | Path                                                                                             |
-| ------: | ----------: | ------------: | -----------------: | --------: | ------------------------------------------------------------------------------------------------ |
-|   +5.3% | +25.826 KiB | 51.0% → 51.4% |  489 KiB → 514 KiB | 203 → 204 | `JSLexicalEnvironment ←(several paths)– <root>`                                                  |
-|  -48.7% |   -1.71 KiB |   0.4% → 0.2% | 3.52 KiB → 1.8 KiB |     2 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>`            |
-|     new |   +1.71 KiB |   0.0% → 0.2% |     0 B → 1.71 KiB |     0 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.testKitchen– Object ←(several paths)– <root>`   |
-|  +90.6% |  +1.359 KiB |   0.2% → 0.3% | 1.5 KiB → 2.86 KiB |     1 → 2 | `JSLexicalEnvironment ← Function ←[2]– Array ←.c– JSLexicalEnvironment ←(several paths)– <root>` |
-| removed |  -1.359 KiB |   0.1% → 0.0% |     1.36 KiB → 0 B |     1 → 0 | `JSLexicalEnvironment ← Function ←[2]– Array ←.p– JSLexicalEnvironment ←(several paths)– <root>` |
+|  Change |       Delta |             % |               Size |     Nodes | Path                                                                                                |
+| ------: | ----------: | ------------: | -----------------: | --------: | --------------------------------------------------------------------------------------------------- |
+|   +5.3% | +25.826 KiB | 51.0% → 51.4% |  489 KiB → 514 KiB | 203 → 204 | `JSLexicalEnvironment ←(several paths)– (GC root)`                                                  |
+|  -48.7% |   -1.71 KiB |   0.4% → 0.2% | 3.52 KiB → 1.8 KiB |     2 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)`            |
+|     new |   +1.71 KiB |   0.0% → 0.2% |     0 B → 1.71 KiB |     0 → 1 | `JSLexicalEnvironment ←(several paths)– Object ←.testKitchen– Object ←(several paths)– (GC root)`   |
+|  +90.6% |  +1.359 KiB |   0.2% → 0.3% | 1.5 KiB → 2.86 KiB |     1 → 2 | `JSLexicalEnvironment ← Function ←[2]– Array ←.c– JSLexicalEnvironment ←(several paths)– (GC root)` |
+| removed |  -1.359 KiB |   0.1% → 0.0% |     1.36 KiB → 0 B |     1 → 0 | `JSLexicalEnvironment ← Function ←[2]– Array ←.p– JSLexicalEnvironment ←(several paths)– (GC root)` |
 
 ##### `Function`
 
-|   Change |       Delta |             % |                Size |     Nodes | Path                                                                             |
-| -------: | ----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------- |
-|    +2.7% | +14.878 KiB | 15.1% → 15.4% |   543 KiB → 558 KiB | 734 → 743 | `Function ←(several paths)– <root>`                                              |
-|   +54.4% | +13.435 KiB |   0.7% → 1.1% | 24.7 KiB → 38.1 KiB | 163 → 253 | `Function ← Window ← <root>`                                                     |
-|    +8.8% | +10.067 KiB |   3.2% → 3.4% |   115 KiB → 125 KiB | 711 → 762 | `Function ← Window ←(several paths)– <root>`                                     |
-| +3337.5% |  +8.343 KiB |  <0.1% → 0.2% |    256 B → 8.59 KiB |     1 → 2 | `Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– <root>` |
-| +2068.8% |  +5.171 KiB |  <0.1% → 0.1% |    256 B → 5.42 KiB |     1 → 2 | `Function ←.anyFailed– JSLexicalEnvironment ←(several paths)– <root>`            |
+|   Change |       Delta |             % |                Size |     Nodes | Path                                                                                |
+| -------: | ----------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------- |
+|    +2.7% | +14.878 KiB | 15.1% → 15.4% |   543 KiB → 558 KiB | 734 → 743 | `Function ←(several paths)– (GC root)`                                              |
+|   +54.4% | +13.435 KiB |   0.7% → 1.1% | 24.7 KiB → 38.1 KiB | 163 → 253 | `Function ← Window ← (GC root)`                                                     |
+|    +8.8% | +10.067 KiB |   3.2% → 3.4% |   115 KiB → 125 KiB | 711 → 762 | `Function ← Window ←(several paths)– (GC root)`                                     |
+| +3337.5% |  +8.343 KiB |  <0.1% → 0.2% |    256 B → 8.59 KiB |     1 → 2 | `Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– (GC root)` |
+| +2068.8% |  +5.171 KiB |  <0.1% → 0.1% |    256 B → 5.42 KiB |     1 → 2 | `Function ←.anyFailed– JSLexicalEnvironment ←(several paths)– (GC root)`            |
 
 ##### `FunctionRareData`
 
-|  Change |      Delta |            % |              Size |   Nodes | Path                                                                                       |
-| ------: | ---------: | -----------: | ----------------: | ------: | ------------------------------------------------------------------------------------------ |
-|  +51.4% | +9.515 KiB | 9.4% → 13.3% | 18.5 KiB → 28 KiB | 74 → 87 | `FunctionRareData ← Function ←(several paths)– <root>`                                     |
-|     new |  +4.89 KiB |  0.0% → 2.3% |    0 B → 4.89 KiB |   0 → 1 | `FunctionRareData ← Function ←.pathComponentsForAnchor– Window ←(several paths)– <root>`   |
-| removed | -4.734 KiB |  2.4% → 0.0% |    4.73 KiB → 0 B |   1 → 0 | `FunctionRareData ← Function ←.hasClassMatchingRegexp– Window ←(several paths)– <root>`    |
-|     new | +4.128 KiB |  0.0% → 2.0% |    0 B → 4.13 KiB |   0 → 1 | `FunctionRareData ← Function ← Window ←(several paths)– <root>`                            |
-| removed | -3.375 KiB |  1.7% → 0.0% |    3.38 KiB → 0 B |   1 → 0 | `FunctionRareData ← Function ←.fontSizeFromComputedStyle– Window ←(several paths)– <root>` |
+|  Change |      Delta |            % |              Size |   Nodes | Path                                                                                          |
+| ------: | ---------: | -----------: | ----------------: | ------: | --------------------------------------------------------------------------------------------- |
+|  +51.4% | +9.515 KiB | 9.4% → 13.3% | 18.5 KiB → 28 KiB | 74 → 87 | `FunctionRareData ← Function ←(several paths)– (GC root)`                                     |
+|     new |  +4.89 KiB |  0.0% → 2.3% |    0 B → 4.89 KiB |   0 → 1 | `FunctionRareData ← Function ←.pathComponentsForAnchor– Window ←(several paths)– (GC root)`   |
+| removed | -4.734 KiB |  2.4% → 0.0% |    4.73 KiB → 0 B |   1 → 0 | `FunctionRareData ← Function ←.hasClassMatchingRegexp– Window ←(several paths)– (GC root)`    |
+|     new | +4.128 KiB |  0.0% → 2.0% |    0 B → 4.13 KiB |   0 → 1 | `FunctionRareData ← Function ← Window ←(several paths)– (GC root)`                            |
+| removed | -3.375 KiB |  1.7% → 0.0% |    3.38 KiB → 0 B |   1 → 0 | `FunctionRareData ← Function ←.fontSizeFromComputedStyle– Window ←(several paths)– (GC root)` |
 
 ##### `FunctionCodeBlock`
 
-| Change |       Delta |             % |               Size |   Nodes | Path                                                                                                                      |
-| -----: | ----------: | ------------: | -----------------: | ------: | ------------------------------------------------------------------------------------------------------------------------- |
-| +45.8% |  +24.79 KiB | 10.1% → 14.4% |  54.2 KiB → 79 KiB | 27 → 29 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– <root>`                                                         |
-| -13.6% | -18.453 KiB | 25.3% → 21.4% |  135 KiB → 117 KiB | 42 → 39 | `FunctionCodeBlock ←(several paths)– <root>`                                                                              |
-| -14.7% | -16.763 KiB | 21.2% → 17.7% | 114 KiB → 96.9 KiB | 33 → 30 | `FunctionCodeBlock ← <root>`                                                                                              |
-|    new |  +8.187 KiB |   0.0% → 1.5% |     0 B → 8.19 KiB |   0 → 2 | `FunctionCodeBlock ← FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– <root>` |
-|    new |    +7.5 KiB |   0.0% → 1.4% |      0 B → 7.5 KiB |   0 → 3 | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← Function ←(several paths)– <root>`                           |
+| Change |       Delta |             % |               Size |   Nodes | Path                                                                                                                         |
+| -----: | ----------: | ------------: | -----------------: | ------: | ---------------------------------------------------------------------------------------------------------------------------- |
+| +45.8% |  +24.79 KiB | 10.1% → 14.4% |  54.2 KiB → 79 KiB | 27 → 29 | `FunctionCodeBlock ← FunctionExecutable ←(several paths)– (GC root)`                                                         |
+| -13.6% | -18.453 KiB | 25.3% → 21.4% |  135 KiB → 117 KiB | 42 → 39 | `FunctionCodeBlock ←(several paths)– (GC root)`                                                                              |
+| -14.7% | -16.763 KiB | 21.2% → 17.7% | 114 KiB → 96.9 KiB | 33 → 30 | `FunctionCodeBlock ← (GC root)`                                                                                              |
+|    new |  +8.187 KiB |   0.0% → 1.5% |     0 B → 8.19 KiB |   0 → 2 | `FunctionCodeBlock ← FunctionExecutable ← Function ←.allWithImplicitReady– JSLexicalEnvironment ←(several paths)– (GC root)` |
+|    new |    +7.5 KiB |   0.0% → 1.4% |      0 B → 7.5 KiB |   0 → 3 | `FunctionCodeBlock ← FunctionExecutable ← FunctionRareData ← Function ←(several paths)– (GC root)`                           |
 
 ##### `Object`
 
-|  Change |       Delta |            % |                Size | Nodes | Path                                                                      |
-| ------: | ----------: | -----------: | ------------------: | ----: | ------------------------------------------------------------------------- |
-| +125.6% | +13.088 KiB |  0.2% → 0.4% | 10.4 KiB → 23.5 KiB | 1 → 2 | `Object ←.:– Object ←(several paths)– <root>`                             |
-| removed | -13.088 KiB |  0.2% → 0.0% |      13.1 KiB → 0 B | 1 → 0 | `Object ←.filters– Object ←(several paths)– <root>`                       |
-|  -40.5% |  -5.076 KiB |  0.2% → 0.1% | 12.5 KiB → 7.45 KiB | 5 → 3 | `Object ←.prototype– Function ←(several paths)– InjectedScript ← <root>`  |
-| +204.4% |  +5.076 KiB | <0.1% → 0.1% | 2.48 KiB → 7.56 KiB | 1 → 3 | `Object ←.homeObject– Function ←(several paths)– InjectedScript ← <root>` |
-|  -46.8% |  -4.054 KiB |         0.1% | 8.67 KiB → 4.62 KiB | 2 → 1 | `Object ←.tk– Object ←(several paths)– <root>`                            |
+|  Change |       Delta |            % |                Size | Nodes | Path                                                                         |
+| ------: | ----------: | -----------: | ------------------: | ----: | ---------------------------------------------------------------------------- |
+| +125.6% | +13.088 KiB |  0.2% → 0.4% | 10.4 KiB → 23.5 KiB | 1 → 2 | `Object ←.:– Object ←(several paths)– (GC root)`                             |
+| removed | -13.088 KiB |  0.2% → 0.0% |      13.1 KiB → 0 B | 1 → 0 | `Object ←.filters– Object ←(several paths)– (GC root)`                       |
+|  -40.5% |  -5.076 KiB |  0.2% → 0.1% | 12.5 KiB → 7.45 KiB | 5 → 3 | `Object ←.prototype– Function ←(several paths)– InjectedScript ← (GC root)`  |
+| +204.4% |  +5.076 KiB | <0.1% → 0.1% | 2.48 KiB → 7.56 KiB | 1 → 3 | `Object ←.homeObject– Function ←(several paths)– InjectedScript ← (GC root)` |
+|  -46.8% |  -4.054 KiB |         0.1% | 8.67 KiB → 4.62 KiB | 2 → 1 | `Object ←.tk– Object ←(several paths)– (GC root)`                            |
 
 ##### `Node`
 
-| Change |  Delta |             % |                Size | Nodes | Path                                     |
-| -----: | -----: | ------------: | ------------------: | ----: | ---------------------------------------- |
-|  +4.2% | +304 B | 47.2% → 47.5% | 7.01 KiB → 7.31 KiB |     4 | `Node ←(several paths)– <root>`          |
-| +21.7% | +256 B |   7.8% → 9.1% |  1.15 KiB → 1.4 KiB |     5 | `Node ← Window ←(several paths)– <root>` |
+| Change |  Delta |             % |                Size | Nodes | Path                                        |
+| -----: | -----: | ------------: | ------------------: | ----: | ------------------------------------------- |
+|  +4.2% | +304 B | 47.2% → 47.5% | 7.01 KiB → 7.31 KiB |     4 | `Node ←(several paths)– (GC root)`          |
+| +21.7% | +256 B |   7.8% → 9.1% |  1.15 KiB → 1.4 KiB |     5 | `Node ← Window ←(several paths)– (GC root)` |
 
 ##### `Element`
 
-| Change |  Delta |             % |                Size | Nodes | Path                               |
-| -----: | -----: | ------------: | ------------------: | ----: | ---------------------------------- |
-|  +0.8% | +256 B | 50.3% → 50.5% | 30.4 KiB → 30.7 KiB |     4 | `Element ←(several paths)– <root>` |
+| Change |  Delta |             % |                Size | Nodes | Path                                  |
+| -----: | -----: | ------------: | ------------------: | ----: | ------------------------------------- |
+|  +0.8% | +256 B | 50.3% → 50.5% | 30.4 KiB → 30.7 KiB |     4 | `Element ←(several paths)– (GC root)` |
 
 ##### `HTMLElement`
 
-| Change |  Delta |             % |                Size | Nodes | Path                                   |
-| -----: | -----: | ------------: | ------------------: | ----: | -------------------------------------- |
-|  +0.9% | +256 B | 31.1% → 31.3% | 27.3 KiB → 27.6 KiB |     5 | `HTMLElement ←(several paths)– <root>` |
+| Change |  Delta |             % |                Size | Nodes | Path                                      |
+| -----: | -----: | ------------: | ------------------: | ----: | ----------------------------------------- |
+|  +0.9% | +256 B | 31.1% → 31.3% | 27.3 KiB → 27.6 KiB |     5 | `HTMLElement ←(several paths)– (GC root)` |
 
 ##### `EventTarget`
 
-| Change |  Delta |             % |                Size | Nodes | Path                                   |
-| -----: | -----: | ------------: | ------------------: | ----: | -------------------------------------- |
-|  +6.3% | +160 B | 37.6% → 39.0% | 2.47 KiB → 2.63 KiB |     7 | `EventTarget ←(several paths)– <root>` |
+| Change |  Delta |             % |                Size | Nodes | Path                                      |
+| -----: | -----: | ------------: | ------------------: | ----: | ----------------------------------------- |
+|  +6.3% | +160 B | 37.6% → 39.0% | 2.47 KiB → 2.63 KiB |     7 | `EventTarget ←(several paths)– (GC root)` |
 
 ##### `StructureRareData`
 
-|  Change |      Delta |             % |                Size |     Nodes | Path                                                                                                                 |
-| ------: | ---------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------------------------- |
-| +219.6% |  +6.14 KiB |   0.6% → 1.9% |  2.8 KiB → 8.94 KiB |     5 → 7 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– <root>`                             |
-|  +12.3% | +6.031 KiB | 10.4% → 11.7% |   49 KiB → 55.1 KiB | 134 → 139 | `StructureRareData ← Structure ←(several paths)– <root>`                                                             |
-|  -21.6% | -5.703 KiB |   5.6% → 4.4% | 26.4 KiB → 20.7 KiB |   66 → 58 | `StructureRareData ← Structure ← <root>`                                                                             |
-|  -42.0% | -4.781 KiB |   2.4% → 1.4% | 11.4 KiB → 6.59 KiB |     8 → 6 | `StructureRareData ← Structure ← StructureRareData ← Structure ← <root>`                                             |
-| removed | -4.375 KiB |   0.9% → 0.0% |      4.38 KiB → 0 B |     1 → 0 | `StructureRareData ← Structure ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← <root>` |
+|  Change |      Delta |             % |                Size |     Nodes | Path                                                                                                                    |
+| ------: | ---------: | ------------: | ------------------: | --------: | ----------------------------------------------------------------------------------------------------------------------- |
+| +219.6% |  +6.14 KiB |   0.6% → 1.9% |  2.8 KiB → 8.94 KiB |     5 → 7 | `StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– (GC root)`                             |
+|  +12.3% | +6.031 KiB | 10.4% → 11.7% |   49 KiB → 55.1 KiB | 134 → 139 | `StructureRareData ← Structure ←(several paths)– (GC root)`                                                             |
+|  -21.6% | -5.703 KiB |   5.6% → 4.4% | 26.4 KiB → 20.7 KiB |   66 → 58 | `StructureRareData ← Structure ← (GC root)`                                                                             |
+|  -42.0% | -4.781 KiB |   2.4% → 1.4% | 11.4 KiB → 6.59 KiB |     8 → 6 | `StructureRareData ← Structure ← StructureRareData ← Structure ← (GC root)`                                             |
+| removed | -4.375 KiB |   0.9% → 0.0% |      4.38 KiB → 0 B |     1 → 0 | `StructureRareData ← Structure ← Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ← (GC root)` |
 
 ##### `Map`
 
-| Change | Delta |             % |                Size | Nodes | Path                           |
-| -----: | ----: | ------------: | ------------------: | ----: | ------------------------------ |
-|  +0.6% | +98 B | 51.0% → 51.2% | 17.4 KiB → 17.5 KiB |     7 | `Map ←(several paths)– <root>` |
+| Change | Delta |             % |                Size | Nodes | Path                              |
+| -----: | ----: | ------------: | ------------------: | ----: | --------------------------------- |
+|  +0.6% | +98 B | 51.0% → 51.2% | 17.4 KiB → 17.5 KiB |     7 | `Map ←(several paths)– (GC root)` |
 
 ##### `CharacterData`
 
-| Change | Delta |             % |                Size | Nodes | Path                                     |
-| -----: | ----: | ------------: | ------------------: | ----: | ---------------------------------------- |
-|  +1.2% | +48 B | 84.5% → 84.7% | 3.85 KiB → 3.89 KiB |     4 | `CharacterData ←(several paths)– <root>` |
+| Change | Delta |             % |                Size | Nodes | Path                                        |
+| -----: | ----: | ------------: | ------------------: | ----: | ------------------------------------------- |
+|  +1.2% | +48 B | 84.5% → 84.7% | 3.85 KiB → 3.89 KiB |     4 | `CharacterData ←(several paths)– (GC root)` |
 
 ##### `Window`
 
-| Change |       Delta |             % |              Size | Nodes | Path                              |
-| -----: | ----------: | ------------: | ----------------: | ----: | --------------------------------- |
-|  -2.8% | -21.342 KiB | 70.2% → 69.6% | 762 KiB → 740 KiB |    11 | `Window ←(several paths)– <root>` |
-|  -0.3% |      -752 B | 25.3% → 25.8% | 275 KiB → 274 KiB |     2 | `Window ← <root>`                 |
+| Change |       Delta |             % |              Size | Nodes | Path                                 |
+| -----: | ----------: | ------------: | ----------------: | ----: | ------------------------------------ |
+|  -2.8% | -21.342 KiB | 70.2% → 69.6% | 762 KiB → 740 KiB |    11 | `Window ←(several paths)– (GC root)` |
+|  -0.3% |      -752 B | 25.3% → 25.8% | 275 KiB → 274 KiB |     2 | `Window ← (GC root)`                 |
 
 ##### `Structure`
 
-|  Change |      Delta |             % |                Size |     Nodes | Path                                                                                                 |
-| ------: | ---------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------- |
-|   +1.9% | +7.845 KiB | 19.8% → 20.2% |   404 KiB → 412 KiB | 512 → 521 | `Structure ←(several paths)– <root>`                                                                 |
-|  -14.1% |  -7.09 KiB |   2.5% → 2.1% | 50.4 KiB → 43.3 KiB | 150 → 145 | `Structure ← <root>`                                                                                 |
-| +255.7% | +5.953 KiB |   0.1% → 0.4% | 2.33 KiB → 8.28 KiB |     3 → 5 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– <root>` |
-|  +16.2% | +5.718 KiB |   1.7% → 2.0% | 35.2 KiB → 40.9 KiB |   33 → 34 | `Structure ← StructureRareData ← Structure ←(several paths)– <root>`                                 |
-|  -25.5% | -5.109 KiB |   1.0% → 0.7% |   20 KiB → 14.9 KiB |   21 → 17 | `Structure ← StructureRareData ← Structure ← <root>`                                                 |
+|  Change |      Delta |             % |                Size |     Nodes | Path                                                                                                    |
+| ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------------------------- |
+|   +1.9% | +7.845 KiB | 19.8% → 20.2% |   404 KiB → 412 KiB | 512 → 521 | `Structure ←(several paths)– (GC root)`                                                                 |
+|  -14.1% |  -7.09 KiB |   2.5% → 2.1% | 50.4 KiB → 43.3 KiB | 150 → 145 | `Structure ← (GC root)`                                                                                 |
+| +255.7% | +5.953 KiB |   0.1% → 0.4% | 2.33 KiB → 8.28 KiB |     3 → 5 | `Structure ← StructureRareData ← Structure ← StructureRareData ← Structure ←(several paths)– (GC root)` |
+|  +16.2% | +5.718 KiB |   1.7% → 2.0% | 35.2 KiB → 40.9 KiB |   33 → 34 | `Structure ← StructureRareData ← Structure ←(several paths)– (GC root)`                                 |
+|  -25.5% | -5.109 KiB |   1.0% → 0.7% |   20 KiB → 14.9 KiB |   21 → 17 | `Structure ← StructureRareData ← Structure ← (GC root)`                                                 |
 
 ##### `UnlinkedFunctionExecutable`
 
-|  Change |      Delta |            % |        Size | Nodes | Path                                                                                                                                          |
-| ------: | ---------: | -----------: | ----------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-|   -0.1% | -1.351 KiB |        82.1% |    1.33 MiB | 3,207 | `UnlinkedFunctionExecutable ←(several paths)– <root>`                                                                                         |
-| removed |     -384 B | <0.1% → 0.0% | 384 B → 0 B | 4 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– Object ←.filters– Object ←(several paths)– <root>`                         |
-|     new |     +384 B | 0.0% → <0.1% | 0 B → 384 B | 0 → 4 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– Object ←.:– Object ←(several paths)– <root>`                               |
-| removed |      -96 B | <0.1% → 0.0% |  96 B → 0 B | 1 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ←.requestIdleCallbackInternal– Object ←(several paths)– <root>`                   |
-| removed |      -96 B | <0.1% → 0.0% |  96 B → 0 B | 1 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ←.set– Object ←.scrollTop– Object ←.propHooks– Function ←(several paths)– <root>` |
+|  Change |      Delta |            % |        Size | Nodes | Path                                                                                                                                             |
+| ------: | ---------: | -----------: | ----------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+|   -0.1% | -1.351 KiB |        82.1% |    1.33 MiB | 3,207 | `UnlinkedFunctionExecutable ←(several paths)– (GC root)`                                                                                         |
+| removed |     -384 B | <0.1% → 0.0% | 384 B → 0 B | 4 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– Object ←.filters– Object ←(several paths)– (GC root)`                         |
+|     new |     +384 B | 0.0% → <0.1% | 0 B → 384 B | 0 → 4 | `UnlinkedFunctionExecutable ← FunctionExecutable ←(several paths)– Object ←.:– Object ←(several paths)– (GC root)`                               |
+| removed |      -96 B | <0.1% → 0.0% |  96 B → 0 B | 1 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ←.requestIdleCallbackInternal– Object ←(several paths)– (GC root)`                   |
+| removed |      -96 B | <0.1% → 0.0% |  96 B → 0 B | 1 → 0 | `UnlinkedFunctionExecutable ← FunctionExecutable ← Function ←.set– Object ←.scrollTop– Object ←.propHooks– Function ←(several paths)– (GC root)` |
 
 ##### `UnlinkedFunctionCodeBlock`
 
-| Change |      Delta |     % |                Size |         Nodes | Path                                                                                                                                       |
-| -----: | ---------: | ----: | ------------------: | ------------: | ------------------------------------------------------------------------------------------------------------------------------------------ |
-|  -0.1% | -1.351 KiB | 89.1% |            1.04 MiB | 1,196 → 1,194 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>`                                                          |
-|  +0.2% |      +92 B |  3.5% | 42.3 KiB → 42.4 KiB |            82 | `UnlinkedFunctionCodeBlock ←(several paths)– <root>`                                                                                       |
-|    ~0% |       +2 B | 23.6% |             282 KiB |           265 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– <root>` |
+| Change |      Delta |     % |                Size |         Nodes | Path                                                                                                                                          |
+| -----: | ---------: | ----: | ------------------: | ------------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
+|  -0.1% | -1.351 KiB | 89.1% |            1.04 MiB | 1,196 → 1,194 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– (GC root)`                                                          |
+|  +0.2% |      +92 B |  3.5% | 42.3 KiB → 42.4 KiB |            82 | `UnlinkedFunctionCodeBlock ←(several paths)– (GC root)`                                                                                       |
+|    ~0% |       +2 B | 23.6% |             282 KiB |           265 | `UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ← UnlinkedFunctionCodeBlock ← UnlinkedFunctionExecutable ←(several paths)– (GC root)` |
 
 ##### `Array`
 
-|  Change |      Delta |             % |                Size |   Nodes | Path                                                                                                                                   |
-| ------: | ---------: | ------------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------- |
-|  +79.7% | +3.968 KiB |   0.7% → 1.2% | 4.98 KiB → 8.95 KiB |   1 → 2 | `Array ←.c– JSLexicalEnvironment ←(several paths)– <root>`                                                                             |
-| removed | -3.968 KiB |   0.5% → 0.0% |      3.97 KiB → 0 B |   1 → 0 | `Array ←.p– JSLexicalEnvironment ←(several paths)– <root>`                                                                             |
-|   -0.4% |     -530 B | 18.2% → 18.1% |             137 KiB | 52 → 51 | `Array ←(several paths)– <root>`                                                                                                       |
-|   -2.4% |     -198 B |          1.1% | 8.13 KiB → 7.94 KiB |       2 | `Array ←.fns– JSLexicalEnvironment ←(several paths)– Object ←.postEdit– Object ←.hooks– JSLexicalEnvironment ←(several paths)– <root>` |
-| removed |     -104 B |  <0.1% → 0.0% |         104 B → 0 B |   1 → 0 | `Array ←.colgroup– Object ←.wrapMap– JSLexicalEnvironment ←(several paths)– <root>`                                                    |
+|  Change |      Delta |             % |                Size |   Nodes | Path                                                                                                                                      |
+| ------: | ---------: | ------------: | ------------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------- |
+|  +79.7% | +3.968 KiB |   0.7% → 1.2% | 4.98 KiB → 8.95 KiB |   1 → 2 | `Array ←.c– JSLexicalEnvironment ←(several paths)– (GC root)`                                                                             |
+| removed | -3.968 KiB |   0.5% → 0.0% |      3.97 KiB → 0 B |   1 → 0 | `Array ←.p– JSLexicalEnvironment ←(several paths)– (GC root)`                                                                             |
+|   -0.4% |     -530 B | 18.2% → 18.1% |             137 KiB | 52 → 51 | `Array ←(several paths)– (GC root)`                                                                                                       |
+|   -2.4% |     -198 B |          1.1% | 8.13 KiB → 7.94 KiB |       2 | `Array ←.fns– JSLexicalEnvironment ←(several paths)– Object ←.postEdit– Object ←.hooks– JSLexicalEnvironment ←(several paths)– (GC root)` |
+| removed |     -104 B |  <0.1% → 0.0% |         104 B → 0 B |   1 → 0 | `Array ←.colgroup– Object ←.wrapMap– JSLexicalEnvironment ←(several paths)– (GC root)`                                                    |
 
 ##### `HTMLAnchorElement`
 
-|  Change |      Delta |             % |                Size | Nodes | Path                                                                  |
-| ------: | ---------: | ------------: | ------------------: | ----: | --------------------------------------------------------------------- |
-|  +24.9% | +1.674 KiB | 23.0% → 28.9% | 6.72 KiB → 8.39 KiB | 6 → 7 | `HTMLAnchorElement ←(several paths)– <root>`                          |
-| removed | -1.674 KiB |   5.7% → 0.0% |      1.67 KiB → 0 B | 1 → 0 | `HTMLAnchorElement ←(several paths)– Window ←(several paths)– <root>` |
+|  Change |      Delta |             % |                Size | Nodes | Path                                                                     |
+| ------: | ---------: | ------------: | ------------------: | ----: | ------------------------------------------------------------------------ |
+|  +24.9% | +1.674 KiB | 23.0% → 28.9% | 6.72 KiB → 8.39 KiB | 6 → 7 | `HTMLAnchorElement ←(several paths)– (GC root)`                          |
+| removed | -1.674 KiB |   5.7% → 0.0% |      1.67 KiB → 0 B | 1 → 0 | `HTMLAnchorElement ←(several paths)– Window ←(several paths)– (GC root)` |
 
 ##### `Range`
 
-|  Change |      Delta |             % |           Size | Nodes | Path                                                  |
-| ------: | ---------: | ------------: | -------------: | ----: | ----------------------------------------------------- |
-| removed | -3.705 KiB | 100.0% → 0.0% | 3.71 KiB → 0 B | 1 → 0 | `Range ← Structure ← Window ←(several paths)– <root>` |
-|     new | +3.548 KiB | 0.0% → 100.0% | 0 B → 3.55 KiB | 0 → 1 | `Range ←(several paths)– <root>`                      |
+|  Change |      Delta |             % |           Size | Nodes | Path                                                     |
+| ------: | ---------: | ------------: | -------------: | ----: | -------------------------------------------------------- |
+| removed | -3.705 KiB | 100.0% → 0.0% | 3.71 KiB → 0 B | 1 → 0 | `Range ← Structure ← Window ←(several paths)– (GC root)` |
+|     new | +3.548 KiB | 0.0% → 100.0% | 0 B → 3.55 KiB | 0 → 1 | `Range ←(several paths)– (GC root)`                      |
 
 ##### `DOMRect`
 
-|  Change |  Delta |           % |        Size | Nodes | Path                                           |
-| ------: | -----: | ----------: | ----------: | ----: | ---------------------------------------------- |
-| removed | -525 B | 1.2% → 0.0% | 525 B → 0 B | 1 → 0 | `DOMRect ← Structure ←(several paths)– <root>` |
-|     new | +477 B | 0.0% → 1.1% | 0 B → 477 B | 0 → 1 | `DOMRect ←(several paths)– <root>`             |
+|  Change |  Delta |           % |        Size | Nodes | Path                                              |
+| ------: | -----: | ----------: | ----------: | ----: | ------------------------------------------------- |
+| removed | -525 B | 1.2% → 0.0% | 525 B → 0 B | 1 → 0 | `DOMRect ← Structure ←(several paths)– (GC root)` |
+|     new | +477 B | 0.0% → 1.1% | 0 B → 477 B | 0 → 1 | `DOMRect ←(several paths)– (GC root)`             |
 
 ##### `HTMLHeadingElement`
 
-| Change |  Delta |             % |          Size | Nodes | Path                                          |
-| -----: | -----: | ------------: | ------------: | ----: | --------------------------------------------- |
-| +32.8% | +144 B | 16.5% → 22.1% | 439 B → 583 B |     2 | `HTMLHeadingElement ←(several paths)– <root>` |
+| Change |  Delta |             % |          Size | Nodes | Path                                             |
+| -----: | -----: | ------------: | ------------: | ----: | ------------------------------------------------ |
+| +32.8% | +144 B | 16.5% → 22.1% | 439 B → 583 B |     2 | `HTMLHeadingElement ←(several paths)– (GC root)` |
 
 ##### `StructureChain`
 
-|  Change | Delta |           % |          Size |   Nodes | Path                                                                                                                                                        |
-| ------: | ----: | ----------: | ------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  +12.5% | +16 B | 2.8% → 3.2% | 128 B → 144 B |   8 → 9 | `StructureChain ← Structure ← <root>`                                                                                                                       |
-| +100.0% | +16 B | 0.4% → 0.7% |   16 B → 32 B |   1 → 2 | `StructureChain ← Structure ← Structure ← Structure ← Structure ← Structure ← Object ←.:– Object ←(several paths)– <root>`                                  |
-|   -6.7% | -16 B | 5.3% → 5.0% | 240 B → 224 B | 15 → 14 | `StructureChain ← Structure ←(several paths)– <root>`                                                                                                       |
-|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← EventFactory ←.eventFactory– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>`             |
-|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← ExposureLogTracker ←.exposureLogTracker– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– <root>` |
+|  Change | Delta |           % |          Size |   Nodes | Path                                                                                                                                                           |
+| ------: | ----: | ----------: | ------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  +12.5% | +16 B | 2.8% → 3.2% | 128 B → 144 B |   8 → 9 | `StructureChain ← Structure ← (GC root)`                                                                                                                       |
+| +100.0% | +16 B | 0.4% → 0.7% |   16 B → 32 B |   1 → 2 | `StructureChain ← Structure ← Structure ← Structure ← Structure ← Structure ← Object ←.:– Object ←(several paths)– (GC root)`                                  |
+|   -6.7% | -16 B | 5.3% → 5.0% | 240 B → 224 B | 15 → 14 | `StructureChain ← Structure ←(several paths)– (GC root)`                                                                                                       |
+|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← EventFactory ←.eventFactory– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)`             |
+|  -50.0% | -16 B | 0.7% → 0.4% |   32 B → 16 B |   2 → 1 | `StructureChain ← Structure ← ExposureLogTracker ←.exposureLogTracker– JSLexicalEnvironment ←(several paths)– Object ←.tk– Object ←(several paths)– (GC root)` |

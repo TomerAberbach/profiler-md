@@ -941,10 +941,6 @@ class NodeNames {
 
   /** The label of a node in a retainer path or a retained node listing. */
   public labelOf(nodeOrdinal: number): string {
-    if (nodeOrdinal === GC_ROOT_ORDINAL) {
-      return `(GC root)`
-    }
-
     const { bytes, idSize, readId } = this.#dump
     const body = this.#nodes.recordOffsets[nodeOrdinal]!
     switch (bytes[body - 1]!) {
