@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { diffProfiles } from '../../index.ts'
 import { summaryTables, tablesAt } from '../../modalities/trace/testing.ts'
 import { expectLogs, summaryLines } from '../../testing.ts'
 import { traceEventFormatSpec } from './index.ts'
@@ -596,6 +597,40 @@ describe(`convert`, () => {
         [{ Thread: `(unnamed)`, '%': `100.0%`, Time: `4.0ms`, Count: `1` }],
       ])
     })
+  })
+
+  test(`a diff pairs each span's longest instances by rank`, () => {
+    const trace = (dur: number) =>
+      JSON.stringify([
+        { ph: `X`, name: `a`, pid: 1, tid: 1, ts: 0, dur },
+        { ph: `X`, name: `a`, pid: 1, tid: 1, ts: 10_000, dur: 1000 },
+      ])
+
+    const md = diffProfiles(trace(2000), trace(4000))
+
+    expect(md).toContain(`paired by rank`)
+    expect(
+      tablesAt(md, [`Longest thread spans`, `Total time`, `Longest instances`]),
+    ).toStrictEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+2.00ms`,
+          '%': `66.7% → 80.0%`,
+          Time: `2.0ms → 4.0ms`,
+          Start: `0ms`,
+          Thread: `(unnamed)`,
+        },
+        {
+          Change: `0.0%`,
+          Delta: `0ms`,
+          '%': `33.3% → 20.0%`,
+          Time: `1.0ms`,
+          Start: `10.0ms`,
+          Thread: `(unnamed)`,
+        },
+      ],
+    ])
   })
 
   test(`reads i, I, and R events as instants`, () => {

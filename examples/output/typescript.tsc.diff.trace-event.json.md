@@ -663,6 +663,162 @@ Child spans with the largest change in contribution to each span's total time.
 | -----: | ------: | ------------: | ------------: | ----: | ------------: | ------------: | --------------- |
 | -28.1% | -0.17ms | 49.1% → 42.0% | 0.6ms → 0.4ms |     1 | 0.6ms → 0.4ms | 0.6ms → 0.4ms | `emitBuildInfo` |
 
+#### Longest instances
+
+Instances of each span with the most time, paired by rank.
+
+##### `checkSourceFile`
+
+| Change |    Delta |             % |              Time |         Start | Thread | Attributes                                                 |
+| -----: | -------: | ------------: | ----------------: | ------------: | ------ | ---------------------------------------------------------- |
+|  +7.1% | +42.73ms | 20.7% → 21.9% | 601.2ms → 643.9ms | 1.38s → 1.35s | `Main` | `path=/src/zod/src/types.ts`                               |
+|  +2.9% |  +8.21ms |   9.7% → 9.9% | 282.9ms → 291.1ms | 2.39s → 2.41s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  -5.4% | -14.69ms |   9.3% → 8.7% | 269.8ms → 255.1ms | 1.11s → 1.09s | `Main` | `path=/src/zod/src/helpers/partialUtil.ts`                 |
+|  -0.3% |  -0.45ms |          4.9% | 143.4ms → 143.0ms | 3.10s → 3.11s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
+|  -4.5% |  -5.67ms |   4.3% → 4.1% | 125.7ms → 120.1ms | 3.26s → 3.27s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`             |
+
+##### `checkExpression`
+
+| Change |   Delta |           % |              Time |         Start | Thread | Attributes                                                 |
+| -----: | ------: | ----------: | ----------------: | ------------: | ------ | ---------------------------------------------------------- |
+|  +5.3% | +6.34ms | 4.1% → 4.4% | 118.6ms → 124.9ms | 2.41s → 2.43s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  +5.6% | +5.68ms | 3.5% → 3.7% | 101.2ms → 106.9ms | 2.41s → 2.43s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  -0.4% | -0.32ms |        2.9% |   83.8ms → 83.5ms | 2.27s → 2.29s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+|  +1.8% | +1.25ms | 2.4% → 2.5% |   70.0ms → 71.3ms | 2.27s → 2.29s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+|  +9.1% | +2.35ms | 0.9% → 1.0% |   25.8ms → 28.2ms | 2.00s → 2.01s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+
+##### `checkVariableDeclaration`
+
+| Change |   Delta |             % |              Time |         Start | Thread | Attributes                                                 |
+| -----: | ------: | ------------: | ----------------: | ------------: | ------ | ---------------------------------------------------------- |
+|  +5.3% | +6.35ms | 14.9% → 15.1% | 118.8ms → 125.2ms | 2.40s → 2.43s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+|  -0.2% | -0.13ms | 10.5% → 10.1% |   84.0ms → 83.9ms | 2.27s → 2.29s | `Main` | `path=/src/zod/src/__tests__/crazySchema.ts`               |
+|  +9.4% | +2.46ms |   3.3% → 3.4% |   26.1ms → 28.6ms | 2.00s → 2.01s | `Main` | `path=/src/zod/src/__tests__/all-errors.test.ts`           |
+|  +3.3% | +0.72ms |          2.7% |   21.6ms → 22.3ms | 3.22s → 3.23s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`               |
+|  -1.3% | -0.28ms |   2.6% → 2.5% |   21.0ms → 20.7ms | 2.22s → 2.63s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts` |
+
+##### `checkDeferredNode`
+
+| Change |   Delta |             % |              Time |         Start | Thread | Attributes                                                  |
+| -----: | ------: | ------------: | ----------------: | ------------: | ------ | ----------------------------------------------------------- |
+|  +4.9% | +6.00ms | 11.7% → 12.0% | 122.3ms → 128.2ms | 2.40s → 2.43s | `Main` | `path=/src/zod/src/__tests__/discriminated-unions.test.ts`  |
+|  +6.1% | +2.46ms |   3.9% → 4.0% |   40.6ms → 43.1ms |         3.32s | `Main` | `path=/src/zod/src/__tests__/partials.test.ts`              |
+|  +3.8% | +1.08ms |   2.7% → 2.8% |   28.6ms → 29.7ms | 2.77s → 3.53s | `Main` | `path=/src/zod/src/__tests__/readonly.test.ts`              |
+|  +3.3% | +0.93ms |   2.6% → 2.7% |   27.7ms → 28.7ms | 3.52s → 2.81s | `Main` | `path=/src/zod/src/__tests__/firstpartyschematypes.test.ts` |
+|    ~0% | +0.01ms |          2.2% |            23.1ms | 1.08s → 3.23s | `Main` | `path=/src/zod/src/__tests__/object.test.ts`                |
+
+##### `processRootFiles`
+
+| Change |    Delta |      % |              Time | Start | Thread |
+| -----: | -------: | -----: | ----------------: | ----: | ------ |
+|  +3.8% | +14.59ms | 100.0% | 388.3ms → 402.9ms | 0.7ms | `Main` |
+
+##### `processTypeReferenceDirective`
+
+| Change |   Delta |             % |              Time |             Start | Thread | Attributes                                                                         |
+| -----: | ------: | ------------: | ----------------: | ----------------: | ------ | ---------------------------------------------------------------------------------- |
+|  +6.4% | +8.84ms | 67.2% → 67.5% | 137.7ms → 146.6ms | 138.0ms → 137.1ms | `Main` | `directive=node, refPath=/src/zod/node_modules/@jest/environment/build/index.d.ts` |
+|  +6.0% | +2.66ms |         21.7% |   44.5ms → 47.2ms | 395.7ms → 410.4ms | `Main` | `directive=babel__core`                                                            |
+|  +4.7% | +0.76ms |   7.8% → 7.7% |   16.1ms → 16.8ms | 456.0ms → 475.5ms | `Main` | `directive=semver`                                                                 |
+| +12.4% | +0.63ms |   2.5% → 2.6% |     5.0ms → 5.7ms | 450.2ms → 469.1ms | `Main` | `directive=json-schema`                                                            |
+| -31.7% | -0.46ms |   0.7% → 0.5% |     1.5ms → 1.0ms | 444.3ms → 462.3ms | `Main` | `directive=chai-subset`                                                            |
+
+##### `processTypeReferences`
+
+| Change |   Delta |      % |            Time |             Start | Thread |
+| -----: | ------: | -----: | --------------: | ----------------: | ------ |
+|  +7.4% | +5.81ms | 100.0% | 79.0ms → 84.8ms | 393.3ms → 407.7ms | `Main` |
+
+##### `resolveModuleNamesWorker`
+
+|  Change |   Delta |             % |          Time |             Start | Thread | Attributes                                                                |
+| ------: | ------: | ------------: | ------------: | ----------------: | ------ | ------------------------------------------------------------------------- |
+|  -32.7% | -0.98ms | 84.3% → 47.4% | 3.0ms → 2.0ms | 294.2ms → 130.7ms | `Main` | `containingFileName=/src/zod/node_modules/@jest/globals/build/index.d.ts` |
+| +121.4% | +0.67ms | 15.7% → 29.0% | 0.6ms → 1.2ms | 304.2ms → 152.5ms | `Main` | `containingFileName=/src/zod/node_modules/@types/node/child_process.d.ts` |
+|     new | +0.57ms |  0.0% → 13.5% |   0ms → 0.6ms |     0ms → 322.2ms | `Main` | `containingFileName=/src/zod/node_modules/jest-snapshot/build/index.d.ts` |
+|     new | +0.42ms |  0.0% → 10.0% |   0ms → 0.4ms |      0ms → 22.3ms | `Main` | `containingFileName=/src/zod/src/external.ts`                             |
+
+##### `getVariancesWorker`
+
+| Change |    Delta |             % |              Time |         Start | Thread |
+| -----: | -------: | ------------: | ----------------: | ------------: | ------ |
+| -12.1% | -20.90ms | 12.1% → 13.1% | 172.9ms → 152.0ms | 1.12s → 1.10s | `Main` |
+| -12.7% | -20.56ms | 11.3% → 12.1% | 161.6ms → 141.0ms | 1.12s → 1.10s | `Main` |
+| -13.6% | -20.34ms | 10.5% → 11.1% | 149.3ms → 128.9ms | 1.13s → 1.11s | `Main` |
+| -15.3% | -18.79ms |   8.6% → 8.9% | 122.6ms → 103.8ms | 1.15s → 1.13s | `Main` |
+| -15.8% | -18.10ms |   8.1% → 8.3% |  114.9ms → 96.8ms | 1.16s → 1.14s | `Main` |
+
+##### `structuredTypeRelatedTo`
+
+| Change |    Delta |           % |              Time |         Start | Thread |
+| -----: | -------: | ----------: | ----------------: | ------------: | ------ |
+| -12.0% | -20.80ms | 3.7% → 3.8% | 173.2ms → 152.4ms | 1.12s → 1.10s | `Main` |
+| -12.4% | -20.99ms | 3.6% → 3.7% | 169.9ms → 148.9ms | 1.12s → 1.10s | `Main` |
+| -12.7% | -20.68ms |        3.5% | 163.2ms → 142.5ms | 1.12s → 1.10s | `Main` |
+| -12.7% | -20.62ms | 3.4% → 3.5% | 161.8ms → 141.2ms | 1.12s → 1.10s | `Main` |
+| -13.3% | -20.84ms | 3.3% → 3.4% | 156.6ms → 135.8ms | 1.12s → 1.10s | `Main` |
+
+##### `createProgram`
+
+| Change |   Delta |      % |              Time | Start | Thread | Attributes                              |
+| -----: | ------: | -----: | ----------------: | ----: | ------ | --------------------------------------- |
+|  -1.2% | -7.07ms | 100.0% | 590.8ms → 583.7ms |   0ms | `Main` | `configFilePath=/src/zod/tsconfig.json` |
+
+##### `findSourceFile`
+
+| Change |    Delta |             % |              Time |             Start | Thread | Attributes                                                                                      |
+| -----: | -------: | ------------: | ----------------: | ----------------: | ------ | ----------------------------------------------------------------------------------------------- |
+|  +7.1% | +13.45ms | 11.3% → 11.9% | 190.8ms → 204.2ms | 127.5ms → 126.0ms | `Main` | `fileName=/src/zod/src/__tests__/all-errors.test.ts, fileIncludeKind=RootFile`                  |
+|  +7.0% | +13.06ms | 11.1% → 11.7% | 187.3ms → 200.4ms | 130.8ms → 129.7ms | `Main` | `fileName=/src/zod/node_modules/@jest/globals/build/index.d.ts, fileIncludeKind=Import`         |
+|  +7.2% | +12.54ms | 10.4% → 10.9% | 174.4ms → 187.0ms | 134.0ms → 132.9ms | `Main` | `fileName=/src/zod/node_modules/@jest/environment/build/index.d.ts, fileIncludeKind=Import`     |
+|  +6.4% |  +8.75ms |   8.2% → 8.6% | 137.6ms → 146.3ms | 138.1ms → 137.2ms | `Main` | `fileName=/src/zod/node_modules/@types/node/index.d.ts, fileIncludeKind=TypeReferenceDirective` |
+|  -1.2% |  -1.54ms |   7.5% → 7.2% | 125.5ms → 124.0ms |     0.8ms → 0.9ms | `Main` | `fileName=/src/zod/src/ZodError.ts, fileIncludeKind=RootFile`                                   |
+
+##### `resolveTypeReferenceDirectiveNamesWorker`
+
+|  Change |   Delta |             % |        Time |         Start | Thread | Attributes                                               |
+| ------: | ------: | ------------: | ----------: | ------------: | ------ | -------------------------------------------------------- |
+| removed | -2.28ms | 100.0% → 0.0% | 2.3ms → 0ms | 393.3ms → 0ms | `Main` | `containingFileName=/src/zod/__inferred type names__.ts` |
+
+##### `bindSourceFile`
+
+| Change |   Delta |             % |            Time |             Start | Thread | Attributes                                               |
+| -----: | ------: | ------------: | --------------: | ----------------: | ------ | -------------------------------------------------------- |
+|  +2.5% | +1.49ms | 18.5% → 19.1% | 59.5ms → 61.0ms | 624.6ms → 613.1ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
+|  +4.0% | +1.35ms | 10.6% → 11.1% | 34.2ms → 35.5ms | 719.9ms → 710.6ms | `Main` | `path=/src/zod/src/types.ts`                             |
+|  -6.9% | -1.61ms |   7.3% → 6.8% | 23.4ms → 21.8ms | 598.0ms → 588.3ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
+|  +0.3% | +0.06ms |          5.6% | 17.9ms → 18.0ms | 911.2ms → 895.9ms | `Main` | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
+|  -1.8% | -0.13ms |          2.3% |   7.4ms → 7.3ms | 799.7ms → 792.7ms | `Main` | `path=/src/zod/node_modules/@types/node/inspector.d.ts`  |
+
+##### `createSourceFile`
+
+| Change |    Delta |             % |            Time |             Start | Thread | Attributes                                               |
+| -----: | -------: | ------------: | --------------: | ----------------: | ------ | -------------------------------------------------------- |
+|  -4.9% |  -3.95ms | 18.4% → 17.6% | 79.8ms → 75.8ms |   42.8ms → 45.5ms | `Main` | `path=/src/zod/src/types.ts`                             |
+| -19.7% | -15.02ms | 17.6% → 14.2% | 76.2ms → 61.2ms | 495.1ms → 518.5ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.dom.d.ts` |
+|  -9.2% |  -2.44ms |   6.1% → 5.6% | 26.5ms → 24.0ms | 401.6ms → 421.4ms | `Main` | `path=/src/zod/node_modules/@babel/types/lib/index.d.ts` |
+|  +6.1% |  +0.92ms |   3.5% → 3.7% | 15.2ms → 16.1ms |     1.7ms → 1.3ms | `Main` | `path=/src/zod/src/ZodError.ts`                          |
+|  +7.5% |  +0.83ms |   2.5% → 2.8% | 11.0ms → 11.9ms | 241.4ms → 249.1ms | `Main` | `path=/src/zod/node_modules/typescript/lib/lib.es5.d.ts` |
+
+##### `resolveLibrary`
+
+|  Change |   Delta |            % |        Time |         Start | Thread | Attributes                                                                   |
+| ------: | ------: | -----------: | ----------: | ------------: | ------ | ---------------------------------------------------------------------------- |
+| removed | -0.15ms | 67.3% → 0.0% | 0.2ms → 0ms | 274.3ms → 0ms | `Main` | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2020.intl.d.ts__.ts`   |
+| removed | -0.07ms | 32.7% → 0.0% | 0.1ms → 0ms | 484.3ms → 0ms | `Main` | `resolveFrom=/src/zod/__lib_node_modules_lookup_lib.es2022.string.d.ts__.ts` |
+
+##### `emit`
+
+| Change |   Delta |      % |          Time |         Start | Thread |
+| -----: | ------: | -----: | ------------: | ------------: | ------ |
+| -15.9% | -0.20ms | 100.0% | 1.3ms → 1.1ms | 3.88s → 3.90s | `Main` |
+
+##### `emitBuildInfo`
+
+| Change |   Delta |      % |          Time |         Start | Thread |
+| -----: | ------: | -----: | ------------: | ------------: | ------ |
+| -28.1% | -0.17ms | 100.0% | 0.6ms → 0.4ms | 3.88s → 3.90s | `Main` |
+
 ### Count
 
 #### Regressions

@@ -822,6 +822,72 @@ const formatInstanceSections = ({
     }),
   )
 
+/**
+ * The longest instances of each span on each side, paired by rank, because an
+ * instance has no identity across runs.
+ */
+const formatDiffInstanceSections = ({
+  spans,
+  diff,
+  indexes,
+  options,
+  headingLevel,
+}: {
+  spans: SpanDiff[]
+  diff: AggregatedTraceDiff
+  indexes: DiffIndexes
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] =>
+  formatSectionGroup(
+    [
+      heading(headingLevel, `Longest instances`),
+      paragraph(`Instances of each span with the most time, paired by rank.`),
+    ],
+    spans.flatMap(span => {
+      const baseRows = span.base
+        ? instanceRowsOf(span.base, indexes.base, options)
+        : []
+      const currentRows = span.current
+        ? instanceRowsOf(span.current, indexes.current, options)
+        : []
+      // A lone untimed instance on each side restates its span's row.
+      if (
+        (span.base?.instances.length ?? 0) < 2 &&
+        (span.current?.instances.length ?? 0) < 2 &&
+        diff.base.duration === undefined &&
+        diff.current.duration === undefined
+      ) {
+        return []
+      }
+      const rowCount = Math.max(baseRows.length, currentRows.length)
+      if (rowCount === 0) {
+        return []
+      }
+      return [
+        eventHeading(headingLevel + 1, span),
+        formatDiffTable(
+          instanceColumnsOf([...baseRows, ...currentRows]),
+          diffRowsByRank(baseRows, currentRows, rowCount),
+        ),
+      ]
+    }),
+  )
+
+const diffRowsByRank = <Row>(
+  baseRows: Row[],
+  currentRows: Row[],
+  rowCount: number,
+): { base: Row | undefined; current: Row | undefined }[] => {
+  const rows = new Array<{ base: Row | undefined; current: Row | undefined }>(
+    rowCount,
+  )
+  for (let rank = 0; rank < rowCount; rank++) {
+    rows[rank] = { base: baseRows[rank], current: currentRows[rank] }
+  }
+  return rows
+}
+
 const instanceRowsOf = (
   span: AggregatedTraceSpan,
   index: TraceIndex,
@@ -1263,6 +1329,7 @@ const formatDiffSpanMeasure = ({
       formatDiffSpanBreakdowns({
         spans: shownSpans,
         measure,
+        diff,
         indexes,
         options,
         headingLevel: headingLevel + 1,
@@ -1275,12 +1342,14 @@ type DiffIndexes = { base: TraceIndex; current: TraceIndex }
 const formatDiffSpanBreakdowns = ({
   spans,
   measure,
+  diff,
   indexes,
   options,
   headingLevel,
 }: {
   spans: SpanDiff[]
   measure: SpanMeasure
+  diff: AggregatedTraceDiff
   indexes: DiffIndexes
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -1312,6 +1381,15 @@ const formatDiffSpanBreakdowns = ({
       headingLevel,
     }),
   ),
+  ...(measure.hasDetail
+    ? formatDiffInstanceSections({
+        spans,
+        diff,
+        indexes,
+        options,
+        headingLevel,
+      })
+    : []),
 ]
 
 const formatDiffNeighborSections = ({

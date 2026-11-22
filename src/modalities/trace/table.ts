@@ -310,6 +310,7 @@ export const instanceColumns = ({
   {
     header: { content: `Time`, align: `right` },
     cellOf: ({ time }) => timeCell(time),
+    primary: true,
   },
   ...(hasCpuTime
     ? [

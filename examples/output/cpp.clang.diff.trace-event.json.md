@@ -1588,6 +1588,361 @@ Child spans with the largest change in contribution to each span's total time.
 | -----: | ------: | -------------: | --------------: | ----: | --------------: | --------------: | ----------- |
 |  -0.8% | -0.16ms | 99.9% → 100.0% | 20.8ms → 20.7ms |     1 | 20.8ms → 20.7ms | 20.8ms → 20.7ms | `GlobalsAA` |
 
+#### Longest instances
+
+Instances of each span with the most time, paired by rank.
+
+##### `ExecuteCompiler`
+
+| Change |     Delta |      % |           Time | Start | Thread    |
+| -----: | --------: | -----: | -------------: | ----: | --------- |
+|  +4.5% | +433.34ms | 100.0% | 9.62s → 10.05s |   0ms | `clang++` |
+
+##### `Frontend`
+
+| Change |     Delta |             % |              Time |         Start | Thread    |
+| -----: | --------: | ------------: | ----------------: | ------------: | --------- |
+|  +7.9% | +212.75ms | 93.0% → 92.9% |     2.69s → 2.90s | 2.0ms → 2.2ms | `clang++` |
+| +10.0% |  +20.20ms |   7.0% → 7.1% | 201.3ms → 221.5ms | 2.69s → 2.91s | `clang++` |
+
+##### `Backend`
+
+| Change |     Delta |      % |          Time |         Start | Thread    |
+| -----: | --------: | -----: | ------------: | ------------: | --------- |
+|  +3.0% | +198.36ms | 100.0% | 6.70s → 6.90s | 2.91s → 3.14s | `clang++` |
+
+##### `PerformPendingInstantiations`
+
+| Change |     Delta |      % |          Time |         Start | Thread    |
+| -----: | --------: | -----: | ------------: | ------------: | --------- |
+| +14.1% | +183.13ms | 100.0% | 1.30s → 1.48s | 1.39s → 1.42s | `clang++` |
+
+##### `InstantiateFunction`
+
+| Change |   Delta |           % |            Time |         Start | Thread    | Attributes                                                                                                                |
+| -----: | ------: | ----------: | --------------: | ------------: | --------- | ------------------------------------------------------------------------------------------------------------------------- |
+|  +8.0% | +2.71ms |        0.7% | 34.0ms → 36.8ms | 2.38s → 1.89s | `clang++` | `detail=testing::StrictMock<mock_allocator<char>>::StrictMock`                                                            |
+|  +8.7% | +2.93ms |        0.7% | 33.8ms → 36.7ms | 2.38s → 1.89s | `clang++` | `detail=mock_allocator<char>::mock_allocator`                                                                             |
+| +12.5% | +3.92ms | 0.7% → 0.6% | 31.3ms → 35.2ms | 2.38s → 2.59s | `clang++` | `detail=fmt::nested_formatter<double>::write_padded<fmt::context, (lambda at /src/fmt/test/format-test.cc:1992:30)>`      |
+| +25.9% | +7.16ms |        0.6% | 27.7ms → 34.9ms | 2.39s → 2.59s | `clang++` | `detail=fmt::formatter<point>::format(point, format_context &)::(anonymous class)::operator()<fmt::basic_appender<char>>` |
+| +20.8% | +5.71ms |        0.6% | 27.4ms → 33.1ms | 2.39s → 1.79s | `clang++` | `detail=testing::internal::FunctionMocker<void (int *, unsigned long)>::~FunctionMocker`                                  |
+
+##### `Optimizer`
+
+| Change |     Delta |      % |          Time |         Start | Thread    |
+| -----: | --------: | -----: | ------------: | ------------: | --------- |
+|  +4.6% | +169.50ms | 100.0% | 3.70s → 3.87s | 2.91s → 3.15s | `clang++` |
+
+##### `ModuleInlinerWrapperPass`
+
+| Change |     Delta |      % |          Time |         Start | Thread    | Attributes        |
+| -----: | --------: | -----: | ------------: | ------------: | --------- | ----------------- |
+|  +5.9% | +149.39ms | 100.0% | 2.53s → 2.68s | 3.39s → 3.62s | `clang++` | `detail=[module]` |
+
+##### `ModuleToPostOrderCGSCCPassAdaptor`
+
+| Change |     Delta |      % |          Time |         Start | Thread    | Attributes        |
+| -----: | --------: | -----: | ------------: | ------------: | --------- | ----------------- |
+|  +6.0% | +149.17ms | 100.0% | 2.50s → 2.65s | 3.41s → 3.64s | `clang++` | `detail=[module]` |
+
+##### `PassManager<Function>`
+
+| Change |   Delta |           % |              Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ----------: | ----------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  -2.6% | -2.96ms | 6.1% → 5.6% | 113.2ms → 110.2ms | 5.78s → 6.16s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| +12.7% | +8.12ms | 3.5% → 3.6% |   64.0ms → 72.1ms | 4.52s → 4.84s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -9.7% | -5.89ms | 3.3% → 2.8% |   60.9ms → 55.0ms | 4.61s → 4.95s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  -9.2% | -4.33ms | 2.5% → 2.1% |   46.9ms → 42.6ms | 4.42s → 4.74s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+|  +7.2% | +2.52ms |        1.9% |   35.2ms → 37.8ms | 4.31s → 6.95s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+
+##### `DevirtSCCRepeatedPass`
+
+| Change |   Delta |           % |              Time |         Start | Thread    | Attributes                                                    |
+| -----: | ------: | ----------: | ----------------: | ------------: | --------- | ------------------------------------------------------------- |
+|  -2.5% | -3.48ms | 7.3% → 6.7% | 138.0ms → 134.6ms | 5.76s → 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| +12.3% | +9.83ms | 4.2% → 4.5% |   79.9ms → 89.8ms | 4.51s → 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+|  -6.2% | -4.56ms | 3.9% → 3.5% |   73.9ms → 69.3ms | 4.60s → 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+|  -9.4% | -5.42ms | 3.0% → 2.6% |   57.4ms → 52.0ms | 4.41s → 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+|  -2.3% | -1.01ms | 2.3% → 2.1% |   44.2ms → 43.2ms | 4.30s → 4.61s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+
+##### `PassManager<LazyCallGraph::SCC, CGSCCAnalysisManager, LazyCallGraph &, CGSCCUpdateResult &>`
+
+| Change |   Delta |           % |              Time |         Start | Thread    | Attributes                                                    |
+| -----: | ------: | ----------: | ----------------: | ------------: | --------- | ------------------------------------------------------------- |
+|  -2.5% | -3.50ms | 7.3% → 6.7% | 137.9ms → 134.4ms | 5.76s → 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| +12.4% | +9.85ms | 4.2% → 4.5% |   79.6ms → 89.5ms | 4.51s → 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+|  -6.4% | -4.71ms | 3.9% → 3.4% |   73.6ms → 68.9ms | 4.60s → 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+|  -9.3% | -5.30ms | 3.0% → 2.6% |   57.1ms → 51.8ms | 4.41s → 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+|  -2.2% | -0.98ms | 2.3% → 2.2% |   44.0ms → 43.0ms | 4.30s → 4.61s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+
+##### `CGSCCToFunctionPassAdaptor`
+
+| Change |   Delta |           % |              Time |         Start | Thread    | Attributes                                                    |
+| -----: | ------: | ----------: | ----------------: | ------------: | --------- | ------------------------------------------------------------- |
+|  -2.0% | -2.32ms | 8.1% → 7.5% | 114.3ms → 112.0ms | 5.78s → 6.16s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| +11.8% | +7.64ms | 4.6% → 4.8% |   64.7ms → 72.3ms | 4.52s → 4.84s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+|  -9.7% | -5.90ms | 4.3% → 3.7% |   61.1ms → 55.2ms | 4.61s → 4.95s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+|  -9.3% | -4.36ms | 3.3% → 2.8% |   47.1ms → 42.7ms | 4.42s → 4.74s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+|  -1.8% | -0.63ms | 2.5% → 2.3% |   35.4ms → 34.8ms | 4.31s → 4.62s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+
+##### `ModuleToFunctionPassAdaptor`
+
+| Change |    Delta |             % |              Time |         Start | Thread    | Attributes        |
+| -----: | -------: | ------------: | ----------------: | ------------: | --------- | ----------------- |
+|  +7.4% | +37.90ms | 65.9% → 67.7% | 515.2ms → 553.1ms | 6.07s → 6.44s | `clang++` | `detail=[module]` |
+|  -4.7% |  -6.29ms | 17.2% → 15.7% | 134.5ms → 128.3ms | 2.92s → 3.15s | `clang++` | `detail=[module]` |
+|  +2.7% |  +3.23ms | 15.3% → 15.0% | 119.6ms → 122.8ms | 3.20s → 3.43s | `clang++` | `detail=[module]` |
+|  +0.8% |  +0.06ms |          0.9% |     7.2ms → 7.3ms | 5.91s → 6.29s | `clang++` | `detail=[module]` |
+| +13.1% |  +0.45ms |   0.4% → 0.5% |     3.4ms → 3.9ms | 3.41s → 3.64s | `clang++` | `detail=[module]` |
+
+##### `ParseFunctionDefinition`
+
+| Change |    Delta |           % |            Time |             Start | Thread    | Attributes        |
+| -----: | -------: | ----------: | --------------: | ----------------: | --------- | ----------------- |
+| +35.9% | +10.58ms | 6.3% → 8.0% | 29.5ms → 40.0ms |             1.06s | `clang++` | `detail=TestBody` |
+| +13.9% |  +3.91ms | 6.0% → 6.4% | 28.2ms → 32.1ms |     1.02s → 1.01s | `clang++` | `detail=TestBody` |
+| +10.4% |  +2.21ms | 4.5% → 4.7% | 21.2ms → 23.4ms | 991.1ms → 977.9ms | `clang++` | `detail=TestBody` |
+|  +0.2% |  +0.03ms | 4.3% → 4.0% |          20.2ms | 788.2ms → 764.9ms | `clang++` | `detail=TestBody` |
+|  +6.0% |  +0.66ms |        2.3% | 10.9ms → 11.6ms |   827.9ms → 1.25s | `clang++` | `detail=TestBody` |
+
+##### `OptFunction`
+
+| Change |    Delta |           % |              Time |         Start | Thread    | Attributes                                                  |
+| -----: | -------: | ----------: | ----------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  -3.0% |  -7.36ms | 9.4% → 9.0% | 243.1ms → 235.8ms | 9.24s → 9.69s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|  -7.5% |  -8.73ms | 4.5% → 4.2% | 117.2ms → 108.4ms | 7.90s → 8.38s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -9.8% | -10.76ms | 4.3% → 3.8% |  109.9ms → 99.2ms | 8.03s → 8.51s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  +7.8% |  +5.64ms | 2.8% → 3.0% |   72.0ms → 77.6ms | 7.82s → 8.30s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+|  -3.0% |  -1.83ms | 2.3% → 2.2% |   60.4ms → 58.5ms | 7.69s → 8.16s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
+
+##### `CodeGenPasses`
+
+| Change |    Delta |      % |          Time |         Start | Thread    |
+| -----: | -------: | -----: | ------------: | ------------: | --------- |
+|  +0.9% | +26.76ms | 100.0% | 3.00s → 3.02s | 6.62s → 7.02s | `clang++` |
+
+##### `OptModule`
+
+| Change |    Delta |      % |          Time |         Start | Thread    | Attributes                            |
+| -----: | -------: | -----: | ------------: | ------------: | --------- | ------------------------------------- |
+|  +0.9% | +26.44ms | 100.0% | 3.00s → 3.02s | 6.62s → 7.02s | `clang++` | `detail=/src/fmt/test/format-test.cc` |
+
+##### `ParseDeclarationOrFunctionDefinition`
+
+| Change |    Delta |           % |            Time |             Start | Thread    | Attributes                                                                                       |
+| -----: | -------: | ----------: | --------------: | ----------------: | --------- | ------------------------------------------------------------------------------------------------ |
+|  -3.9% |  -1.86ms | 7.1% → 6.6% | 48.1ms → 46.2ms |   71.4ms → 75.4ms | `clang++` | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath:83:1`                 |
+| +35.9% | +10.58ms | 4.3% → 5.7% | 29.5ms → 40.1ms |             1.06s | `clang++` | `detail=/src/fmt/test/format-test.cc:1210:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
+| +13.9% |  +3.91ms | 4.2% → 4.6% | 28.2ms → 32.1ms |     1.02s → 1.01s | `clang++` | `detail=/src/fmt/test/format-test.cc:1030:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>` |
+|  +5.5% |  +1.33ms |        3.6% | 24.2ms → 25.5ms |   42.1ms → 44.5ms | `clang++` | `detail=/usr/include/math.h:34:1 <Spelling=/usr/include/aarch64-linux-gnu/sys/cdefs.h:140:24>`   |
+| +10.4% |  +2.21ms | 3.1% → 3.3% | 21.2ms → 23.5ms | 991.1ms → 977.9ms | `clang++` | `detail=/src/fmt/test/format-test.cc:971:1 <Spelling=/src/fmt/test/gtest/gtest/gtest.h:4936:3>`  |
+
+##### `CodeGen Function`
+
+| Change |   Delta |           % |          Time |             Start | Thread    | Attributes                                            |
+| -----: | ------: | ----------: | ------------: | ----------------: | --------- | ----------------------------------------------------- |
+| +34.9% | +2.34ms | 6.7% → 8.0% | 6.7ms → 9.0ms |     1.09s → 1.10s | `clang++` | `detail=format_test_runtime_precision_Test::TestBody` |
+|  +7.2% | +0.47ms | 6.6% → 6.3% | 6.6ms → 7.1ms |     1.05s → 1.04s | `clang++` | `detail=format_test_precision_Test::TestBody`         |
+| +29.4% | +1.40ms | 4.8% → 5.4% | 4.8ms → 6.2ms |     1.01s → 1.00s | `clang++` | `detail=format_test_runtime_width_Test::TestBody`     |
+|  +5.9% | +0.20ms | 3.4% → 3.2% | 3.4ms → 3.6ms | 968.8ms → 947.4ms | `clang++` | `detail=format_test_hash_flag_Test::TestBody`         |
+|  +0.7% | +0.02ms | 3.4% → 3.0% |         3.4ms |     1.25s → 1.26s | `clang++` | `detail=format_test_format_examples_Test::TestBody`   |
+
+##### `InstantiateClass`
+
+| Change |   Delta |           % |            Time |             Start | Thread    | Attributes                                                                                                                                       |
+| -----: | ------: | ----------: | --------------: | ----------------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| -19.0% | -2.33ms | 1.5% → 1.2% | 12.3ms → 10.0ms |     1.78s → 1.87s | `clang++` | `detail=std::unique_ptr<testing::internal::ActionResultHolder<char *>>`                                                                          |
+|  +5.1% | +0.45ms |        1.1% |   8.7ms → 9.2ms |     1.49s → 1.61s | `clang++` | `detail=testing::internal::ValuesInIteratorRangeGenerator<bool>::Iterator`                                                                       |
+|  +3.9% | +0.34ms |        1.1% |   8.7ms → 9.0ms | 789.7ms → 766.3ms | `clang++` | `detail=testing::internal::MockSpec<int *(unsigned long)>`                                                                                       |
+|  +4.4% | +0.38ms |        1.1% |   8.6ms → 9.0ms |     1.49s → 1.61s | `clang++` | `detail=std::unique_ptr<const bool>`                                                                                                             |
+|  -0.8% | -0.07ms |        1.0% |   8.5ms → 8.4ms |     1.69s → 1.87s | `clang++` | `detail=std::__uniq_ptr_data<testing::internal::ActionResultHolder<char *>, std::default_delete<testing::internal::ActionResultHolder<char *>>>` |
+
+##### `RunPass`
+
+| Change |   Delta |           % |              Time |         Start | Thread    | Attributes                             |
+| -----: | ------: | ----------: | ----------------: | ------------: | --------- | -------------------------------------- |
+|  -1.6% | -1.70ms | 6.9% → 6.7% | 103.8ms → 102.1ms | 9.24s → 9.69s | `clang++` | `detail=AArch64 Instruction Selection` |
+|  +6.9% | +2.78ms | 2.6% → 2.8% |   40.1ms → 42.9ms | 7.90s → 8.39s | `clang++` | `detail=AArch64 Instruction Selection` |
+| -10.3% | -4.06ms | 2.6% → 2.3% |   39.4ms → 35.3ms | 8.03s → 8.52s | `clang++` | `detail=AArch64 Instruction Selection` |
+|  -4.7% | -1.24ms | 1.7% → 1.6% |   26.3ms → 25.1ms | 7.82s → 8.30s | `clang++` | `detail=AArch64 Instruction Selection` |
+|  -2.6% | -0.56ms |        1.4% |   21.8ms → 21.2ms | 7.69s → 8.16s | `clang++` | `detail=AArch64 Instruction Selection` |
+
+##### `InlinerPass`
+
+| Change |   Delta |           % |            Time |         Start | Thread    | Attributes                                                    |
+| -----: | ------: | ----------: | --------------: | ------------: | --------- | ------------------------------------------------------------- |
+|  -8.1% | -1.69ms | 8.8% → 7.8% | 21.0ms → 19.3ms | 5.76s → 6.14s | `clang++` | `detail=(_GLOBAL__sub_I_format_test.cc)`                      |
+| +17.9% | +2.42ms | 5.7% → 6.4% | 13.5ms → 15.9ms | 4.51s → 4.82s | `clang++` | `detail=(_ZN26format_test_precision_Test8TestBodyEv)`         |
+| +11.5% | +1.31ms | 4.8% → 5.1% | 11.4ms → 12.7ms | 4.60s → 4.93s | `clang++` | `detail=(_ZN34format_test_runtime_precision_Test8TestBodyEv)` |
+|  -9.7% | -0.90ms | 3.9% → 3.4% |   9.2ms → 8.3ms | 4.41s → 4.73s | `clang++` | `detail=(_ZN30format_test_runtime_width_Test8TestBodyEv)`     |
+|  -4.9% | -0.39ms | 3.3% → 3.0% |   7.9ms → 7.5ms | 4.30s → 4.61s | `clang++` | `detail=(_ZN26format_test_hash_flag_Test8TestBodyEv)`         |
+
+##### `GlobalDCEPass`
+
+| Change |   Delta |             % |            Time |         Start | Thread    | Attributes        |
+| -----: | ------: | ------------: | --------------: | ------------: | --------- | ----------------- |
+| -33.7% | -8.55ms | 63.1% → 58.5% | 25.3ms → 16.8ms | 6.02s → 6.99s | `clang++` | `detail=[module]` |
+| -19.9% | -2.95ms | 36.9% → 41.5% | 14.8ms → 11.9ms | 6.59s → 6.40s | `clang++` | `detail=[module]` |
+
+##### `ParseClass`
+
+| Change |   Delta |           % |            Time |             Start | Thread    | Attributes                                       |
+| -----: | ------: | ----------: | --------------: | ----------------: | --------- | ------------------------------------------------ |
+|  -8.6% | -0.97ms | 4.1% → 3.9% | 11.3ms → 10.3ms | 555.7ms → 543.7ms | `clang++` | `detail=testing::internal::TypedTestSuitePState` |
+|  -5.7% | -0.62ms | 4.0% → 3.8% | 10.8ms → 10.2ms |   742.4ms → 1.22s | `clang++` | `detail=fmt::formatter`                          |
+| +11.3% | +0.95ms | 3.1% → 3.5% |   8.4ms → 9.4ms |   1.21s → 721.1ms | `clang++` | `detail=testing::internal::FunctionMocker`       |
+|  +9.6% | +0.75ms | 2.9% → 3.2% |   7.9ms → 8.6ms | 540.3ms → 621.4ms | `clang++` | `detail=testing::Test`                           |
+|  -3.1% | -0.23ms |        2.8% |   7.6ms → 7.3ms | 314.6ms → 250.0ms | `clang++` | `detail=std::chrono::system_clock`               |
+
+##### `IPSCCPPass`
+
+| Change |   Delta |      % |            Time |         Start | Thread    | Attributes        |
+| -----: | ------: | -----: | --------------: | ------------: | --------- | ----------------- |
+|  -7.4% | -6.39ms | 100.0% | 86.1ms → 79.7ms | 3.05s → 3.28s | `clang++` | `detail=[module]` |
+
+##### `GlobalOptPass`
+
+| Change |   Delta |             % |            Time |         Start | Thread    | Attributes        |
+| -----: | ------: | ------------: | --------------: | ------------: | --------- | ----------------- |
+|  -8.9% | -6.37ms | 71.7% → 69.4% | 71.9ms → 65.5ms | 5.95s → 6.34s | `clang++` | `detail=[module]` |
+|  +1.5% | +0.41ms | 28.3% → 30.6% | 28.4ms → 28.8ms | 3.18s → 3.40s | `clang++` | `detail=[module]` |
+
+##### `CorrelatedValuePropagationPass`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  +4.5% | +0.19ms | 20.1% → 23.1% | 4.1ms → 4.3ms | 5.79s → 6.17s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|  -6.7% | -0.24ms | 17.4% → 17.8% | 3.6ms → 3.3ms | 5.85s → 6.23s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|  -3.4% | -0.07ms |  9.9% → 10.5% |         2.0ms | 4.53s → 4.85s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| -24.3% | -0.41ms |   8.3% → 6.9% | 1.7ms → 1.3ms | 4.62s → 4.89s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -5.7% | -0.08ms |   6.5% → 6.8% |         1.3ms | 4.43s → 4.96s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+
+##### `SROAPass`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  -5.9% | -0.15ms | 12.3% → 12.2% | 2.5ms → 2.3ms | 2.95s → 3.19s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  -1.9% | -0.04ms | 11.6% → 12.0% | 2.4ms → 2.3ms | 2.95s → 6.16s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| +25.3% | +0.45ms |  8.8% → 11.6% | 1.8ms → 2.2ms | 5.78s → 3.18s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  +0.9% | +0.02ms |   8.7% → 9.3% |         1.8ms | 4.61s → 4.84s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| +10.4% | +0.15ms |   7.0% → 8.2% | 1.4ms → 1.6ms | 4.52s → 4.95s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+
+##### `MemorySSAAnalysis`
+
+| Change |   Delta |           % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ----------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  +0.7% | +0.03ms | 7.5% → 7.7% |         4.5ms | 5.78s → 6.24s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|  +3.7% | +0.15ms | 6.8% → 7.2% | 4.0ms → 4.2ms | 5.86s → 6.16s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| -15.4% | -0.61ms | 6.7% → 5.8% | 4.0ms → 3.4ms | 6.23s → 6.61s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -3.0% | -0.10ms | 5.6% → 5.5% | 3.3ms → 3.2ms | 6.26s → 4.84s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| +24.2% | +0.58ms | 4.0% → 5.1% | 2.4ms → 3.0ms | 4.65s → 6.64s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+
+##### `JumpThreadingPass`
+
+| Change |   Delta |           % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ----------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  -3.3% | -0.12ms | 9.2% → 9.1% | 3.7ms → 3.5ms | 4.53s → 4.85s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| -16.4% | -0.53ms | 8.1% → 7.0% | 3.2ms → 2.7ms | 4.61s → 4.95s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+| -23.7% | -0.63ms | 6.8% → 5.3% | 2.7ms → 2.0ms | 4.42s → 4.74s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+|  -0.8% | -0.02ms | 5.0% → 5.1% |         2.0ms | 4.45s → 4.89s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  +1.7% | +0.03ms | 4.7% → 4.9% | 1.8ms → 1.9ms | 4.31s → 4.77s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+
+##### `LoopDeletionPass`
+
+|  Change |   Delta |             % |        Time |       Start | Thread    | Attributes                                                                                                                                              |
+| ------: | ------: | ------------: | ----------: | ----------: | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| removed | -0.98ms | 100.0% → 0.0% | 1.0ms → 0ms | 6.40s → 0ms | `clang++` | `detail=loop %<unnamed loop> in function _ZN3fmt3v116detail9write_intIcNS0_14basic_appenderIcEEjEET0_S5_NS1_13write_int_argIT1_EERKNS0_12format_specsE` |
+
+##### `ReversePostOrderFunctionAttrsPass`
+
+| Change |   Delta |      % |            Time |         Start | Thread    | Attributes        |
+| -----: | ------: | -----: | --------------: | ------------: | --------- | ----------------- |
+|  -7.5% | -0.84ms | 100.0% | 11.2ms → 10.3ms | 6.05s → 6.41s | `clang++` | `detail=[module]` |
+
+##### `InstSimplifyPass`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+| -24.5% | -0.49ms | 43.1% → 38.9% | 2.0ms → 1.5ms | 6.23s → 6.62s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| -12.3% | -0.21ms | 35.6% → 37.4% | 1.7ms → 1.5ms | 6.26s → 6.65s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  -7.2% | -0.07ms | 21.3% → 23.6% | 1.0ms → 0.9ms | 6.58s → 6.99s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+
+##### `IndVarSimplifyPass`
+
+|  Change |   Delta |              % |          Time |         Start | Thread    | Attributes                                                                                     |
+| ------: | ------: | -------------: | ------------: | ------------: | --------- | ---------------------------------------------------------------------------------------------- |
+|  -14.8% | -0.11ms | 59.0% → 100.0% | 0.7ms → 0.6ms | 5.25s → 5.62s | `clang++` | `detail=loop %<unnamed loop> in function _ZN3fmt3v126detail11add_compareERKNS1_6bigintES4_S4_` |
+| removed | -0.51ms |   41.0% → 0.0% |   0.5ms → 0ms |   5.52s → 0ms | `clang++` | `detail=loop %<unnamed loop> in function _ZNSt7__cxx119to_stringEl`                            |
+
+##### `BranchProbabilityAnalysis`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+|  +4.9% | +0.09ms | 13.0% → 14.2% | 1.9ms → 2.0ms | 3.33s → 3.56s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -5.3% | -0.09ms | 12.4% → 12.2% | 1.8ms → 1.7ms | 3.34s → 3.57s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  -7.4% | -0.12ms | 11.6% → 11.1% | 1.7ms → 1.5ms | 4.60s → 4.93s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  -6.7% | -0.11ms | 11.4% → 11.1% | 1.6ms → 1.5ms | 4.51s → 4.82s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+| +11.5% | +0.14ms |   8.4% → 9.7% | 1.2ms → 1.3ms | 3.33s → 3.56s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+
+##### `EliminateAvailableExternallyPass`
+
+|  Change |   Delta |             % |        Time |       Start | Thread    | Attributes        |
+| ------: | ------: | ------------: | ----------: | ----------: | --------- | ----------------- |
+| removed | -0.53ms | 100.0% → 0.0% | 0.5ms → 0ms | 6.05s → 0ms | `clang++` | `detail=[module]` |
+
+##### `LazyCallGraphAnalysis`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes        |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------- |
+|  -2.0% | -0.14ms | 68.3% → 70.4% | 6.6ms → 6.5ms | 3.41s → 3.64s | `clang++` | `detail=[module]` |
+| -11.1% | -0.34ms | 31.7% → 29.6% | 3.1ms → 2.7ms | 6.05s → 6.41s | `clang++` | `detail=[module]` |
+
+##### `ReassociatePass`
+
+| Change |   Delta |             % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ------------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+| -20.8% | -0.58ms | 44.1% → 37.7% | 2.8ms → 2.2ms | 5.81s → 6.19s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+| +11.8% | +0.13ms | 17.4% → 21.0% | 1.1ms → 1.2ms | 4.54s → 4.86s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -1.2% | -0.01ms | 16.1% → 17.2% |         1.0ms | 4.63s → 4.96s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  +0.1% | +1.00µs | 11.5% → 12.4% |         0.7ms | 4.43s → 4.75s | `clang++` | `detail=_ZN30format_test_runtime_width_Test8TestBodyEv`     |
+|  -0.1% | -1.00µs | 10.9% → 11.7% |         0.7ms | 4.32s → 4.63s | `clang++` | `detail=_ZN26format_test_hash_flag_Test8TestBodyEv`         |
+
+##### `AAManager`
+
+|  Change |   Delta |              % |          Time |         Start | Thread    | Attributes                                          |
+| ------: | ------: | -------------: | ------------: | ------------: | --------- | --------------------------------------------------- |
+|  +21.3% | +0.17ms | 56.2% → 100.0% | 0.8ms → 1.0ms | 5.89s → 6.27s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`              |
+| removed | -0.61ms |   43.8% → 0.0% |   0.6ms → 0ms |   4.59s → 0ms | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv` |
+
+##### `BasicAA`
+
+|  Change |   Delta |              % |          Time |         Start | Thread    | Attributes                                          |
+| ------: | ------: | -------------: | ------------: | ------------: | --------- | --------------------------------------------------- |
+|  +21.4% | +0.17ms | 56.2% → 100.0% | 0.8ms → 0.9ms | 5.89s → 6.27s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`              |
+| removed | -0.61ms |   43.8% → 0.0% |   0.6ms → 0ms |   4.59s → 0ms | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv` |
+
+##### `SimplifyCFGPass`
+
+| Change |   Delta |           % |          Time |         Start | Thread    | Attributes                                                  |
+| -----: | ------: | ----------: | ------------: | ------------: | --------- | ----------------------------------------------------------- |
+| -30.0% | -1.02ms | 7.0% → 4.9% | 3.4ms → 2.4ms | 5.80s → 6.18s | `clang++` | `detail=_GLOBAL__sub_I_format_test.cc`                      |
+|  -6.8% | -0.16ms | 4.8% → 4.5% | 2.3ms → 2.2ms | 4.66s → 4.91s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  -4.3% | -0.09ms | 4.2% → 4.1% | 2.1ms → 2.0ms | 4.58s → 6.60s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+|  +2.9% | +0.05ms | 3.7% → 3.8% | 1.8ms → 1.9ms | 4.63s → 5.00s | `clang++` | `detail=_ZN34format_test_runtime_precision_Test8TestBodyEv` |
+|  +2.0% | +0.04ms | 3.7% → 3.8% |         1.8ms | 4.55s → 4.87s | `clang++` | `detail=_ZN26format_test_precision_Test8TestBodyEv`         |
+
+##### `RequireAnalysisPass<llvm::GlobalsAA, llvm::Module, llvm::AnalysisManager<Module>>`
+
+| Change |   Delta |      % |            Time |         Start | Thread    | Attributes        |
+| -----: | ------: | -----: | --------------: | ------------: | --------- | ----------------- |
+|  -0.8% | -0.16ms | 100.0% | 20.8ms → 20.7ms | 3.39s → 3.62s | `clang++` | `detail=[module]` |
+
+##### `AssignmentTrackingPass`
+
+| Change |   Delta |      % |          Time |         Start | Thread    | Attributes        |
+| -----: | ------: | -----: | ------------: | ------------: | --------- | ----------------- |
+|  -4.6% | -0.16ms | 100.0% | 3.5ms → 3.3ms | 2.91s → 3.15s | `clang++` | `detail=[module]` |
+
 ### Count
 
 #### Regressions
@@ -1716,6 +2071,20 @@ Child spans with the largest change in contribution to each span's elapsed time.
 | Change |    Delta |     % |          Time | Count |           Mean |               Max | Child    |
 | -----: | -------: | ----: | ------------: | ----: | -------------: | ----------------: | -------- |
 |  -3.2% | -59.84ms | 71.2% | 1.87s → 1.81s |   185 | 10.1ms → 9.8ms | 430.0ms → 407.7ms | `Source` |
+
+#### Longest instances
+
+Instances of each span with the most time, paired by rank.
+
+##### `Source`
+
+| Change |    Delta |             % |              Time |             Start | Attributes                                                                  |
+| -----: | -------: | ------------: | ----------------: | ----------------: | --------------------------------------------------------------------------- |
+|  -5.2% | -22.68ms | 16.5% → 16.1% | 433.5ms → 410.8ms | 323.8ms → 322.9ms | `detail=/src/fmt/test/gtest-extra.h`                                        |
+|  -5.2% | -22.32ms | 16.4% → 16.0% | 430.0ms → 407.7ms | 327.0ms → 325.7ms | `detail=/src/fmt/test/gtest/gmock/gmock.h`                                  |
+|  -3.3% |  -7.97ms |          9.2% | 242.5ms → 234.5ms |     2.4ms → 2.7ms | `detail=/src/fmt/include/fmt/format.h`                                      |
+|  -8.3% | -17.87ms |   8.2% → 7.8% | 215.2ms → 197.3ms | 448.1ms → 447.8ms | `detail=/src/fmt/test/gtest/gtest/gtest.h`                                  |
+|  -0.5% |  -0.40ms |   3.0% → 3.1% |   79.6ms → 79.2ms |   39.7ms → 42.2ms | `detail=/usr/lib/gcc/aarch64-linux-gnu/14/../../../../include/c++/14/cmath` |
 
 ### Count
 
