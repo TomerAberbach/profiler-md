@@ -201,6 +201,7 @@ Retainer paths with the largest change in contribution to each constructor's sel
 |  +15.9% |     +336 B |   7.1% → 6.6% | 2.06 KiB → 2.39 KiB |   44 → 51 | `java.lang.invoke.MethodType ← (GC root)`                                                                                                                                                                                                                                                                                                                                                                                      |
 | removed |      -48 B |   0.2% → 0.0% |          48 B → 0 B |     1 → 0 | `java.lang.invoke.MethodType ←.referent– jdk.internal.util.WeakReferenceKey ←.key– java.util.concurrent.ConcurrentHashMap$Node ←.next– java.util.concurrent.ConcurrentHashMap$Node ←[414]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType` |
 |     new |      +48 B |   0.0% → 0.1% |          0 B → 48 B |     0 → 1 | `java.lang.invoke.MethodType ←.referent– jdk.internal.util.WeakReferenceKey ←.key– java.util.concurrent.ConcurrentHashMap$Node ←[414]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– jdk.internal.util.ReferencedKeyMap ←.map– jdk.internal.util.ReferencedKeySet ←.internTable– class java.lang.invoke.MethodType`                                                     |
+|       — |        0 B |          0.0% |                 0 B | 102 → 145 | `java.lang.invoke.MethodTypeForm ←(several java.lang.invoke.MethodType paths)– (GC root)`                                                                                                                                                                                                                                                                                                                                      |
 
 ##### `jdk.internal.util.WeakReferenceKey`
 
@@ -434,9 +435,10 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`
 
-| Change |  Delta |      % |                Size |   Nodes | Path                                                                   |
-| -----: | -----: | -----: | ------------------: | ------: | ---------------------------------------------------------------------- |
-| +22.9% | +512 B | 100.0% | 2.19 KiB → 2.69 KiB | 35 → 43 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask ← (GC root)` |
+|  Change |  Delta |      % |                Size |   Nodes | Path                                                                                                       |
+| ------: | -----: | -----: | ------------------: | ------: | ---------------------------------------------------------------------------------------------------------- |
+|  +22.9% | +512 B | 100.0% | 2.19 KiB → 2.69 KiB | 35 → 43 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask ← (GC root)`                                     |
+| removed |    0 B |   0.0% |                 0 B |   1 → 0 | `java.util.ArrayList ←(several org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask paths)– (GC root)` |
 
 ##### `java.lang.invoke.BoundMethodHandle$Species_LL`
 
@@ -460,17 +462,19 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `java.lang.invoke.BoundMethodHandle$SpeciesData`
 
-|  Change |  Delta |      % |          Size | Nodes | Path                                                                         |
-| ------: | -----: | -----: | ------------: | ----: | ---------------------------------------------------------------------------- |
-| +133.3% | +288 B | 100.0% | 216 B → 504 B | 3 → 7 | `java.lang.invoke.BoundMethodHandle$SpeciesData ←(several paths)– (GC root)` |
+|  Change |  Delta |      % |          Size | Nodes | Path                                                                                                             |
+| ------: | -----: | -----: | ------------: | ----: | ---------------------------------------------------------------------------------------------------------------- |
+| +133.3% | +288 B | 100.0% | 216 B → 504 B | 3 → 7 | `java.lang.invoke.BoundMethodHandle$SpeciesData ←(several paths)– (GC root)`                                     |
+|     new |    0 B |   0.0% |           0 B | 0 → 3 | `java.lang.invoke.DirectMethodHandle ←(several java.lang.invoke.BoundMethodHandle$SpeciesData paths)– (GC root)` |
 
 ##### `java.util.concurrent.ConcurrentHashMap`
 
-| Change | Delta |           % |          Size | Nodes | Path                                                                                                                                                                                                                                                                                                                                                      |
-| -----: | ----: | ----------: | ------------: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| +16.7% | +84 B | 5.0% → 5.7% | 504 B → 588 B | 6 → 7 | `java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain ←(several paths)– (GC root)`                                                                                                                                                                                                  |
-| +16.7% | +84 B | 5.0% → 5.7% | 504 B → 588 B | 6 → 7 | `java.util.concurrent.ConcurrentHashMap ←.perms– java.io.FilePermissionCollection ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain ←(several paths)– (GC root)` |
-|    new | +84 B | 0.0% → 0.8% |    0 B → 84 B | 0 → 1 | `java.util.concurrent.ConcurrentHashMap ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[8]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– java.lang.WeakPairMap ←.exports– class java.lang.Module$ReflectionData`                                                                             |
+| Change | Delta |           % |          Size |     Nodes | Path                                                                                                                                                                                                                                                                                                                                                      |
+| -----: | ----: | ----------: | ------------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| +16.7% | +84 B | 5.0% → 5.7% | 504 B → 588 B |     6 → 7 | `java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain ←(several paths)– (GC root)`                                                                                                                                                                                                  |
+| +16.7% | +84 B | 5.0% → 5.7% | 504 B → 588 B |     6 → 7 | `java.util.concurrent.ConcurrentHashMap ←.perms– java.io.FilePermissionCollection ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[0]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.permsMap– java.security.Permissions ←.permissions– java.security.ProtectionDomain ←(several paths)– (GC root)` |
+|    new | +84 B | 0.0% → 0.8% |    0 B → 84 B |     0 → 1 | `java.util.concurrent.ConcurrentHashMap ←.val– java.util.concurrent.ConcurrentHashMap$Node ←[8]– java.util.concurrent.ConcurrentHashMap$Node[] ←.table– java.util.concurrent.ConcurrentHashMap ←.map– java.lang.WeakPairMap ←.exports– class java.lang.Module$ReflectionData`                                                                             |
+|      — |   0 B |        0.0% |           0 B | 630 → 658 | `java.lang.String ←(several java.util.concurrent.ConcurrentHashMap paths)– (GC root)`                                                                                                                                                                                                                                                                     |
 
 ##### `java.lang.invoke.MethodHandleImpl$AsVarargsCollector`
 
@@ -552,9 +556,13 @@ Retainer paths with the largest change in contribution to each constructor's sel
 
 ##### `org.renaissance.harness.RenaissanceSuite$$$Lambda`
 
-| Change | Delta |      % |        Size | Nodes | Path                                                                               |
-| -----: | ----: | -----: | ----------: | ----: | ---------------------------------------------------------------------------------- |
-| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)` |
+| Change | Delta |      % |        Size | Nodes | Path                                                                                                                                                                                                                                                         |
+| -----: | ----: | -----: | ----------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)`                                                                                                                                                                           |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111ec48 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[120]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111e600 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[119]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501107c80 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[117]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111ab40 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[99]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)`  |
 
 ### Retained size
 
@@ -775,11 +783,12 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `java.net.URLClassLoader`
 
-| Change |       Delta |             % |                Size |   Nodes | Path                                                                   |
-| -----: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------------- |
-| +32.1% | +19.738 KiB | 44.0% → 51.0% | 61.4 KiB → 81.1 KiB |       1 | `java.net.URLClassLoader ←(several paths)– (GC root)`                  |
-|  -0.6% |      -453 B | 55.6% → 48.4% | 77.5 KiB → 77.1 KiB |       1 | `java.net.URLClassLoader ← (GC root)`                                  |
-| +84.1% |      +443 B |   0.4% → 0.6% |       527 B → 970 B | 19 → 31 | `java.lang.String ←(several java.net.URLClassLoader paths)– (GC root)` |
+| Change |       Delta |             % |                Size |   Nodes | Path                                                                                      |
+| -----: | ----------: | ------------: | ------------------: | ------: | ----------------------------------------------------------------------------------------- |
+| +32.1% | +19.738 KiB | 44.0% → 51.0% | 61.4 KiB → 81.1 KiB |       1 | `java.net.URLClassLoader ←(several paths)– (GC root)`                                     |
+|  -0.6% |      -453 B | 55.6% → 48.4% | 77.5 KiB → 77.1 KiB |       1 | `java.net.URLClassLoader ← (GC root)`                                                     |
+| +84.1% |      +443 B |   0.4% → 0.6% |       527 B → 970 B | 19 → 31 | `java.lang.String ←(several java.net.URLClassLoader paths)– (GC root)`                    |
+|    new |         0 B |          0.0% |                 0 B |   0 → 1 | `java.lang.invoke.ResolvedMethodName ←(several java.net.URLClassLoader paths)– (GC root)` |
 
 ##### `java.lang.invoke.MethodTypeForm`
 
@@ -1164,9 +1173,13 @@ Retainer paths with the largest change in contribution to each constructor's ret
 
 ##### `org.renaissance.harness.RenaissanceSuite$$$Lambda`
 
-| Change | Delta |      % |        Size | Nodes | Path                                                                               |
-| -----: | ----: | -----: | ----------: | ----: | ---------------------------------------------------------------------------------- |
-| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)` |
+| Change | Delta |      % |        Size | Nodes | Path                                                                                                                                                                                                                                                         |
+| -----: | ----: | -----: | ----------: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| -16.7% |  -8 B | 100.0% | 48 B → 40 B |     1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501126000 ← (GC root)`                                                                                                                                                                           |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111ec48 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[120]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111e600 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[119]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x0000000501107c80 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[117]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)` |
+|    new |   0 B |   0.0% |         0 B | 0 → 1 | `org.renaissance.harness.RenaissanceSuite$$$Lambda+0x000000050111ab40 ←.argL0– java.lang.invoke.BoundMethodHandle$Species_L ←[99]– java.lang.Object[] ←.<resolved_references>– class org.renaissance.harness.RenaissanceSuite$ ←(several paths)– (GC root)`  |
 
 ##### `java.lang.Long[]`
 

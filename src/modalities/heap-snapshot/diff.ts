@@ -418,8 +418,8 @@ const mergeLinelessEntities = <
 }
 
 /**
- * Merges strings sharing the same value, excluding strings without a known
- * value since they can't be matched across snapshots.
+ * Merges strings sharing the same value, and merges strings without a known
+ * value into one row, because nothing else pairs them across snapshots.
  *
  * A merged string takes the category of the first string merged into it, like
  * its `id`, because same-valued strings differ only in the representation the
@@ -430,20 +430,18 @@ const mergeStrings = (
 ): Map<string, DiffedHeapSnapshotEntity> => {
   const valueToString = new Map<string, DiffedHeapSnapshotEntity>()
   for (const string of strings) {
-    if (string.name === undefined) {
-      continue
-    }
-
-    const merged = valueToString.get(string.name)
+    const name = string.name ?? UNKNOWN_STRING_VALUE
+    const value = string.fullValue ?? name
+    const merged = valueToString.get(value)
     if (merged) {
       merged.selfSize += string.selfSize
       merged.retainedSize += string.selfSize
       merged.instanceCount++
     } else {
-      valueToString.set(string.name, {
+      valueToString.set(value, {
         type: `node`,
         id: string.id,
-        name: string.name,
+        name,
         category: string.category,
         selfSize: string.selfSize,
         retainedSize: string.selfSize,
@@ -453,6 +451,8 @@ const mergeStrings = (
   }
   return valueToString
 }
+
+const UNKNOWN_STRING_VALUE = `(unknown value)`
 
 /**
  * A diff's retainer paths, and its retainer paths within a node's dominator

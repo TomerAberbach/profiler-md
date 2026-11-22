@@ -812,6 +812,17 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`a diff keeps strings apart that share only their truncated prefix`, () => {
+    const prefix = `x`.repeat(60)
+    const md = diffProfiles(
+      JSON.stringify(makeStringSnapshot(`${prefix}a`)),
+      JSON.stringify(makeStringSnapshot(`${prefix}b`)),
+    )
+
+    expect(md).toContain(`new`)
+    expect(md).toContain(`removed`)
+  })
+
   test(`edge names that look like unknown locations are shown verbatim`, () => {
     // Root -> parent (Object) via HIDDEN, parent -> child (Object) via a
     // PROPERTY edge literally named `unknown`. The edge name is not a file URL,

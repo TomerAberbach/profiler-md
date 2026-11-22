@@ -210,3 +210,15 @@ Retainer paths with the largest change in contribution to each constructor's ret
 | Change | Delta |      % |     Size | Nodes | Path                                 |
 | -----: | ----: | -----: | -------: | ----: | ------------------------------------ |
 |    ~0% |  +3 B | 100.0% | 18.9 KiB |     1 | `Process ← GlobalObject ← (GC root)` |
+
+## Largest strings
+
+### Regressions
+
+Strings with the largest increase in bytes. Categories account for at least 1.0% of self size on the base or the current side.
+
+#### String
+
+| Change |       Delta |             % |              Size | Value             | Path                 |
+| -----: | ----------: | ------------: | ----------------: | ----------------- | -------------------- |
+| +89.1% | +317.37 KiB | 23.7% → 35.0% | 356 KiB → 673 KiB | `(unknown value)` | `string ← (GC root)` |

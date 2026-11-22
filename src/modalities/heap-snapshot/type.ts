@@ -85,6 +85,9 @@ export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
 
         /** The (truncated) string value, if known. */
         name?: string
+
+        /** The whole string value, where {@link name} truncates it. */
+        fullValue?: string
       }
   )
 
