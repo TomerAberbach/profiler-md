@@ -660,7 +660,7 @@ const formatLargestConstructorInstances = ({
         total: constructorSize,
         nodeCount: group.nodeCount,
         retainerPath: shownPaths.ofPath(
-          snapshot.retainerOf(group.nodeOrdinal),
+          retainerGroupLabel(group, snapshot, constructor),
           group.path,
         ),
       })),
@@ -965,6 +965,7 @@ const formatDiffSizeConstructors = ({
         retainerPathsHeader(size, `with the largest change in`),
         constructors.flatMap(constructor =>
           formatDiffConstructorInstances({
+            diff,
             constructor,
             groupDiffs: constructorRetainerGroupDiffs(constructor),
             sizeOf,
@@ -977,7 +978,29 @@ const formatDiffSizeConstructors = ({
   })
 }
 
+/**
+ * The label a constructor's retainer group's path starts from: a jointly
+ * retained node's own, the only instance's own, such as a class's name, or else
+ * the constructor's.
+ */
+const retainerGroupLabel = (
+  {
+    node,
+    nodeCount,
+    nodeOrdinal,
+  }: Pick<DiffedConstructorRetainerGroup, `node` | `nodeCount` | `nodeOrdinal`>,
+  { retainerOf }: Pick<AggregatedHeapSnapshot, `retainerOf`>,
+  constructor: NodeLabel,
+): NodeLabel => {
+  if (node) {
+    return retainerOf(nodeOrdinal)
+  }
+  const onlyInstance = nodeCount === 1 ? retainerOf(nodeOrdinal) : undefined
+  return onlyInstance?.name ? onlyInstance : constructor
+}
+
 const formatDiffConstructorInstances = ({
+  diff,
   constructor,
   groupDiffs,
   sizeOf,
@@ -985,6 +1008,7 @@ const formatDiffConstructorInstances = ({
   hasLocation,
   options,
 }: {
+  diff: AggregatedHeapSnapshotDiff
   constructor: AggregatedHeapSnapshotEntityDiff<DiffedHeapSnapshotConstructor>
   groupDiffs: EntryDiff<DiffedConstructorRetainerGroup>[]
   sizeOf: ConstructorSize[`sizeOf`]
@@ -999,11 +1023,14 @@ const formatDiffConstructorInstances = ({
     totalOf: sizeOf,
     headingLevel: 5,
     columns: constructorRetainerGroupColumns,
-    rowOf: (group, size, total) => ({
+    rowOf: (group, size, total, side) => ({
       size,
       total,
       nodeCount: group.nodeCount,
-      retainerPath: shownPaths.ofPath(group.node ?? constructor, group.path),
+      retainerPath: shownPaths.ofPath(
+        retainerGroupLabel(group, diff[side], constructor),
+        group.path,
+      ),
     }),
     hasLocation,
     options,
@@ -1156,7 +1183,12 @@ const formatDiffEntityGroups = <
   totalOf: (entity: Entity) => number
   headingLevel: Heading[`depth`]
   columns: Table<Row>
-  rowOf: (group: Group, size: number, total: number) => Row
+  rowOf: (
+    group: Group,
+    size: number,
+    total: number,
+    side: `base` | `current`,
+  ) => Row
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -1170,15 +1202,21 @@ const formatDiffEntityGroups = <
     return []
   }
 
-  const sideRowOf = (side: Entity | undefined, group: Group | undefined) =>
-    side && group && rowOf(group, sizeOf(group), totalOf(side))
+  const sideRowOf = (side: `base` | `current`, group: Group | undefined) => {
+    const sideEntity = entity[side]
+    return (
+      sideEntity &&
+      group &&
+      rowOf(group, sizeOf(group), totalOf(sideEntity), side)
+    )
+  }
   return [
     formatEntityHeading(headingLevel, entity, hasLocation, options),
     formatDiffTable(
       columns,
       changedGroups.map(({ base, current }) => ({
-        base: sideRowOf(entity.base, base),
-        current: sideRowOf(entity.current, current),
+        base: sideRowOf(`base`, base),
+        current: sideRowOf(`current`, current),
       })),
     ),
   ]
