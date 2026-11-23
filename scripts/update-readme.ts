@@ -203,7 +203,9 @@ const gridCell = ([id, language]: [string, Language]): string => {
 }
 
 const formatLink = (format: Format): string =>
-  anchor(formatToSpec[format].title, `docs/formats/${format}.md`)
+  `<a href="docs/formats/${format}.md">${escapeHtml(
+    formatToSpec[format].title,
+  ).replaceAll(` `, `&nbsp;`)}</a>`
 
 const anchor = (text: string, href: string): string =>
   `<a href="${href}">${escapeHtml(text)}</a>`
