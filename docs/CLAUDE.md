@@ -1,9 +1,17 @@
 # Docs
 
+- Where a profiler setting affects how well a profile converts, name the setting
+  to use or avoid and say why, in one sentence
 - NEVER state what the tool doesn't support (e.g. a rejected flag, an unread
   record type, a skipped frame). File an issue for it instead. The error or
   warning reports it at runtime, and a doc statement goes stale once the tool
   supports it
+
+## Format docs
+
+- State what the format records, what it converts to, and how to read it. Leave
+  out everything else (e.g. how the parser reads a record). Compare the doc's
+  length with the other format docs
 
 ## Language docs
 

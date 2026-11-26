@@ -57,10 +57,10 @@ $ARGUMENTS
    principles in `CLAUDE.md`. Note whether the format's origins agree
 
 6. Enumerate what the format records about the machine or the session rather
-   than the program (environment, process list, host and addresses, cookies,
-   command line, user paths), and how the profiler suppresses each. Committed
-   inputs are public, and `pnpm check-input-privacy` rejects the classes it
-   recognizes, but a format can record something it does not
+   than the program, and how the profiler suppresses what is sensitive
+   (environment, process list, addresses, cookies, credentials on the command
+   line). Committed inputs are public, and `pnpm check-input-privacy` rejects
+   the classes it recognizes, but a format can record something it does not
 
 7. Confirm every modality the format captures is supported. If any is
    unsupported, STOP: explain the new modality and how it differs from the
