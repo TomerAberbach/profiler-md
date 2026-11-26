@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { parseExampleFilename } from '../../src/formats/examples.ts'
+import type { AggregatedHeapSnapshot } from '../../src/modalities/heap-snapshot/aggregate.ts'
 import type { FormattingProfileToMdOptions } from '../../src/options.ts'
 import { prefetch, readDownload } from './fetch.ts'
 import { diffFile } from './file-diff.ts'
@@ -9,17 +10,19 @@ import {
   locatedEntitiesOf,
   scoredInputPairs,
 } from './inputs.ts'
+import type { FunctionInput } from './inputs.ts'
 import {
   pinProblems,
   UPGRADED_PROJECTS,
   upgradedFileAt,
+  upgradedFileKey,
   versionsOf,
 } from './upgraded-projects.ts'
 import type { Side, UpgradedProject } from './upgraded-projects.ts'
 
 export const GROUND_TRUTH_PATH = `scripts/evaluate-diff-matching/ground-truth.json`
 
-export const UPDATE_HINT = `run pnpm evaluate-diff-matching --update`
+export const UPDATE_HINT = `run pnpm update-diff-matching`
 
 export type GroundTruth = Record<
   string,
@@ -33,7 +36,20 @@ export type GroundTruth = Record<
 export const updateGroundTruth = (
   options: FormattingProfileToMdOptions,
 ): void => {
-  const projectToPaths = profiledUpgradedFiles(options)
+  const upgradedLanguages = new Set(
+    UPGRADED_PROJECTS.map(({ script }) => script),
+  )
+  const projectToPaths = pathsByProject(
+    committedPairs()
+      .filter(({ base }) =>
+        upgradedLanguages.has(parseExampleFilename(base).language),
+      )
+      .flatMap(pair =>
+        profiledUpgradedFiles(
+          scoredInputPairs(pair, options).map(({ base }) => base),
+        ),
+      ),
+  )
 
   const downloadsOf = (project: UpgradedProject, path: string) => {
     const { base, current } = versionsOf(project)
@@ -101,19 +117,31 @@ const serializeGroundTruth = (groundTruth: GroundTruth): string => {
   return `{\n${projects.join(`,\n`)}\n}\n`
 }
 
+/** Returns the {@link staleProjects} as a problem, and the {@link pinProblems}. */
+export const groundTruthProblems = (
+  profiledFiles: ProfiledFile[],
+): string[] => {
+  const stale = staleProjects(profiledFiles)
+  return [
+    ...pinProblems(),
+    ...(stale.length > 0
+      ? [
+          `${GROUND_TRUTH_PATH} is out of date for ${stale.join(`, `)}\n  hint: ${UPDATE_HINT}`,
+        ]
+      : []),
+  ]
+}
+
 /**
- * Fails when {@link GROUND_TRUTH_PATH} is stale: when a project's versions
- * differ from its pins, or its files differ from the ones the committed inputs
- * profile. A tag or revision's files never change, so matching versions and
- * files mean matching diffs without fetching anything. Also fails on each of
- * {@link pinProblems}.
+ * Returns the names of the projects {@link GROUND_TRUTH_PATH} is stale for:
+ * those whose versions differ from their pins, or whose files differ from the
+ * ones the committed inputs profile. A tag or revision's files never change, so
+ * matching versions and files mean matching diffs without fetching anything.
  */
-export const checkGroundTruth = (
-  options: FormattingProfileToMdOptions,
-): void => {
+export const staleProjects = (profiledFiles: ProfiledFile[]): string[] => {
   const groundTruth = readGroundTruth()
   const expected = new Map(
-    [...profiledUpgradedFiles(options)].map(([project, paths]) => [
+    [...pathsByProject(profiledFiles)].map(([project, paths]) => [
       project.name,
       { versions: versionsOf(project), paths },
     ]),
@@ -124,52 +152,64 @@ export const checkGroundTruth = (
       { versions, paths: Object.keys(files).sort() },
     ]),
   )
-  const stale = [...new Set([...expected.keys(), ...actual.keys()])].filter(
+  return [...new Set([...expected.keys(), ...actual.keys()])].filter(
     name =>
       JSON.stringify(expected.get(name)) !== JSON.stringify(actual.get(name)),
   )
-  const problems = [
-    ...pinProblems(),
-    ...(stale.length > 0
-      ? [
-          `${GROUND_TRUTH_PATH} is out of date for ${stale.join(`, `)}\n  hint: ${UPDATE_HINT}`,
-        ]
-      : []),
-  ]
-  if (problems.length > 0) {
-    process.stderr.write(`${problems.join(`\n`)}\n`)
-    process.exitCode = 1
-  }
 }
 
+/** A file of an upgraded project with a fetchable version. */
+export type ProfiledFile = { project: string; path: string }
+
 /**
- * Each upgraded project with a fetchable version, and the sorted files of it
- * that example pairs' base sides profile. The ground truth maps only base
- * positions, so a file only the current side profiles, which may be new in the
- * current version, needs no diff.
+ * The upgraded projects' files that an example pair's base inputs profile. The
+ * ground truth maps only base positions, so a file only the current side
+ * profiles, which may be new in the current version, needs no diff.
  */
-const profiledUpgradedFiles = (
-  options: FormattingProfileToMdOptions,
-): Map<UpgradedProject, string[]> => {
-  const scripts = new Set(UPGRADED_PROJECTS.map(({ script }) => script))
-  const projectToPaths = new Map<UpgradedProject, Set<string>>()
-  for (const pair of committedPairs()) {
-    if (!scripts.has(parseExampleFilename(pair.base).language)) {
-      continue
-    }
-    for (const { base } of scoredInputPairs(pair, options)) {
-      for (const { location } of locatedEntitiesOf(base)) {
-        const upgradedFile = upgradedFileAt(location)
-        if (upgradedFile?.project.download) {
-          const paths = projectToPaths.get(upgradedFile.project) ?? new Set()
-          paths.add(upgradedFile.path)
-          projectToPaths.set(upgradedFile.project, paths)
-        }
+export const profiledUpgradedFiles = (
+  bases: (FunctionInput | AggregatedHeapSnapshot)[],
+): ProfiledFile[] => {
+  const files = new Map<string, ProfiledFile>()
+  for (const base of bases) {
+    for (const { location } of locatedEntitiesOf(base)) {
+      const upgradedFile = upgradedFileAt(location)
+      if (upgradedFile?.project.download) {
+        const { project, path } = upgradedFile
+        files.set(upgradedFileKey(project, path), {
+          project: project.name,
+          path,
+        })
       }
     }
   }
-  return new Map(
-    [...projectToPaths].map(([project, paths]) => [project, [...paths].sort()]),
+  return [...files.values()]
+}
+
+/** Each upgraded project with a profiled file, and its sorted files. */
+const pathsByProject = (
+  profiledFiles: ProfiledFile[],
+): Map<UpgradedProject, string[]> =>
+  new Map(
+    [...Map.groupBy(profiledFiles, projectOf)].map(([project, files]) => [
+      project,
+      [...new Set(files.map(({ path }) => path))].sort(),
+    ]),
+  )
+
+const projectOf = ({ project }: ProfiledFile): UpgradedProject =>
+  UPGRADED_PROJECTS.find(({ name }) => name === project)!
+
+/** Whether the ground truth has the file's diff between the pinned versions. */
+export const hasFileDiff = (
+  groundTruth: GroundTruth,
+  file: ProfiledFile,
+): boolean => {
+  const entry = groundTruth[file.project]
+  const versions = versionsOf(projectOf(file))
+  return (
+    entry?.versions.base === versions.base &&
+    entry.versions.current === versions.current &&
+    entry.files[file.path] !== undefined
   )
 }
 

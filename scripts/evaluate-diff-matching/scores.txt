@@ -1,0 +1,225 @@
+same code
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+go.go.block.pprof	18	18	18	18	100.0%	100.0%
+go.go.cpu-trimpath.pprof	127	127	127	127	100.0%	100.0%
+go.go.cpu.pprof	189	189	189	189	100.0%	100.0%
+go.go.goroutine.pprof	12	12	12	12	100.0%	100.0%
+go.go.goroutineleak.pprof	4	4	4	4	100.0%	100.0%
+go.go.heap-alloc.pprof	137	137	137	137	100.0%	100.0%
+go.go.heap.pprof	137	137	137	137	100.0%	100.0%
+go.go.mutex.pprof	149	149	149	149	100.0%	100.0%
+haskell.ghc.eventlog	44	44	44	44	100.0%	100.0%
+haskell.ghc.prof.json	132	132	132	132	100.0%	100.0%
+javascript.safari.17.webkit-timeline-recording.json	141	137	138	137	99.1%	99.8%
+javascript.safari.26.webkit-timeline-recording.json	370	370	371	370	100.0%	99.9%
+
+same code, by position
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+haskell.ghc.eventlog	6	6	6	6	100.0%	100.0%
+haskell.ghc.prof.json	16	16	16	16	100.0%	100.0%
+javascript.safari.17.webkit-timeline-recording.json	49	49	49	49	100.0%	100.0%
+javascript.safari.26.webkit-timeline-recording.json	188	188	188	188	100.0%	100.0%
+
+same code, lines
+
+example pair	lines	found	paired	correct	weighted recall	weighted precision
+go.go.block.pprof	2	2	2	2	100.0%	100.0%
+go.go.cpu-trimpath.pprof	23	23	23	23	100.0%	100.0%
+go.go.cpu.pprof	35	35	35	35	100.0%	100.0%
+go.go.goroutine.pprof	2	2	2	2	100.0%	100.0%
+go.go.goroutineleak.pprof	1	1	1	1	100.0%	100.0%
+go.go.heap-alloc.pprof	51	51	51	51	100.0%	100.0%
+go.go.heap.pprof	51	51	51	51	100.0%	100.0%
+go.go.mutex.pprof	2	2	2	2	100.0%	100.0%
+javascript.safari.17.webkit-timeline-recording.json	7	7	7	7	100.0%	100.0%
+javascript.safari.26.webkit-timeline-recording.json	12	12	12	12	100.0%	100.0%
+
+version change
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+c.valgrind.callgrind	514	514	514	514	100.0%	100.0%
+cpp.gperftools.cpu.pprof	30	30	30	30	100.0%	100.0%
+cpp.gperftools.heap.pprof	8	8	8	8	100.0%	100.0%
+fortran.gperftools.cpu.pprof	238	238	239	238	100.0%	99.9%
+fortran.gperftools.heap.pprof	91	91	93	91	100.0%	99.8%
+javascript.bun.cpuprofile	1677	1676	1676	1676	100.0%	100.0%
+javascript.chrome.cpuprofile	154	154	154	154	100.0%	100.0%
+javascript.chrome.heapprofile	89	89	89	89	100.0%	100.0%
+javascript.deno.cpuprofile	1236	1236	1236	1236	100.0%	100.0%
+javascript.node-pprof.cpu-lines.pprof	2066	2061	2062	2061	100.0%	100.0%
+javascript.node-pprof.cpu.pprof	1961	1955	1955	1955	100.0%	100.0%
+javascript.node-pprof.heap.pprof	612	611	611	611	99.9%	100.0%
+javascript.node.all-allocations.heapprofile	1242	1242	1242	1242	100.0%	100.0%
+javascript.node.cpuprofile	1246	1246	1247	1246	100.0%	100.0%
+javascript.node.heapprofile	123	123	123	123	100.0%	100.0%
+julia.pprof-jl.alloc.pprof	112	112	113	112	100.0%	100.0%
+julia.pprof-jl.cpu.pprof	271	271	274	271	100.0%	100.0%
+julia.pprof-jl.wall.pprof	279	279	280	279	100.0%	100.0%
+nix.nix.collapsed	1333	1325	1344	1325	99.8%	100.0%
+php.excimer.wall-maxdepth-16.collapsed	166	166	166	166	100.0%	100.0%
+php.excimer.wall-maxdepth-16.speedscope.json	74	74	74	74	100.0%	100.0%
+php.excimer.wall.collapsed	165	165	165	165	100.0%	100.0%
+php.excimer.wall.speedscope.json	70	70	70	70	100.0%	100.0%
+python.memray.aggregated.memray.bin	621	621	621	621	100.0%	100.0%
+python.memray.memray.bin	617	617	617	617	100.0%	100.0%
+python.memray.native.memray.bin	601	601	601	601	100.0%	100.0%
+python.memray.py310.memray.bin	588	588	588	588	100.0%	100.0%
+python.memray.v13.memray.bin	597	597	597	597	100.0%	100.0%
+python.py-spy.cpu.collapsed	102	102	102	102	100.0%	100.0%
+python.py-spy.cpu.speedscope.json	88	88	88	88	100.0%	100.0%
+python.py-spy.function.collapsed	100	100	100	100	100.0%	100.0%
+python.py-spy.function.speedscope.json	91	91	91	91	100.0%	100.0%
+python.py-spy.native.collapsed	157	157	157	157	100.0%	100.0%
+python.py-spy.native.speedscope.json	156	156	156	156	100.0%	100.0%
+python.py-spy.wall.collapsed	93	93	93	93	100.0%	100.0%
+python.pyinstrument.speedscope.json	42	42	42	42	100.0%	100.0%
+ruby.rbspy.cpu.callgrind	479	479	479	479	100.0%	100.0%
+ruby.rbspy.cpu.collapsed	479	479	479	479	100.0%	100.0%
+ruby.rbspy.cpu.pprof	500	500	500	500	100.0%	100.0%
+ruby.rbspy.cpu.speedscope.json	500	500	500	500	100.0%	100.0%
+rust.pprof-rs.cpu.pprof	68	68	68	68	100.0%	100.0%
+swift.gperftools.cpu.pprof	513	513	514	513	100.0%	100.0%
+swift.gperftools.heap.pprof	350	350	350	350	100.0%	100.0%
+zig.gperftools.cpu.pprof	230	230	255	230	100.0%	93.1%
+zig.gperftools.heap.pprof	134	134	147	134	100.0%	95.4%
+
+version change, by position
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+c.valgrind.callgrind	2	2	2	2	100.0%	100.0%
+cpp.gperftools.cpu.pprof	2	2	2	2	100.0%	100.0%
+javascript.bun.cpuprofile	154	153	153	153	100.0%	100.0%
+javascript.chrome.cpuprofile	73	73	73	73	100.0%	100.0%
+javascript.chrome.heapprofile	41	41	41	41	100.0%	100.0%
+javascript.deno.cpuprofile	103	103	103	103	100.0%	100.0%
+javascript.node-pprof.cpu-lines.pprof	240	235	235	235	99.9%	100.0%
+javascript.node-pprof.cpu.pprof	150	144	144	144	99.4%	100.0%
+javascript.node-pprof.heap.pprof	42	41	41	41	99.2%	100.0%
+javascript.node.all-allocations.heapprofile	118	118	118	118	100.0%	100.0%
+javascript.node.cpuprofile	103	103	103	103	100.0%	100.0%
+javascript.node.heapprofile	17	17	17	17	100.0%	100.0%
+julia.pprof-jl.alloc.pprof	26	26	26	26	100.0%	100.0%
+julia.pprof-jl.cpu.pprof	131	131	131	131	100.0%	100.0%
+julia.pprof-jl.wall.pprof	127	127	128	127	100.0%	100.0%
+nix.nix.collapsed	349	341	342	341	99.6%	100.0%
+python.memray.aggregated.memray.bin	47	47	47	47	100.0%	100.0%
+python.memray.memray.bin	45	45	45	45	100.0%	100.0%
+python.memray.native.memray.bin	49	49	49	49	100.0%	100.0%
+python.memray.py310.memray.bin	44	44	44	44	100.0%	100.0%
+python.memray.v13.memray.bin	49	49	49	49	100.0%	100.0%
+python.pyinstrument.speedscope.json	2	2	2	2	100.0%	100.0%
+zig.gperftools.cpu.pprof	0	0	7	0	-	0.0%
+zig.gperftools.heap.pprof	0	0	10	0	-	0.0%
+
+version change, lines
+
+example pair	lines	found	paired	correct	weighted recall	weighted precision
+c.valgrind.callgrind	5650	5610	5625	5610	99.7%	100.0%
+cpp.gperftools.cpu.pprof	6	6	6	6	100.0%	100.0%
+cpp.gperftools.heap.pprof	2	2	2	2	100.0%	100.0%
+fortran.gperftools.cpu.pprof	62	61	61	61	100.0%	100.0%
+fortran.gperftools.heap.pprof	33	31	31	31	100.0%	100.0%
+javascript.bun.cpuprofile	638	631	632	631	99.2%	100.0%
+javascript.chrome.cpuprofile	12	12	12	12	100.0%	100.0%
+javascript.deno.cpuprofile	300	290	291	290	97.6%	99.9%
+javascript.node-pprof.cpu-lines.pprof	1936	1867	1897	1867	96.5%	98.3%
+javascript.node-pprof.cpu.pprof	1069	1061	1061	1061	99.3%	100.0%
+javascript.node-pprof.heap.pprof	77	71	71	71	97.1%	100.0%
+javascript.node.cpuprofile	323	315	317	315	98.2%	99.8%
+julia.pprof-jl.cpu.pprof	163	163	163	163	100.0%	100.0%
+julia.pprof-jl.wall.pprof	174	174	174	174	100.0%	100.0%
+python.memray.aggregated.memray.bin	802	782	782	782	99.9%	100.0%
+python.memray.memray.bin	813	793	793	793	99.9%	100.0%
+python.memray.native.memray.bin	783	763	763	763	99.9%	100.0%
+python.memray.py310.memray.bin	762	746	746	746	100.0%	100.0%
+python.memray.v13.memray.bin	773	753	753	753	99.9%	100.0%
+python.py-spy.cpu.collapsed	51	50	50	50	99.2%	100.0%
+python.py-spy.cpu.speedscope.json	36	27	28	27	82.3%	98.8%
+python.py-spy.function.collapsed	38	31	31	31	81.7%	100.0%
+python.py-spy.function.speedscope.json	30	22	22	22	83.3%	100.0%
+python.py-spy.native.collapsed	3	3	3	3	100.0%	100.0%
+python.py-spy.native.speedscope.json	3	3	3	3	100.0%	100.0%
+python.py-spy.wall.collapsed	31	22	27	22	78.1%	94.3%
+ruby.rbspy.cpu.callgrind	481	474	474	474	99.4%	100.0%
+ruby.rbspy.cpu.collapsed	89	87	87	87	99.5%	100.0%
+ruby.rbspy.cpu.pprof	92	90	90	90	99.5%	100.0%
+ruby.rbspy.cpu.speedscope.json	92	90	90	90	99.5%	100.0%
+rust.pprof-rs.cpu.pprof	14	12	12	12	97.9%	100.0%
+swift.gperftools.cpu.pprof	149	146	146	146	99.7%	100.0%
+zig.gperftools.cpu.pprof	214	197	200	197	98.0%	99.9%
+
+synthetic edits
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+haskell.ghc.eventlog	70	69	69	69	100.0%	100.0%
+haskell.ghc.prof.json	250	248	248	248	99.9%	100.0%
+javascript.safari.17.webkit-timeline-recording.json	167	163	164	163	99.2%	99.8%
+javascript.safari.26.webkit-timeline-recording.json	112	111	111	111	99.6%	100.0%
+
+synthetic edits, by position
+
+example pair	functions	found	paired	correct	weighted recall	weighted precision
+haskell.ghc.eventlog	30	29	29	29	99.9%	100.0%
+haskell.ghc.prof.json	80	78	78	78	99.3%	100.0%
+javascript.safari.17.webkit-timeline-recording.json	53	53	53	53	100.0%	100.0%
+javascript.safari.26.webkit-timeline-recording.json	60	59	59	59	99.3%	100.0%
+
+synthetic edits, lines
+
+example pair	lines	found	paired	correct	weighted recall	weighted precision
+javascript.safari.17.webkit-timeline-recording.json	11	11	11	11	100.0%	100.0%
+javascript.safari.26.webkit-timeline-recording.json	4	4	4	4	100.0%	100.0%
+
+same code, instance groups
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+java.jdk.hprof	47091	47091	47091	47091	100.0%	100.0%
+javascript.bun.heapsnapshot	204	204	204	204	100.0%	100.0%
+javascript.bun.jsc-heap-snapshot.json	5313	5313	5313	5313	100.0%	100.0%
+javascript.node.heapsnapshot	3132	3132	3132	3132	100.0%	100.0%
+javascript.safari.jsc-heap-snapshot.json	35715	35715	35715	35715	100.0%	100.0%
+julia.profile-jl.heapsnapshot	5260	5260	5260	5260	100.0%	100.0%
+
+same code, instance groups, by position
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+java.jdk.hprof	12	12	12	12	100.0%	100.0%
+javascript.safari.jsc-heap-snapshot.json	2	2	2	2	100.0%	100.0%
+
+version change, instance groups
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.chrome.heapsnapshot	1934	1934	1934	1934	100.0%	100.0%
+
+version change, instance groups, by position
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.chrome.heapsnapshot	4	4	4	4	100.0%	100.0%
+
+synthetic edits, instance groups
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.node.heapsnapshot	535	535	535	535	100.0%	100.0%
+
+same code, retained nodes
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.bun.heapsnapshot	1930	1930	1930	1930	100.0%	100.0%
+javascript.node.heapsnapshot	12509	12509	12509	12509	100.0%	100.0%
+
+version change, retained nodes
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.chrome.heapsnapshot	13616	13616	13901	13616	100.0%	98.7%
+
+version change, retained nodes, by position
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.chrome.heapsnapshot	109	109	109	109	100.0%	100.0%
+
+synthetic edits, retained nodes
+
+example pair	groups	found	paired	correct	weighted recall	weighted precision
+javascript.node.heapsnapshot	268	268	268	268	100.0%	100.0%

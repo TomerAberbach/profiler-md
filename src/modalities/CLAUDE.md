@@ -72,6 +72,13 @@ modalities
   `<Rows> with the largest <contribution>`, and
   `<Rows> with the largest <increase|decrease|change> in <amount>` in a diff
 
+## Diffing
+
+- `pnpm check` fails when a change alters the committed scores of how diffs pair
+  entities. Run `pnpm update-diff-matching` only for an intended change, and
+  explain each lower score in the commit description. NEVER pair rows by their
+  rank, because a changed value changes the rank
+
 ## Traces
 
 - The trace modality treats no kind of event specially. Where several formats

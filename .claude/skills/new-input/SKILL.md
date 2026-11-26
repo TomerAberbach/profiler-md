@@ -59,11 +59,12 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
      their functions pair across the diff. A workload whose code only the
      toolchain sets profiles one version on both sides
    - Give each such pin ground truth: add the project to `UPGRADED_PROJECTS` in
-     `scripts/evaluate-diff-matching/upgraded-projects.ts`, naming the pin, and
-     run `pnpm evaluate-diff-matching --update`. Where the profiler records no
-     path to a file in the project (class names, basenames), add the pin and the
-     reason to `UNSCORED_PINS` instead. `pnpm check-diff-matching` fails on a
-     pin in neither
+     `scripts/evaluate-diff-matching/upgraded-projects.ts`, naming the pin.
+     Where the profiler records no path to a file in the project (class names,
+     basenames), add the pin and the reason to `UNSCORED_PINS` instead.
+     `pnpm check-diff-matching` fails on a pin in neither
+   - Run `pnpm update-diff-matching` once a new or regenerated input converts,
+     to update its ground truth and scores
    - When a profiler can export multiple supported formats, export all from a
      single recording
    - When `verify_generated_input` fails an input over GitHub's 100 MB limit,

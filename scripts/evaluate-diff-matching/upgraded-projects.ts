@@ -305,6 +305,12 @@ export const upgradedFileAt = (
   return upgradedFile && { ...upgradedFile, sourceReference: sourceReference! }
 }
 
+/** Identifies an upgraded project's file by its path within the project. */
+export const upgradedFileKey = (
+  project: UpgradedProject,
+  path: string,
+): string => `${project.name}\0${path}`
+
 /**
  * The upgraded project a source reference's path is in, and the file's path
  * within it, or `undefined` for a path in no upgraded project.

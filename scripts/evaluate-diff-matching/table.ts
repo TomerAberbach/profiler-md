@@ -26,9 +26,7 @@ export const printTable = (
   entities: string,
 ): void => {
   // An example pair whose functions have no positions scores nothing.
-  const scored = [...rows]
-    .filter(([, { all }]) => all.count.expected > 0 || all.count.predicted > 0)
-    .sort(([left], [right]) => left.localeCompare(right))
+  const scored = scoredRows(rows, ({ all }) => all)
   const total = emptyEvaluation()
   for (const [, evaluation] of scored) {
     mergeEvaluation(total, evaluation)
@@ -44,18 +42,14 @@ export const printTable = (
       },
     ])}`,
   )
-  for (const [title, header, scoresOf] of [
-    [`by position`, entities, ({ byPosition }) => byPosition],
-    [`lines`, `lines`, ({ lines }) => lines],
-  ] as const satisfies [string, string, (evaluation: Evaluation) => Scores][]) {
-    const { count } = scoresOf(total)
-    if (count.expected === 0 && count.predicted === 0) {
+  for (const { suffix, counted = entities, scoresOf } of PARTIAL_SCORE_KINDS) {
+    if (!isScored(scoresOf(total))) {
       continue
     }
     console.log(
-      `\n${name}, ${title}\n\n${formatTable(printed, [
+      `\n${name}${suffix}\n\n${formatTable(printed, [
         {
-          header,
+          header: counted,
           cell: evaluation => String(scoresOf(evaluation).count.expected),
         },
         ...scoreColumns(scoresOf),
@@ -63,6 +57,36 @@ export const printTable = (
     )
   }
 }
+
+type ScoreKind = {
+  /** What a table's title ends with. */
+  suffix: string
+
+  /** What the kind counts, when it is not its evaluation's entities. */
+  counted?: string
+  scoresOf: (evaluation: Evaluation) => Scores
+}
+
+const PARTIAL_SCORE_KINDS: ScoreKind[] = [
+  { suffix: `, by position`, scoresOf: ({ byPosition }) => byPosition },
+  { suffix: `, lines`, counted: `lines`, scoresOf: ({ lines }) => lines },
+]
+
+export const SCORE_KINDS: ScoreKind[] = [
+  { suffix: ``, scoresOf: ({ all }) => all },
+  ...PARTIAL_SCORE_KINDS,
+]
+
+export const scoredRows = (
+  rows: Map<string, Evaluation>,
+  scoresOf: ScoreKind[`scoresOf`],
+): [string, Evaluation][] =>
+  [...rows]
+    .filter(([, evaluation]) => isScored(scoresOf(evaluation)))
+    .sort(([left], [right]) => left.localeCompare(right))
+
+const isScored = ({ count }: Scores): boolean =>
+  count.expected > 0 || count.predicted > 0
 
 const scoreColumns = (
   scoresOf: (evaluation: Evaluation) => Scores,
@@ -81,6 +105,12 @@ const scoreColumns = (
       return ratio(count.correct, count.predicted)
     },
   },
+  ...weightedColumns(scoresOf),
+]
+
+export const weightedColumns = (
+  scoresOf: (evaluation: Evaluation) => Scores,
+): Column<Evaluation>[] => [
   {
     header: `weighted recall`,
     cell: evaluation => {

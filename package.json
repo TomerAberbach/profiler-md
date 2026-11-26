@@ -85,6 +85,7 @@
     "bench": "./scripts/bench",
     "categories": "node scripts/categories.ts",
     "evaluate-diff-matching": "node scripts/evaluate-diff-matching/index.ts",
+    "update-diff-matching": "node scripts/evaluate-diff-matching/index.ts --update-stale",
     "check-diff-matching": "node scripts/evaluate-diff-matching/index.ts --check",
     "evaluate-call-tree": "node scripts/evaluate-call-tree/index.ts",
     "build": "tsdown && node scripts/build-man.ts",

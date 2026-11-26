@@ -30,7 +30,7 @@ profiler-md
 ├── scripts/
 │   ├── inputs/                   # Per-language workload scripts, workload assets, and the profiler toolchain nix flake
 │   ├── diff-examples/            # Summarizes how commits change the example outputs
-│   ├── evaluate-diff-matching/   # Scores how a diff pairs entities against ground truth
+│   ├── evaluate-diff-matching/   # Scores how a diff pairs entities against ground truth, and checks the scores against committed ones
 │   └── evaluate-call-tree/       # Scores the call tree drawn for each committed call stack profile
 ├── examples/                     # Filenames are `<language>.<origin>.<configuration?>.<base|current|diff>.<ext>`
 │   ├── input/                    # Inputs for testing and docs
@@ -49,7 +49,7 @@ pnpm check
 pnpm update-examples      # examples/output/ from examples/input/
 pnpm update-readme        # from src/cli/help.ts, src/languages.ts, and `--help`
 pnpm update-demo          # assets/demo.gif from assets/demo.tape (requires vhs and gifsicle)
-pnpm evaluate-diff-matching --update # ground truth, after regenerating inputs or changing a version pin
+pnpm update-diff-matching # scores of how diffs pair entities, and their ground truth when it is out of date
 
 # Run the CLI from source (Node runs the TypeScript directly)
 node src/cli/index.ts ./examples/input/javascript.node.base.cpuprofile
