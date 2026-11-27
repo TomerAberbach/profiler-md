@@ -57,27 +57,42 @@
  *
  * Usage:
  * - `pnpm evaluate-diff-matching` scores every example pair
- * - `--update` fetches both versions of each upgraded project's profiled files
- *   and rewrites `ground-truth.json` from their file diffs. Run it after
- *   regenerating inputs or changing a version pin
- * - `--check` fails when `ground-truth.json` is out of date, without
- *   fetching anything, or when a workload script pins a version per side that
- *   no upgraded project reads and `UNSCORED_PINS` does not exempt
+ * - `--update` fetches both versions of each upgraded project's profiled files,
+ *   rewrites `ground-truth.json` from their file diffs, and then rewrites
+ *   `scores.txt`. Run it after a change to how files are diffed
+ * - `--update-stale` rewrites `scores.txt`, the committed scores of every
+ *   example pair, and does what `--update` does when `ground-truth.json` is out
+ *   of date, the only case in which it fetches anything. Run it after a change
+ *   to the pairing, the inputs, or a version pin
+ * - `--check` fails when `ground-truth.json` is out of date, without fetching
+ *   anything, when a workload script pins a version per side that no upgraded
+ *   project reads and `UNSCORED_PINS` does not exempt, or when the scores differ
+ *   from `scores.txt`
  * - `--filter <substring>` scores only the example pairs whose base filename
  *   contains it
  * - `--edits <count>` sets the number of synthetic edits per example pair
  * - `--seed <seed>` sets the synthetic edits' seed
  * - `--verbose` prints a row per example pair instead of per origin
+ *
+ * `--update`, `--update-stale`, and `--check` each take no other flag.
  */
 
 import { parseArgs } from 'node:util'
 import { parseExampleFilename } from '../../src/formats/examples.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
-import { checkGroundTruth, updateGroundTruth } from './ground-truth.ts'
+import {
+  GROUND_TRUTH_PATH,
+  groundTruthProblems,
+  staleProjects,
+  UPDATE_HINT,
+  updateGroundTruth,
+} from './ground-truth.ts'
+import type { ProfiledFile } from './ground-truth.ts'
 import { committedPairs } from './inputs.ts'
 import type { EditOptions } from './pair.ts'
 import { evaluatePairs } from './pairs.ts'
 import { addEvaluation } from './score.ts'
+import { scoreProblems, updateScores } from './scores.ts'
 import { printTable } from './table.ts'
 import type {
   GroundTruthName,
@@ -87,32 +102,91 @@ import type {
 } from './table.ts'
 
 const main = async (): Promise<void> => {
+  const command = parseCommand()
+  switch (command.type) {
+    case `check`:
+      await checkScores()
+      break
+    case `update`:
+      await updateAll()
+      break
+    case `update-stale`:
+      await updateStale()
+      break
+    case `print`:
+      printScores(await scoreCurrentPairs(command.scoringOptions))
+  }
+}
+
+type Command =
+  | { type: `check` | `update` | `update-stale` }
+  | { type: `print`; scoringOptions: ScoringOptions }
+
+const parseCommand = (): Command => {
   const { values } = parseArgs({
     options: {
-      update: { type: `boolean`, default: false },
-      check: { type: `boolean`, default: false },
+      check: { type: `boolean` },
+      update: { type: `boolean` },
+      'update-stale': { type: `boolean` },
       filter: { type: `string` },
-      edits: { type: `string`, default: `5` },
-      seed: { type: `string`, default: `1` },
-      verbose: { type: `boolean`, default: false },
+      edits: { type: `string` },
+      seed: { type: `string` },
+      verbose: { type: `boolean` },
     },
   })
-  const options = resolveProfileToMdOptions({ baseURL: null })
-  if (values.update) {
-    updateGroundTruth(options)
-    return
-  }
-  if (values.check) {
-    checkGroundTruth(options)
-    return
+  const type = ([`check`, `update`, `update-stale`] as const).find(
+    name => values[name],
+  )
+  if (type === undefined) {
+    return {
+      type: `print`,
+      scoringOptions: {
+        filter: values.filter,
+        edits: Number(values.edits ?? COMMITTED_SCORES.edits),
+        seed: Number(values.seed ?? COMMITTED_SCORES.seed),
+        verbose: values.verbose ?? false,
+      },
+    }
   }
 
-  const tables = await scoreCommittedPairs({
-    filter: values.filter,
-    edits: Number(values.edits),
-    seed: Number(values.seed),
-    verbose: values.verbose,
-  })
+  const flags = Object.keys(values).map(name => `--${name}`)
+  if (flags.length > 1) {
+    throw new Error(
+      `conflicting flags, got: ${flags.join(` `)}\n  hint: pass --${type} alone, because the committed scores cover every example pair`,
+    )
+  }
+  return { type }
+}
+
+const checkScores = async (): Promise<void> => {
+  const { tables, profiledFiles, missingFiles } =
+    await scoreCommittedPairs(COMMITTED_SCORES)
+  const problems = [
+    ...groundTruthProblems(profiledFiles),
+    // A pair whose ground truth lacks a file is unscored, so its scores differ.
+    ...(missingFiles.length > 0 ? [] : scoreProblems(tables)),
+  ]
+  if (problems.length > 0) {
+    process.stderr.write(`${problems.join(`\n`)}\n`)
+    process.exitCode = 1
+  }
+}
+
+const updateAll = async (): Promise<void> => {
+  updateGroundTruth(resolveProfileToMdOptions({ baseURL: null }))
+  updateScores(await scoreCurrentPairs(COMMITTED_SCORES))
+}
+
+const updateStale = async (): Promise<void> => {
+  const { tables, profiledFiles } = await scoreCommittedPairs(COMMITTED_SCORES)
+  if (staleProjects(profiledFiles).length > 0) {
+    await updateAll()
+  } else {
+    updateScores(tables)
+  }
+}
+
+const printScores = (tables: ScoreTables): void => {
   for (const [name, { rows, entities }] of Object.entries(tables)) {
     printTable(name, rows, entities)
   }
@@ -125,16 +199,37 @@ type ScoringOptions = EditOptions & {
   verbose: boolean
 }
 
+const COMMITTED_SCORES: ScoringOptions = { edits: 5, seed: 1, verbose: true }
+
+/** Scores the example pairs, and throws when the ground truth lacks a file. */
+const scoreCurrentPairs = async (
+  scoringOptions: ScoringOptions,
+): Promise<ScoreTables> => {
+  const { tables, missingFiles } = await scoreCommittedPairs(scoringOptions)
+  const [missing] = missingFiles
+  if (missing) {
+    throw new Error(
+      `${GROUND_TRUTH_PATH} has no current file diff of ${missing.project} file ${missing.path}\n  hint: ${UPDATE_HINT}`,
+    )
+  }
+  return tables
+}
+
 /**
  * Scores each example pair, and returns the evaluations keyed by kind, then by
- * row, with the entities each kind scores.
+ * row, with the entities each kind scores. Also returns the upgraded projects'
+ * files the pairs profile, and those the ground truth lacks.
  */
 const scoreCommittedPairs = async ({
   filter,
   edits,
   seed,
   verbose,
-}: ScoringOptions): Promise<ScoreTables> => {
+}: ScoringOptions): Promise<{
+  tables: ScoreTables
+  profiledFiles: ProfiledFile[]
+  missingFiles: ProfiledFile[]
+}> => {
   const tables: ScoreTables = {
     'same code': { rows: new Map(), entities: `functions` },
     'version change': { rows: new Map(), entities: `functions` },
@@ -142,16 +237,20 @@ const scoreCommittedPairs = async ({
     ...groupTables(`instance groups`),
     ...groupTables(`retained nodes`),
   }
+  const profiledFiles: ProfiledFile[] = []
+  const missingFiles: ProfiledFile[] = []
   const results = await evaluatePairs(committedPairs(filter), { edits, seed })
-  for (const [pair, { evaluations }] of results) {
+  for (const [pair, result] of results) {
     const row = verbose
       ? `${pair.name}.${pair.ext}`
       : parseExampleFilename(pair.base).origin
-    for (const [table, evaluation] of evaluations) {
+    for (const [table, evaluation] of result.evaluations) {
       addEvaluation(tables[table].rows, row, evaluation)
     }
+    profiledFiles.push(...result.profiledFiles)
+    missingFiles.push(...result.missingFiles)
   }
-  return tables
+  return { tables, profiledFiles, missingFiles }
 }
 
 /** A kind of retainer group's tables, one per kind of ground truth. */

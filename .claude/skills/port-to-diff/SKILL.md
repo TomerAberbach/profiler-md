@@ -165,7 +165,7 @@ $ARGUMENTS
 14. Run `pnpm check`. If `check-demo` fails, run `pnpm update-demo`, which
     requires `vhs` and `gifsicle`. If `check-diff-matching` fails, the change
     altered which entities pair, though no step of this skill requires that.
-    Find the edit responsible and revert it
+    Find the edit responsible and revert it instead of updating the scores
 
 # Rankings and breakdowns
 
@@ -214,13 +214,16 @@ To score a pairing:
 - Find each base row's counterpart by mapping its positions through the ground
   truth's `PositionMap` and `SourceReferenceMap` in `position.ts`, and add a
   table per kind of ground truth: same code, version change, and synthetic edits
-  (`groupTables` in `index.ts`). Leave a row unscored when a position it is
-  keyed by has no known counterpart
+  (`TableName` in `table.ts`, `groupTables` in `index.ts`, and `evaluateInputs`
+  in `pair.ts`). Leave a row unscored when a position it is keyed by has no
+  known counterpart
 - Apply the synthetic edits to the rows' positions too, and score only the rows
   with a position in the edited source reference
 - Weight each row by its share of its input's total, so a mistake on a large row
   counts for more
-- Describe the new tables in the module comment of `index.ts`
+- Describe the new tables in the module comment of `index.ts`, and commit their
+  scores with `pnpm update-diff-matching`. The diff of `scores.txt` must only
+  add rows. Treat a changed or removed row as a failure of step 14
 
 # Wording
 

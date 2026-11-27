@@ -9,8 +9,11 @@ import type { GroundTruth } from './ground-truth.ts'
 import { locatedEntitiesOf } from './inputs.ts'
 import type { FunctionInput } from './inputs.ts'
 import type { PositionMap, SourceReferenceMap } from './position.ts'
-import { upgradedFileAt, upgradedFileOf } from './upgraded-projects.ts'
-import type { UpgradedProject } from './upgraded-projects.ts'
+import {
+  upgradedFileAt,
+  upgradedFileKey,
+  upgradedFileOf,
+} from './upgraded-projects.ts'
 
 /**
  * Maps a base position in an upgraded project's file through the file's diff,
@@ -96,6 +99,3 @@ const upgradedFileProfiledPaths = (
   }
   return profiledPaths
 }
-
-const upgradedFileKey = (project: UpgradedProject, path: string): string =>
-  `${project.name}\0${path}`

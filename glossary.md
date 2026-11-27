@@ -247,6 +247,7 @@ of any modality.
 | **Synthetic edit**   | A seeded edit to one source reference of the current side that moves its positions to known places                      | random edit, mutation |
 | **Upgraded project** | A project whose version a workload script pins per side                                                                 | —                     |
 | **Version pin**      | A workload script's per-side version of an upgraded project                                                             | pin variable          |
+| **Profiled file**    | A file of an upgraded project that an example pair's base inputs profile                                                | —                     |
 | **File diff**        | A source file's line diff, or a minified file's character diff, between an upgraded project's base and current versions | diff                  |
 | **Position map**     | A function from a base position to its current position, or to nothing when the position was deleted or is unknown      | —                     |
 
