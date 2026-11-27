@@ -16,6 +16,7 @@ import {
   languageExtensionToPrimary,
   languageIdsOf,
 } from '../languages.ts'
+import { LOG_LEVELS } from '../logger.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import { origins } from '../origins/index.ts'
 import { stdoutSupportsColor } from './ansis.ts'
@@ -138,6 +139,7 @@ const RUNNER_ENTRIES: readonly DocEntry[] = [
 ]
 
 export const LISTS: readonly (readonly [string, readonly string[]])[] = [
+  [`Log levels`, LOG_LEVELS],
   [`Formats`, formats],
   [`Origins`, origins],
   ...CATEGORY_SETS.map(({ title, categories }) => [title, categories] as const),
