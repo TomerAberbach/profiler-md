@@ -18,9 +18,8 @@
     ]
   },
   "hooks": {
-    "PostToolUse": [
+    "Stop": [
       {
-        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
