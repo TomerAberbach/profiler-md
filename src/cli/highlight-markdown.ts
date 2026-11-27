@@ -754,9 +754,9 @@ const totalCandidate = (
   }
 
   const changeFraction = parsePercent(change)
-  return !changeFraction || !basePercent
-    ? null
-    : { percent: basePercent, value: Math.abs(delta / changeFraction) }
+  return changeFraction && basePercent
+    ? { percent: basePercent, value: Math.abs(delta / changeFraction) }
+    : null
 }
 
 /**

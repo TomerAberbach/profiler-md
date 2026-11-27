@@ -152,8 +152,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   test(`merges and matches constructors whose names differ by a per-run address`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
-      matchEntry: ({ name }) => ({
-        name: (name ?? ``).replace(/@0x[0-9a-f]+$/u, ``),
+      matchEntry: ({ name = `` }) => ({
+        name: name.replace(/@0x[0-9a-f]+$/u, ``),
       }),
     })
     const base = makeAggregatedHeapSnapshot({
@@ -1377,8 +1377,8 @@ describe(`formatHeapSnapshotDiff retained nodes`, () => {
   test(`pairs the nodes whose names differ by a per-run address`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
-      matchEntry: ({ name }) => ({
-        name: (name ?? ``).replace(/@0x[0-9a-f]+$/u, ``),
+      matchEntry: ({ name = `` }) => ({
+        name: name.replace(/@0x[0-9a-f]+$/u, ``),
       }),
     })
     const steps = [fnStep(`p`)]

@@ -280,6 +280,11 @@ class TraceEventParser {
    */
   #readAsyncTrees(): void {
     for (const tree of this.#asyncTrees.values()) {
+      type BegunAsyncSpan = {
+        span: TraceSpan
+        position: number
+        ended: boolean
+      }
       /** The spans begun, outermost first, of which the last is not ended. */
       const begun: BegunAsyncSpan[] = []
       /** Per name, the spans begun and not yet ended, outermost first. */
@@ -428,8 +433,6 @@ type ParsedThread = {
   spans: TraceSpan[]
   instants: TraceInstant[]
 }
-
-type BegunAsyncSpan = { span: TraceSpan; position: number; ended: boolean }
 
 /** The name shown for a process or thread no metadata event names. */
 const UNNAMED = `(unnamed)`

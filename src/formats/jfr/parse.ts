@@ -566,12 +566,12 @@ class JfrParser {
   readonly #methods: JfrMethod[] = []
   readonly #methodIndexByIdentity = new Map<string, number>()
   readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
-    ({ methodIds, leafLine, truncated }) => {
+    ({ methodIds, leafLine = -1, truncated }) => {
       let hash = HASH_SEED
       for (const methodId of methodIds) {
         hash = mixHash(hash, methodId)
       }
-      return mixHash(mixHash(hash, leafLine ?? -1), truncated ? 1 : 0)
+      return mixHash(mixHash(hash, leafLine), truncated ? 1 : 0)
     },
     (stack, key) =>
       stack.leafLine === key.leafLine &&

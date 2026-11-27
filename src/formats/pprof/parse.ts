@@ -190,19 +190,17 @@ const parseValueLayouts = (
   }
 
   const groups = groupValueTypesByCount(valueTypes)
-  if (groups) {
-    // A group with no count of its own reports its metrics alone, because
-    // another group's count already states what a record is.
-    return groups.map(group =>
-      group.some(isOccurrenceCountValueType)
-        ? layoutOf(group)
-        : layoutWithCountsAsMetrics(group),
-    )
-  }
-
-  // A group holds several counts, so which one each metric was measured over is
-  // unknown.
-  return [layoutWithCountsAsMetrics(valueTypes)]
+  return groups
+    ? // A group with no count of its own reports its metrics alone, because
+      // another group's count already states what a record is.
+      groups.map(group =>
+        group.some(isOccurrenceCountValueType)
+          ? layoutOf(group)
+          : layoutWithCountsAsMetrics(group),
+      )
+    : // A group holds several counts, so which one each metric was measured over
+      // is unknown.
+      [layoutWithCountsAsMetrics(valueTypes)]
 }
 
 /** One sample type, with its index into a sample's parallel value list. */

@@ -221,18 +221,6 @@ export const callTreeViolations = (md: string): string[] =>
 
 const LINE_BUDGET = lineBudgetOf({ topN: DEFAULT_TOP_N })
 
-type TreeLine = {
-  index: number
-  last: boolean
-  /**
-   * The stated share, in percent. The share it rounds from is within
-   * {@link SHARE_ROUNDING} of it, so `<0.1%` reads as 0.
-   */
-  share: number
-  callees: TreeLine[]
-  type: `frame` | `summary`
-}
-
 const GLYPH_LENGTH = 4
 const SHARE_REGEX = / \((?<share><0\.1|\d+\.\d)%(?:\) |, self )/u
 const SUMMARY_REGEX = /^[\d,]+ more (?:callee|root frame)s?, /u
@@ -246,6 +234,17 @@ const treeViolations = (lines: string[]): string[] => {
     violations.push(`${lines.length} lines exceed ${LINE_BUDGET}`)
   }
 
+  type TreeLine = {
+    index: number
+    last: boolean
+    /**
+     * The stated share, in percent. The share it rounds from is within
+     * {@link SHARE_ROUNDING} of it, so `<0.1%` reads as 0.
+     */
+    share: number
+    callees: TreeLine[]
+    type: `frame` | `summary`
+  }
   const root: TreeLine[] = []
   // The innermost callers of the current line, outermost first.
   const ancestors: TreeLine[] = []

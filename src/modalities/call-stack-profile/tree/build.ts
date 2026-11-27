@@ -210,11 +210,7 @@ const addStackEnd = (
   leaf: TreeFunction | undefined,
   stack: StackValue,
 ): void => {
-  if (node.func === leaf) {
-    addTo(node, `selfValue`, stack)
-  } else {
-    addTo(node, `hiddenCalleesValue`, stack)
-  }
+  addTo(node, node.func === leaf ? `selfValue` : `hiddenCalleesValue`, stack)
 }
 
 /**

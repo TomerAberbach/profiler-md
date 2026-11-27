@@ -46,9 +46,9 @@ export const excerptOfTables = (
     beforeRow: string[] | undefined,
     afterRow: string[] | undefined,
   ): ExcerptCell[] =>
-    columns.map(([beforeColumn, afterColumn]) => ({
-      before: beforeRow?.[beforeColumn ?? -1],
-      after: afterRow?.[afterColumn ?? -1],
+    columns.map(([beforeColumn = -1, afterColumn = -1]) => ({
+      before: beforeRow?.[beforeColumn],
+      after: afterRow?.[afterColumn],
     }))
 
   const moved = movedIndices(rowPairs)
@@ -72,9 +72,9 @@ export const excerptOfTables = (
   )
   return {
     type: `table`,
-    columns: columns.map(([beforeColumn, afterColumn]) => {
-      const from = before.columns[beforeColumn ?? -1]
-      const to = after.columns[afterColumn ?? -1]
+    columns: columns.map(([beforeColumn = -1, afterColumn = -1]) => {
+      const from = before.columns[beforeColumn]
+      const to = after.columns[afterColumn]
       return {
         before: from?.name,
         after: to?.name,

@@ -133,7 +133,7 @@ export const hotspotRuntimeCategory = (
  * lacks the parenthesized signature JFR writes for a Java method.
  */
 const isHotspotNativeStackFrame = ({
-  name,
+  name = ``,
   location,
 }: DeepReadonly<ProfileEntry>): boolean => {
   if (!location) {
@@ -142,7 +142,7 @@ const isHotspotNativeStackFrame = ({
   const pathOrName = sourceReferencePathOrName(location)
   return (
     (NATIVE_LIBRARY.test(pathOrName) || !pathOrName.includes(`.`)) &&
-    !(name ?? ``).includes(`(`)
+    !name.includes(`(`)
   )
 }
 
@@ -220,12 +220,12 @@ const UNRESOLVED_FRAME: ReadonlySet<string> = new Set([
  * disambiguates.
  */
 const nativeModuleCategory = ({
-  name,
+  name = ``,
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location &&
   !sourceReferencePathOrName(location).includes(`.`) &&
-  !(name ?? ``).includes(`(`)
+  !name.includes(`(`)
     ? `native`
     : undefined
 
@@ -244,12 +244,12 @@ const nativeModuleCategory = ({
  * valid dotted class shapes.
  */
 export const isNativeLibraryStackFrame = ({
-  name,
+  name = ``,
   location,
 }: DeepReadonly<ProfileEntry>): boolean =>
   location !== undefined &&
   NATIVE_LIBRARY.test(sourceReferencePathOrName(location)) &&
-  !(name ?? ``).includes(`(`)
+  !name.includes(`(`)
 
 /**
  * The heap snapshot category of a constructor named {@link name} under the

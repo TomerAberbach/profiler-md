@@ -1,14 +1,10 @@
-export const matchesTraceEvent = (json: unknown): boolean => {
-  if (Array.isArray(json)) {
-    // An empty array is valid, but so is every other format's empty array.
-    return isEvent(json[0])
-  }
-  return (
-    typeof json === `object` &&
-    json !== null &&
-    Array.isArray((json as Record<string, unknown>).traceEvents)
-  )
-}
+export const matchesTraceEvent = (json: unknown): boolean =>
+  Array.isArray(json)
+    ? // An empty array is valid, but so is every other format's empty array.
+      isEvent(json[0])
+    : typeof json === `object` &&
+      json !== null &&
+      Array.isArray((json as Record<string, unknown>).traceEvents)
 
 const isEvent = (value: unknown): boolean =>
   typeof value === `object` &&

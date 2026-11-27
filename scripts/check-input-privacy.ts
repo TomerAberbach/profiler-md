@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 import { lintSource } from '@secretlint/core'
-import { creator as recommendedSecretRules } from '@secretlint/secretlint-rule-preset-recommend'
+import { presetRecommend } from '@secretlint/core/builtin'
 import { parseCookie, parseSetCookie } from 'cookie'
 import { Address4, Address6 } from 'ip-address'
 import {
@@ -224,7 +224,7 @@ const credentialMatches = async (text: string): Promise<string[]> => {
         rules: [
           {
             id: `@secretlint/secretlint-rule-preset-recommend`,
-            rule: recommendedSecretRules,
+            rule: presetRecommend,
             rules: [],
           },
         ],

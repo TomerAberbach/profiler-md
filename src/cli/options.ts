@@ -86,9 +86,9 @@ export const buildOptions = async ({
       minCategoryShare,
       // A directory literally named `auto` is still reachable via `./auto`.
       baseURL:
-        baseURL !== undefined && baseURL !== `auto` && !URL.canParse(baseURL)
-          ? resolve(baseURL)
-          : baseURL,
+        baseURL === undefined || baseURL === `auto` || URL.canParse(baseURL)
+          ? baseURL
+          : resolve(baseURL),
       sourceMaps: await loadSourceMaps(sourceMaps, normalizedLogger),
       matchEntry: matchEntry.option,
       categorizeFunctions: categorizeFunctions.option,

@@ -113,9 +113,9 @@ const juliaFilelessCodeCategory = ({
   name,
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  !location && name !== undefined && name !== UNRESOLVED_FUNCTION_NAME
-    ? `unknown`
-    : undefined
+  location || name === undefined || name === UNRESOLVED_FUNCTION_NAME
+    ? undefined
+    : `unknown`
 
 const UNRESOLVED_FUNCTION_NAME = `[unknown function]`
 
