@@ -13,8 +13,7 @@ import type {
   ProfileData,
   ProfileInput,
 } from '../../src/options.ts'
-
-const INPUT_DIRECTORY = `examples/input`
+import { EXAMPLE_INPUT_DIRECTORY } from '../helpers/example-inputs.ts'
 
 export type Func = FunctionInput[`functions`][number]
 
@@ -22,11 +21,11 @@ export type Func = FunctionInput[`functions`][number]
 export type FunctionInput = AggregatedCallStackProfile | AggregatedCallGraph
 
 export const committedPairs = (filter?: string): ExampleDiffPair[] =>
-  exampleDiffPairs(readdirSync(INPUT_DIRECTORY))
+  exampleDiffPairs(readdirSync(EXAMPLE_INPUT_DIRECTORY))
     .filter(({ base }) => !filter || base.includes(filter))
     .sort((left, right) => left.base.localeCompare(right.base))
 
-type ScoredInputPair =
+export type ScoredInputPair =
   | { type: `function`; base: FunctionInput; current: FunctionInput }
   | {
       type: `heap-snapshot`
@@ -67,7 +66,7 @@ export const locatedEntitiesOf = (
     : input.functions
 
 const readInput = (filename: string): ProfileInput<ProfileData> => ({
-  data: readFileSync(join(INPUT_DIRECTORY, filename)),
+  data: readFileSync(join(EXAMPLE_INPUT_DIRECTORY, filename)),
   name: filename,
 })
 

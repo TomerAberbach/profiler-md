@@ -3,6 +3,17 @@ import type { Column } from '../helpers/table.ts'
 import { emptyEvaluation, mergeEvaluation } from './score.ts'
 import type { Evaluation, Scores } from './score.ts'
 
+/** A kind of ground truth's evaluations by row, and what they evaluate. */
+export type ScoreTable = { rows: Map<string, Evaluation>; entities: string }
+
+export type ScoreTables = Record<TableName, ScoreTable>
+
+export type TableName = GroundTruthName | `${GroundTruthName}, ${GroupsName}`
+
+export type GroundTruthName = `same code` | `version change` | `synthetic edits`
+
+export type GroupsName = `instance groups` | `retained nodes`
+
 /**
  * Prints a row per scored evaluation, and a total of the printed rows, as one
  * table of every entity's scores, one of the scores by position, and one of

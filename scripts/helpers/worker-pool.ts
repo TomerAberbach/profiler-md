@@ -3,6 +3,7 @@ import type { Worker } from 'node:worker_threads'
 
 type PoolOptions<Task, Result> = {
   createWorker: () => Worker
+  maxWorkers?: number
   tasks: Task[]
   onResult: (result: Result, task: Task) => boolean
 }
@@ -13,11 +14,12 @@ type PoolOptions<Task, Result> = {
  */
 export const runOnWorkers = async <Task, Result>({
   createWorker,
+  maxWorkers = Infinity,
   tasks,
   onResult,
 }: PoolOptions<Task, Result>): Promise<void> => {
   const workers = Array.from(
-    { length: Math.min(availableParallelism(), tasks.length) },
+    { length: Math.min(availableParallelism(), maxWorkers, tasks.length) },
     createWorker,
   )
   try {
