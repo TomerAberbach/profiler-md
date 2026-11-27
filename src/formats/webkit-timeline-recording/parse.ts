@@ -184,5 +184,5 @@ const frameToStackFrame = (frame: WebKitStackFrame): StackFrame => {
 
 const executingLine = (leafFrame: WebKitStackFrame): number | undefined => {
   const line = leafFrame.expressionLocation?.line
-  return line !== undefined && line !== -1 ? line : undefined
+  return line === undefined || line === -1 ? undefined : line
 }

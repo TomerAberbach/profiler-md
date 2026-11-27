@@ -27,7 +27,7 @@ export default defineConfig([
   { ...libraryConfig, platform: `node`, outDir: `dist/node` },
   {
     entry: `src/index.ts`,
-    dts: { emitDtsOnly: true },
+    dts: { dtsOnly: true },
   },
   {
     entry: `src/cli/index.ts`,

@@ -34,13 +34,6 @@ type EventlogCostCentres = {
   tickInterval: number | undefined
 }
 
-/**
- * The metric every sample measured, with the value each observation has for it,
- * built together so a profile cannot declare a metric its observations have no
- * value for.
- */
-type EventlogMeasure = { metrics: Metric[]; values: number[] }
-
 class Eventlog {
   readonly #bytes: Uint8Array
   readonly #view: DataView
@@ -62,6 +55,13 @@ class Eventlog {
   public profile(recordTally: RecordTally): CallStackProfile {
     const { frames, idToFrameIndex, tickInterval } =
       this.#readCostCentres(recordTally)
+
+    /**
+     * The metric every sample measured, with the value each observation has
+     * for it, built together so a profile cannot declare a metric its
+     * observations have no value for.
+     */
+    type EventlogMeasure = { metrics: Metric[]; values: number[] }
 
     // Every sample is one tick, so the interval the runtime reports is what
     // each sample measured. A log written without `+RTS -p` declares no

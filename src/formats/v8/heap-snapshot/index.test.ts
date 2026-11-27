@@ -1526,7 +1526,7 @@ test(`diffProfiles counts the nodes a merged constructor's unmerged entities ret
     },
     {
       baseURL: null,
-      matchEntry: ({ name }) => ({ name: (name ?? ``).replace(/<\d>$/u, ``) }),
+      matchEntry: ({ name = `` }) => ({ name: name.replace(/<\d>$/u, ``) }),
     },
   )
 
@@ -1568,7 +1568,7 @@ test(`diffProfiles counts the nodes a merged function's unmerged entities retain
     },
     {
       baseURL: null,
-      matchEntry: ({ name }) => ({ name: (name ?? ``).replace(/<\d>$/u, ``) }),
+      matchEntry: ({ name = `` }) => ({ name: name.replace(/<\d>$/u, ``) }),
     },
   )
 

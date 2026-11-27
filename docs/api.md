@@ -148,14 +148,12 @@ console.log(
     await openAsBlob(`current.pprof`),
     {
       ...options,
-      matchEntry: (entry, context) => {
-        if (entry.location?.url?.pathname.includes(`/bundle.`)) {
-          // Match bundled entries when diffing by name only, ignoring
-          // content-hashed filenames.
-          return { name: entry.name }
-        }
-        return defaultMatchEntry(entry, context)
-      },
+      matchEntry: (entry, context) =>
+        // Match bundled entries when diffing by name only, ignoring
+        // content-hashed filenames.
+        entry.location?.url?.pathname.includes(`/bundle.`)
+          ? { name: entry.name }
+          : defaultMatchEntry(entry, context),
     },
   ),
 )

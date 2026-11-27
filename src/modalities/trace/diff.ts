@@ -96,7 +96,7 @@ const matchGauges = (
   matchByKey(
     base,
     current,
-    ({ name, thread }) => `${thread ?? ``}\0${name}`,
+    ({ name, thread = `` }) => `${thread}\0${name}`,
   ).flatMap(diff =>
     diff.base &&
     diff.current &&

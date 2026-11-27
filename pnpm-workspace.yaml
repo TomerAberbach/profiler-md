@@ -3,3 +3,6 @@ allowBuilds:
 shellEmulator: true
 overrides:
   katex@>=0.11.0 <0.18.2: ^0.18.2
+  minimatch@>=7.0.0 <11.0.1: ^11.0.1
+minimumReleaseAgeExclude:
+  - '@tomer/eslint-config@7.0.0'

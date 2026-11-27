@@ -139,9 +139,9 @@ export const headingNameLocationKey = (heading: Heading): string | null => {
     .map(nodeText)
     .join(``)
     .trim()
-  return !after.startsWith(`(`) || !after.endsWith(`)`)
-    ? null
-    : nameLocationKey(name, after.slice(1, -1))
+  return after.startsWith(`(`) && after.endsWith(`)`)
+    ? nameLocationKey(name, after.slice(1, -1))
+    : null
 }
 
 /** The key matching a {@link nameLocationPhrasing} heading to a table row. */

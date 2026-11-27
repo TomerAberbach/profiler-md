@@ -775,10 +775,9 @@ export const formatRetainerLabel = (
   }`
 
 export const formatRetainerName = (
-  { name, nameLocation }: NodeLabel,
+  { name = ``, nameLocation }: NodeLabel,
   options: FormattingProfileToMdOptions,
-): string =>
-  nameLocation ? formatSourceLocation(nameLocation, options) : (name ?? ``)
+): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
 
 export const formatRetainerEdgeLabel = (
   edge: RetainerPathEdge,

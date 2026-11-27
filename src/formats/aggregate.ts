@@ -80,6 +80,12 @@ export const pairPreparedSides = (
   { logger }: AggregationProfileToMdOptions,
 ): PairedInputs => {
   const candidates: InputPair[] = []
+  /** A base input and a current input a diff can't compare, and why. */
+  type UnmatchedInputs = {
+    baseIndex: number
+    currentIndex: number
+    reason: string
+  }
   const unmatched: UnmatchedInputs[] = []
   for (const [baseIndex, baseInput] of base.parsed.entries()) {
     for (const [currentIndex, currentInput] of current.parsed.entries()) {
@@ -149,13 +155,6 @@ type InputPair = {
   baseIndex: number
   currentIndex: number
   match: unknown
-}
-
-/** A base input and a current input a diff can't compare, and why. */
-type UnmatchedInputs = {
-  baseIndex: number
-  currentIndex: number
-  reason: string
 }
 
 const matchDiffedInputs = (
@@ -307,9 +306,7 @@ const describeOriginEvidence = (
     : `${origin} is named by the format's metadata`
 
 const describeEntry = ({
-  name,
+  name = `<anonymous>`,
   location,
-}: DeepReadonly<ProfileEntry>): string => {
-  const described = name ?? `<anonymous>`
-  return location ? `${described} in ${sourceReferenceId(location)}` : described
-}
+}: DeepReadonly<ProfileEntry>): string =>
+  location ? `${name} in ${sourceReferenceId(location)}` : name

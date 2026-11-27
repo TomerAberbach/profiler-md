@@ -965,14 +965,13 @@ class NodeNames {
   public stringOf(stringId: number): string {
     const { bytes, view, idSize, stringRecordOffsets } = this.#dump
     const body = stringRecordOffsets.get(stringId)
-    if (body === undefined) {
-      return `(unknown)`
-    }
     // The string's bytes follow its ID and run to the end of the record, whose
     // length the four bytes preceding the body state.
-    return DECODER.decode(
-      bytes.subarray(body + idSize, body + view.getUint32(body - 4)),
-    )
+    return body === undefined
+      ? `(unknown)`
+      : DECODER.decode(
+          bytes.subarray(body + idSize, body + view.getUint32(body - 4)),
+        )
   }
 
   /** The class's name in the JVM's internal spelling, e.g. `[Ljava/lang/Object;`. */
