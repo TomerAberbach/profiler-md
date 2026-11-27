@@ -1,5 +1,5 @@
-import { formatSection, parseDocument } from './document.ts'
-import type { Block, Section, Table } from './document.ts'
+import { formatSection, parseDocument } from '../helpers/document.ts'
+import type { Block, Section, Table } from '../helpers/document.ts'
 import { excerptOfTables } from './excerpt.ts'
 import type { Excerpt, TextExcerpt } from './excerpt.ts'
 import type { ChangeKind } from './kinds.ts'
