@@ -19,11 +19,7 @@ import { DEFAULT_LESS, DEFAULT_PAGER } from './pager.ts'
 export const getManPage = (date: Date): string => {
   const { name, version, brief } = program.metadata
   const sections: DocSection[] = [
-    // The lists below state the choices
-    ...getDocSections().map(section => ({
-      ...section,
-      entries: section.entries.map(({ choices: _, ...entry }) => entry),
-    })),
+    ...getDocSections(),
     ...LISTS.map(([title, items]) => ({
       title,
       entries: [literalEntry(items.join(`, `))],
@@ -50,6 +46,8 @@ export const getManPage = (date: Date): string => {
       date,
       version,
       brief,
+      // LISTS states the choices
+      showChoices: false,
       bugs: message`Report bugs at ${url(packageJson.bugs.url)}.`,
       author: [
         text(`${packageJson.author.name} <${packageJson.author.email}>`),
