@@ -5,6 +5,7 @@ import { map, multiple, optional } from '@optique/core/modifiers'
 import { argument, flag } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
 import type { ValueParser } from '@optique/core/valueparser'
+import { bindEnv } from '@optique/env'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
 import {
@@ -13,13 +14,19 @@ import {
   languageMetas,
 } from '../languages.ts'
 import { LOG_LEVELS } from '../logger.ts'
+import type { LogLevel } from '../logger.ts'
 import { FUNCTION_CATEGORY_SET } from '../modalities/category-sets.ts'
 import type { FunctionCategory } from '../modalities/category-sets.ts'
 import { CATEGORY_SETS } from '../modalities/registry.ts'
 import type { EntryCategory } from '../modalities/registry.ts'
 import { DEFAULT_MIN_CATEGORY_SHARE, DEFAULT_TOP_N } from '../options.ts'
 import { origins } from '../origins/index.ts'
-import { DEFAULT_LOG_LEVEL, defaultLogLevel, LOG_LEVEL_ENV } from './log.ts'
+import {
+  DEFAULT_LOG_LEVEL,
+  envContext,
+  LOG_LEVEL_ENV,
+  logLevelEnvParser,
+} from './log.ts'
 import {
   choice,
   filePath,
@@ -129,6 +136,30 @@ export const inputParser = or(
 /** The `--format` and `--origin` value meaning the format or origin is detected. */
 const AUTO = `auto`
 
+const logLevelFlag = bindEnv(
+  option(
+    `--log-level`,
+    choice(LOG_LEVELS, {
+      metavar: `LEVEL`,
+      expected: `one of ${LOG_LEVELS.join(`, `)}`,
+      // The message already lists every level
+      suggestions: [],
+    }),
+    { description: message`Verbosity of diagnostics printed to stderr` },
+  ),
+  {
+    context: envContext,
+    key: LOG_LEVEL_ENV,
+    parser: logLevelEnvParser,
+  },
+)
+
+/** The log level when no flag sets it. */
+export const defaultLogLevel = (): LogLevel => {
+  const result = logLevelFlag.readFallback()
+  return result.success ? result.value : DEFAULT_LOG_LEVEL
+}
+
 const outputFlags = object(`Output`, {
   output: withDefault(
     option(`-o`, `--output`, filePath(`FILE`), {
@@ -137,22 +168,7 @@ const outputFlags = object(`Output`, {
     `-`,
     `- for stdout`,
   ),
-  logLevel: withDefault(
-    option(
-      `--log-level`,
-      choice(LOG_LEVELS, {
-        metavar: `LEVEL`,
-        expected: `one of ${LOG_LEVELS.join(`, `)}`,
-        // The message already lists every level
-        suggestions: [],
-      }),
-      {
-        description: message`Verbosity of diagnostics printed to stderr, overriding ${text(`$${LOG_LEVEL_ENV}`)}`,
-      },
-    ),
-    defaultLogLevel,
-    DEFAULT_LOG_LEVEL,
-  ),
+  logLevel: withDefault(logLevelFlag, DEFAULT_LOG_LEVEL),
   pager: map(
     withDefault(
       option(`--no-pager`, {

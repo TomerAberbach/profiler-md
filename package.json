@@ -107,6 +107,7 @@
   "prettier": "@tomer/prettier-config",
   "dependencies": {
     "@optique/core": "^1.4.0",
+    "@optique/env": "^1.4.0",
     "@optique/run": "^1.4.0",
     "@shikijs/core": "^4.6.0",
     "@shikijs/engine-oniguruma": "^4.6.0",

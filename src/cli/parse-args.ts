@@ -1,21 +1,18 @@
-import { runParser } from '@optique/core'
+import { runWithSync } from '@optique/core'
 import { formatMessage } from '@optique/core/message'
 import type { Message } from '@optique/core/message'
 import packageJson from '../../package.json' with { type: 'json' }
 import { uncapitalizeFirst } from '../helpers/format.ts'
-import { program } from './cli.ts'
+import { defaultLogLevel, program } from './cli.ts'
 import type { CLIArgs } from './cli.ts'
 import { CliError } from './error.ts'
-import {
-  defaultLogLevel,
-  makeCliLogger,
-  warnInvalidLogLevelEnv,
-} from './log.ts'
+import { envContext, makeCliLogger, warnInvalidLogLevelEnv } from './log.ts'
 import { logo } from './logo.ts'
 import { reportError } from './report-error.ts'
 
 export const parseArgs = (): CLIArgs =>
-  runParser(program.parser, program.metadata.name, process.argv.slice(2), {
+  runWithSync(program.parser, program.metadata.name, [envContext], {
+    args: process.argv.slice(2),
     // The error is reported as a CliError from its structured message, so the
     // runner's own rendering of it is dropped
     stderr: () => {},

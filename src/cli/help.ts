@@ -114,19 +114,19 @@ export const getHelpText = ({
 export const getDocSections = (): DocSection[] =>
   getSections().sort(sectionOrder)
 
-/** The parser's sections, with the flags `runParser` adds in the `Help` section. */
+/** The parser's sections, with the flags the runner adds in the `Help` section. */
 export const getSections = (): DocSection[] =>
   getDocPage(program.parser)!.sections.map(section =>
-    section.title === RUN_PARSER_SECTION
-      ? { ...section, entries: [...section.entries, ...RUN_PARSER_ENTRIES] }
+    section.title === RUNNER_SECTION
+      ? { ...section, entries: [...section.entries, ...RUNNER_ENTRIES] }
       : section,
   )
 
-/** The section the flags `runParser` adds to the parser are listed under. */
-const RUN_PARSER_SECTION = `Help`
+/** The section the flags the runner adds to the parser are listed under. */
+const RUNNER_SECTION = `Help`
 
-/** The flags `runParser` adds to the parser, which its doc page lacks. */
-const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
+/** The flags the runner adds to the parser, which its doc page lacks. */
+const RUNNER_ENTRIES: readonly DocEntry[] = [
   {
     term: { type: `option`, names: [`--version`] },
     description: message`Show the version`,
@@ -199,6 +199,7 @@ const makeStyle = (colors: boolean): Style => {
         maxWidth,
         colors,
         theme: kindlingTerminalTheme,
+        showEnvironment: true,
         showDefault: { prefix: ` (default: `, suffix: `)` },
       }),
     message: message =>

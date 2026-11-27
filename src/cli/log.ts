@@ -1,26 +1,24 @@
+import { choice, normalizeInput } from '@optique/core/valueparser'
+import type { ValueParser } from '@optique/core/valueparser'
+import { createEnvContext } from '@optique/env'
 import { LOG_LEVELS, normalizeLogger } from '../logger.ts'
 import type { Logger, LogLevel } from '../logger.ts'
 import { stderrSupportsColor } from './ansis.ts'
 import { makeKindlingPalette } from './theme-kindling.ts'
 import type { KindlingPalette } from './theme-kindling.ts'
 
-/**
- * The log level the environment sets, or the default when it sets none
- * or an unrecognized one. An empty value counts as unset.
- */
-export const defaultLogLevel = (): LogLevel =>
-  parseLogLevelEnv(process.env[LOG_LEVEL_ENV]) ?? DEFAULT_LOG_LEVEL
-
 export const DEFAULT_LOG_LEVEL: LogLevel = `warn`
 
 export const LOG_LEVEL_ENV = `PROFILER_MD_LOG`
+
+export const envContext = createEnvContext()
 
 export const warnInvalidLogLevelEnv = (
   logger: Logger,
   logLevel: LogLevel,
 ): void => {
-  const raw = process.env[LOG_LEVEL_ENV]
-  if (!raw?.trim() || parseLogLevelEnv(raw) !== undefined) {
+  const raw = envContext.source(LOG_LEVEL_ENV)
+  if (!raw?.trim() || recognizedLogLevel.parse(raw).success) {
     return
   }
   normalizeLogger(logger, logLevel).warn?.(
@@ -28,11 +26,18 @@ export const warnInvalidLogLevelEnv = (
   )
 }
 
-const parseLogLevelEnv = (raw: string | undefined): LogLevel | undefined => {
-  const level = raw?.trim().toLowerCase()
-  return level !== undefined && LOG_LEVELS.includes(level as LogLevel)
-    ? (level as LogLevel)
-    : undefined
+const recognizedLogLevel = normalizeInput(
+  choice(LOG_LEVELS, { caseInsensitive: true }),
+  input => input.trim(),
+)
+
+/** Parses an empty or unrecognized level as the default. */
+export const logLevelEnvParser: ValueParser<`sync`, LogLevel> = {
+  ...recognizedLogLevel,
+  parse: input => {
+    const result = recognizedLogLevel.parse(input)
+    return result.success ? result : { success: true, value: DEFAULT_LOG_LEVEL }
+  },
 }
 
 type CliLogger = Required<Logger> & {

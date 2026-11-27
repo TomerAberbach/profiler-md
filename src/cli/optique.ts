@@ -42,8 +42,7 @@ import { uncapitalizeFirst } from '../helpers/format.ts'
 /**
  * Defaults `parser` to `defaultValue`, which help shows as `label`, or as the
  * value itself when `label` is omitted. Help would otherwise quote a plain
- * value, and show a default read from the environment as the environment held
- * it when the help was generated, so pass a `label` with a function.
+ * value.
  */
 export const withDefault = <
   M extends Mode,
@@ -52,7 +51,7 @@ export const withDefault = <
   const TDefault = TValue,
 >(
   parser: Parser<M, TValue, TState>,
-  defaultValue: TDefault | (() => TDefault),
+  defaultValue: TDefault,
   label = String(defaultValue),
 ): FluentParser<M, TValue | TDefault, [TState] | undefined> =>
   withDefaultBuiltin(parser, defaultValue, { message: [text(label)] })

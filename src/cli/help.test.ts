@@ -98,7 +98,7 @@ test(`getHelpText opens with the description, synopsis, and examples`, () => {
   }
 })
 
-test(`getHelpText lists the flags runParser adds and the project URLs`, () => {
+test(`getHelpText lists the flags the runner adds and the project URLs`, () => {
   setStdoutColumns(80)
 
   const help = getHelpText()
