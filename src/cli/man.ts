@@ -6,7 +6,6 @@ import packageJson from '../../package.json' with { type: 'json' }
 import { program } from './cli.ts'
 import { EXIT_STATUSES } from './error.ts'
 import {
-  describeDefaults,
   getDocSections,
   helpTopicsHint,
   LISTS,
@@ -69,7 +68,7 @@ const literalEntry = (
   default: defaultValue === undefined ? undefined : [text(defaultValue)],
 })
 
-const ENVIRONMENT: DocSection = describeDefaults({
+const ENVIRONMENT: DocSection = {
   title: `Environment`,
   entries: [
     literalEntry(
@@ -92,7 +91,7 @@ const ENVIRONMENT: DocSection = describeDefaults({
       message`Enables ANSI syntax highlighting, or disables it when 0, overriding ${optionName(`--color`)} and ${optionName(`--no-color`)}`,
     ),
   ],
-})
+}
 
 const EXIT_STATUS: DocSection = {
   title: `Exit status`,
