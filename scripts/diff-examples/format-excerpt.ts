@@ -1,7 +1,7 @@
 // Experimental, though present since Node 22.15.
 // eslint-disable-next-line node/no-unsupported-features/node-builtins
 import { diff } from 'node:util'
-import { formatTable } from './document.ts'
+import { formatTable } from '../helpers/document.ts'
 import type {
   Excerpt,
   ExcerptCell,
