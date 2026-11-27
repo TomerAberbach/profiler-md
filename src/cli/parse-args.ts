@@ -1,5 +1,11 @@
 import { runWithSync } from '@optique/core'
-import { formatMessage } from '@optique/core/message'
+import {
+  formatMessage,
+  message,
+  optionName,
+  text,
+  value,
+} from '@optique/core/message'
 import type { Message } from '@optique/core/message'
 import packageJson from '../../package.json' with { type: 'json' }
 import { uncapitalizeFirst } from '../helpers/format.ts'
@@ -38,6 +44,11 @@ export const parseArgs = (): CLIArgs =>
     },
     completion: {
       option: true,
+      errors: {
+        missingShell: message`${optionName(`--completion`)}: expected a shell`,
+        unsupportedShell: (shell, availableShells) =>
+          message`${optionName(`--completion`)}: expected one of ${text(availableShells.join(`, `))}, got: ${value(shell)}`,
+      },
       onShow: () => process.exit(0),
     },
   })

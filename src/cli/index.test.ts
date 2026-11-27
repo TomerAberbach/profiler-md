@@ -1123,6 +1123,18 @@ test.concurrent.each([
     expectedStatus: 2,
   },
   {
+    scenario: `--completion without a shell`,
+    args: [`--completion`],
+    expectedStderr: `error: \`--completion\`: expected a shell\n\n`,
+    expectedStatus: 2,
+  },
+  {
+    scenario: `unsupported --completion shell`,
+    args: [`--completion`, `zssh`],
+    expectedStderr: `error: \`--completion\`: expected one of bash, fish, nu, pwsh, zsh, got: "zssh"\n\n`,
+    expectedStatus: 2,
+  },
+  {
     scenario: `empty --base-url`,
     args: [`--base-url`, ``],
     expectedStderr: `expected a URL or path, got: ""`,
