@@ -1,9 +1,13 @@
-import { readdirSync, readFileSync, rmSync, statSync } from 'node:fs'
-import { availableParallelism } from 'node:os'
+import { readdirSync, readFileSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
 import { exampleDiffPairs } from '../../src/formats/examples.ts'
 import type { ExampleDiffPair } from '../../src/formats/examples.ts'
+import {
+  EXAMPLE_INPUT_DIRECTORY,
+  totalInputBytes,
+} from '../helpers/example-inputs.ts'
+import { runOnWorkers } from '../helpers/worker-pool.ts'
 import { describeReconversion } from './reconversion.ts'
 import type { ExampleResult, ExampleTask } from './worker.ts'
 
@@ -28,13 +32,6 @@ const listExamplesLargestFirst = (
     .map(example => ({ ...example, bytes: totalInputBytes(example.inputs) }))
     .sort((example1, example2) => example2.bytes - example1.bytes)
 
-const totalInputBytes = (filenames: string[]): number =>
-  filenames.reduce(
-    (bytes, filename) =>
-      bytes + statSync(join(`examples/input`, filename)).size,
-    0,
-  )
-
 /** Fails under `--check` instead of deleting, returning whether it failed. */
 const deleteOutputsWithoutInput = (examples: Example[]): boolean => {
   const expectedFilenames = new Set(examples.map(({ name }) => `${name}.md`))
@@ -58,18 +55,7 @@ const deleteOutputsWithoutInput = (examples: Example[]): boolean => {
 // Worker threads convert in-process, so the module graph loads once per thread
 // instead of once per example.
 const convertExamples = async (examples: Example[]): Promise<boolean> => {
-  if (examples.length === 0) {
-    return false
-  }
-
-  const workers = Array.from(
-    { length: Math.min(availableParallelism(), examples.length) },
-    createWorker,
-  )
-
-  const failure = await convertOnWorkers(workers, examples)
-
-  await Promise.all(workers.map(worker => worker.terminate()))
+  const failure = await convertOnWorkers(examples)
   if (failure?.markdown !== undefined) {
     await reportFreshConversion(failure.task, failure.markdown)
   }
@@ -82,55 +68,32 @@ const createWorker = (): Worker =>
 type Failure = { task: ExampleTask; markdown: string | undefined }
 
 /** Stops at the first failed example, resolving to its failure if one failed. */
-const convertOnWorkers = (
-  workers: Worker[],
+const convertOnWorkers = async (
   examples: Example[],
 ): Promise<Failure | undefined> => {
-  let nextIndex = 0
   let done = 0
-  let failed = false
-  return new Promise<Failure | undefined>((resolve, reject) => {
-    for (const worker of workers) {
-      let task: ExampleTask | undefined
-      const sendNext = (): void => {
-        if (nextIndex >= examples.length) {
-          if (done === examples.length) {
-            resolve(undefined)
-          }
-          return
-        }
-
-        const { name, inputs } = examples[nextIndex]!
-        nextIndex++
-        task = {
-          exampleName: name,
-          inputPaths: inputs.map(filename => join(`examples/input`, filename)),
-        }
-        worker.postMessage(task)
+  let failure: Failure | undefined
+  await runOnWorkers<ExampleTask, ExampleResult>({
+    createWorker,
+    tasks: examples.map(({ name, inputs }) => ({
+      exampleName: name,
+      inputPaths: inputs.map(filename =>
+        join(EXAMPLE_INPUT_DIRECTORY, filename),
+      ),
+    })),
+    onResult: (result, task) => {
+      done++
+      reportConverted(result, done, examples.length)
+      if (result.failure === undefined) {
+        return true
       }
 
-      worker.on(`message`, (result: ExampleResult) => {
-        if (failed) {
-          return
-        }
-
-        done++
-        reportConverted(result, done, examples.length)
-        if (result.failure === undefined) {
-          sendNext()
-          return
-        }
-
-        process.stderr.write(
-          `${result.exampleName} failed:\n${result.failure}\n`,
-        )
-        failed = true
-        resolve({ task: task!, markdown: result.markdown })
-      })
-      worker.on(`error`, reject)
-      sendNext()
-    }
+      process.stderr.write(`${result.exampleName} failed:\n${result.failure}\n`)
+      failure = { task, markdown: result.markdown }
+      return false
+    },
   })
+  return failure
 }
 
 /**
@@ -172,7 +135,7 @@ const reportConverted = (
   )
 }
 
-const inputFilenames = readdirSync(`examples/input`)
+const inputFilenames = readdirSync(EXAMPLE_INPUT_DIRECTORY)
 const examples = listExamplesLargestFirst(
   inputFilenames,
   exampleDiffPairs(inputFilenames),
