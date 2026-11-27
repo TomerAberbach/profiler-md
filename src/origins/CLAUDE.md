@@ -53,9 +53,9 @@ origins
 - Match on a name alone only behind a guard that excludes the profiled program's
   own code, and state it: a JavaScript engine locates every function the program
   defines, so a missing location is that guard
-- Write a rule only for a shape a committed input contains. Measure one matching
-  a long tail of symbols, and record what it matches and misses in its doc
-  comment (e.g. `HOTSPOT_COMPILER` in `src/origins/jvm.ts`)
+- Write a rule only for a shape a committed input contains. Measure a rule that
+  matches a long tail of symbols, and record what it matches and misses in its
+  doc comment (e.g. `HOTSPOT_COMPILER` in `src/origins/jvm.ts`)
 - `src/origins/categorize.test.ts` contains the cross-origin invariants, and
   `src/categories.test.ts` requires an example to emit every category, or a
   listed reason why nothing reaches it

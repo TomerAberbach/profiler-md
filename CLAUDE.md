@@ -41,7 +41,7 @@ profiler-md
 ## Development
 
 ```sh
-# Everything CI runs, in CI's order. Run before handing work back
+# Every check CI runs. Run before handing back work
 pnpm check
 
 # Regenerate an artifact after changing what it's built from. Each has a
@@ -79,7 +79,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Most tests run profile to Markdown conversion end-to-end
   - Assert on the Markdown output, not on intermediate data structures, using
     the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
-    `src/modalities/call-stack-profile/testing.ts`)
+    `src/modalities/call-stack-profile/testing.ts`). Where a behavior changes
+    what the caller receives (e.g. the entry passed to `showEntry`) but not the
+    Markdown, assert on what the caller receives
   - Fully assert on Markdown tables with `toStrictEqual` and complete expected
     rows. NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or
     assert on individual cells, which would miss extra tables, rows, or cells
@@ -100,9 +102,40 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 ## Principles
 
+### Directory rules
+
+The rules of these directories apply to every change in them, however the files
+are read or edited.
+
+@src/formats/CLAUDE.md
+
+@src/origins/CLAUDE.md
+
+@src/modalities/CLAUDE.md
+
+@docs/CLAUDE.md
+
 ### Dimensions
 
 @.claude/dimensions.md
+
+### Changes
+
+- When adding a flag, a spec field, a hook, or a special case, state in the
+  commit description why no existing mechanism can express the rule
+- In the description of a commit that changes behavior, state which committed
+  input shows the problem, and the output before and after. Link the issue it
+  fixes with `Fixes #<number>`
+
+### Evidence
+
+- Check a claim about a profiler against its source, its specification, or the
+  committed inputs before acting on it or reporting it. Treat an audit's or a
+  review's finding as unverified until then. Say a claim is unverified only when
+  no available source settles it
+- Before changing what a number or a position means, check every origin that
+  writes the format against its own source, not against another origin's. Link
+  each source in the commit description
 
 ### Registration
 
@@ -136,6 +169,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   come from the `languages` of every registered format spec
 - When a profiler emits no supported format, the format is missing. Implement it
   (`/new-format`)
+- Where no committed input exercises a change in behavior, add one
+  (`/new-input`). When a change to the Markdown leaves every example output the
+  same, no committed input exercises it. Where no profiler you can run writes
+  such an input, test the change with a handwritten input, and say so in the
+  commit description
 - An input should never contain sensitive data about the machine that generated
   it (e.g. environment variables, the process list, credentials).
   `scripts/check-input-privacy.ts` verifies this. Harmless data about the
@@ -165,7 +203,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Pass `{ cause }` when wrapping a caught error, and state only the new layer in
   the message. NEVER embed the cause's `message`: the CLI prints each cause on
   its own indented `caused by:` line under the message, and `reasonOf` joins the
-  chain for a log line
+  chain for a log line. The exception is an error that only adds an input's or a
+  format's name before the cause's message
 - Write a message as `<what failed>: <detail>`, or as a single clause when there
   is no useful prefix. Put the offending value last, after `got: `.
   `eslint-rules/error-message.js` checks the remaining wording conventions
@@ -233,14 +272,17 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Performance
 
 - Prioritize runtime performance so large profiles process quickly
+- Compare a change to code that runs per record, frame, node, or row with
+  `pnpm bench` before and after, as `/bench` describes
 - NEVER use more than `O(n)` memory for a profile of size `n`
 - Preallocate an array of known length with `new Array(length)`, not
   `Array.from({ length })`, which runs the iteration protocol per element
 
 ### Profiler bugs
 
-- When a profiler writes output that violates its format's specification, report
-  the bug upstream and link the report in a comment where the code reads that
+- When a profiler writes output that violates its format's specification, draft
+  an upstream report with a minimal reproduction, and file it only once the user
+  approves the draft. Link the report in a comment where the code reads that
   output
 - Read the output as the specification defines it, and accept Markdown that
   reflects the bug. Add a workaround only when a fixed rule identifies an
@@ -305,6 +347,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   overrides the same field with `OriginSpec.countMetric`
 - NEVER count what the profiler did not record. Dropping the count costs a
   column; keeping it states a rate nothing measured
+- Remove or rename a value the profiler recorded only after its source shows
+  that the value does not measure what its column says. Link the source in a
+  comment
 
 ### Ranking change
 
@@ -334,7 +379,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   missing section reads as missing data and raises the question the section
   would have answered. An omission would also need its own explanation. Output
   whose structure stays the same across profiles lets a reader find a section
-  where they found it last time. Omit content only when the same output already
-  shows it verbatim (e.g. a ranking's table when a category subsection lists the
-  same rows). A note follows its own rule in `src/modalities/CLAUDE.md`, because
-  it explains notation rather than stating data
+  where they found it last time. A zero the profiler recorded is data. A value
+  it did not record is not. Omit content only when the same output already shows
+  it verbatim (e.g. a ranking's table when a category subsection lists the same
+  rows). A note follows its own rule in `src/modalities/CLAUDE.md`, because it
+  explains notation rather than stating data

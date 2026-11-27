@@ -37,13 +37,21 @@ modalities
   the notation. End a section's opening paragraph with a note only that section
   can show. Put a note several sections can show below the summary, after the
   base URL note
-- Omit a note when no shown text uses its notation. Record the notation where
-  the text is formatted (e.g. `ShownRetainerPaths` in
-  `src/modalities/heap-snapshot/format.ts`), so a section that shows the text
-  cannot skip its note. Print a note unconditionally only when detecting its
-  notation costs more than the note: the base URL note prints whenever `baseURL`
-  is set, because finding a relative path would mean tracking every location the
-  Markdown shows
+- Word a note like the existing note for the same kind of condition (e.g. the
+  notes on recursion), as prose that names no column. Merge notes that apply to
+  the same sections into one sentence
+- Read a summary or ranking sentence with every noun and verb its metrics can
+  fill in, and reword one that repeats a word ("Sampled 5 MiB over 78 samples")
+- Omit a note when no shown text uses its notation, which the entry filter can
+  hide. Record the notation where the text is formatted (e.g.
+  `ShownRetainerPaths` in `src/modalities/heap-snapshot/format.ts`), so a
+  section that shows the text cannot skip its note. Print a note unconditionally
+  only when detecting its notation costs more than the note: the base URL note
+  prints whenever `baseURL` is set, because finding a relative path would mean
+  tracking every location the Markdown shows
+- NEVER add a heading level to a diff. A diff of a profile with several metrics
+  already uses H1 to H6: profile, metric, entity section, measure, direction of
+  change, and category
 - Name a heading by its role. Below the title and a metric's heading, every
   heading is one of these. NEVER name a heading after what its rows are grouped
   by
@@ -74,6 +82,9 @@ modalities
 
 ## Diffing
 
+- A diff shows every section, column, filter, and label that a single input
+  shows. Change the single input's output and the diff's in one commit, or file
+  an issue for the one left out. `/port-to-diff` describes what a diff adds
 - `pnpm check` fails when a change alters the committed scores of how diffs pair
   entities. Run `pnpm update-diff-matching` only for an intended change, and
   explain each lower score in the commit description. NEVER pair rows by their

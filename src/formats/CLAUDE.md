@@ -66,8 +66,11 @@ formats
   test: delete the check. If the bad value then throws inside `parse` or shows
   up in the output as the input stated it, the check was validation
 - Parse a specified format to its specification, accepting every shape the
-  specification allows. Add handling for a shape the specification forbids only
-  when an input contains it, and name the origin that writes it in a comment
+  specification allows, whether or not a committed input contains it. An
+  origin's rules instead cover only the shapes committed inputs contain, because
+  no specification states what those rules match. Add handling for a shape the
+  specification forbids only when an input contains it, and name the origin that
+  writes it in a comment
 - Where a parser skips a record the specification forbids (e.g. a sample
   referencing a missing node) or a record of a part of the specification the
   parser doesn't support (e.g. an event type or string encoding outside those it

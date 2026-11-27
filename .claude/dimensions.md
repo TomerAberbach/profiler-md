@@ -30,6 +30,13 @@ places. The goal is to avoid:
 
 Considerations that inform the decision:
 
+- **A behavior only one origin shows is not a convention yet.** Where several
+  origins emit a format or profile the same runtime, and the committed inputs of
+  only one of those origins show the behavior, place the logic in that origin,
+  unless the considerations below allow a broader placement. Move the logic to
+  the format or the runtime's helper module once a second origin shows the
+  behavior, or when the format's specification defines it
+
 - **Independent convergence suggests a convention.** When unrelated dimensions
   show the same behavior without deriving it from one another, origins likely
   converge on that convention. Expect more from origins without committed
