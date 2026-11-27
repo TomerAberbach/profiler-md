@@ -5,9 +5,8 @@ import {
   commandLine,
   createMessageFormatter,
   message,
-  text,
 } from '@optique/core/message'
-import type { Message, MessageTerm } from '@optique/core/message'
+import type { Message } from '@optique/core/message'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats, formatToSpec } from '../formats/index.ts'
@@ -111,9 +110,9 @@ export const getHelpText = ({
   ].join(``)
 }
 
-/** The parser's sections in display order, each default in its description. */
+/** The parser's sections in display order. */
 export const getDocSections = (): DocSection[] =>
-  getSections().sort(sectionOrder).map(describeDefaults)
+  getSections().sort(sectionOrder)
 
 /** The parser's sections, with the flags `runParser` adds in the `Help` section. */
 export const getSections = (): DocSection[] =>
@@ -137,41 +136,6 @@ const RUN_PARSER_ENTRIES: readonly DocEntry[] = [
     description: message`Print a completion script for SHELL (bash, fish, nu, pwsh, or zsh)`,
   },
 ]
-
-/**
- * Appends each entry's default to its description as `(default: …)`. The help
- * page and the man page share these sections, and `@optique/man` writes a
- * default only as `[…]`: https://github.com/dahlia/optique/issues/1100
- */
-export const describeDefaults = (section: DocSection): DocSection => ({
-  ...section,
-  entries: section.entries.map(({ default: defaultValue, ...entry }) =>
-    defaultValue === undefined
-      ? entry
-      : {
-          ...entry,
-          description: joinTexts([
-            ...(entry.description ?? []),
-            text(` (default: `),
-            ...defaultValue,
-            text(`)`),
-          ]),
-        },
-  ),
-})
-
-const joinTexts = (message: Message): Message => {
-  const joined: MessageTerm[] = []
-  for (const term of message) {
-    const last = joined.at(-1)
-    if (term.type === `text` && last?.type === `text`) {
-      joined[joined.length - 1] = text(`${last.text}${term.text}`)
-    } else {
-      joined.push(term)
-    }
-  }
-  return joined
-}
 
 export const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],
@@ -235,6 +199,7 @@ const makeStyle = (colors: boolean): Style => {
         maxWidth,
         colors,
         theme: kindlingTerminalTheme,
+        showDefault: { prefix: ` (default: `, suffix: `)` },
       }),
     message: message =>
       formatMessage(message, { colors, quotes: !colors, maxWidth }),
