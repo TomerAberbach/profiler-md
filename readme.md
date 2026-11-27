@@ -288,6 +288,9 @@ Help:
   --completion SHELL                  Print a completion script for SHELL 
                                       (bash, fish, nu, pwsh, or zsh)
 
+Log levels:
+  none, error, warn, info, debug
+
 Formats:
   callgrind, collapsed, ghc-eventlog, ghc-json-profile, hprof, jfr,
   jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, trace-event,

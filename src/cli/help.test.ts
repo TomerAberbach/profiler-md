@@ -109,6 +109,14 @@ test(`getHelpText lists the flags the runner adds and the project URLs`, () => {
   expect(help).toContain(`\nBugs: ${packageJson.bugs.url}\n`)
 })
 
+test(`getHelpText lists the log levels`, () => {
+  setStdoutColumns(80)
+
+  const help = getHelpText()
+
+  expect(help).toContain(`\nLog levels:\n  none, error, warn, info, debug\n`)
+})
+
 test(`getHelpText colors only the styling, leaving the layout intact`, () => {
   setStdoutColumns(80)
   const plain = getHelpText()
