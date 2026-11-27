@@ -16,11 +16,17 @@ import { toMarkdown } from 'mdast-util-to-markdown'
 export const heading = (
   depth: number,
   children: PhrasingContent[] | string,
-): Heading => ({
-  type: `heading`,
-  depth: depth as Heading[`depth`],
-  children: toPhrasing(children),
-})
+): Heading => {
+  // `toMarkdown` writes a deeper heading as H6, beside the heading it is under.
+  if (depth > 6) {
+    throw new Error(`heading is deeper than H6, got: ${depth}`)
+  }
+  return {
+    type: `heading`,
+    depth: depth as Heading[`depth`],
+    children: toPhrasing(children),
+  }
+}
 
 export const paragraph = (children: PhrasingContent[] | string): Paragraph => ({
   type: `paragraph`,
