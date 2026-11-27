@@ -48,6 +48,7 @@ export const getManPage = (date: Date): string => {
       brief,
       // LISTS states the choices
       showChoices: false,
+      showEnvironment: true,
       bugs: message`Report bugs at ${url(packageJson.bugs.url)}.`,
       author: [
         text(`${packageJson.author.name} <${packageJson.author.email}>`),

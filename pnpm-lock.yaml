@@ -15,6 +15,9 @@ importers:
       '@optique/core':
         specifier: ^1.4.0
         version: 1.4.0
+      '@optique/env':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@optique/run':
         specifier: ^1.4.0
         version: 1.4.0
@@ -436,6 +439,10 @@ packages:
 
   '@optique/core@1.4.0':
     resolution: {integrity: sha512-ERjwixdopjgnHDX/E+nC/549QXWjWr7hnerw0v9+jdtYZBE9wq7uiPraE82ZDa0jLFECxO9umPz2wwaPG09z/g==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
+
+  '@optique/env@1.4.0':
+    resolution: {integrity: sha512-hkyFpUhynIXCzg++3rpBNVNq6wLFBbc6bL5a1iMYPvpl8QvyO8Vuc0b7OWa7bC/W8GVMBWrASvMir5AopdFT+g==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
   '@optique/man@1.4.0':
@@ -3663,6 +3670,10 @@ snapshots:
     optional: true
 
   '@optique/core@1.4.0': {}
+
+  '@optique/env@1.4.0':
+    dependencies:
+      '@optique/core': 1.4.0
 
   '@optique/man@1.4.0':
     dependencies:

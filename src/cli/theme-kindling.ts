@@ -37,6 +37,7 @@ const punctuation: KindlingStyle = { foreground: rgb(mutedSage) }
 const value: KindlingStyle = { foreground: rgb(richOrange) }
 const commandLine: KindlingStyle = { foreground: rgb(amberBrown) }
 const url: KindlingStyle = { foreground: rgb(amberBrown), underline: true }
+const envVar: KindlingStyle = { foreground: rgb(amberBrown) }
 const comment: KindlingStyle = { foreground: rgb(mutedSage), italic: true }
 const program: KindlingStyle = { bold: true }
 const logLabels = {
@@ -66,6 +67,8 @@ export const kindlingTerminalTheme: TerminalTheme = {
   value: styled(value),
   commandLine: styled(commandLine),
   url: styled(url),
+  envVar: styled(envVar),
+  annotationStyles: { environment: { ...punctuation, dim: true } },
 }
 
 type Styler = (text: string) => string
