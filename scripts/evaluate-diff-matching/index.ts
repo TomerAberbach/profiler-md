@@ -72,29 +72,21 @@
 
 import { parseArgs } from 'node:util'
 import { parseExampleFilename } from '../../src/formats/examples.ts'
-import type { RetainerGroup } from '../../src/modalities/heap-snapshot/diff.ts'
 import { resolveProfileToMdOptions } from '../../src/options.ts'
-import type { FormattingProfileToMdOptions } from '../../src/options.ts'
-import {
-  checkGroundTruth,
-  readGroundTruth,
-  updateGroundTruth,
-} from './ground-truth.ts'
-import { committedPairs, scoredInputPairs } from './inputs.ts'
-import { identity } from './position.ts'
-import {
-  applyRetainerGroupEdit,
-  evaluateRetainerGroups,
-  retainerGroupInputs,
-} from './retainer-groups.ts'
-import type { RetainerGroupInput } from './retainer-groups.ts'
-import { addEvaluation, evaluate } from './score.ts'
-import type { Evaluation } from './score.ts'
-import { applySyntheticEdit, pairRandom } from './synthetic-edits.ts'
+import { checkGroundTruth, updateGroundTruth } from './ground-truth.ts'
+import { committedPairs } from './inputs.ts'
+import type { EditOptions } from './pair.ts'
+import { evaluatePairs } from './pairs.ts'
+import { addEvaluation } from './score.ts'
 import { printTable } from './table.ts'
-import { versionChangeMap } from './version-change.ts'
+import type {
+  GroundTruthName,
+  GroupsName,
+  ScoreTable,
+  ScoreTables,
+} from './table.ts'
 
-const main = (): void => {
+const main = async (): Promise<void> => {
   const { values } = parseArgs({
     options: {
       update: { type: `boolean`, default: false },
@@ -115,156 +107,67 @@ const main = (): void => {
     return
   }
 
-  const tables = scoreCommittedPairs(
-    {
-      filter: values.filter,
-      edits: Number(values.edits),
-      seed: Number(values.seed),
-      verbose: values.verbose,
-    },
-    options,
-  )
+  const tables = await scoreCommittedPairs({
+    filter: values.filter,
+    edits: Number(values.edits),
+    seed: Number(values.seed),
+    verbose: values.verbose,
+  })
   for (const [name, { rows, entities }] of Object.entries(tables)) {
     printTable(name, rows, entities)
   }
 }
 
+type ScoringOptions = EditOptions & {
+  filter?: string | undefined
+
+  /** Whether to score a row per example pair instead of per origin. */
+  verbose: boolean
+}
+
 /**
- * Scores each example pair under the kinds of ground truth that apply to it,
- * and returns the evaluations keyed by kind, then by row, with the entities
- * each kind scores.
+ * Scores each example pair, and returns the evaluations keyed by kind, then by
+ * row, with the entities each kind scores.
  */
-const scoreCommittedPairs = (
-  {
-    filter,
-    edits,
-    seed,
-    verbose,
-  }: { filter?: string; edits: number; seed: number; verbose: boolean },
-  options: FormattingProfileToMdOptions,
-): Record<string, { rows: Map<string, Evaluation>; entities: string }> => {
-  const groundTruth = readGroundTruth()
-  const tables = {
-    'same code': { rows: new Map<string, Evaluation>(), entities: `functions` },
-    'version change': {
-      rows: new Map<string, Evaluation>(),
-      entities: `functions`,
-    },
-    'synthetic edits': {
-      rows: new Map<string, Evaluation>(),
-      entities: `functions`,
-    },
+const scoreCommittedPairs = async ({
+  filter,
+  edits,
+  seed,
+  verbose,
+}: ScoringOptions): Promise<ScoreTables> => {
+  const tables: ScoreTables = {
+    'same code': { rows: new Map(), entities: `functions` },
+    'version change': { rows: new Map(), entities: `functions` },
+    'synthetic edits': { rows: new Map(), entities: `functions` },
     ...groupTables(`instance groups`),
     ...groupTables(`retained nodes`),
   }
-
-  for (const pair of committedPairs(filter)) {
+  const results = await evaluatePairs(committedPairs(filter), { edits, seed })
+  for (const [pair, { evaluations }] of results) {
     const row = verbose
       ? `${pair.name}.${pair.ext}`
       : parseExampleFilename(pair.base).origin
-    const random = pairRandom(seed, pair.base)
-    for (const inputs of scoredInputPairs(pair, options)) {
-      const versionChange = versionChangeMap(
-        inputs.base,
-        inputs.current,
-        groundTruth,
-      )
-
-      if (inputs.type === `heap-snapshot`) {
-        const scoreGroups = <Group extends RetainerGroup>(
-          input: RetainerGroupInput<Group>,
-          groups: `instance groups` | `retained nodes`,
-        ) => {
-          if (versionChange) {
-            addEvaluation(
-              tables[`version change, ${groups}`].rows,
-              row,
-              evaluateRetainerGroups(input, options, versionChange),
-            )
-            return
-          }
-
-          addEvaluation(
-            tables[`same code, ${groups}`].rows,
-            row,
-            evaluateRetainerGroups(input, options, { positionMap: identity }),
-          )
-          for (let edit = 0; edit < edits; edit++) {
-            const edited = applyRetainerGroupEdit(input, options, random)
-            if (!edited) {
-              break
-            }
-            addEvaluation(
-              tables[`synthetic edits, ${groups}`].rows,
-              row,
-              evaluateRetainerGroups(edited.input, options, {
-                positionMap: edited.positionMap,
-                editedSourceReference: edited.sourceReference,
-              }),
-            )
-          }
-        }
-        const { instanceGroups, retainedNodeGroups } = retainerGroupInputs(
-          inputs.base,
-          inputs.current,
-          options,
-        )
-        scoreGroups(instanceGroups, `instance groups`)
-        scoreGroups(retainedNodeGroups, `retained nodes`)
-        continue
-      }
-
-      const { base: baseInput, current: currentInput } = inputs
-      if (versionChange) {
-        addEvaluation(
-          tables[`version change`].rows,
-          row,
-          evaluate(
-            baseInput,
-            currentInput,
-            options,
-            versionChange.positionMap,
-            versionChange.sourceReferenceMap,
-          ),
-        )
-        continue
-      }
-
-      addEvaluation(
-        tables[`same code`].rows,
-        row,
-        evaluate(baseInput, currentInput, options, identity),
-      )
-      for (let edit = 0; edit < edits; edit++) {
-        const map = applySyntheticEdit(baseInput, currentInput, options, random)
-        if (!map) {
-          break
-        }
-        addEvaluation(
-          tables[`synthetic edits`].rows,
-          row,
-          evaluate(baseInput, currentInput, options, map.positionMap),
-        )
-        map.restore()
-      }
+    for (const [table, evaluation] of evaluations) {
+      addEvaluation(tables[table].rows, row, evaluation)
     }
   }
   return tables
 }
 
-type GroupTables<Groups extends string> = Record<
-  `${`same code` | `version change` | `synthetic edits`}, ${Groups}`,
-  { rows: Map<string, Evaluation>; entities: string }
->
-
 /** A kind of retainer group's tables, one per kind of ground truth. */
-const groupTables = <Groups extends string>(
+const groupTables = <Groups extends GroupsName>(
   groups: Groups,
-): GroupTables<Groups> =>
-  ({
-    [`same code, ${groups}`]: { rows: new Map(), entities: `groups` },
-    [`version change, ${groups}`]: { rows: new Map(), entities: `groups` },
-    [`synthetic edits, ${groups}`]: { rows: new Map(), entities: `groups` },
-  }) as GroupTables<Groups>
+): Record<`${GroundTruthName}, ${Groups}`, ScoreTable> => {
+  const tables = [`same code`, `version change`, `synthetic edits`].map(
+    (groundTruth): [string, ScoreTable] => [
+      `${groundTruth}, ${groups}`,
+      { rows: new Map(), entities: `groups` },
+    ],
+  )
+  return Object.fromEntries(tables) as Record<
+    `${GroundTruthName}, ${Groups}`,
+    ScoreTable
+  >
+}
 
-main()
+await main()
