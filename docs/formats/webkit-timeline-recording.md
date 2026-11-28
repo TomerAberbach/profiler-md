@@ -7,7 +7,9 @@ execution, network requests), and optionally in-use memory readings and heap
 allocation snapshots when those instruments are enabled.
 
 The recording holds the sampled call stacks alongside the duration each sample
-spans, so it converts to the time profile they record.
+spans, so it converts to the time profile they record. Web Inspector derives the
+durations: the samples within a script event share its duration equally, and any
+other sample spans 1 ms.
 
 It supports a single second metric per profile and a single profile per file.
 
