@@ -777,14 +777,30 @@ export const formatRetainerLabel = (
 export const formatRetainerName = (
   { name = ``, nameLocation }: NodeLabel,
   options: FormattingProfileToMdOptions,
-): string => (nameLocation ? formatSourceLocation(nameLocation, options) : name)
+): string => formatName(name, nameLocation, options)
+
+/**
+ * Formats a name as its location where that is relative to the base URL, and
+ * otherwise as recorded. A program can define any name, and formatting one as a
+ * location rewrites it (`Content:Type` as `content:Type`).
+ */
+const formatName = (
+  name: string,
+  nameLocation: FileReference | undefined,
+  options: FormattingProfileToMdOptions,
+): string => {
+  const location = nameLocation && formatSourceLocation(nameLocation, options)
+  return location && RELATIVE_PATH.test(location) ? location : name
+}
+
+const RELATIVE_PATH = /^\.{1,2}\//u
 
 export const formatRetainerEdgeLabel = (
   edge: RetainerPathEdge,
   options: FormattingProfileToMdOptions,
 ): string =>
   formatRetainerEdge(edge, ({ name, nameLocation }) =>
-    nameLocation ? formatSourceLocation(nameLocation, options) : name,
+    formatName(name, nameLocation, options),
   )
 
 export const formatRetainerEdge = (

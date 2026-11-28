@@ -114,7 +114,7 @@ const makeObjectSnapshot = (firstName: string, secondName: string) =>
 
 // A synthetic root retaining a closure, which exclusively retains a string, so
 // the string appears under the function's retained nodes.
-const makeRetainingClosureSnapshot = () =>
+const makeRetainingClosureSnapshot = (propertyName = `data`) =>
   makeV8Snapshot({
     nodeCount: 3,
     edgeCount: 2,
@@ -145,7 +145,7 @@ const makeRetainingClosureSnapshot = () =>
       ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
       ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 3, toNode: 12 }),
     ],
-    strings: [``, `myFn`, `payload`, `data`],
+    strings: [``, `myFn`, `payload`, propertyName],
   })
 
 // A synthetic root retaining two `Widget` nodes the engine classifies
@@ -822,6 +822,61 @@ describe(`convert`, () => {
     expect(md).toContain(`new`)
     expect(md).toContain(`removed`)
   })
+
+  test.each([
+    `Content:Type`,
+    `Foo::bar`,
+    `a/../b`,
+    `x//y`,
+    `./a`,
+    `/api/../users`,
+    `http://EXAMPLE.com`,
+    `node:fs`,
+    String.raw`C:\a.ts`,
+  ])(`shows the property name %s as recorded`, propertyName => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotFormatSpec,
+      makeRetainingClosureSnapshot(propertyName),
+      normalizeProfileToMdOptions({ baseURL: `file:///home/user/project/` }),
+    )
+
+    expect(retainedNodeTables(md, `myFn`)).toStrictEqual([
+      [
+        {
+          '%': `66.7%`,
+          Self: `128 B`,
+          Name: `payload`,
+          Path: `payload ←.${propertyName}– myFn`,
+        },
+      ],
+    ])
+  })
+
+  test.each([
+    [`file:///home/user/project/lib/a.ts`, `./lib/a.ts`],
+    [`/home/user/project/my lib/a.ts`, `./my lib/a.ts`],
+    [`file:///home/user/project/my lib/a.ts`, `./my lib/a.ts`],
+  ])(
+    `shows the property name %s relative to the base URL`,
+    (propertyName, shown) => {
+      const md = convertJsonToMd(
+        v8HeapSnapshotFormatSpec,
+        makeRetainingClosureSnapshot(propertyName),
+        normalizeProfileToMdOptions({ baseURL: `file:///home/user/project/` }),
+      )
+
+      expect(retainedNodeTables(md, `myFn`)).toStrictEqual([
+        [
+          {
+            '%': `66.7%`,
+            Self: `128 B`,
+            Name: `payload`,
+            Path: `payload ←.${shown}– myFn`,
+          },
+        ],
+      ])
+    },
+  )
 
   test(`edge names that look like unknown locations are shown verbatim`, () => {
     // Root -> parent (Object) via HIDDEN, parent -> child (Object) via a
