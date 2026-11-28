@@ -1,5 +1,7 @@
 # Docs
 
+- Leave out anything that changes neither what the reader does nor how they read
+  the output, such as how the package implements a behavior
 - Where a profiler setting affects how well a profile converts, name the setting
   to use or avoid and say why, in one sentence
 - NEVER state what the tool doesn't support (e.g. a rejected flag, an unread
