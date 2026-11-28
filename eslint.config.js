@@ -4,7 +4,7 @@ import { noStandardStreamWrite } from './eslint-rules/no-standard-stream-write.j
 
 export default [
   ...config,
-  { ignores: [`skills/**/*`] },
+  { ignores: [`examples/**/*`, `skills/**/*`] },
   {
     plugins: {
       local: {
