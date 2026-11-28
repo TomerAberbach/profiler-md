@@ -366,7 +366,8 @@ const unresolvedCategoryOf = (
  * An element node is one the host allocated for the document, which V8 declares
  * as `native`. The flags are a bitset, so no flag set means neither internal
  * nor element rather than unclassified. Every remaining node is therefore an
- * ordinary object, and the object flag it also has adds nothing.
+ * ordinary object. JSC sets the object flag on those whose native class is named
+ * `Object`, which adds nothing.
  *
  * No committed input sets the element flag. A Safari capture of a page whose
  * heap holds 418 `HTMLDivElement` and 160 `Text` nodes leaves every one of them
