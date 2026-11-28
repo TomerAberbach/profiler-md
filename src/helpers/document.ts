@@ -9,14 +9,7 @@ export type Section = {
 
 export type Block = Table | Paragraph | Code
 
-export type Table = { type: `table`; columns: TableColumn[]; rows: string[][] }
-
-type TableColumn = {
-  name: string
-
-  /** Whether the column is right-aligned, as columns of numbers are. */
-  numeric: boolean
-}
+type Table = { type: `table`; columns: string[] }
 
 type Paragraph = { type: `paragraph`; text: string }
 
@@ -80,34 +73,6 @@ export const parseDocument = (markdown: string): Section => {
   return root
 }
 
-/** The Markdown of a section, without its tables' alignment padding. */
-export const formatSection = (section: Section): string =>
-  [
-    `${`#`.repeat(section.depth)} ${section.heading}`,
-    ...section.blocks.map(formatBlock),
-    ...section.children.map(formatSection),
-  ].join(`\n\n`)
-
-const formatBlock = (block: Block): string => {
-  switch (block.type) {
-    case `table`:
-      return formatTable(block.columns, block.rows)
-    case `code`:
-      return `\`\`\`\n${block.text}\n\`\`\``
-    case `paragraph`:
-      return block.text
-  }
-}
-
-export const formatTable = (columns: TableColumn[], rows: string[][]): string =>
-  [
-    columns.map(({ name }) => name),
-    columns.map(({ numeric }) => (numeric ? `--:` : `---`)),
-    ...rows,
-  ]
-    .map(cells => `| ${cells.join(` | `)} |`)
-    .join(`\n`)
-
 const endOfRun = (
   lines: string[],
   start: number,
@@ -120,18 +85,10 @@ const endOfRun = (
   return end
 }
 
-const parseTable = (lines: string[]): Table => {
-  const [header = ``, delimiter = ``, ...rows] = lines
-  const alignments = splitCells(delimiter)
-  return {
-    type: `table`,
-    columns: splitCells(header).map((name, index) => ({
-      name,
-      numeric: alignments[index]?.endsWith(`:`) ?? false,
-    })),
-    rows: rows.map(splitCells),
-  }
-}
+const parseTable = (lines: string[]): Table => ({
+  type: `table`,
+  columns: splitCells(lines[0]!),
+})
 
 const splitCells = (line: string): string[] =>
   line

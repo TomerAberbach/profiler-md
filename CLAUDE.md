@@ -30,7 +30,6 @@ profiler-md
 ├── .claude/dimensions.md         # Where behavior belongs across format/modality/origin
 ├── scripts/
 │   ├── inputs/                   # Per-language workload scripts, workload assets, and the profiler toolchain nix flake
-│   ├── diff-examples/            # Summarizes how commits change the example outputs
 │   ├── uncovered-lines/          # Reports the changed lines no committed input executes
 │   ├── evaluate-diff-matching/   # Scores how a diff pairs entities against ground truth, and checks the scores against committed ones
 │   └── evaluate-call-tree/       # Scores the call tree drawn for each committed call stack profile
@@ -60,12 +59,6 @@ node src/cli/index.ts ./examples/input/javascript.node.base.cpuprofile
 pnpm categories
 # Report the function names a candidate rule matches, by their category today
 pnpm categories --rule '^LinearScan'
-
-# Summarize how the working copy's commit changes the example outputs, or how
-# each commit of a jj revset does. Run before handing back a change to the
-# examples, and explain each change you did not intend
-pnpm diff-examples
-pnpm diff-examples 'trunk()..@'
 
 # Report the lines changed since a revision (`@-` by default) that no committed
 # input executes. Run before handing back a change to `src/formats/*/`,

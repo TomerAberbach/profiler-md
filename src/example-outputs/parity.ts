@@ -103,7 +103,7 @@ const contentsByPath = (markdowns: string[]): ContentsByPath => {
 const contentsOf = (block: Block): string[] => {
   switch (block.type) {
     case `table`:
-      return block.columns.map(({ name }) => name)
+      return block.columns
     case `code`:
       return [`code block`]
     case `paragraph`:
