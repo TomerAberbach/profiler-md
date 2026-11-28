@@ -22,6 +22,9 @@ export type JfrTestInput = {
    * recorder that never truncates may.
    */
   untruncatableStackTraces?: boolean
+
+  /** The `nativemem` setting, in bytes, when the recorder states one. */
+  nativeMemoryInterval?: number
 }
 
 type JfrTestMethod = {
@@ -137,6 +140,7 @@ export const makeJfr = ({
   eventTypesWithoutValueField = [],
   unrecognizedFrameLayout = false,
   untruncatableStackTraces = false,
+  nativeMemoryInterval,
 }: JfrTestInput): Uint8Array => {
   // Intern symbols and classes into 1-based constant pool keys.
   const symbolKeys = new Map<string, number>()
@@ -301,6 +305,13 @@ export const makeJfr = ({
         eventWriters.push(sizedEvent(NATIVE_LOCK, body))
         break
     }
+  }
+
+  if (nativeMemoryInterval !== undefined) {
+    const body = new ByteWriter()
+    body.string(`nativemem`)
+    body.string(String(nativeMemoryInterval))
+    eventWriters.push(sizedEvent(ACTIVE_SETTING, body))
   }
 
   const metadata = makeMetadata(
@@ -475,6 +486,10 @@ const makeMetadata = (
       field(`address`, LONG),
       field(`size`, LONG),
     ]),
+    type(ACTIVE_SETTING, `jdk.ActiveSetting`, [
+      field(`name`, STRING),
+      field(`value`, STRING),
+    ]),
     type(OLD_OBJECT_SAMPLE, `jdk.OldObjectSample`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
       ...(eventTypesWithoutValueField.includes(`live`)
@@ -555,6 +570,7 @@ const OLD_OBJECT_SAMPLE = 27
 const LIVE_OBJECT = 28
 const NATIVE_METHOD_SAMPLE = 29
 const THREAD_PARK = 30
+const ACTIVE_SETTING = 31
 
 /** A class id used for a field whose type the metadata never declares. */
 const UNKNOWN_FIELD_CLASS = 901

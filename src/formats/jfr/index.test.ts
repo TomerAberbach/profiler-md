@@ -166,6 +166,60 @@ describe(`convert`, () => {
     ])
   })
 
+  test.each([
+    {
+      nativeMemoryInterval: 0,
+      summary: `Allocated 4\u{A0}KiB over 1 allocation (4\u{A0}KiB per allocation).`,
+    },
+    {
+      nativeMemoryInterval: 1,
+      summary: `Allocated 4\u{A0}KiB over 1 allocation (4\u{A0}KiB per allocation).`,
+    },
+    {
+      nativeMemoryInterval: 262_144,
+      summary: `Allocated 4\u{A0}KiB over 1 sampled allocation (4\u{A0}KiB per sampled allocation).`,
+    },
+    {
+      nativeMemoryInterval: undefined,
+      summary: `Allocated 4\u{A0}KiB over 1 sampled allocation (4\u{A0}KiB per sampled allocation).`,
+    },
+  ])(
+    `native memory is summarized as $summary at an interval of $nativeMemoryInterval`,
+    ({ nativeMemoryInterval, summary }) => {
+      const bytes = makeJfr({
+        methods: [{ name: `malloc`, className: `libc.so` }],
+        stackTraces: [{ frames: [{ method: 0 }] }],
+        events: [{ type: `nativemem`, stack: 0, value: 4096 }],
+        ...(nativeMemoryInterval === undefined ? {} : { nativeMemoryInterval }),
+      })
+
+      const md = convertBytesToMd(jfrFormatSpec, bytes, options)
+
+      expect(md).toContain(summary)
+    },
+  )
+
+  test(`a chunk without settings keeps the interval an earlier chunk states`, () => {
+    const recording = {
+      methods: [{ name: `malloc`, className: `libc.so` }],
+      stackTraces: [{ frames: [{ method: 0 }] }],
+      events: [{ type: `nativemem` as const, stack: 0, value: 4096 }],
+    }
+
+    const md = convertBytesToMd(
+      jfrFormatSpec,
+      Uint8Array.from([
+        ...makeJfr({ ...recording, nativeMemoryInterval: 0 }),
+        ...makeJfr(recording),
+      ]),
+      options,
+    )
+
+    expect(md).toContain(
+      `Allocated 8\u{A0}KiB over 2 allocations (4\u{A0}KiB per allocation).`,
+    )
+  })
+
   test(`native memory samples are measured by allocated bytes`, () => {
     const bytes = makeJfr({
       methods: [
@@ -191,7 +245,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `6 KiB`,
-          Samples: `2`,
+          'Sampled allocations': `2`,
           Function: `malloc`,
           Location: `libc.so`,
         },
@@ -202,14 +256,14 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `6 KiB`,
-          Samples: `2`,
+          'Sampled allocations': `2`,
           Function: `malloc`,
           Location: `libc.so`,
         },
         {
           '%': `100.0%`,
           Size: `6 KiB`,
-          Samples: `2`,
+          'Sampled allocations': `2`,
           Function: `run`,
           Location: `com.example.N`,
         },
@@ -263,7 +317,7 @@ describe(`convert`, () => {
       `Collected 1 sample.`,
       `Allocated 1\u{A0}KiB over 1 sample (1\u{A0}KiB per sample).`,
       `Retained 512\u{A0}B over 1 sampled object (512\u{A0}B per sampled object).`,
-      `Allocated 256\u{A0}B over 1 sample (256\u{A0}B per sample).`,
+      `Allocated 256\u{A0}B over 1 sampled allocation (256\u{A0}B per sampled allocation).`,
       `Blocked 3.0ms over 1 contention (3.0ms per contention).`,
     ])
   })
