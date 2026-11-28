@@ -153,7 +153,7 @@ Categories accounting for at least 1.0% of self samples.
 |  0.1% |                  2 | `invokeBasic(Object[])`                                                                     | `java.lang.invoke.MethodHandle`                             |
 |  0.1% |                  2 | `checkCanSetAccessible(Class, Class, boolean)`                                              | `java.lang.reflect.AccessibleObject`                        |
 | <0.1% |                  1 | `addConstantUtf8(String)`                                                                   | `jdk.internal.org.objectweb.asm.SymbolTable`                |
-| <0.1% |                  1 | `initValue()`                                                                               | `org.codehaus.groovy.reflection.CachedClass$3`              |
+| <0.1% |                  1 | `initValue(): CachedMethod[]`                                                               | `org.codehaus.groovy.reflection.CachedClass$3`              |
 | <0.1% |                  1 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x0000007001088800`        |
 | <0.1% |                  1 | `<clinit>()`                                                                                | `org.codehaus.groovy.ast.ClassHelper`                       |
 | <0.1% |                  1 | `linkToCallSite(Object, Object)`                                                            | `java.lang.invoke.Invokers$Holder`                          |
@@ -203,7 +203,7 @@ Lines with the largest contribution to each function's self samples.
 | -----: | -----------------: | ------------------------------------------------ |
 | 100.0% |                  1 | `jdk.internal.org.objectweb.asm.SymbolTable:807` |
 
-##### `initValue()` (`org.codehaus.groovy.reflection.CachedClass$3`)
+##### `initValue(): CachedMethod[]` (`org.codehaus.groovy.reflection.CachedClass$3`)
 
 |      % | Wall clock samples | Location                                          |
 | -----: | -----------------: | ------------------------------------------------- |
@@ -560,11 +560,11 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | -----------------: | ------------------------- | --------------------------------------------- |
 | 100.0% |                  1 | `computeMethodInfoSize()` | `jdk.internal.org.objectweb.asm.MethodWriter` |
 
-##### `initValue()` (`org.codehaus.groovy.reflection.CachedClass$3`)
+##### `initValue(): CachedMethod[]` (`org.codehaus.groovy.reflection.CachedClass$3`)
 
-|      % | Wall clock samples | Caller        | Location                                       |
-| -----: | -----------------: | ------------- | ---------------------------------------------- |
-| 100.0% |                  1 | `initValue()` | `org.codehaus.groovy.reflection.CachedClass$3` |
+|      % | Wall clock samples | Caller                | Location                                       |
+| -----: | -----------------: | --------------------- | ---------------------------------------------- |
+| 100.0% |                  1 | `initValue(): Object` | `org.codehaus.groovy.reflection.CachedClass$3` |
 
 ##### `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` (`java.lang.invoke.LambdaForm$DMH.0x0000007001088800`)
 

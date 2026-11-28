@@ -151,10 +151,10 @@ Categories accounting for at least 1.0% of self samples.
 | <0.1% |                  1 | `zzUnpackcmap_blocks(String, int, int[])`                                                                                                                                          | `org.jetbrains.kotlin.lexer._JetLexer`                                               |
 | <0.1% |                  1 | `<init>()`                                                                                                                                                                         | `org.jetbrains.kotlin.KtSourceElement`                                               |
 | <0.1% |                  1 | `<init>(FirModuleData, FirDeclarationOrigin, KtSourceElement, List, FirTypeRef, boolean, FirPropertySymbol, FirDeclarationStatus, FirResolvePhase, int, DefaultConstructorMarker)` | `org.jetbrains.kotlin.fir.declarations.impl.FirDefaultPropertyBackingField`          |
-| <0.1% |                  1 | `newBuilderForType()`                                                                                                                                                              | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`                   |
+| <0.1% |                  1 | `newBuilderForType(): JvmProtoBuf$JvmMethodSignature$Builder`                                                                                                                      | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`                   |
 | <0.1% |                  1 | `hasSupertypePathToParameter$toNextTypeParameter(ConeKotlinType)`                                                                                                                  | `org.jetbrains.kotlin.fir.resolve.transformers.FirTypeResolveTransformer`            |
 | <0.1% |                  1 | `invoke(Object, Object, Object)`                                                                                                                                                   | `org.jetbrains.kotlin.fir.symbols.FirLazyDeclarationResolverKt$lazyResolveToPhase$1` |
-| <0.1% |                  1 | `transformValueParameters(FirTransformer, Object)`                                                                                                                                 | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`                |
+| <0.1% |                  1 | `transformValueParameters(FirTransformer, Object): FirAnonymousFunctionImpl`                                                                                                       | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`                |
 | <0.1% |                  1 | `orderNodes(boolean)`                                                                                                                                                              | `org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraph`                          |
 | <0.1% |                  1 | `hashCode()`                                                                                                                                                                       | `org.jetbrains.kotlin.fir.types.ConeLookupTagBasedType`                              |
 | <0.1% |                  1 | `isProperConstraint(ResultTypeResolver$Context, Constraint)`                                                                                                                       | `org.jetbrains.kotlin.resolve.calls.inference.components.ResultTypeResolver`         |
@@ -191,7 +191,7 @@ Lines with the largest contribution to each function's self samples.
 | -----: | -----------------: | ------------------------------------------------------------------------------ |
 | 100.0% |                  1 | `org.jetbrains.kotlin.fir.declarations.impl.FirDefaultPropertyBackingField:22` |
 
-##### `newBuilderForType()` (`org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`)
+##### `newBuilderForType(): JvmProtoBuf$JvmMethodSignature$Builder` (`org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`)
 
 |      % | Wall clock samples | Location                                                                |
 | -----: | -----------------: | ----------------------------------------------------------------------- |
@@ -209,7 +209,7 @@ Lines with the largest contribution to each function's self samples.
 | -----: | -----------------: | ---------------------------------------------------------------------------------------- |
 | 100.0% |                  1 | `org.jetbrains.kotlin.fir.symbols.FirLazyDeclarationResolverKt$lazyResolveToPhase$1:134` |
 
-##### `transformValueParameters(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`)
+##### `transformValueParameters(FirTransformer, Object): FirAnonymousFunctionImpl` (`org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`)
 
 |      % | Wall clock samples | Location                                                                  |
 | -----: | -----------------: | ------------------------------------------------------------------------- |
@@ -578,11 +578,11 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | -----------------: | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | 100.0% |                  1 | `convertBackingField(LighterASTNode, FirPropertySymbol, ModifierList, FirTypeRef, boolean, List, LighterASTNode)` | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirDeclarationBuilder` |
 
-##### `newBuilderForType()` (`org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`)
+##### `newBuilderForType(): JvmProtoBuf$JvmMethodSignature$Builder` (`org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature`)
 
-|      % | Wall clock samples | Caller                | Location                                                           |
-| -----: | -----------------: | --------------------- | ------------------------------------------------------------------ |
-| 100.0% |                  1 | `newBuilderForType()` | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature` |
+|      % | Wall clock samples | Caller                                     | Location                                                           |
+| -----: | -----------------: | ------------------------------------------ | ------------------------------------------------------------------ |
+| 100.0% |                  1 | `newBuilderForType(): MessageLite$Builder` | `org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature` |
 
 ##### `hasSupertypePathToParameter$toNextTypeParameter(ConeKotlinType)` (`org.jetbrains.kotlin.fir.resolve.transformers.FirTypeResolveTransformer`)
 
@@ -596,11 +596,11 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | -----------------: | ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | 100.0% |                  1 | `invokeLazyResolveToPhase(FirElementWithResolveState, FirResolvePhase, Function3)` | `org.jetbrains.kotlin.fir.symbols.FirLazyDeclarationResolverKt` |
 
-##### `transformValueParameters(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`)
+##### `transformValueParameters(FirTransformer, Object): FirAnonymousFunctionImpl` (`org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl`)
 
-|      % | Wall clock samples | Caller                                             | Location                                                              |
-| -----: | -----------------: | -------------------------------------------------- | --------------------------------------------------------------------- |
-| 100.0% |                  1 | `transformValueParameters(FirTransformer, Object)` | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl` |
+|      % | Wall clock samples | Caller                                                          | Location                                                              |
+| -----: | -----------------: | --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 100.0% |                  1 | `transformValueParameters(FirTransformer, Object): FirFunction` | `org.jetbrains.kotlin.fir.declarations.impl.FirAnonymousFunctionImpl` |
 
 ##### `orderNodes(boolean)` (`org.jetbrains.kotlin.fir.resolve.dfa.cfg.ControlFlowGraph`)
 

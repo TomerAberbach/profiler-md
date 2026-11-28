@@ -152,7 +152,7 @@ Categories accounting for at least 1.0% of self samples.
 | 0.1% |       1 | `rehash(int)`                                                                                                                                                                                                                               | `it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap`                     |
 | 0.1% |       1 | `parseCentralDirectory$lambda$0(Ref$LongRef, List, long, LargeDynamicMappedBuffer$Mapping)`                                                                                                                                                 | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`               |
 | 0.1% |       1 | `<init>(CodedInputStream, ExtensionRegistryLite)`                                                                                                                                                                                           | `org.jetbrains.kotlin.metadata.ProtoBuf$Function`                               |
-| 0.1% |       1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)`                                                                                                                                                                                 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`                             |
+| 0.1% |       1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function`                                                                                                                                                              | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`                             |
 | 0.1% |       1 | `convertCallExpression(LighterASTNode)`                                                                                                                                                                                                     | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirExpressionBuilder` |
 | 0.1% |       1 | `getLineBreakCount(CharSequence)`                                                                                                                                                                                                           | `com.intellij.openapi.util.text.StringUtil`                                     |
 | 0.1% |       1 | `getLexemeIndexAt(int)`                                                                                                                                                                                                                     | `com.intellij.lang.impl.MarkerProduction`                                       |
@@ -286,7 +286,7 @@ Lines with the largest contribution to each function's self samples.
 | -----: | ------: | ------------------------------------------------------- |
 | 100.0% |       1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function:16542` |
 
-##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
+##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
 |      % | Samples | Location                                                  |
 | -----: | ------: | --------------------------------------------------------- |
@@ -870,11 +870,11 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | ------------------------------------------------------------- | ------------------------------------------------- |
 | 100.0% |       1 | `<init>(CodedInputStream, ExtensionRegistryLite, ProtoBuf$1)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function` |
 
-##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
+##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
-|      % | Samples | Caller                                                      | Location                                            |
-| -----: | ------: | ----------------------------------------------------------- | --------------------------------------------------- |
-| 100.0% |       1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1` |
+|      % | Samples | Caller                                                              | Location                                            |
+| -----: | ------: | ------------------------------------------------------------------- | --------------------------------------------------- |
+| 100.0% |       1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): Object` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1` |
 
 ##### `convertCallExpression(LighterASTNode)` (`org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirExpressionBuilder`)
 
@@ -2563,13 +2563,13 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `getValue()` (`kotlin.SynchronizedLazyImpl`)
 
-|     % | Samples | Callee     | Location                                                                             |
-| ----: | ------: | ---------- | ------------------------------------------------------------------------------------ |
-| 33.3% |       6 | `invoke()` | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x0000008001611b48` |
-| 11.1% |       2 | `invoke()` | `org.jetbrains.kotlin.ir.descriptors.IrBasedDeclarationDescriptor$annotations$2`     |
-|  5.6% |       1 | `invoke()` | `org.jetbrains.kotlin.cli.common.CLICompiler$$Lambda.0x0000008001006f50`             |
-|  5.6% |       1 | `invoke()` | `org.jetbrains.kotlin.utils.PathUtil$$Lambda.0x00000080011560b8`                     |
-|  5.6% |       1 | `invoke()` | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x0000008001390000` |
+|     % | Samples | Callee             | Location                                                                             |
+| ----: | ------: | ------------------ | ------------------------------------------------------------------------------------ |
+| 33.3% |       6 | `invoke()`         | `org.jetbrains.kotlin.fir.java.declarations.FirJavaClass$$Lambda.0x0000008001611b48` |
+| 11.1% |       2 | `invoke(): Object` | `org.jetbrains.kotlin.ir.descriptors.IrBasedDeclarationDescriptor$annotations$2`     |
+|  5.6% |       1 | `invoke()`         | `org.jetbrains.kotlin.cli.common.CLICompiler$$Lambda.0x0000008001006f50`             |
+|  5.6% |       1 | `invoke()`         | `org.jetbrains.kotlin.utils.PathUtil$$Lambda.0x00000080011560b8`                     |
+|  5.6% |       1 | `invoke()`         | `org.jetbrains.kotlin.cli.jvm.modules.CoreJrtVirtualFile$$Lambda.0x0000008001390000` |
 
 ##### `G1ParScanThreadState::trim_queue_to_threshold` (`libjvm.dylib`)
 

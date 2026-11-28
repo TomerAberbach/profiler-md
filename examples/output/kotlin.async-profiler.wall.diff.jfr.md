@@ -1468,7 +1468,7 @@ Functions with the largest decrease in samples collected within the function and
 |  -50.0% |    -2 |         0.1% |              4 → 2 | `transformWhileLoop(FirWhileLoop, ResolutionMode)`                                                                                                                           | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`           |
 |  -50.0% |    -2 |         0.1% |              4 → 2 | `transformWhileLoop(FirWhileLoop, Object)`                                                                                                                                   | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`           |
 |  -50.0% |    -2 |         0.1% |              4 → 2 | `transform(FirTransformer, Object)`                                                                                                                                          | `org.jetbrains.kotlin.fir.expressions.FirWhileLoop`                                                                |
-|  -40.0% |    -2 |  0.2% → 0.1% |              5 → 3 | `transformResult(FirTransformer, Object)`                                                                                                                                    | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`                                                   |
+|  -40.0% |    -2 |  0.2% → 0.1% |              5 → 3 | `transformResult(FirTransformer, Object): FirRegularWhenBranch`                                                                                                              | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`                                                   |
 
 #### Callers
 
@@ -2258,12 +2258,11 @@ Callers with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | -----------------: | ----------------------------------------------------------------- | ---------------------------------------------------------- |
 | -50.0% |    -2 | 100.0% |              4 → 2 | `transformStatementsIndexed(FirBlock, FirTransformer, Function1)` | `org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt` |
 
-##### `transformResult(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`)
+##### `transformResult(FirTransformer, Object): FirRegularWhenBranch` (`org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`)
 
-| Change | Delta |      % | Wall clock samples | Caller                                               | Location                                                                                                |
-| -----: | ----: | -----: | -----------------: | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| -40.0% |    -2 | 100.0% |              5 → 3 | `transformResult(FirTransformer, Object)`            | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`                                        |
-| -40.0% |    -2 | 100.0% |              5 → 3 | `transformWhenBranch(FirWhenBranch, ResolutionMode)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer` |
+| Change | Delta |      % | Wall clock samples | Caller                                                   | Location                                                         |
+| -----: | ----: | -----: | -----------------: | -------------------------------------------------------- | ---------------------------------------------------------------- |
+| -40.0% |    -2 | 100.0% |              5 → 3 | `transformResult(FirTransformer, Object): FirWhenBranch` | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch` |
 
 #### Callees
 
@@ -3052,10 +3051,10 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `transformWhileLoop(FirWhileLoop, ResolutionMode)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer`)
 
-|  Change | Delta |              % | Wall clock samples | Callee                                       | Location                                                     |
-| ------: | ----: | -------------: | -----------------: | -------------------------------------------- | ------------------------------------------------------------ |
-|  -33.3% |    -1 | 75.0% → 100.0% |              3 → 2 | `transformBlock(FirTransformer, Object)`     | `org.jetbrains.kotlin.fir.expressions.impl.FirWhileLoopImpl` |
-| removed |    -1 |   25.0% → 0.0% |              1 → 0 | `transformCondition(FirTransformer, Object)` | `org.jetbrains.kotlin.fir.expressions.impl.FirWhileLoopImpl` |
+|  Change | Delta |              % | Wall clock samples | Callee                                                 | Location                                                     |
+| ------: | ----: | -------------: | -----------------: | ------------------------------------------------------ | ------------------------------------------------------------ |
+|  -33.3% |    -1 | 75.0% → 100.0% |              3 → 2 | `transformBlock(FirTransformer, Object): FirWhileLoop` | `org.jetbrains.kotlin.fir.expressions.impl.FirWhileLoopImpl` |
+| removed |    -1 |   25.0% → 0.0% |              1 → 0 | `transformCondition(FirTransformer, Object)`           | `org.jetbrains.kotlin.fir.expressions.impl.FirWhileLoopImpl` |
 
 ##### `transformWhileLoop(FirWhileLoop, ResolutionMode)` (`org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher`)
 
@@ -3075,12 +3074,11 @@ Callees with the largest change in contribution to each function's total samples
 | -----: | ----: | -----: | -----------------: | ------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | -50.0% |    -2 | 100.0% |              4 → 2 | `transformWhileLoop(FirWhileLoop, Object)` | `org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher` |
 
-##### `transformResult(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`)
+##### `transformResult(FirTransformer, Object): FirRegularWhenBranch` (`org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch`)
 
-| Change | Delta |      % | Wall clock samples | Callee                                    | Location                                                         |
-| -----: | ----: | -----: | -----------------: | ----------------------------------------- | ---------------------------------------------------------------- |
-| -40.0% |    -2 | 100.0% |              5 → 3 | `transform(FirTransformer, Object)`       | `org.jetbrains.kotlin.fir.expressions.FirBlock`                  |
-| -40.0% |    -2 | 100.0% |              5 → 3 | `transformResult(FirTransformer, Object)` | `org.jetbrains.kotlin.fir.expressions.impl.FirRegularWhenBranch` |
+| Change | Delta |      % | Wall clock samples | Callee                              | Location                                        |
+| -----: | ----: | -----: | -----------------: | ----------------------------------- | ----------------------------------------------- |
+| -40.0% |    -2 | 100.0% |              5 → 3 | `transform(FirTransformer, Object)` | `org.jetbrains.kotlin.fir.expressions.FirBlock` |
 
 ## Hottest call stacks
 

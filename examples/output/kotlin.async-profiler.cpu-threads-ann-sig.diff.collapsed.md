@@ -160,7 +160,7 @@ Functions with the largest increase in samples collected within the function bod
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `contains(KotlinTypeMarker, Function1)`                                                                                                                                                | `org.jetbrains.kotlin.fir.types.ConeInferenceContext`                       |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `toIrSymbolForCall(Fir2IrComponents, FirCallableSymbol, FirExpression, FirExpression)`                                                                                                 | `org.jetbrains.kotlin.fir.backend.utils.SymbolConversionUtilsKt`            |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                                | `org.jetbrains.kotlin.types.AbstractTypeChecker`                            |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `transform(IrTransformer, Object)`                                                                                                                                                     | `org.jetbrains.kotlin.ir.expressions.IrExpression`                          |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `transform(IrTransformer, Object): IrElement`                                                                                                                                          | `org.jetbrains.kotlin.ir.expressions.IrExpression`                          |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `getSession()`                                                                                                                                                                         | `org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext`         |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `analyzeInstruction(AbstractInsnNode, int, Frame, Frame, Frame)`                                                                                                                       | `org.jetbrains.kotlin.codegen.optimization.common.FastAnalyzer`             |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `visitSimpleFunction(IrSimpleFunction)`                                                                                                                                                | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid`                 |
@@ -733,7 +733,7 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ---------------------------------------------------------------------------- | ------------------------------------------------ |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `isSubtypeOf(TypeCheckerState, KotlinTypeMarker, KotlinTypeMarker, boolean)` | `org.jetbrains.kotlin.types.AbstractTypeChecker` |
 
-##### `transform(IrTransformer, Object)` (`org.jetbrains.kotlin.ir.expressions.IrExpression`)
+##### `transform(IrTransformer, Object): IrElement` (`org.jetbrains.kotlin.ir.expressions.IrExpression`)
 
 | Change | Delta |             % | Samples | Caller                                          | Location                                   |
 | -----: | ----: | ------------: | ------: | ----------------------------------------------- | ------------------------------------------ |
@@ -793,9 +793,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `defineClass(String, Resource)` (`java.net.URLClassLoader`)
 
-| Change | Delta |             % | Samples | Caller  | Location                    |
-| -----: | ----: | ------------: | ------: | ------- | --------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `run()` | `java.net.URLClassLoader$1` |
+| Change | Delta |             % | Samples | Caller         | Location                    |
+| -----: | ----: | ------------: | ------: | -------------- | --------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `run(): Class` | `java.net.URLClassLoader$1` |
 
 ##### `findBootstrapClass(String)` (`java.lang.ClassLoader`)
 
@@ -2379,7 +2379,7 @@ Callers with the largest change in contribution to each function's total samples
 | removed |    -1 | 100.0% → 0.0% |   1 → 0 | `toCollection(Iterable, Collection)` | `kotlin.collections.CollectionsKt___CollectionsKt`             |
 |     new |    +1 |  0.0% → 33.3% |   0 → 1 | `loadInstalledProviders()`           | `java.nio.file.spi.FileSystemProvider`                         |
 |     new |    +1 |  0.0% → 33.3% |   0 → 1 | `firstOrNull(Iterable)`              | `kotlin.collections.CollectionsKt___CollectionsKt`             |
-|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `run()`                              | `java.lang.management.ManagementFactory$PlatformMBeanFinder$1` |
+|     new |    +1 |  0.0% → 33.3% |   0 → 1 | `run(): List`                        | `java.lang.management.ManagementFactory$PlatformMBeanFinder$1` |
 
 ##### `get(Object)` (`jdk.internal.util.ReferencedKeyMap`)
 
@@ -3288,12 +3288,12 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `accept(FirVisitor, Object)` (`org.jetbrains.kotlin.fir.expressions.FirFunctionCall`)
 
-|  Change | Delta |             % | Samples | Callee                                       | Location                                                                                      |
-| ------: | ----: | ------------: | ------: | -------------------------------------------- | --------------------------------------------------------------------------------------------- |
-|  +55.6% |    +5 | 69.2% → 60.9% |  9 → 14 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`             |
-| +100.0% |    +4 | 30.8% → 34.8% |   4 → 8 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckersDiagnosticComponent` |
-|  +75.0% |    +3 | 30.8% → 30.4% |   4 → 7 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.backend.Fir2IrVisitor`                                              |
-|     new |    +2 |   0.0% → 8.7% |   0 → 2 | `visitFunctionCall(FirFunctionCall, Object)` | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                |
+|  Change | Delta |             % | Samples | Callee                                               | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+|  +55.6% |    +5 | 69.2% → 60.9% |  9 → 14 | `visitFunctionCall(FirFunctionCall, Object)`         | `org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor`             |
+| +100.0% |    +4 | 30.8% → 34.8% |   4 → 8 | `visitFunctionCall(FirFunctionCall, Object)`         | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckersDiagnosticComponent` |
+|  +75.0% |    +3 | 30.8% → 30.4% |   4 → 7 | `visitFunctionCall(FirFunctionCall, Object): Object` | `org.jetbrains.kotlin.fir.backend.Fir2IrVisitor`                                              |
+|     new |    +2 |   0.0% → 8.7% |   0 → 2 | `visitFunctionCall(FirFunctionCall, Object)`         | `org.jetbrains.kotlin.fir.visitors.FirVisitor`                                                |
 
 ##### `ClassFileParser::parse_constant_pool(ClassFileStream const*, ConstantPool*, int, JavaThread*)` (`<unknown>`)
 
@@ -3653,11 +3653,11 @@ Callees with the largest change in contribution to each function's total samples
 
 ##### `accept(FirVisitor, Object)` (`org.jetbrains.kotlin.fir.expressions.FirReturnExpression`)
 
-|  Change | Delta |             % | Samples | Callee                                               | Location                                                                                      |
-| ------: | ----: | ------------: | ------: | ---------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| +200.0% |    +4 | 20.0% → 37.5% |   2 → 6 | `visitReturnExpression(FirReturnExpression, Object)` | `org.jetbrains.kotlin.fir.backend.Fir2IrVisitor`                                              |
-|  +25.0% |    +2 | 80.0% → 62.5% |  8 → 10 | `visitReturnExpression(FirReturnExpression, Object)` | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                                         |
-|  -50.0% |    -1 |  20.0% → 6.3% |   2 → 1 | `visitReturnExpression(FirReturnExpression, Object)` | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckersDiagnosticComponent` |
+|  Change | Delta |             % | Samples | Callee                                                       | Location                                                                                      |
+| ------: | ----: | ------------: | ------: | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| +200.0% |    +4 | 20.0% → 37.5% |   2 → 6 | `visitReturnExpression(FirReturnExpression, Object): Object` | `org.jetbrains.kotlin.fir.backend.Fir2IrVisitor`                                              |
+|  +25.0% |    +2 | 80.0% → 62.5% |  8 → 10 | `visitReturnExpression(FirReturnExpression, Object)`         | `org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor`                                         |
+|  -50.0% |    -1 |  20.0% → 6.3% |   2 → 1 | `visitReturnExpression(FirReturnExpression, Object)`         | `org.jetbrains.kotlin.fir.analysis.checkers.expression.ExpressionCheckersDiagnosticComponent` |
 
 ##### `addConstraintIfCompatible(ConstraintSystemBuilder, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition, ConstraintKind)` (`org.jetbrains.kotlin.resolve.calls.inference.ConstraintSystemBuilderKt`)
 

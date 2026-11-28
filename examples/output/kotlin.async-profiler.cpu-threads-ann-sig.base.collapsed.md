@@ -600,7 +600,7 @@ Callers with the largest contribution to each function's self samples. Inlining 
 |     % | Samples | Caller                              | Location                                                       |
 | ----: | ------: | ----------------------------------- | -------------------------------------------------------------- |
 | 50.0% |       1 | `acceptChildren(IrVisitor, Object)` | `org.jetbrains.kotlin.ir.expressions.IrMemberAccessExpression` |
-| 50.0% |       1 | `next()`                            | `kotlin.collections.IndexingIterator`                          |
+| 50.0% |       1 | `next(): IndexedValue`              | `kotlin.collections.IndexingIterator`                          |
 
 ##### `sanitizeStackTrace(Throwable)` (`kotlin.jvm.internal.Intrinsics`)
 

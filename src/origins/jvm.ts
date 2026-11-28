@@ -46,11 +46,18 @@ const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
 const JANSI_LIBRARY_ID_REGEX =
   /(?<kept>\bjansi-[^-/]+)-[0-9a-f]{1,16}(?=-[^/]*$)/u
 
+/** The return type {@link jvmMethodFrame} distinguishes a method by. */
+const RETURN_TYPE_REGEX = /(?<=\)): [^():]+$/u
+
 export const jvmMatchEntry = matchEntryFromRules({
   // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`, or a
   // hidden class in a heap dump) or in the location (a hidden class reported
   // as the declaring class).
-  name: JVM_ENTRY_MATCH_RULES,
+  // The return type that distinguishes a method ends its name only where an
+  // input has several, which can be one side of a diff. The methods it
+  // distinguishes share a match key, and because they have no line, a call stack
+  // profile diff merges the ones the other side lacks into one row.
+  name: [...JVM_ENTRY_MATCH_RULES, [RETURN_TYPE_REGEX, ``]],
   location: [...JVM_ENTRY_MATCH_RULES, [JANSI_LIBRARY_ID_REGEX, `$<kept>`]],
 })
 
@@ -287,8 +294,16 @@ const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
 export const jvmSourceClassName = (internalName: string): string =>
   internalName.replaceAll(`/`, `.`)
 
+export type JvmMethodFrame = {
+  /** The method name with its parameter types, e.g. `compute(int, String)`. */
+  name: string
+
+  /** The return type, as `StackFrame.distinguisher` takes it. */
+  distinguisher?: string
+}
+
 /**
- * Builds a display name from a method's bare name and JVM method descriptor,
+ * Builds a frame's name from a method's bare name and JVM method descriptor,
  * appending the parameter types in Java source syntax so overloads stay
  * distinguishable: `add` with descriptor
  * `(Ljava/lang/Object;[Ljava/lang/Object;I)V` becomes
@@ -297,18 +312,31 @@ export const jvmSourceClassName = (internalName: string): string =>
  * unchanged when the descriptor is absent or unparseable, including
  * async-profiler's `()L;` sentinel for non-Java frames (runtime stubs, native
  * functions), whose names aren't method names to append `()` to.
+ *
+ * The return type only distinguishes methods, because the parameters identify a
+ * method in Java source. A compiler adds a bridge method that differs from its
+ * target by the return type alone. Types appear without their packages, so two
+ * that differ by package alone distinguish nothing.
  */
-export const jvmMethodDisplayName = (
+export const jvmMethodFrame = (
   name: string,
   descriptor: string,
-): string => {
+): JvmMethodFrame => {
   const close = descriptor.indexOf(`)`)
-  return name === `` ||
+  if (
+    name === `` ||
     !descriptor.startsWith(`(`) ||
     close === -1 ||
     descriptor === `()L;`
-    ? name
-    : `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
+  ) {
+    return { name }
+  }
+
+  const [returnType] = parseDescriptorTypes(descriptor.slice(close + 1))
+  return {
+    name: `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`,
+    ...(returnType ? { distinguisher: `: ${returnType}` } : {}),
+  }
 }
 
 /** Parses a run of JVM field descriptors into Java source type names. */

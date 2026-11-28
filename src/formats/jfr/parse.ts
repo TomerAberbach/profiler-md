@@ -16,7 +16,8 @@ import {
   THREAD_PARK_TIME_METRIC,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
+import { jvmMethodFrame, jvmSourceClassName } from '../../origins/jvm.ts'
+import type { JvmMethodFrame } from '../../origins/jvm.ts'
 import type { RecordTally } from '../spec.ts'
 
 /**
@@ -185,11 +186,12 @@ const jfrToProfiles = ({
   return profiles
 }
 
-const methodToStackFrame = (method: JfrMethod): StackFrame => ({
-  name: method.name,
-  definition: method.className
-    ? { type: `logical`, name: method.className }
-    : undefined,
+const methodToStackFrame = ({
+  className,
+  ...frame
+}: JfrMethod): StackFrame => ({
+  ...frame,
+  definition: className ? { type: `logical`, name: className } : undefined,
 })
 
 /** One object sampled at allocation and still live when the recording ended. */
@@ -287,10 +289,7 @@ type Jfr = {
 }
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
-type JfrMethod = {
-  /** The method name with its parameter types, e.g. `compute(int, String)`. */
-  name: string
-
+type JfrMethod = JvmMethodFrame & {
   /** The declaring class name in source form, e.g. `com.example.Bench`. */
   className: string
 }
@@ -1424,7 +1423,7 @@ class ChunkResolver {
     if (index === undefined) {
       index = this.#methods.length
       this.#methods.push({
-        name: jvmMethodDisplayName(bareName, descriptor),
+        ...jvmMethodFrame(bareName, descriptor),
         className,
       })
       this.#methodIndexByIdentity.set(identity, index)

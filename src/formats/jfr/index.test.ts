@@ -556,6 +556,45 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`a bridge method and its target show their return types`, () => {
+    const bytes = makeJfr({
+      methods: [
+        {
+          name: `run`,
+          className: `com.example.Task`,
+          descriptor: `()Ljava/lang/Object;`,
+        },
+        {
+          name: `run`,
+          className: `com.example.Task`,
+          descriptor: `()Ljava/util/Map;`,
+        },
+      ],
+      stackTraces: [
+        {
+          frames: [
+            { method: 1, line: 2 },
+            { method: 0, line: 1 },
+          ],
+        },
+      ],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+
+    const md = convertBytesToMd(jfrFormatSpec, bytes, options)
+
+    expect(selfSamplesTables(md)).toStrictEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          Function: `run(): Map`,
+          Location: `com.example.Task`,
+        },
+      ],
+    ])
+  })
+
   test(`overloads stay separate and show formatted parameter lists`, () => {
     const bytes = makeJfr({
       methods: [
