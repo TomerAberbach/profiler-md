@@ -97,6 +97,7 @@
     "update-examples": "node scripts/update-examples/index.ts",
     "check-examples": "node scripts/update-examples/index.ts --check",
     "diff-examples": "node scripts/diff-examples/index.ts",
+    "uncovered-lines": "node scripts/uncovered-lines/index.ts",
     "check-input-privacy": "node scripts/check-input-privacy.ts",
     "check-bash": "./scripts/check-bash",
     "check": "node scripts/check.ts",

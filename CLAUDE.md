@@ -31,6 +31,7 @@ profiler-md
 ├── scripts/
 │   ├── inputs/                   # Per-language workload scripts, workload assets, and the profiler toolchain nix flake
 │   ├── diff-examples/            # Summarizes how commits change the example outputs
+│   ├── uncovered-lines/          # Reports the changed lines no committed input executes
 │   ├── evaluate-diff-matching/   # Scores how a diff pairs entities against ground truth, and checks the scores against committed ones
 │   └── evaluate-call-tree/       # Scores the call tree drawn for each committed call stack profile
 ├── examples/                     # Filenames are `<language>.<origin>.<configuration?>.<base|current|diff>.<ext>`
@@ -65,6 +66,11 @@ pnpm categories --rule '^LinearScan'
 # examples, and explain each change you did not intend
 pnpm diff-examples
 pnpm diff-examples 'trunk()..@'
+
+# Report the lines changed since a revision (`@-` by default) that no committed
+# input executes. Run before handing back a change to `src/formats/*/`,
+# `src/origins/`, or `src/modalities/`, with the example outputs up to date
+pnpm uncovered-lines
 
 # Score the call tree drawn for each committed call stack profile, per origin
 # or input
