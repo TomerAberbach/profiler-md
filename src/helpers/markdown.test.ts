@@ -95,3 +95,7 @@ test(`heading renders at the given depth`, () => {
 
   expect(md).toBe(`### Self time\n`)
 })
+
+test(`heading deeper than H6 throws`, () => {
+  expect(() => heading(7, `Title`)).toThrow(`heading is deeper than H6, got: 7`)
+})
