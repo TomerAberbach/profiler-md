@@ -133,13 +133,17 @@ are read or edited.
 - In the description of a commit that changes behavior, state which committed
   input shows the problem, and the output before and after. Link the issue it
   fixes with `Fixes #<number>`
+- In the description of a commit whose logic `.claude/dimensions.md` places,
+  state the `(origin, format)` pairs checked and which of them the logic applies
+  to
 
 ### Evidence
 
 - Check a claim about a profiler against its source, its specification, or the
   committed inputs before acting on it or reporting it. Treat an audit's or a
   review's finding as unverified until then. Say a claim is unverified only when
-  no available source settles it
+  no available source settles it. Link the source in the commit description when
+  the change depends on the claim
 - Before changing what a number or a position means, check every origin that
   writes the format against its own source, not against another origin's. Link
   each source in the commit description
