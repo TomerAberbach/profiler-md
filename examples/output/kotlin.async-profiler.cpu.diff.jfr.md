@@ -147,7 +147,7 @@ Functions with the largest increase in samples collected within the function bod
 | -----: | ----: | ----------: | ------: | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 |    new |    +2 | 0.0% → 0.1% |   0 → 2 | `getNonDispatchParameters(IrFunction)`                                                               | `org.jetbrains.kotlin.ir.util.IrUtilsKt`                                                                           |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `<init>(CodedInputStream, ExtensionRegistryLite)`                                                    | `org.jetbrains.kotlin.metadata.ProtoBuf$Function`                                                                  |
-|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)`                                          | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`                                                                |
+|    new |    +1 | 0.0% → 0.1% |   0 → 1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function`                       | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`                                                                |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `convertCallExpression(LighterASTNode)`                                                              | `org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirExpressionBuilder`                                    |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `getTopLevelCallableNamesInPackage(FqName)`                                                          | `org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider`                                          |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `computeIndexedQualifiers(KotlinTypeMarker, Iterable, TypeEnhancementInfo, boolean)`                 | `org.jetbrains.kotlin.load.java.typeEnhancement.AbstractSignatureParts`                                            |
@@ -371,7 +371,7 @@ Lines with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ------------------------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function:16542` |
 
-##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
+##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
 | Change | Delta |             % | Samples | Location                                                  |
 | -----: | ----: | ------------: | ------: | --------------------------------------------------------- |
@@ -1136,11 +1136,11 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | ------: | ------------------------------------------------------------- | ------------------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |   0 → 1 | `<init>(CodedInputStream, ExtensionRegistryLite, ProtoBuf$1)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function` |
 
-##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
+##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): ProtoBuf$Function` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
-| Change | Delta |             % | Samples | Caller                                                      | Location                                            |
-| -----: | ----: | ------------: | ------: | ----------------------------------------------------------- | --------------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1` |
+| Change | Delta |             % | Samples | Caller                                                              | Location                                            |
+| -----: | ----: | ------------: | ------: | ------------------------------------------------------------------- | --------------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |   0 → 1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite): Object` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1` |
 
 ##### `convertCallExpression(LighterASTNode)` (`org.jetbrains.kotlin.fir.lightTree.converter.LightTreeRawFirExpressionBuilder`)
 

@@ -58,6 +58,15 @@ export type StackFrame = {
   executing?: SourcePosition
 
   /**
+   * Text that tells the function apart from others with its name and identifying
+   * reference (e.g. a JVM method's return type, `: Map`). It ends the name of a
+   * function that shares both with another of the input's frames whose text
+   * differs, and is dropped from every other function. An origin that sets it
+   * strips it in `OriginSpec.matchEntry`, because one side of a diff can lack it.
+   */
+  distinguisher?: string
+
+  /**
    * Where this function was called: a position in the caller's source, if the
    * profiler recorded it.
    *
@@ -166,8 +175,11 @@ export class StackFrameTable {
       normalizeStackFrame,
       normalizeSourceReference,
     } = originSpecOf(context.origin)
-    const frames = this.#frames.map(frame =>
-      dropLocationName(frame, normalizeStackFrame(frame, context.format)),
+    const frames = distinguishFunctions(
+      this.#frames.map(frame =>
+        dropLocationName(frame, normalizeStackFrame(frame, context.format)),
+      ),
+      functionIdentity,
     )
     return new StackFrameFunctionTable(
       frames,
@@ -200,6 +212,39 @@ const dropLocationName = (
   normalized.name === frame.name
     ? { ...normalized, name: undefined }
     : normalized
+
+/**
+ * Ends the name of each frame whose function shares its name and identifying
+ * reference with another with the frame's {@link StackFrame.distinguisher}.
+ */
+const distinguishFunctions = (
+  frames: (StackFrame | null)[],
+  identity: FunctionIdentity,
+): (StackFrame | null)[] => {
+  const keyOf = (frame: StackFrame) =>
+    functionIdentityKey(frame.name, identifyingReference(frame, identity))
+  const keyToDistinguisher = new Map<string, string>()
+  const sharedKeys = new Set<string>()
+  for (const frame of frames) {
+    if (frame?.distinguisher === undefined) {
+      continue
+    }
+    const key = keyOf(frame)
+    const distinguisher = keyToDistinguisher.get(key)
+    if (distinguisher === undefined) {
+      keyToDistinguisher.set(key, frame.distinguisher)
+    } else if (distinguisher !== frame.distinguisher) {
+      sharedKeys.add(key)
+    }
+  }
+  return sharedKeys.size === 0
+    ? frames
+    : frames.map(frame =>
+        frame?.distinguisher !== undefined && sharedKeys.has(keyOf(frame))
+          ? { ...frame, name: `${frame.name ?? ``}${frame.distinguisher}` }
+          : frame,
+      )
+}
 
 /**
  * An input's distinct frames normalized by the resolved origin, resolving a

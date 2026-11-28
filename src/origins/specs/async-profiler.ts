@@ -4,7 +4,7 @@ import {
   isJvmStdlibNameStackFrame,
   isNativeLibraryStackFrame,
   jvmMatchEntry,
-  jvmMethodDisplayName,
+  jvmMethodFrame,
   jvmSourceClassName,
 } from '../jvm.ts'
 import type { OriginSpec } from '../spec.ts'
@@ -50,7 +50,7 @@ export const asyncProfilerOriginSpec = {
     }
 
     return {
-      name: jvmMethodDisplayName(method.slice(lastDot + 1), descriptor),
+      ...jvmMethodFrame(method.slice(lastDot + 1), descriptor),
       definition: {
         type: `logical`,
         name: jvmSourceClassName(method.slice(0, lastDot)),

@@ -1473,13 +1473,13 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `guardWithCatch(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f001096800`)
 
-|     % | Samples | Callee                          | Location                                            |
-| ----: | ------: | ------------------------------- | --------------------------------------------------- |
-| 95.7% |     112 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f00102b000` |
-| 45.3% |      53 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f001105400` |
-| 13.7% |      16 | `invokeVirtual(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-| 12.0% |      14 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-|  5.1% |       6 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f001018400` |
+|     % | Samples | Callee                                  | Location                                            |
+| ----: | ------: | --------------------------------------- | --------------------------------------------------- |
+| 95.7% |     112 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f00102b000` |
+| 45.3% |      53 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f001105400` |
+| 13.7% |      16 | `invokeVirtual(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`        |
+| 12.0% |      14 | `invokeSpecial(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|  5.1% |       6 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f001018400` |
 
 ##### `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f001098400`)
 
@@ -1531,11 +1531,11 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `invoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f00102b000`)
 
-|      % | Samples | Callee                          | Location                                            |
-| -----: | ------: | ------------------------------- | --------------------------------------------------- |
-| 100.0% |     112 | `invokeVirtual(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-|   0.9% |       1 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f00102ac00` |
-|   0.9% |       1 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|      % | Samples | Callee                                  | Location                                            |
+| -----: | ------: | --------------------------------------- | --------------------------------------------------- |
+| 100.0% |     112 | `invokeVirtual(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|   0.9% |       1 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f00102ac00` |
+|   0.9% |       1 | `invokeSpecial(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder`        |
 
 ##### `PhaseChaitin::Register_Allocate()` (`<unknown>`)
 

@@ -1247,9 +1247,9 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
 
-|      % | Samples | Caller                                          | Location                                     |
-| -----: | ------: | ----------------------------------------------- | -------------------------------------------- |
-| 100.0% |     323 | `invokeSpecial(Object, Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+|      % | Samples | Caller                                                  | Location                                     |
+| -----: | ------: | ------------------------------------------------------- | -------------------------------------------- |
+| 100.0% |     323 | `invokeSpecial(Object, Object, Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder` |
 
 ##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
 
@@ -1466,10 +1466,10 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `loadRuleSetFile(String)` (`org.codenarc.ruleset.RuleSetUtil`)
 
-|     % | Samples | Caller                             | Location                                     |
-| ----: | ------: | ---------------------------------- | -------------------------------------------- |
-| 72.1% |      31 | `invokeStatic(Object, Object)`     | `java.lang.invoke.DirectMethodHandle$Holder` |
-| 27.9% |      12 | `invokeStaticInit(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+|     % | Samples | Caller                                 | Location                                     |
+| ----: | ------: | -------------------------------------- | -------------------------------------------- |
+| 72.1% |      31 | `invokeStatic(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder` |
+| 27.9% |      12 | `invokeStaticInit(Object, Object)`     | `java.lang.invoke.DirectMethodHandle$Holder` |
 
 ##### `doCall(Object)` (`org.codenarc.CodeNarcRunner$_createInitialRuleSetFromFiles_closure6`)
 
@@ -1479,9 +1479,9 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `createInitialRuleSetFromFiles()` (`org.codenarc.CodeNarcRunner`)
 
-|      % | Samples | Caller                          | Location                                     |
-| -----: | ------: | ------------------------------- | -------------------------------------------- |
-| 100.0% |      43 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |      43 | `invokeSpecial(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder` |
 
 ##### `IRScope::IRScope` (`libjvm.dylib`)
 
@@ -1760,13 +1760,13 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `guardWithCatch(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f801098400`)
 
-|     % | Samples | Callee                          | Location                                            |
-| ----: | ------: | ------------------------------- | --------------------------------------------------- |
-| 99.2% |     386 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f80102b000` |
-| 12.9% |      50 | `invokeVirtual(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-| 12.9% |      50 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f801105400` |
-| 11.6% |      45 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-|  2.8% |      11 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000f8010c9400` |
+|     % | Samples | Callee                                  | Location                                            |
+| ----: | ------: | --------------------------------------- | --------------------------------------------------- |
+| 99.2% |     386 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f80102b000` |
+| 12.9% |      50 | `invokeVirtual(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`        |
+| 12.9% |      50 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f801105400` |
+| 11.6% |      45 | `invokeSpecial(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|  2.8% |      11 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000f8010c9400` |
 
 ##### `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000f801099c00`)
 

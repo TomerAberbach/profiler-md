@@ -1,4 +1,10 @@
 import { describe, expect, test } from 'vitest'
+import { collapsedFormatSpec } from '../../formats/collapsed/index.ts'
+import { makeCollapsed } from '../../formats/collapsed/testing.ts'
+import { diffProfiles } from '../../formats/index.ts'
+import { convertBytesToMd } from '../../formats/testing.ts'
+import { selfSamplesTables } from '../../modalities/call-stack-profile/testing.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
 import { determineOrigin, logicalEntry } from '../testing.ts'
 import { asyncProfilerOriginSpec } from './async-profiler.ts'
 
@@ -48,6 +54,66 @@ describe(`detection`, () => {
         entries: [logicalEntry(`load()`, `com.acme.so.Helper.dylib`)],
       }),
     ).toBe(`jdk`)
+  })
+})
+
+describe(`return types`, () => {
+  const bridge = `java/util/Task.run()Ljava/lang/Object|`
+  const target = `java/util/Task.run()Ljava/util/Map|`
+  const other = `java/util/Other.run()V`
+
+  test(`a method's return type is shown only beside a method differing by it alone`, () => {
+    const md = convertBytesToMd(
+      collapsedFormatSpec,
+      makeCollapsed([`${bridge};${target} 3`, `${bridge} 2`, `${other} 1`]),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfSamplesTables(md)).toStrictEqual([
+      [
+        {
+          '%': `50.0%`,
+          Samples: `3`,
+          Function: `run(): Map`,
+          Location: `java.util.Task`,
+        },
+        {
+          '%': `33.3%`,
+          Samples: `2`,
+          Function: `run(): Object`,
+          Location: `java.util.Task`,
+        },
+        {
+          '%': `16.7%`,
+          Samples: `1`,
+          Function: `run()`,
+          Location: `java.util.Other`,
+        },
+      ],
+    ])
+  })
+
+  test(`a diff pairs a method whose return type only one side shows`, () => {
+    const md = diffProfiles(
+      { data: makeCollapsed([`${target} 3`]), format: `collapsed` },
+      {
+        data: makeCollapsed([`${bridge};${target} 5`, `${bridge} 1`]),
+        format: `collapsed`,
+      },
+    )
+
+    expect(selfSamplesTables(md)).toStrictEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+3`,
+          '%': `100.0%`,
+          Samples: `3 → 6`,
+          Function: `run()`,
+          Location: `java.util.Task`,
+        },
+      ],
+    ])
   })
 })
 
@@ -173,6 +239,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toStrictEqual({
       name: `invoke(Object, Object[])`,
+      distinguisher: `: Object`,
       definition: { type: `logical`, name: `java.lang.reflect.Method` },
     })
   })

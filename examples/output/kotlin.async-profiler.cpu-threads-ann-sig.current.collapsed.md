@@ -160,7 +160,7 @@ Categories accounting for at least 1.0% of self samples.
 | 0.1% |       1 | `processCandidatesWithGivenImplicitReceiverAsValue(ImplicitReceiverValue, CallInfo, TowerGroup, Set, Set, Set, boolean, Continuation)`                       | `org.jetbrains.kotlin.fir.resolve.calls.tower.FirTowerResolveTask`            |
 | 0.1% |       1 | `getHasExplicitReturnType(FirCallableSymbol)`                                                                                                                | `org.jetbrains.kotlin.fir.analysis.checkers.declaration.DeclarationUtilsKt`   |
 | 0.1% |       1 | `visitDeclarationReference(IrDeclarationReference)`                                                                                                          | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid`                   |
-| 0.1% |       1 | `transform(IrTransformer, Object)`                                                                                                                           | `org.jetbrains.kotlin.ir.expressions.IrExpression`                            |
+| 0.1% |       1 | `transform(IrTransformer, Object): IrElement`                                                                                                                | `org.jetbrains.kotlin.ir.expressions.IrExpression`                            |
 | 0.1% |       1 | `shouldBeFlexible(TypeVariableMarker)`                                                                                                                       | `org.jetbrains.kotlin.fir.resolve.inference.ConeConstraintSystemUtilContext`  |
 | 0.1% |       1 | `isContainedInInvariantOrContravariantPositionsWithDependencies(NewConstraintSystemImpl, FirSession, ConeTypeParameterBasedTypeVariable, FirCallableSymbol)` | `org.jetbrains.kotlin.fir.resolve.calls.stages.CollectTypeVariableUsagesInfo` |
 | 0.1% |       1 | `visitSimpleFunction(IrSimpleFunction)`                                                                                                                      | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid`                   |
@@ -675,7 +675,7 @@ Callers with the largest contribution to each function's self samples. Inlining 
 | -----: | ------: | --------------------------------------------- | ----------------------------------------------------------- |
 | 100.0% |       1 | `visitMemberAccess(IrMemberAccessExpression)` | `org.jetbrains.kotlin.ir.visitors.IrElementTransformerVoid` |
 
-##### `transform(IrTransformer, Object)` (`org.jetbrains.kotlin.ir.expressions.IrExpression`)
+##### `transform(IrTransformer, Object): IrElement` (`org.jetbrains.kotlin.ir.expressions.IrExpression`)
 
 |      % | Samples | Caller                                          | Location                                   |
 | -----: | ------: | ----------------------------------------------- | ------------------------------------------ |
@@ -713,9 +713,9 @@ Callers with the largest contribution to each function's self samples. Inlining 
 
 ##### `isIteratorMethodCall(AbstractInsnNode)` (`org.jetbrains.kotlin.codegen.optimization.boxing.BoxingInterpreterKt`)
 
-|      % | Samples | Caller                                  | Location                                                             |
-| -----: | ------: | --------------------------------------- | -------------------------------------------------------------------- |
-| 100.0% |       1 | `naryOperation(AbstractInsnNode, List)` | `org.jetbrains.kotlin.codegen.optimization.boxing.BoxingInterpreter` |
+|      % | Samples | Caller                                              | Location                                                             |
+| -----: | ------: | --------------------------------------------------- | -------------------------------------------------------------------- |
+| 100.0% |       1 | `naryOperation(AbstractInsnNode, List): BasicValue` | `org.jetbrains.kotlin.codegen.optimization.boxing.BoxingInterpreter` |
 
 ##### `findBootstrapClass(String)` (`java.lang.ClassLoader`)
 
@@ -785,9 +785,9 @@ Callers with the largest contribution to each function's self samples. Inlining 
 
 ##### `defineClass(String, Resource)` (`java.net.URLClassLoader`)
 
-|      % | Samples | Caller  | Location                    |
-| -----: | ------: | ------- | --------------------------- |
-| 100.0% |       1 | `run()` | `java.net.URLClassLoader$1` |
+|      % | Samples | Caller         | Location                    |
+| -----: | ------: | -------------- | --------------------------- |
+| 100.0% |       1 | `run(): Class` | `java.net.URLClassLoader$1` |
 
 ##### `<init>()` (`java.util.HashMap`)
 
@@ -1884,7 +1884,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 | ----: | ------: | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
 | 98.0% |     342 | `exec(MessageCollector, Services, CommonCompilerArguments)`                          | `org.jetbrains.kotlin.cli.common.CLICompiler`                           |
 |  1.7% |       6 | `parseCommandLineArguments$default(List, CommonToolArguments, boolean, int, Object)` | `org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt` |
-|  0.3% |       1 | `createArguments()`                                                                  | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                            |
+|  0.3% |       1 | `createArguments(): CommonCompilerArguments`                                         | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                            |
 
 ##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 

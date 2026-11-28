@@ -152,7 +152,7 @@ Functions with the largest increase in samples collected within the function bod
 |     new |    +2 |  0.0% → 0.1% |              0 → 2 | `cast(Object)`                                                                              | `java.lang.Class`                                      |
 |     new |    +2 |  0.0% → 0.1% |              0 → 2 | `invokeBasic(Object[])`                                                                     | `java.lang.invoke.MethodHandle`                        |
 |     new |    +1 | 0.0% → <0.1% |              0 → 1 | `getDirectMethodNoSecurityManager(byte, Class, MemberName, MethodHandles$Lookup)`           | `java.lang.invoke.MethodHandles$Lookup`                |
-|     new |    +1 | 0.0% → <0.1% |              0 → 1 | `initValue()`                                                                               | `org.codehaus.groovy.reflection.CachedClass$3`         |
+|     new |    +1 | 0.0% → <0.1% |              0 → 1 | `initValue(): CachedMethod[]`                                                               | `org.codehaus.groovy.reflection.CachedClass$3`         |
 |     new |    +1 | 0.0% → <0.1% |              0 → 1 | `declaredAnnotations()`                                                                     | `java.lang.reflect.Executable`                         |
 | +100.0% |    +1 | <0.1% → 0.1% |              1 → 2 | `<init>(MethodType, LambdaForm)`                                                            | `java.lang.invoke.MethodHandle`                        |
 |     new |    +1 | 0.0% → <0.1% |              0 → 1 | `linkToCallSite(Object, Object)`                                                            | `java.lang.invoke.Invokers$Holder`                     |
@@ -292,7 +292,7 @@ Lines with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | -----------------: | -------------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |              0 → 1 | `java.lang.invoke.MethodHandles$Lookup:4063` |
 
-##### `initValue()` (`org.codehaus.groovy.reflection.CachedClass$3`)
+##### `initValue(): CachedMethod[]` (`org.codehaus.groovy.reflection.CachedClass$3`)
 
 | Change | Delta |             % | Wall clock samples | Location                                          |
 | -----: | ----: | ------------: | -----------------: | ------------------------------------------------- |
@@ -739,11 +739,11 @@ Callers with the largest change in contribution to each function's self samples.
 | -----: | ----: | ------------: | -----------------: | ------------------- | --------------------------------------- |
 |    new |    +1 | 0.0% → 100.0% |              0 → 1 | `unreflect(Method)` | `java.lang.invoke.MethodHandles$Lookup` |
 
-##### `initValue()` (`org.codehaus.groovy.reflection.CachedClass$3`)
+##### `initValue(): CachedMethod[]` (`org.codehaus.groovy.reflection.CachedClass$3`)
 
-| Change | Delta |             % | Wall clock samples | Caller        | Location                                       |
-| -----: | ----: | ------------: | -----------------: | ------------- | ---------------------------------------------- |
-|    new |    +1 | 0.0% → 100.0% |              0 → 1 | `initValue()` | `org.codehaus.groovy.reflection.CachedClass$3` |
+| Change | Delta |             % | Wall clock samples | Caller                | Location                                       |
+| -----: | ----: | ------------: | -----------------: | --------------------- | ---------------------------------------------- |
+|    new |    +1 | 0.0% → 100.0% |              0 → 1 | `initValue(): Object` | `org.codehaus.groovy.reflection.CachedClass$3` |
 
 ##### `declaredAnnotations()` (`java.lang.reflect.Executable`)
 
@@ -1198,9 +1198,9 @@ Callers with the largest change in contribution to each function's self samples.
 
 ##### `visitClassDeclaration(GroovyParser$ClassDeclarationContext)` (`org.apache.groovy.parser.antlr4.AstBuilder`)
 
-|  Change | Delta |             % | Wall clock samples | Caller                                                      | Location                                     |
-| ------: | ----: | ------------: | -----------------: | ----------------------------------------------------------- | -------------------------------------------- |
-| removed |    -1 | 100.0% → 0.0% |              1 → 0 | `visitTypeDeclaration(GroovyParser$TypeDeclarationContext)` | `org.apache.groovy.parser.antlr4.AstBuilder` |
+|  Change | Delta |             % | Wall clock samples | Caller                                                                 | Location                                     |
+| ------: | ----: | ------------: | -----------------: | ---------------------------------------------------------------------- | -------------------------------------------- |
+| removed |    -1 | 100.0% → 0.0% |              1 → 0 | `visitTypeDeclaration(GroovyParser$TypeDeclarationContext): ClassNode` | `org.apache.groovy.parser.antlr4.AstBuilder` |
 
 ### Total wall clock samples
 

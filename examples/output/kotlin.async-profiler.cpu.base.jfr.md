@@ -1991,7 +1991,7 @@ Callees with the largest contribution to each function's total samples. Inlining
 | ----: | ------: | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
 | 98.3% |     347 | `exec(MessageCollector, Services, CommonCompilerArguments)`                          | `org.jetbrains.kotlin.cli.common.CLICompiler`                           |
 |  1.4% |       5 | `parseCommandLineArguments$default(List, CommonToolArguments, boolean, int, Object)` | `org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt` |
-|  0.3% |       1 | `createArguments()`                                                                  | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                            |
+|  0.3% |       1 | `createArguments(): CommonCompilerArguments`                                         | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                            |
 
 ##### `exec(PrintStream, MessageRenderer, String[])` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 

@@ -865,10 +865,10 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `guardWithCatch(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001098400`)
 
-|      % | Samples | Caller                     | Location                                            |
-| -----: | ------: | -------------------------- | --------------------------------------------------- |
-| 100.0% |     126 | `reinvoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
-|  29.4% |      37 | `delegate(Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|      % | Samples | Caller                             | Location                                            |
+| -----: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 100.0% |     126 | `reinvoke(Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+|  29.4% |      37 | `delegate(Object, Object): Object` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
 
 ##### `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001099c00`)
 
@@ -880,10 +880,10 @@ Callers with the largest contribution to each function's total samples. Inlining
 
 ##### `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700109a000`)
 
-|      % | Samples | Caller                     | Location                                            |
-| -----: | ------: | -------------------------- | --------------------------------------------------- |
-| 100.0% |     126 | `reinvoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
-|  29.4% |      37 | `delegate(Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|      % | Samples | Caller                             | Location                                            |
+| -----: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 100.0% |     126 | `reinvoke(Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+|  29.4% |      37 | `delegate(Object, Object): Object` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
 
 ##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
 
@@ -1318,13 +1318,13 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `guardWithCatch(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001098400`)
 
-|     % | Samples | Callee                          | Location                                            |
-| ----: | ------: | ------------------------------- | --------------------------------------------------- |
-| 97.6% |     123 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x000000700102b000` |
-| 46.8% |      59 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x0000007001105400` |
-| 14.3% |      18 | `invokeVirtual(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-| 12.7% |      16 | `invokeSpecial(Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`        |
-|  4.0% |       5 | `invoke(Object, Object)`        | `java.lang.invoke.LambdaForm$MH.0x0000007001018400` |
+|     % | Samples | Callee                                  | Location                                            |
+| ----: | ------: | --------------------------------------- | --------------------------------------------------- |
+| 97.6% |     123 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x000000700102b000` |
+| 46.8% |      59 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x0000007001105400` |
+| 14.3% |      18 | `invokeVirtual(Object, Object)`         | `java.lang.invoke.DirectMethodHandle$Holder`        |
+| 12.7% |      16 | `invokeSpecial(Object, Object): Object` | `java.lang.invoke.DirectMethodHandle$Holder`        |
+|  4.0% |       5 | `invoke(Object, Object)`                | `java.lang.invoke.LambdaForm$MH.0x0000007001018400` |
 
 ##### `reinvoke(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000007001099c00`)
 
@@ -1336,10 +1336,10 @@ Callees with the largest contribution to each function's total samples. Inlining
 
 ##### `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000700109a000`)
 
-|      % | Samples | Callee                     | Location                                            |
-| -----: | ------: | -------------------------- | --------------------------------------------------- |
-| 100.0% |     126 | `reinvoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
-|  29.4% |      37 | `delegate(Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
+|      % | Samples | Callee                             | Location                                            |
+| -----: | ------: | ---------------------------------- | --------------------------------------------------- |
+| 100.0% |     126 | `reinvoke(Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x0000007001099c00` |
+|  29.4% |      37 | `delegate(Object, Object): Object` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
 
 ##### `invokeSpecial(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
 
