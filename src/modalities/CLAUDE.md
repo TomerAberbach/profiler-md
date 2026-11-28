@@ -84,7 +84,11 @@ modalities
 
 - A diff shows every section, column, filter, and label that a single input
   shows. Change the single input's output and the diff's in one commit, or file
-  an issue for the one left out. `/port-to-diff` describes what a diff adds
+  an issue for the one left out. `/port-to-diff` describes what a diff adds.
+  `src/example-outputs/parity.test.ts` fails when an example's sections or
+  columns differ. Add an exception there as `accepted` or `todo`, with a comment
+  above it explaining why the two should differ, or linking the issue that
+  removes the difference
 - `pnpm check` fails when a change alters the committed scores of how diffs pair
   entities. Run `pnpm update-diff-matching` only for an intended change, and
   explain each lower score in the commit description. NEVER pair rows by their
