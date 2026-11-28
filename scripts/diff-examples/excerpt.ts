@@ -1,4 +1,4 @@
-import type { Table } from '../helpers/document.ts'
+import type { Table } from '../../src/helpers/document.ts'
 import { mergeOrders, movedIndices } from './pairing.ts'
 import type { IndexPairs } from './pairing.ts'
 
