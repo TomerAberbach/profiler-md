@@ -158,6 +158,7 @@ const jfrToProfiles = ({
   events,
   isAsyncProfiler,
   metriclessKinds,
+  unsampledKinds,
 }: Jfr): CallStackProfile[] => {
   // Methods are a dense table whose index is the method id.
   const frames = methods.map(methodToStackFrame)
@@ -167,7 +168,12 @@ const jfrToProfiles = ({
   // A recording can mix sample kinds, so emit one call stack profile per kind
   // present.
   const profiles: CallStackProfile[] = []
-  for (const { kind, metric: kindMetric, countMetric } of KINDS) {
+  for (const {
+    kind,
+    metric: kindMetric,
+    countMetric,
+    unsampledCountMetric = countMetric,
+  } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
@@ -178,7 +184,9 @@ const jfrToProfiles = ({
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
-      countMetric,
+      countMetric: unsampledKinds.has(kind)
+        ? unsampledCountMetric
+        : countMetric,
       observations: kindObservations(kindEvents, metric, stackTraces),
     })
   }
@@ -198,6 +206,14 @@ const methodToStackFrame = ({
 const SAMPLED_OBJECTS = countMetricOf(`sampled object`, {
   improvement: `decrease`,
 })
+
+/** One native allocation the recording's sampling interval selected. */
+const SAMPLED_ALLOCATIONS = countMetricOf(`sampled allocation`, {
+  improvement: `decrease`,
+})
+
+/** One native allocation of a recording that states it contains every one. */
+const ALLOCATIONS = countMetricOf(`allocation`, { improvement: `decrease` })
 
 /** One acquisition of a contended monitor or native lock. */
 const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
@@ -220,8 +236,10 @@ const WALL_CLOCK_SAMPLES = qualifiedSamples(`wall clock`)
  * allocations since the previous one, a TLAB event stands for a whole TLAB
  * refill or for one allocation made outside a TLAB, and async-profiler's
  * `--alloc <bytes>` and `--nativemem <bytes>` set a sampling interval for the
- * heap and `profiler.Malloc` events. Live-object events record only objects
- * sampled at allocation, up to a limit. Lock and park events each record one
+ * heap and `profiler.Malloc` events. A `profiler.Malloc` event's size is that of
+ * its allocation alone, however many the interval passed over, and at an
+ * interval of at most 1 every allocation has an event. Live-object events record
+ * only objects sampled at allocation, up to a limit. Lock and park events each record one
  * occurrence of what their kind names, so their rate is per occurrence rather
  * than per sample.
  */
@@ -229,6 +247,9 @@ const KINDS: {
   kind: JfrSampleKind
   metric?: Metric
   countMetric: CountMetric
+
+  /** The count metric of a recording that contains every occurrence. */
+  unsampledCountMetric?: CountMetric
 }[] = [
   { kind: `cpu`, countMetric: SAMPLES },
   { kind: `native-method`, countMetric: NATIVE_METHOD_SAMPLES },
@@ -238,7 +259,8 @@ const KINDS: {
   {
     kind: `nativemem`,
     metric: ALLOCATED_NATIVE_MEMORY_METRIC,
-    countMetric: SAMPLES,
+    countMetric: SAMPLED_ALLOCATIONS,
+    unsampledCountMetric: ALLOCATIONS,
   },
   {
     kind: `lock`,
@@ -286,6 +308,12 @@ type Jfr = {
    * records which objects were live but not how large they were.
    */
   metriclessKinds: Set<JfrSampleKind>
+
+  /**
+   * The kinds the recording's settings state it contains every occurrence of.
+   * async-profiler states its native memory interval from v4.2.
+   */
+  unsampledKinds: Set<JfrSampleKind>
 }
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
@@ -562,6 +590,7 @@ class JfrParser {
 
   // Accumulated across all chunks, indexed by global sequential IDs.
   #isAsyncProfiler = false
+  #recordsEveryMalloc: boolean | undefined
   readonly #methods: JfrMethod[] = []
   readonly #methodIndexByIdentity = new Map<string, number>()
   readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
@@ -627,6 +656,7 @@ class JfrParser {
       events: this.#finalizeEvents(),
       isAsyncProfiler: this.#isAsyncProfiler,
       metriclessKinds: this.#metriclessKinds,
+      unsampledKinds: new Set(this.#recordsEveryMalloc ? [`nativemem`] : []),
     }
   }
 
@@ -830,6 +860,10 @@ class JfrParser {
   } {
     const chunkEnd = this.#bytes.length
     const eventKinds = this.#eventKinds()
+    // The JDK's recorder states no setting the parser keeps.
+    const settingTypeId = this.#isAsyncProfiler
+      ? this.#typeIdsByName.get(`jdk.ActiveSetting`)
+      : undefined
     const pools = new Map<number, Map<number, unknown>>()
     const rawEvents: RawEvent[] = []
     const unreadableEventCounts = new Map<UnreadableRecordReason, number>()
@@ -853,6 +887,8 @@ class JfrParser {
 
       if (typeId === CONSTANT_POOL_EVENT_TYPE) {
         this.#parseConstantPool(pools, eventEnd)
+      } else if (typeId === settingTypeId) {
+        this.#parseSetting(this.#types.get(typeId)!)
       } else {
         const eventKind = eventKinds.get(typeId)
         if (eventKind) {
@@ -1042,6 +1078,35 @@ class JfrParser {
     }
     this.#position = position
     return { methods, leafLine, truncated: false }
+  }
+
+  /**
+   * Reads a setting, of which only async-profiler's native memory interval is
+   * kept. async-profiler writes a setting's strings inline, and states each
+   * setting in the recording's first chunk alone.
+   */
+  #parseSetting(type: TypeDef): void {
+    let setting: Record<string, unknown>
+    try {
+      setting = this.#readFields(type)
+    } catch (error) {
+      // Without its settings, a recording is taken to be sampled.
+      if (error instanceof UnreadableRecordError) {
+        return
+      }
+      throw error
+    }
+
+    const name = setting.name as BuiltinString | null | undefined
+    const value = setting.value as BuiltinString | null | undefined
+    if (
+      name?.type === `inline` &&
+      name.value === `nativemem` &&
+      value?.type === `inline`
+    ) {
+      this.#recordsEveryMalloc =
+        this.#recordsEveryMalloc !== false && Number(value.value) <= 1
+    }
   }
 
   #parseEvent(
