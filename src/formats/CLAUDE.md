@@ -85,3 +85,7 @@ formats
 - NEVER index into a plain object with profile-derived strings (e.g. frame
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
+- Undo a difference between formats' encodings of one value (e.g. its case) in
+  the parser, so an origin compares one spelling. A spelling the writer chose
+  (e.g. a version suffix in speedscope's `exporter`) is the origin's to
+  recognize

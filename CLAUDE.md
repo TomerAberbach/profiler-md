@@ -128,6 +128,14 @@ are read or edited.
 
 ### Changes
 
+- Before fixing a problem, search every place that could share its cause: the
+  other formats, origins, modalities, and sections, and the diff. Fix the cause
+  once, file an issue for what the commit leaves out, and list the places
+  checked in the commit description
+- Name a field, a hook, or a condition for the state it tests, never for the
+  input that exposed it. The test: the condition holds for every input in that
+  state. Prefer passing the data (e.g. which ordinals are synthetic) over a flag
+  for one case
 - When adding a flag, a spec field, a hook, or a special case, state in the
   commit description why no existing mechanism can express the rule
 - In the description of a commit that changes behavior, state which committed
@@ -147,6 +155,10 @@ are read or edited.
 - Before changing what a number or a position means, check every origin that
   writes the format against its own source, not against another origin's. Link
   each source in the commit description
+- Judge whether a gap matters by what the format and its profilers can record
+  for any program. A committed input is evidence that a gap exists, never a
+  measure of how much it matters. Where no committed input shows the gap, add
+  one instead of skipping the gap
 
 ### Registration
 
@@ -194,6 +206,9 @@ are read or edited.
 
 - Name a discriminated union's discriminant `type`, never `kind`. This does not
   apply to a categorical field that merely names a variant on a non-union type
+- Return what a step established in its result (e.g. the pairs it matched)
+  instead of deriving it again in a later step. Read a value from the parsed
+  form where one exists, never by matching the text it was parsed from
 
 ### Declaration order
 
@@ -378,6 +393,11 @@ are read or edited.
 
 `src/modalities/CLAUDE.md` contains the rules for headings, notes, and tables.
 
+- Show a name or a location in full, however long. Only a string's contents may
+  be cut to a length
+- Word a label that stands in for data with what the reader needs to look that
+  data up: `(several C paths)` names the entity, and `(retained only together)`
+  names nothing
 - Write the Markdown's prose about the profile, never about the conversion that
   produced it. A sentence states what the data contains or what a section ranks,
   never what the conversion searched for, inferred, or overrode. The test: the
