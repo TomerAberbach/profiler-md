@@ -676,7 +676,7 @@ const retainerEdge = (
     return { type: `unlabeled` }
   }
   // An edge name can be a file URL.
-  const nameLocation = makeFileReference(name)
+  const nameLocation = absoluteFileReference(name)
   return nameLocation
     ? { type: `property`, name, nameLocation }
     : { type: `property`, name }
