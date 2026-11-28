@@ -258,7 +258,8 @@ await writeFile(`cpu.pb.gz`, await encode(profile))
 ```
 
 Without `lineNumbers: true`, each function's `Lines` section lists its
-definition line as its only row. With either setting, the profile lacks
+definition line as its only row. With it, each executing line of an anonymous
+function is listed as a function. With either setting, the profile lacks
 definition lines, and same-named functions in one file merge into one function.
 See
 [DataDog/dd-trace-js#10415](https://github.com/DataDog/dd-trace-js/issues/10415).
